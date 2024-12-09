@@ -16,3 +16,4 @@
 7.  [Product Sales Analysis I](studyplan/top-sql-50/07.1068.product-sales-analysis-i/README.md)
 8.  [Customer Who Visited But Did Not Make Any Transactions](studyplan/top-sql-50/08.1581.customer-who-visited-but-did-not-make-any-transactions/README.md)
 9.  [Rising Temperature](studyplan/top-sql-50/09.0197.rising-temperature/README.md)
+10. [Average Time of Process Per Machine](studyplan/top-sql-50/10.1661.average-time-of-process-per-machine/README.md)
