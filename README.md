@@ -20,3 +20,4 @@
 11. [Employee Bonus](studyplan/top-sql-50/11.0577.employee-bonus/README.md)
 12. [Students and Examinations](studyplan/top-sql-50/12.1280.students-and-examinations/README.md)
 13. [Managers with at Least 5 Direct Reports](studyplan/top-sql-50/13.0570.managers-with-at-least-5-direct-reports/README.md)
+14. [Confirmation Rate](studyplan/top-sql-50/14.1934.confirmation-rate/README.md)
