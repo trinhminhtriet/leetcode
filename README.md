@@ -15,3 +15,4 @@
 6.  [Replace Employee ID With The Unique Identifier](studyplan/top-sql-50/06.1378.replace-employee-id-with-the-unique-identifier/README.md)
 7.  [Product Sales Analysis I](studyplan/top-sql-50/07.1068.product-sales-analysis-i/README.md)
 8.  [Customer Who Visited But Did Not Make Any Transactions](studyplan/top-sql-50/08.1581.customer-who-visited-but-did-not-make-any-transactions/README.md)
+9.  [Rising Temperature](studyplan/top-sql-50/09.0197.rising-temperature/README.md)
