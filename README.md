@@ -8,3 +8,4 @@
 4.  [Article Views I](studyplan/top-sql-50/04.1148.article-views-i/README.md)
 5.  [Invalid Tweets](studyplan/top-sql-50/05.1683.invalid-tweets/README.md)
 6.  [Replace Employee ID With The Unique Identifier](studyplan/top-sql-50/06.1378.replace-employee-id-with-the-unique-identifier/README.md)
+7.  [Product Sales Analysis I](studyplan/top-sql-50/07.1068.product-sales-analysis-i/README.md)
