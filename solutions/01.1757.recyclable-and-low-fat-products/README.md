@@ -2,7 +2,7 @@
 comments: true
 difficulty: Easy
 tags:
-    - Database
+  - Database
 ---
 
 <!-- problem:start -->
