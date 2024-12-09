@@ -23,3 +23,5 @@
 14. [Confirmation Rate](studyplan/top-sql-50/14.1934.confirmation-rate/README.md)
 
 ### Basic Aggregate Functions
+
+15. [Not Boring Movies](studyplan/top-sql-50/15.0620.not-boring-movies/README.md)
