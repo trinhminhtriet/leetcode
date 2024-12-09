@@ -17,3 +17,4 @@
 8.  [Customer Who Visited But Did Not Make Any Transactions](studyplan/top-sql-50/08.1581.customer-who-visited-but-did-not-make-any-transactions/README.md)
 9.  [Rising Temperature](studyplan/top-sql-50/09.0197.rising-temperature/README.md)
 10. [Average Time of Process Per Machine](studyplan/top-sql-50/10.1661.average-time-of-process-per-machine/README.md)
+11. [Employee Bonus](studyplan/top-sql-50/11.0577.employee-bonus/README.md)
