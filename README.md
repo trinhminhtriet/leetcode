@@ -27,5 +27,13 @@
 15. [Not Boring Movies](studyplan/top-sql-50/15.0620.not-boring-movies/README.md)
 16. [Average Selling Price](studyplan/top-sql-50/16.1251.average-selling-price/README.md)
 17. [Project Employees I](studyplan/top-sql-50/17.1075.project-employees-i/README.md)
-18. [Queries Quality and Percentage](studyplan/top-sql-50/18.1211.queries-quality-and-percentage/README.md)
-19. [Monthly Transactions I](studyplan/top-sql-50/19.1193.monthly-transactions-i/README.md)
+18. [Percentage of Users Attended a Contest](studyplan/top-sql-50/18.1258.percentage-of-users-attended-a-contest/README.md)
+19. [Queries Quality and Percentage](studyplan/top-sql-50/18.1211.queries-quality-and-percentage/README.md)
+20. [Monthly Transactions I](studyplan/top-sql-50/19.1193.monthly-transactions-i/README.md)
+21. [Immediate Food Delivery II](studyplan/top-sql-50/20.1174.immediate-food-delivery-ii/README.md)
+22. [Game Play Analysis IV](studyplan/top-sql-50/21.1398.game-play-analysis-iv/README.md)
+
+### Sorting and Grouping
+
+23. [Number of Unique Subjects Taught by Each Teacher](studyplan/top-sql-50/23.2356.number-of-unique-subjects-taught-by-each-teacher/README.md)
+24. [User Activity for the Past 30 Days I](studyplan/top-sql-50/24.1141.user-activity-for-the-past-30-days-i/README.md)
