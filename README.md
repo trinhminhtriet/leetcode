@@ -25,3 +25,4 @@
 ### Basic Aggregate Functions
 
 15. [Not Boring Movies](studyplan/top-sql-50/15.0620.not-boring-movies/README.md)
+16. [Average Selling Price](studyplan/top-sql-50/16.1251.average-selling-price/README.md)
