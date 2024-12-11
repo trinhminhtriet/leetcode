@@ -28,3 +28,4 @@
 16. [Average Selling Price](studyplan/top-sql-50/16.1251.average-selling-price/README.md)
 17. [Project Employees I](studyplan/top-sql-50/17.1075.project-employees-i/README.md)
 18. [Queries Quality and Percentage](studyplan/top-sql-50/18.1211.queries-quality-and-percentage/README.md)
+19. [Monthly Transactions I](studyplan/top-sql-50/19.1193.monthly-transactions-i/README.md)
