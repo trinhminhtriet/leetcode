@@ -1,16 +1,13 @@
 ---
 comments: true
 difficulty: Medium
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0180.Consecutive%20Numbers/README_EN.md
 tags:
-    - Database
+  - Database
 ---
 
 <!-- problem:start -->
 
 # [180. Consecutive Numbers](https://leetcode.com/problems/consecutive-numbers)
-
-[中文文档](/solution/0100-0199/0180.Consecutive%20Numbers/README.md)
 
 ## Description
 

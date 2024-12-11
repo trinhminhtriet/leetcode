@@ -37,3 +37,4 @@
 
 23. [Number of Unique Subjects Taught by Each Teacher](studyplan/top-sql-50/23.2356.number-of-unique-subjects-taught-by-each-teacher/README.md)
 24. [User Activity for the Past 30 Days I](studyplan/top-sql-50/24.1141.user-activity-for-the-past-30-days-i/README.md)
+25.
