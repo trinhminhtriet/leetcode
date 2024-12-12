@@ -1,0 +1,17 @@
+function partitionLabels(s: string): number[] {
+    const last: number[] = Array(26).fill(0);
+    const idx = (c: string) => c.charCodeAt(0) - 'a'.charCodeAt(0);
+    const n = s.length;
+    for (let i = 0; i < n; ++i) {
+        last[idx(s[i])] = i;
+    }
+    const ans: number[] = [];
+    for (let i = 0, j = 0, mx = 0; i < n; ++i) {
+        mx = Math.max(mx, last[idx(s[i])]);
+        if (mx === i) {
+            ans.push(i - j + 1);
+            j = i + 1;
+        }
+    }
+    return ans;
+}
