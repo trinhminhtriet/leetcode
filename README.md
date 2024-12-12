@@ -38,12 +38,15 @@
 23. [Number of Unique Subjects Taught by Each Teacher](studyplan/top-sql-50/23.2356.number-of-unique-subjects-taught-by-each-teacher/README.md)
 24. [User Activity for the Past 30 Days I](studyplan/top-sql-50/24.1141.user-activity-for-the-past-30-days-i/README.md)
 25. [Product Sales Analysis II](studyplan/top-sql-50/25.1070.product-sales-analysis-ii/README.md)
-26. [Classes More Than 5 Students] (studyplan/top-sql-50/26.1082.classes-more-than-5-students/README.md)
+26. [Classes More Than 5 Students](studyplan/top-sql-50/26.1082.classes-more-than-5-students/README.md)
 27. [Find Followers Count](studyplan/top-sql-50/27.1076.find-followers-count/README.md)
 28. [Biggest Single Number](studyplan/top-sql-50/28.0619.biggest-single-number/README.md)
 29. [Customer Who Bought Products](studyplan/top-sql-50/29.1045.customers-who-bought-all-products/README.md)
 
 ### Advanced Select and Joins
+
+30. [The Number of Employees Which Report to Each Employee](studyplan/top-sql-50/30.1731.the-number-of-employees-which-report-to-each-employee/README.md)
+31. [Primary Department for Each Employee](studyplan/top-sql-50/31.1789.primary-department-for-each-employee/README.md)
 
 ### Subqueries
 
