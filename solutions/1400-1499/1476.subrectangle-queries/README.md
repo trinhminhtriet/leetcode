@@ -13,7 +13,6 @@ tags:
 
 # [1476. Subrectangle Queries](https://leetcode.com/problems/subrectangle-queries)
 
-
 ## Description
 
 <!-- description:start -->

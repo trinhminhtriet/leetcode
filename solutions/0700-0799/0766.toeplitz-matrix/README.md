@@ -10,7 +10,6 @@ tags:
 
 # [766. Toeplitz Matrix](https://leetcode.com/problems/toeplitz-matrix)
 
-
 ## Description
 
 <!-- description:start -->

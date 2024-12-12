@@ -12,7 +12,6 @@ tags:
 
 # [1496. Path Crossing](https://leetcode.com/problems/path-crossing)
 
-
 ## Description
 
 <!-- description:start -->

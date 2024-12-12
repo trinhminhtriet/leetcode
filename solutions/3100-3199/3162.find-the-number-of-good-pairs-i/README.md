@@ -12,7 +12,6 @@ tags:
 
 # [3162. Find the Number of Good Pairs I](https://leetcode.com/problems/find-the-number-of-good-pairs-i)
 
-
 ## Description
 
 <!-- description:start -->

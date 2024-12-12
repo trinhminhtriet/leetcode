@@ -12,7 +12,6 @@ tags:
 
 # [850. Rectangle Area II](https://leetcode.com/problems/rectangle-area-ii)
 
-
 ## Description
 
 <!-- description:start -->

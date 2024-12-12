@@ -10,7 +10,6 @@ tags:
 
 # [326. Power of Three](https://leetcode.com/problems/power-of-three)
 
-
 ## Description
 
 <!-- description:start -->

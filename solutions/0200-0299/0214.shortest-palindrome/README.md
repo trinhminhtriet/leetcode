@@ -12,7 +12,6 @@ tags:
 
 # [214. Shortest Palindrome](https://leetcode.com/problems/shortest-palindrome)
 
-
 ## Description
 
 <!-- description:start -->

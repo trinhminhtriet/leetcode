@@ -10,7 +10,6 @@ tags:
 
 # [60. Permutation Sequence](https://leetcode.com/problems/permutation-sequence)
 
-
 ## Description
 
 <!-- description:start -->

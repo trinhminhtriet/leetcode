@@ -10,7 +10,6 @@ tags:
 
 # [367. Valid Perfect Square](https://leetcode.com/problems/valid-perfect-square)
 
-
 ## Description
 
 <!-- description:start -->

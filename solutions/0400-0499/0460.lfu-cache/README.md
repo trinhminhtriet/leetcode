@@ -12,7 +12,6 @@ tags:
 
 # [460. LFU Cache](https://leetcode.com/problems/lfu-cache)
 
-
 ## Description
 
 <!-- description:start -->

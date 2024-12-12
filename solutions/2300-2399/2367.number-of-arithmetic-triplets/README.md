@@ -14,7 +14,6 @@ tags:
 
 # [2367. Number of Arithmetic Triplets](https://leetcode.com/problems/number-of-arithmetic-triplets)
 
-
 ## Description
 
 <!-- description:start -->

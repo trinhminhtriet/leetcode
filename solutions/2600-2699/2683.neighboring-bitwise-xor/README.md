@@ -12,7 +12,6 @@ tags:
 
 # [2683. Neighboring Bitwise XOR](https://leetcode.com/problems/neighboring-bitwise-xor)
 
-
 ## Description
 
 <!-- description:start -->

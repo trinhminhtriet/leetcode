@@ -13,7 +13,6 @@ tags:
 
 # [3174. Clear Digits](https://leetcode.com/problems/clear-digits)
 
-
 ## Description
 
 <!-- description:start -->

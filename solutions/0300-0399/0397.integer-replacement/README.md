@@ -12,7 +12,6 @@ tags:
 
 # [397. Integer Replacement](https://leetcode.com/problems/integer-replacement)
 
-
 ## Description
 
 <!-- description:start -->

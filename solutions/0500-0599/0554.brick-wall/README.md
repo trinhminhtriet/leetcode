@@ -10,7 +10,6 @@ tags:
 
 # [554. Brick Wall](https://leetcode.com/problems/brick-wall)
 
-
 ## Description
 
 <!-- description:start -->

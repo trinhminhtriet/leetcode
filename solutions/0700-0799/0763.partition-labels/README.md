@@ -12,7 +12,6 @@ tags:
 
 # [763. Partition Labels](https://leetcode.com/problems/partition-labels)
 
-
 ## Description
 
 <!-- description:start -->

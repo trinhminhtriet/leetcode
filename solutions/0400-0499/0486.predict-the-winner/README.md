@@ -13,7 +13,6 @@ tags:
 
 # [486. Predict the Winner](https://leetcode.com/problems/predict-the-winner)
 
-
 ## Description
 
 <!-- description:start -->

@@ -10,7 +10,6 @@ tags:
 
 # [854. K-Similar Strings](https://leetcode.com/problems/k-similar-strings)
 
-
 ## Description
 
 <!-- description:start -->

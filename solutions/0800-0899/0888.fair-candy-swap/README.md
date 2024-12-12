@@ -12,7 +12,6 @@ tags:
 
 # [888. Fair Candy Swap](https://leetcode.com/problems/fair-candy-swap)
 
-
 ## Description
 
 <!-- description:start -->

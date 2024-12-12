@@ -11,7 +11,6 @@ tags:
 
 # [3133. Minimum Array End](https://leetcode.com/problems/minimum-array-end)
 
-
 ## Description
 
 <!-- description:start -->

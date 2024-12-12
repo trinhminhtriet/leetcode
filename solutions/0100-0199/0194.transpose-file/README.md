@@ -9,7 +9,6 @@ tags:
 
 # [194. Transpose File](https://leetcode.com/problems/transpose-file)
 
-
 ## Description
 
 <!-- description:start -->

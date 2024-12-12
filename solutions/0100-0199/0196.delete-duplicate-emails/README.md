@@ -9,7 +9,6 @@ tags:
 
 # [196. Delete Duplicate Emails](https://leetcode.com/problems/delete-duplicate-emails)
 
-
 ## Description
 
 <!-- description:start -->

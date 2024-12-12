@@ -12,7 +12,6 @@ tags:
 
 # [355. Design Twitter](https://leetcode.com/problems/design-twitter)
 
-
 ## Description
 
 <!-- description:start -->

@@ -11,7 +11,6 @@ tags:
 
 # [43. Multiply Strings](https://leetcode.com/problems/multiply-strings)
 
-
 ## Description
 
 <!-- description:start -->

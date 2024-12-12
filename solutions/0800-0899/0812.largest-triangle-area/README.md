@@ -11,7 +11,6 @@ tags:
 
 # [812. Largest Triangle Area](https://leetcode.com/problems/largest-triangle-area)
 
-
 ## Description
 
 <!-- description:start -->

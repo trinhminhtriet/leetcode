@@ -11,7 +11,6 @@ tags:
 
 # [2924. Find Champion II](https://leetcode.com/problems/find-champion-ii)
 
-
 ## Description
 
 <!-- description:start -->

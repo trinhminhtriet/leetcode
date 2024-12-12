@@ -10,7 +10,6 @@ tags:
 
 # [667. Beautiful Arrangement II](https://leetcode.com/problems/beautiful-arrangement-ii)
 
-
 ## Description
 
 <!-- description:start -->

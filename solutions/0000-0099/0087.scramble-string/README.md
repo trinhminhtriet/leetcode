@@ -10,7 +10,6 @@ tags:
 
 # [87. Scramble String](https://leetcode.com/problems/scramble-string)
 
-
 ## Description
 
 <!-- description:start -->

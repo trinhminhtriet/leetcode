@@ -10,7 +10,6 @@ tags:
 
 # [483. Smallest Good Base](https://leetcode.com/problems/smallest-good-base)
 
-
 ## Description
 
 <!-- description:start -->

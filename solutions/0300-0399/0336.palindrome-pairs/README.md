@@ -12,7 +12,6 @@ tags:
 
 # [336. Palindrome Pairs](https://leetcode.com/problems/palindrome-pairs)
 
-
 ## Description
 
 <!-- description:start -->

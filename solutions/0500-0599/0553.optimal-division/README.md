@@ -11,7 +11,6 @@ tags:
 
 # [553. Optimal Division](https://leetcode.com/problems/optimal-division)
 
-
 ## Description
 
 <!-- description:start -->

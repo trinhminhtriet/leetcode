@@ -14,7 +14,6 @@ tags:
 
 # [187. Repeated DNA Sequences](https://leetcode.com/problems/repeated-dna-sequences)
 
-
 ## Description
 
 <!-- description:start -->

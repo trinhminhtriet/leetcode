@@ -11,7 +11,6 @@ tags:
 
 # [78. Subsets](https://leetcode.com/problems/subsets)
 
-
 ## Description
 
 <!-- description:start -->

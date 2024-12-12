@@ -13,7 +13,6 @@ tags:
 
 # [148. Sort List](https://leetcode.com/problems/sort-list)
 
-
 ## Description
 
 <!-- description:start -->

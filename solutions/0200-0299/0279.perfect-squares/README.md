@@ -11,7 +11,6 @@ tags:
 
 # [279. Perfect Squares](https://leetcode.com/problems/perfect-squares)
 
-
 ## Description
 
 <!-- description:start -->

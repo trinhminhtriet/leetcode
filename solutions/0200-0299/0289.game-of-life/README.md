@@ -11,7 +11,6 @@ tags:
 
 # [289. Game of Life](https://leetcode.com/problems/game-of-life)
 
-
 ## Description
 
 <!-- description:start -->

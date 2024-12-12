@@ -10,7 +10,6 @@ tags:
 
 # [879. Profitable Schemes](https://leetcode.com/problems/profitable-schemes)
 
-
 ## Description
 
 <!-- description:start -->

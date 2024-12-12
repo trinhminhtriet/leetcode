@@ -12,7 +12,6 @@ tags:
 
 # [519. Random Flip Matrix](https://leetcode.com/problems/random-flip-matrix)
 
-
 ## Description
 
 <!-- description:start -->

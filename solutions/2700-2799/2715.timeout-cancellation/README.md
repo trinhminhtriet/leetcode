@@ -9,7 +9,6 @@ tags:
 
 # [2715. Timeout Cancellation](https://leetcode.com/problems/timeout-cancellation)
 
-
 ## Description
 
 <!-- description:start -->

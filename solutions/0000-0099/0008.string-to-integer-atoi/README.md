@@ -9,7 +9,6 @@ tags:
 
 # [8. String to Integer (atoi)](https://leetcode.com/problems/string-to-integer-atoi)
 
-
 ## Description
 
 <!-- description:start -->

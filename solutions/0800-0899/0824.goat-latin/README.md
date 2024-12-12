@@ -9,7 +9,6 @@ tags:
 
 # [824. Goat Latin](https://leetcode.com/problems/goat-latin)
 
-
 ## Description
 
 <!-- description:start -->

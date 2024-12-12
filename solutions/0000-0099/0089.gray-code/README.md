@@ -11,7 +11,6 @@ tags:
 
 # [89. Gray Code](https://leetcode.com/problems/gray-code)
 
-
 ## Description
 
 <!-- description:start -->

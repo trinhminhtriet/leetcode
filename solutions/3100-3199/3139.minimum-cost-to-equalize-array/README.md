@@ -13,7 +13,6 @@ tags:
 
 # [3139. Minimum Cost to Equalize Array](https://leetcode.com/problems/minimum-cost-to-equalize-array)
 
-
 ## Description
 
 <!-- description:start -->

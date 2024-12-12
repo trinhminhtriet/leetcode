@@ -15,7 +15,6 @@ tags:
 
 # [721. Accounts Merge](https://leetcode.com/problems/accounts-merge)
 
-
 ## Description
 
 <!-- description:start -->

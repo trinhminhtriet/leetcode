@@ -11,7 +11,6 @@ tags:
 
 # [376. Wiggle Subsequence](https://leetcode.com/problems/wiggle-subsequence)
 
-
 ## Description
 
 <!-- description:start -->

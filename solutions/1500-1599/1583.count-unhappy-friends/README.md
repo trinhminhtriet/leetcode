@@ -12,7 +12,6 @@ tags:
 
 # [1583. Count Unhappy Friends](https://leetcode.com/problems/count-unhappy-friends)
 
-
 ## Description
 
 <!-- description:start -->

@@ -13,7 +13,6 @@ tags:
 
 # [690. Employee Importance](https://leetcode.com/problems/employee-importance)
 
-
 ## Description
 
 <!-- description:start -->

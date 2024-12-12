@@ -13,7 +13,6 @@ tags:
 
 # [1370. Increasing Decreasing String](https://leetcode.com/problems/increasing-decreasing-string)
 
-
 ## Description
 
 <!-- description:start -->

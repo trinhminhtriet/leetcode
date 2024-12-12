@@ -9,7 +9,6 @@ tags:
 
 # [935. Knight Dialer](https://leetcode.com/problems/knight-dialer)
 
-
 ## Description
 
 <!-- description:start -->

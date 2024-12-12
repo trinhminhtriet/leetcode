@@ -10,7 +10,6 @@ tags:
 
 # [69. Sqrt(x)](https://leetcode.com/problems/sqrtx)
 
-
 ## Description
 
 <!-- description:start -->

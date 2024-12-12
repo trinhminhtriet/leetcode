@@ -11,7 +11,6 @@ tags:
 
 # [396. Rotate Function](https://leetcode.com/problems/rotate-function)
 
-
 ## Description
 
 <!-- description:start -->

@@ -12,7 +12,6 @@ tags:
 
 # [207. Course Schedule](https://leetcode.com/problems/course-schedule)
 
-
 ## Description
 
 <!-- description:start -->

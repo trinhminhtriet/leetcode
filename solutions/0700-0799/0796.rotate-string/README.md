@@ -10,7 +10,6 @@ tags:
 
 # [796. Rotate String](https://leetcode.com/problems/rotate-string)
 
-
 ## Description
 
 <!-- description:start -->

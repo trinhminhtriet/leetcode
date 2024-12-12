@@ -11,7 +11,6 @@ tags:
 
 # [219. Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii)
 
-
 ## Description
 
 <!-- description:start -->

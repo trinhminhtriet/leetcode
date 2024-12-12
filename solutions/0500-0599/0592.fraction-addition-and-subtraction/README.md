@@ -11,7 +11,6 @@ tags:
 
 # [592. Fraction Addition and Subtraction](https://leetcode.com/problems/fraction-addition-and-subtraction)
 
-
 ## Description
 
 <!-- description:start -->

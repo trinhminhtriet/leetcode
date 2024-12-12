@@ -12,7 +12,6 @@ tags:
 
 # [1105. Filling Bookcase Shelves](https://leetcode.com/problems/filling-bookcase-shelves)
 
-
 ## Description
 
 <!-- description:start -->

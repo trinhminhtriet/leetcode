@@ -13,7 +13,6 @@ tags:
 
 # [1436. Destination City](https://leetcode.com/problems/destination-city)
 
-
 ## Description
 
 <!-- description:start -->

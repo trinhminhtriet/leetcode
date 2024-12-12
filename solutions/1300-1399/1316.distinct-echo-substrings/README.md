@@ -14,7 +14,6 @@ tags:
 
 # [1316. Distinct Echo Substrings](https://leetcode.com/problems/distinct-echo-substrings)
 
-
 ## Description
 
 <!-- description:start -->

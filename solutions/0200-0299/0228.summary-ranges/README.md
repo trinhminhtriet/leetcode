@@ -9,7 +9,6 @@ tags:
 
 # [228. Summary Ranges](https://leetcode.com/problems/summary-ranges)
 
-
 ## Description
 
 <!-- description:start -->

@@ -12,7 +12,6 @@ tags:
 
 # [2090. K Radius Subarray Averages](https://leetcode.com/problems/k-radius-subarray-averages)
 
-
 ## Description
 
 <!-- description:start -->

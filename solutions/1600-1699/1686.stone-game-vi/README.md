@@ -16,7 +16,6 @@ tags:
 
 # [1686. Stone Game VI](https://leetcode.com/problems/stone-game-vi)
 
-
 ## Description
 
 <!-- description:start -->

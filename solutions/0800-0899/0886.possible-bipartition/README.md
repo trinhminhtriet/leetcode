@@ -12,7 +12,6 @@ tags:
 
 # [886. Possible Bipartition](https://leetcode.com/problems/possible-bipartition)
 
-
 ## Description
 
 <!-- description:start -->

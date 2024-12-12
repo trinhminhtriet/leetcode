@@ -13,7 +13,6 @@ tags:
 
 # [200. Number of Islands](https://leetcode.com/problems/number-of-islands)
 
-
 ## Description
 
 <!-- description:start -->

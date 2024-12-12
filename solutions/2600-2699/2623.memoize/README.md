@@ -9,7 +9,6 @@ tags:
 
 # [2623. Memoize](https://leetcode.com/problems/memoize)
 
-
 ## Description
 
 <!-- description:start -->

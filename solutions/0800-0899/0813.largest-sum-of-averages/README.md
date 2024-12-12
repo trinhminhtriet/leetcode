@@ -11,7 +11,6 @@ tags:
 
 # [813. Largest Sum of Averages](https://leetcode.com/problems/largest-sum-of-averages)
 
-
 ## Description
 
 <!-- description:start -->

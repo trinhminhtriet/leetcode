@@ -10,7 +10,6 @@ tags:
 
 # [441. Arranging Coins](https://leetcode.com/problems/arranging-coins)
 
-
 ## Description
 
 <!-- description:start -->

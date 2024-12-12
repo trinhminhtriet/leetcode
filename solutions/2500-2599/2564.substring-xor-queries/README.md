@@ -14,7 +14,6 @@ tags:
 
 # [2564. Substring XOR Queries](https://leetcode.com/problems/substring-xor-queries)
 
-
 ## Description
 
 <!-- description:start -->

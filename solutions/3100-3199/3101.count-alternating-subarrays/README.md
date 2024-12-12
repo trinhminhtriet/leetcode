@@ -12,7 +12,6 @@ tags:
 
 # [3101. Count Alternating Subarrays](https://leetcode.com/problems/count-alternating-subarrays)
 
-
 ## Description
 
 <!-- description:start -->

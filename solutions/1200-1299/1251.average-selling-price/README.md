@@ -9,7 +9,6 @@ tags:
 
 # [1251. Average Selling Price](https://leetcode.com/problems/average-selling-price)
 
-
 ## Description
 
 <!-- description:start -->

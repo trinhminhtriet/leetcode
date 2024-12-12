@@ -11,7 +11,6 @@ tags:
 
 # [546. Remove Boxes](https://leetcode.com/problems/remove-boxes)
 
-
 ## Description
 
 <!-- description:start -->

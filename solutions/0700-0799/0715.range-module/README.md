@@ -11,7 +11,6 @@ tags:
 
 # [715. Range Module](https://leetcode.com/problems/range-module)
 
-
 ## Description
 
 <!-- description:start -->

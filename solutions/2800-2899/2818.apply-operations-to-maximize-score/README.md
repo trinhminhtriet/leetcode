@@ -16,7 +16,6 @@ tags:
 
 # [2818. Apply Operations to Maximize Score](https://leetcode.com/problems/apply-operations-to-maximize-score)
 
-
 ## Description
 
 <!-- description:start -->

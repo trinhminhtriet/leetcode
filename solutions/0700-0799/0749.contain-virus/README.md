@@ -13,7 +13,6 @@ tags:
 
 # [749. Contain Virus](https://leetcode.com/problems/contain-virus)
 
-
 ## Description
 
 <!-- description:start -->

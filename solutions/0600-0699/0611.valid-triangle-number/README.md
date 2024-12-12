@@ -13,7 +13,6 @@ tags:
 
 # [611. Valid Triangle Number](https://leetcode.com/problems/valid-triangle-number)
 
-
 ## Description
 
 <!-- description:start -->

@@ -10,7 +10,6 @@ tags:
 
 # [135. Candy](https://leetcode.com/problems/candy)
 
-
 ## Description
 
 <!-- description:start -->

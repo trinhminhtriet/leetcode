@@ -9,7 +9,6 @@ tags:
 
 # [584. Find Customer Referee](https://leetcode.com/problems/find-customer-referee)
 
-
 ## Description
 
 <!-- description:start -->

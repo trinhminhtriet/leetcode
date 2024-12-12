@@ -12,7 +12,6 @@ tags:
 
 # [3196. Maximize Total Cost of Alternating Subarrays](https://leetcode.com/problems/maximize-total-cost-of-alternating-subarrays)
 
-
 ## Description
 
 <!-- description:start -->

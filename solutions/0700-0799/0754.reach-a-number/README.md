@@ -10,7 +10,6 @@ tags:
 
 # [754. Reach a Number](https://leetcode.com/problems/reach-a-number)
 
-
 ## Description
 
 <!-- description:start -->

@@ -12,7 +12,6 @@ tags:
 
 # [900. RLE Iterator](https://leetcode.com/problems/rle-iterator)
 
-
 ## Description
 
 <!-- description:start -->

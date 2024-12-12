@@ -13,7 +13,6 @@ tags:
 
 # [2451. Odd String Difference](https://leetcode.com/problems/odd-string-difference)
 
-
 ## Description
 
 <!-- description:start -->

@@ -12,7 +12,6 @@ tags:
 
 # [851. Loud and Rich](https://leetcode.com/problems/loud-and-rich)
 
-
 ## Description
 
 <!-- description:start -->

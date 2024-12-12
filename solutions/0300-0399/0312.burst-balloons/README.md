@@ -10,7 +10,6 @@ tags:
 
 # [312. Burst Balloons](https://leetcode.com/problems/burst-balloons)
 
-
 ## Description
 
 <!-- description:start -->

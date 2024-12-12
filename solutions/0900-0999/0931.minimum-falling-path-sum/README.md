@@ -11,7 +11,6 @@ tags:
 
 # [931. Minimum Falling Path Sum](https://leetcode.com/problems/minimum-falling-path-sum)
 
-
 ## Description
 
 <!-- description:start -->

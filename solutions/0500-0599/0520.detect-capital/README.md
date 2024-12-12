@@ -9,7 +9,6 @@ tags:
 
 # [520. Detect Capital](https://leetcode.com/problems/detect-capital)
 
-
 ## Description
 
 <!-- description:start -->

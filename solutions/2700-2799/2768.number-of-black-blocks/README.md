@@ -13,7 +13,6 @@ tags:
 
 # [2768. Number of Black Blocks](https://leetcode.com/problems/number-of-black-blocks)
 
-
 ## Description
 
 <!-- description:start -->

@@ -12,7 +12,6 @@ tags:
 
 # [463. Island Perimeter](https://leetcode.com/problems/island-perimeter)
 
-
 ## Description
 
 <!-- description:start -->

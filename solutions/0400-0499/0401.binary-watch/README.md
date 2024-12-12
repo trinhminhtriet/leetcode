@@ -10,7 +10,6 @@ tags:
 
 # [401. Binary Watch](https://leetcode.com/problems/binary-watch)
 
-
 ## Description
 
 <!-- description:start -->

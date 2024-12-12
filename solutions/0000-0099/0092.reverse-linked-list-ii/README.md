@@ -9,7 +9,6 @@ tags:
 
 # [92. Reverse Linked List II](https://leetcode.com/problems/reverse-linked-list-ii)
 
-
 ## Description
 
 <!-- description:start -->

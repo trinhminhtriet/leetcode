@@ -13,7 +13,6 @@ tags:
 
 # [2104. Sum of Subarray Ranges](https://leetcode.com/problems/sum-of-subarray-ranges)
 
-
 ## Description
 
 <!-- description:start -->

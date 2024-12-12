@@ -9,7 +9,6 @@ tags:
 
 # [2620. Counter](https://leetcode.com/problems/counter)
 
-
 ## Description
 
 <!-- description:start -->

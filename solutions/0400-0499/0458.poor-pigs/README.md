@@ -11,7 +11,6 @@ tags:
 
 # [458. Poor Pigs](https://leetcode.com/problems/poor-pigs)
 
-
 ## Description
 
 <!-- description:start -->

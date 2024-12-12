@@ -10,7 +10,6 @@ tags:
 
 # [35. Search Insert Position](https://leetcode.com/problems/search-insert-position)
 
-
 ## Description
 
 <!-- description:start -->

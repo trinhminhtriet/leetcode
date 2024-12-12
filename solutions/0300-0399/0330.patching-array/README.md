@@ -10,7 +10,6 @@ tags:
 
 # [330. Patching Array](https://leetcode.com/problems/patching-array)
 
-
 ## Description
 
 <!-- description:start -->

@@ -13,7 +13,6 @@ tags:
 
 # [2513. Minimize the Maximum of Two Arrays](https://leetcode.com/problems/minimize-the-maximum-of-two-arrays)
 
-
 ## Description
 
 <!-- description:start -->

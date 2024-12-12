@@ -9,7 +9,6 @@ tags:
 
 # [595. Big Countries](https://leetcode.com/problems/big-countries)
 
-
 ## Description
 
 <!-- description:start -->

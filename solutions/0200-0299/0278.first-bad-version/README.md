@@ -10,7 +10,6 @@ tags:
 
 # [278. First Bad Version](https://leetcode.com/problems/first-bad-version)
 
-
 ## Description
 
 <!-- description:start -->

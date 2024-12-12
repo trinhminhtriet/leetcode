@@ -13,7 +13,6 @@ tags:
 
 # [3024. Type of Triangle](https://leetcode.com/problems/type-of-triangle)
 
-
 ## Description
 
 <!-- description:start -->

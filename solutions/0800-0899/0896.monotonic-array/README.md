@@ -9,7 +9,6 @@ tags:
 
 # [896. Monotonic Array](https://leetcode.com/problems/monotonic-array)
 
-
 ## Description
 
 <!-- description:start -->

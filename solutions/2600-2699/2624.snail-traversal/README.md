@@ -9,7 +9,6 @@ tags:
 
 # [2624. Snail Traversal](https://leetcode.com/problems/snail-traversal)
 
-
 ## Description
 
 <!-- description:start -->

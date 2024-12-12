@@ -13,7 +13,6 @@ tags:
 
 # [2425. Bitwise XOR of All Pairings](https://leetcode.com/problems/bitwise-xor-of-all-pairings)
 
-
 ## Description
 
 <!-- description:start -->

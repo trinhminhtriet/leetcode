@@ -12,7 +12,6 @@ tags:
 
 # [934. Shortest Bridge](https://leetcode.com/problems/shortest-bridge)
 
-
 ## Description
 
 <!-- description:start -->

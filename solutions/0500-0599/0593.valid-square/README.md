@@ -10,7 +10,6 @@ tags:
 
 # [593. Valid Square](https://leetcode.com/problems/valid-square)
 
-
 ## Description
 
 <!-- description:start -->

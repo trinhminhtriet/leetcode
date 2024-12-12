@@ -11,7 +11,6 @@ tags:
 
 # [500. Keyboard Row](https://leetcode.com/problems/keyboard-row)
 
-
 ## Description
 
 <!-- description:start -->

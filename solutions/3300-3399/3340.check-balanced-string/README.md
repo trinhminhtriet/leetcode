@@ -9,7 +9,6 @@ tags:
 
 # [3340. Check Balanced String](https://leetcode.com/problems/check-balanced-string)
 
-
 ## Description
 
 <!-- description:start -->

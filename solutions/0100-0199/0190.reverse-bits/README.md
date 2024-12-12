@@ -10,7 +10,6 @@ tags:
 
 # [190. Reverse Bits](https://leetcode.com/problems/reverse-bits)
 
-
 ## Description
 
 <!-- description:start -->

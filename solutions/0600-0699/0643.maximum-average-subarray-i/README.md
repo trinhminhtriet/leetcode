@@ -10,7 +10,6 @@ tags:
 
 # [643. Maximum Average Subarray I](https://leetcode.com/problems/maximum-average-subarray-i)
 
-
 ## Description
 
 <!-- description:start -->

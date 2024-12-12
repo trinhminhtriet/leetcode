@@ -9,7 +9,6 @@ tags:
 
 # [818. Race Car](https://leetcode.com/problems/race-car)
 
-
 ## Description
 
 <!-- description:start -->

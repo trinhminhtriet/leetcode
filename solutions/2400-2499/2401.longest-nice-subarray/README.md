@@ -13,7 +13,6 @@ tags:
 
 # [2401. Longest Nice Subarray](https://leetcode.com/problems/longest-nice-subarray)
 
-
 ## Description
 
 <!-- description:start -->

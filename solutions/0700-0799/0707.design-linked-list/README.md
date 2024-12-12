@@ -10,7 +10,6 @@ tags:
 
 # [707. Design Linked List](https://leetcode.com/problems/design-linked-list)
 
-
 ## Description
 
 <!-- description:start -->

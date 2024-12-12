@@ -15,7 +15,6 @@ tags:
 
 # [493. Reverse Pairs](https://leetcode.com/problems/reverse-pairs)
 
-
 ## Description
 
 <!-- description:start -->

@@ -12,7 +12,6 @@ tags:
 
 # [936. Stamping The Sequence](https://leetcode.com/problems/stamping-the-sequence)
 
-
 ## Description
 
 <!-- description:start -->

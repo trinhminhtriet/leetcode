@@ -11,7 +11,6 @@ tags:
 
 # [32. Longest Valid Parentheses](https://leetcode.com/problems/longest-valid-parentheses)
 
-
 ## Description
 
 <!-- description:start -->

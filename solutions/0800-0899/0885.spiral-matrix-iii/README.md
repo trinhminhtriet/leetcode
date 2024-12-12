@@ -11,7 +11,6 @@ tags:
 
 # [885. Spiral Matrix III](https://leetcode.com/problems/spiral-matrix-iii)
 
-
 ## Description
 
 <!-- description:start -->

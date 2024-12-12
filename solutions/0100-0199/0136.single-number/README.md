@@ -10,7 +10,6 @@ tags:
 
 # [136. Single Number](https://leetcode.com/problems/single-number)
 
-
 ## Description
 
 <!-- description:start -->

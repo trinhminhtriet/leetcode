@@ -12,7 +12,6 @@ tags:
 
 # [1001. Grid Illumination](https://leetcode.com/problems/grid-illumination)
 
-
 ## Description
 
 <!-- description:start -->

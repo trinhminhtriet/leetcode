@@ -10,7 +10,6 @@ tags:
 
 # [1206. Design Skiplist](https://leetcode.com/problems/design-skiplist)
 
-
 ## Description
 
 <!-- description:start -->

@@ -16,7 +16,6 @@ tags:
 
 # [2261. K Divisible Elements Subarrays](https://leetcode.com/problems/k-divisible-elements-subarrays)
 
-
 ## Description
 
 <!-- description:start -->

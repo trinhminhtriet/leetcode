@@ -11,7 +11,6 @@ tags:
 
 # [506. Relative Ranks](https://leetcode.com/problems/relative-ranks)
 
-
 ## Description
 
 <!-- description:start -->

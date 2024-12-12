@@ -11,7 +11,6 @@ tags:
 
 # [221. Maximal Square](https://leetcode.com/problems/maximal-square)
 
-
 ## Description
 
 <!-- description:start -->

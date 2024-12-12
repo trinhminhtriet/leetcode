@@ -9,7 +9,6 @@ tags:
 
 # [2705. Compact Object](https://leetcode.com/problems/compact-object)
 
-
 ## Description
 
 <!-- description:start -->

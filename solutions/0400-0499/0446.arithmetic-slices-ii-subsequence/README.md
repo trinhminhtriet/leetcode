@@ -10,7 +10,6 @@ tags:
 
 # [446. Arithmetic Slices II - Subsequence](https://leetcode.com/problems/arithmetic-slices-ii-subsequence)
 
-
 ## Description
 
 <!-- description:start -->

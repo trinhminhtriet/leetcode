@@ -11,7 +11,6 @@ tags:
 
 # [899. Orderly Queue](https://leetcode.com/problems/orderly-queue)
 
-
 ## Description
 
 <!-- description:start -->

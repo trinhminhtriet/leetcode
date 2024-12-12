@@ -12,7 +12,6 @@ tags:
 
 # [911. Online Election](https://leetcode.com/problems/online-election)
 
-
 ## Description
 
 <!-- description:start -->

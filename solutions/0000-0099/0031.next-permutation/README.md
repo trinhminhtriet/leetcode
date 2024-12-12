@@ -10,7 +10,6 @@ tags:
 
 # [31. Next Permutation](https://leetcode.com/problems/next-permutation)
 
-
 ## Description
 
 <!-- description:start -->

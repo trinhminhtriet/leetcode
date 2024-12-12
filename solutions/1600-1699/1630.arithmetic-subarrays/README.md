@@ -13,7 +13,6 @@ tags:
 
 # [1630. Arithmetic Subarrays](https://leetcode.com/problems/arithmetic-subarrays)
 
-
 ## Description
 
 <!-- description:start -->

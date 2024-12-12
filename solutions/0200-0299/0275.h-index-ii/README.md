@@ -10,7 +10,6 @@ tags:
 
 # [275. H-Index II](https://leetcode.com/problems/h-index-ii)
 
-
 ## Description
 
 <!-- description:start -->

@@ -15,7 +15,6 @@ tags:
 
 # [2681. Power of Heroes](https://leetcode.com/problems/power-of-heroes)
 
-
 ## Description
 
 <!-- description:start -->

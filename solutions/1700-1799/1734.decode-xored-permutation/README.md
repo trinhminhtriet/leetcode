@@ -12,7 +12,6 @@ tags:
 
 # [1734. Decode XORed Permutation](https://leetcode.com/problems/decode-xored-permutation)
 
-
 ## Description
 
 <!-- description:start -->

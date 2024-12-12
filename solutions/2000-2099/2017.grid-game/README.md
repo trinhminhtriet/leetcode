@@ -13,7 +13,6 @@ tags:
 
 # [2017. Grid Game](https://leetcode.com/problems/grid-game)
 
-
 ## Description
 
 <!-- description:start -->

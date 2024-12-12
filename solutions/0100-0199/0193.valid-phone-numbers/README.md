@@ -9,7 +9,6 @@ tags:
 
 # [193. Valid Phone Numbers](https://leetcode.com/problems/valid-phone-numbers)
 
-
 ## Description
 
 <!-- description:start -->

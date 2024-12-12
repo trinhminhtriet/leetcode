@@ -13,7 +13,6 @@ tags:
 
 # [705. Design HashSet](https://leetcode.com/problems/design-hashset)
 
-
 ## Description
 
 <!-- description:start -->

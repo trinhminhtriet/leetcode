@@ -11,7 +11,6 @@ tags:
 
 # [433. Minimum Genetic Mutation](https://leetcode.com/problems/minimum-genetic-mutation)
 
-
 ## Description
 
 <!-- description:start -->

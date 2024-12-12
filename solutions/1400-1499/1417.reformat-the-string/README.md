@@ -11,7 +11,6 @@ tags:
 
 # [1417. Reformat The String](https://leetcode.com/problems/reformat-the-string)
 
-
 ## Description
 
 <!-- description:start -->

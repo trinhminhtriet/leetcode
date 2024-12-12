@@ -14,7 +14,6 @@ tags:
 
 # [1600. Throne Inheritance](https://leetcode.com/problems/throne-inheritance)
 
-
 ## Description
 
 <!-- description:start -->

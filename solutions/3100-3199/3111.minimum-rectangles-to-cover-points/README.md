@@ -13,7 +13,6 @@ tags:
 
 # [3111. Minimum Rectangles to Cover Points](https://leetcode.com/problems/minimum-rectangles-to-cover-points)
 
-
 ## Description
 
 <!-- description:start -->

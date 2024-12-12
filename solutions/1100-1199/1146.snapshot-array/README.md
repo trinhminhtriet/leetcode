@@ -14,7 +14,6 @@ tags:
 
 # [1146. Snapshot Array](https://leetcode.com/problems/snapshot-array)
 
-
 ## Description
 
 <!-- description:start -->

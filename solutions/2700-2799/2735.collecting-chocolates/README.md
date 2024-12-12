@@ -12,7 +12,6 @@ tags:
 
 # [2735. Collecting Chocolates](https://leetcode.com/problems/collecting-chocolates)
 
-
 ## Description
 
 <!-- description:start -->

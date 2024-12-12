@@ -11,7 +11,6 @@ tags:
 
 # [55. Jump Game](https://leetcode.com/problems/jump-game)
 
-
 ## Description
 
 <!-- description:start -->

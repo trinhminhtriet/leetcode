@@ -13,7 +13,6 @@ tags:
 
 # [1952. Three Divisors](https://leetcode.com/problems/three-divisors)
 
-
 ## Description
 
 <!-- description:start -->

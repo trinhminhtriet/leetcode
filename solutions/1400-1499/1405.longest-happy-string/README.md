@@ -13,7 +13,6 @@ tags:
 
 # [1405. Longest Happy String](https://leetcode.com/problems/longest-happy-string)
 
-
 ## Description
 
 <!-- description:start -->

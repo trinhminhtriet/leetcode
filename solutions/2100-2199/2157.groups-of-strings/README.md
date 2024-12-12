@@ -13,7 +13,6 @@ tags:
 
 # [2157. Groups of Strings](https://leetcode.com/problems/groups-of-strings)
 
-
 ## Description
 
 <!-- description:start -->

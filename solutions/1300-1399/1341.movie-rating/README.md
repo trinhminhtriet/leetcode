@@ -9,7 +9,6 @@ tags:
 
 # [1341. Movie Rating](https://leetcode.com/problems/movie-rating)
 
-
 ## Description
 
 <!-- description:start -->

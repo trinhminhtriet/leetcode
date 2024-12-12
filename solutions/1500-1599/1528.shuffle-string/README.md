@@ -12,7 +12,6 @@ tags:
 
 # [1528. Shuffle String](https://leetcode.com/problems/shuffle-string)
 
-
 ## Description
 
 <!-- description:start -->

@@ -11,7 +11,6 @@ tags:
 
 # [1446. Consecutive Characters](https://leetcode.com/problems/consecutive-characters)
 
-
 ## Description
 
 <!-- description:start -->

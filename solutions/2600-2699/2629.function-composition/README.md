@@ -9,7 +9,6 @@ tags:
 
 # [2629. Function Composition](https://leetcode.com/problems/function-composition)
 
-
 ## Description
 
 <!-- description:start -->

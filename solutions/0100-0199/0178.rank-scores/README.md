@@ -9,7 +9,6 @@ tags:
 
 # [178. Rank Scores](https://leetcode.com/problems/rank-scores)
 
-
 ## Description
 
 <!-- description:start -->

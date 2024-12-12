@@ -12,7 +12,6 @@ tags:
 
 # [2899. Last Visited Integers](https://leetcode.com/problems/last-visited-integers)
 
-
 ## Description
 
 <!-- description:start -->

@@ -12,7 +12,6 @@ tags:
 
 # [1073. Adding Two Negabinary Numbers](https://leetcode.com/problems/adding-two-negabinary-numbers)
 
-
 ## Description
 
 <!-- description:start -->

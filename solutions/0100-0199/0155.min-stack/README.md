@@ -10,7 +10,6 @@ tags:
 
 # [155. Min Stack](https://leetcode.com/problems/min-stack)
 
-
 ## Description
 
 <!-- description:start -->

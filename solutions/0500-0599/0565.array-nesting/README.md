@@ -10,7 +10,6 @@ tags:
 
 # [565. Array Nesting](https://leetcode.com/problems/array-nesting)
 
-
 ## Description
 
 <!-- description:start -->

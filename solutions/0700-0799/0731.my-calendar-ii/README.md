@@ -14,7 +14,6 @@ tags:
 
 # [731. My Calendar II](https://leetcode.com/problems/my-calendar-ii)
 
-
 ## Description
 
 <!-- description:start -->

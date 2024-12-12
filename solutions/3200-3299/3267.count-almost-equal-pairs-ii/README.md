@@ -15,7 +15,6 @@ tags:
 
 # [3267. Count Almost Equal Pairs II](https://leetcode.com/problems/count-almost-equal-pairs-ii)
 
-
 ## Description
 
 <!-- description:start -->

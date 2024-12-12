@@ -14,7 +14,6 @@ tags:
 
 # [1681. Minimum Incompatibility](https://leetcode.com/problems/minimum-incompatibility)
 
-
 ## Description
 
 <!-- description:start -->

@@ -16,7 +16,6 @@ tags:
 
 # [2421. Number of Good Paths](https://leetcode.com/problems/number-of-good-paths)
 
-
 ## Description
 
 <!-- description:start -->

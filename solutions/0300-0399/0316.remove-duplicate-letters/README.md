@@ -12,7 +12,6 @@ tags:
 
 # [316. Remove Duplicate Letters](https://leetcode.com/problems/remove-duplicate-letters)
 
-
 ## Description
 
 <!-- description:start -->

@@ -10,7 +10,6 @@ tags:
 
 # [198. House Robber](https://leetcode.com/problems/house-robber)
 
-
 ## Description
 
 <!-- description:start -->

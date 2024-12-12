@@ -12,7 +12,6 @@ tags:
 
 # [502. IPO](https://leetcode.com/problems/ipo)
 
-
 ## Description
 
 <!-- description:start -->
