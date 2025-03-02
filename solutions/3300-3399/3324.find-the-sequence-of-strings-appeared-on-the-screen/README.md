@@ -1,81 +1,88 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3324.Find%20the%20Sequence%20of%20Strings%20Appeared%20on%20the%20Screen/README.md
+rating: 1293
+source: 第 420 场周赛 Q1
 tags:
-  - String
-  - Simulation
+    - 字符串
+    - 模拟
 ---
 
 <!-- problem:start -->
 
-# [3324. Find the Sequence of Strings Appeared on the Screen](https://leetcode.com/problems/find-the-sequence-of-strings-appeared-on-the-screen)
+# [3324. 出现在屏幕上的字符串序列](https://leetcode.cn/problems/find-the-sequence-of-strings-appeared-on-the-screen)
 
-## Description
+[English Version](/solution/3300-3399/3324.Find%20the%20Sequence%20of%20Strings%20Appeared%20on%20the%20Screen/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given a string <code>target</code>.</p>
+<p>给你一个字符串 <code>target</code>。</p>
 
-<p>Alice is going to type <code>target</code> on her computer using a special keyboard that has <strong>only two</strong> keys:</p>
+<p>Alice 将会使用一种特殊的键盘在她的电脑上输入 <code>target</code>，这个键盘<strong> 只有两个 </strong>按键：</p>
 
 <ul>
-	<li>Key 1 appends the character <code>&quot;a&quot;</code> to the string on the screen.</li>
-	<li>Key 2 changes the <strong>last</strong> character of the string on the screen to its <strong>next</strong> character in the English alphabet. For example, <code>&quot;c&quot;</code> changes to <code>&quot;d&quot;</code> and <code>&quot;z&quot;</code> changes to <code>&quot;a&quot;</code>.</li>
+	<li>按键 1：在屏幕上的字符串后追加字符 <code>'a'</code>。</li>
+	<li>按键 2：将屏幕上字符串的 <strong>最后一个 </strong>字符更改为英文字母表中的 <strong>下一个</strong> 字符。例如，<code>'c'</code> 变为 <code>'d'</code>，<code>'z'</code> 变为 <code>'a'</code>。</li>
 </ul>
 
-<p><strong>Note</strong> that initially there is an <em>empty</em> string <code>&quot;&quot;</code> on the screen, so she can <strong>only</strong> press key 1.</p>
+<p><strong>注意</strong>，最初屏幕上是一个<em>空</em>字符串 <code>""</code>，所以她<strong> 只能</strong> 按按键 1。</p>
 
-<p>Return a list of <em>all</em> strings that appear on the screen as Alice types <code>target</code>, in the order they appear, using the <strong>minimum</strong> key presses.</p>
+<p>请你考虑按键次数 <strong>最少</strong> 的情况，按字符串出现顺序，返回 Alice 输入 <code>target</code> 时屏幕上出现的所有字符串列表。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">target = &quot;abc&quot;</span></p>
+<p><strong>输入：</strong> <span class="example-io">target = "abc"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[&quot;a&quot;,&quot;aa&quot;,&quot;ab&quot;,&quot;aba&quot;,&quot;abb&quot;,&quot;abc&quot;]</span></p>
+<p><strong>输出：</strong> <span class="example-io">["a","aa","ab","aba","abb","abc"]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>The sequence of key presses done by Alice are:</p>
+<p>Alice 按键的顺序如下：</p>
 
 <ul>
-	<li>Press key 1, and the string on the screen becomes <code>&quot;a&quot;</code>.</li>
-	<li>Press key 1, and the string on the screen becomes <code>&quot;aa&quot;</code>.</li>
-	<li>Press key 2, and the string on the screen becomes <code>&quot;ab&quot;</code>.</li>
-	<li>Press key 1, and the string on the screen becomes <code>&quot;aba&quot;</code>.</li>
-	<li>Press key 2, and the string on the screen becomes <code>&quot;abb&quot;</code>.</li>
-	<li>Press key 2, and the string on the screen becomes <code>&quot;abc&quot;</code>.</li>
+	<li>按下按键 1，屏幕上的字符串变为 <code>"a"</code>。</li>
+	<li>按下按键 1，屏幕上的字符串变为 <code>"aa"</code>。</li>
+	<li>按下按键 2，屏幕上的字符串变为 <code>"ab"</code>。</li>
+	<li>按下按键 1，屏幕上的字符串变为 <code>"aba"</code>。</li>
+	<li>按下按键 2，屏幕上的字符串变为 <code>"abb"</code>。</li>
+	<li>按下按键 2，屏幕上的字符串变为 <code>"abc"</code>。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">target = &quot;he&quot;</span></p>
+<p><strong>输入：</strong> <span class="example-io">target = "he"</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;,&quot;ha&quot;,&quot;hb&quot;,&quot;hc&quot;,&quot;hd&quot;,&quot;he&quot;]</span></p>
+<p><strong>输出：</strong> <span class="example-io">["a","b","c","d","e","f","g","h","ha","hb","hc","hd","he"]</span></p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= target.length &lt;= 400</code></li>
-	<li><code>target</code> consists only of lowercase English letters.</li>
+	<li><code>target</code> 仅由小写英文字母组成。</li>
 </ul>
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Simulation
+### 方法一：模拟
 
-We can simulate Alice's typing process, starting from an empty string and updating the string after each keystroke until the target string is obtained.
+我们可以模拟 Alice 按键的过程，从空字符串开始，每次按键后更新字符串，直到得到目标字符串。
 
-The time complexity is $O(n^2 \times |\Sigma|)$, where $n$ is the length of the target string and $\Sigma$ is the character set, which in this case is the set of lowercase letters, so $|\Sigma| = 26$.
+时间复杂度 $O(n^2 \times |\Sigma|)$，其中 $n$ 是目标字符串的长度，而 $\Sigma$ 是字符集，这里是小写字母集合，因此 $|\Sigma| = 26$。
 
 <!-- tabs:start -->
 
@@ -154,15 +161,15 @@ func stringSequence(target string) (ans []string) {
 
 ```ts
 function stringSequence(target: string): string[] {
-  const ans: string[] = [];
-  for (const c of target) {
-    let s = ans.length > 0 ? ans[ans.length - 1] : "";
-    for (let a = "a".charCodeAt(0); a <= c.charCodeAt(0); a++) {
-      const t = s + String.fromCharCode(a);
-      ans.push(t);
+    const ans: string[] = [];
+    for (const c of target) {
+        let s = ans.length > 0 ? ans[ans.length - 1] : '';
+        for (let a = 'a'.charCodeAt(0); a <= c.charCodeAt(0); a++) {
+            const t = s + String.fromCharCode(a);
+            ans.push(t);
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 ```
 

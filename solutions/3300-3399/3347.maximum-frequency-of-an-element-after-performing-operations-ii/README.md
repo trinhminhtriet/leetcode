@@ -1,69 +1,78 @@
 ---
 comments: true
-difficulty: Hard
+difficulty: 困难
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3347.Maximum%20Frequency%20of%20an%20Element%20After%20Performing%20Operations%20II/README.md
+rating: 2155
+source: 第 143 场双周赛 Q3
 tags:
-  - Array
-  - Binary Search
-  - Prefix Sum
-  - Sorting
-  - Sliding Window
+    - 数组
+    - 二分查找
+    - 前缀和
+    - 排序
+    - 滑动窗口
 ---
 
 <!-- problem:start -->
 
-# [3347. Maximum Frequency of an Element After Performing Operations II](https://leetcode.com/problems/maximum-frequency-of-an-element-after-performing-operations-ii)
+# [3347. 执行操作后元素的最高频率 II](https://leetcode.cn/problems/maximum-frequency-of-an-element-after-performing-operations-ii)
 
-## Description
+[English Version](/solution/3300-3399/3347.Maximum%20Frequency%20of%20an%20Element%20After%20Performing%20Operations%20II/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are given an integer array <code>nums</code> and two integers <code>k</code> and <code>numOperations</code>.</p>
+<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;和两个整数&nbsp;<code>k</code> 和&nbsp;<code>numOperations</code>&nbsp;。</p>
 
-<p>You must perform an <strong>operation</strong> <code>numOperations</code> times on <code>nums</code>, where in each operation you:</p>
+<p>你必须对 <code>nums</code>&nbsp;执行 <strong>操作</strong>&nbsp; <code>numOperations</code>&nbsp;次。每次操作中，你可以：</p>
 
 <ul>
-	<li>Select an index <code>i</code> that was <strong>not</strong> selected in any previous operations.</li>
-	<li>Add an integer in the range <code>[-k, k]</code> to <code>nums[i]</code>.</li>
+	<li>选择一个下标&nbsp;<code>i</code>&nbsp;，它在之前的操作中 <strong>没有</strong>&nbsp;被选择过。</li>
+	<li>将 <code>nums[i]</code>&nbsp;增加范围&nbsp;<code>[-k, k]</code>&nbsp;中的一个整数。</li>
 </ul>
 
-<p>Return the <strong>maximum</strong> possible <span data-keyword="frequency-array">frequency</span> of any element in <code>nums</code> after performing the <strong>operations</strong>.</p>
+<p>在执行完所有操作以后，请你返回 <code>nums</code>&nbsp;中出现 <strong>频率最高</strong>&nbsp;元素的出现次数。</p>
+
+<p>一个元素 <code>x</code>&nbsp;的 <strong>频率</strong>&nbsp;指的是它在数组中出现的次数。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [1,4,5], k = 1, numOperations = 2</span></p>
+<p><span class="example-io"><b>输入：</b>nums = [1,4,5], k = 1, numOperations = 2</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
+<p><span class="example-io"><b>输出：</b>2</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>We can achieve a maximum frequency of two by:</p>
+<p>通过以下操作得到最高频率 2 ：</p>
 
 <ul>
-	<li>Adding 0 to <code>nums[1]</code>, after which <code>nums</code> becomes <code>[1, 4, 5]</code>.</li>
-	<li>Adding -1 to <code>nums[2]</code>, after which <code>nums</code> becomes <code>[1, 4, 4]</code>.</li>
+	<li>将&nbsp;<code>nums[1]</code>&nbsp;增加 0 ，<code>nums</code> 变为&nbsp;<code>[1, 4, 5]</code>&nbsp;。</li>
+	<li>将&nbsp;<code>nums[2]</code>&nbsp;增加 -1 ，<code>nums</code> 变为&nbsp;<code>[1, 4, 4]</code>&nbsp;。</li>
 </ul>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2：</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [5,11,20,20], k = 5, numOperations = 1</span></p>
+<p><span class="example-io"><b>输入：</b>nums = [5,11,20,20], k = 5, numOperations = 1</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">2</span></p>
+<p><span class="example-io"><b>输出：</b>2</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释：</strong></p>
 
-<p>We can achieve a maximum frequency of two by:</p>
+<p>通过以下操作得到最高频率 2 ：</p>
 
 <ul>
-	<li>Adding 0 to <code>nums[1]</code>.</li>
+	<li>将&nbsp;<code>nums[1]</code>&nbsp;增加 0 。</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示：</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -74,11 +83,11 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1
+### 方法一
 
 <!-- tabs:start -->
 
@@ -183,29 +192,25 @@ func maxFrequency(nums []int, k int, numOperations int) (ans int) {
 #### TypeScript
 
 ```ts
-function maxFrequency(
-  nums: number[],
-  k: number,
-  numOperations: number
-): number {
-  const cnt: Record<number, number> = {};
-  const d: Record<number, number> = {};
-  for (const x of nums) {
-    cnt[x] = (cnt[x] || 0) + 1;
-    d[x] = d[x] || 0;
-    d[x - k] = (d[x - k] || 0) + 1;
-    d[x + k + 1] = (d[x + k + 1] || 0) - 1;
-  }
-  let [ans, s] = [0, 0];
-  const keys = Object.keys(d)
-    .map(Number)
-    .sort((a, b) => a - b);
-  for (const x of keys) {
-    s += d[x];
-    ans = Math.max(ans, Math.min(s, (cnt[x] || 0) + numOperations));
-  }
+function maxFrequency(nums: number[], k: number, numOperations: number): number {
+    const cnt: Record<number, number> = {};
+    const d: Record<number, number> = {};
+    for (const x of nums) {
+        cnt[x] = (cnt[x] || 0) + 1;
+        d[x] = d[x] || 0;
+        d[x - k] = (d[x - k] || 0) + 1;
+        d[x + k + 1] = (d[x + k + 1] || 0) - 1;
+    }
+    let [ans, s] = [0, 0];
+    const keys = Object.keys(d)
+        .map(Number)
+        .sort((a, b) => a - b);
+    for (const x of keys) {
+        s += d[x];
+        ans = Math.max(ans, Math.min(s, (cnt[x] || 0) + numOperations));
+    }
 
-  return ans;
+    return ans;
 }
 ```
 

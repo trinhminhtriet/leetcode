@@ -1,77 +1,82 @@
 ---
 comments: true
-difficulty: Medium
+difficulty: 中等
+edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3310.Remove%20Methods%20From%20Project/README.md
 rating: 1710
-source: Weekly Contest 418 Q2
+source: 第 418 场周赛 Q2
 tags:
-  - Depth-First Search
-  - Breadth-First Search
-  - Graph
+    - 深度优先搜索
+    - 广度优先搜索
+    - 图
 ---
 
 <!-- problem:start -->
 
-# [3310. Remove Methods From Project](https://leetcode.com/problems/remove-methods-from-project)
+# [3310. 移除可疑的方法](https://leetcode.cn/problems/remove-methods-from-project)
 
-## Description
+[English Version](/solution/3300-3399/3310.Remove%20Methods%20From%20Project/README_EN.md)
+
+## 题目描述
 
 <!-- description:start -->
 
-<p>You are maintaining a project that has <code>n</code> methods numbered from <code>0</code> to <code>n - 1</code>.</p>
+<p>你正在维护一个项目，该项目有 <code>n</code> 个方法，编号从 <code>0</code> 到 <code>n - 1</code>。</p>
 
-<p>You are given two integers <code>n</code> and <code>k</code>, and a 2D integer array <code>invocations</code>, where <code>invocations[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that method <code>a<sub>i</sub></code> invokes method <code>b<sub>i</sub></code>.</p>
+<p>给你两个整数 <code>n</code> 和 <code>k</code>，以及一个二维整数数组 <code>invocations</code>，其中 <code>invocations[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> 表示方法 <code>a<sub>i</sub></code> 调用了方法 <code>b<sub>i</sub></code>。</p>
 
-<p>There is a known bug in method <code>k</code>. Method <code>k</code>, along with any method invoked by it, either <strong>directly</strong> or <strong>indirectly</strong>, are considered <strong>suspicious</strong> and we aim to remove them.</p>
+<p>已知如果方法 <code>k</code> 存在一个已知的 bug。那么方法 <code>k</code> 以及它直接或间接调用的任何方法都被视为<strong> </strong><strong>可疑方法</strong> ，我们需要从项目中移除这些方法。</p>
 
-<p>A group of methods can only be removed if no method <strong>outside</strong> the group invokes any methods <strong>within</strong> it.</p>
+<p><span class="text-only" data-eleid="13" style="white-space: pre;">只有当一组方法没有被这组之外的任何方法调用时，这组方法才能被移除。</span></p>
 
-<p>Return an array containing all the remaining methods after removing all the <strong>suspicious</strong> methods. You may return the answer in <em>any order</em>. If it is not possible to remove <strong>all</strong> the suspicious methods, <strong>none</strong> should be removed.</p>
+<p>返回一个数组，包含移除所有<strong> </strong><strong>可疑方法</strong> 后剩下的所有方法。你可以以任意顺序返回答案。如果无法移除<strong> 所有 </strong>可疑方法，则<strong> 不 </strong>移除任何方法。</p>
 
 <p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+
+<p><strong class="example">示例 1:</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 4, k = 1, invocations = [[1,2],[0,1],[3,2]]</span></p>
+<p><strong>输入:</strong> <span class="example-io">n = 4, k = 1, invocations = [[1,2],[0,1],[3,2]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[0,1,2,3]</span></p>
+<p><strong>输出:</strong> <span class="example-io">[0,1,2,3]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3310.Remove%20Methods%20From%20Project/images/graph-2.png" style="width: 200px; height: 200px;" /></p>
 
-<p>Method 2 and method 1 are suspicious, but they are directly invoked by methods 3 and 0, which are not suspicious. We return all elements without removing anything.</p>
+<p>方法 2 和方法 1 是可疑方法，但它们分别直接被方法 3 和方法 0 调用。由于方法 3 和方法 0 不是可疑方法，我们无法移除任何方法，故返回所有方法。</p>
 </div>
 
-<p><strong class="example">Example 2:</strong></p>
+<p><strong class="example">示例 2:</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 5, k = 0, invocations = [[1,2],[0,2],[0,1],[3,4]]</span></p>
+<p><strong>输入:</strong> <span class="example-io">n = 5, k = 0, invocations = [[1,2],[0,2],[0,1],[3,4]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[3,4]</span></p>
+<p><strong>输出:</strong> <span class="example-io">[3,4]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3310.Remove%20Methods%20From%20Project/images/graph-3.png" style="width: 200px; height: 200px;" /></p>
 
-<p>Methods 0, 1, and 2 are suspicious and they are not directly invoked by any other method. We can remove them.</p>
+<p>方法 0、方法 1 和方法 2 是可疑方法，且没有被任何其他方法直接调用。我们可以移除它们。</p>
 </div>
 
-<p><strong class="example">Example 3:</strong></p>
+<p><strong class="example">示例 3:</strong></p>
 
 <div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">n = 3, k = 2, invocations = [[1,2],[0,1],[2,0]]</span></p>
+<p><strong>输入:</strong> <span class="example-io">n = 3, k = 2, invocations = [[1,2],[0,1],[2,0]]</span></p>
 
-<p><strong>Output:</strong> <span class="example-io">[]</span></p>
+<p><strong>输出:</strong> <span class="example-io">[]</span></p>
 
-<p><strong>Explanation:</strong></p>
+<p><strong>解释:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3300-3399/3310.Remove%20Methods%20From%20Project/images/graph.png" style="width: 200px; height: 200px;" /></p>
 
-<p>All methods are suspicious. We can remove them.</p>
+<p>所有方法都是可疑方法。我们可以移除它们。</p>
 </div>
 
 <p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+
+<p><strong>提示:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
@@ -85,15 +90,15 @@ tags:
 
 <!-- description:end -->
 
-## Solutions
+## 解法
 
 <!-- solution:start -->
 
-### Solution 1: Two DFS
+### 方法一：两次 DFS
 
-We can start from $k$ and find all suspicious methods, recording them in the array $\textit{suspicious}$. Then, we traverse from $0$ to $n-1$, starting from all non-suspicious methods, and mark all reachable methods as non-suspicious. Finally, we return all non-suspicious methods.
+我们可以先从 $k$ 出发，找到所有可疑方法，用数组 $\textit{suspicious}$ 记录。然后再从 $0$ 到 $n-1$ 遍历，从所有不可疑方法出发，将所有可达的方法标记为不可疑方法。最后返回所有不可疑方法。
 
-The time complexity is $O(n + m)$, and the space complexity is $O(n + m)$. Here, $n$ and $m$ represent the number of methods and the number of call relationships, respectively.
+时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别表示方法数量和调用关系数量。
 
 <!-- tabs:start -->
 
@@ -208,27 +213,27 @@ public:
             f[b].push_back(a);
             g[a].push_back(b);
         }
-        auto dfs = [&](auto&& dfs, int i) -> void {
+        auto dfs = [&](this auto&& dfs, int i) -> void {
             suspicious[i] = true;
             for (int j : g[i]) {
                 if (!suspicious[j]) {
-                    dfs(dfs, j);
+                    dfs(j);
                 }
             }
         };
-        dfs(dfs, k);
-        auto dfs2 = [&](auto&& dfs2, int i) -> void {
+        dfs(k);
+        auto dfs2 = [&](this auto&& dfs2, int i) -> void {
             vis[i] = true;
             for (int j : f[i]) {
                 if (!vis[j]) {
                     suspicious[j] = false;
-                    dfs2(dfs2, j);
+                    dfs2(j);
                 }
             }
         };
         for (int i = 0; i < n; ++i) {
             if (!suspicious[i] && !vis[i]) {
-                dfs2(dfs2, i);
+                dfs2(i);
             }
         }
         vector<int> ans;
@@ -301,50 +306,46 @@ func remainingMethods(n int, k int, invocations [][]int) []int {
 #### TypeScript
 
 ```ts
-function remainingMethods(
-  n: number,
-  k: number,
-  invocations: number[][]
-): number[] {
-  const suspicious: boolean[] = Array(n).fill(false);
-  const vis: boolean[] = Array(n).fill(false);
-  const f: number[][] = Array.from({ length: n }, () => []);
-  const g: number[][] = Array.from({ length: n }, () => []);
+function remainingMethods(n: number, k: number, invocations: number[][]): number[] {
+    const suspicious: boolean[] = Array(n).fill(false);
+    const vis: boolean[] = Array(n).fill(false);
+    const f: number[][] = Array.from({ length: n }, () => []);
+    const g: number[][] = Array.from({ length: n }, () => []);
 
-  for (const [a, b] of invocations) {
-    f[a].push(b);
-    f[b].push(a);
-    g[a].push(b);
-  }
-
-  const dfs = (i: number) => {
-    suspicious[i] = true;
-    for (const j of g[i]) {
-      if (!suspicious[j]) {
-        dfs(j);
-      }
+    for (const [a, b] of invocations) {
+        f[a].push(b);
+        f[b].push(a);
+        g[a].push(b);
     }
-  };
 
-  dfs(k);
+    const dfs = (i: number) => {
+        suspicious[i] = true;
+        for (const j of g[i]) {
+            if (!suspicious[j]) {
+                dfs(j);
+            }
+        }
+    };
 
-  const dfs2 = (i: number) => {
-    vis[i] = true;
-    for (const j of f[i]) {
-      if (!vis[j]) {
-        suspicious[j] = false;
-        dfs2(j);
-      }
+    dfs(k);
+
+    const dfs2 = (i: number) => {
+        vis[i] = true;
+        for (const j of f[i]) {
+            if (!vis[j]) {
+                suspicious[j] = false;
+                dfs2(j);
+            }
+        }
+    };
+
+    for (let i = 0; i < n; i++) {
+        if (!suspicious[i] && !vis[i]) {
+            dfs2(i);
+        }
     }
-  };
 
-  for (let i = 0; i < n; i++) {
-    if (!suspicious[i] && !vis[i]) {
-      dfs2(i);
-    }
-  }
-
-  return Array.from({ length: n }, (_, i) => i).filter((i) => !suspicious[i]);
+    return Array.from({ length: n }, (_, i) => i).filter(i => !suspicious[i]);
 }
 ```
 
