@@ -1,23 +1,34 @@
 class Solution:
-    def lenOfVDiagonal(self, g: List[List[int]]) -> int:
-        @cache
-        def dp(i,j,x,d,k):
-            if not (0 <= i < n and 0 <= j < m): return 0
-            if g[i][j] != x: return 0
-            res = dp(i + ds[d][0], j + ds[d][1], nx[x], d, k) + 1
-            if k > 0:
-                d2 = (d + 1) % 4
-                res2 = dp(i + ds[d2][0], j + ds[d2][1], nx[x], d2, 0) + 1
-                res = max(res, res2)
-            return res
+    def lenOfVDiagonal(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        next_digit = {1: 2, 2: 0, 0: 2}
 
-        ds = [[1,1],[1,-1],[-1,-1],[-1,1]]
-        nx = [2,2,0]
-        res = 0
-        n, m = len(g), len(g[0])
-        for i in range(n):
-            for j in range(m):
-                if g[i][j] == 1:
-                    cur = max(dp(i, j, 1, d, 1) for d in range(4))
-                    res = max(res, cur)
-        return res
+        def within_bounds(i, j):
+            return 0 <= i < m and 0 <= j < n
+
+        @cache
+        def f(i, j, di, dj, turned):
+            result = 1
+            successor = next_digit[grid[i][j]]
+
+            if within_bounds(i + di, j + dj) and grid[i + di][j + dj] == successor:
+                result = 1 + f(i + di, j + dj, di, dj, turned)
+
+            if not turned:
+                di, dj = dj, -di
+                if within_bounds(i + di, j + dj) and grid[i + di][j + dj] == successor:
+                    result = max(result, 1 + f(i + di, j + dj, di, dj, True))
+
+            return result
+
+        directions = ((1, 1), (-1, 1), (1, -1), (-1, -1))
+        result = 0
+
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] != 1:
+                    continue
+                for di, dj in directions:
+                    result = max(result, f(i, j, di, dj, False))
+
+        return result
