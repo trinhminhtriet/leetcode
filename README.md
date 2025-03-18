@@ -8,6 +8,7 @@ This repository contains my solutions to various LeetCode problems. Each solutio
 - [Solutions](#solutions)
 - [How to Use](#how-to-use)
 - [Contributing](#contributing)
+- [License](#license)
 
 ## 👋 Introduction
 
@@ -36,3 +37,7 @@ cd leetcode/solutions
 ## 🤝 Contributing
 
 Contributions are welcome! If you have a better solution or an improvement to an existing solution, feel free to open a pull request. Please ensure that your code follows the same structure and includes a detailed explanation.
+
+## 📜 License
+
+This repository is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
