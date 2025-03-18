@@ -1,66 +1,53 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0513.Find%20Bottom%20Left%20Tree%20Value/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [513. 找树左下角的值](https://leetcode.cn/problems/find-bottom-left-tree-value)
+# [513. Find Bottom Left Tree Value](https://leetcode.com/problems/find-bottom-left-tree-value)
 
-[English Version](/solution/0500-0599/0513.Find%20Bottom%20Left%20Tree%20Value/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个二叉树的 <strong>根节点</strong> <code>root</code>，请找出该二叉树的 <strong>最底层 最左边 </strong>节点的值。</p>
+<p>Given the <code>root</code> of a binary tree, return the leftmost value in the last row of the tree.</p>
 
-<p>假设二叉树中至少有一个节点。</p>
-
-<p> </p>
-
-<p><strong>示例 1:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0513.Find%20Bottom%20Left%20Tree%20Value/images/tree1.jpg" style="width: 182px; " /></p>
-
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0513.Find%20Bottom%20Left%20Tree%20Value/images/tree1.jpg" style="width: 302px; height: 182px;" />
 <pre>
-<strong>输入: </strong>root = [2,1,3]
-<strong>输出: </strong>1
+<strong>Input:</strong> root = [2,1,3]
+<strong>Output:</strong> 1
 </pre>
 
-<p><strong>示例 2:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0513.Find%20Bottom%20Left%20Tree%20Value/images/tree2.jpg" style="width: 242px; " /><strong> </strong></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0513.Find%20Bottom%20Left%20Tree%20Value/images/tree2.jpg" style="width: 432px; height: 421px;" />
 <pre>
-<strong>输入: </strong>[1,2,3,4,null,5,6,null,null,7]
-<strong>输出: </strong>7
+<strong>Input:</strong> root = [1,2,3,4,null,5,6,null,null,7]
+<strong>Output:</strong> 7
 </pre>
 
-<p> </p>
-
-<p><strong>提示:</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>二叉树的节点个数的范围是 <code>[1,10<sup>4</sup>]</code></li>
-	<li><meta charset="UTF-8" /><code>-2<sup>31</sup> <= Node.val <= 2<sup>31</sup> - 1</code> </li>
+	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>4</sup>]</code>.</li>
+	<li><code>-2<sup>31</sup> &lt;= Node.val &lt;= 2<sup>31</sup> - 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
-
-BFS 找最后一层第一个节点。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -281,9 +268,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：DFS
-
-DFS 先序遍历，找深度最大的，且第一次被遍历到的节点。
+### Solution 2
 
 <!-- tabs:start -->
 

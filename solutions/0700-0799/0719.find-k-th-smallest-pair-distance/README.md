@@ -1,59 +1,54 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0719.Find%20K-th%20Smallest%20Pair%20Distance/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 双指针
-    - 二分查找
-    - 排序
+    - Array
+    - Two Pointers
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [719. 找出第 K 小的数对距离](https://leetcode.cn/problems/find-k-th-smallest-pair-distance)
+# [719. Find K-th Smallest Pair Distance](https://leetcode.com/problems/find-k-th-smallest-pair-distance)
 
-[English Version](/solution/0700-0799/0719.Find%20K-th%20Smallest%20Pair%20Distance/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>数对 <code>(a,b)</code> 由整数 <code>a</code> 和 <code>b</code> 组成，其数对距离定义为 <code>a</code> 和 <code>b</code> 的绝对差值。</p>
+<p>The <strong>distance of a pair</strong> of integers <code>a</code> and <code>b</code> is defined as the absolute difference between <code>a</code> and <code>b</code>.</p>
 
-<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> ，数对由 <code>nums[i]</code> 和 <code>nums[j]</code> 组成且满足 <code>0 &lt;= i &lt; j &lt; nums.length</code> 。返回 <strong>所有数对距离中</strong> 第 <code>k</code> 小的数对距离。</p>
+<p>Given an integer array <code>nums</code> and an integer <code>k</code>, return <em>the</em> <code>k<sup>th</sup></code> <em>smallest <strong>distance among all the pairs</strong></em> <code>nums[i]</code> <em>and</em> <code>nums[j]</code> <em>where</em> <code>0 &lt;= i &lt; j &lt; nums.length</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,3,1], k = 1
-<strong>输出：</strong>0
-<strong>解释：</strong>数对和对应的距离如下：
+<strong>Input:</strong> nums = [1,3,1], k = 1
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> Here are all the pairs:
 (1,3) -&gt; 2
 (1,1) -&gt; 0
 (3,1) -&gt; 2
-距离第 1 小的数对是 (1,1) ，距离为 0 。
+Then the 1<sup>st</sup> smallest distance pair is (1,1), and its distance is 0.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,1,1], k = 2
-<strong>输出：</strong>0
+<strong>Input:</strong> nums = [1,1,1], k = 2
+<strong>Output:</strong> 0
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,6,1], k = 3
-<strong>输出：</strong>5
+<strong>Input:</strong> nums = [1,6,1], k = 3
+<strong>Output:</strong> 5
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -64,15 +59,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 二分查找
-
-先对 $nums$ 数组进行排序，然后在 $[0, nums[n-1]-nums[0]]$ 范围内二分枚举数对距离 $dist$，若 $nums$ 中数对距离小于等于 $dist$ 的数量 $cnt$ 大于等于 $k$，则尝试缩小 $dist$，否则尝试扩大 $dist$。
-
-时间复杂度 $O(nlogn×logm)$，其中 $n$ 表示 $nums$ 的长度，$m$ 表示 $nums$ 中两个数的最大差值。
+### Solution 1
 
 <!-- tabs:start -->
 

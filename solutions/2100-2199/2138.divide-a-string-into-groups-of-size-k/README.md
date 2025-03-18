@@ -1,81 +1,78 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2138.Divide%20a%20String%20Into%20Groups%20of%20Size%20k/README.md
+difficulty: Easy
 rating: 1273
-source: 第 276 场周赛 Q1
+source: Weekly Contest 276 Q1
 tags:
-    - 字符串
-    - 模拟
+    - String
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2138. 将字符串拆分为若干长度为 k 的组](https://leetcode.cn/problems/divide-a-string-into-groups-of-size-k)
+# [2138. Divide a String Into Groups of Size k](https://leetcode.com/problems/divide-a-string-into-groups-of-size-k)
 
-[English Version](/solution/2100-2199/2138.Divide%20a%20String%20Into%20Groups%20of%20Size%20k/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>字符串 <code>s</code> 可以按下述步骤划分为若干长度为 <code>k</code> 的组：</p>
+<p>A string <code>s</code> can be partitioned into groups of size <code>k</code> using the following procedure:</p>
 
 <ul>
-	<li>第一组由字符串中的前 <code>k</code> 个字符组成，第二组由接下来的 <code>k</code> 个字符串组成，依此类推。每个字符都能够成为 <strong>某一个</strong> 组的一部分。</li>
-	<li>对于最后一组，如果字符串剩下的字符 <strong>不足</strong> <code>k</code> 个，需使用字符 <code>fill</code> 来补全这一组字符。</li>
+	<li>The first group consists of the first <code>k</code> characters of the string, the second group consists of the next <code>k</code> characters of the string, and so on. Each element can be a part of <strong>exactly one</strong> group.</li>
+	<li>For the last group, if the string <strong>does not</strong> have <code>k</code> characters remaining, a character <code>fill</code> is used to complete the group.</li>
 </ul>
 
-<p>注意，在去除最后一个组的填充字符 <code>fill</code>（如果存在的话）并按顺序连接所有的组后，所得到的字符串应该是 <code>s</code> 。</p>
+<p>Note that the partition is done so that after removing the <code>fill</code> character from the last group (if it exists) and concatenating all the groups in order, the resultant string should be <code>s</code>.</p>
 
-<p>给你一个字符串 <code>s</code> ，以及每组的长度 <code>k</code> 和一个用于填充的字符 <code>fill</code> ，按上述步骤处理之后，返回一个字符串数组，该数组表示 <code>s</code> 分组后 <strong>每个组的组成情况</strong> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>s = "abcdefghi", k = 3, fill = "x"
-<strong>输出：</strong>["abc","def","ghi"]
-<strong>解释：</strong>
-前 3 个字符是 "abc" ，形成第一组。
-接下来 3 个字符是 "def" ，形成第二组。
-最后 3 个字符是 "ghi" ，形成第三组。
-由于所有组都可以由字符串中的字符完全填充，所以不需要使用填充字符。
-因此，形成 3 组，分别是 "abc"、"def" 和 "ghi" 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>s = "abcdefghij", k = 3, fill = "x"
-<strong>输出：</strong>["abc","def","ghi","jxx"]
-<strong>解释：</strong>
-与前一个例子类似，形成前三组 "abc"、"def" 和 "ghi" 。
-对于最后一组，字符串中仅剩下字符 'j' 可以用。为了补全这一组，使用填充字符 'x' 两次。
-因此，形成 4 组，分别是 "abc"、"def"、"ghi" 和 "jxx" 。
-</pre>
+<p>Given the string <code>s</code>, the size of each group <code>k</code> and the character <code>fill</code>, return <em>a string array denoting the <strong>composition of every group</strong> </em><code>s</code><em> has been divided into, using the above procedure</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;abcdefghi&quot;, k = 3, fill = &quot;x&quot;
+<strong>Output:</strong> [&quot;abc&quot;,&quot;def&quot;,&quot;ghi&quot;]
+<strong>Explanation:</strong>
+The first 3 characters &quot;abc&quot; form the first group.
+The next 3 characters &quot;def&quot; form the second group.
+The last 3 characters &quot;ghi&quot; form the third group.
+Since all groups can be completely filled by characters from the string, we do not need to use fill.
+Thus, the groups formed are &quot;abc&quot;, &quot;def&quot;, and &quot;ghi&quot;.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;abcdefghij&quot;, k = 3, fill = &quot;x&quot;
+<strong>Output:</strong> [&quot;abc&quot;,&quot;def&quot;,&quot;ghi&quot;,&quot;jxx&quot;]
+<strong>Explanation:</strong>
+Similar to the previous example, we are forming the first three groups &quot;abc&quot;, &quot;def&quot;, and &quot;ghi&quot;.
+For the last group, we can only use the character &#39;j&#39; from the string. To complete this group, we add &#39;x&#39; twice.
+Thus, the 4 groups formed are &quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;, and &quot;jxx&quot;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code> 仅由小写英文字母组成</li>
+	<li><code>s</code> consists of lowercase English letters only.</li>
 	<li><code>1 &lt;= k &lt;= 100</code></li>
-	<li><code>fill</code> 是一个小写英文字母</li>
+	<li><code>fill</code> is a lowercase English letter.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以直接模拟题目描述的过程，将字符串 $s$ 按照长度 $k$ 进行分组，然后对于最后一组不足 $k$ 个字符的情况，使用字符 $\textit{fill}$ 进行填充。
+We can directly simulate the process described in the problem statement, dividing the string $s$ into groups of length $k$. For the last group, if it contains fewer than $k$ characters, we use the character $\textit{fill}$ to pad it.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

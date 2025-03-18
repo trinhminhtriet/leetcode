@@ -1,75 +1,71 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0276.Paint%20Fence/README.md
+difficulty: Medium
 tags:
-    - 动态规划
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [276. 栅栏涂色 🔒](https://leetcode.cn/problems/paint-fence)
+# [276. Paint Fence 🔒](https://leetcode.com/problems/paint-fence)
 
-[English Version](/solution/0200-0299/0276.Paint%20Fence/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有 <code>k</code> 种颜色的涂料和一个包含 <code>n</code> 个栅栏柱的栅栏，请你按下述规则为栅栏设计涂色方案：</p>
+<p>You are painting a fence of <code>n</code> posts with <code>k</code> different colors. You must paint the posts following these rules:</p>
 
 <ul>
-	<li>每个栅栏柱可以用其中 <strong>一种</strong> 颜色进行上色。</li>
-	<li>相邻的栅栏柱 <strong>最多连续两个 </strong>颜色相同。</li>
+	<li>Every post must be painted <strong>exactly one</strong> color.</li>
+	<li>There <strong>cannot</strong> be three or more <strong>consecutive</strong> posts with the same color.</li>
 </ul>
 
-<p>给你两个整数 <code>k</code> 和 <code>n</code> ，返回所有有效的涂色 <strong>方案数</strong> 。</p>
+<p>Given the two integers <code>n</code> and <code>k</code>, return <em>the <strong>number of ways</strong> you can paint the fence</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0276.Paint%20Fence/images/paintfenceex1.png" style="width: 507px; height: 313px;" />
 <pre>
-<strong>输入：</strong>n = 3, k = 2
-<strong>输出：</strong>6
-<strong>解释：</strong>所有的可能涂色方案如上图所示。注意，全涂红或者全涂绿的方案属于无效方案，因为相邻的栅栏柱 <strong>最多连续两个 </strong>颜色相同。
+<strong>Input:</strong> n = 3, k = 2
+<strong>Output:</strong> 6
+<strong>Explanation: </strong>All the possibilities are shown.
+Note that painting all the posts red or all the posts green is invalid because there cannot be three posts in a row with the same color.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 1, k = 1
-<strong>输出：</strong>1
+<strong>Input:</strong> n = 1, k = 1
+<strong>Output:</strong> 1
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 7, k = 2
-<strong>输出：</strong>42
+<strong>Input:</strong> n = 7, k = 2
+<strong>Output:</strong> 42
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= n <= 50</code></li>
-	<li><code>1 <= k <= 10<sup>5</sup></code></li>
-	<li>题目数据保证：对于输入的 <code>n</code> 和 <code>k</code> ，其答案在范围 <code>[0, 2<sup>31</sup> - 1]</code> 内</li>
+	<li><code>1 &lt;= n &lt;= 50</code></li>
+	<li><code>1 &lt;= k &lt;= 10<sup>5</sup></code></li>
+	<li>The testcases are generated such that the answer is in the range <code>[0, 2<sup>31</sup> - 1]</code> for the given <code>n</code> and <code>k</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i]$ 表示表示 $[0..i]$ 的栅栏柱且最后两个栅栏柱颜色不同的涂色方法数，定义 $g[i]$ 表示表示 $[0..i]$ 的栅栏柱且最后两个栅栏柱颜色相同的涂色方法数。初始时 $f[0] = k$，而 $g[0] = 0$。
+We define $f[i]$ to represent the number of ways to paint the fence posts from $[0..i]$ such that the last two posts have different colors, and $g[i]$ to represent the number of ways to paint the fence posts from $[0..i]$ such that the last two posts have the same color. Initially, $f[0] = k$ and $g[0] = 0$.
 
-当 $i > 0$ 时，有如下状态转移方程：
+When $i > 0$, we have the following state transition equations:
 
 $$
 \begin{aligned}
@@ -78,9 +74,9 @@ g[i] & = f[i - 1]
 \end{aligned}
 $$
 
-最终的答案即为 $f[n - 1] + g[n - 1]$。
+The final answer is $f[n - 1] + g[n - 1]$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是栅栏的数量。
+The time complexity is $O(n)$ and the space complexity is $O(n)$, where $n$ is the number of fence posts.
 
 <!-- tabs:start -->
 
@@ -169,9 +165,9 @@ function numWays(n: number, k: number): number {
 
 <!-- solution:start -->
 
-### 方法二：动态规划（空间优化）
+### Solution 2: Dynamic Programming (Space Optimization)
 
-我们发现 $f[i]$ 和 $g[i]$ 只与 $f[i - 1]$ 和 $g[i - 1]$ 有关，因此我们可以使用两个变量 $f$ 和 $g$ 分别记录 $f[i - 1]$ 和 $g[i - 1]$ 的值，从而将空间复杂度优化到 $O(1)$。
+We notice that $f[i]$ and $g[i]$ are only related to $f[i - 1]$ and $g[i - 1]$. Therefore, we can use two variables $f$ and $g$ to record the values of $f[i - 1]$ and $g[i - 1]$ respectively, thus optimizing the space complexity to $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,76 +1,71 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1309.Decrypt%20String%20from%20Alphabet%20to%20Integer%20Mapping/README.md
+difficulty: Easy
 rating: 1257
-source: 第 170 场周赛 Q1
+source: Weekly Contest 170 Q1
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1309. 解码字母到整数映射](https://leetcode.cn/problems/decrypt-string-from-alphabet-to-integer-mapping)
+# [1309. Decrypt String from Alphabet to Integer Mapping](https://leetcode.com/problems/decrypt-string-from-alphabet-to-integer-mapping)
 
-[English Version](/solution/1300-1399/1309.Decrypt%20String%20from%20Alphabet%20to%20Integer%20Mapping/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>s</code>，它由数字（<code>'0'</code> - <code>'9'</code>）和&nbsp;<code>'#'</code>&nbsp;组成。我们希望按下述规则将&nbsp;<code>s</code>&nbsp;映射为一些小写英文字符：</p>
+<p>You are given a string <code>s</code> formed by digits and <code>&#39;#&#39;</code>. We want to map <code>s</code> to English lowercase characters as follows:</p>
 
 <ul>
-	<li>字符（<code>'a'</code> - <code>'i'</code>）分别用（<code>'1'</code> -&nbsp;<code>'9'</code>）表示。</li>
-	<li>字符（<code>'j'</code> - <code>'z'</code>）分别用（<code>'10#'</code>&nbsp;-&nbsp;<code>'26#'</code>）表示。&nbsp;</li>
+	<li>Characters (<code>&#39;a&#39;</code> to <code>&#39;i&#39;</code>) are represented by (<code>&#39;1&#39;</code> to <code>&#39;9&#39;</code>) respectively.</li>
+	<li>Characters (<code>&#39;j&#39;</code> to <code>&#39;z&#39;</code>) are represented by (<code>&#39;10#&#39;</code> to <code>&#39;26#&#39;</code>) respectively.</li>
 </ul>
 
-<p>返回映射之后形成的新字符串。</p>
+<p>Return <em>the string formed after mapping</em>.</p>
 
-<p>题目数据保证映射始终唯一。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "10#11#12"
-<strong>输出：</strong>"jkab"
-<strong>解释：</strong>"j" -&gt; "10#" , "k" -&gt; "11#" , "a" -&gt; "1" , "b" -&gt; "2".
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "1326#"
-<strong>输出：</strong>"acz"
-</pre>
+<p>The test cases are generated so that a unique mapping will always exist.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;10#11#12&quot;
+<strong>Output:</strong> &quot;jkab&quot;
+<strong>Explanation:</strong> &quot;j&quot; -&gt; &quot;10#&quot; , &quot;k&quot; -&gt; &quot;11#&quot; , &quot;a&quot; -&gt; &quot;1&quot; , &quot;b&quot; -&gt; &quot;2&quot;.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;1326#&quot;
+<strong>Output:</strong> &quot;acz&quot;
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
-	<li><code>s[i]</code> 只包含数字（<code>'0'</code>-<code>'9'</code>）和&nbsp;<code>'#'</code>&nbsp;字符。</li>
-	<li><code>s</code>&nbsp;是映射始终存在的有效字符串。</li>
+	<li><code>s</code> consists of digits and the <code>&#39;#&#39;</code> letter.</li>
+	<li><code>s</code> will be a valid string such that mapping is always possible.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们直接模拟即可。
+We can directly simulate the process.
 
-遍历字符串 $s$，对于当前遍历到的下标 $i$，如果 $i + 2 < n$ 且 $s[i + 2]$ 为 `#`，则将 $s[i]$ 和 $s[i + 1]$ 组成的字符串转换为整数，加上 `a` 的 ASCII 码值减去 1，然后转换为字符，添加到结果数组中，并将 $i$ 增加 3；否则，将 $s[i]$ 转换为整数，加上 `a` 的 ASCII 码值减去 1，然后转换为字符，添加到结果数组中，并将 $i$ 增加 1。
+Traverse the string $s$. For the current index $i$, if $i + 2 < n$ and $s[i + 2]$ is `#`, then convert the substring formed by $s[i]$ and $s[i + 1]$ to an integer, add the ASCII value of `a` minus 1, convert it to a character, add it to the result array, and increment $i$ by 3. Otherwise, convert $s[i]$ to an integer, add the ASCII value of `a` minus 1, convert it to a character, add it to the result array, and increment $i$ by 1.
 
-最后将结果数组转换为字符串返回即可。
+Finally, convert the result array to a string and return it.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

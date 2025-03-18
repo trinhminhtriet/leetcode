@@ -1,90 +1,62 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0301.Remove%20Invalid%20Parentheses/README.md
+difficulty: Hard
 tags:
-    - 广度优先搜索
-    - 字符串
-    - 回溯
+    - Breadth-First Search
+    - String
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [301. 删除无效的括号](https://leetcode.cn/problems/remove-invalid-parentheses)
+# [301. Remove Invalid Parentheses](https://leetcode.com/problems/remove-invalid-parentheses)
 
-[English Version](/solution/0300-0399/0301.Remove%20Invalid%20Parentheses/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个由若干括号和字母组成的字符串 <code>s</code> ，删除最小数量的无效括号，使得输入的字符串有效。</p>
+<p>Given a string <code>s</code> that contains parentheses and letters, remove the minimum number of invalid parentheses to make the input string valid.</p>
 
-<p>返回所有可能的结果。答案可以按 <strong>任意顺序</strong> 返回。</p>
+<p>Return <em>a list of <strong>unique strings</strong> that are valid with the minimum number of removals</em>. You may return the answer in <strong>any order</strong>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "()())()"
-<strong>输出：</strong>["(())()","()()()"]
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "(a)())()"
-<strong>输出：</strong>["(a())()","(a)()()"]
+<strong>Input:</strong> s = &quot;()())()&quot;
+<strong>Output:</strong> [&quot;(())()&quot;,&quot;()()()&quot;]
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = ")("
-<strong>输出：</strong>[""]
+<strong>Input:</strong> s = &quot;(a)())()&quot;
+<strong>Output:</strong> [&quot;(a())()&quot;,&quot;(a)()()&quot;]
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;)(&quot;
+<strong>Output:</strong> [&quot;&quot;]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= s.length <= 25</code></li>
-	<li><code>s</code> 由小写英文字母以及括号 <code>'('</code> 和 <code>')'</code> 组成</li>
-	<li><code>s</code> 中至多含 <code>20</code> 个括号</li>
+	<li><code>1 &lt;= s.length &lt;= 25</code></li>
+	<li><code>s</code> consists of lowercase English letters and parentheses <code>&#39;(&#39;</code> and <code>&#39;)&#39;</code>.</li>
+	<li>There will be at most <code>20</code> parentheses in <code>s</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS + 剪枝
-
-我们首先处理得到字符串 $s$ 待删除的左、右括号的最小数量，分别记为 $l$ 和 $r$。
-
-然后我们设计一个递归函数 `dfs(i, l, r, lcnt, rcnt, t)`，其中：
-
--   `i` 表示当前处理到字符串 $s$ 的第 $i$ 个字符；
--   `l` 和 `r` 分别表示剩余待删除的左、右括号的数量；
--   `t` 表示当前得到的字符串；
--   `lcnt` 和 `rcnt` 分别表示当前得到的字符串中左、右括号的数量。
-
-递归函数的逻辑如下：
-
--   如果 `i` 等于字符串 $s$ 的长度，且 `l` 和 `r` 都等于 $0$，则将 `t` 加入答案数组中；
--   如果剩余的待处理字符数 $n-i$ 小于剩余待删除的左右括号数量 $l+r$，或者当前得到的字符串中的左括号数量小于右括号数量，直接返回；
--   如果当前字符是左括号，我们可以选择删除或者保留，如果删除，需要满足 $l \gt 0$，然后递归调用 `dfs(i+1, l-1, r, lcnt, rcnt, t)`；
--   如果当前字符是右括号，我们可以选择删除或者保留，如果删除，需要满足 $r \gt 0$，然后递归调用 `dfs(i+1, l, r-1, lcnt, rcnt, t)`；
--   如果选择保留当前字符，我们需要判断当前字符是左括号、右括号还是字母。如果是左括号，我们需要更新 `lcnt`，如果是右括号，我们需要更新 `rcnt`，然后递归调用 `dfs(i+1, l, r, lcnt, rcnt, t+s[i])`。
-
-我们调用 `dfs(0, l, r, 0, 0, "")`，搜索所有可能的字符串。
-
-最后返回去重后的答案数组即可。
-
-时间复杂度 $O(n\times 2^n)$，空间复杂度 $O(n)$。长度为 $n$ 的字符串有 $2^n$ 种可能的删除方式，每种删除方式需要 $O(n)$ 的时间复制字符串。因此总时间复杂度为 $O(n\times 2^n)$。
+### Solution 1
 
 <!-- tabs:start -->
 

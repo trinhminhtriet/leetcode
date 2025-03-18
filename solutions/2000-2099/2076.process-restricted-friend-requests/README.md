@@ -1,73 +1,68 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2076.Process%20Restricted%20Friend%20Requests/README.md
+difficulty: Hard
 rating: 2130
-source: 第 267 场周赛 Q4
+source: Weekly Contest 267 Q4
 tags:
-    - 并查集
-    - 图
+    - Union Find
+    - Graph
 ---
 
 <!-- problem:start -->
 
-# [2076. 处理含限制条件的好友请求](https://leetcode.cn/problems/process-restricted-friend-requests)
+# [2076. Process Restricted Friend Requests](https://leetcode.com/problems/process-restricted-friend-requests)
 
-[English Version](/solution/2000-2099/2076.Process%20Restricted%20Friend%20Requests/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>n</code> ，表示网络上的用户数目。每个用户按从 <code>0</code> 到 <code>n - 1</code> 进行编号。</p>
+<p>You are given an integer <code>n</code> indicating the number of people in a network. Each person is labeled from <code>0</code> to <code>n - 1</code>.</p>
 
-<p>给你一个下标从 <strong>0</strong> 开始的二维整数数组 <code>restrictions</code> ，其中 <code>restrictions[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> 意味着用户 <code>x<sub>i</sub></code> 和用户 <code>y<sub>i</sub></code> <strong>不能</strong> 成为 <strong>朋友</strong> ，不管是 <strong>直接</strong> 还是通过其他用户 <strong>间接</strong> 。</p>
+<p>You are also given a <strong>0-indexed</strong> 2D integer array <code>restrictions</code>, where <code>restrictions[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> means that person <code>x<sub>i</sub></code> and person <code>y<sub>i</sub></code> <strong>cannot </strong>become <strong>friends</strong>,<strong> </strong>either <strong>directly</strong> or <strong>indirectly</strong> through other people.</p>
 
-<p>最初，用户里没有人是其他用户的朋友。给你一个下标从 <strong>0</strong> 开始的二维整数数组 <code>requests</code> 表示好友请求的列表，其中 <code>requests[j] = [u<sub>j</sub>, v<sub>j</sub>]</code> 是用户 <code>u<sub>j</sub></code> 和用户 <code>v<sub>j</sub></code> 之间的一条好友请求。</p>
+<p>Initially, no one is friends with each other. You are given a list of friend requests as a <strong>0-indexed</strong> 2D integer array <code>requests</code>, where <code>requests[j] = [u<sub>j</sub>, v<sub>j</sub>]</code> is a friend request between person <code>u<sub>j</sub></code> and person <code>v<sub>j</sub></code>.</p>
 
-<p>如果 <code>u<sub>j</sub></code> 和 <code>v<sub>j</sub></code> 可以成为 <strong>朋友</strong> ，那么好友请求将会 <strong>成功</strong> 。每个好友请求都会按列表中给出的顺序进行处理（即，<code>requests[j]</code> 会在 <code>requests[j + 1]</code> 前）。一旦请求成功，那么对所有未来的好友请求而言， <code>u<sub>j</sub></code> 和 <code>v<sub>j</sub></code> 将会 <strong>成为直接朋友 。</strong></p>
+<p>A friend request is <strong>successful </strong>if <code>u<sub>j</sub></code> and <code>v<sub>j</sub></code> can be <strong>friends</strong>. Each friend request is processed in the given order (i.e., <code>requests[j]</code> occurs before <code>requests[j + 1]</code>), and upon a successful request, <code>u<sub>j</sub></code> and <code>v<sub>j</sub></code> <strong>become direct friends</strong> for all future friend requests.</p>
 
-<p>返回一个 <strong>布尔数组</strong> <code>result</code> ，其中元素遵循此规则：如果第 <code>j</code> 个好友请求 <strong>成功</strong><em> </em>，那么 <code>result[j]</code><em> </em>就是<em> </em><code>true</code><em> </em>；否则，为<em> </em><code>false</code> 。</p>
+<p>Return <em>a <strong>boolean array</strong> </em><code>result</code>,<em> where each </em><code>result[j]</code><em> is </em><code>true</code><em> if the </em><code>j<sup>th</sup></code><em> friend request is <strong>successful</strong> or </em><code>false</code><em> if it is not</em>.</p>
 
-<p><strong>注意：</strong>如果 <code>u<sub>j</sub></code> 和 <code>v<sub>j</sub></code> 已经是直接朋友，那么他们之间的请求将仍然&nbsp;<strong>成功</strong> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 3, restrictions = [[0,1]], requests = [[0,2],[2,1]]
-<strong>输出：</strong>[true,false]
-<strong>解释：
-</strong>请求 0 ：用户 0 和 用户 2 可以成为朋友，所以他们成为直接朋友。 
-请求 1 ：用户 2 和 用户 1 不能成为朋友，因为这会使 用户 0 和 用户 1 成为间接朋友 (1--2--0) 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 3, restrictions = [[0,1]], requests = [[1,2],[0,2]]
-<strong>输出：</strong>[true,false]
-<strong>解释：</strong>
-请求 0 ：用户 1 和 用户 2 可以成为朋友，所以他们成为直接朋友。 
-请求 1 ：用户 0 和 用户 2 不能成为朋友，因为这会使 用户 0 和 用户 1 成为间接朋友 (0--2--1) 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 5, restrictions = [[0,1],[1,2],[2,3]], requests = [[0,4],[1,2],[3,1],[3,4]]
-<strong>输出：</strong>[true,false,true,false]
-<strong>解释：
-</strong>请求 0 ：用户 0 和 用户 4 可以成为朋友，所以他们成为直接朋友。 
-请求 1 ：用户 1 和 用户 2 不能成为朋友，因为他们之间存在限制。
-请求 2 ：用户 3 和 用户 1 可以成为朋友，所以他们成为直接朋友。 
-请求 3 ：用户 3 和 用户 4 不能成为朋友，因为这会使 用户 0 和 用户 1 成为间接朋友 (0--4--3--1) 。
-</pre>
+<p><strong>Note:</strong> If <code>u<sub>j</sub></code> and <code>v<sub>j</sub></code> are already direct friends, the request is still <strong>successful</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 3, restrictions = [[0,1]], requests = [[0,2],[2,1]]
+<strong>Output:</strong> [true,false]
+<strong>Explanation:
+</strong>Request 0: Person 0 and person 2 can be friends, so they become direct friends. 
+Request 1: Person 2 and person 1 cannot be friends since person 0 and person 1 would be indirect friends (1--2--0).
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 3, restrictions = [[0,1]], requests = [[1,2],[0,2]]
+<strong>Output:</strong> [true,false]
+<strong>Explanation:
+</strong>Request 0: Person 1 and person 2 can be friends, so they become direct friends.
+Request 1: Person 0 and person 2 cannot be friends since person 0 and person 1 would be indirect friends (0--2--1).
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 5, restrictions = [[0,1],[1,2],[2,3]], requests = [[0,4],[1,2],[3,1],[3,4]]
+<strong>Output:</strong> [true,false,true,false]
+<strong>Explanation:
+</strong>Request 0: Person 0 and person 4 can be friends, so they become direct friends.
+Request 1: Person 1 and person 2 cannot be friends since they are directly restricted.
+Request 2: Person 3 and person 1 can be friends, so they become direct friends.
+Request 3: Person 3 and person 4 cannot be friends since person 0 and person 1 would be indirect friends (0--4--3--1).
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 1000</code></li>
@@ -83,17 +78,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：并查集
+### Solution 1: Union-Find
 
-我们可以用并查集来维护朋友关系，然后对于每个请求，判断是否满足限制条件。
+We can use a union-find set to maintain the friend relationships, and then for each request, we determine whether it meets the restriction conditions.
 
-对于当前请求的两个人 $(u, v)$，如果他们已经是朋友，那么可以直接接受请求；否则，我们遍历限制条件，如果存在限制条件 $(x, y)$，使得 $u$ 和 $x$ 互为朋友并且 $v$ 和 $y$ 互为朋友，或者 $u$ 和 $y$ 互为朋友并且 $v$ 和 $x$ 互为朋友，那么就不能接受请求。
+For the two people $(u, v)$ in the current request, if they are already friends, then the request can be directly accepted; otherwise, we traverse the restriction conditions. If there exists a restriction condition $(x, y)$ such that $u$ and $x$ are friends and $v$ and $y$ are friends, or $u$ and $y$ are friends and $v$ and $x$ are friends, then the request cannot be accepted.
 
-时间复杂度 $O(q \times m \times \log(n))$，空间复杂度 $O(n)$。其中 $q$ 和 $m$ 分别是请求的数量和限制条件的数量。
+The time complexity is $O(q \times m \times \log(n))$, and the space complexity is $O(n)$. Where $q$ and $m$ are the number of requests and the number of restriction conditions respectively.
 
 <!-- tabs:start -->
 

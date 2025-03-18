@@ -1,56 +1,51 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3020.Find%20the%20Maximum%20Number%20of%20Elements%20in%20Subset/README.md
+difficulty: Medium
 rating: 1741
-source: 第 382 场周赛 Q2
+source: Weekly Contest 382 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 枚举
+    - Array
+    - Hash Table
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [3020. 子集中元素的最大数量](https://leetcode.cn/problems/find-the-maximum-number-of-elements-in-subset)
+# [3020. Find the Maximum Number of Elements in Subset](https://leetcode.com/problems/find-the-maximum-number-of-elements-in-subset)
 
-[English Version](/solution/3000-3099/3020.Find%20the%20Maximum%20Number%20of%20Elements%20in%20Subset/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个<strong> 正整数 </strong>数组 <code>nums</code> 。</p>
+<p>You are given an array of <strong>positive</strong> integers <code>nums</code>.</p>
 
-<p>你需要从数组中选出一个满足下述条件的<span data-keyword="subset">子集</span>：</p>
+<p>You need to select a <span data-keyword="subset">subset</span> of <code>nums</code> which satisfies the following condition:</p>
 
 <ul>
-	<li>你可以将选中的元素放置在一个下标从 <strong>0</strong> 开始的数组中，并使其遵循以下模式：<code>[x, x<sup>2</sup>, x<sup>4</sup>, ..., x<sup>k/2</sup>, x<sup>k</sup>, x<sup>k/2</sup>, ..., x<sup>4</sup>, x<sup>2</sup>, x]</code>（<strong>注意</strong>，<code>k</code> 可以是任何 <strong>非负</strong> 的 2 的幂）。例如，<code>[2, 4, 16, 4, 2]</code> 和 <code>[3, 9, 3]</code> 都符合这一模式，而 <code>[2, 4, 8, 4, 2]</code> 则不符合。</li>
+	<li>You can place the selected elements in a <strong>0-indexed</strong> array such that it follows the pattern: <code>[x, x<sup>2</sup>, x<sup>4</sup>, ..., x<sup>k/2</sup>, x<sup>k</sup>, x<sup>k/2</sup>, ..., x<sup>4</sup>, x<sup>2</sup>, x]</code> (<strong>Note</strong> that <code>k</code> can be be any <strong>non-negative</strong> power of <code>2</code>). For example, <code>[2, 4, 16, 4, 2]</code> and <code>[3, 9, 3]</code> follow the pattern while <code>[2, 4, 8, 4, 2]</code> does not.</li>
 </ul>
 
-<p>返回满足这些条件的子集中，元素数量的 <strong>最大值 </strong><em>。</em></p>
+<p>Return <em>the <strong>maximum</strong> number of elements in a subset that satisfies these conditions.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [5,4,1,2,2]
-<strong>输出：</strong>3
-<strong>解释：</strong>选择子集 {4,2,2} ，将其放在数组 [2,4,2] 中，它遵循该模式，且 2<sup>2</sup> == 4 。因此答案是 3 。
+<strong>Input:</strong> nums = [5,4,1,2,2]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We can select the subset {4,2,2}, which can be placed in the array as [2,4,2] which follows the pattern and 2<sup>2</sup> == 4. Hence the answer is 3.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,3,2,4]
-<strong>输出：</strong>1
-<strong>解释：</strong>选择子集 {1}，将其放在数组 [1] 中，它遵循该模式。因此答案是 1 。注意我们也可以选择子集 {2} 、{4} 或 {3} ，可能存在多个子集都能得到相同的答案。
+<strong>Input:</strong> nums = [1,3,2,4]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> We can select the subset {1}, which can be placed in the array as [1] which follows the pattern. Hence the answer is 1. Note that we could have also selected the subsets {2}, {3}, or {4}, there may be multiple subsets which provide the same answer. 
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -59,17 +54,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 枚举
+### Solution 1: Hash Table + Enumeration
 
-我们用一个哈希表 $cnt$ 记录数组 $nums$ 中每个元素出现的次数。对于每个元素 $x$，我们可以将其不断平方，直到其值在哈希表 $cnt$ 中的出现次数小于 $2$ 为止。此时，我们判断 $x$ 在哈希表 $cnt$ 中的出现次数是否为 $1$，如果是则说明 $x$ 仍然可以被选入子集中，否则我们需要从子集中删除一个元素，确保子集个数为奇数。然后我们更新答案。继续枚举下一个元素。
+We use a hash table $cnt$ to record the occurrence count of each element in the array $nums$. For each element $x$, we can keep squaring it until its count in the hash table $cnt$ is less than $2$. At this point, we check if the count of $x$ in the hash table $cnt$ is $1$. If it is, it means that $x$ can still be included in the subset. Otherwise, we need to remove an element from the subset to ensure the subset count is odd. Then we update the answer and continue to enumerate the next element.
 
-注意我们需要特殊处理 $x = 1$ 的情况。
+Note that we need to handle the case of $x = 1$ specially.
 
-时间复杂度 $O(n \times \log \log M)$，空间复杂度 $O(n)$。其中 $n$ 和 $M$ 分别是数组 $nums$ 的长度和数组 $nums$ 中的最大值。
+The time complexity is $O(n \times \log \log M)$, and the space complexity is $O(n)$. Here, $n$ and $M$ are the length of the array $nums$ and the maximum value in the array $nums$, respectively.
 
 <!-- tabs:start -->
 

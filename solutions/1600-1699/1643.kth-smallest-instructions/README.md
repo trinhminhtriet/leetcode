@@ -1,104 +1,84 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1643.Kth%20Smallest%20Instructions/README.md
+difficulty: Hard
 rating: 2079
-source: 第 213 场周赛 Q4
+source: Weekly Contest 213 Q4
 tags:
-    - 数组
-    - 数学
-    - 动态规划
-    - 组合数学
+    - Array
+    - Math
+    - Dynamic Programming
+    - Combinatorics
 ---
 
 <!-- problem:start -->
 
-# [1643. 第 K 条最小指令](https://leetcode.cn/problems/kth-smallest-instructions)
+# [1643. Kth Smallest Instructions](https://leetcode.com/problems/kth-smallest-instructions)
 
-[English Version](/solution/1600-1699/1643.Kth%20Smallest%20Instructions/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>Bob 站在单元格 <code>(0, 0)</code> ，想要前往目的地 <code>destination</code> ：<code>(row, column)</code> 。他只能向 <strong>右</strong> 或向 <strong>下</strong> 走。你可以为 Bob 提供导航 <strong>指令</strong> 来帮助他到达目的地 <code>destination</code> 。</p>
+<p>Bob is standing at cell <code>(0, 0)</code>, and he wants to reach <code>destination</code>: <code>(row, column)</code>. He can only travel <strong>right</strong> and <strong>down</strong>. You are going to help Bob by providing <strong>instructions</strong> for him to reach <code>destination</code>.</p>
 
-<p><strong>指令</strong> 用字符串表示，其中每个字符：</p>
-
-<ul>
-	<li><code>'H'</code> ，意味着水平向右移动</li>
-	<li><code>'V'</code> ，意味着竖直向下移动</li>
-</ul>
-
-<p>能够为 Bob 导航到目的地 <code>destination</code> 的指令可以有多种，例如，如果目的地 <code>destination</code> 是 <code>(2, 3)</code>，<code>"HHHVV"</code> 和 <code>"HVHVH"</code> 都是有效<strong> 指令</strong> 。</p>
+<p>The <strong>instructions</strong> are represented as a string, where each character is either:</p>
 
 <ul>
+	<li><code>&#39;H&#39;</code>, meaning move horizontally (go <strong>right</strong>), or</li>
+	<li><code>&#39;V&#39;</code>, meaning move vertically (go <strong>down</strong>).</li>
 </ul>
 
-<p>然而，Bob 很挑剔。因为他的幸运数字是 <code>k</code>，他想要遵循 <strong>按字典序排列后的第 <code>k</code> 条最小指令 </strong>的导航前往目的地 <code>destination</code> 。<code>k</code>  的编号 <strong>从 1 开始</strong> 。</p>
+<p>Multiple <strong>instructions</strong> will lead Bob to <code>destination</code>. For example, if <code>destination</code> is <code>(2, 3)</code>, both <code>&quot;HHHVV&quot;</code> and <code>&quot;HVHVH&quot;</code> are valid <strong>instructions</strong>.</p>
 
-<p>给你一个整数数组 <code>destination</code> 和一个整数 <code>k</code> ，请你返回可以为<em> </em>Bob<em> </em>提供前往目的地 <code>destination</code> 导航的<strong> 按字典序排列后的第 <code>k</code> 条最小指令 </strong>。</p>
+<p>However, Bob is very picky. Bob has a lucky number <code>k</code>, and he wants the <code>k<sup>th</sup></code> <strong>lexicographically smallest instructions</strong> that will lead him to <code>destination</code>. <code>k</code> is <strong>1-indexed</strong>.</p>
 
-<p> </p>
+<p>Given an integer array <code>destination</code> and an integer <code>k</code>, return <em>the </em><code>k<sup>th</sup></code><em> <strong>lexicographically smallest instructions</strong> that will take Bob to </em><code>destination</code>.</p>
 
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1643.Kth%20Smallest%20Instructions/images/ex1.png" style="width: 300px;" /></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1643.Kth%20Smallest%20Instructions/images/ex1.png" style="width: 300px; height: 229px;" /></p>
 
 <pre>
-<strong>输入：</strong>destination = [2,3], k = 1
-<strong>输出：</strong>"HHHVV"
-<strong>解释：</strong>能前往 (2, 3) 的所有导航指令 <strong>按字典序排列后</strong> 如下所示：
-["HHHVV", "HHVHV", "HHVVH", "HVHHV", "HVHVH", "HVVHH", "VHHHV", "VHHVH", "VHVHH", "VVHHH"].
+<strong>Input:</strong> destination = [2,3], k = 1
+<strong>Output:</strong> &quot;HHHVV&quot;
+<strong>Explanation:</strong> All the instructions that reach (2, 3) in lexicographic order are as follows:
+[&quot;HHHVV&quot;, &quot;HHVHV&quot;, &quot;HHVVH&quot;, &quot;HVHHV&quot;, &quot;HVHVH&quot;, &quot;HVVHH&quot;, &quot;VHHHV&quot;, &quot;VHHVH&quot;, &quot;VHVHH&quot;, &quot;VVHHH&quot;].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1643.Kth%20Smallest%20Instructions/images/ex2.png" style="width: 300px; height: 229px;" /></strong></p>
 
 <pre>
-<strong>输入：</strong>destination = [2,3], k = 2
-<strong>输出：</strong>"HHVHV"
+<strong>Input:</strong> destination = [2,3], k = 2
+<strong>Output:</strong> &quot;HHVHV&quot;
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1643.Kth%20Smallest%20Instructions/images/ex3.png" style="width: 300px; height: 229px;" /></strong></p>
 
 <pre>
-<strong>输入：</strong>destination = [2,3], k = 3
-<strong>输出：</strong>"HHVVH"
+<strong>Input:</strong> destination = [2,3], k = 3
+<strong>Output:</strong> &quot;HHVVH&quot;
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>destination.length == 2</code></li>
-	<li><code>1 <= row, column <= 15</code></li>
-	<li><code>1 <= k <= nCr(row + column, row)</code>，其中 <code>nCr(a, b)</code> 表示组合数，即从 <code>a</code> 个物品中选 <code>b</code> 个物品的不同方案数。</li>
+	<li><code>1 &lt;= row, column &lt;= 15</code></li>
+	<li><code>1 &lt;= k &lt;= nCr(row + column, row)</code>, where <code>nCr(a, b)</code> denotes <code>a</code> choose <code>b</code>​​​​​.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：组合计数
-
-根据题目描述我们可以知道，最终的路径是由 $destination[0]$ 个 `'V'` 和 $destination[1]$ 个 `'H'` 组成的，且按字典序排列后的第 $k$ 条最小指令。
-
-我们首先考虑字典序的最高位，即最左边的字符。如果高位字符是 `'V'`，那么所有以 `'H'` 开头的路径的字典序都比它小，而以 `'H'` 开头的路径总数为 $x = C_{v+h-1}^{h-1}$。
-
-如果 $k \lt x$，那么高位字符一定是 `'V'`，我们将 $k$ 减去 $x$，并将 $v$ 减 $1$，然后继续考虑下一位字符；否则，高位字符一定是 `'H'`，我们将 $h$ 减 $1$，然后继续考虑下一位字符。
-
-注意，如果 $h = 0$，那么高位字符一定是 `'V'`，因为剩下的字符都是 `'V'`。
-
-问题可以转换为求解 $C_{n}^{k}$，我们可以通过公式 $C_{n}^{k} = C_{n-1}^{k-1} + C_{n-1}^{k}$ 递推求解。
-
-时间复杂度 $O((h + v) \times h)$，空间复杂度 $O((h + v) \times h)$。其中 $h$ 和 $v$ 分别为 $destination[1]$ 和 $destination[0]$。
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,80 +1,76 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1980.Find%20Unique%20Binary%20String/README.md
+difficulty: Medium
 rating: 1361
-source: 第 255 场周赛 Q2
+source: Weekly Contest 255 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
-    - 回溯
+    - Array
+    - Hash Table
+    - String
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [1980. 找出不同的二进制字符串](https://leetcode.cn/problems/find-unique-binary-string)
+# [1980. Find Unique Binary String](https://leetcode.com/problems/find-unique-binary-string)
 
-[English Version](/solution/1900-1999/1980.Find%20Unique%20Binary%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串数组 <code>nums</code> ，该数组由 <code>n</code> 个 <strong>互不相同</strong> 的二进制字符串组成，且每个字符串长度都是 <code>n</code> 。请你找出并返回一个长度为&nbsp;<code>n</code>&nbsp;且&nbsp;<strong>没有出现</strong> 在 <code>nums</code> 中的二进制字符串<em>。</em>如果存在多种答案，只需返回 <strong>任意一个</strong> 即可。</p>
+<p>Given an array of strings <code>nums</code> containing <code>n</code> <strong>unique</strong> binary strings each of length <code>n</code>, return <em>a binary string of length </em><code>n</code><em> that <strong>does not appear</strong> in </em><code>nums</code><em>. If there are multiple answers, you may return <strong>any</strong> of them</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = ["01","10"]
-<strong>输出：</strong>"11"
-<strong>解释：</strong>"11" 没有出现在 nums 中。"00" 也是正确答案。
+<strong>Input:</strong> nums = [&quot;01&quot;,&quot;10&quot;]
+<strong>Output:</strong> &quot;11&quot;
+<strong>Explanation:</strong> &quot;11&quot; does not appear in nums. &quot;00&quot; would also be correct.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = ["00","01"]
-<strong>输出：</strong>"11"
-<strong>解释：</strong>"11" 没有出现在 nums 中。"10" 也是正确答案。
+<strong>Input:</strong> nums = [&quot;00&quot;,&quot;01&quot;]
+<strong>Output:</strong> &quot;11&quot;
+<strong>Explanation:</strong> &quot;11&quot; does not appear in nums. &quot;10&quot; would also be correct.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = ["111","011","001"]
-<strong>输出：</strong>"101"
-<strong>解释：</strong>"101" 没有出现在 nums 中。"000"、"010"、"100"、"110" 也是正确答案。</pre>
+<strong>Input:</strong> nums = [&quot;111&quot;,&quot;011&quot;,&quot;001&quot;]
+<strong>Output:</strong> &quot;101&quot;
+<strong>Explanation:</strong> &quot;101&quot; does not appear in nums. &quot;000&quot;, &quot;010&quot;, &quot;100&quot;, and &quot;110&quot; would also be correct.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
 	<li><code>1 &lt;= n &lt;= 16</code></li>
 	<li><code>nums[i].length == n</code></li>
-	<li><code>nums[i] </code>为 <code>'0'</code> 或 <code>'1'</code></li>
-	<li><code>nums</code> 中的所有字符串 <strong>互不相同</strong></li>
+	<li><code>nums[i] </code>is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li>All the strings of <code>nums</code> are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数 + 枚举
+### Solution 1: Counting + Enumeration
 
-由于 `'1'` 在长度为 $n$ 的二进制字符串中出现的次数可以为 $0, 1, 2, \cdots, n$（共有 $n + 1$ 种可能），因此我们一定可以找出一个新的二进制字符串，满足 `'1'` 在字符串中出现次数与 `nums` 中每个字符串不同。
+Since the number of occurrences of '1' in a binary string of length $n$ can be $0, 1, 2, \cdots, n$ (there are $n + 1$ possibilities), we can certainly find a new binary string that has a different number of '1's from every string in `nums`.
 
-我们可以用一个整数 $mask$ 记录所有字符串中 `'1'` 出现次数的情况，即 $mask$ 的第 $i$ 位为 $1$ 表示长度为 $n$ 的二进制字符串中 `'1'` 出现次数为 $i$ 的字符串存在，否则不存在。
+We can use an integer $mask$ to record the occurrence of '1' in all strings, i.e., the $i$-th bit of $mask$ is $1$ indicates that there is a string of length $n$ in which '1' appears $i$ times, otherwise it does not exist.
 
-然后我们从 $0$ 开始枚举长度为 $n$ 的二进制字符串中 `'1'` 出现的次数 $i$，如果 $mask$ 的第 $i$ 位为 $0$，则说明长度为 $n$ 的二进制字符串中 `'1'` 出现次数为 $i$ 的字符串不存在，我们可以将这个字符串作为答案返回。
+Then we start to enumerate the number of times '1' appears in a binary string of length $n$ from $0$. If the $i$-th bit of $mask$ is $0$, it means that there is no string of length $n$ in which '1' appears $i$ times. We can return this string as the answer.
 
-时间复杂度 $O(L)$，其中 $L$ 为 `nums` 中字符串的总长度。空间复杂度 $O(1)$。
+The time complexity is $O(L)$, where $L$ is the total length of the strings in `nums`. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -194,7 +190,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 
@@ -234,7 +230,7 @@ function findDifferentBinaryString(nums) {
 
 <!-- solution:start -->
 
-### 方法三
+### Solution 3
 
 <!-- tabs:start -->
 

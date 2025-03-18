@@ -1,133 +1,128 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0071.Simplify%20Path/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 字符串
+    - Stack
+    - String
 ---
 
 <!-- problem:start -->
 
-# [71. 简化路径](https://leetcode.cn/problems/simplify-path)
+# [71. Simplify Path](https://leetcode.com/problems/simplify-path)
 
-[English Version](/solution/0000-0099/0071.Simplify%20Path/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>path</code> ，表示指向某一文件或目录的&nbsp;Unix 风格 <strong>绝对路径 </strong>（以 <code>'/'</code> 开头），请你将其转化为 <strong>更加简洁的规范路径</strong>。</p>
+<p>You are given an <em>absolute</em> path for a Unix-style file system, which always begins with a slash <code>&#39;/&#39;</code>. Your task is to transform this absolute path into its <strong>simplified canonical path</strong>.</p>
 
-<p class="MachineTrans-lang-zh-CN">在 Unix 风格的文件系统中规则如下：</p>
-
-<ul>
-	<li class="MachineTrans-lang-zh-CN">一个点&nbsp;<code>'.'</code>&nbsp;表示当前目录本身。</li>
-	<li class="MachineTrans-lang-zh-CN">此外，两个点 <code>'..'</code>&nbsp;表示将目录切换到上一级（指向父目录）。</li>
-	<li class="MachineTrans-lang-zh-CN">任意多个连续的斜杠（即，<code>'//'</code>&nbsp;或 <code>'///'</code>）都被视为单个斜杠 <code>'/'</code>。</li>
-	<li class="MachineTrans-lang-zh-CN">任何其他格式的点（例如，<code>'...'</code>&nbsp;或 <code>'....'</code>）均被视为有效的文件/目录名称。</li>
-</ul>
-
-<p>返回的 <strong>简化路径</strong> 必须遵循下述格式：</p>
+<p>The <em>rules</em> of a Unix-style file system are as follows:</p>
 
 <ul>
-	<li>始终以斜杠 <code>'/'</code> 开头。</li>
-	<li>两个目录名之间必须只有一个斜杠 <code>'/'</code> 。</li>
-	<li>最后一个目录名（如果存在）<strong>不能 </strong>以 <code>'/'</code> 结尾。</li>
-	<li>此外，路径仅包含从根目录到目标文件或目录的路径上的目录（即，不含 <code>'.'</code> 或 <code>'..'</code>）。</li>
+	<li>A single period <code>&#39;.&#39;</code> represents the current directory.</li>
+	<li>A double period <code>&#39;..&#39;</code> represents the previous/parent directory.</li>
+	<li>Multiple consecutive slashes such as <code>&#39;//&#39;</code> and <code>&#39;///&#39;</code> are treated as a single slash <code>&#39;/&#39;</code>.</li>
+	<li>Any sequence of periods that does <strong>not match</strong> the rules above should be treated as a <strong>valid directory or</strong> <strong>file </strong><strong>name</strong>. For example, <code>&#39;...&#39; </code>and <code>&#39;....&#39;</code> are valid directory or file names.</li>
 </ul>
 
-<p>返回简化后得到的 <strong>规范路径</strong> 。</p>
+<p>The simplified canonical path should follow these <em>rules</em>:</p>
+
+<ul>
+	<li>The path must start with a single slash <code>&#39;/&#39;</code>.</li>
+	<li>Directories within the path must be separated by exactly one slash <code>&#39;/&#39;</code>.</li>
+	<li>The path must not end with a slash <code>&#39;/&#39;</code>, unless it is the root directory.</li>
+	<li>The path must not have any single or double periods (<code>&#39;.&#39;</code> and <code>&#39;..&#39;</code>) used to denote current or parent directories.</li>
+</ul>
+
+<p>Return the <strong>simplified canonical path</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">path = "/home/"</span></p>
+<p><strong>Input:</strong> <span class="example-io">path = &quot;/home/&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>"/home"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;/home&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>应删除尾随斜杠。</p>
+<p>The trailing slash should be removed.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>path = "/home//foo/"</span></p>
+<p><strong>Input:</strong> <span class="example-io">path = &quot;/home//foo/&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>"/home/foo"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;/home/foo&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>多个连续的斜杠被单个斜杠替换。</p>
+<p>Multiple consecutive slashes are replaced by a single one.</p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">path = "/home/user/Documents/../Pictures"</span></p>
+<p><strong>Input:</strong> <span class="example-io">path = &quot;/home/user/Documents/../Pictures&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>"/home/user/Pictures"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;/home/user/Pictures&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>两个点&nbsp;<code>".."</code>&nbsp;表示上一级目录（父目录）。</p>
+<p>A double period <code>&quot;..&quot;</code> refers to the directory up a level (the parent directory).</p>
 </div>
 
-<p><strong class="example">示例 4：</strong></p>
+<p><strong class="example">Example 4:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>path = "/../"</span></p>
+<p><strong>Input:</strong> <span class="example-io">path = &quot;/../&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>"/"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;/&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>不可能从根目录上升一级目录。</p>
+<p>Going one level up from the root directory is not possible.</p>
 </div>
 
-<p><strong class="example">示例 5：</strong></p>
+<p><strong class="example">Example 5:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>path = "/.../a/../b/c/../d/./"</span></p>
+<p><strong>Input:</strong> <span class="example-io">path = &quot;/.../a/../b/c/../d/./&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>"/.../b/d"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;/.../b/d&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p><code>"..."</code>&nbsp;在这个问题中是一个合法的目录名。</p>
+<p><code>&quot;...&quot;</code> is a valid name for a directory in this problem.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= path.length &lt;= 3000</code></li>
-	<li><code>path</code> 由英文字母，数字，<code>'.'</code>，<code>'/'</code> 或 <code>'_'</code> 组成。</li>
-	<li><code>path</code> 是一个有效的 Unix 风格绝对路径。</li>
+	<li><code>path</code> consists of English letters, digits, period <code>&#39;.&#39;</code>, slash <code>&#39;/&#39;</code> or <code>&#39;_&#39;</code>.</li>
+	<li><code>path</code> is a valid absolute Unix path.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：栈
+### Solution 1: Stack
 
-我们先将路径按照 `'/'` 分割成若干个子串，然后遍历每个子串，根据子串的内容进行如下操作：
+We first split the path into a number of substrings split by `'/'`. Then, we traverse each substring and perform the following operations based on the content of the substring:
 
--   若子串为空，或者为 `'.'`，则不做任何操作，因为 `'.'` 表示当前目录；
--   若子串为 `'..'`，则需要将栈顶元素弹出，因为 `'..'` 表示上一级目录；
--   若子串为其他字符串，则将该子串入栈，因为该子串表示当前目录的子目录。
+-   If the substring is empty or `'.'`, no operation is performed because `'.'` represents the current directory.
+-   If the substring is `'..'`, the top element of the stack is popped, because `'..'` represents the parent directory.
+-   If the substring is other strings, the substring is pushed into the stack, because the substring represents the subdirectory of the current directory.
 
-最后，我们将栈中的所有元素按照从栈底到栈顶的顺序拼接成字符串，即为简化后的规范路径。
+Finally, we concatenate all the elements in the stack from the bottom to the top of the stack to form a string, which is the simplified canonical path.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为路径的长度。
+The time complexity is $O(n)$ and the space complexity is $O(n)$, where $n$ is the length of the path.
 
 <!-- tabs:start -->
 
@@ -309,7 +304,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

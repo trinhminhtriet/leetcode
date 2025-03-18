@@ -1,69 +1,57 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0935.Knight%20Dialer/README.md
+difficulty: Medium
 tags:
-    - 动态规划
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [935. 骑士拨号器](https://leetcode.cn/problems/knight-dialer)
+# [935. Knight Dialer](https://leetcode.com/problems/knight-dialer)
 
-[English Version](/solution/0900-0999/0935.Knight%20Dialer/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>象棋骑士有一个<strong>独特的移动方式</strong>，它可以垂直移动两个方格，水平移动一个方格，或者水平移动两个方格，垂直移动一个方格(两者都形成一个&nbsp;<strong>L&nbsp;</strong>的形状)。</p>
+<p>The chess knight has a <strong>unique movement</strong>,&nbsp;it may move two squares vertically and one square horizontally, or two squares horizontally and one square vertically (with both forming the shape of an <strong>L</strong>). The possible movements of chess knight are shown in this diagram:</p>
 
-<p>象棋骑士可能的移动方式如下图所示:</p>
+<p>A chess knight can move as indicated in the chess diagram below:</p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0935.Knight%20Dialer/images/chess.jpg" style="width: 402px; height: 402px;" />
+<p>We have a chess knight and a phone pad as shown below, the knight <strong>can only stand on a numeric cell</strong>&nbsp;(i.e. blue cell).</p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0935.Knight%20Dialer/images/phone.jpg" style="width: 242px; height: 322px;" />
+<p>Given an integer <code>n</code>, return how many distinct phone numbers of length <code>n</code> we can dial.</p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0935.Knight%20Dialer/images/chess.jpg" style="height: 200px; width: 200px;" /></p>
+<p>You are allowed to place the knight <strong>on any numeric cell</strong> initially and then you should perform <code>n - 1</code> jumps to dial a number of length <code>n</code>. All jumps should be <strong>valid</strong> knight jumps.</p>
 
-<p>我们有一个象棋骑士和一个电话垫，如下所示，骑士<strong>只能站在一个数字单元格上</strong>(即蓝色单元格)。</p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0935.Knight%20Dialer/images/phone.jpg" style="height: 200px; width: 150px;" /></p>
-
-<p>给定一个整数 n，返回我们可以拨多少个长度为 n 的不同电话号码。</p>
-
-<p>你可以将骑士放置在<strong>任何数字单元格</strong>上，然后你应该执行 n - 1 次移动来获得长度为 n 的号码。所有的跳跃应该是<strong>有效</strong>的骑士跳跃。</p>
-
-<p>因为答案可能很大，<strong>所以输出答案模&nbsp;</strong><code>10<sup>9</sup>&nbsp;+ 7</code>.</p>
+<p>As the answer may be very large, <strong>return the answer modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<ul>
-</ul>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 1
-<strong>输出：</strong>10
-<strong>解释：</strong>我们需要拨一个长度为1的数字，所以把骑士放在10个单元格中的任何一个数字单元格上都能满足条件。
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> 10
+<strong>Explanation:</strong> We need to dial a number of length 1, so placing the knight over any numeric cell of the 10 cells is sufficient.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 2
-<strong>输出：</strong>20
-<strong>解释：</strong>我们可以拨打的所有有效号码为[04, 06, 16, 18, 27, 29, 34, 38, 40, 43, 49, 60, 61, 67, 72, 76, 81, 83, 92, 94]
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> 20
+<strong>Explanation:</strong> All the valid number we can dial are [04, 06, 16, 18, 27, 29, 34, 38, 40, 43, 49, 60, 61, 67, 72, 76, 81, 83, 92, 94]
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 3131
-<strong>输出：</strong>136006598
-<strong>解释：</strong>注意取模
+<strong>Input:</strong> n = 3131
+<strong>Output:</strong> 136006598
+<strong>Explanation:</strong> Please take care of the mod.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 5000</code></li>
@@ -71,28 +59,28 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递推
+### Solution 1: Recurrence
 
-根据题目描述，我们需要计算出长度为 $n$ 的不同电话号码的数量。其中，每个数字的上一个数字只有固定的几个，我们可以列出每个数字的上一个数字：
+According to the problem description, we need to calculate the number of different phone numbers of length $n$. Each digit can only follow certain fixed digits, which we can list as follows:
 
-| 当前数字 | 上一个数字 |
-| -------- | ---------- |
-| 0        | 4, 6       |
-| 1        | 6, 8       |
-| 2        | 7, 9       |
-| 3        | 4, 8       |
-| 4        | 0, 3, 9    |
-| 5        |            |
-| 6        | 0, 1, 7    |
-| 7        | 2, 6       |
-| 8        | 1, 3       |
-| 9        | 2, 4       |
+| Current Digit | Previous Digits |
+| ------------- | --------------- |
+| 0             | 4, 6            |
+| 1             | 6, 8            |
+| 2             | 7, 9            |
+| 3             | 4, 8            |
+| 4             | 0, 3, 9         |
+| 5             |                 |
+| 6             | 0, 1, 7         |
+| 7             | 2, 6            |
+| 8             | 1, 3            |
+| 9             | 2, 4            |
 
-我们可以通过递推的方式，计算出长度为 $n$ 的不同电话号码的数量。设 $f[i]$ 表示长度为 $i$ 的不同电话号码的数量，初始时 $f[1] = 1$。对于长度为 $i$ 的电话号码，我们可以通过长度为 $i - 1$ 的电话号码计算出来，因此我们可以得到递推关系：
+We can use a recurrence approach to calculate the number of different phone numbers of length $n$. Let $f[i]$ represent the number of different phone numbers of length $i$. Initially, $f[1] = 1$. For phone numbers of length $i$, we can calculate them based on phone numbers of length $i - 1$. Therefore, we can derive the recurrence relations:
 
 $$
 \begin{aligned}
@@ -108,11 +96,11 @@ g[9] & = f[2] + f[4]
 \end{aligned}
 $$
 
-然后，我们将 $f$ 更新为 $g$，继续计算下一个长度的电话号码，直到计算出长度为 $n$ 的电话号码的数量。
+Then, we update $f$ to $g$ and continue calculating the phone numbers of the next length until we calculate the number of phone numbers of length $n$.
 
-最后，我们将 $f$ 中所有元素相加，取模 $10^9 + 7$，即为答案。
+Finally, we sum all the elements in $f$ and take the result modulo $10^9 + 7$ to get the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 为电话号码的长度。空间复杂度 $O(|\Sigma|)$，其中 $\Sigma$ 为数字集合，本题中 $|\Sigma| = 10$。
+The time complexity is $O(n)$, where $n$ is the length of the phone number. The space complexity is $O(|\Sigma|)$, where $\Sigma$ is the set of digits, and in this problem $|\Sigma| = 10$.
 
 <!-- tabs:start -->
 
@@ -277,9 +265,9 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二：矩阵快速幂加速递推
+### Solution 2: Matrix Exponentiation to Accelerate Recurrence
 
-我们假设 $T(n)$ 表示一个 $1 \times 10$ 的矩阵 $\begin{bmatrix} F_0 & F_1 & F_2 \cdots F_9 \end{bmatrix}$，其中 $F_i$ 表示第 $i$ 个电话号码的数量。我们希望根据 $T(n - 1)$ 推出 $T(n)$。也即是说，我们需要一个矩阵 $\textit{base}$，使得 $T(n - 1) \times \textit{base} = T(n)$，即：
+Let's denote $T(n)$ as a $1 \times 10$ matrix $\begin{bmatrix} F_0 & F_1 & F_2 \cdots F_9 \end{bmatrix}$, where $F_i$ represents the number of phone numbers ending with digit $i$. We want to derive $T(n)$ from $T(n - 1)$. In other words, we need a matrix $\textit{base}$ such that $T(n - 1) \times \textit{base} = T(n)$, i.e.:
 
 $$
 \begin{bmatrix}
@@ -287,7 +275,7 @@ F_0 & F_1 & F_2 \cdots F_9
 \end{bmatrix} \times \textit{base} = \begin{bmatrix} F_0' & F_1' & F_2' \cdots F_9' \end{bmatrix}
 $$
 
-由于 $F_i' = \sum_{j} F_j$，其中 $j$ 是 $i$ 的上一个数字，所以矩阵 $\textit{base}$ 的第 $1$ 列为：
+Since $F_i' = \sum_{j} F_j$, where $j$ is the previous digit of $i$, the first column of the matrix $\textit{base}$ is:
 
 $$
 \begin{bmatrix}
@@ -304,7 +292,7 @@ $$
 \end{bmatrix}
 $$
 
-依次类推，我们可以得到矩阵 $\textit{base}$ 如下：
+Similarly, we can derive the entire matrix $\textit{base}$ as follows:
 
 $$
 \begin{bmatrix}
@@ -321,9 +309,9 @@ $$
 \end{bmatrix}
 $$
 
-我们定义初始矩阵 $res = \begin{bmatrix} 1 & 1 & 1 \cdots 1 \end{bmatrix}$，与 $n - 1$ 个 $\textit{base}$ 矩阵相乘，即可得到 $T(n)$。最后，我们将 $T(n)$ 中所有元素相加，取模 $10^9 + 7$，即为答案。求 $\textit{base}^{n - 1}$，可以通过矩阵快速幂的方式，时间复杂度为 $O(\log n)$。
+We define the initial matrix $res = \begin{bmatrix} 1 & 1 & 1 \cdots 1 \end{bmatrix}$, and multiply it by the matrix $\textit{base}$ raised to the power of $n - 1$ to obtain $T(n)$. Finally, we sum all elements in $T(n)$ and take the result modulo $10^9 + 7$ to get the answer. The matrix $\textit{base}^{n - 1}$ can be computed using matrix exponentiation, which has a time complexity of $O(\log n)$.
 
-时间复杂度 $O(\log n)$，空间复杂度 $O(|\Sigma|^2)$，其中 $\Sigma$ 为数字集合，本题中 $|\Sigma| = 10$。
+The time complexity is $O(\log n)$, and the space complexity is $O(|\Sigma|^2)$, where $\Sigma$ is the set of digits, and in this problem $|\Sigma| = 10$.
 
 <!-- tabs:start -->
 
@@ -579,6 +567,71 @@ function pow(a: number[][], n: number): number[][] {
     }
 
     return res;
+}
+```
+
+#### C#
+
+```cs
+public class Solution {
+    private const int mod = 1000000007;
+    private readonly int[][] baseMatrix = {
+        new int[] {0, 0, 0, 0, 1, 0, 1, 0, 0, 0},
+        new int[] {0, 0, 0, 0, 0, 0, 1, 0, 1, 0},
+        new int[] {0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+        new int[] {0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+        new int[] {1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+        new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        new int[] {1, 1, 0, 0, 0, 0, 0, 1, 0, 0},
+        new int[] {0, 0, 1, 0, 0, 0, 1, 0, 0, 0},
+        new int[] {0, 1, 0, 1, 0, 0, 0, 0, 0, 0},
+        new int[] {0, 0, 1, 0, 1, 0, 0, 0, 0, 0}
+    };
+
+    public int KnightDialer(int n) {
+        int[][] res = Pow(baseMatrix, n - 1);
+        int ans = 0;
+        foreach (var x in res[0]) {
+            ans = (ans + x) % mod;
+        }
+        return ans;
+    }
+
+    private int[][] Mul(int[][] a, int[][] b) {
+        int m = a.Length, n = b[0].Length;
+        int[][] c = new int[m][];
+        for (int i = 0; i < m; i++) {
+            c[i] = new int[n];
+        }
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < b.Length; k++) {
+                    c[i][j] = (int)((c[i][j] + (long)a[i][k] * b[k][j]) % mod);
+                }
+            }
+        }
+        return c;
+    }
+
+    private int[][] Pow(int[][] a, int n) {
+        int size = a.Length;
+        int[][] res = new int[1][];
+        res[0] = new int[size];
+        for (int i = 0; i < size; i++) {
+            res[0][i] = 1;
+        }
+
+        while (n > 0) {
+            if (n % 2 == 1) {
+                res = Mul(res, a);
+            }
+            a = Mul(a, a);
+            n /= 2;
+        }
+
+        return res;
+    }
 }
 ```
 

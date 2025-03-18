@@ -1,54 +1,52 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2400.Number%20of%20Ways%20to%20Reach%20a%20Position%20After%20Exactly%20k%20Steps/README.md
+difficulty: Medium
 rating: 1751
-source: 第 309 场周赛 Q2
+source: Weekly Contest 309 Q2
 tags:
-    - 数学
-    - 动态规划
-    - 组合数学
+    - Math
+    - Dynamic Programming
+    - Combinatorics
 ---
 
 <!-- problem:start -->
 
-# [2400. 恰好移动 k 步到达某一位置的方法数目](https://leetcode.cn/problems/number-of-ways-to-reach-a-position-after-exactly-k-steps)
+# [2400. Number of Ways to Reach a Position After Exactly k Steps](https://leetcode.com/problems/number-of-ways-to-reach-a-position-after-exactly-k-steps)
 
-[English Version](/solution/2400-2499/2400.Number%20of%20Ways%20to%20Reach%20a%20Position%20After%20Exactly%20k%20Steps/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个 <strong>正</strong> 整数 <code>startPos</code> 和 <code>endPos</code> 。最初，你站在 <strong>无限</strong> 数轴上位置 <code>startPos</code> 处。在一步移动中，你可以向左或者向右移动一个位置。</p>
+<p>You are given two <strong>positive</strong> integers <code>startPos</code> and <code>endPos</code>. Initially, you are standing at position <code>startPos</code> on an <strong>infinite</strong> number line. With one step, you can move either one position to the left, or one position to the right.</p>
 
-<p>给你一个正整数 <code>k</code> ，返回从 <code>startPos</code> 出发、<strong>恰好</strong> 移动 <code>k</code> 步并到达 <code>endPos</code> 的 <strong>不同</strong> 方法数目。由于答案可能会很大，返回对 <code>10<sup>9</sup> + 7</code> <strong>取余</strong> 的结果。</p>
+<p>Given a positive integer <code>k</code>, return <em>the number of <strong>different</strong> ways to reach the position </em><code>endPos</code><em> starting from </em><code>startPos</code><em>, such that you perform <strong>exactly</strong> </em><code>k</code><em> steps</em>. Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
-<p>如果所执行移动的顺序不完全相同，则认为两种方法不同。</p>
+<p>Two ways are considered different if the order of the steps made is not exactly the same.</p>
 
-<p><strong>注意：</strong>数轴包含负整数<strong>。</strong></p>
+<p><strong>Note</strong> that the number line includes negative integers.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>startPos = 1, endPos = 2, k = 3
-<strong>输出：</strong>3
-<strong>解释：</strong>存在 3 种从 1 到 2 且恰好移动 3 步的方法：
+<pre>
+<strong>Input:</strong> startPos = 1, endPos = 2, k = 3
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We can reach position 2 from 1 in exactly 3 steps in three ways:
 - 1 -&gt; 2 -&gt; 3 -&gt; 2.
 - 1 -&gt; 2 -&gt; 1 -&gt; 2.
 - 1 -&gt; 0 -&gt; 1 -&gt; 2.
-可以证明不存在其他方法，所以返回 3 。</pre>
+It can be proven that no other way is possible, so we return 3.</pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>startPos = 2, endPos = 5, k = 10
-<strong>输出：</strong>0
-<strong>解释：</strong>不存在从 2 到 5 且恰好移动 10 步的方法。</pre>
+<pre>
+<strong>Input:</strong> startPos = 2, endPos = 5, k = 10
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> It is impossible to reach position 5 from position 2 in exactly 10 steps.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= startPos, endPos, k &lt;= 1000</code></li>
@@ -56,26 +54,26 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memorization Search
 
-我们设计一个函数 $dfs(i, j)$，表示当前位置距离目标位置的距离为 $i$，还剩 $j$ 步，有多少种方法到达目标位置。那么答案就是 $dfs(abs(startPos - endPos), k)$。
+We design a function $dfs(i, j)$, which represents the number of ways to reach the target position when the current position is $i$ distance from the target position and there are $j$ steps left. The answer is $dfs(abs(startPos - endPos), k)$.
 
-函数 $dfs(i, j)$ 的计算方式如下：
+The calculation method of the function $dfs(i, j)$ is as follows:
 
--   如果 $i \gt j$ 或者 $j \lt 0$，说明当前位置距离目标位置的距离大于剩余步数，或者剩余步数为负数，此时无法到达目标位置，返回 $0$；
--   如果 $j = 0$，说明剩余步数为 $0$，此时只有当前位置距离目标位置的距离为 $0$ 时才能到达目标位置，否则无法到达目标位置，返回 $1$ 或者 $0$；
--   否则，当前位置距离目标位置的距离为 $i$，还剩 $j$ 步，那么有两种方法到达目标位置：
-    -   向左移动一步，此时当前位置距离目标位置的距离为 $i + 1$，还剩 $j - 1$ 步，方法数为 $dfs(i + 1, j - 1)$；
-    -   向右移动一步，此时当前位置距离目标位置的距离为 $abs(i - 1)$，还剩 $j - 1$ 步，方法数为 $dfs(abs(i - 1), j - 1)$；
--   最后，返回两种方法的和对 $10^9 + 7$ 取余的结果。
+-   If $i \gt j$ or $j \lt 0$, it means that the current distance from the target position is greater than the remaining steps, or the remaining steps are negative. In this case, it is impossible to reach the target position, so return $0$;
+-   If $j = 0$, it means that there are no steps left. At this time, only when the current distance from the target position is $0$ can the target position be reached, otherwise it is impossible to reach the target position. Return $1$ or $0$;
+-   Otherwise, the current distance from the target position is $i$, and there are $j$ steps left. There are two ways to reach the target position:
+    -   Move one step to the left, the current distance from the target position is $i + 1$, and there are $j - 1$ steps left. The number of methods is $dfs(i + 1, j - 1)$;
+    -   Move one step to the right, the current distance from the target position is $abs(i - 1)$, and there are $j - 1$ steps left. The number of methods is $dfs(abs(i - 1), j - 1)$;
+-   Finally, return the result of the sum of the two methods modulo $10^9 + 7$.
 
-为了避免重复计算，我们使用记忆化搜索，即使用一个二维数组 $f$ 记录函数 $dfs(i, j)$ 的结果，当函数 $dfs(i, j)$ 被调用时，如果 $f[i][j]$ 不为 $-1$，则直接返回 $f[i][j]$，否则计算 $f[i][j]$ 的值，并返回 $f[i][j]$。
+To avoid repeated calculations, we use memorization search, that is, we use a two-dimensional array $f$ to record the result of the function $dfs(i, j)$. When the function $dfs(i, j)$ is called, if $f[i][j]$ is not $-1$, return $f[i][j]$ directly, otherwise calculate the value of $f[i][j]$, and return $f[i][j]$.
 
-时间复杂度 $O(k^2)$，空间复杂度 $O(k^2)$。其中 $k$ 为题目给定的步数。
+The time complexity is $O(k^2)$, and the space complexity is $O(k^2)$. Here, $k$ is the number of steps given in the problem.
 
 <!-- tabs:start -->
 

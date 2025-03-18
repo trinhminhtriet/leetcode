@@ -1,47 +1,44 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1175.Prime%20Arrangements/README.md
+difficulty: Easy
 rating: 1489
-source: 第 152 场周赛 Q1
+source: Weekly Contest 152 Q1
 tags:
-    - 数学
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [1175. 质数排列](https://leetcode.cn/problems/prime-arrangements)
+# [1175. Prime Arrangements](https://leetcode.com/problems/prime-arrangements)
 
-[English Version](/solution/1100-1199/1175.Prime%20Arrangements/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你帮忙给从 <code>1</code> 到 <code>n</code>&nbsp;的数设计排列方案，使得所有的「质数」都应该被放在「质数索引」（索引从 1 开始）上；你需要返回可能的方案总数。</p>
+<p>Return the number of permutations of 1 to <code>n</code> so that prime numbers are at prime indices (1-indexed.)</p>
 
-<p>让我们一起来回顾一下「质数」：质数一定是大于 1 的，并且不能用两个小于它的正整数的乘积来表示。</p>
+<p><em>(Recall that an integer&nbsp;is prime if and only if it is greater than 1, and cannot be written as a product of two positive integers&nbsp;both smaller than it.)</em></p>
 
-<p>由于答案可能会很大，所以请你返回答案 <strong>模 mod&nbsp;<code>10^9 + 7</code></strong>&nbsp;之后的结果即可。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>n = 5
-<strong>输出：</strong>12
-<strong>解释：</strong>举个例子，[1,2,5,4,3] 是一个有效的排列，但 [5,2,3,4,1] 不是，因为在第二种情况里质数 5 被错误地放在索引为 1 的位置上。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>n = 100
-<strong>输出：</strong>682289015
-</pre>
+<p>Since the answer may be large, return the answer <strong>modulo <code>10^9 + 7</code></strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 5
+<strong>Output:</strong> 12
+<strong>Explanation:</strong> For example [1,2,5,4,3] is a valid permutation, but [5,2,3,4,1] is not because the prime number 5 is at index 1.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 100
+<strong>Output:</strong> 682289015
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
@@ -49,23 +46,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
+### Solution 1: Mathematics
 
-先统计 $[1,n]$ 范围内的质数个数，我们记为 $cnt$。然后求 $cnt$ 以及 $n-cnt$ 阶乘的乘积得到答案，注意取模操作。
+First, count the number of prime numbers within the range $[1,n]$, which we denote as $cnt$. Then, calculate the product of the factorial of $cnt$ and $n-cnt$ to get the answer, remember to perform the modulo operation.
 
-这里我们用“埃氏筛”统计质数。
+Here, we use the "Sieve of Eratosthenes" to count prime numbers.
 
-如果 $x$ 是质数，那么大于 $x$ 的 $x$ 的倍数 $2x$,$3x$,… 一定不是质数，因此我们可以从这里入手。
+If $x$ is a prime number, then multiples of $x$ greater than $x$, such as $2x$, $3x$, ... are definitely not prime numbers, so we can start from here.
 
-设 $primes[i]$ 表示数 $i$ 是不是质数，如果是质数则为 $true$，否则为 $false$。
+Let $primes[i]$ indicate whether the number $i$ is a prime number. If it is a prime number, it is $true$, otherwise it is $false$.
 
-我们在 $[2,n]$ 范围内顺序遍历每个数 $i$，如果这个数为质数，质数个数增 $1$，然后将其所有的倍数 $j$ 都标记为合数（除了该质数本身），即 $primes[j]=false$，这样在运行结束的时候我们即能知道质数的个数。
+We sequentially traverse each number $i$ in the range $[2,n]$. If this number is a prime number, the number of prime numbers increases by $1$, and then all its multiples $j$ are marked as composite numbers (except for the prime number itself), that is, $primes[j]=false$. In this way, at the end of the run, we can know the number of prime numbers.
 
-时间复杂度 $O(n \times \log \log n)$。
+The time complexity is $O(n \times \log \log n)$.
 
 <!-- tabs:start -->
 

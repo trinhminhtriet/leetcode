@@ -1,71 +1,67 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1152.Analyze%20User%20Website%20Visit%20Pattern/README.md
+difficulty: Medium
 rating: 1850
-source: 第 6 场双周赛 Q3
+source: Biweekly Contest 6 Q3
 tags:
-    - 数组
-    - 哈希表
-    - 排序
+    - Array
+    - Hash Table
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1152. 用户网站访问行为分析 🔒](https://leetcode.cn/problems/analyze-user-website-visit-pattern)
+# [1152. Analyze User Website Visit Pattern 🔒](https://leetcode.com/problems/analyze-user-website-visit-pattern)
 
-[English Version](/solution/1100-1199/1152.Analyze%20User%20Website%20Visit%20Pattern/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个字符串数组&nbsp;<code>username</code>&nbsp;和&nbsp;<code>website</code>&nbsp;和一个整数数组&nbsp;<code>timestamp</code>&nbsp;。给定的数组长度相同，其中元组&nbsp;<code>[username[i], website[i], timestamp[i]]</code>&nbsp;表示用户&nbsp;<code>username[i]</code>&nbsp;在时间&nbsp;<code>timestamp[i]</code>&nbsp;访问了网站&nbsp;<code>website[i]</code>&nbsp;。</p>
+<p>You are given two string arrays <code>username</code> and <code>website</code> and an integer array <code>timestamp</code>. All the given arrays are of the same length and the tuple <code>[username[i], website[i], timestamp[i]]</code> indicates that the user <code>username[i]</code> visited the website <code>website[i]</code> at time <code>timestamp[i]</code>.</p>
 
-<p><strong>访问模式</strong> 是包含三个网站的列表(不一定是完全不同的)。</p>
-
-<ul>
-	<li>例如，<code>["home"， "away"， "love"]</code>， <code>["leetcode"， "love"， "leetcode"]</code>，和 <code>["luffy"， "luffy"， "luffy"]</code> 都是模式。</li>
-</ul>
-
-<p>一种&nbsp;<strong>访问</strong><strong>模式</strong> 的 <strong>得分</strong> 是访问该模式中所有网站的用户数量，这些网站在该模式中出现的顺序相同。</p>
+<p>A <strong>pattern</strong> is a list of three websites (not necessarily distinct).</p>
 
 <ul>
-	<li>例如，如果模式是 <code>[“home”，“away”，“love”] </code>，那么分数就是用户数量 <code>x</code> , <code>x</code> 访问了 “<code>home”</code> ，然后访问了 <code>“away”</code> ，然后访问了 <code>“love” </code>。</li>
-	<li>同样，如果模式是 <code>["leetcode"， "love"， "leetcode"]</code> ，那么分数就是用户数量&nbsp;<code>x</code>&nbsp;，使得 <code>x</code> 访问了<code>"leetcode"</code>，然后访问了 <code>"love"</code> ，之后又访问了 <code>"leetcode"</code> 。</li>
-	<li>另外，如果模式是 <code>[“luffy”，“luffy”，“luffy”]</code>&nbsp;，那么分数就是用户数量 <code>x</code> ，这样 <code>x</code> 就可以在不同的时间戳上访问 <code>“luffy”</code> 三次。</li>
+	<li>For example, <code>[&quot;home&quot;, &quot;away&quot;, &quot;love&quot;]</code>, <code>[&quot;leetcode&quot;, &quot;love&quot;, &quot;leetcode&quot;]</code>, and <code>[&quot;luffy&quot;, &quot;luffy&quot;, &quot;luffy&quot;]</code> are all patterns.</li>
 </ul>
 
-<p>返回<em> <strong>得分</strong> 最大的 <strong>访问</strong><strong>模式</strong></em> 。如果有多个访问模式具有相同的最大分数，则返回字典序最小的。</p>
+<p>The <strong>score</strong> of a <strong>pattern</strong> is the number of users that visited all the websites in the pattern in the same order they appeared in the pattern.</p>
 
-<p>请注意，模式中的网站不需要连续访问，只需按照模式中出现的顺序访问即可。</p>
+<ul>
+	<li>For example, if the pattern is <code>[&quot;home&quot;, &quot;away&quot;, &quot;love&quot;]</code>, the score is the number of users <code>x</code> such that <code>x</code> visited <code>&quot;home&quot;</code> then visited <code>&quot;away&quot;</code> and visited <code>&quot;love&quot;</code> after that.</li>
+	<li>Similarly, if the pattern is <code>[&quot;leetcode&quot;, &quot;love&quot;, &quot;leetcode&quot;]</code>, the score is the number of users <code>x</code> such that <code>x</code> visited <code>&quot;leetcode&quot;</code> then visited <code>&quot;love&quot;</code> and visited <code>&quot;leetcode&quot;</code> <strong>one more time</strong> after that.</li>
+	<li>Also, if the pattern is <code>[&quot;luffy&quot;, &quot;luffy&quot;, &quot;luffy&quot;]</code>, the score is the number of users <code>x</code> such that <code>x</code> visited <code>&quot;luffy&quot;</code> three different times at different timestamps.</li>
+</ul>
+
+<p>Return the <strong>pattern</strong> with the largest <strong>score</strong>. If there is more than one pattern with the same largest score, return the lexicographically smallest such pattern.</p>
+
+<p>Note that the websites in a pattern <strong>do not</strong> need to be visited <em>contiguously</em>, they only need to be visited in the order they appeared in the pattern.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>username = ["joe","joe","joe","james","james","james","james","mary","mary","mary"], timestamp = [1,2,3,4,5,6,7,8,9,10], website = ["home","about","career","home","cart","maps","home","home","about","career"]
-<strong>输出：</strong>["home","about","career"]
-<strong>解释：</strong>本例中的元组是:
-["joe","home",1],["joe","about",2],["joe","career",3],["james","home",4],["james","cart",5],["james","maps",6],["james","home",7],["mary","home",8],["mary","about",9] 和 ["mary","career",10]。
-模式 ("home", "about", "career") 的得分为 2（joe 和 mary）。
-模式 ("home", "cart", "maps") 的得分为 1 (james).
-模式 ("home", "cart", "home") 的得分为 1 (james).
-模式 ("home", "maps", "home") 的得分为 1 (james).
-模式 ("cart", "maps", "home") 的得分为 1 (james).
-模式 ("home", "home", "home") 的得分为 0(没有用户访问过 home 3次)。</pre>
-
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> username = ["ua","ua","ua","ub","ub","ub"], timestamp = [1,2,3,4,5,6], website = ["a","b","a","a","b","c"]
-<strong>输出:</strong> ["a","b","a"]
+<strong>Input:</strong> username = [&quot;joe&quot;,&quot;joe&quot;,&quot;joe&quot;,&quot;james&quot;,&quot;james&quot;,&quot;james&quot;,&quot;james&quot;,&quot;mary&quot;,&quot;mary&quot;,&quot;mary&quot;], timestamp = [1,2,3,4,5,6,7,8,9,10], website = [&quot;home&quot;,&quot;about&quot;,&quot;career&quot;,&quot;home&quot;,&quot;cart&quot;,&quot;maps&quot;,&quot;home&quot;,&quot;home&quot;,&quot;about&quot;,&quot;career&quot;]
+<strong>Output:</strong> [&quot;home&quot;,&quot;about&quot;,&quot;career&quot;]
+<strong>Explanation:</strong> The tuples in this example are:
+[&quot;joe&quot;,&quot;home&quot;,1],[&quot;joe&quot;,&quot;about&quot;,2],[&quot;joe&quot;,&quot;career&quot;,3],[&quot;james&quot;,&quot;home&quot;,4],[&quot;james&quot;,&quot;cart&quot;,5],[&quot;james&quot;,&quot;maps&quot;,6],[&quot;james&quot;,&quot;home&quot;,7],[&quot;mary&quot;,&quot;home&quot;,8],[&quot;mary&quot;,&quot;about&quot;,9], and [&quot;mary&quot;,&quot;career&quot;,10].
+The pattern (&quot;home&quot;, &quot;about&quot;, &quot;career&quot;) has score 2 (joe and mary).
+The pattern (&quot;home&quot;, &quot;cart&quot;, &quot;maps&quot;) has score 1 (james).
+The pattern (&quot;home&quot;, &quot;cart&quot;, &quot;home&quot;) has score 1 (james).
+The pattern (&quot;home&quot;, &quot;maps&quot;, &quot;home&quot;) has score 1 (james).
+The pattern (&quot;cart&quot;, &quot;maps&quot;, &quot;home&quot;) has score 1 (james).
+The pattern (&quot;home&quot;, &quot;home&quot;, &quot;home&quot;) has score 0 (no user visited home 3 times).
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> username = [&quot;ua&quot;,&quot;ua&quot;,&quot;ua&quot;,&quot;ub&quot;,&quot;ub&quot;,&quot;ub&quot;], timestamp = [1,2,3,4,5,6], website = [&quot;a&quot;,&quot;b&quot;,&quot;a&quot;,&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]
+<strong>Output:</strong> [&quot;a&quot;,&quot;b&quot;,&quot;a&quot;]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= username.length &lt;= 50</code></li>
@@ -74,22 +70,22 @@ tags:
 	<li><code>1 &lt;= timestamp[i] &lt;= 10<sup>9</sup></code></li>
 	<li><code>website.length == username.length</code></li>
 	<li><code>1 &lt;= website[i].length &lt;= 10</code></li>
-	<li><code>username[i]</code> 和&nbsp;<code>website[i]</code>&nbsp;都只含小写字符</li>
-	<li>它保证至少有一个用户访问了至少三个网站</li>
-	<li>所有元组&nbsp;<code>[username[i]， timestamp[i]， website[i]</code>&nbsp;均<strong>&nbsp;不重复</strong></li>
+	<li><code>username[i]</code> and <code>website[i]</code> consist of lowercase English letters.</li>
+	<li>It is guaranteed that there is at least one user who visited at least three websites.</li>
+	<li>All the tuples <code>[username[i], timestamp[i], website[i]]</code> are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 排序
+### Solution 1: Hash Table + Sorting
 
-我们先用哈希表 $d$ 记录每个用户访问的网站，然后遍历 $d$，对于每个用户，我们枚举其访问的所有三元组，统计去重三元组的出现次数，最后遍历所有三元组，返回出现次数最多的、字典序最小的三元组。
+First, we use a hash table $d$ to record the websites each user visits. Then we traverse $d$. For each user, we enumerate all the triplets they visited, count the occurrence of distinct triplets, and finally traverse all triplets, returning the one with the highest occurrence and the smallest lexicographic order.
 
-时间复杂度 $O(n^3)$，空间复杂度 $O(n^3)$。其中 $n$ 是 `username` 的长度。
+The time complexity is $O(n^3)$, and the space complexity is $O(n^3)$. Here, $n$ is the length of `username`.
 
 <!-- tabs:start -->
 

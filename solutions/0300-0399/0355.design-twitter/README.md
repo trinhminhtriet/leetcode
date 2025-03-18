@@ -1,76 +1,72 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0355.Design%20Twitter/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 哈希表
-    - 链表
-    - 堆（优先队列）
+    - Design
+    - Hash Table
+    - Linked List
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [355. 设计推特](https://leetcode.cn/problems/design-twitter)
+# [355. Design Twitter](https://leetcode.com/problems/design-twitter)
 
-[English Version](/solution/0300-0399/0355.Design%20Twitter/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>设计一个简化版的推特(Twitter)，可以让用户实现发送推文，关注/取消关注其他用户，能够看见关注人（包括自己）的最近 <code>10</code> 条推文。</p>
+<p>Design a simplified version of Twitter where users can post tweets, follow/unfollow another user, and is able to see the <code>10</code> most recent tweets in the user&#39;s news feed.</p>
 
-<p>实现 <code>Twitter</code> 类：</p>
+<p>Implement the <code>Twitter</code> class:</p>
 
 <ul>
-	<li><code>Twitter()</code> 初始化简易版推特对象</li>
-	<li><code>void postTweet(int userId, int tweetId)</code> 根据给定的 <code>tweetId</code> 和 <code>userId</code> 创建一条新推文。每次调用此函数都会使用一个不同的 <code>tweetId</code> 。</li>
-	<li><code>List&lt;Integer&gt; getNewsFeed(int userId)</code> 检索当前用户新闻推送中最近&nbsp; <code>10</code> 条推文的 ID 。新闻推送中的每一项都必须是由用户关注的人或者是用户自己发布的推文。推文必须 <strong>按照时间顺序由最近到最远排序</strong> 。</li>
-	<li><code>void follow(int followerId, int followeeId)</code> ID 为 <code>followerId</code> 的用户开始关注 ID 为 <code>followeeId</code> 的用户。</li>
-	<li><code>void unfollow(int followerId, int followeeId)</code> ID 为 <code>followerId</code> 的用户不再关注 ID 为 <code>followeeId</code> 的用户。</li>
+	<li><code>Twitter()</code> Initializes your twitter object.</li>
+	<li><code>void postTweet(int userId, int tweetId)</code> Composes a new tweet with ID <code>tweetId</code> by the user <code>userId</code>. Each call to this function will be made with a unique <code>tweetId</code>.</li>
+	<li><code>List&lt;Integer&gt; getNewsFeed(int userId)</code> Retrieves the <code>10</code> most recent tweet IDs in the user&#39;s news feed. Each item in the news feed must be posted by users who the user followed or by the user themself. Tweets must be <strong>ordered from most recent to least recent</strong>.</li>
+	<li><code>void follow(int followerId, int followeeId)</code> The user with ID <code>followerId</code> started following the user with ID <code>followeeId</code>.</li>
+	<li><code>void unfollow(int followerId, int followeeId)</code> The user with ID <code>followerId</code> started unfollowing the user with ID <code>followeeId</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["Twitter", "postTweet", "getNewsFeed", "follow", "postTweet", "getNewsFeed", "unfollow", "getNewsFeed"]
+<strong>Input</strong>
+[&quot;Twitter&quot;, &quot;postTweet&quot;, &quot;getNewsFeed&quot;, &quot;follow&quot;, &quot;postTweet&quot;, &quot;getNewsFeed&quot;, &quot;unfollow&quot;, &quot;getNewsFeed&quot;]
 [[], [1, 5], [1], [1, 2], [2, 6], [1], [1, 2], [1]]
-<strong>输出</strong>
+<strong>Output</strong>
 [null, null, [5], null, null, [6, 5], null, [5]]
 
-<strong>解释</strong>
+<strong>Explanation</strong>
 Twitter twitter = new Twitter();
-twitter.postTweet(1, 5); // 用户 1 发送了一条新推文 (用户 id = 1, 推文 id = 5)
-twitter.getNewsFeed(1);  // 用户 1 的获取推文应当返回一个列表，其中包含一个 id 为 5 的推文
-twitter.follow(1, 2);    // 用户 1 关注了用户 2
-twitter.postTweet(2, 6); // 用户 2 发送了一个新推文 (推文 id = 6)
-twitter.getNewsFeed(1);  // 用户 1 的获取推文应当返回一个列表，其中包含两个推文，id 分别为 -&gt; [6, 5] 。推文 id 6 应当在推文 id 5 之前，因为它是在 5 之后发送的
-twitter.unfollow(1, 2);  // 用户 1 取消关注了用户 2
-twitter.getNewsFeed(1);  // 用户 1 获取推文应当返回一个列表，其中包含一个 id 为 5 的推文。因为用户 1 已经不再关注用户 2</pre>
+twitter.postTweet(1, 5); // User 1 posts a new tweet (id = 5).
+twitter.getNewsFeed(1);  // User 1&#39;s news feed should return a list with 1 tweet id -&gt; [5]. return [5]
+twitter.follow(1, 2);    // User 1 follows user 2.
+twitter.postTweet(2, 6); // User 2 posts a new tweet (id = 6).
+twitter.getNewsFeed(1);  // User 1&#39;s news feed should return a list with 2 tweet ids -&gt; [6, 5]. Tweet id 6 should precede tweet id 5 because it is posted after tweet id 5.
+twitter.unfollow(1, 2);  // User 1 unfollows user 2.
+twitter.getNewsFeed(1);  // User 1&#39;s news feed should return a list with 1 tweet id -&gt; [5], since user 1 is no longer following user 2.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= userId, followerId, followeeId &lt;= 500</code></li>
 	<li><code>0 &lt;= tweetId &lt;= 10<sup>4</sup></code></li>
-	<li>所有推特的 ID 都互不相同</li>
-	<li><code>postTweet</code>、<code>getNewsFeed</code>、<code>follow</code> 和 <code>unfollow</code> 方法最多调用 <code>3 * 10<sup>4</sup></code> 次</li>
-	<li>用户不能关注自己</li>
+	<li>All the tweets have <strong>unique</strong> IDs.</li>
+	<li>At most <code>3 * 10<sup>4</sup></code> calls will be made to <code>postTweet</code>, <code>getNewsFeed</code>, <code>follow</code>, and <code>unfollow</code>.</li>
+	<li>A user cannot follow himself.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

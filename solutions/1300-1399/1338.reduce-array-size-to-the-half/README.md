@@ -1,72 +1,67 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1338.Reduce%20Array%20Size%20to%20The%20Half/README.md
+difficulty: Medium
 rating: 1303
-source: 第 174 场周赛 Q2
+source: Weekly Contest 174 Q2
 tags:
-    - 贪心
-    - 数组
-    - 哈希表
-    - 排序
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Hash Table
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1338. 数组大小减半](https://leetcode.cn/problems/reduce-array-size-to-the-half)
+# [1338. Reduce Array Size to The Half](https://leetcode.com/problems/reduce-array-size-to-the-half)
 
-[English Version](/solution/1300-1399/1338.Reduce%20Array%20Size%20to%20The%20Half/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>arr</code>。你可以从中选出一个整数集合，并删除这些整数在数组中的每次出现。</p>
+<p>You are given an integer array <code>arr</code>. You can choose a set of integers and remove all the occurrences of these integers in the array.</p>
 
-<p>返回&nbsp;<strong>至少</strong>&nbsp;能删除数组中的一半整数的整数集合的最小大小。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [3,3,3,3,5,5,5,2,2,7]
-<strong>输出：</strong>2
-<strong>解释：</strong>选择 {3,7} 使得结果数组为 [5,5,5,2,2]、长度为 5（原数组长度的一半）。
-大小为 2 的可行集合有 {3,5},{3,2},{5,2}。
-选择 {2,7} 是不可行的，它的结果数组为 [3,3,3,3,5,5,5]，新数组长度大于原数组的二分之一。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [7,7,7,7,7,7]
-<strong>输出：</strong>1
-<strong>解释：</strong>我们只能选择集合 {7}，结果数组为空。
-</pre>
+<p>Return <em>the minimum size of the set so that <strong>at least</strong> half of the integers of the array are removed</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> arr = [3,3,3,3,5,5,5,2,2,7]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> Choosing {3,7} will make the new array [5,5,5,2,2] which has size 5 (i.e equal to half of the size of the old array).
+Possible sets of size 2 are {3,5},{3,2},{5,2}.
+Choosing set {2,7} is not possible as it will make the new array [3,3,3,3,5,5,5] which has a size greater than half of the size of the old array.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [7,7,7,7,7,7]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The only possible set you can choose is {7}. This will make the new array empty.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= arr.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>arr.length</code>&nbsp;为偶数</li>
+	<li><code>2 &lt;= arr.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>arr.length</code> is even.</li>
 	<li><code>1 &lt;= arr[i] &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数 + 排序
+### Solution 1: Counting + Sorting
 
-我们可以用哈希表或数组 $cnt$ 统计数组 $\textit{arr}$ 中每个数字出现的次数，然后将 $cnt$ 中的数字从大到小排序，从大到小遍历 $\textit{cnt}$，每次遍历将当前数字 $x$ 加入答案，并将 $m$ 加上 $x$，如果 $m \geq \frac{n}{2}$，则返回答案。
+We can use a hash table or an array $\textit{cnt}$ to count the occurrences of each number in the array $\textit{arr}$. Then, we sort the numbers in $\textit{cnt}$ in descending order. We traverse $\textit{cnt}$ from largest to smallest, adding the current number $x$ to the answer and adding $x$ to $m$. If $m \geq \frac{n}{2}$, we return the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{arr}$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{arr}$.
 
 <!-- tabs:start -->
 

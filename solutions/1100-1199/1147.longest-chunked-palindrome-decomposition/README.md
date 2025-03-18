@@ -1,93 +1,88 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1147.Longest%20Chunked%20Palindrome%20Decomposition/README.md
+difficulty: Hard
 rating: 1912
-source: 第 148 场周赛 Q4
+source: Weekly Contest 148 Q4
 tags:
-    - 贪心
-    - 双指针
-    - 字符串
-    - 动态规划
-    - 哈希函数
-    - 滚动哈希
+    - Greedy
+    - Two Pointers
+    - String
+    - Dynamic Programming
+    - Hash Function
+    - Rolling Hash
 ---
 
 <!-- problem:start -->
 
-# [1147. 段式回文](https://leetcode.cn/problems/longest-chunked-palindrome-decomposition)
+# [1147. Longest Chunked Palindrome Decomposition](https://leetcode.com/problems/longest-chunked-palindrome-decomposition)
 
-[English Version](/solution/1100-1199/1147.Longest%20Chunked%20Palindrome%20Decomposition/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你会得到一个字符串&nbsp;<code>text</code>&nbsp;。你应该把它分成 <code>k</code>&nbsp;个子字符串&nbsp;<code>(subtext1, subtext2，…， subtextk)</code>&nbsp;，要求满足:</p>
+<p>You are given a string <code>text</code>. You should split it to k substrings <code>(subtext<sub>1</sub>, subtext<sub>2</sub>, ..., subtext<sub>k</sub>)</code> such that:</p>
 
 <ul>
-	<li><code>subtext<sub>i</sub></code><sub>&nbsp;</sub>是 <strong>非空&nbsp;</strong>字符串</li>
-	<li>所有子字符串的连接等于 <code>text</code> ( 即<code>subtext<sub>1</sub>&nbsp;+ subtext<sub>2</sub>&nbsp;+ ... + subtext<sub>k</sub>&nbsp;== text</code>&nbsp;)</li>
-	<li>对于所有 <font color="#c7254e"><font face="Menlo, Monaco, Consolas, Courier New, monospace"><span style="font-size:12.6px"><span style="background-color:#f9f2f4">i</span></span></font></font>&nbsp;的有效值( 即&nbsp;<code>1 &lt;= i&nbsp;&lt;= k</code> ) ，<code>subtext<sub>i</sub>&nbsp;== subtext<sub>k - i + 1</sub></code> 均成立</li>
+	<li><code>subtext<sub>i</sub></code> is a <strong>non-empty</strong> string.</li>
+	<li>The concatenation of all the substrings is equal to <code>text</code> (i.e., <code>subtext<sub>1</sub> + subtext<sub>2</sub> + ... + subtext<sub>k</sub> == text</code>).</li>
+	<li><code>subtext<sub>i</sub> == subtext<sub>k - i + 1</sub></code> for all valid values of <code>i</code> (i.e., <code>1 &lt;= i &lt;= k</code>).</li>
 </ul>
 
-<p>返回<code>k</code>可能最大值。</p>
+<p>Return the largest possible value of <code>k</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>text = "ghiabcdefhelloadamhelloabcdefghi"
-<strong>输出：</strong>7
-<strong>解释：</strong>我们可以把字符串拆分成 "(ghi)(abcdef)(hello)(adam)(hello)(abcdef)(ghi)"。
+<strong>Input:</strong> text = &quot;ghiabcdefhelloadamhelloabcdefghi&quot;
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> We can split the string on &quot;(ghi)(abcdef)(hello)(adam)(hello)(abcdef)(ghi)&quot;.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>text = "merchant"
-<strong>输出：</strong>1
-<strong>解释：</strong>我们可以把字符串拆分成 "(merchant)"。
+<strong>Input:</strong> text = &quot;merchant&quot;
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> We can split the string on &quot;(merchant)&quot;.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>text = "antaprezatepzapreanta"
-<strong>输出：</strong>11
-<strong>解释：</strong>我们可以把字符串拆分成 "(a)(nt)(a)(pre)(za)(tep)(za)(pre)(a)(nt)(a)"。
+<strong>Input:</strong> text = &quot;antaprezatepzapreanta&quot;
+<strong>Output:</strong> 11
+<strong>Explanation:</strong> We can split the string on &quot;(a)(nt)(a)(pre)(za)(tep)(za)(pre)(a)(nt)(a)&quot;.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= text.length &lt;= 1000</code></li>
-	<li><code>text</code>&nbsp;仅由小写英文字符组成</li>
+	<li><code>text</code> consists only of lowercase English characters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 双指针
+### Solution 1: Greedy + Two Pointers
 
-我们可以从字符串的两端开始，寻找长度最短的、相同且不重叠的前后缀：
+We can start from both ends of the string, looking for the shortest, identical, and non-overlapping prefixes and suffixes:
 
--   如果找不到这样的前后缀，那么整个字符串作为一个段式回文，答案加 $1$；
--   如果找到了这样的前后缀，那么这个前后缀作为一个段式回文，答案加 $2$，然后继续寻找剩下的字符串的前后缀。
+-   If such prefixes and suffixes cannot be found, then the entire string is treated as a segmented palindrome, and the answer is incremented by $1$;
+-   If such prefixes and suffixes are found, then this prefix and suffix are treated as a segmented palindrome, and the answer is incremented by $2$, then continue to find the prefixes and suffixes of the remaining string.
 
-以上贪心策略的证明如下：
+The proof of the above greedy strategy is as follows:
 
-假设有一个前后缀 $A_1$ 和 $A_2$ 满足条件，又有一个前后缀 $B_1$ 和 $B_4$ 满足条件，由于 $A_1 = A_2$，且 $B_1=B_4$，那么有 $B_3=B_1=B_4=B_2$，并且 $C_1 = C_2$，因此，如果我们贪心地将 $B_1$ 和 $B_4$ 分割出来，那么剩下的 $C_1$ 和 $C_2$，以及 $B_2$ 和 $B_3$ 也能成功分割。因此我们应该贪心地选择长度最短的相同前后缀进行分割，这样剩余的字符串中，将可能分割出更多的段式回文串。
+Suppose there is a prefix $A_1$ and a suffix $A_2$ that meet the conditions, and there is a prefix $B_1$ and a suffix $B_4$ that meet the conditions. Since $A_1 = A_2$ and $B_1=B_4$, then $B_3=B_1=B_4=B_2$, and $C_1 = C_2$. Therefore, if we greedily split $B_1$ and $B_4$, then the remaining $C_1$ and $C_2$, and $B_2$ and $B_3$ can also be successfully split. Therefore, we should greedily choose the shortest identical prefix and suffix to split, so that in the remaining string, more segmented palindromes may be split.
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1147.Longest%20Chunked%20Palindrome%20Decomposition/images/demo.png" style="width: 300px;" /></p>
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$ 或 $O(1)$。其中 $n$ 为字符串的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$ or $O(1)$. Here, $n$ is the length of the string.
 
 <!-- tabs:start -->
 
@@ -242,13 +237,13 @@ function longestDecomposition(text: string): number {
 
 <!-- solution:start -->
 
-### 方法二：字符串哈希
+### Solution 2: String Hash
 
-**字符串哈希**是把一个任意长度的字符串映射成一个非负整数，并且其冲突的概率几乎为 $0$。字符串哈希用于计算字符串哈希值，快速判断两个字符串是否相等。
+**String hash** is to map a string of any length to a non-negative integer, and its collision probability is almost $0$. String hash is used to calculate the hash value of a string and quickly determine whether two strings are equal.
 
-因此，在方法一的基础上，我们可以使用字符串哈希的方法，在 $O(1)$ 时间内比较两个字符串是否相等。
+Therefore, based on Solution 1, we can use the method of string hash to compare whether two strings are equal in $O(1)$ time.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string.
 
 <!-- tabs:start -->
 

@@ -1,73 +1,68 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3171.Find%20Subarray%20With%20Bitwise%20OR%20Closest%20to%20K/README.md
+difficulty: Hard
 rating: 2162
-source: 第 400 场周赛 Q4
+source: Weekly Contest 400 Q4
 tags:
-    - 位运算
-    - 线段树
-    - 数组
-    - 二分查找
+    - Bit Manipulation
+    - Segment Tree
+    - Array
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [3171. 找到按位或最接近 K 的子数组](https://leetcode.cn/problems/find-subarray-with-bitwise-or-closest-to-k)
+# [3171. Find Subarray With Bitwise OR Closest to K](https://leetcode.com/problems/find-subarray-with-bitwise-or-closest-to-k)
 
-[English Version](/solution/3100-3199/3171.Find%20Subarray%20With%20Bitwise%20OR%20Closest%20to%20K/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;。你需要找到&nbsp;<code>nums</code>&nbsp;的一个&nbsp;<span data-keyword="subarray-nonempty">子数组</span>&nbsp;，满足子数组中所有元素按位或运算 <code>OR</code> 的值与 <code>k</code>&nbsp;的 <strong>绝对差</strong>&nbsp;尽可能 <strong>小</strong>&nbsp;。换言之，你需要选择一个子数组&nbsp;<code>nums[l..r]</code>&nbsp;满足 <code>|k - (nums[l] OR nums[l + 1] ... OR nums[r])|</code>&nbsp;最小。</p>
+<p>You are given an array <code>nums</code> and an integer <code>k</code>. You need to find a <span data-keyword="subarray-nonempty">subarray</span> of <code>nums</code> such that the <strong>absolute difference</strong> between <code>k</code> and the bitwise <code>OR</code> of the subarray elements is as<strong> small</strong> as possible. In other words, select a subarray <code>nums[l..r]</code> such that <code>|k - (nums[l] OR nums[l + 1] ... OR nums[r])|</code> is minimum.</p>
 
-<p>请你返回 <strong>最小</strong>&nbsp;的绝对差值。</p>
+<p>Return the <strong>minimum</strong> possible value of the absolute difference.</p>
 
-<p><strong>子数组 </strong>是数组中连续的&nbsp;<strong>非空</strong>&nbsp;元素序列。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,2,4,5], k = 3</span></p>
-
-<p><span class="example-io"><b>输出：</b>0</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>子数组&nbsp;<code>nums[0..1]</code> 的按位 <code>OR</code> 运算值为 3 ，得到最小差值&nbsp;<code>|3 - 3| = 0</code> 。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,3,1,3], k = 2</span></p>
-
-<p><span class="example-io"><b>输出：</b>1</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>子数组&nbsp;<code>nums[1..1]</code> 的按位 <code>OR</code> 运算值为 3 ，得到最小差值&nbsp;<code>|3 - 2| = 1</code> 。</p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1], k = 10</span></p>
-
-<p><span class="example-io"><b>输出：</b>9</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>只有一个子数组，按位 <code>OR</code> 运算值为 1 ，得到最小差值&nbsp;<code>|10 - 1| = 9</code>&nbsp;。</p>
-</div>
+<p>A <strong>subarray</strong> is a contiguous <b>non-empty</b> sequence of elements within an array.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,4,5], k = 3</span></p>
+
+<p><strong>Output:</strong> 0</p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The subarray <code>nums[0..1]</code> has <code>OR</code> value 3, which gives the minimum absolute difference <code>|3 - 3| = 0</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,3,1,3], k = 2</span></p>
+
+<p><strong>Output:</strong> 1</p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The subarray <code>nums[1..1]</code> has <code>OR</code> value 3, which gives the minimum absolute difference <code>|3 - 2| = 1</code>.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1], k = 10</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">9</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>There is a single subarray with <code>OR</code> value 1, which gives the minimum absolute difference <code>|10 - 1| = 9</code>.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -77,21 +72,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针 + 位运算
+### Solution 1: Two Pointers + Bitwise Operations
 
-根据题目描述，我们需要求出数组 $\textit{nums}$ 下标 $l$ 到 $r$ 的元素的按位或运算的结果，即 $\textit{nums}[l] \lor \textit{nums}[l + 1] \lor \cdots \lor \textit{nums}[r]$。其中 $\lor$ 表示按位或运算。
+According to the problem description, we need to calculate the result of the bitwise OR operation of elements from index $l$ to $r$ in the array $\textit{nums}$, that is, $\textit{nums}[l] \lor \textit{nums}[l + 1] \lor \cdots \lor \textit{nums}[r]$, where $\lor$ represents the bitwise OR operation.
 
-如果我们每次固定右端点 $r$，那么左端点 $l$ 的范围是 $[0, r]$。每次移动右端点 $r$，按位或的结果只会变大，我们用一个变量 $s$ 记录当前的按位或的结果，如果 $s$ 大于 $k$，我们就将左端点 $l$ 向右移动，直到 $s$ 小于等于 $k$。在移动左端点 $l$ 的过程中，我们需要维护一个数组 $cnt$，记录当前区间内每个二进制位上 $0$ 的个数，当 $cnt[h]$ 为 $0$ 时，说明当前区间内的元素在第 $h$ 位上都为 $0$，我们就可以将 $s$ 的第 $h$ 位设置为 $0$。
+If we fix the right endpoint $r$, then the range of the left endpoint $l$ is $[0, r]$. Each time we move the right endpoint $r$, the result of the bitwise OR operation will only increase. We use a variable $s$ to record the current result of the bitwise OR operation. If $s$ is greater than $k$, we move the left endpoint $l$ to the right until $s$ is less than or equal to $k$. During the process of moving the left endpoint $l$, we need to maintain an array $cnt$ to record the number of $0$s on each binary digit in the current interval. When $cnt[h] = 0$, it means that all elements in the current interval have a $0$ on the $h^{th}$ bit, and we can set the $h^{th}$ bit of $s$ to $0$.
 
-时间复杂度 $O(n \times \log M)$，空间复杂度 $O(\log M)$。其中 $n$ 和 $M$ 分别是数组 $\textit{nums}$ 的长度和数组 $\textit{nums}$ 中元素的最大值。
+The time complexity is $O(n \times \log M)$, and the space complexity is $O(\log M)$. Here, $n$ and $M$ respectively represent the length of the array $\textit{nums}$ and the maximum value in the array $\textit{nums}$.
 
-相似题目：
+Similar Problems:
 
--   [3097. 或值至少为 K 的最短子数组 II](https://github.com/doocs/leetcode/blob/main/solution/3000-3099/3097.Shortest%20Subarray%20With%20OR%20at%20Least%20K%20II/README.md)
+-   [3097. Shortest Subarray With OR at Least K II](https://github.com/doocs/leetcode/blob/main/solution/3000-3099/3097.Shortest%20Subarray%20With%20OR%20at%20Least%20K%20II/README_EN.md)
 
 <!-- tabs:start -->
 
@@ -269,17 +264,17 @@ function minimumDifference(nums: number[], k: number): number {
 
 <!-- solution:start -->
 
-### 方法二：哈希表 + 枚举
+### Solution 2: Hash Table + Enumeration
 
-根据题目描述，我们需要求出数组 $nums$ 下标 $l$ 到 $r$ 的元素的按位或运算的结果，即 $nums[l] \lor nums[l + 1] \lor \cdots \lor nums[r]$。其中 $\lor$ 表示按位或运算。
+According to the problem description, we need to calculate the result of the bitwise OR operation of elements from index $l$ to $r$ in the array $nums$, that is, $nums[l] \lor nums[l + 1] \lor \cdots \lor nums[r]$. Here, $\lor$ represents the bitwise OR operation.
 
-如果我们每次固定右端点 $r$，那么左端点 $l$ 的范围是 $[0, r]$。由于按位或之和随着 $l$ 的减小而单调递增，并且 $\textit{nums}[i]$ 的值不超过 $10^9$，因此区间 $[0, r]$ 最多只有 $30$ 种不同的值。因此，我们可以用一个集合来维护所有的 $nums[l] \lor nums[l + 1] \lor \cdots \lor nums[r]$ 的值。当我们从 $r$ 遍历到 $r+1$ 时，以 $r+1$ 为右端点的值，就是集合中每个值与 $nums[r + 1]$ 进行按位或运算得到的值，再加上 $nums[r + 1]$ 本身。因此，我们只需要枚举集合中的每个值，与 $nums[r]$ 进行按位或运算，就可以得到以 $r$ 为右端点的所有值，将每个值与 $k$ 相减后取绝对值，就可以得到以 $r$ 为右端点的所有值与 $k$ 的差的绝对值，其中的最小值就是答案。
+If we fix the right endpoint $r$, then the range of the left endpoint $l$ is $[0, r]$. Since the sum of bitwise OR increases monotonically as $l$ decreases, and the value of $\textit{nums}[i]$ does not exceed $10^9$, the interval $[0, r]$ can have at most $30$ different values. Therefore, we can use a set to maintain all the values of $nums[l] \lor nums[l + 1] \lor \cdots \lor nums[r]$. When we traverse from $r$ to $r+1$, the values with $r+1$ as the right endpoint are the values obtained by performing the bitwise OR operation of each value in the set with $nums[r + 1]$, plus $nums[r + 1]$ itself. Therefore, we only need to enumerate each value in the set and perform the bitwise OR operation with $nums[r]$, to get all the values for $r$ as the right endpoint. Then, we take the absolute difference of each value with $k$, and the minimum of these differences is the answer.
 
-时间复杂度 $O(n \times \log M)$，空间复杂度 $O(\log M)$。其中 $n$ 和 $M$ 分别是数组 $nums$ 的长度和数组 $nums$ 中的最大值。
+The time complexity is $O(n \times \log M)$, and the space complexity is $O(\log M)$. Here, $n$ and $M$ respectively represent the length of the array $nums$ and the maximum value in the array $nums$.
 
-相似题目：
+Similar Problems:
 
--   [1521. 找到最接近目标值的函数值](https://github.com/doocs/leetcode/blob/main/solution/1500-1599/1521.Find%20a%20Value%20of%20a%20Mysterious%20Function%20Closest%20to%20Target/README.md)
+-   [1521. Find a Value of a Mysterious Function Closest to Target](https://github.com/doocs/leetcode/blob/main/solution/1500-1599/1521.Find%20a%20Value%20of%20a%20Mysterious%20Function%20Closest%20to%20Target/README_EN.md)
 
 <!-- tabs:start -->
 

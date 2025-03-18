@@ -1,65 +1,62 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2189.Number%20of%20Ways%20to%20Build%20House%20of%20Cards/README.md
+difficulty: Medium
 tags:
-    - 数学
-    - 动态规划
+    - Math
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2189. 建造纸牌屋的方法数 🔒](https://leetcode.cn/problems/number-of-ways-to-build-house-of-cards)
+# [2189. Number of Ways to Build House of Cards 🔒](https://leetcode.com/problems/number-of-ways-to-build-house-of-cards)
 
-[English Version](/solution/2100-2199/2189.Number%20of%20Ways%20to%20Build%20House%20of%20Cards/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>n</code>，代表你拥有牌的数量。一个&nbsp;<strong>纸牌屋&nbsp;</strong>满足以下条件:</p>
+<p>You are given an integer <code>n</code> representing the number of playing cards you have. A <strong>house of cards</strong> meets the following conditions:</p>
 
 <ul>
-	<li>一个<strong> 纸牌屋&nbsp;</strong>由一行或多行&nbsp;<strong>三角形</strong> 和水平纸牌组成。</li>
-	<li><strong>三角形&nbsp;</strong>是由两张纸牌相互靠在一起形成的。</li>
-	<li>一张纸牌必须水平放置在一行中&nbsp;<strong>所有相邻&nbsp;</strong>的三角形之间。</li>
-	<li>比第一行高的任何三角形都必须放在前一行的水平纸牌上。</li>
-	<li>每个三角形都被放置在行中&nbsp;<strong>最左边&nbsp;</strong>的可用位置。</li>
+	<li>A <strong>house of cards</strong> consists of one or more rows of <strong>triangles</strong> and horizontal cards.</li>
+	<li><strong>Triangles</strong> are created by leaning two cards against each other.</li>
+	<li>One card must be placed horizontally between <strong>all adjacent</strong> triangles in a row.</li>
+	<li>Any triangle on a row higher than the first must be placed on a horizontal card from the previous row.</li>
+	<li>Each triangle is placed in the <strong>leftmost</strong> available spot in the row.</li>
 </ul>
 
-<p>返回<em>使用所有 <code>n</code> 张</em>纸牌<em>可以构建的不同纸牌屋的数量</em>。如果存在一行两个纸牌屋包含不同数量的纸牌，那么两个纸牌屋被认为是不同的。</p>
+<p>Return <em>the number of <strong>distinct</strong> <strong>house of cards</strong> you can build using <strong>all</strong></em> <code>n</code><em> cards.</em> Two houses of cards are considered distinct if there exists a row where the two houses contain a different number of cards.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2189.Number%20of%20Ways%20to%20Build%20House%20of%20Cards/images/image-20220227213243-1.png" style="width: 726px; height: 150px;" />
 <pre>
-<strong>输入:</strong> n = 16
-<strong>输出:</strong> 2
-<strong>解释:</strong> 有两种有效的纸牌屋摆法。
-图中的第三个纸牌屋无效，因为第一行最右边的三角形没有放在水平纸牌的顶部。
+<strong>Input:</strong> n = 16
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The two valid houses of cards are shown.
+The third house of cards in the diagram is not valid because the rightmost triangle on the top row is not placed on top of a horizontal card.
 </pre>
 
 <p><strong class="example">Example 2:</strong></p>
 <img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2189.Number%20of%20Ways%20to%20Build%20House%20of%20Cards/images/image-20220227213306-2.png" style="width: 96px; height: 80px;" />
 <pre>
-<strong>输入:</strong> n = 2
-<strong>输出:</strong> 1
-<strong>解释:</strong> 这是唯一可行的纸牌屋。</pre>
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The one valid house of cards is shown.
+</pre>
 
 <p><strong class="example">Example 3:</strong></p>
 <img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2189.Number%20of%20Ways%20to%20Build%20House%20of%20Cards/images/image-20220227213331-3.png" style="width: 330px; height: 85px;" />
 <pre>
-<strong>输入:</strong> n = 4
-<strong>输出:</strong> 0
-<strong>解释:</strong> 图中的三种纸牌都是无效的。
-第一个纸牌屋需要在两个三角形之间放置一张水平纸牌。
-第二个纸牌屋使用 5 张纸牌。
-第三个纸牌屋使用 2 张纸牌。</pre>
+<strong>Input:</strong> n = 4
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The three houses of cards in the diagram are not valid.
+The first house of cards needs a horizontal card placed between the two triangles.
+The second house of cards uses 5 cards.
+The third house of cards uses 2 cards.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 500</code></li>
@@ -67,25 +64,25 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们注意到，每一层的卡片数量为 $3 \times k + 2$，并且每一层的卡片数量都不相同。因此，问题可以转化为：整数 $n$ 可以由多少种 $3 \times k + 2$ 的数相加得到。这是一个经典的背包问题，可以使用记忆化搜索解决。
+We notice that the number of cards in each layer is $3 \times k + 2$, and the number of cards in each layer is different. Therefore, the problem can be transformed into: how many ways can the integer $n$ be expressed as the sum of numbers of the form $3 \times k + 2$. This is a classic knapsack problem that can be solved using memoization search.
 
-我们设计一个函数 $\text{dfs}(n, k)$，表示当前剩余卡片数量为 $n$，且当前层为 $k$ 时，可以构建多少不同的纸牌屋。那么答案就是 $\text{dfs}(n, 0)$。
+We design a function $\text{dfs}(n, k)$, which represents the number of ways to build different houses of cards when the remaining number of cards is $n$ and the current layer is $k$. The answer is $\text{dfs}(n, 0)$.
 
-函数 $\text{dfs}(n, k)$ 的执行逻辑如下：
+The execution logic of the function $\text{dfs}(n, k)$ is as follows:
 
--   如果 $3 \times k + 2 \gt n$，那么当前层无法放置任何卡片，返回 $0$；
--   如果 $3 \times k + 2 = n$，那么当前层可以放置卡片，放置完毕后，整个纸牌屋已经构建完毕，返回 $1$；
--   否则，我们可以选择不放置卡片，或者放置卡片。如果选择不放置卡片，那么剩余卡片数量不变，层数增加 $1$，即 $\text{dfs}(n, k + 1)$；如果选择放置卡片，那么剩余卡片数量减少 $3 \times k + 2$，层数增加 $1$，即 $\text{dfs}(n - (3 \times k + 2), k + 1)$。两者相加即为答案。
+-   If $3 \times k + 2 \gt n$, then the current layer cannot place any cards, return $0$;
+-   If $3 \times k + 2 = n$, then the current layer can place cards, and after placing them, the entire house of cards is completed, return $1$;
+-   Otherwise, we can choose not to place cards or to place cards. If we choose not to place cards, the remaining number of cards does not change, and the number of layers increases by $1$, i.e., $\text{dfs}(n, k + 1)$. If we choose to place cards, the remaining number of cards decreases by $3 \times k + 2$, and the number of layers increases by $1$, i.e., $\text{dfs}(n - (3 \times k + 2), k + 1)$. The sum of these two cases is the answer.
 
-过程中，我们可以使用记忆化搜索，避免重复计算。
+During the process, we can use memoization to avoid repeated calculations.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为卡片数量。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the number of cards.
 
 <!-- tabs:start -->
 

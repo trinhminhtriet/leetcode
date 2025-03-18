@@ -1,57 +1,50 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1272.Remove%20Interval/README.md
+difficulty: Medium
 rating: 1524
-source: 第 14 场双周赛 Q2
+source: Biweekly Contest 14 Q2
 tags:
-    - 数组
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [1272. 删除区间 🔒](https://leetcode.cn/problems/remove-interval)
+# [1272. Remove Interval 🔒](https://leetcode.com/problems/remove-interval)
 
-[English Version](/solution/1200-1299/1272.Remove%20Interval/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>实数集合可以表示为若干不相交区间的并集，其中每个区间的形式为 <code>[a, b)</code>（左闭右开），表示满足&nbsp;<code>a &lt;= x &lt; b</code> 的所有实数&nbsp; <code>x</code>&nbsp;的集合。如果某个区间&nbsp;<code>[a, b)</code> 中包含实数 <code>x</code> ，则称实数 <code>x</code> 在集合中。</p>
+<p>A set of real numbers can be represented as the union of several disjoint intervals, where each interval is in the form <code>[a, b)</code>. A real number <code>x</code> is in the set if one of its intervals <code>[a, b)</code> contains <code>x</code> (i.e. <code>a &lt;= x &lt; b</code>).</p>
 
-<p>给你一个 <strong>有序的</strong> 不相交区间列表 <code>intervals</code>&nbsp;。<code>intervals</code> 表示一个实数集合，其中每一项 <code>intervals[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> 都表示一个区间 <code>[a<sub>i</sub>, b<sub>i</sub>)</code> 。再给你一个要删除的区间 <code>toBeRemoved</code> 。</p>
+<p>You are given a <strong>sorted</strong> list of disjoint intervals <code>intervals</code> representing a set of real numbers as described above, where <code>intervals[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> represents the interval <code>[a<sub>i</sub>, b<sub>i</sub>)</code>. You are also given another interval <code>toBeRemoved</code>.</p>
 
-<p>返回 <em>一组实数，该实数表示<code>intervals</code> 中&nbsp;<strong>删除</strong>&nbsp;了 <code>toBeRemoved</code> 的部分</em>&nbsp;。<em>换句话说，返回实数集合，并满足集合中的每个实数 <code>x</code> 都在&nbsp;<code>intervals</code> 中，但不在 <code>toBeRemoved</code> 中。你的答案应该是一个如上所述的 <strong>有序的</strong> 不相连的间隔列表&nbsp;。</em></p>
-
-<p>&nbsp;</p>
+<p>Return <em>the set of real numbers with the interval </em><code>toBeRemoved</code><em> <strong>removed</strong> from</em><em> </em><code>intervals</code><em>. In other words, return the set of real numbers such that every </em><code>x</code><em> in the set is in </em><code>intervals</code><em> but <strong>not</strong> in </em><code>toBeRemoved</code><em>. Your answer should be a <strong>sorted</strong> list of disjoint intervals as described above.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1272.Remove%20Interval/images/removeintervalex1.png" />
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1272.Remove%20Interval/images/removeintervalex1.png" style="width: 510px; height: 319px;" />
 <pre>
-<strong>输入：</strong>intervals = [[0,2],[3,4],[5,7]], toBeRemoved = [1,6]
-<strong>输出：</strong>[[0,1],[6,7]]
+<strong>Input:</strong> intervals = [[0,2],[3,4],[5,7]], toBeRemoved = [1,6]
+<strong>Output:</strong> [[0,1],[6,7]]
 </pre>
 
-<p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1272.Remove%20Interval/images/removeintervalex2.png" />
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1272.Remove%20Interval/images/removeintervalex2.png" style="width: 410px; height: 318px;" />
 <pre>
-<strong>输入：</strong>intervals = [[0,5]], toBeRemoved = [2,3]
-<strong>输出：</strong>[[0,2],[3,5]]
+<strong>Input:</strong> intervals = [[0,5]], toBeRemoved = [2,3]
+<strong>Output:</strong> [[0,2],[3,5]]
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>intervals = [[-5,-4],[-3,-2],[1,2],[3,5],[8,9]], toBeRemoved = [-1,4]
-<strong>输出：</strong>[[-5,-4],[-3,-2],[4,5],[8,9]]
+<strong>Input:</strong> intervals = [[-5,-4],[-3,-2],[1,2],[3,5],[8,9]], toBeRemoved = [-1,4]
+<strong>Output:</strong> [[-5,-4],[-3,-2],[4,5],[8,9]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= intervals.length &lt;= 10<sup>4</sup></code></li>
@@ -60,19 +53,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分类讨论
+### Solution 1: Case Discussion
 
-我们记要删除的区间为 $[x, y)$，遍历区间列表，对于每个区间 $[a, b)$，有以下三种情况：
+We denote the interval to be removed as $[x, y)$. We traverse the interval list, and for each interval $[a, b)$, there are three cases:
 
--   $a \geq y$ 或 $b \leq x$，表示该区间与要删除的区间没有交集，直接将该区间加入答案；
--   $a \lt x$, $b \gt y$，表示该区间与要删除的区间有交集，将该区间分成两个区间加入答案；
--   $a \geq x$, $b \leq y$，表示该区间被要删除的区间完全覆盖，不加入答案。
+-   $a \geq y$ or $b \leq x$, which means that this interval does not intersect with the interval to be removed. We directly add this interval to the answer.
+-   $a \lt x$, $b \gt y$, which means that this interval intersects with the interval to be removed. We split this interval into two intervals and add them to the answer.
+-   $a \geq x$, $b \leq y$, which means that this interval is completely covered by the interval to be removed. We do not add it to the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 为区间列表的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the interval list. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

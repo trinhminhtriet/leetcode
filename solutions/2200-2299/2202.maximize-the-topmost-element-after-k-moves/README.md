@@ -1,66 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2202.Maximize%20the%20Topmost%20Element%20After%20K%20Moves/README.md
+difficulty: Medium
 rating: 1716
-source: 第 284 场周赛 Q3
+source: Weekly Contest 284 Q3
 tags:
-    - 贪心
-    - 数组
+    - Greedy
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2202. K 次操作后最大化顶端元素](https://leetcode.cn/problems/maximize-the-topmost-element-after-k-moves)
+# [2202. Maximize the Topmost Element After K Moves](https://leetcode.com/problems/maximize-the-topmost-element-after-k-moves)
 
-[English Version](/solution/2200-2299/2202.Maximize%20the%20Topmost%20Element%20After%20K%20Moves/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;，它表示一个 <strong>堆</strong> ，其中 <code>nums[0]</code>&nbsp;是堆顶的元素。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> representing the contents of a <b>pile</b>, where <code>nums[0]</code> is the topmost element of the pile.</p>
 
-<p>每一次操作中，你可以执行以下操作 <strong>之一</strong>&nbsp;：</p>
+<p>In one move, you can perform <strong>either</strong> of the following:</p>
 
 <ul>
-	<li>如果堆非空，那么 <strong>删除</strong>&nbsp;堆顶端的元素。</li>
-	<li>如果存在 1 个或者多个被删除的元素，你可以从它们中选择任何一个，<b>添加</b>&nbsp;回堆顶，这个元素成为新的堆顶元素。</li>
+	<li>If the pile is not empty, <strong>remove</strong> the topmost element of the pile.</li>
+	<li>If there are one or more removed elements, <strong>add</strong> any one of them back onto the pile. This element becomes the new topmost element.</li>
 </ul>
 
-<p>同时给你一个整数&nbsp;<code>k</code>&nbsp;，它表示你总共需要执行操作的次数。</p>
+<p>You are also given an integer <code>k</code>, which denotes the total number of moves to be made.</p>
 
-<p>请你返回 <strong>恰好</strong>&nbsp;执行 <code>k</code>&nbsp;次操作以后，堆顶元素的 <strong>最大值</strong>&nbsp;。如果执行完 <code>k</code>&nbsp;次操作以后，堆一定为空，请你返回 <code>-1</code>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [5,2,2,4,0,6], k = 4
-<b>输出：</b>5
-<strong>解释：</strong>
-4 次操作后，堆顶元素为 5 的方法之一为：
-- 第 1 次操作：删除堆顶元素 5 ，堆变为 [2,2,4,0,6] 。
-- 第 2 次操作：删除堆顶元素 2 ，堆变为 [2,4,0,6] 。
-- 第 3 次操作：删除堆顶元素 2 ，堆变为 [4,0,6] 。
-- 第 4 次操作：将 5 添加回堆顶，堆变为 [5,4,0,6] 。
-注意，这不是最后堆顶元素为 5 的唯一方式。但可以证明，4 次操作以后 5 是能得到的最大堆顶元素。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [2], k = 1
-<b>输出：</b>-1
-<b>解释：</b>
-第 1 次操作中，我们唯一的选择是将堆顶元素弹出堆。
-由于 1 次操作后无法得到一个非空的堆，所以我们返回 -1 。
-</pre>
+<p>Return <em>the <strong>maximum value</strong> of the topmost element of the pile possible after <strong>exactly</strong></em> <code>k</code> <em>moves</em>. In case it is not possible to obtain a non-empty pile after <code>k</code> moves, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [5,2,2,4,0,6], k = 4
+<strong>Output:</strong> 5
+<strong>Explanation:</strong>
+One of the ways we can end with 5 at the top of the pile after 4 moves is as follows:
+- Step 1: Remove the topmost element = 5. The pile becomes [2,2,4,0,6].
+- Step 2: Remove the topmost element = 2. The pile becomes [2,4,0,6].
+- Step 3: Remove the topmost element = 2. The pile becomes [4,0,6].
+- Step 4: Add 5 back onto the pile. The pile becomes [5,4,0,6].
+Note that this is not the only way to end with 5 at the top of the pile. It can be shown that 5 is the largest answer possible after 4 moves.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2], k = 1
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> 
+In the first move, our only option is to pop the topmost element of the pile.
+Since it is not possible to obtain a non-empty pile after one move, we return -1.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -69,11 +64,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3236.CEO%20Subordinate%20Hierarchy/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3236. 首席执行官下属层级 🔒](https://leetcode.cn/problems/ceo-subordinate-hierarchy)
+# [3236. CEO Subordinate Hierarchy 🔒](https://leetcode.com/problems/ceo-subordinate-hierarchy)
 
-[English Version](/solution/3200-3299/3236.CEO%20Subordinate%20Hierarchy/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Employees</code></p>
+<p>Table: <code>Employees</code></p>
 
 <pre>
 +---------------+---------+
@@ -27,33 +24,34 @@ tags:
 | manager_id    | int     |
 | salary        | int     |
 +---------------+---------+
-employee_id 是这张表的唯一标识符。
-manager_id 是 employee_id 对应员工的经理。首席执行官的 manager_id 为 NULL。
+employee_id is the unique identifier for this table.
+manager_id is the employee_id of the employee&#39;s manager. The CEO has a NULL manager_id.
 </pre>
 
-<p>编写一个解决方案来找到首席执行官的下属（<strong>直接</strong> 和&nbsp;<strong>非直接</strong>），以及他们在 <strong>等级制度中的级别</strong> 以及与首席执行官的 <strong>薪资差异</strong>。结果应该包含下面的列：</p>
+<p>Write a solution to find subordinates of the CEO (both <strong>direct</strong> and <strong>indirect</strong>), along with their <strong>level in the hierarchy</strong> and their <strong>salary difference</strong> from the CEO.</p>
 
-<p>查询结果格式如下所示。</p>
+<p>The result should have the following columns:</p>
+
+<p>The query result format is in the following example.</p>
 
 <ul>
-	<li><code>subordinate_id</code>：下属的 employee_id。</li>
-	<li><code>subordinate_name</code>：下属的名字。</li>
-	<li><code>hierarchy_level</code>：下属在等级制度中的级别（<code>1</code>&nbsp;表示直接下属，<code>2</code>&nbsp;表示 <b>他们的直接下属</b>，<strong>以此类推</strong>。）</li>
-	<li><code>salary_difference</code>：下属与首席执行官的薪资差异。</li>
+	<li><code>subordinate_id</code>: The employee_id of the subordinate</li>
+	<li><code>subordinate_name</code>: The name of the subordinate</li>
+	<li><code>hierarchy_level</code>: The level of the subordinate in the hierarchy (<code>1</code> for <strong>direct</strong> reports, <code>2</code> for <strong>their direct</strong> reports, and <strong>so on</strong>)</li>
+	<li><code>salary_difference</code>: The difference between the subordinate&#39;s salary and the CEO&#39;s salary</li>
 </ul>
 
-<p>返回结果表以&nbsp;<code>hierarchy_level</code>&nbsp;<strong>升序排序</strong>，然后按&nbsp;<code>subordinate_id</code>&nbsp;<strong>升序排序</strong>。</p>
+<p>Return <em>the result table ordered by</em> <code>hierarchy_level</code> <em><strong>ascending</strong></em>, <em>and then by</em> <code>subordinate_id</code> <em><strong>ascending</strong></em>.</p>
 
-<p>查询格式如下所示。</p>
+<p>The query result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p><code>Employees</code> 表：</p>
+<p><code>Employees</code> table:</p>
 
 <pre class="example-io">
 +-------------+----------------+------------+---------+
@@ -70,7 +68,7 @@ manager_id 是 employee_id 对应员工的经理。首席执行官的 manager_id
 +-------------+----------------+------------+---------+
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +----------------+------------------+------------------+-------------------+
@@ -86,32 +84,32 @@ manager_id 是 employee_id 对应员工的经理。首席执行官的 manager_id
 +----------------+------------------+------------------+-------------------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>Bob 和 Charlie 是 Alice 的直接下属（首席执行官）因此，hierarchy_level 为 1。</li>
-	<li>David 和 Eve 下属于 Bob，而&nbsp;Frank 和 Grace 下属于 Charlie，因此他们是二级下属（hierarchy_level 为 2）。</li>
-	<li>Helen 下属于&nbsp;Eve，因此&nbsp;Helen 为三级下属（hierarchy_level 为 3）。</li>
-	<li>薪资差异是相对于 Alice 的薪资 150000 计算的。</li>
-	<li>结果先以 hierarchy_level 升序排序，然后以 subordinate_id 升序排序。</li>
+	<li>Bob and Charlie are direct subordinates of Alice (CEO) and thus have a hierarchy_level of 1.</li>
+	<li>David and Eve report to Bob, while Frank and Grace report to Charlie, making them second-level subordinates (hierarchy_level 2).</li>
+	<li>Helen reports to Eve, making Helen a third-level subordinate (hierarchy_level 3).</li>
+	<li>Salary differences are calculated relative to Alice&#39;s salary of 150000.</li>
+	<li>The result is ordered by hierarchy_level ascending, and then by subordinate_id ascending.</li>
 </ul>
 
-<p><strong>注意：</strong>输出表先以 hierarchy_level 升序排序，然后以 subordinate_id 升序排序。</p>
+<p><strong>Note:</strong> The output is ordered first by hierarchy_level in ascending order, then by subordinate_id in ascending order.</p>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归 CTE + 连接
+### Solution 1: Recursive CTE + Join
 
-首先，我们使用递归 CTE 计算出每个员工的层级，其中 CEO 的层级为 0，将 `employee_id`、`employee_name`、`hierarchy_level`、`manager_id` 和 `salary` 保存到临时表 `T` 中。
+First, we use a recursive CTE to calculate the hierarchy level of each employee, where the CEO's level is $0$. We save `employee_id`, `employee_name`, `hierarchy_level`, `manager_id`, and `salary` into a temporary table `T`.
 
-然后，我们查询出 CEO 的薪资，将其保存到临时表 `P` 中。
+Then, we query the CEO's salary and save it into a temporary table `P`.
 
-最后，我们连接 `T` 和 `P` 表，计算出每个下属的薪资差异，并按照 `hierarchy_level` 和 `subordinate_id` 进行排序。
+Finally, we join tables `T` and `P` to calculate the salary difference for each subordinate, and sort by `hierarchy_level` and `subordinate_id`.
 
 <!-- tabs:start -->
 

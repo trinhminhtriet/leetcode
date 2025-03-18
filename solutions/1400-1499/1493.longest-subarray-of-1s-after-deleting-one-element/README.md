@@ -1,78 +1,74 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1493.Longest%20Subarray%20of%201%27s%20After%20Deleting%20One%20Element/README.md
+difficulty: Medium
 rating: 1423
-source: 第 29 场双周赛 Q3
+source: Biweekly Contest 29 Q3
 tags:
-    - 数组
-    - 动态规划
-    - 滑动窗口
+    - Array
+    - Dynamic Programming
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [1493. 删掉一个元素以后全为 1 的最长子数组](https://leetcode.cn/problems/longest-subarray-of-1s-after-deleting-one-element)
+# [1493. Longest Subarray of 1's After Deleting One Element](https://leetcode.com/problems/longest-subarray-of-1s-after-deleting-one-element)
 
-[English Version](/solution/1400-1499/1493.Longest%20Subarray%20of%201%27s%20After%20Deleting%20One%20Element/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二进制数组&nbsp;<code>nums</code>&nbsp;，你需要从中删掉一个元素。</p>
+<p>Given a binary array <code>nums</code>, you should delete one element from it.</p>
 
-<p>请你在删掉元素的结果数组中，返回最长的且只包含 1 的非空子数组的长度。</p>
-
-<p>如果不存在这样的子数组，请返回 0 。</p>
+<p>Return <em>the size of the longest non-empty subarray containing only </em><code>1</code><em>&#39;s in the resulting array</em>. Return <code>0</code> if there is no such subarray.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>提示 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,1,0,1]
-<strong>输出：</strong>3
-<strong>解释：</strong>删掉位置 2 的数后，[1,1,1] 包含 3 个 1 。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [0,1,1,1,0,1,1,0,1]
-<strong>输出：</strong>5
-<strong>解释：</strong>删掉位置 4 的数字后，[0,1,1,1,1,1,0,1] 的最长全 1 子数组为 [1,1,1,1,1] 。</pre>
+<strong>Input:</strong> nums = [1,1,0,1]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> After deleting the number in position 2, [1,1,1] contains 3 numbers with value of 1&#39;s.
+</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,1,1]
-<strong>输出：</strong>2
-<strong>解释：</strong>你必须要删除一个元素。</pre>
+<strong>Input:</strong> nums = [0,1,1,1,0,1,1,0,1]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> After deleting the number in position 4, [0,1,1,1,1,1,0,1] longest subarray with value of 1&#39;s is [1,1,1,1,1].
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,1,1]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> You must delete one element.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>nums[i]</code>&nbsp;要么是&nbsp;<code>0</code>&nbsp;要么是&nbsp;<code>1</code> 。</li>
+	<li><code>nums[i]</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们可以枚举每个删除的位置 $i$，然后计算左侧和右侧的连续 1 的个数，最后取最大值。
+We can enumerate each position $i$ to be deleted, then calculate the number of consecutive 1s on the left and right, and finally take the maximum value.
 
-具体地，我们使用两个长度为 $n+1$ 的数组 $left$ 和 $right$，其中 $left[i]$ 表示以 $nums[i-1]$ 结尾的连续 $1$ 的个数，而 $right[i]$ 表示以 $nums[i]$ 开头的连续 $1$ 的个数。
+Specifically, we use two arrays $left$ and $right$ of length $n+1$, where $left[i]$ represents the number of consecutive 1s ending with $nums[i-1]$, and $right[i]$ represents the number of consecutive 1s starting with $nums[i]$.
 
-最终答案即为 $\max_{0 \leq i < n} \{left[i] + right[i+1]\}$。
+The final answer is $\max_{0 \leq i < n} \{left[i] + right[i+1]\}$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 
@@ -203,15 +199,15 @@ function longestSubarray(nums: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二：双指针
+### Solution 2: Two Pointers
 
-题目实际上是让我们找出一个最长的子数组，该子数组中最多只包含一个 $0$，删掉该子数组中的其中一个元素后，剩余的长度即为答案。
+The problem is actually asking us to find the longest subarray that contains at most one $0$. The remaining length after deleting one element from this subarray is the answer.
 
-因此，我们可以用两个指针 $j$ 和 $i$ 分别指向子数组的左右边界，初始时 $j = 0$, $i = 0$。另外，我们用一个变量 $cnt$ 记录子数组中 $0$ 的个数。
+Therefore, we can use two pointers $j$ and $i$ to point to the left and right boundaries of the subarray, initially $j = 0$, $i = 0$. In addition, we use a variable $cnt$ to record the number of $0$s in the subarray.
 
-接下来，我们移动右指针 $i$，如果 $nums[i] = 0$，则 $cnt$ 加 $1$。当 $cnt > 1$ 时，我们需要移动左指针 $j$，直到 $cnt \leq 1$。然后，我们更新答案，即 $ans = \max(ans, i - j)$。继续移动右指针 $i$，直到 $i$ 到达数组的末尾。
+Next, we move the right pointer $i$. If $nums[i] = 0$, then $cnt$ is incremented by $1$. When $cnt > 1$, we need to move the left pointer $j$ until $cnt \leq 1$. Then, we update the answer, i.e., $ans = \max(ans, i - j)$. Continue to move the right pointer $i$ until $i$ reaches the end of the array.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -306,13 +302,13 @@ function longestSubarray(nums: number[]): number {
 
 <!-- solution:start -->
 
-### 方法三：双指针（优化）
+### Solution 3: Two Pointers (Optimization)
 
-方法二中，我们每次会循环移动左指针，直到 $cnt \leq 1$。由于题目求的是最长子数组，意味着我们不需要缩小子数组的长度，因此，如果 $\textit{cnt} \gt 1$，我们只移动左指针一次，右指针也继续向右移动。这样可以保证子数组的长度不会减小。
+In Solution 2, we move the left pointer in a loop until $cnt \leq 1$. Since the problem asks for the longest subarray, it means we don't need to reduce the length of the subarray. Therefore, if $\textit{cnt} \gt 1$, we only move the left pointer once, and the right pointer continues to move to the right. This ensures that the length of the subarray does not decrease.
 
-最后，我们返回的答案即为 $n - l - 1$，其中 $l$ 为左指针的位置。
+Finally, the answer we return is $n - l - 1$, where $l$ is the position of the left pointer.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

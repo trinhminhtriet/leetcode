@@ -1,76 +1,71 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0332.Reconstruct%20Itinerary/README.md
+difficulty: Hard
 tags:
-    - 深度优先搜索
-    - 图
-    - 欧拉回路
+    - Depth-First Search
+    - Graph
+    - Eulerian Circuit
 ---
 
 <!-- problem:start -->
 
-# [332. 重新安排行程](https://leetcode.cn/problems/reconstruct-itinerary)
+# [332. Reconstruct Itinerary](https://leetcode.com/problems/reconstruct-itinerary)
 
-[English Version](/solution/0300-0399/0332.Reconstruct%20Itinerary/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一份航线列表 <code>tickets</code> ，其中 <code>tickets[i] = [from<sub>i</sub>, to<sub>i</sub>]</code> 表示飞机出发和降落的机场地点。请你对该行程进行重新规划排序。</p>
+<p>You are given a list of airline <code>tickets</code> where <code>tickets[i] = [from<sub>i</sub>, to<sub>i</sub>]</code> represent the departure and the arrival airports of one flight. Reconstruct the itinerary in order and return it.</p>
 
-<p>所有这些机票都属于一个从 <code>JFK</code>（肯尼迪国际机场）出发的先生，所以该行程必须从 <code>JFK</code> 开始。如果存在多种有效的行程，请你按字典排序返回最小的行程组合。</p>
+<p>All of the tickets belong to a man who departs from <code>&quot;JFK&quot;</code>, thus, the itinerary must begin with <code>&quot;JFK&quot;</code>. If there are multiple valid itineraries, you should return the itinerary that has the smallest lexical order when read as a single string.</p>
 
 <ul>
-	<li>例如，行程 <code>["JFK", "LGA"]</code> 与 <code>["JFK", "LGB"]</code> 相比就更小，排序更靠前。</li>
+	<li>For example, the itinerary <code>[&quot;JFK&quot;, &quot;LGA&quot;]</code> has a smaller lexical order than <code>[&quot;JFK&quot;, &quot;LGB&quot;]</code>.</li>
 </ul>
 
-<p>假定所有机票至少存在一种合理的行程。且所有的机票 必须都用一次 且 只能用一次。</p>
+<p>You may assume all tickets form at least one valid itinerary. You must use all the tickets once and only once.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0332.Reconstruct%20Itinerary/images/itinerary1-graph.jpg" style="width: 382px; height: 222px;" />
 <pre>
-<strong>输入：</strong>tickets = [["MUC","LHR"],["JFK","MUC"],["SFO","SJC"],["LHR","SFO"]]
-<strong>输出：</strong>["JFK","MUC","LHR","SFO","SJC"]
+<strong>Input:</strong> tickets = [[&quot;MUC&quot;,&quot;LHR&quot;],[&quot;JFK&quot;,&quot;MUC&quot;],[&quot;SFO&quot;,&quot;SJC&quot;],[&quot;LHR&quot;,&quot;SFO&quot;]]
+<strong>Output:</strong> [&quot;JFK&quot;,&quot;MUC&quot;,&quot;LHR&quot;,&quot;SFO&quot;,&quot;SJC&quot;]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0332.Reconstruct%20Itinerary/images/itinerary2-graph.jpg" style="width: 222px; height: 230px;" />
 <pre>
-<strong>输入：</strong>tickets = [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
-<strong>输出：</strong>["JFK","ATL","JFK","SFO","ATL","SFO"]
-<strong>解释：</strong>另一种有效的行程是 ["JFK","SFO","ATL","JFK","ATL","SFO"] ，但是它字典排序更大更靠后。
+<strong>Input:</strong> tickets = [[&quot;JFK&quot;,&quot;SFO&quot;],[&quot;JFK&quot;,&quot;ATL&quot;],[&quot;SFO&quot;,&quot;ATL&quot;],[&quot;ATL&quot;,&quot;JFK&quot;],[&quot;ATL&quot;,&quot;SFO&quot;]]
+<strong>Output:</strong> [&quot;JFK&quot;,&quot;ATL&quot;,&quot;JFK&quot;,&quot;SFO&quot;,&quot;ATL&quot;,&quot;SFO&quot;]
+<strong>Explanation:</strong> Another possible reconstruction is [&quot;JFK&quot;,&quot;SFO&quot;,&quot;ATL&quot;,&quot;JFK&quot;,&quot;ATL&quot;,&quot;SFO&quot;] but it is larger in lexical order.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= tickets.length <= 300</code></li>
+	<li><code>1 &lt;= tickets.length &lt;= 300</code></li>
 	<li><code>tickets[i].length == 2</code></li>
 	<li><code>from<sub>i</sub>.length == 3</code></li>
 	<li><code>to<sub>i</sub>.length == 3</code></li>
-	<li><code>from<sub>i</sub></code> 和 <code>to<sub>i</sub></code> 由大写英文字母组成</li>
+	<li><code>from<sub>i</sub></code> and <code>to<sub>i</sub></code> consist of uppercase English letters.</li>
 	<li><code>from<sub>i</sub> != to<sub>i</sub></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：欧拉路径
+### Solution 1: Eulerian Path
 
-题目实际上是给定 $n$ 个点和 $m$ 条边，要求从指定的起点出发，经过所有的边恰好一次，使得路径字典序最小。这是一个典型的欧拉路径问题。
+The problem is essentially about finding a path that starts from a specified starting point, passes through all the edges exactly once, and has the smallest lexicographical order among all such paths, given $n$ vertices and $m$ edges. This is a classic Eulerian path problem.
 
-由于本题保证了至少存在一种合理的行程，因此，我们直接利用 Hierholzer 算法，输出从起点出发的欧拉路径即可。
+Since the problem guarantees that there is at least one feasible itinerary, we can directly use the Hierholzer algorithm to output the Eulerian path starting from the starting point.
 
-时间复杂度 $O(m \times \log m)$，空间复杂度 $O(m)$。其中 $m$ 是边的数量。
+The time complexity is $O(m \times \log m)$, and the space complexity is $O(m)$. Here, $m$ is the number of edges.
 
 <!-- tabs:start -->
 

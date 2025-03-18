@@ -1,68 +1,63 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2863.Maximum%20Length%20of%20Semi-Decreasing%20Subarrays/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 数组
-    - 排序
-    - 单调栈
+    - Stack
+    - Array
+    - Sorting
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [2863. 最长半递减子数组的长度 🔒](https://leetcode.cn/problems/maximum-length-of-semi-decreasing-subarrays)
+# [2863. Maximum Length of Semi-Decreasing Subarrays 🔒](https://leetcode.com/problems/maximum-length-of-semi-decreasing-subarrays)
 
-[English Version](/solution/2800-2899/2863.Maximum%20Length%20of%20Semi-Decreasing%20Subarrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数数组 <code>nums</code>。</p>
+<p>You are given an integer array <code>nums</code>.</p>
 
-<p>返回 <code>nums</code> 的&nbsp;<em><strong>最长半递减子数组&nbsp;</strong></em>的长度，如果没有这样的子数组则返回 <code>0</code>。</p>
+<p>Return <em>the length of the <strong>longest semi-decreasing</strong> subarray of </em><code>nums</code><em>, and </em><code>0</code><em> if there are no such subarrays.</em></p>
 
 <ul>
-	<li><strong>子数组</strong> 是数组内的连续非空元素序列。</li>
-	<li>一个非空数组是 <strong>半递减</strong> 的，如果它的第一个元素 <strong>严格大于</strong> 它的最后一个元素。</li>
+	<li>A <b>subarray</b> is a contiguous non-empty sequence of elements within an array.</li>
+	<li>A non-empty array is <strong>semi-decreasing</strong> if its first element is <strong>strictly greater</strong> than its last element.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong> nums = [7,6,5,4,3,2,1,6,10,11]
-<b>输出：</b> 8
-<b>解释：</b> 取子数组 [7,6,5,4,3,2,1,6]。
-第一个元素是 7，最后一个元素是 6，因此满足条件。
-因此，答案是子数组的长度，即 8。
-可以证明，在给定条件下，没有长度大于 8 的子数组。
+<strong>Input:</strong> nums = [7,6,5,4,3,2,1,6,10,11]
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> Take the subarray [7,6,5,4,3,2,1,6].
+The first element is 7 and the last one is 6 so the condition is met.
+Hence, the answer would be the length of the subarray or 8.
+It can be shown that there aren&#39;t any subarrays with the given condition with a length greater than 8.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b> nums = [57,55,50,60,61,58,63,59,64,60,63]
-<b>输出：</b> 6
-<b>解释：</b> 取子数组 [61,58,63,59,64,60].
-第一个元素是 61，最后一个元素是 60，因此满足条件。
-因此，答案是子数组的长度，即 6。
-可以证明，在给定条件下，没有长度大于 6 的子数组。
+<strong>Input:</strong> nums = [57,55,50,60,61,58,63,59,64,60,63]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> Take the subarray [61,58,63,59,64,60].
+The first element is 61 and the last one is 60 so the condition is met.
+Hence, the answer would be the length of the subarray or 6.
+It can be shown that there aren&#39;t any subarrays with the given condition with a length greater than 6.
 </pre>
 
-<p><b>示例 3:</b></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b> nums = [1,2,3,4]
-<b>输出：</b> 0
-<b>解释：</b> 由于给定数组中没有半递减子数组，答案为 0。
+<strong>Input:</strong> nums = [1,2,3,4]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> Since there are no semi-decreasing subarrays in the given array, the answer is 0.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -71,17 +66,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 排序
+### Solution 1: Hash Table + Sorting
 
-题目实际上是求逆序对的最大长度，我们不妨用哈希表 $d$ 记录数组中每个数字 $x$ 对应的下标 $i$。
+The problem is essentially finding the maximum length of the inverse pairs. We can use a hash table $d$ to record the index $i$ corresponding to each number $x$ in the array.
 
-接下来，我们按照数字从大到小的顺序遍历哈希表的键，用一个数字 $k$ 维护此前出现过的最小的下标，那么对于当前的数字 $x$，我们可以得到一个最大的逆序对长度 $d[x][|d[x]|-1]-k + 1$，其中 $|d[x]|$ 表示数组 $d[x]$ 的长度，即数字 $x$ 在原数组中出现的次数，我们更新答案即可。然后，我们将 $k$ 更新为 $d[x][0]$，即数字 $x$ 在原数组中第一次出现的下标。继续遍历哈希表的键，直到遍历完所有的键。
+Next, we traverse the keys of the hash table in descending order of the numbers. We maintain a number $k$ to keep track of the smallest index that has appeared so far. For the current number $x$, we can get a maximum inverse pair length of $d[x][|d[x]|-1]-k + 1$, where $|d[x]|$ represents the length of the array $d[x]$, i.e., the number of times the number $x$ appears in the original array. We update the answer accordingly. Then, we update $k$ to $d[x][0]$, which is the index where the number $x$ first appears in the original array. We continue to traverse the keys of the hash table until all keys are traversed.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

@@ -1,74 +1,69 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2454.Next%20Greater%20Element%20IV/README.md
+difficulty: Hard
 rating: 2175
-source: 第 90 场双周赛 Q4
+source: Biweekly Contest 90 Q4
 tags:
-    - 栈
-    - 数组
-    - 二分查找
-    - 排序
-    - 单调栈
-    - 堆（优先队列）
+    - Stack
+    - Array
+    - Binary Search
+    - Sorting
+    - Monotonic Stack
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2454. 下一个更大元素 IV](https://leetcode.cn/problems/next-greater-element-iv)
+# [2454. Next Greater Element IV](https://leetcode.com/problems/next-greater-element-iv)
 
-[English Version](/solution/2400-2499/2454.Next%20Greater%20Element%20IV/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的非负整数数组&nbsp;<code>nums</code>&nbsp;。对于&nbsp;<code>nums</code>&nbsp;中每一个整数，你必须找到对应元素的&nbsp;<strong>第二大</strong>&nbsp;整数。</p>
+<p>You are given a <strong>0-indexed</strong> array of non-negative integers <code>nums</code>. For each integer in <code>nums</code>, you must find its respective <strong>second greater</strong> integer.</p>
 
-<p>如果&nbsp;<code>nums[j]</code>&nbsp;满足以下条件，那么我们称它为&nbsp;<code>nums[i]</code>&nbsp;的&nbsp;<strong>第二大</strong>&nbsp;整数：</p>
+<p>The <strong>second greater</strong> integer of <code>nums[i]</code> is <code>nums[j]</code> such that:</p>
 
 <ul>
 	<li><code>j &gt; i</code></li>
 	<li><code>nums[j] &gt; nums[i]</code></li>
-	<li>恰好存在 <strong>一个</strong>&nbsp;<code>k</code>&nbsp;满足 <code>i &lt; k &lt; j</code>&nbsp;且&nbsp;<code>nums[k] &gt; nums[i]</code>&nbsp;。</li>
+	<li>There exists <strong>exactly one</strong> index <code>k</code> such that <code>nums[k] &gt; nums[i]</code> and <code>i &lt; k &lt; j</code>.</li>
 </ul>
 
-<p>如果不存在&nbsp;<code>nums[j]</code>&nbsp;，那么第二大整数为&nbsp;<code>-1</code>&nbsp;。</p>
+<p>If there is no such <code>nums[j]</code>, the second greater integer is considered to be <code>-1</code>.</p>
 
 <ul>
-	<li>比方说，数组&nbsp;<code>[1, 2, 4, 3]</code>&nbsp;中，<code>1</code>&nbsp;的第二大整数是&nbsp;<code>4</code>&nbsp;，<code>2</code>&nbsp;的第二大整数是&nbsp;<code>3</code>&nbsp;，<code>3</code> 和&nbsp;<code>4</code>&nbsp;的第二大整数是&nbsp;<code>-1</code>&nbsp;。</li>
+	<li>For example, in the array <code>[1, 2, 4, 3]</code>, the second greater integer of <code>1</code> is <code>4</code>, <code>2</code> is <code>3</code>,&nbsp;and that of <code>3</code> and <code>4</code> is <code>-1</code>.</li>
 </ul>
 
-<p>请你返回一个整数数组<em>&nbsp;</em><code>answer</code>&nbsp;，其中<em>&nbsp;</em><code>answer[i]</code>是<em>&nbsp;</em><code>nums[i]</code>&nbsp;的第二大整数。</p>
+<p>Return<em> an integer array </em><code>answer</code><em>, where </em><code>answer[i]</code><em> is the second greater integer of </em><code>nums[i]</code><em>.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [2,4,0,9,6]
-<b>输出：</b>[9,6,6,-1,-1]
-<strong>解释：</strong>
-下标为 0 处：2 的右边，4 是大于 2 的第一个整数，9 是第二个大于 2 的整数。
-下标为 1 处：4 的右边，9 是大于 4 的第一个整数，6 是第二个大于 4 的整数。
-下标为 2 处：0 的右边，9 是大于 0 的第一个整数，6 是第二个大于 0 的整数。
-下标为 3 处：右边不存在大于 9 的整数，所以第二大整数为 -1 。
-下标为 4 处：右边不存在大于 6 的整数，所以第二大整数为 -1 。
-所以我们返回 [9,6,6,-1,-1] 。
+<strong>Input:</strong> nums = [2,4,0,9,6]
+<strong>Output:</strong> [9,6,6,-1,-1]
+<strong>Explanation:</strong>
+0th index: 4 is the first integer greater than 2, and 9 is the second integer greater than 2, to the right of 2.
+1st index: 9 is the first, and 6 is the second integer greater than 4, to the right of 4.
+2nd index: 9 is the first, and 6 is the second integer greater than 0, to the right of 0.
+3rd index: There is no integer greater than 9 to its right, so the second greater integer is considered to be -1.
+4th index: There is no integer greater than 6 to its right, so the second greater integer is considered to be -1.
+Thus, we return [9,6,6,-1,-1].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,3]
-<b>输出：</b>[-1,-1]
-<strong>解释：</strong>
-由于每个数右边都没有更大的数，所以我们返回 [-1,-1] 。
+<strong>Input:</strong> nums = [3,3]
+<strong>Output:</strong> [-1,-1]
+<strong>Explanation:</strong>
+We return [-1,-1] since neither integer has any integer greater than it.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -77,17 +72,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 有序集合
+### Solution 1: Sorting + Ordered Set
 
-我们可以将数组中的元素转成二元组 $(x, i)$，其中 $x$ 为元素的值，$i$ 为元素的下标。然后按照元素的值从大到小排序。
+We can convert the elements in the array into pairs $(x, i)$, where $x$ is the value of the element and $i$ is the index of the element. Then sort by the value of the elements in descending order.
 
-接下来，我们遍历排序后的数组，维护一个有序集合，其中存储的是元素的下标。当我们遍历到元素 $(x, i)$ 时，所有大于 $x$ 的元素的下标都已经在有序集合中了。我们只需要在有序集合中，找到 $i$ 的下下一个元素的下标 $j$，那么 $j$ 对应的元素就是 $x$ 的第二大元素。然后，我们将 $i$ 加入到有序集合中。继续遍历下一个元素。
+Next, we traverse the sorted array, maintaining an ordered set that stores the indices of the elements. When we traverse to the element $(x, i)$, the indices of all elements greater than $x$ are already in the ordered set. We only need to find the index $j$ of the next element after $i$ in the ordered set, then the element corresponding to $j$ is the second largest element of $x$. Then, we add $i$ to the ordered set. Continue to traverse the next element.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

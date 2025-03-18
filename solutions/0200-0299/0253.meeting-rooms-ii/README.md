@@ -1,47 +1,35 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0253.Meeting%20Rooms%20II/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数组
-    - 双指针
-    - 前缀和
-    - 排序
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Two Pointers
+    - Prefix Sum
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [253. 会议室 II 🔒](https://leetcode.cn/problems/meeting-rooms-ii)
+# [253. Meeting Rooms II 🔒](https://leetcode.com/problems/meeting-rooms-ii)
 
-[English Version](/solution/0200-0299/0253.Meeting%20Rooms%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个会议时间安排的数组 <code>intervals</code> ，每个会议时间都会包括开始和结束的时间 <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> ，返回 <em>所需会议室的最小数量</em> 。</p>
+<p>Given an array of meeting time intervals <code>intervals</code> where <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>, return <em>the minimum number of conference rooms required</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>intervals = [[0,30],[5,10],[15,20]]
-<strong>输出：</strong>2
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> intervals = [[0,30],[5,10],[15,20]]
+<strong>Output:</strong> 2
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> intervals = [[7,10],[2,4]]
+<strong>Output:</strong> 1
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>intervals = [[7,10],[2,4]]
-<strong>输出：</strong>1
-</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;=&nbsp;intervals.length &lt;= 10<sup>4</sup></code></li>
@@ -50,11 +38,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：差分数组
+### Solution 1
 
 <!-- tabs:start -->
 

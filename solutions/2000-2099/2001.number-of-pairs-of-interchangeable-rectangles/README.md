@@ -1,60 +1,55 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2001.Number%20of%20Pairs%20of%20Interchangeable%20Rectangles/README.md
+difficulty: Medium
 rating: 1435
-source: 第 258 场周赛 Q2
+source: Weekly Contest 258 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 数学
-    - 计数
-    - 数论
+    - Array
+    - Hash Table
+    - Math
+    - Counting
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [2001. 可互换矩形的组数](https://leetcode.cn/problems/number-of-pairs-of-interchangeable-rectangles)
+# [2001. Number of Pairs of Interchangeable Rectangles](https://leetcode.com/problems/number-of-pairs-of-interchangeable-rectangles)
 
-[English Version](/solution/2000-2099/2001.Number%20of%20Pairs%20of%20Interchangeable%20Rectangles/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>用一个下标从 <strong>0</strong> 开始的二维整数数组&nbsp;<code>rectangles</code> 来表示 <code>n</code> 个矩形，其中 <code>rectangles[i] = [width<sub>i</sub>, height<sub>i</sub>]</code> 表示第 <code>i</code> 个矩形的宽度和高度。</p>
+<p>You are given <code>n</code> rectangles represented by a <strong>0-indexed</strong> 2D integer array <code>rectangles</code>, where <code>rectangles[i] = [width<sub>i</sub>, height<sub>i</sub>]</code> denotes the width and height of the <code>i<sup>th</sup></code> rectangle.</p>
 
-<p>如果两个矩形 <code>i</code> 和 <code>j</code>（<code>i &lt; j</code>）的宽高比相同，则认为这两个矩形 <strong>可互换</strong> 。更规范的说法是，两个矩形满足&nbsp;<code>width<sub>i</sub>/height<sub>i</sub> == width<sub>j</sub>/height<sub>j</sub></code>（使用实数除法而非整数除法），则认为这两个矩形 <strong>可互换</strong> 。</p>
+<p>Two rectangles <code>i</code> and <code>j</code> (<code>i &lt; j</code>) are considered <strong>interchangeable</strong> if they have the <strong>same</strong> width-to-height ratio. More formally, two rectangles are <strong>interchangeable</strong> if <code>width<sub>i</sub>/height<sub>i</sub> == width<sub>j</sub>/height<sub>j</sub></code> (using decimal division, not integer division).</p>
 
-<p>计算并返回&nbsp;<code>rectangles</code> 中有多少对 <strong>可互换 </strong>矩形。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>rectangles = [[4,8],[3,6],[10,20],[15,30]]
-<strong>输出：</strong>6
-<strong>解释：</strong>下面按下标（从 0 开始）列出可互换矩形的配对情况：
-- 矩形 0 和矩形 1 ：4/8 == 3/6
-- 矩形 0 和矩形 2 ：4/8 == 10/20
-- 矩形 0 和矩形 3 ：4/8 == 15/30
-- 矩形 1 和矩形 2 ：3/6 == 10/20
-- 矩形 1 和矩形 3 ：3/6 == 15/30
-- 矩形 2 和矩形 3 ：10/20 == 15/30
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>rectangles = [[4,5],[7,8]]
-<strong>输出：</strong>0
-<strong>解释：</strong>不存在成对的可互换矩形。
-</pre>
+<p>Return <em>the <strong>number</strong> of pairs of <strong>interchangeable</strong> rectangles in </em><code>rectangles</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> rectangles = [[4,8],[3,6],[10,20],[15,30]]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The following are the interchangeable pairs of rectangles by index (0-indexed):
+- Rectangle 0 with rectangle 1: 4/8 == 3/6.
+- Rectangle 0 with rectangle 2: 4/8 == 10/20.
+- Rectangle 0 with rectangle 3: 4/8 == 15/30.
+- Rectangle 1 with rectangle 2: 3/6 == 10/20.
+- Rectangle 1 with rectangle 3: 3/6 == 15/30.
+- Rectangle 2 with rectangle 3: 10/20 == 15/30.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> rectangles = [[4,5],[7,8]]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There are no interchangeable pairs of rectangles.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == rectangles.length</code></li>
@@ -65,15 +60,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学 + 哈希表
+### Solution 1: Mathematics + Hash Table
 
-为了能够唯一表示矩形，我们需要将矩形的宽高比化简为最简分数。因此，我们可以求出每个矩形的宽高比的最大公约数，然后将宽高比化简为最简分数。接下来，我们使用哈希表统计每个最简分数的矩形数量，然后计算每个最简分数的矩形数量的组合数，即可得到答案。
+In order to uniquely represent a rectangle, we need to simplify the width-to-height ratio of the rectangle to a simplest fraction. Therefore, we can find the greatest common divisor of the width-to-height ratio of each rectangle, and then simplify the width-to-height ratio to the simplest fraction. Next, we use a hash table to count the number of rectangles for each simplest fraction, and then calculate the combination of the number of rectangles for each simplest fraction to get the answer.
 
-时间复杂度 $O(n \times \log M)$，空间复杂度 $O(n)$。其中 $n$ 和 $M$ 分别是矩形的数量和矩形的最大边长。
+The time complexity is $O(n \times \log M)$, and the space complexity is $O(n)$. Here, $n$ and $M$ are the number of rectangles and the maximum side length of the rectangles, respectively.
 
 <!-- tabs:start -->
 

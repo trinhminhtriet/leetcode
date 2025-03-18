@@ -1,77 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0672.Bulb%20Switcher%20II/README.md
+difficulty: Medium
 tags:
-    - 位运算
-    - 深度优先搜索
-    - 广度优先搜索
-    - 数学
+    - Bit Manipulation
+    - Depth-First Search
+    - Breadth-First Search
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [672. 灯泡开关 Ⅱ](https://leetcode.cn/problems/bulb-switcher-ii)
+# [672. Bulb Switcher II](https://leetcode.com/problems/bulb-switcher-ii)
 
-[English Version](/solution/0600-0699/0672.Bulb%20Switcher%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>房间中有 <code>n</code>&nbsp;只已经打开的灯泡，编号从 <code>1</code> 到 <code>n</code> 。墙上挂着 <strong>4 个开关</strong> 。</p>
-
-<p>这 4 个开关各自都具有不同的功能，其中：</p>
+<p>There is a room with <code>n</code> bulbs labeled from <code>1</code> to <code>n</code> that all are turned on initially, and <strong>four buttons</strong> on the wall. Each of the four buttons has a different functionality where:</p>
 
 <ul>
-	<li><strong>开关 1 ：</strong>反转当前所有灯的状态（即开变为关，关变为开）</li>
-	<li><strong>开关 2 ：</strong>反转编号为偶数的灯的状态（即 <code>0, 2, 4, ...</code>）</li>
-	<li><strong>开关 3 ：</strong>反转编号为奇数的灯的状态（即 <code>1, 3, ...</code>）</li>
-	<li><strong>开关 4 ：</strong>反转编号为 <code>j = 3k + 1</code> 的灯的状态，其中 <code>k = 0, 1, 2, ...</code>（即 <code>1, 4, 7, 10, ...</code>）</li>
+	<li><strong>Button 1:</strong> Flips the status of all the bulbs.</li>
+	<li><strong>Button 2:</strong> Flips the status of all the bulbs with even labels (i.e., <code>2, 4, ...</code>).</li>
+	<li><strong>Button 3:</strong> Flips the status of all the bulbs with odd labels (i.e., <code>1, 3, ...</code>).</li>
+	<li><strong>Button 4:</strong> Flips the status of all the bulbs with a label <code>j = 3k + 1</code> where <code>k = 0, 1, 2, ...</code> (i.e., <code>1, 4, 7, 10, ...</code>).</li>
 </ul>
 
-<p>你必须 <strong>恰好</strong> 按压开关 <code>presses</code> 次。每次按压，你都需要从 4 个开关中选出一个来执行按压操作。</p>
+<p>You must make <strong>exactly</strong> <code>presses</code> button presses in total. For each press, you may pick <strong>any</strong> of the four buttons to press.</p>
 
-<p>给你两个整数 <code>n</code> 和 <code>presses</code> ，执行完所有按压之后，返回 <strong>不同可能状态</strong> 的数量。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 1, presses = 1
-<strong>输出：</strong>2
-<strong>解释：</strong>状态可以是：
-- 按压开关 1 ，[关]
-- 按压开关 2 ，[开]
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 2, presses = 1
-<strong>输出：</strong>3
-<strong>解释：</strong>状态可以是：
-- 按压开关 1 ，[关, 关]
-- 按压开关 2 ，[开, 关]
-- 按压开关 3 ，[关, 开]
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 3, presses = 1
-<strong>输出：</strong>4
-<strong>解释：</strong>状态可以是：
-- 按压开关 1 ，[关, 关, 关]
-- 按压开关 2 ，[关, 开, 关]
-- 按压开关 3 ，[开, 关, 开]
-- 按压开关 4 ，[关, 开, 开]
-</pre>
+<p>Given the two integers <code>n</code> and <code>presses</code>, return <em>the number of <strong>different possible statuses</strong> after performing all </em><code>presses</code><em> button presses</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 1, presses = 1
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> Status can be:
+- [off] by pressing button 1
+- [on] by pressing button 2
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 2, presses = 1
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> Status can be:
+- [off, off] by pressing button 1
+- [on, off] by pressing button 2
+- [off, on] by pressing button 3
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 3, presses = 1
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Status can be:
+- [off, off, off] by pressing button 1
+- [off, on, off] by pressing button 2
+- [on, off, on] by pressing button 3
+- [off, on, on] by pressing button 4
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
@@ -80,21 +73,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算
-
-观察灯泡开关随按钮操作的变化规律，我们可以发现，位置 $i$ 与 $i+6$ 的灯泡，开关状态始终保持一致，因此，我们只需要考虑最多前 $n=6$ 个灯泡的开关状态。
-
-另外，对于每个按钮，若操作偶数次，相当于没执行操作；若操作奇数次，相当于操作了 $1$ 次。同时，不同按钮操作的先后顺序，也不影响结果。
-
-题目有 $4$ 个按钮，每个按钮有“操作偶数次”和“操作奇数次”两种状态，因此总共有 $2^4$ 种按钮状态。
-
-二进制枚举按钮的状态 `mask`，若当前状态满足题目 `presses` 的限制，我们可以通过位运算，模拟操作对应按钮，最终得到灯泡的状态 $t$，去重后的 $t$ 的数量就是答案。
-
-时空复杂度均为常数级别。
+### Solution 1
 
 <!-- tabs:start -->
 

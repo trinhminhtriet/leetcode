@@ -1,94 +1,89 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3117.Minimum%20Sum%20of%20Values%20by%20Dividing%20Array/README.md
+difficulty: Hard
 rating: 2735
-source: 第 393 场周赛 Q4
+source: Weekly Contest 393 Q4
 tags:
-    - 位运算
-    - 线段树
-    - 队列
-    - 数组
-    - 二分查找
-    - 动态规划
+    - Bit Manipulation
+    - Segment Tree
+    - Queue
+    - Array
+    - Binary Search
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3117. 划分数组得到最小的值之和](https://leetcode.cn/problems/minimum-sum-of-values-by-dividing-array)
+# [3117. Minimum Sum of Values by Dividing Array](https://leetcode.com/problems/minimum-sum-of-values-by-dividing-array)
 
-[English Version](/solution/3100-3199/3117.Minimum%20Sum%20of%20Values%20by%20Dividing%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个数组 <code>nums</code> 和 <code>andValues</code>，长度分别为 <code>n</code> 和 <code>m</code>。</p>
+<p>You are given two arrays <code>nums</code> and <code>andValues</code> of length <code>n</code> and <code>m</code> respectively.</p>
 
-<p>数组的 <strong>值 </strong>等于该数组的 <strong>最后一个 </strong>元素。</p>
+<p>The <strong>value</strong> of an array is equal to the <strong>last</strong> element of that array.</p>
 
-<p>你需要将 <code>nums</code> 划分为 <code>m</code> 个 <strong>不相交的连续 </strong><span data-keyword="subarray-nonempty">子数组</span>，对于第 <code>i<sup>th</sup></code> 个子数组 <code>[l<sub>i</sub>, r<sub>i</sub>]</code>，子数组元素的按位&nbsp;<code>AND</code>&nbsp;运算结果等于 <code>andValues[i]</code>，换句话说，对所有的 <code>1 &lt;= i &lt;= m</code>，<code>nums[l<sub>i</sub>] &amp; nums[l<sub>i</sub> + 1] &amp; ... &amp; nums[r<sub>i</sub>] == andValues[i]</code> ，其中 <code>&amp;</code> 表示按位&nbsp;<code>AND</code>&nbsp;运算符。</p>
+<p>You have to divide <code>nums</code> into <code>m</code> <strong>disjoint contiguous</strong> <span data-keyword="subarray-nonempty">subarrays</span> such that for the <code>i<sup>th</sup></code> subarray <code>[l<sub>i</sub>, r<sub>i</sub>]</code>, the bitwise <code>AND</code> of the subarray elements is equal to <code>andValues[i]</code>, in other words, <code>nums[l<sub>i</sub>] &amp; nums[l<sub>i</sub> + 1] &amp; ... &amp; nums[r<sub>i</sub>] == andValues[i]</code> for all <code>1 &lt;= i &lt;= m</code>, where <code>&amp;</code> represents the bitwise <code>AND</code> operator.</p>
 
-<p>返回将 <code>nums</code> 划分为 <code>m</code> 个子数组所能得到的可能的 <strong>最小 </strong>子数组 <strong>值</strong> 之和。如果无法完成这样的划分，则返回 <code>-1</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [1,4,3,3,2], andValues = [0,3,3,2]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">12</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>唯一可能的划分方法为：</p>
-
-<ol>
-	<li><code>[1,4]</code> 因为 <code>1 &amp; 4 == 0</code></li>
-	<li><code>[3]</code> 因为单元素子数组的按位 <code>AND</code> 结果就是该元素本身</li>
-	<li><code>[3]</code> 因为单元素子数组的按位 <code>AND</code> 结果就是该元素本身</li>
-	<li><code>[2]</code> 因为单元素子数组的按位 <code>AND</code> 结果就是该元素本身</li>
-</ol>
-
-<p>这些子数组的值之和为 <code>4 + 3 + 3 + 2 = 12</code></p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [2,3,5,7,7,7,5], andValues = [0,7,5]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">17</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>划分 <code>nums</code> 的三种方式为：</p>
-
-<ol>
-	<li><code>[[2,3,5],[7,7,7],[5]]</code> 其中子数组的值之和为 <code>5 + 7 + 5 = 17</code></li>
-	<li><code>[[2,3,5,7],[7,7],[5]]</code> 其中子数组的值之和为 <code>7 + 7 + 5 = 19</code></li>
-	<li><code>[[2,3,5,7,7],[7],[5]]</code> 其中子数组的值之和为 <code>7 + 7 + 5 = 19</code></li>
-</ol>
-
-<p>子数组值之和的最小可能值为 <code>17</code></p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [1,2,3,4], andValues = [2]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">-1</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>整个数组 <code>nums</code> 的按位 <code>AND</code> 结果为 <code>0</code>。由于无法将 <code>nums</code> 划分为单个子数组使得元素的按位 <code>AND</code> 结果为 <code>2</code>，因此返回 <code>-1</code>。</p>
-</div>
+<p>Return <em>the <strong>minimum</strong> possible sum of the <strong>values</strong> of the </em><code>m</code><em> subarrays </em><code>nums</code><em> is divided into</em>. <em>If it is not possible to divide </em><code>nums</code><em> into </em><code>m</code><em> subarrays satisfying these conditions, return</em> <code>-1</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,4,3,3,2], andValues = [0,3,3,2]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">12</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The only possible way to divide <code>nums</code> is:</p>
+
+<ol>
+	<li><code>[1,4]</code> as <code>1 &amp; 4 == 0</code>.</li>
+	<li><code>[3]</code> as the bitwise <code>AND</code> of a single element subarray is that element itself.</li>
+	<li><code>[3]</code> as the bitwise <code>AND</code> of a single element subarray is that element itself.</li>
+	<li><code>[2]</code> as the bitwise <code>AND</code> of a single element subarray is that element itself.</li>
+</ol>
+
+<p>The sum of the values for these subarrays is <code>4 + 3 + 3 + 2 = 12</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [2,3,5,7,7,7,5], andValues = [0,7,5]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">17</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>There are three ways to divide <code>nums</code>:</p>
+
+<ol>
+	<li><code>[[2,3,5],[7,7,7],[5]]</code> with the sum of the values <code>5 + 7 + 5 == 17</code>.</li>
+	<li><code>[[2,3,5,7],[7,7],[5]]</code> with the sum of the values <code>7 + 7 + 5 == 19</code>.</li>
+	<li><code>[[2,3,5,7,7],[7],[5]]</code> with the sum of the values <code>7 + 7 + 5 == 19</code>.</li>
+</ol>
+
+<p>The minimum possible sum of the values is <code>17</code>.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3,4], andValues = [2]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">-1</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The bitwise <code>AND</code> of the entire array <code>nums</code> is <code>0</code>. As there is no possible way to divide <code>nums</code> into a single subarray to have the bitwise <code>AND</code> of elements <code>2</code>, return <code>-1</code>.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == nums.length &lt;= 10<sup>4</sup></code></li>
@@ -99,26 +94,26 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们设计一个函数 $dfs(i, j, a)$，表示从第 $i$ 个元素开始，当前已经划分了 $j$ 个子数组，且当前待划分的子数组的按位与结果为 $a$ 的情况下，所能得到的可能的最小子数组值之和。那么答案就是 $dfs(0, 0, -1)$。
+We design a function $dfs(i, j, a)$, which represents the possible minimum sum of subarray values that can be obtained starting from the $i$-th element, with $j$ subarrays already divided, and the bitwise AND result of the current subarray to be divided is $a$. The answer is $dfs(0, 0, -1)$.
 
-函数 $dfs(i, j, a)$ 的执行过程如下：
+The execution process of the function $dfs(i, j, a)$ is as follows:
 
--   如果 $n - i < m - j$，那么说明剩下的元素不足以划分出 $m - j$ 个子数组，返回 $+\infty$。
--   如果 $j = m$，那么说明已经划分出了 $m$ 个子数组，此时判断 $i = n$ 是否成立，如果成立返回 $0$，否则返回 $+\infty$。
--   否则，我们将 $a$ 与 $nums[i]$ 进行按位与操作，得到新的 $a$。如果 $a < andValues[j]$，那么说明当前待划分的子数组的按位与结果不满足要求，返回 $+\infty$。否则，我们有两种选择：
-    -   不划分当前元素，即 $dfs(i + 1, j, a)$。
-    -   划分当前元素，即 $dfs(i + 1, j + 1, -1) + nums[i]$。
--   返回上述两种选择的最小值。
+-   If $n - i < m - j$, it means that the remaining elements are not enough to divide into $m - j$ subarrays, return $+\infty$.
+-   If $j = m$, it means that $m$ subarrays have been divided. At this time, check whether $i = n$ holds. If it holds, return $0$, otherwise return $+\infty$.
+-   Otherwise, we perform a bitwise AND operation on $a$ and $nums[i]$ to get a new $a$. If $a < andValues[j]$, it means that the bitwise AND result of the current subarray to be divided does not meet the requirements, return $+\infty$. Otherwise, we have two choices:
+    -   Do not divide the current element, i.e., $dfs(i + 1, j, a)$.
+    -   Divide the current element, i.e., $dfs(i + 1, j + 1, -1) + nums[i]$.
+-   Return the minimum of the above two choices.
 
-为了避免重复计算，我们使用记忆化搜索的方法，将 $dfs(i, j, a)$ 的结果存储在一个哈希表中。
+To avoid repeated calculations, we use the method of memoization search and store the result of $dfs(i, j, a)$ in a hash table.
 
-时间复杂度 $O(n \times m \times \log M)$，空间复杂度 $O(n \times m \times \log M)$。其中 $n$ 和 $m$ 分别是数组 $nums$ 和 $andValues$ 的长度；而 $M$ 是数组 $nums$ 中的最大值，本题中 $M \leq 10^5$。
+The time complexity is $O(n \times m \times \log M)$, and the space complexity is $O(n \times m \times \log M)$. Where $n$ and $m$ are the lengths of the arrays $nums$ and $andValues$ respectively; and $M$ is the maximum value in the array $nums$, in this problem $M \leq 10^5$.
 
 <!-- tabs:start -->
 

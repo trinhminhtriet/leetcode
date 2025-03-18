@@ -1,55 +1,50 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0992.Subarrays%20with%20K%20Different%20Integers/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 哈希表
-    - 计数
-    - 滑动窗口
+    - Array
+    - Hash Table
+    - Counting
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [992. K 个不同整数的子数组](https://leetcode.cn/problems/subarrays-with-k-different-integers)
+# [992. Subarrays with K Different Integers](https://leetcode.com/problems/subarrays-with-k-different-integers)
 
-[English Version](/solution/0900-0999/0992.Subarrays%20with%20K%20Different%20Integers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个正整数数组 <code>nums</code>和一个整数 <code>k</code>，返回 <code>nums</code> 中 「<strong>好子数组」</strong><em>&nbsp;</em>的数目。</p>
+<p>Given an integer array <code>nums</code> and an integer <code>k</code>, return <em>the number of <strong>good subarrays</strong> of </em><code>nums</code>.</p>
 
-<p>如果 <code>nums</code>&nbsp;的某个子数组中不同整数的个数恰好为 <code>k</code>，则称 <code>nums</code>&nbsp;的这个连续、不一定不同的子数组为 <strong>「</strong><strong>好子数组 」</strong>。</p>
+<p>A <strong>good array</strong> is an array where the number of different integers in that array is exactly <code>k</code>.</p>
 
 <ul>
-	<li>例如，<code>[1,2,3,1,2]</code> 中有&nbsp;<code>3</code>&nbsp;个不同的整数：<code>1</code>，<code>2</code>，以及&nbsp;<code>3</code>。</li>
+	<li>For example, <code>[1,2,3,1,2]</code> has <code>3</code> different integers: <code>1</code>, <code>2</code>, and <code>3</code>.</li>
 </ul>
 
-<p><strong>子数组</strong> 是数组的 <strong>连续</strong> 部分。</p>
+<p>A <strong>subarray</strong> is a <strong>contiguous</strong> part of an array.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,1,2,3], k = 2
-<strong>输出：</strong>7
-<strong>解释：</strong>恰好由 2 个不同整数组成的子数组：[1,2], [2,1], [1,2], [2,3], [1,2,1], [2,1,2], [1,2,1,2].
+<strong>Input:</strong> nums = [1,2,1,2,3], k = 2
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> Subarrays formed with exactly 2 different integers: [1,2], [2,1], [1,2], [2,3], [1,2,1], [2,1,2], [1,2,1,2]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,1,3,4], k = 3
-<strong>输出：</strong>3
-<strong>解释：</strong>恰好由 3 个不同整数组成的子数组：[1,2,1,3], [2,1,3], [1,3,4].
+<strong>Input:</strong> nums = [1,2,1,3,4], k = 3
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> Subarrays formed with exactly 3 different integers: [1,2,1,3], [2,1,3], [1,3,4].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 2 * 10<sup>4</sup></code></li>
@@ -58,19 +53,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
-
-我们遍历数组 $nums$，对于每个 $i$，我们需要找到最小的 $j_1$，使得 $nums[j_1], nums[j_1 + 1], \dots, nums[i]$ 中不同的整数个数小于等于 $k$，以及最小的 $j_2$，使得 $nums[j_2], nums[j_2 + 1], \dots, nums[i]$ 中不同的整数个数小于等于 $k-1$。那么 $j_2 - j_1$ 就是以 $i$ 结尾的满足条件的子数组的个数。
-
-在实现上，我们定义一个函数 $f(k)$，表示 $nums$ 中每个位置 $i$ 对应的最小的 $j$，使得 $nums[j], nums[j + 1], \dots, nums[i]$ 中不同的整数个数小于等于 $k$。该函数可以通过双指针实现，具体实现见代码。
-
-然后我们调用 $f(k)$ 和 $f(k-1)$，计算出每个位置对应的 $j_1$ 和 $j_2$，然后计算出以每个位置 $i$ 结尾的满足条件的子数组的个数，最后求和即可。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

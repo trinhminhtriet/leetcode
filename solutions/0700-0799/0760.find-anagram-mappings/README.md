@@ -1,64 +1,58 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0760.Find%20Anagram%20Mappings/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 哈希表
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [760. 找出变位映射 🔒](https://leetcode.cn/problems/find-anagram-mappings)
+# [760. Find Anagram Mappings 🔒](https://leetcode.com/problems/find-anagram-mappings)
 
-[English Version](/solution/0700-0799/0760.Find%20Anagram%20Mappings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数数组 <code>nums1</code> 和 <code>nums2</code>，其中 <code>nums2</code> 是 <code>nums1</code> 的一个<strong> 变位词 </strong>。两个数组都可能包含重复元素。</p>
+<p>You are given two integer arrays <code>nums1</code> and <code>nums2</code> where <code>nums2</code> is <strong>an anagram</strong> of <code>nums1</code>. Both arrays may contain duplicates.</p>
 
-<p>返回一个下标映射数组 <code>mapping</code>，它将 <code>nums1</code> 映射到 <code>nums2</code>，其中 <code>mapping[i] = j</code> 表示 <code>nums1</code> 中的第 <code>i</code> 个元素出现在 <code>nums2</code> 的第 <code>j</code> 个下标上。如果有多个答案，返回 <strong>任意一个 </strong>。</p>
+<p>Return <em>an index mapping array </em><code>mapping</code><em> from </em><code>nums1</code><em> to </em><code>nums2</code><em> where </em><code>mapping[i] = j</code><em> means the </em><code>i<sup>th</sup></code><em> element in </em><code>nums1</code><em> appears in </em><code>nums2</code><em> at index </em><code>j</code>. If there are multiple answers, return <strong>any of them</strong>.</p>
 
-<p>数组 <code>a</code> 是数组 <code>b</code> 的一个 <strong>变位词 </strong>意味着 <code>b</code> 是通过将 <code>a</code> 中元素的顺序随机打乱生成的。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums1 = [12,28,46,32,50], nums2 = [50,12,32,46,28]
-<strong>输出：</strong>[1,4,3,2,0]
-<strong>解释：</strong>因为 nums1 中的第 0 个元素出现在 nums2[1] 上，所以 mapping[0] = 1，而 nums1 中的第 1 个元素出现在 nums2[4] 上，所以 mapping[1] = 4，以此类推。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums1 = [84,46], nums2 = [84,46]
-<strong>输出：</strong>[0,1]
-</pre>
+<p>An array <code>a</code> is <strong>an anagram</strong> of an array <code>b</code> means <code>b</code> is made by randomizing the order of the elements in <code>a</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums1 = [12,28,46,32,50], nums2 = [50,12,32,46,28]
+<strong>Output:</strong> [1,4,3,2,0]
+<strong>Explanation:</strong> As mapping[0] = 1 because the 0<sup>th</sup> element of nums1 appears at nums2[1], and mapping[1] = 4 because the 1<sup>st</sup> element of nums1 appears at nums2[4], and so on.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [84,46], nums2 = [84,46]
+<strong>Output:</strong> [0,1]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length &lt;= 100</code></li>
 	<li><code>nums2.length == nums1.length</code></li>
 	<li><code>0 &lt;= nums1[i], nums2[i] &lt;= 10<sup>5</sup></code></li>
-	<li><code>nums2</code> 是 <code>nums1</code> 的一个变位词。</li>
+	<li><code>nums2</code> is an anagram of <code>nums1</code>.</li>
 </ul>
-<!-- 保持注释以帮助理解题目要求 -->
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

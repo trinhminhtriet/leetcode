@@ -1,91 +1,87 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0330.Patching%20Array/README.md
+difficulty: Hard
 tags:
-    - 贪心
-    - 数组
+    - Greedy
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [330. 按要求补齐数组](https://leetcode.cn/problems/patching-array)
+# [330. Patching Array](https://leetcode.com/problems/patching-array)
 
-[English Version](/solution/0300-0399/0330.Patching%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个已排序的正整数数组 <code>nums</code>&nbsp;<em>，</em>和一个正整数&nbsp;<code>n</code><em> 。</em>从&nbsp;<code>[1, n]</code>&nbsp;区间内选取任意个数字补充到&nbsp;nums&nbsp;中，使得&nbsp;<code>[1, n]</code>&nbsp;区间内的任何数字都可以用&nbsp;nums&nbsp;中某几个数字的和来表示。</p>
+<p>Given a sorted integer array <code>nums</code> and an integer <code>n</code>, add/patch elements to the array such that any number in the range <code>[1, n]</code> inclusive can be formed by the sum of some elements in the array.</p>
 
-<p>请返回 <em>满足上述要求的最少需要补充的数字个数</em>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1:</strong></p>
-
-<pre>
-<strong>输入: </strong>nums = <code>[1,3]</code>, n = <code>6</code>
-<strong>输出: </strong>1 
-<strong>解释:</strong>
-根据 nums&nbsp;里现有的组合&nbsp;<code>[1], [3], [1,3]</code>，可以得出&nbsp;<code>1, 3, 4</code>。
-现在如果我们将&nbsp;<code>2</code>&nbsp;添加到&nbsp;nums 中，&nbsp;组合变为: <code>[1], [2], [3], [1,3], [2,3], [1,2,3]</code>。
-其和可以表示数字&nbsp;<code>1, 2, 3, 4, 5, 6</code>，能够覆盖&nbsp;<code>[1, 6]</code>&nbsp;区间里所有的数。
-所以我们最少需要添加一个数字。</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入: </strong>nums = <code>[1,5,10]</code>, n = <code>20</code>
-<strong>输出:</strong> 2
-<strong>解释: </strong>我们需要添加&nbsp;<code>[2,4]</code>。
-</pre>
-
-<p><strong>示例&nbsp;3:</strong></p>
-
-<pre>
-<strong>输入: </strong>nums = <code>[1,2,2]</code>, n = <code>5</code>
-<strong>输出:</strong> 0
-</pre>
+<p>Return <em>the minimum number of patches required</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,3], n = 6
+<strong>Output:</strong> 1
+Explanation:
+Combinations of nums are [1], [3], [1,3], which form possible sums of: 1, 3, 4.
+Now if we add/patch 2 to nums, the combinations are: [1], [2], [3], [1,3], [2,3], [1,2,3].
+Possible sums are 1, 2, 3, 4, 5, 6, which now covers the range [1, 6].
+So we only need 1 patch.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,5,10], n = 20
+<strong>Output:</strong> 2
+Explanation: The two patches can be [2, 4].
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,2,2], n = 5
+<strong>Output:</strong> 0
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
-	<li><code>nums</code>&nbsp;按 <strong>升序排列</strong></li>
-	<li><code>1 &lt;= n &lt;= 2<sup>31</sup>&nbsp;- 1</code></li>
+	<li><code>nums</code> is sorted in <strong>ascending order</strong>.</li>
+	<li><code>1 &lt;= n &lt;= 2<sup>31</sup> - 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy
 
-我们假设数字 $x$ 是最小的不能表示的正整数，那么 $[1,..x-1]$ 的这些数都是可以表示的。为了能表示数字 $x$，我们需要添加一个小于等于 $x$ 的数：
+Let's assume that the number $x$ is the smallest positive integer that cannot be represented. Then all the numbers in $[1,..x-1]$ can be represented. In order to represent the number $x$, we need to add a number that is less than or equal to $x$:
 
--   如果添加的数等于 $x$，由于 $[1,..x-1]$ 的数都可以表示，添加 $x$ 后，区间 $[1,..2x-1]$ 内的数都可以表示，最小的不能表示的正整数变成了 $2x$。
--   如果添加的数小于 $x$，不妨设为 $x'$，由于 $[1,..x-1]$ 的数都可以表示，添加 $x'$ 后，区间 $[1,..x+x'-1]$ 内的数都可以表示，最小的不能表示的正整数变成了 $x+x' \lt 2x$。
+-   If the added number equals $x$, since all numbers in $[1,..x-1]$ can be represented, after adding $x$, all numbers in the range $[1,..2x-1]$ can be represented, and the smallest positive integer that cannot be represented becomes $2x$.
+-   If the added number is less than $x$, let's assume it's $x'$, since all numbers in $[1,..x-1]$ can be represented, after adding $x'$, all numbers in the range $[1,..x+x'-1]$ can be represented, and the smallest positive integer that cannot be represented becomes $x+x' \lt 2x$.
 
-因此，我们应该贪心地添加数字 $x$，这样可以覆盖的区间更大。
+Therefore, we should greedily add the number $x$ to cover a larger range.
 
-我们用一个变量 $x$ 记录当前不能表示的最小正整数，初始化为 $1$，此时 $[1,..x-1]$ 是空的，表示当前没有任何数可以被覆盖；用一个变量 $i$ 记录当前遍历到的数组下标。
+We use a variable $x$ to record the current smallest positive integer that cannot be represented, initialized to $1$. At this time, $[1,..x-1]$ is empty, indicating that no number can be covered; we use a variable $i$ to record the current index of the array being traversed.
 
-循环进行以下操作：
+We perform the following operations in a loop:
 
--   如果 $i$ 在数组范围内且 $nums[i] \le x$，说明当前数字可以被覆盖，因此将 $x$ 的值加上 $nums[i]$，并将 $i$ 的值加 $1$。
--   否则，说明 $x$ 没有被覆盖，因此需要在数组中补充一个数 $x$，然后 $x$ 更新为 $2x$。
--   重复上述操作，直到 $x$ 的值大于 $n$。
+-   If $i$ is within the range of the array and $nums[i] \le x$, it means that the current number can be covered, so we add the value of $nums[i]$ to $x$, and increment $i$ by $1$.
+-   Otherwise, it means that $x$ is not covered, so we need to supplement a number $x$ in the array, and then update $x$ to $2x$.
+-   Repeat the above operations until the value of $x$ is greater than $n$.
 
-最终答案即为补充的数的数量。
+The final answer is the number of supplemented numbers.
 
-时间复杂度 $O(m + \log n)$，其中 $m$ 为数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(m + \log n)$, where $m$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,47 +1,42 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0634.Find%20the%20Derangement%20of%20An%20Array/README.md
+difficulty: Medium
 tags:
-    - 数学
-    - 动态规划
-    - 组合数学
+    - Math
+    - Dynamic Programming
+    - Combinatorics
 ---
 
 <!-- problem:start -->
 
-# [634. 寻找数组的错位排列 🔒](https://leetcode.cn/problems/find-the-derangement-of-an-array)
+# [634. Find the Derangement of An Array 🔒](https://leetcode.com/problems/find-the-derangement-of-an-array)
 
-[English Version](/solution/0600-0699/0634.Find%20the%20Derangement%20of%20An%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在组合数学中，如果一个排列中所有元素都不在原先的位置上，那么这个排列就被称为 <strong>错位排列</strong> 。</p>
+<p>In combinatorial mathematics, a <strong>derangement</strong> is a permutation of the elements of a set, such that no element appears in its original position.</p>
 
-<p>给定一个从&nbsp;<code>1</code> 到 <code>n</code>&nbsp;升序排列的数组，返回&nbsp;<em><strong>不同的错位排列</strong> 的数量&nbsp;</em>。由于答案可能非常大，你只需要将答案对 <code>10<sup>9</sup>+7</code> <strong>取余</strong>&nbsp;输出即可。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入:</strong> n = 3
-<strong>输出:</strong> 2
-<strong>解释:</strong> 原始的数组为 [1,2,3]。两个错位排列的数组为 [2,3,1] 和 [3,1,2]。
-</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> n = 2
-<strong>输出:</strong> 1
-</pre>
+<p>You are given an integer <code>n</code>. There is originally an array consisting of <code>n</code> integers from <code>1</code> to <code>n</code> in ascending order, return <em>the number of <strong>derangements</strong> it can generate</em>. Since the answer may be huge, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 3
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The original array is [1,2,3]. The two derangements are [2,3,1] and [3,1,2].
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> 1
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>6</sup></code></li>
@@ -49,28 +44,28 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i]$ 表示长度为 $i$ 的数组的错位排列的数量。初始时 $f[0] = 1$, $f[1] = 0$。答案即为 $f[n]$。
+We define $f[i]$ as the number of derangement of an array of length $i$. Initially, $f[0] = 1$, $f[1] = 0$. The answer is $f[n]$.
 
-对于长度为 $i$ 的数组，我们考虑将数字 $1$ 放在哪个位置，假设放在第 $j$ 个位置，这里有 $i-1$ 种选择，那么接下来数字 $j$ 可以有两种选择：
+For an array of length $i$, we consider where to place the number $1$. Suppose it is placed in the $j$-th position, where there are $i-1$ choices. Then, the number $j$ has two choices:
 
--   放在第 $1$ 个位置，那么剩下的 $i - 2$ 个位置可以有 $f[i - 2]$ 种错位排列，因此总共有 $(i - 1) \times f[i - 2]$ 种错位排列；
--   不放在第 $1$ 个位置，那么相当于转化为了长度为 $i - 1$ 的数组的错位排列，因此总共有 $(i - 1) \times f[i - 1]$ 种错位排列。
+-   Placed in the first position, then the remaining $i - 2$ positions have $f[i - 2]$ derangements, so there are a total of $(i - 1) \times f[i - 2]$ derangements;
+-   Not placed in the first position, which is equivalent to the derangement of an array of length $i - 1$, so there are a total of $(i - 1) \times f[i - 1]$ derangements.
 
-综上，我们有如下状态转移方程：
+In summary, we have the following state transition equation:
 
 $$
 f[i] = (i - 1) \times (f[i - 1] + f[i - 2])
 $$
 
-最终答案即为 $f[n]$。注意答案的取模操作。
+The final answer is $f[n]$. Note the modulo operation in the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -140,9 +135,9 @@ func findDerangement(n int) int {
 
 <!-- solution:start -->
 
-### 方法二：动态规划（空间优化）
+### Solution 2: Dynamic Programming (Space Optimization)
 
-我们发现，状态转移方程中只与 $f[i - 1]$ 和 $f[i - 2]$ 有关，因此我们可以使用两个变量 $a$ 和 $b$ 来分别表示 $f[i - 1]$ 和 $f[i - 2]$，从而将空间复杂度降低到 $O(1)$。
+We notice that the state transition equation only relates to $f[i - 1]$ and $f[i - 2]$. Therefore, we can use two variables $a$ and $b$ to represent $f[i - 1]$ and $f[i - 2]$ respectively, thereby reducing the space complexity to $O(1)$.
 
 <!-- tabs:start -->
 

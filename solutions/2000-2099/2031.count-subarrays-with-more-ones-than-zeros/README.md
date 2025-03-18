@@ -1,64 +1,62 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2031.Count%20Subarrays%20With%20More%20Ones%20Than%20Zeros/README.md
+difficulty: Medium
 tags:
-    - 树状数组
-    - 线段树
-    - 数组
-    - 二分查找
-    - 分治
-    - 有序集合
-    - 归并排序
+    - Binary Indexed Tree
+    - Segment Tree
+    - Array
+    - Binary Search
+    - Divide and Conquer
+    - Ordered Set
+    - Merge Sort
 ---
 
 <!-- problem:start -->
 
-# [2031. 1 比 0 多的子数组个数 🔒](https://leetcode.cn/problems/count-subarrays-with-more-ones-than-zeros)
+# [2031. Count Subarrays With More Ones Than Zeros 🔒](https://leetcode.com/problems/count-subarrays-with-more-ones-than-zeros)
 
-[English Version](/solution/2000-2099/2031.Count%20Subarrays%20With%20More%20Ones%20Than%20Zeros/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个只包含 <code>0</code> 和 <code>1</code> 的数组 <code>nums</code>，请返回 <code>1</code> 的数量 <strong>大于 </strong><code>0</code> 的数量的子数组的个数。由于答案可能很大，请返回答案对&nbsp;<code>10<sup>9</sup>&nbsp;+ 7</code>&nbsp;<strong>取余</strong>&nbsp;的结果。</p>
+<p>You are given a binary array <code>nums</code> containing only the integers <code>0</code> and <code>1</code>. Return<em> the number of <strong>subarrays</strong> in nums that have <strong>more</strong> </em><code>1</code>&#39;<em>s than </em><code>0</code><em>&#39;s. Since the answer may be very large, return it <strong>modulo</strong> </em><code>10<sup>9</sup> + 7</code>.</p>
 
-<p>一个 <strong>子数组</strong> 指的是原数组中连续的一个子序列。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre><strong>输入:</strong> nums = [0,1,1,0,1]
-<strong>输出:</strong> 9
-<strong>解释:</strong>
-长度为 1 的、1 的数量大于 0 的数量的子数组有: [1], [1], [1]
-长度为 2 的、1 的数量大于 0 的数量的子数组有: [1,1]
-长度为 3 的、1 的数量大于 0 的数量的子数组有: [0,1,1], [1,1,0], [1,0,1]
-长度为 4 的、1 的数量大于 0 的数量的子数组有: [1,1,0,1]
-长度为 5 的、1 的数量大于 0 的数量的子数组有: [0,1,1,0,1]
-</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre><strong>输入:</strong> nums = [0]
-<strong>输出:</strong> 0
-<strong>解释:</strong>
-没有子数组的 1 的数量大于 0 的数量。
-</pre>
-
-<p><strong>示例 3:</strong></p>
-
-<pre><strong>输入:</strong> nums = [1]
-<strong>输出:</strong> 1
-<strong>解释:</strong>
-长度为 1 的、1 的数量大于 0 的数量的子数组有: [1]
-</pre>
+<p>A <strong>subarray</strong> is a contiguous sequence of elements within an array.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示:</strong></p>
+<pre>
+<strong>Input:</strong> nums = [0,1,1,0,1]
+<strong>Output:</strong> 9
+<strong>Explanation:</strong>
+The subarrays of size 1 that have more ones than zeros are: [1], [1], [1]
+The subarrays of size 2 that have more ones than zeros are: [1,1]
+The subarrays of size 3 that have more ones than zeros are: [0,1,1], [1,1,0], [1,0,1]
+The subarrays of size 4 that have more ones than zeros are: [1,1,0,1]
+The subarrays of size 5 that have more ones than zeros are: [0,1,1,0,1]
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [0]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong>
+No subarrays have more ones than zeros.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong>
+The subarrays of size 1 that have more ones than zeros are: [1]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -67,21 +65,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和 + 树状数组
+### Solution 1: Prefix Sum + Binary Indexed Tree
 
-题目需要我们统计所有子数组中 $1$ 的数量大于 $0$ 的数量的子数组的个数，如果我们将数组中的元素 $0$ 看作 $-1$，那么题目就变成了统计所有子数组中元素和大于 $0$ 的子数组的个数。
+The problem requires us to count the number of subarrays where the count of $1$ is greater than the count of $0$. If we treat $0$ in the array as $-1$, then the problem becomes counting the number of subarrays where the sum of elements is greater than $0$.
 
-求子数组的元素和，可以使用前缀和来实现。为了统计所有子数组中元素和大于 $0$ 的子数组的个数，我们可以用树状数组维护每个前缀和出现的次数。初始时前缀和为 $0$ 的次数为 $1$。
+To calculate the sum of elements in a subarray, we can use the prefix sum. To count the number of subarrays where the sum of elements is greater than $0$, we can use a binary indexed tree to maintain the occurrence count of each prefix sum. Initially, the occurrence count of the prefix sum $0$ is $1$.
 
-接下来，我们遍历数组 $nums$，用变量 $s$ 记录当前的前缀和，用变量 $ans$ 记录答案。对于每个位置 $i$，更新前缀和 $s$，然后我们在树状数组中查询 $[0, s)$ 范围内的前缀和出现的次数，将其加到 $ans$ 中，然后在树状数组中更新 $s$ 出现的次数。
+Next, we traverse the array $nums$, use variable $s$ to record the current prefix sum, and use variable $ans$ to record the answer. For each position $i$, we update the prefix sum $s$, then query the occurrence count of the prefix sum in the range $[0, s)$ in the binary indexed tree, add it to $ans$, and then update the occurrence count of $s$ in the binary indexed tree.
 
-最后返回 $ans$ 即可。
+Finally, return $ans$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 
@@ -315,7 +313,7 @@ function subarraysWithMoreZerosThanOnes(nums: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

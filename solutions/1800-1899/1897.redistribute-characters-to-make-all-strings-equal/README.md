@@ -1,72 +1,69 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1897.Redistribute%20Characters%20to%20Make%20All%20Strings%20Equal/README.md
+difficulty: Easy
 rating: 1309
-source: 第 245 场周赛 Q1
+source: Weekly Contest 245 Q1
 tags:
-    - 哈希表
-    - 字符串
-    - 计数
+    - Hash Table
+    - String
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [1897. 重新分配字符使所有字符串都相等](https://leetcode.cn/problems/redistribute-characters-to-make-all-strings-equal)
+# [1897. Redistribute Characters to Make All Strings Equal](https://leetcode.com/problems/redistribute-characters-to-make-all-strings-equal)
 
-[English Version](/solution/1800-1899/1897.Redistribute%20Characters%20to%20Make%20All%20Strings%20Equal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串数组 <code>words</code>（下标 <strong>从 0 开始</strong> 计数）。</p>
+<p>You are given an array of strings <code>words</code> (<strong>0-indexed</strong>).</p>
 
-<p>在一步操作中，需先选出两个 <strong>不同</strong> 下标 <code>i</code> 和 <code>j</code>，其中 <code>words[i]</code> 是一个非空字符串，接着将 <code>words[i]</code> 中的 <strong>任一</strong> 字符移动到 <code>words[j]</code> 中的 <strong>任一</strong> 位置上。</p>
+<p>In one operation, pick two <strong>distinct</strong> indices <code>i</code> and <code>j</code>, where <code>words[i]</code> is a non-empty string, and move <strong>any</strong> character from <code>words[i]</code> to <strong>any</strong> position in <code>words[j]</code>.</p>
 
-<p>如果执行任意步操作可以使 <code>words</code> 中的每个字符串都相等，返回 <code>true</code><em> </em>；否则，返回<em> </em><code>false</code> 。</p>
+<p>Return <code>true</code> <em>if you can make<strong> every</strong> string in </em><code>words</code><em> <strong>equal </strong>using <strong>any</strong> number of operations</em>,<em> and </em><code>false</code> <em>otherwise</em>.</p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>words = ["abc","aabc","bc"]
-<strong>输出：</strong>true
-<strong>解释：</strong>将 <code>words[1] 中的第一个</code> 'a' 移动到<code> words[2] 的最前面。
-使 </code><code>words[1]</code> = "abc" 且 words[2] = "abc" 。
-所有字符串都等于 "abc" ，所以返回 <code>true</code> 。
+<pre>
+<strong>Input:</strong> words = [&quot;abc&quot;,&quot;aabc&quot;,&quot;bc&quot;]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Move the first &#39;a&#39; in <code>words[1] to the front of words[2],
+to make </code><code>words[1]</code> = &quot;abc&quot; and words[2] = &quot;abc&quot;.
+All the strings are now equal to &quot;abc&quot;, so return <code>true</code>.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>words = ["ab","a"]
-<strong>输出：</strong>false
-<strong>解释：</strong>执行操作无法使所有字符串都相等。
+<pre>
+<strong>Input:</strong> words = [&quot;ab&quot;,&quot;a&quot;]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> It is impossible to make all the strings equal using the operation.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 100</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 100</code></li>
-	<li><code>words[i]</code> 由小写英文字母组成</li>
+	<li><code>words[i]</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-根据题目描述，只要每个字符的出现次数能被字符串数组的长度整除，就可以通过移动字符使所有字符串相等。
+According to the problem description, as long as the occurrence count of each character can be divided by the length of the string array, it is possible to redistribute the characters to make all strings equal.
 
-因此，我们用哈希表或者一个长度为 $26$ 的整数数组 $\textit{cnt}$ 统计每个字符出现的次数，最后判断是否每个字符的出现次数能被字符串数组的长度整除即可。
+Therefore, we use a hash table or an integer array of length $26$ $\textit{cnt}$ to count the occurrences of each character. Finally, we check if the occurrence count of each character can be divided by the length of the string array.
 
-时间复杂度 $O(L)$，空间复杂度 $O(|\Sigma|)$。其中 $L$ 为数组 $\textit{words}$ 中所有字符串的长度之和，而 $\Sigma$ 为字符集，这里为小写字母集合，所以 $|\Sigma|=26$。
+The time complexity is $O(L)$, and the space complexity is $O(|\Sigma|)$. Here, $L$ is the total length of all strings in the array $\textit{words}$, and $\Sigma$ is the character set, which is the set of lowercase letters, so $|\Sigma|=26$.
 
 <!-- tabs:start -->
 

@@ -1,85 +1,82 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2468.Split%20Message%20Based%20on%20Limit/README.md
+difficulty: Hard
 rating: 2381
-source: 第 91 场双周赛 Q4
+source: Biweekly Contest 91 Q4
 tags:
-    - 字符串
-    - 二分查找
-    - 枚举
+    - String
+    - Binary Search
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [2468. 根据限制分割消息](https://leetcode.cn/problems/split-message-based-on-limit)
+# [2468. Split Message Based on Limit](https://leetcode.com/problems/split-message-based-on-limit)
 
-[English Version](/solution/2400-2499/2468.Split%20Message%20Based%20on%20Limit/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>message</code>&nbsp;和一个正整数&nbsp;<code>limit</code>&nbsp;。</p>
+<p>You are given a string, <code>message</code>, and a positive integer, <code>limit</code>.</p>
 
-<p>你需要根据 <code>limit</code>&nbsp;将&nbsp;<code>message</code> <strong>分割</strong>&nbsp;成一个或多个 <strong>部分</strong>&nbsp;。每个部分的结尾都是&nbsp;<code>"&lt;a/b&gt;"</code>&nbsp;，其中&nbsp;<code>"b"</code>&nbsp;用分割出来的总数 <b>替换</b>，&nbsp;<code>"a"</code>&nbsp;用当前部分所在的编号 <strong>替换</strong>&nbsp;，编号从&nbsp;<code>1</code>&nbsp;到&nbsp;<code>b</code>&nbsp;依次编号。除此以外，除了最后一部分长度 <strong>小于等于</strong>&nbsp;<code>limit</code>&nbsp;以外，其他每一部分（包括结尾部分）的长度都应该&nbsp;<strong>等于</strong>&nbsp;<code>limit</code>&nbsp;。</p>
+<p>You must <strong>split</strong> <code>message</code> into one or more <strong>parts</strong> based on <code>limit</code>. Each resulting part should have the suffix <code>&quot;&lt;a/b&gt;&quot;</code>, where <code>&quot;b&quot;</code> is to be <strong>replaced</strong> with the total number of parts and <code>&quot;a&quot;</code> is to be <strong>replaced</strong> with the index of the part, starting from <code>1</code> and going up to <code>b</code>. Additionally, the length of each resulting part (including its suffix) should be <strong>equal</strong> to <code>limit</code>, except for the last part whose length can be <strong>at most</strong> <code>limit</code>.</p>
 
-<p>你需要确保分割后的结果数组，删掉每部分的结尾并<strong>&nbsp;按顺序&nbsp;</strong>连起来后，能够得到&nbsp;<code>message</code>&nbsp;。同时，结果数组越短越好。</p>
+<p>The resulting parts should be formed such that when their suffixes are removed and they are all concatenated <strong>in order</strong>, they should be equal to <code>message</code>. Also, the result should contain as few parts as possible.</p>
 
-<p>请你返回<em>&nbsp;</em><code>message</code>&nbsp; 分割后得到的结果数组。如果无法按要求分割&nbsp;<code>message</code>&nbsp;，返回一个空数组。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>message = "this is really a very awesome message", limit = 9
-<b>输出：</b>["thi&lt;1/14&gt;","s i&lt;2/14&gt;","s r&lt;3/14&gt;","eal&lt;4/14&gt;","ly &lt;5/14&gt;","a v&lt;6/14&gt;","ery&lt;7/14&gt;"," aw&lt;8/14&gt;","eso&lt;9/14&gt;","me&lt;10/14&gt;"," m&lt;11/14&gt;","es&lt;12/14&gt;","sa&lt;13/14&gt;","ge&lt;14/14&gt;"]
-<strong>解释：</strong>
-前面 9 个部分分别从 message 中得到 3 个字符。
-接下来的 5 个部分分别从 message 中得到 2 个字符。
-这个例子中，包含最后一个部分在内，每个部分的长度都为 9 。
-可以证明没有办法分割成少于 14 个部分。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>message = "short message", limit = 15
-<b>输出：</b>["short mess&lt;1/2&gt;","age&lt;2/2&gt;"]
-<strong>解释：</strong>
-在给定限制下，字符串可以分成两个部分：
-- 第一个部分包含 10 个字符，长度为 15 。
-- 第二个部分包含 3 个字符，长度为 8 。
-</pre>
+<p>Return<em> the parts </em><code>message</code><em> would be split into as an array of strings</em>. If it is impossible to split <code>message</code> as required, return<em> an empty array</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> message = &quot;this is really a very awesome message&quot;, limit = 9
+<strong>Output:</strong> [&quot;thi&lt;1/14&gt;&quot;,&quot;s i&lt;2/14&gt;&quot;,&quot;s r&lt;3/14&gt;&quot;,&quot;eal&lt;4/14&gt;&quot;,&quot;ly &lt;5/14&gt;&quot;,&quot;a v&lt;6/14&gt;&quot;,&quot;ery&lt;7/14&gt;&quot;,&quot; aw&lt;8/14&gt;&quot;,&quot;eso&lt;9/14&gt;&quot;,&quot;me&lt;10/14&gt;&quot;,&quot; m&lt;11/14&gt;&quot;,&quot;es&lt;12/14&gt;&quot;,&quot;sa&lt;13/14&gt;&quot;,&quot;ge&lt;14/14&gt;&quot;]
+<strong>Explanation:</strong>
+The first 9 parts take 3 characters each from the beginning of message.
+The next 5 parts take 2 characters each to finish splitting message. 
+In this example, each part, including the last, has length 9. 
+It can be shown it is not possible to split message into less than 14 parts.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> message = &quot;short message&quot;, limit = 15
+<strong>Output:</strong> [&quot;short mess&lt;1/2&gt;&quot;,&quot;age&lt;2/2&gt;&quot;]
+<strong>Explanation:</strong>
+Under the given constraints, the string can be split into two parts: 
+- The first part comprises of the first 10 characters, and has a length 15.
+- The next part comprises of the last 3 characters, and has a length 8.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= message.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>message</code>&nbsp;只包含小写英文字母和&nbsp;<code>' '</code>&nbsp;。</li>
+	<li><code>message</code> consists only of lowercase English letters and <code>&#39; &#39;</code>.</li>
 	<li><code>1 &lt;= limit &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举分段数量 + 模拟
+### Solution 1: Enumerate the Number of Segments + Simulation
 
-我们设字符串 `message` 的长度为 $n$，分段数量为 $k$。
+We denote the length of the string `message` as $n$, and the number of segments as $k$.
 
-根据题意，如果 $k \gt n$，表示我们可以将字符串划分成超过 $n$ 段，由于字符串长度仅为 $n$，若划分成超过 $n$ 段必然导致有部分段的长度为 $0$，可以删去。因此，我们只需要将 $k$ 的取值范围限制在 $[1,.. n]$ 即可。
+According to the problem, if $k > n$, it means that we can divide the string into more than $n$ segments. Since the length of the string is only $n$, dividing it into more than $n$ segments will inevitably lead to some segments with a length of $0$, which can be deleted. Therefore, we only need to limit the range of $k$ to $[1,.. n]$.
 
-从小到大枚举分段数量 $k$，记所有分段中 $a$ 段的长度为 $sa$，所有分段中 $b$ 段的长度为 $sb$，所有分段中符号（包括尖括号和斜杠）的长度为 $sc$。
+We enumerate the number of segments $k$ from small to large. Let the length of $a$ segments in all segments be $sa$, the length of $b$ segments in all segments be $sb$, and the length of all symbols (including angle brackets and slashes) in all segments be $sc$.
 
-那么 $sa$ 的值为 ${\textstyle \sum_{j=1}^{k}} len(s_j)$，可以直接通过前缀和求出；而 $sb$ 的值为 $len(str(k)) \times k$；另外 $sc$ 的值为 $3 \times k$。
+Then the value of $sa$ is ${\textstyle \sum_{j=1}^{k}} len(s_j)$, which can be directly obtained through the prefix sum; the value of $sb$ is $len(str(k)) \times k$; and the value of $sc$ is $3 \times k$.
 
-因此，所有分段剩余可填充的字符数为 $limit\times k - (sa + sb + sc)$，如果该值大于等于 $n$ 则说明可以将字符串划分成 $k$ 段，直接构造答案返回即可。
+Therefore, the number of characters that can be filled in all segments is $limit\times k - (sa + sb + sc)$. If this value is greater than or equal to $n$, it means that the string can be divided into $k$ segments, and we can directly construct the answer and return it.
 
-时间复杂度 $O(n\times \log n)$，其中 $n$ 为字符串 `message` 的长度。忽略答案的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n\times \log n)$, where $n$ is the length of the string `message`. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

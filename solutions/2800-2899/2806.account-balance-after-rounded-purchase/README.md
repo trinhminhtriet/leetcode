@@ -1,55 +1,74 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2806.Account%20Balance%20After%20Rounded%20Purchase/README.md
+difficulty: Easy
 rating: 1214
-source: 第 110 场双周赛 Q1
+source: Biweekly Contest 110 Q1
 tags:
-    - 数学
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [2806. 取整购买后的账户余额](https://leetcode.cn/problems/account-balance-after-rounded-purchase)
+# [2806. Account Balance After Rounded Purchase](https://leetcode.com/problems/account-balance-after-rounded-purchase)
 
-[English Version](/solution/2800-2899/2806.Account%20Balance%20After%20Rounded%20Purchase/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一开始，你的银行账户里有&nbsp;<code>100</code>&nbsp;块钱。</p>
+<p>Initially, you have a bank account balance of <strong>100</strong> dollars.</p>
 
-<p>给你一个整数<code>purchaseAmount</code>&nbsp;，它表示你在一次购买中愿意支出的金额。</p>
+<p>You are given an integer <code>purchaseAmount</code> representing the amount you will spend on a purchase in dollars, in other words, its price.</p>
 
-<p>在一个商店里，你进行一次购买，实际支出的金额会向 <strong>最近</strong>&nbsp;的&nbsp;<code>10</code>&nbsp;的 <strong>倍数</strong>&nbsp;取整。换句话说，你实际会支付一个&nbsp;<strong>非负</strong>&nbsp;金额&nbsp;<code>roundedAmount</code>&nbsp;，满足&nbsp;<code>roundedAmount</code>&nbsp;是&nbsp;<code>10</code>&nbsp;的倍数且&nbsp;<code>abs(roundedAmount - purchaseAmount)</code>&nbsp;的值 <strong>最小</strong>&nbsp;。</p>
+<p>When making the purchase, first the <code>purchaseAmount</code> <strong>is rounded to the nearest multiple of 10</strong>. Let us call this value <code>roundedAmount</code>. Then, <code>roundedAmount</code> dollars are removed from your bank account.</p>
 
-<p>如果存在多于一个最接近的 <code>10</code>&nbsp;的倍数，<strong>较大的倍数</strong>&nbsp;是你的实际支出金额。</p>
+<p>Return an integer denoting your final bank account balance after this purchase.</p>
 
-<p>请你返回一个整数，表示你在愿意支出金额为<em>&nbsp;</em><code>purchaseAmount</code><em>&nbsp;</em>块钱的前提下，购买之后剩下的余额。</p>
+<p><strong>Notes:</strong></p>
 
-<p><strong>注意：</strong> <code>0</code>&nbsp;也是&nbsp;<code>10</code>&nbsp;的倍数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>purchaseAmount = 9
-<b>输出：</b>90
-<b>解释：</b>这个例子中，最接近 9 的 10 的倍数是 10 。所以你的账户余额为 100 - 10 = 90 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>purchaseAmount = 15
-<b>输出：</b>80
-<b>解释：</b>这个例子中，有 2 个最接近 15 的 10 的倍数：10 和 20，较大的数 20 是你的实际开销。
-所以你的账户余额为 100 - 20 = 80 。
-</pre>
+<ul>
+	<li>0 is considered to be a multiple of 10 in this problem.</li>
+	<li>When rounding, 5 is rounded upward (5 is rounded to 10, 15 is rounded to 20, 25 to 30, and so on).</li>
+</ul>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">purchaseAmount = 9</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">90</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The nearest multiple of 10 to 9 is 10. So your account balance becomes 100 - 10 = 90.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">purchaseAmount = 15</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">80</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The nearest multiple of 10 to 15 is 20. So your account balance becomes 100 - 20 = 80.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">purchaseAmount = 10</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">90</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>10 is a multiple of 10 itself. So your account balance becomes 100 - 10 = 90.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= purchaseAmount &lt;= 100</code></li>
@@ -57,15 +76,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举 + 模拟
+### Solution 1: Enumeration + Simulation
 
-我们在 $[0, 100]$ 的范围内枚举所有的 $10$ 的倍数，然后找到与 `purchaseAmount` 最接近的那个数，记为 $x$，那么答案就是 $100 - x$。
+We enumerate all multiples of 10 within the range $[0, 100]$, and find the one that is closest to `purchaseAmount`, denoted as $x$. The answer is $100 - x$.
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+The time complexity is $O(1)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

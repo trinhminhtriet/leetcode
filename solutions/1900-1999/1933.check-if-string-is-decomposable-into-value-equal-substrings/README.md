@@ -1,79 +1,77 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1933.Check%20if%20String%20Is%20Decomposable%20Into%20Value-Equal%20Substrings/README.md
+difficulty: Easy
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1933. 判断字符串是否可分解为值均等的子串 🔒](https://leetcode.cn/problems/check-if-string-is-decomposable-into-value-equal-substrings)
+# [1933. Check if String Is Decomposable Into Value-Equal Substrings 🔒](https://leetcode.com/problems/check-if-string-is-decomposable-into-value-equal-substrings)
 
-[English Version](/solution/1900-1999/1933.Check%20if%20String%20Is%20Decomposable%20Into%20Value-Equal%20Substrings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个字符串的所有字符都是一样的，被称作等值字符串。</p>
+<p>A <strong>value-equal</strong> string is a string where <strong>all</strong> characters are the same.</p>
 
 <ul>
-	<li>举例，<code>"1111"</code> 和 <code>"33" </code>就是等值字符串。</li>
-	<li>相比之下，<code>"123"</code>就不是等值字符串。</li>
+	<li>For example, <code>&quot;1111&quot;</code> and <code>&quot;33&quot;</code> are value-equal strings.</li>
+	<li>In contrast, <code>&quot;123&quot;</code> is not a value-equal string.</li>
 </ul>
 
-<p>规则：给出一个数字字符串s，将字符串分解成一些等值字符串，如果有且仅有一个等值子字符串长度为2，其他的等值子字符串的长度都是3.</p>
+<p>Given a digit string <code>s</code>, decompose the string into some number of <strong>consecutive value-equal</strong> substrings where <strong>exactly one</strong> substring has a <strong>length of </strong><code>2</code> and the remaining substrings have a <strong>length of </strong><code>3</code>.</p>
 
-<p>如果能够按照上面的规则分解字符串s，就返回真，否则返回假。</p>
+<p>Return <code>true</code><em> if you can decompose </em><code>s</code><em> according to the above rules. Otherwise, return </em><code>false</code>.</p>
 
-<p>子串就是原字符串中连续的字符序列。</p>
+<p>A <strong>substring</strong> is a contiguous sequence of characters in a string.</p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入:</strong> s = "000111000"
-<strong>输出:</strong> false
-<strong>解释: </strong> s只能被分解长度为3的等值子字符串。
+<pre>
+<strong>Input:</strong> s = &quot;000111000&quot;
+<strong>Output:</strong> false
+<strong>Explanation: </strong>s cannot be decomposed according to the rules because [&quot;000&quot;, &quot;111&quot;, &quot;000&quot;] does not have a substring of length 2.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入:</strong> s = "00011111222"
-<strong>输出:</strong> true
-<strong>解释: </strong>s 能被分解为 ["000","111","11","222"].
+<pre>
+<strong>Input:</strong> s = &quot;00011111222&quot;
+<strong>Output:</strong> true
+<strong>Explanation: </strong>s can be decomposed into [&quot;000&quot;, &quot;111&quot;, &quot;11&quot;, &quot;222&quot;].
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入:</strong> s = "01110002223300"
-<strong>输出:</strong> false
-<strong>解释: </strong>一个不能被分解的原因是在开头有一个0.
+<pre>
+<strong>Input:</strong> s = &quot;011100022233&quot;
+<strong>Output:</strong> false
+<strong>Explanation: </strong>s cannot be decomposed according to the rules because of the first &#39;0&#39;.
 </pre>
 
-<p> </p>
-
-<p><strong>提示:</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;</code><code>= 1000</code></li>
-	<li><code>s</code> 仅包含数字。</li>
+	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
+	<li><code>s</code> consists of only digits <code>&#39;0&#39;</code> through <code>&#39;9&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1: Two Pointers
 
-遍历字符串 $s$，用双指针 $i$ 和 $j$ 统计每个等值子字符串的长度。若长度模 $3$ 余 $1$，说明该子字符串长度不符合要求，返回 `false`；若长度模 $3$ 余 $2$，说明出现了长度为 $2$ 的子字符串，若此前已经出现过长度为 $2$ 的子字符串，返回 `false`，否则将 $j$ 的值赋给 $i$，继续遍历。
+We traverse the string $s$, using two pointers $i$ and $j$ to count the length of each equal substring. If the length modulo $3$ is $1$, it means that the length of this substring does not meet the requirements, so we return `false`. If the length modulo $3$ is $2$, it means that a substring of length $2$ has appeared. If a substring of length $2$ has appeared before, return `false`, otherwise assign the value of $j$ to $i$ and continue to traverse.
 
-遍历结束后，判断是否出现过长度为 $2$ 的子字符串，若没有，返回 `false`，否则返回 `true`。
+After the traversal, check whether a substring of length $2$ has appeared. If not, return `false`, otherwise return `true`.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

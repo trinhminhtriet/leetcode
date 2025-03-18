@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1212.Team%20Scores%20in%20Football%20Tournament/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1212. 查询球队积分 🔒](https://leetcode.cn/problems/team-scores-in-football-tournament)
+# [1212. Team Scores in Football Tournament 🔒](https://leetcode.com/problems/team-scores-in-football-tournament)
 
-[English Version](/solution/1200-1299/1212.Team%20Scores%20in%20Football%20Tournament/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Teams</code></p>
+<p>Table: <code>Teams</code></p>
 
 <pre>
 +---------------+----------+
@@ -25,13 +22,13 @@ tags:
 | team_id       | int      |
 | team_name     | varchar  |
 +---------------+----------+
-team_id 是该表具有唯一值的列。
-表中的每一行都代表一支独立足球队。
+team_id is the column with unique values of this table.
+Each row of this table represents a single football team.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>表:&nbsp;<code>Matches</code></p>
+<p>Table: <code>Matches</code></p>
 
 <pre>
 +---------------+---------+
@@ -43,34 +40,32 @@ team_id 是该表具有唯一值的列。
 | host_goals    | int     |
 | guest_goals   | int     |
 +---------------+---------+
-match_id 是该表具有唯一值的列。
-表中的每一行都代表一场已结束的比赛。
-比赛的主客队分别由它们自己的 id 表示，他们的进球由 host_goals 和 guest_goals 分别表示。
+match_id is the column of unique values of this table.
+Each row is a record of a finished match between two different teams. 
+Teams host_team and guest_team are represented by their IDs in the Teams table (team_id), and they scored host_goals and guest_goals goals, respectively.
 </pre>
 
 <p>&nbsp;</p>
-
-<p>你希望在所有比赛之后计算所有球队的比分。积分奖励方式如下:</p>
+You would like to compute the scores of all teams after all matches. Points are awarded as follows:
 
 <ul>
-	<li>如果球队赢了比赛(即比对手进更多的球)，就得 <strong>3</strong> 分。</li>
-	<li>如果双方打成平手(即，与对方得分相同)，则得 <strong>1</strong> 分。</li>
-	<li>如果球队输掉了比赛(例如，比对手少进球)，就 <strong>不得分</strong> 。</li>
+	<li>A team receives <strong>three points</strong> if they win a match (i.e., Scored more goals than the opponent team).</li>
+	<li>A team receives <strong>one point</strong> if they draw a match (i.e., Scored the same number of goals as the opponent team).</li>
+	<li>A team receives <strong>no points</strong> if they lose a match (i.e., Scored fewer goals than the opponent team).</li>
 </ul>
 
-<p>编写解决方案，以找出每个队的&nbsp;<code>team_id</code>，<code>team_name</code> 和 <code>num_points</code>。</p>
+<p>Write a solution that selects the <code>team_id</code>, <code>team_name</code> and <code>num_points</code> of each team in the tournament after all described matches.</p>
 
-<p>返回的结果根据&nbsp;<code>num_points</code><strong> 降序排序</strong>，如果有两队积分相同，那么这两队按&nbsp;<code>team_id</code>&nbsp; <strong>升序排序</strong>。</p>
+<p>Return the result table ordered by <code>num_points</code> <strong>in decreasing order</strong>. In case of a tie, order the records by <code>team_id</code> <strong>in increasing order</strong>.</p>
 
-<p>返回结果格式如下。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<code><strong>输入：</strong>
-Teams </code>table:
+<strong>Input:</strong> 
+Teams table:
 +-----------+--------------+
 | team_id   | team_name    |
 +-----------+--------------+
@@ -80,7 +75,7 @@ Teams </code>table:
 | 40        | Chicago FC   |
 | 50        | Toronto FC   |
 +-----------+--------------+
-<code>Matches </code>table:
+Matches table:
 +------------+--------------+---------------+-------------+--------------+
 | match_id   | host_team    | guest_team    | host_goals  | guest_goals  |
 +------------+--------------+---------------+-------------+--------------+
@@ -90,7 +85,7 @@ Teams </code>table:
 | 4          | 20           | 30            | 1           | 0            |
 | 5          | 50           | 30            | 1           | 0            |
 +------------+--------------+---------------+-------------+--------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +------------+--------------+---------------+
 | team_id    | team_name    | num_points    |
 +------------+--------------+---------------+
@@ -99,25 +94,26 @@ Teams </code>table:
 | 50         | Toronto FC   | 3             |
 | 30         | Atlanta FC   | 1             |
 | 40         | Chicago FC   | 0             |
-+------------+--------------+---------------+</pre>
++------------+--------------+---------------+
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：左连接 + 分组 + CASE 表达式
+### Solution 1: Left Join + Group By + Case Expression
 
-我们可以通过左连接，将 `Teams` 表和 `Matches` 表连接起来，连接的条件为 `team_id = host_team OR team_id = guest_team`，这样就可以得到每个球队的所有比赛信息。
+We can join the `Teams` table and the `Matches` table using a left join, where the join condition is `team_id = host_team OR team_id = guest_team`, to obtain all the match information for each team.
 
-接下来，我们按照 `team_id` 分组，然后使用 `CASE` 表达式计算每个球队的积分，计算规则如下：
+Next, we group by `team_id` and use a `CASE` expression to calculate the points for each team according to the following rules:
 
--   如果球队是主队，且主队进球数大于客队进球数，则积分加 $3$ 分；
--   如果球队是客队，且客队进球数大于主队进球数，则积分加 $3$ 分；
--   如果主队和客队进球数相同，则积分加 $1$ 分；
+-   If the team is the host team and has more goals than the guest team, add $3$ points to the team's score.
+-   If the team is the guest team and has more goals than the host team, add $3$ points to the team's score.
+-   If the host team and the guest team have the same number of goals, add $1$ point to the team's score.
 
-最后，我们按照积分降序排序，如果积分相同，则按照 `team_id` 升序排序。
+Finally, we sort the result by points in descending order, and if the points are the same, we sort by `team_id` in ascending order.
 
 <!-- tabs:start -->
 

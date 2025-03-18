@@ -1,80 +1,78 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0023.Merge%20k%20Sorted%20Lists/README.md
+difficulty: Hard
 tags:
-    - 链表
-    - 分治
-    - 堆（优先队列）
-    - 归并排序
+    - Linked List
+    - Divide and Conquer
+    - Heap (Priority Queue)
+    - Merge Sort
 ---
 
 <!-- problem:start -->
 
-# [23. 合并 K 个升序链表](https://leetcode.cn/problems/merge-k-sorted-lists)
+# [23. Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists)
 
-[English Version](/solution/0000-0099/0023.Merge%20k%20Sorted%20Lists/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个链表数组，每个链表都已经按升序排列。</p>
+<p>You are given an array of <code>k</code> linked-lists <code>lists</code>, each linked-list is sorted in ascending order.</p>
 
-<p>请你将所有链表合并到一个升序链表中，返回合并后的链表。</p>
+<p><em>Merge all the linked-lists into one sorted linked-list and return it.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>lists = [[1,4,5],[1,3,4],[2,6]]
-<strong>输出：</strong>[1,1,2,3,4,4,5,6]
-<strong>解释：</strong>链表数组如下：
+<pre>
+<strong>Input:</strong> lists = [[1,4,5],[1,3,4],[2,6]]
+<strong>Output:</strong> [1,1,2,3,4,4,5,6]
+<strong>Explanation:</strong> The linked-lists are:
 [
   1-&gt;4-&gt;5,
   1-&gt;3-&gt;4,
   2-&gt;6
 ]
-将它们合并到一个有序链表中得到。
+merging them into one sorted list:
 1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>lists = []
-<strong>输出：</strong>[]
+<pre>
+<strong>Input:</strong> lists = []
+<strong>Output:</strong> []
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>lists = [[]]
-<strong>输出：</strong>[]
+<pre>
+<strong>Input:</strong> lists = [[]]
+<strong>Output:</strong> []
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>k == lists.length</code></li>
-	<li><code>0 &lt;= k &lt;= 10^4</code></li>
+	<li><code>0 &lt;= k &lt;= 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= lists[i].length &lt;= 500</code></li>
-	<li><code>-10^4 &lt;= lists[i][j] &lt;= 10^4</code></li>
-	<li><code>lists[i]</code> 按 <strong>升序</strong> 排列</li>
-	<li><code>lists[i].length</code> 的总和不超过 <code>10^4</code></li>
+	<li><code>-10<sup>4</sup> &lt;= lists[i][j] &lt;= 10<sup>4</sup></code></li>
+	<li><code>lists[i]</code> is sorted in <strong>ascending order</strong>.</li>
+	<li>The sum of <code>lists[i].length</code> will not exceed <code>10<sup>4</sup></code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：优先队列（小根堆）
+### Solution 1: Priority Queue (Min Heap)
 
-我们可以创建一个小根堆来 $pq$ 维护所有链表的头节点，每次从小根堆中取出值最小的节点，添加到结果链表的末尾，然后将该节点的下一个节点加入堆中，重复上述步骤直到堆为空。
+We can create a min heap $pq$ to maintain the head nodes of all linked lists. Each time, we take out the node with the smallest value from the min heap, add it to the end of the result linked list, and then add the next node of this node to the heap. Repeat the above steps until the heap is empty.
 
-时间复杂度 $O(n \times \log k)$，空间复杂度 $O(k)$。其中 $n$ 是所有链表节点数目的总和，而 $k$ 是题目给定的链表数目。
+The time complexity is $O(n \times \log k)$, and the space complexity is $O(k)$. Here, $n$ is the total number of all linked list nodes, and $k$ is the number of linked lists given in the problem.
 
 <!-- tabs:start -->
 

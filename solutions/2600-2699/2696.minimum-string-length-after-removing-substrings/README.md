@@ -1,79 +1,74 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2696.Minimum%20String%20Length%20After%20Removing%20Substrings/README.md
+difficulty: Easy
 rating: 1282
-source: 第 346 场周赛 Q1
+source: Weekly Contest 346 Q1
 tags:
-    - 栈
-    - 字符串
-    - 模拟
+    - Stack
+    - String
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2696. 删除子串后的字符串最小长度](https://leetcode.cn/problems/minimum-string-length-after-removing-substrings)
+# [2696. Minimum String Length After Removing Substrings](https://leetcode.com/problems/minimum-string-length-after-removing-substrings)
 
-[English Version](/solution/2600-2699/2696.Minimum%20String%20Length%20After%20Removing%20Substrings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个仅由 <strong>大写</strong> 英文字符组成的字符串 <code>s</code> 。</p>
+<p>You are given a string <code>s</code> consisting only of <strong>uppercase</strong> English letters.</p>
 
-<p>你可以对此字符串执行一些操作，在每一步操作中，你可以从 <code>s</code> 中删除 <strong>任一个</strong> <code>"AB"</code> 或 <code>"CD"</code> 子字符串。</p>
+<p>You can apply some operations to this string where, in one operation, you can remove <strong>any</strong> occurrence of one of the substrings <code>&quot;AB&quot;</code> or <code>&quot;CD&quot;</code> from <code>s</code>.</p>
 
-<p>通过执行操作，删除所有&nbsp;<code>"AB"</code> 和 <code>"CD"</code> 子串，返回可获得的最终字符串的 <strong>最小</strong> 可能长度。</p>
+<p>Return <em>the <strong>minimum</strong> possible length of the resulting string that you can obtain</em>.</p>
 
-<p><strong>注意</strong>，删除子串后，重新连接出的字符串可能会产生新的&nbsp;<code>"AB"</code> 或 <code>"CD"</code> 子串。</p>
+<p><strong>Note</strong> that the string concatenates after removing the substring and could produce new <code>&quot;AB&quot;</code> or <code>&quot;CD&quot;</code> substrings.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "ABFCACDB"
-<strong>输出：</strong>2
-<strong>解释：</strong>你可以执行下述操作：
-- 从 "<em><strong>AB</strong></em>FCACDB" 中删除子串 "AB"，得到 s = "FCACDB" 。
-- 从 "FCA<em><strong>CD</strong></em>B" 中删除子串 "CD"，得到 s = "FCAB" 。
-- 从 "FC<strong><em>AB</em></strong>" 中删除子串 "AB"，得到 s = "FC" 。
-最终字符串的长度为 2 。
-可以证明 2 是可获得的最小长度。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "ACBBD"
-<strong>输出：</strong>5
-<strong>解释：</strong>无法执行操作，字符串长度不变。
+<strong>Input:</strong> s = &quot;ABFCACDB&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> We can do the following operations:
+- Remove the substring &quot;<u>AB</u>FCACDB&quot;, so s = &quot;FCACDB&quot;.
+- Remove the substring &quot;FCA<u>CD</u>B&quot;, so s = &quot;FCAB&quot;.
+- Remove the substring &quot;FC<u>AB</u>&quot;, so s = &quot;FC&quot;.
+So the resulting length of the string is 2.
+It can be shown that it is the minimum length that we can obtain.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;ACBBD&quot;
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> We cannot do any operations on the string so the length remains the same.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code> 仅由大写英文字母组成</li>
+	<li><code>s</code>&nbsp;consists only of uppercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：栈
+### Solution 1: Stack
 
-我们遍历字符串 $s$，对于当前遍历到的字符 $c$，如果栈不为空且栈顶元素 $top$ 与 $c$ 可以组成 $AB$ 或 $CD$，则弹出栈顶元素，否则将 $c$ 入栈。
+We traverse the string $s$. For the current character $c$ we are traversing, if the stack is not empty and the top element of the stack $top$ can form $AB$ or $CD$ with $c$, then we pop the top element of the stack, otherwise we push $c$ into the stack.
 
-最后栈中剩余的元素个数就是最终字符串的长度。
+The number of remaining elements in the stack is the length of the final string.
 
-> 在实现上，我们可以在栈中预先放入一个空字符，这样就不需要在遍历字符串时判断栈是否为空了，最后返回栈的大小减一即可。
+> In implementation, we can pre-place an empty character in the stack, so there is no need to judge whether the stack is empty when traversing the string. Finally, we can return the size of the stack minus one.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 
@@ -209,7 +204,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：递归（一行代码）
+### Solution 2: One-liner
 
 <!-- tabs:start -->
 

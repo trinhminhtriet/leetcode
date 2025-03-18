@@ -1,76 +1,89 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1238.Circular%20Permutation%20in%20Binary%20Representation/README.md
+difficulty: Medium
 rating: 1774
-source: 第 160 场周赛 Q2
+source: Weekly Contest 160 Q2
 tags:
-    - 位运算
-    - 数学
-    - 回溯
+    - Bit Manipulation
+    - Math
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [1238. 循环码排列](https://leetcode.cn/problems/circular-permutation-in-binary-representation)
+# [1238. Circular Permutation in Binary Representation](https://leetcode.com/problems/circular-permutation-in-binary-representation)
 
-[English Version](/solution/1200-1299/1238.Circular%20Permutation%20in%20Binary%20Representation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数&nbsp;<code>n</code> 和 <code>start</code>。你的任务是返回任意 <code>(0,1,2,,...,2^n-1)</code> 的排列 <code>p</code>，并且满足：</p>
+<p>Given 2 integers <code>n</code> and <code>start</code>. Your task is return <strong>any</strong> permutation <code>p</code>&nbsp;of <code>(0,1,2.....,2^n -1) </code>such that :</p>
 
 <ul>
-	<li><code>p[0] = start</code></li>
-	<li><code>p[i]</code> 和 <code>p[i+1]</code>&nbsp;的二进制表示形式只有一位不同</li>
-	<li><code>p[0]</code> 和 <code>p[2^n -1]</code>&nbsp;的二进制表示形式也只有一位不同</li>
+
+    <li><code>p[0] = start</code></li>
+
+    <li><code>p[i]</code> and <code>p[i+1]</code>&nbsp;differ by only one bit in their binary representation.</li>
+
+    <li><code>p[0]</code> and <code>p[2^n -1]</code>&nbsp;must also differ by only one bit in their binary representation.</li>
+
 </ul>
 
 <p>&nbsp;</p>
 
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 2, start = 3
-<strong>输出：</strong>[3,2,0,1]
-<strong>解释：</strong>这个排列的二进制表示是 (11,10,00,01)
-     所有的相邻元素都有一位是不同的，另一个有效的排列是 [3,1,0,2]
+
+<strong>Input:</strong> n = 2, start = 3
+
+<strong>Output:</strong> [3,2,0,1]
+
+<strong>Explanation:</strong> The binary representation of the permutation is (11,10,00,01). 
+
+All the adjacent element differ by one bit. Another valid permutation is [3,1,0,2]
+
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 3, start = 2
-<strong>输出：</strong>[2,6,7,5,4,0,1,3]
-<strong>解释：</strong>这个排列的二进制表示是 (010,110,111,101,100,000,001,011)
+
+<strong>Input:</strong> n = 3, start = 2
+
+<strong>Output:</strong> [2,6,7,5,4,0,1,3]
+
+<strong>Explanation:</strong> The binary representation of the permutation is (010,110,111,101,100,000,001,011).
+
 </pre>
 
 <p>&nbsp;</p>
 
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= n &lt;= 16</code></li>
-	<li><code>0 &lt;= start&nbsp;&lt;&nbsp;2^n</code></li>
+
+    <li><code>1 &lt;= n &lt;= 16</code></li>
+
+    <li><code>0 &lt;= start&nbsp;&lt;&nbsp;2 ^ n</code></li>
+
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二进制码转格雷码
+### Solution 1: Binary Code to Gray Code
 
-我们观察题目中的排列，可以发现，它的二进制表示中，任意两个（包括首尾）相邻的数只有一位二进制数不同。这种编码方式就是格雷码，它是我们在工程中会遇到的一种编码方式。
+We observe the arrangement in the problem, and find that in its binary representation, only one bit is different between any two (including the first and last) adjacent numbers. This kind of coding method is Gray code, which is a coding method we will encounter in engineering.
 
-二进制码转换成二进制格雷码，其法则是保留二进制码的最高位作为格雷码的最高位，而次高位格雷码为二进制码的高位与次高位相异或，而格雷码其余各位与次高位的求法相类似。
+The rule for converting binary code to binary Gray code is to keep the highest bit of the binary code as the highest bit of the Gray code, and the second highest bit of the Gray code is the XOR of the highest bit and the second highest bit of the binary code. The rest of the Gray code is similar to the second highest bit.
 
-假设某个二进制数表示为 $B_{n-1}B_{n-2}...B_2B_1B_0$，其格雷码表示为 $G_{n-1}G_{n-2}...G_2G_1G_0$。最高位保留，所以 $G_{n-1} = B_{n-1}$；而其它各位 $G_i = B_{i+1} \oplus B_{i}$，其中 $i=0,1,2..,n-2$。
+Assume a binary number is represented as $B_{n-1}B_{n-2}...B_2B_1B_0$, its Gray code representation is $G_{n-1}G_{n-2}...G_2G_1G_0$. The highest bit is kept, so $G_{n-1} = B_{n-1}$; and the other bits $G_i = B_{i+1} \oplus B_{i}$, where $i=0,1,2..,n-2$.
 
-因此，对于一个整数 $x$，我们可以用函数 $gray(x)$ 得到其格雷码：
+Therefore, for an integer $x$, we can use the function $gray(x)$ to get its Gray code:
 
 ```java
 int gray(x) {
@@ -78,9 +91,9 @@ int gray(x) {
 }
 ```
 
-我们可以直接将 $[0,..2^n - 1]$ 这些整数转换成对应的格雷码数组，然后找到 $start$ 在格雷码数组中的位置，将格雷码数组从该位置开始截取，再将截取的部分拼接到格雷码数组的前面，就得到了题目要求的排列。
+We can directly convert the integers $[0,..2^n - 1]$ into the corresponding Gray code array, then find the position of $start$ in the Gray code array, cut the Gray code array from this position, and then append the cut part to the front of the Gray code array to get the arrangement required by the problem.
 
-时间复杂度 $O(2^n)$，空间复杂度 $O(2^n)$。其中 $n$ 为题目给定的整数。
+The time complexity is $O(2^n)$, and the space complexity is $O(2^n)$. Where $n$ is the integer given in the problem.
 
 <!-- tabs:start -->
 
@@ -173,13 +186,13 @@ function circularPermutation(n: number, start: number): number[] {
 
 <!-- solution:start -->
 
-### 方法二：转换优化
+### Solution 2: Conversion Optimization
 
-由于 $gray(0) = 0$，那么 $gray(0) \oplus start = start$，而 $gray(i)$ 与 $gray(i-1)$ 只有一个二进制位不同，所以 $gray(i) \oplus start$ 与 $gray(i-1) \oplus start$ 也只有一个二进制位不同。
+Since $gray(0) = 0$, then $gray(0) \oplus start = start$, and $gray(i)$ is only one binary bit different from $gray(i-1)$, so $gray(i) \oplus start$ is also only one binary bit different from $gray(i-1) \oplus start$.
 
-因此，我们也可以直接将 $[0,..2^n - 1]$ 这些整数转换成对应的 $gray(i) \oplus start$，即可得到首项为 $start$ 的格雷码排列。
+Therefore, we can also directly convert the integers $[0,..2^n - 1]$ into the corresponding $gray(i) \oplus start$ to get the Gray code arrangement with $start$ as the first term.
 
-时间复杂度 $O(2^n)$，其中 $n$ 为题目给定的整数。忽略答案的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(2^n)$, where $n$ is the integer given in the problem. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

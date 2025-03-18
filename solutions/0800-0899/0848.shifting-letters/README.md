@@ -1,79 +1,72 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0848.Shifting%20Letters/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 字符串
-    - 前缀和
+    - Array
+    - String
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [848. 字母移位](https://leetcode.cn/problems/shifting-letters)
+# [848. Shifting Letters](https://leetcode.com/problems/shifting-letters)
 
-[English Version](/solution/0800-0899/0848.Shifting%20Letters/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有一个由小写字母组成的字符串 <code>s</code>，和一个长度相同的整数数组 <code>shifts</code>。</p>
+<p>You are given a string <code>s</code> of lowercase English letters and an integer array <code>shifts</code> of the same length.</p>
 
-<p>我们将字母表中的下一个字母称为原字母的 <em>移位</em>&nbsp;<code>shift()</code>&nbsp;（由于字母表是环绕的， <code>'z'</code>&nbsp;将会变成&nbsp;<code>'a'</code>）。</p>
+<p>Call the <code>shift()</code> of a letter, the next letter in the alphabet, (wrapping around so that <code>&#39;z&#39;</code> becomes <code>&#39;a&#39;</code>).</p>
 
 <ul>
-	<li>例如，<code>shift('a') = 'b'<font color="#333333"><font face="Helvetica Neue, Helvetica, Arial, sans-serif"><span style="font-size:14px"><span style="background-color:#ffffff">,&nbsp;</span></span></font></font></code><code>shift('t') = 'u'</code>,&nbsp;以及&nbsp;<code>shift('z') = 'a'</code>。</li>
+	<li>For example, <code>shift(&#39;a&#39;) = &#39;b&#39;</code>, <code>shift(&#39;t&#39;) = &#39;u&#39;</code>, and <code>shift(&#39;z&#39;) = &#39;a&#39;</code>.</li>
 </ul>
 
-<p>对于每个&nbsp;<code>shifts[i] = x</code>&nbsp;， 我们会将 <code>s</code>&nbsp;中的前&nbsp;<code>i + 1</code>&nbsp;个字母移位&nbsp;<code>x</code>&nbsp;次。</p>
+<p>Now for each <code>shifts[i] = x</code>, we want to shift the first <code>i + 1</code> letters of <code>s</code>, <code>x</code> times.</p>
 
-<p>返回 <em>将所有这些移位都应用到 <code>s</code> 后最终得到的字符串</em> 。</p>
+<p>Return <em>the final string after all such shifts to s are applied</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "abc", shifts = [3,5,9]
-<strong>输出：</strong>"rpl"
-<strong>解释： </strong>
-我们以 "abc" 开始。
-将 S 中的第 1 个字母移位 3 次后，我们得到 "dbc"。
-再将 S 中的前 2 个字母移位 5 次后，我们得到 "igc"。
-最后将 S 中的这 3 个字母移位 9 次后，我们得到答案 "rpl"。
+<strong>Input:</strong> s = &quot;abc&quot;, shifts = [3,5,9]
+<strong>Output:</strong> &quot;rpl&quot;
+<strong>Explanation:</strong> We start with &quot;abc&quot;.
+After shifting the first 1 letters of s by 3, we have &quot;dbc&quot;.
+After shifting the first 2 letters of s by 5, we have &quot;igc&quot;.
+After shifting the first 3 letters of s by 9, we have &quot;rpl&quot;, the answer.
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> s = "aaa", shifts = [1,2,3]
-<strong>输出:</strong> "gfd"
+<strong>Input:</strong> s = &quot;aaa&quot;, shifts = [1,2,3]
+<strong>Output:</strong> &quot;gfd&quot;
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code>&nbsp;由小写英文字母组成</li>
+	<li><code>s</code> consists of lowercase English letters.</li>
 	<li><code>shifts.length == s.length</code></li>
 	<li><code>0 &lt;= shifts[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
-<span style="display:block"><span style="height:0px"><span style="position:absolute">​​​​​​</span></span></span>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：后缀和
+### Solution 1: Suffix Sum
 
-对于字符串 $s$ 中的每个字符，我们需要计算其最终的偏移量，即 $\textit{shifts}[i]$ 与 $\textit{shifts}[i + 1]$ 与 $\textit{shifts}[i + 2]$ ... 的和。我们可以使用后缀和的思想，从后往前遍历 $\textit{shifts}$，计算每个字符的最终偏移量，然后对 $26$ 取模，得到最终的字符。
+For each character in the string $s$, we need to calculate its final shift amount, which is the sum of $\textit{shifts}[i]$, $\textit{shifts}[i + 1]$, $\textit{shifts}[i + 2]$, and so on. We can use the concept of suffix sum, traversing $\textit{shifts}$ from back to front, calculating the final shift amount for each character, and then taking modulo $26$ to get the final character.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。忽略答案的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

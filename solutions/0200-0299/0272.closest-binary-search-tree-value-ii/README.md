@@ -1,70 +1,63 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0272.Closest%20Binary%20Search%20Tree%20Value%20II/README.md
+difficulty: Hard
 tags:
-    - 栈
-    - 树
-    - 深度优先搜索
-    - 二叉搜索树
-    - 双指针
-    - 二叉树
-    - 堆（优先队列）
+    - Stack
+    - Tree
+    - Depth-First Search
+    - Binary Search Tree
+    - Two Pointers
+    - Binary Tree
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [272. 最接近的二叉搜索树值 II 🔒](https://leetcode.cn/problems/closest-binary-search-tree-value-ii)
+# [272. Closest Binary Search Tree Value II 🔒](https://leetcode.com/problems/closest-binary-search-tree-value-ii)
 
-[English Version](/solution/0200-0299/0272.Closest%20Binary%20Search%20Tree%20Value%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定二叉搜索树的根&nbsp;<code>root</code>&nbsp;、一个目标值&nbsp;<code>target</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;，返回BST中最接近目标的 <code>k</code> 个值。你可以按 <strong>任意顺序</strong> 返回答案。</p>
+<p>Given the <code>root</code> of a binary search tree, a <code>target</code> value, and an integer <code>k</code>, return <em>the </em><code>k</code><em> values in the BST that are closest to the</em> <code>target</code>. You may return the answer in <strong>any order</strong>.</p>
 
-<p>题目&nbsp;<strong>保证</strong>&nbsp;该二叉搜索树中只会存在一种&nbsp;k 个值集合最接近&nbsp;<code>target</code></p>
+<p>You are <strong>guaranteed</strong> to have only one unique set of <code>k</code> values in the BST that are closest to the <code>target</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0272.Closest%20Binary%20Search%20Tree%20Value%20II/images/closest1-1-tree.jpg" style="width: 292px; height: 302px;" />
+<pre>
+<strong>Input:</strong> root = [4,2,5,1,3], target = 3.714286, k = 2
+<strong>Output:</strong> [4,3]
+</pre>
 
-<p><strong>示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0272.Closest%20Binary%20Search%20Tree%20Value%20II/images/closest1-1-tree.jpg" /></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> root = [4,2,5,1,3]，目标值 = 3.714286，且 <em>k</em> = 2
-<strong>输出:</strong> [4,3]</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> root = [1], target = 0.000000, k = 1
-<strong>输出:</strong> [1]
+<strong>Input:</strong> root = [1], target = 0.000000, k = 1
+<strong>Output:</strong> [1]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>二叉树的节点总数为&nbsp;<code>n</code></li>
-	<li><code>1 &lt;= k &lt;= n &lt;= 10<sup>4</sup></code></li>
+	<li>The number of nodes in the tree is <code>n</code>.</li>
+	<li><code>1 &lt;= k &lt;= n &lt;= 10<sup>4</sup></code>.</li>
 	<li><code>0 &lt;= Node.val &lt;= 10<sup>9</sup></code></li>
-	<li><code>-10<sup>9</sup>&nbsp;&lt;= target &lt;= 10<sup>9</sup></code></li>
+	<li><code>-10<sup>9</sup> &lt;= target &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>假设该二叉搜索树是平衡的，请问您是否能在小于&nbsp;<code>O(n)</code>（&nbsp;<code>n = total nodes</code>&nbsp;）的时间复杂度内解决该问题呢？</p>
+<p><strong>Follow up:</strong> Assume that the BST is balanced. Could you solve it in less than <code>O(n)</code> runtime (where <code>n = total nodes</code>)?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,104 +1,79 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1541.Minimum%20Insertions%20to%20Balance%20a%20Parentheses%20String/README.md
+difficulty: Medium
 rating: 1759
-source: 第 32 场双周赛 Q3
+source: Biweekly Contest 32 Q3
 tags:
-    - 栈
-    - 贪心
-    - 字符串
+    - Stack
+    - Greedy
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1541. 平衡括号字符串的最少插入次数](https://leetcode.cn/problems/minimum-insertions-to-balance-a-parentheses-string)
+# [1541. Minimum Insertions to Balance a Parentheses String](https://leetcode.com/problems/minimum-insertions-to-balance-a-parentheses-string)
 
-[English Version](/solution/1500-1599/1541.Minimum%20Insertions%20to%20Balance%20a%20Parentheses%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个括号字符串&nbsp;<code>s</code>&nbsp;，它只包含字符&nbsp;<code>&#39;(&#39;</code> 和&nbsp;<code>&#39;)&#39;</code>&nbsp;。一个括号字符串被称为平衡的当它满足：</p>
+<p>Given a parentheses string <code>s</code> containing only the characters <code>&#39;(&#39;</code> and <code>&#39;)&#39;</code>. A parentheses string is <strong>balanced</strong> if:</p>
 
 <ul>
-	<li>任何左括号&nbsp;<code>&#39;(&#39;</code>&nbsp;必须对应两个连续的右括号&nbsp;<code>&#39;))&#39;</code>&nbsp;。</li>
-	<li>左括号&nbsp;<code>&#39;(&#39;</code>&nbsp;必须在对应的连续两个右括号&nbsp;<code>&#39;))&#39;</code>&nbsp;之前。</li>
+	<li>Any left parenthesis <code>&#39;(&#39;</code> must have a corresponding two consecutive right parenthesis <code>&#39;))&#39;</code>.</li>
+	<li>Left parenthesis <code>&#39;(&#39;</code> must go before the corresponding two consecutive right parenthesis <code>&#39;))&#39;</code>.</li>
 </ul>
 
-<p>比方说&nbsp;<code>&quot;())&quot;</code>，&nbsp;<code>&quot;())(())))&quot;</code> 和&nbsp;<code>&quot;(())())))&quot;</code>&nbsp;都是平衡的，&nbsp;<code>&quot;)()&quot;</code>，&nbsp;<code>&quot;()))&quot;</code> 和&nbsp;<code>&quot;(()))&quot;</code>&nbsp;都是不平衡的。</p>
-
-<p>你可以在任意位置插入字符 &#39;(&#39; 和 &#39;)&#39; 使字符串平衡。</p>
-
-<p>请你返回让 <code>s</code>&nbsp;平衡的最少插入次数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;(()))&quot;
-<strong>输出：</strong>1
-<strong>解释：</strong>第二个左括号有与之匹配的两个右括号，但是第一个左括号只有一个右括号。我们需要在字符串结尾额外增加一个 &#39;)&#39; 使字符串变成平衡字符串 &quot;(())))&quot; 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;())&quot;
-<strong>输出：</strong>0
-<strong>解释：</strong>字符串已经平衡了。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;))())(&quot;
-<strong>输出：</strong>3
-<strong>解释：</strong>添加 &#39;(&#39; 去匹配最开头的 &#39;))&#39; ，然后添加 &#39;))&#39; 去匹配最后一个 &#39;(&#39; 。
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;((((((&quot;
-<strong>输出：</strong>12
-<strong>解释：</strong>添加 12 个 &#39;)&#39; 得到平衡字符串。
-</pre>
-
-<p><strong>示例 5：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;)))))))&quot;
-<strong>输出：</strong>5
-<strong>解释：</strong>在字符串开头添加 4 个 &#39;(&#39; 并在结尾添加 1 个 &#39;)&#39; ，字符串变成平衡字符串 &quot;(((())))))))&quot; 。
-</pre>
-
-<p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p>In other words, we treat <code>&#39;(&#39;</code> as an opening parenthesis and <code>&#39;))&#39;</code> as a closing parenthesis.</p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;= 10^5</code></li>
-	<li><code>s</code>&nbsp;只包含&nbsp;<code>&#39;(&#39;</code> 和&nbsp;<code>&#39;)&#39;</code>&nbsp;。</li>
+	<li>For example, <code>&quot;())&quot;</code>, <code>&quot;())(())))&quot;</code> and <code>&quot;(())())))&quot;</code> are balanced, <code>&quot;)()&quot;</code>, <code>&quot;()))&quot;</code> and <code>&quot;(()))&quot;</code> are not balanced.</li>
+</ul>
+
+<p>You can insert the characters <code>&#39;(&#39;</code> and <code>&#39;)&#39;</code> at any position of the string to balance it if needed.</p>
+
+<p>Return <em>the minimum number of insertions</em> needed to make <code>s</code> balanced.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;(()))&quot;
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The second &#39;(&#39; has two matching &#39;))&#39;, but the first &#39;(&#39; has only &#39;)&#39; matching. We need to add one more &#39;)&#39; at the end of the string to be &quot;(())))&quot; which is balanced.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;())&quot;
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The string is already balanced.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;))())(&quot;
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> Add &#39;(&#39; to match the first &#39;))&#39;, Add &#39;))&#39; to match the last &#39;(&#39;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>s</code> consists of <code>&#39;(&#39;</code> and <code>&#39;)&#39;</code> only.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
-
-我们用 $x$ 表示字符串中待匹配的左括号的数量，初始时为 $0$。遍历字符串 $s$：
-
-如果遇到左括号，则 $x$ 的值加 $1$；如果遇到右括号，我们分情况讨论：
-
--   如果有两个连续的右括号，那么我们先让指针往后移动一位；否则，我们需要插入一个右括号，使得出现两个连续的右括号，因此插入次数加 $1$；
--   如果 $x = 0$，说明当前没有待匹配的左括号，我们需要插入一个左括号，用于匹配上面准备好的两个连续的右括号，因此插入次数加 $1$；否则，我们让 $x$ 的值减 $1$。
-
-然后指针往后移动一位，继续下一次遍历。
-
-遍历结束后，如果 $x = 0$，说明字符串已经平衡，返回插入次数；否则，说明字符串中有待匹配的左括号，我们需要再插入 $2 \times x$ 个右括号，使得字符串变成平衡字符串，返回插入次数。
-
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 

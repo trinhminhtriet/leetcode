@@ -1,65 +1,58 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1311.Get%20Watched%20Videos%20by%20Your%20Friends/README.md
+difficulty: Medium
 rating: 1652
-source: 第 170 场周赛 Q3
+source: Weekly Contest 170 Q3
 tags:
-    - 广度优先搜索
-    - 图
-    - 数组
-    - 哈希表
-    - 排序
+    - Breadth-First Search
+    - Graph
+    - Array
+    - Hash Table
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1311. 获取你好友已观看的视频](https://leetcode.cn/problems/get-watched-videos-by-your-friends)
+# [1311. Get Watched Videos by Your Friends](https://leetcode.com/problems/get-watched-videos-by-your-friends)
 
-[English Version](/solution/1300-1399/1311.Get%20Watched%20Videos%20by%20Your%20Friends/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有&nbsp;<code>n</code> 个人，每个人都有一个&nbsp; <code>0</code>&nbsp;到&nbsp;<code>n-1</code>&nbsp;的唯一&nbsp;<em>id</em>&nbsp;。</p>
+<p>There are <code>n</code> people, each person has a unique <em>id</em> between <code>0</code> and <code>n-1</code>. Given the arrays <code>watchedVideos</code> and <code>friends</code>, where <code>watchedVideos[i]</code> and <code>friends[i]</code> contain the list of watched videos and the list of friends respectively for the person with <code>id = i</code>.</p>
 
-<p>给你数组 <code>watchedVideos</code>&nbsp; 和&nbsp;<code>friends</code>&nbsp;，其中&nbsp;<code>watchedVideos[i]</code>&nbsp; 和&nbsp;<code>friends[i]</code>&nbsp;分别表示&nbsp;<code>id = i</code>&nbsp;的人观看过的视频列表和他的好友列表。</p>
-
-<p>Level&nbsp;<strong>1</strong>&nbsp;的视频包含所有你好友观看过的视频，level&nbsp;<strong>2</strong>&nbsp;的视频包含所有你好友的好友观看过的视频，以此类推。一般的，Level 为 <strong>k</strong>&nbsp;的视频包含所有从你出发，最短距离为&nbsp;<strong>k</strong>&nbsp;的好友观看过的视频。</p>
-
-<p>给定你的&nbsp;<code>id</code>&nbsp; 和一个&nbsp;<code>level</code>&nbsp;值，请你找出所有指定 <code>level</code> 的视频，并将它们按观看频率升序返回。如果有频率相同的视频，请将它们按字母顺序从小到大排列。</p>
+<p>Level <strong>1</strong> of videos are all watched videos by your&nbsp;friends, level <strong>2</strong> of videos are all watched videos by the friends of your&nbsp;friends and so on. In general, the level <code>k</code> of videos are all&nbsp;watched videos by people&nbsp;with the shortest path <strong>exactly</strong> equal&nbsp;to&nbsp;<code>k</code> with you. Given your&nbsp;<code>id</code> and the <code>level</code> of videos, return the list of videos ordered by their frequencies (increasing). For videos with the same frequency order them alphabetically from least to greatest.&nbsp;</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1311.Get%20Watched%20Videos%20by%20Your%20Friends/images/leetcode_friends_1.png" style="width: 144px; height: 200px;" /></strong></p>
 
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1311.Get%20Watched%20Videos%20by%20Your%20Friends/images/leetcode_friends_1.png" style="height: 179px; width: 129px;"></strong></p>
-
-<pre><strong>输入：</strong>watchedVideos = [[&quot;A&quot;,&quot;B&quot;],[&quot;C&quot;],[&quot;B&quot;,&quot;C&quot;],[&quot;D&quot;]], friends = [[1,2],[0,3],[0,3],[1,2]], id = 0, level = 1
-<strong>输出：</strong>[&quot;B&quot;,&quot;C&quot;] 
-<strong>解释：</strong>
-你的 id 为 0（绿色），你的朋友包括（黄色）：
-id 为 1 -&gt; watchedVideos = [&quot;C&quot;]&nbsp;
-id 为 2 -&gt; watchedVideos = [&quot;B&quot;,&quot;C&quot;]&nbsp;
-你朋友观看过视频的频率为：
+<pre>
+<strong>Input:</strong> watchedVideos = [[&quot;A&quot;,&quot;B&quot;],[&quot;C&quot;],[&quot;B&quot;,&quot;C&quot;],[&quot;D&quot;]], friends = [[1,2],[0,3],[0,3],[1,2]], id = 0, level = 1
+<strong>Output:</strong> [&quot;B&quot;,&quot;C&quot;] 
+<strong>Explanation:</strong> 
+You have id = 0 (green color in the figure) and your friends are (yellow color in the figure):
+Person with id = 1 -&gt; watchedVideos = [&quot;C&quot;]&nbsp;
+Person with id = 2 -&gt; watchedVideos = [&quot;B&quot;,&quot;C&quot;]&nbsp;
+The frequencies of watchedVideos by your friends are:&nbsp;
 B -&gt; 1&nbsp;
 C -&gt; 2
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1311.Get%20Watched%20Videos%20by%20Your%20Friends/images/leetcode_friends_2.png" style="height: 179px; width: 129px;"></strong></p>
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1311.Get%20Watched%20Videos%20by%20Your%20Friends/images/leetcode_friends_2.png" style="width: 144px; height: 200px;" /></strong></p>
 
-<pre><strong>输入：</strong>watchedVideos = [[&quot;A&quot;,&quot;B&quot;],[&quot;C&quot;],[&quot;B&quot;,&quot;C&quot;],[&quot;D&quot;]], friends = [[1,2],[0,3],[0,3],[1,2]], id = 0, level = 2
-<strong>输出：</strong>[&quot;D&quot;]
-<strong>解释：</strong>
-你的 id 为 0（绿色），你朋友的朋友只有一个人，他的 id 为 3（黄色）。
+<pre>
+<strong>Input:</strong> watchedVideos = [[&quot;A&quot;,&quot;B&quot;],[&quot;C&quot;],[&quot;B&quot;,&quot;C&quot;],[&quot;D&quot;]], friends = [[1,2],[0,3],[0,3],[1,2]], id = 0, level = 2
+<strong>Output:</strong> [&quot;D&quot;]
+<strong>Explanation:</strong> 
+You have id = 0 (green color in the figure) and the only friend of your friends is the person with id = 3 (yellow color in the figure).
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == watchedVideos.length ==&nbsp;friends.length</code></li>
@@ -70,24 +63,24 @@ C -&gt; 2
 	<li><code>0 &lt;= friends[i][j]&nbsp;&lt; n</code></li>
 	<li><code>0 &lt;= id &lt; n</code></li>
 	<li><code>1 &lt;= level &lt; n</code></li>
-	<li>如果&nbsp;<code>friends[i]</code> 包含&nbsp;<code>j</code>&nbsp;，那么&nbsp;<code>friends[j]</code> 包含&nbsp;<code>i</code></li>
+	<li>if&nbsp;<code>friends[i]</code> contains <code>j</code>, then <code>friends[j]</code> contains <code>i</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
+### Solution 1: BFS
 
-我们可以使用广度优先搜索的方法，从 $\textit{id}$ 出发，找到所有距离为 $\textit{level}$ 的好友，然后统计这些好友观看的视频。
+We can use the Breadth-First Search (BFS) method to start from $\textit{id}$ and find all friends at a distance of $\textit{level}$, then count the videos watched by these friends.
 
-具体地，我们可以使用一个队列 $\textit{q}$ 来存储当前层的好友，初始时将 $\textit{id}$ 加入队列 $\textit{q}$ 中，用一个哈希表或者布尔数组 $\textit{vis}$ 来记录已经访问过的好友，然后进行 $\textit{level}$ 次循环，每次循环将队列中的所有好友出队，并将他们的好友加入队列，直到找到所有距禒为 $\textit{level}$ 的好友。
+Specifically, we can use a queue $\textit{q}$ to store the friends at the current level. Initially, add $\textit{id}$ to the queue $\textit{q}$. Use a hash table or a boolean array $\textit{vis}$ to record the friends that have already been visited. Then, perform $\textit{level}$ iterations, in each iteration dequeue all friends from the queue and enqueue their friends until all friends at distance $\textit{level}$ are found.
 
-然后，我们使用一个哈希表 $\textit{cnt}$ 来统计这些好友观看的视频及其频率，最后将哈希表中的键值对按照频率升序排序，如果频率相同，则按照视频名称升序排序。最后返回排序后的视频名称列表。
+Next, we use a hash table $\textit{cnt}$ to count the videos watched by these friends and their frequencies. Finally, sort the key-value pairs in the hash table in ascending order by frequency, and if frequencies are the same, sort by video name in ascending order. Return the sorted list of video names.
 
-时间复杂度 $O(n + m + v \times \log v)$，空间复杂度 $O(n + v)$。其中 $n$ 和 $m$ 分别是数组 $\textit{watchedVideos}$ 和 $\textit{friends}$ 的长度，而 $v$ 是所有好友观看的视频数量。
+Time complexity is $O(n + m + v \times \log v)$, and space complexity is $O(n + v)$. Here, $n$ and $m$ are the lengths of the arrays $\textit{watchedVideos}$ and $\textit{friends}$, respectively, and $v$ is the total number of videos watched by all friends.
 
 <!-- tabs:start -->
 

@@ -1,63 +1,49 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0118.Pascal%27s%20Triangle/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [118. 杨辉三角](https://leetcode.cn/problems/pascals-triangle)
+# [118. Pascal's Triangle](https://leetcode.com/problems/pascals-triangle)
 
-[English Version](/solution/0100-0199/0118.Pascal%27s%20Triangle/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个非负整数 <em><code>numRows</code>，</em>生成「杨辉三角」的前 <em><code>numRows</code> </em>行。</p>
+<p>Given an integer <code>numRows</code>, return the first numRows of <strong>Pascal&#39;s triangle</strong>.</p>
 
-<p><small>在「杨辉三角」中，每个数是它左上方和右上方的数的和。</small></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0118.Pascal%27s%20Triangle/images/1626927345-DZmfxB-PascalTriangleAnimated2.gif" /></p>
-
-<p> </p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入:</strong> numRows = 5
-<strong>输出:</strong> [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+<p>In <strong>Pascal&#39;s triangle</strong>, each number is the sum of the two numbers directly above it as shown:</p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0118.Pascal%27s%20Triangle/images/PascalTriangleAnimated2.gif" style="height:240px; width:260px" />
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> numRows = 5
+<strong>Output:</strong> [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> numRows = 1
+<strong>Output:</strong> [[1]]
 </pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> numRows = 1
-<strong>输出:</strong> [[1]]
-</pre>
-
-<p> </p>
-
-<p><strong>提示:</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= numRows <= 30</code></li>
+	<li><code>1 &lt;= numRows &lt;= 30</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们先创建一个答案数组 $f$，然后将 $f$ 的第一行元素设为 $[1]$。接下来，我们从第二行开始，每一行的开头和结尾元素都是 $1$，其它 $f[i][j] = f[i - 1][j - 1] + f[i - 1][j]$。
+First, we create an answer array $f$, and then set the first row of $f$ to $[1]$. Next, starting from the second row, the first and last elements of each row are $1$, and the other elements are calculated by $f[i][j] = f[i - 1][j - 1] + f[i - 1][j]$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是行数。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the number of rows.
 
 <!-- tabs:start -->
 

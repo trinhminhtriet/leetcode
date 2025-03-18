@@ -1,86 +1,77 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1227.Airplane%20Seat%20Assignment%20Probability/README.md
+difficulty: Medium
 tags:
-    - 脑筋急转弯
-    - 数学
-    - 动态规划
-    - 概率与统计
+    - Brainteaser
+    - Math
+    - Dynamic Programming
+    - Probability and Statistics
 ---
 
 <!-- problem:start -->
 
-# [1227. 飞机座位分配概率](https://leetcode.cn/problems/airplane-seat-assignment-probability)
+# [1227. Airplane Seat Assignment Probability](https://leetcode.com/problems/airplane-seat-assignment-probability)
 
-[English Version](/solution/1200-1299/1227.Airplane%20Seat%20Assignment%20Probability/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有 <code>n</code> 位乘客即将登机，飞机正好有 <code>n</code> 个座位。第一位乘客的票丢了，他随便选了一个座位坐下。</p>
-
-<p>剩下的乘客将会：</p>
+<p><code>n</code> passengers board an airplane with exactly <code>n</code> seats. The first passenger has lost the ticket and picks a seat randomly. But after that, the rest of the passengers will:</p>
 
 <ul>
-	<li>
-	<p>如果他们自己的座位还空着，就坐到自己的座位上，</p>
-	</li>
-	<li>当他们自己的座位被占用时，随机选择其他座位</li>
+	<li>Take their own seat if it is still available, and</li>
+	<li>Pick other seats randomly when they find their seat occupied</li>
 </ul>
 
-<p>第 <code>n</code>&nbsp;位乘客坐在自己的座位上的概率是多少？</p>
+<p>Return <em>the probability that the </em><code>n<sup>th</sup></code><em> person gets his own seat</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 1
-<strong>输出：</strong>1.00000
-<strong>解释：</strong>第一个人只会坐在自己的位置上。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> n = 2
-<strong>输出:</strong> 0.50000
-<strong>解释：</strong>在第一个人选好座位坐下后，第二个人坐在自己的座位上的概率是 0.5。
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> 1.00000
+<strong>Explanation: </strong>The first person can only get the first seat.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> 0.50000
+<strong>Explanation: </strong>The second person has a probability of 0.5 to get the second seat (when first person gets the first seat).
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= n &lt;= 10^5</code></li>
+	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
+### Solution 1: Mathematics
 
-用 $f(n)$ 表示当有 $n$ 位乘客登机时，第 $n$ 位乘客坐在自己的座位上的概率。从最简单的情况开始考虑：
+Let $f(n)$ represent the probability that the $n$th passenger will sit in their own seat when there are $n$ passengers boarding. Consider from the simplest case:
 
-当 $n=1$ 时，只有 $1$ 位乘客和 $1$ 个座位，因此第 $1$ 位乘客只能坐在第 $1$ 个座位上，$f(1)=1$；
+When $n=1$, there is only 1 passenger and 1 seat, so the first passenger can only sit in the first seat, $f(1)=1$;
 
-当 $n=2$ 时，有 $2$ 个座位，每个座位有 $0.5$ 的概率被第 $1$ 位乘客选中，当第 $1$ 位乘客选中座位之后，第 $2$ 位乘客只能选择剩下的座位，因此第 $2$ 位乘客有 $0.5$ 的概率坐在自己的座位上，$f(2)=0.5$。
+When $n=2$, there are 2 seats, each seat has a probability of 0.5 to be chosen by the first passenger. After the first passenger chooses a seat, the second passenger can only choose the remaining seat, so the second passenger has a probability of 0.5 to sit in their own seat, $f(2)=0.5$.
 
-当 $n>2$ 时，如何计算 $f(n)$ 的值？考虑第 $1$ 位乘客选择的座位，有以下三种情况。
+When $n>2$, how to calculate the value of $f(n)$? Consider the seat chosen by the first passenger, there are three cases.
 
--   第 $1$ 位乘客有 $\frac{1}{n}$ 的概率选择第 $1$ 个座位，则所有乘客都可以坐在自己的座位上，此时第 $n$ 位乘客坐在自己的座位上的概率是 $1.0$。
+-   The first passenger has a probability of $\frac{1}{n}$ to choose the first seat, then all passengers can sit in their own seats, so the probability of the $n$th passenger sitting in their own seat is 1.0.
 
--   第 $1$ 位乘客有 $\frac{1}{n}$ 的概率选择第 $n$ 个座位，则第 $2$ 位乘客到第 $n-1$ 位乘客都可以坐在自己的座位上，第 $n$ 位乘客只能坐在第 $1$ 个座位上，此时第 $n$ 位乘客坐在自己的座位上的概率是 $0.0$。
+-   The first passenger has a probability of $\frac{1}{n}$ to choose the $n$th seat, then the second to the $(n-1)$th passengers can sit in their own seats, the $n$th passenger can only sit in the first seat, so the probability of the $n$th passenger sitting in their own seat is 0.0.
 
--   第 $1$ 位乘客有 $\frac{n-2}{n}$ 的概率选择其余的座位，每个座位被选中的概率是 $\frac{1}{n}$。
-    假设第 $1$ 位乘客选择第 $i$ 个座位，其中 $2 \le i \le n-1$，则第 $2$ 位乘客到第 $i-1$ 位乘客都可以坐在自己的座位上，第 $i$ 位乘客到第 $n$ 位乘客的座位不确定，第 $i$ 位乘客会在剩下的 $n-(i-1)=n-i+1$ 个座位中随机选择（包括第 $1$ 个座位和第 $i+1$ 个座位到第 $n$ 个座位）。由于此时剩下的乘客数和座位数都是 $n-i+1$，有 $1$ 位乘客会随机选择座位，因此问题规模从 $n$ 减小至 $n-i+1$。
+-   The first passenger has a probability of $\frac{n-2}{n}$ to choose the remaining seats, each seat has a probability of $\frac{1}{n}$ to be chosen.
+    Suppose the first passenger chooses the $i$th seat, where $2 \le i \le n-1$, then the second to the $(i-1)$th passengers can sit in their own seats, the seats of the $i$th to the $n$th passengers are uncertain, the $i$th passenger will randomly choose from the remaining $n-(i-1)=n-i+1$ seats (including the first seat and the $(i+1)$th to the $n$th seats). Since the number of remaining passengers and seats is $n-i+1$, and 1 passenger will randomly choose a seat, the problem size is reduced from $n$ to $n-i+1$.
 
-结合上述三种情况，可以得到 $f(n)$ 的递推式：
+Combining the above three cases, we can get the recursive formula of $f(n)$:
 
 $$
 \begin{aligned}
@@ -89,19 +80,19 @@ f(n) &= \frac{1}{n} \times 1.0 + \frac{1}{n} \times 0.0 + \frac{1}{n} \times \su
 \end{aligned}
 $$
 
-上述递推式中，$i$ 的取值个数有 $n-2$ 个，由于 $i$ 的取值个数必须是非负整数，因此只有当 $n-2 \ge 0$ 即 $n \ge 2$ 时，上述递推式才成立。
+In the above recursive formula, there are $n-2$ values of $i$, since the number of values of $i$ must be a non-negative integer, so the above recursive formula only holds when $n-2 \ge 0$ i.e., $n \ge 2$.
 
-如果直接利用上述递推式计算 $f(n)$ 的值，则时间复杂度为 $O(n^2)$，无法通过全部测试用例，因此需要优化。
+If you directly use the above recursive formula to calculate the value of $f(n)$, the time complexity is $O(n^2)$, which cannot pass all test cases, so it needs to be optimized.
 
-将上述递推式中的 $n$ 换成 $n-1$，可以得到递推式：
+Replace $n$ with $n-1$ in the above recursive formula, you can get the recursive formula:
 
 $$
 f(n-1) = \frac{1}{n-1}(1.0+\sum_{i=2}^{n-2} f(n-i))
 $$
 
-上述递推式中，$i$ 的取值个数有 $n-3$ 个，只有当 $n-3 \ge 0$ 即 $n \ge 3$ 时，上述递推式才成立。
+In the above recursive formula, there are $n-3$ values of $i$, and the above recursive formula only holds when $n-3 \ge 0$ i.e., $n \ge 3$.
 
-当 $n \ge 3$ 时，上述两个递推式可以写成如下形式：
+When $n \ge 3$, the above two recursive formulas can be written as follows:
 
 $$
 \begin{aligned}
@@ -110,7 +101,7 @@ n \times f(n) &= 1.0+\sum_{i=2}^{n-1} f(n-i+1) \\
 \end{aligned}
 $$
 
-将上述两式相减：
+Subtract the above two formulas:
 
 $$
 \begin{aligned}
@@ -122,7 +113,7 @@ $$
 \end{aligned}
 $$
 
-整理后得到简化的递推式：
+After simplification, we get the simplified recursive formula:
 
 $$
 \begin{aligned}
@@ -131,9 +122,9 @@ f(n) &= f(n-1)
 \end{aligned}
 $$
 
-由于已知 $f(1)=1$ 和 $f(2)=0.5$，因此当 $n \ge 3$ 时，根据 $f(n) = f(n-1)$ 可知，对任意正整数 $n$ 都有 $f(n)=0.5$。又由于 $f(2)=0.5$，因此当 $n \ge 2$ 时，对任意正整数 $n$ 都有 $f(n)=0.5$。
+Since we know that $f(1)=1$ and $f(2)=0.5$, therefore when $n \ge 3$, according to $f(n) = f(n-1)$, we know that for any positive integer $n$, $f(n)=0.5$. And since $f(2)=0.5$, therefore when $n \ge 2$, for any positive integer $n$, $f(n)=0.5$.
 
-由此可以得到 $f(n)$ 的结果：
+From this, we can get the result of $f(n)$:
 
 $$
 f(n) = \begin{cases}
@@ -142,7 +133,7 @@ f(n) = \begin{cases}
 \end{cases}
 $$
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+The time complexity of this solution is $O(1)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

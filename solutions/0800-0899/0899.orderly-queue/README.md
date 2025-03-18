@@ -1,73 +1,68 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0899.Orderly%20Queue/README.md
+difficulty: Hard
 tags:
-    - 数学
-    - 字符串
-    - 排序
+    - Math
+    - String
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [899. 有序队列](https://leetcode.cn/problems/orderly-queue)
+# [899. Orderly Queue](https://leetcode.com/problems/orderly-queue)
 
-[English Version](/solution/0800-0899/0899.Orderly%20Queue/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个字符串 <code>s</code> 和一个整数 <code>k</code>&nbsp;。你可以从 <code>s</code> 的前 <code>k</code> 个字母中选择一个，并把它加到字符串的末尾。</p>
+<p>You are given a string <code>s</code> and an integer <code>k</code>. You can choose one of the first <code>k</code> letters of <code>s</code> and append it at the end of the string.</p>
 
-<p>返回 <em>在应用上述步骤的任意数量的移动后，字典序最小的字符串&nbsp;</em>。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "cba", k = 1
-<strong>输出：</strong>"acb"
-<strong>解释：</strong>
-在第一步中，我们将第一个字符（“c”）移动到最后，获得字符串 “bac”。
-在第二步中，我们将第一个字符（“b”）移动到最后，获得最终结果 “acb”。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "baaca", k = 3
-<strong>输出：</strong>"aaabc"
-<strong>解释：
-</strong>在第一步中，我们将第一个字符（“b”）移动到最后，获得字符串 “aacab”。
-在第二步中，我们将第三个字符（“c”）移动到最后，获得最终结果 “aaabc”。
-</pre>
+<p>Return <em>the lexicographically smallest string you could have after applying the mentioned step any number of moves</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;cba&quot;, k = 1
+<strong>Output:</strong> &quot;acb&quot;
+<strong>Explanation:</strong> 
+In the first move, we move the 1<sup>st</sup> character &#39;c&#39; to the end, obtaining the string &quot;bac&quot;.
+In the second move, we move the 1<sup>st</sup> character &#39;b&#39; to the end, obtaining the final result &quot;acb&quot;.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;baaca&quot;, k = 3
+<strong>Output:</strong> &quot;aaabc&quot;
+<strong>Explanation:</strong> 
+In the first move, we move the 1<sup>st</sup> character &#39;b&#39; to the end, obtaining the string &quot;aacab&quot;.
+In the second move, we move the 3<sup>rd</sup> character &#39;c&#39; to the end, obtaining the final result &quot;aaabc&quot;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= k&nbsp;&lt;= S.length&nbsp;&lt;= 1000</code></li>
-	<li><code>s</code>&nbsp;只由小写字母组成。</li>
+	<li><code>1 &lt;= k &lt;= s.length &lt;= 1000</code></li>
+	<li><code>s</code> consist of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分情况判断
+### Solution 1: Case-by-case Judgment
 
-若 $k = 1$，我们每次只能将字符串首字符移动到字符串末尾，总共有 $|s|$ 种不同的状态，我们返回其中字典序最小的字符串即可。
+If $k = 1$, we can only move the first character of the string to the end of the string each time, resulting in $|s|$ different states. We return the string with the smallest lexicographic order.
 
-若 $k \gt 1$，对于形如 $abc[xy]def$ 的字符串，可以依次将 $a$, $b$, $c$ 移动到最后，得到 $[xy]defabc$，然后将 $y$, $x$ 移动到最后，得到 $defabc[yx]$，最后将 $d$, $e$, $f$ 移动到最后，得到 $abc[yx]def$，这样就实现了对 $y$, $x$ 的交换。
+If $k > 1$, for a string like $abc[xy]def$, we can move $a$, $b$, and $c$ to the end in order, resulting in $[xy]defabc$. Then we move $y$ and $x$ to the end, resulting in $defabc[yx]$. Finally, we move $d$, $e$, and $f$ to the end, resulting in $abc[yx]def$. This way, we have swapped $y$ and $x$.
 
-因此，只要 $k \gt 1$，我们就能够交换字符串中的任何两个相邻字符，最终得到一个升序排列的字符串。
+Therefore, as long as $k > 1$, we can swap any two adjacent characters in the string, eventually obtaining a string sorted in ascending order.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是字符串的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string.
 
 <!-- tabs:start -->
 

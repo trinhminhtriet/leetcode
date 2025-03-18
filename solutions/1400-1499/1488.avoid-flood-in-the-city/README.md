@@ -1,88 +1,83 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1488.Avoid%20Flood%20in%20The%20City/README.md
+difficulty: Medium
 rating: 1973
-source: 第 194 场周赛 Q3
+source: Weekly Contest 194 Q3
 tags:
-    - 贪心
-    - 数组
-    - 哈希表
-    - 二分查找
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Hash Table
+    - Binary Search
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1488. 避免洪水泛滥](https://leetcode.cn/problems/avoid-flood-in-the-city)
+# [1488. Avoid Flood in The City](https://leetcode.com/problems/avoid-flood-in-the-city)
 
-[English Version](/solution/1400-1499/1488.Avoid%20Flood%20in%20The%20City/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你的国家有无数个湖泊，所有湖泊一开始都是空的。当第 <code>n</code>&nbsp;个湖泊下雨前是空的，那么它就会装满水。如果第 <code>n</code>&nbsp;个湖泊下雨前是 <strong>满的&nbsp;</strong>，这个湖泊会发生 <strong>洪水</strong> 。你的目标是避免任意一个湖泊发生洪水。</p>
+<p>Your country has an infinite number of lakes. Initially, all the lakes are empty, but when it rains over the <code>nth</code> lake, the <code>nth</code> lake becomes full of water. If it rains over a lake that is <strong>full of water</strong>, there will be a <strong>flood</strong>. Your goal is to avoid floods in any lake.</p>
 
-<p>给你一个整数数组&nbsp;<code>rains</code>&nbsp;，其中：</p>
+<p>Given an integer array <code>rains</code> where:</p>
 
 <ul>
-	<li><code>rains[i] &gt; 0</code>&nbsp;表示第 <code>i</code>&nbsp;天时，第 <code>rains[i]</code>&nbsp;个湖泊会下雨。</li>
-	<li><code>rains[i] == 0</code>&nbsp;表示第 <code>i</code>&nbsp;天没有湖泊会下雨，你可以选择 <strong>一个</strong>&nbsp;湖泊并 <strong>抽干</strong>&nbsp;这个湖泊的水。</li>
+	<li><code>rains[i] &gt; 0</code> means there will be rains over the <code>rains[i]</code> lake.</li>
+	<li><code>rains[i] == 0</code> means there are no rains this day and you can choose <strong>one lake</strong> this day and <strong>dry it</strong>.</li>
 </ul>
 
-<p>请返回一个数组<em>&nbsp;</em><code>ans</code>&nbsp;，满足：</p>
+<p>Return <em>an array <code>ans</code></em> where:</p>
 
 <ul>
 	<li><code>ans.length == rains.length</code></li>
-	<li>如果&nbsp;<code>rains[i] &gt; 0</code> ，那么<code>ans[i] == -1</code>&nbsp;。</li>
-	<li>如果&nbsp;<code>rains[i] == 0</code>&nbsp;，<code>ans[i]</code>&nbsp;是你第&nbsp;<code>i</code>&nbsp;天选择抽干的湖泊。</li>
+	<li><code>ans[i] == -1</code> if <code>rains[i] &gt; 0</code>.</li>
+	<li><code>ans[i]</code> is the lake you choose to dry in the <code>ith</code> day if <code>rains[i] == 0</code>.</li>
 </ul>
 
-<p>如果有多种可行解，请返回它们中的 <strong>任意一个</strong>&nbsp;。如果没办法阻止洪水，请返回一个 <strong>空的数组</strong>&nbsp;。</p>
+<p>If there are multiple valid answers return <strong>any</strong> of them. If it is impossible to avoid flood return <strong>an empty array</strong>.</p>
 
-<p>请注意，如果你选择抽干一个装满水的湖泊，它会变成一个空的湖泊。但如果你选择抽干一个空的湖泊，那么将无事发生。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>rains = [1,2,3,4]
-<strong>输出：</strong>[-1,-1,-1,-1]
-<strong>解释：</strong>第一天后，装满水的湖泊包括 [1]
-第二天后，装满水的湖泊包括 [1,2]
-第三天后，装满水的湖泊包括 [1,2,3]
-第四天后，装满水的湖泊包括 [1,2,3,4]
-没有哪一天你可以抽干任何湖泊的水，也没有湖泊会发生洪水。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>rains = [1,2,0,0,2,1]
-<strong>输出：</strong>[-1,-1,2,1,-1,-1]
-<strong>解释：</strong>第一天后，装满水的湖泊包括 [1]
-第二天后，装满水的湖泊包括 [1,2]
-第三天后，我们抽干湖泊 2 。所以剩下装满水的湖泊包括 [1]
-第四天后，我们抽干湖泊 1 。所以暂时没有装满水的湖泊了。
-第五天后，装满水的湖泊包括 [2]。
-第六天后，装满水的湖泊包括 [1,2]。
-可以看出，这个方案下不会有洪水发生。同时， [-1,-1,1,2,-1,-1] 也是另一个可行的没有洪水的方案。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>rains = [1,2,0,1,2]
-<strong>输出：</strong>[]
-<strong>解释：</strong>第二天后，装满水的湖泊包括 [1,2]。我们可以在第三天抽干一个湖泊的水。
-但第三天后，湖泊 1 和 2 都会再次下雨，所以不管我们第三天抽干哪个湖泊的水，另一个湖泊都会发生洪水。
-</pre>
+<p>Notice that if you chose to dry a full lake, it becomes empty, but if you chose to dry an empty lake, nothing changes.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> rains = [1,2,3,4]
+<strong>Output:</strong> [-1,-1,-1,-1]
+<strong>Explanation:</strong> After the first day full lakes are [1]
+After the second day full lakes are [1,2]
+After the third day full lakes are [1,2,3]
+After the fourth day full lakes are [1,2,3,4]
+There&#39;s no day to dry any lake and there is no flood in any lake.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> rains = [1,2,0,0,2,1]
+<strong>Output:</strong> [-1,-1,2,1,-1,-1]
+<strong>Explanation:</strong> After the first day full lakes are [1]
+After the second day full lakes are [1,2]
+After the third day, we dry lake 2. Full lakes are [1]
+After the fourth day, we dry lake 1. There is no full lakes.
+After the fifth day, full lakes are [2].
+After the sixth day, full lakes are [1,2].
+It is easy that this scenario is flood-free. [-1,-1,1,2,-1,-1] is another acceptable scenario.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> rains = [1,2,0,1,2]
+<strong>Output:</strong> []
+<strong>Explanation:</strong> After the second day, full lakes are  [1,2]. We have to dry one lake in the third day.
+After that, it will rain over lakes [1,2]. It&#39;s easy to prove that no matter which lake you choose to dry in the 3rd day, the other one will flood.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= rains.length &lt;= 10<sup>5</sup></code></li>
@@ -91,19 +86,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 二分查找
+### Solution 1: Greedy + Binary Search
 
-我们将所有晴天都存入 $sunny$ 数组或者有序集合中，使用哈希表 $rainy$ 记录每个湖泊最近一次下雨的日期。初始化答案数组 $ans$ 每个元素为 $-1$。
+We store all sunny days in the $sunny$ array or a sorted set, and use the hash table $rainy$ to record the last rainy day for each lake. We initialize the answer array $ans$ with each element set to $-1$.
 
-接下来，我们遍历 $rains$ 数组。对于每个下雨的日期 $i$，如果 $rainy[rains[i]]$ 存在，说明该湖泊在之前下过雨，那么我们需要找到 $sunny$ 数组中第一个大于 $rainy[rains[i]]$ 的日期，将其替换为下雨的日期，否则说明无法阻止洪水，返回空数组。对于没下雨的日期 $i$，我们将 $i$ 存入 $sunny$ 数组中，并且将 $ans[i]$ 置为 $1$。
+Next, we traverse the $rains$ array. For each rainy day $i$, if $rainy[rains[i]]$ exists, it means that the lake has rained before, so we need to find the first date in the $sunny$ array that is greater than $rainy[rains[i]]$, and replace it with the rainy day. Otherwise, it means that the flood cannot be prevented, and we return an empty array. For each non-rainy day $i$, we store $i$ in the $sunny$ array and set $ans[i]$ to $1$.
 
-遍历结束，返回答案数组。
+After the traversal, we return the answer array.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为 $rains$ 数组的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the $rains$ array.
 
 <!-- tabs:start -->
 

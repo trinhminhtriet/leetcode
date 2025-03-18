@@ -1,77 +1,67 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0025.Reverse%20Nodes%20in%20k-Group/README.md
+difficulty: Hard
 tags:
-    - 递归
-    - 链表
+    - Recursion
+    - Linked List
 ---
 
 <!-- problem:start -->
 
-# [25. K 个一组翻转链表](https://leetcode.cn/problems/reverse-nodes-in-k-group)
+# [25. Reverse Nodes in k-Group](https://leetcode.com/problems/reverse-nodes-in-k-group)
 
-[English Version](/solution/0000-0099/0025.Reverse%20Nodes%20in%20k-Group/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你链表的头节点 <code>head</code> ，每&nbsp;<code>k</code><em>&nbsp;</em>个节点一组进行翻转，请你返回修改后的链表。</p>
+<p>Given the <code>head</code> of a linked list, reverse the nodes of the list <code>k</code> at a time, and return <em>the modified list</em>.</p>
 
-<p><code>k</code> 是一个正整数，它的值小于或等于链表的长度。如果节点总数不是&nbsp;<code>k</code><em>&nbsp;</em>的整数倍，那么请将最后剩余的节点保持原有顺序。</p>
+<p><code>k</code> is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of <code>k</code> then left-out nodes, in the end, should remain as it is.</p>
 
-<p>你不能只是单纯的改变节点内部的值，而是需要实际进行节点交换。</p>
+<p>You may not alter the values in the list&#39;s nodes, only nodes themselves may be changed.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0025.Reverse%20Nodes%20in%20k-Group/images/reverse_ex1.jpg" style="width: 542px; height: 222px;" />
 <pre>
-<strong>输入：</strong>head = [1,2,3,4,5], k = 2
-<strong>输出：</strong>[2,1,4,3,5]
+<strong>Input:</strong> head = [1,2,3,4,5], k = 2
+<strong>Output:</strong> [2,1,4,3,5]
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0025.Reverse%20Nodes%20in%20k-Group/images/reverse_ex2.jpg" style="width: 542px; height: 222px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0025.Reverse%20Nodes%20in%20k-Group/images/reverse_ex2.jpg" style="width: 542px; height: 222px;" />
 <pre>
-<strong>输入：</strong>head = [1,2,3,4,5], k = 3
-<strong>输出：</strong>[3,2,1,4,5]
+<strong>Input:</strong> head = [1,2,3,4,5], k = 3
+<strong>Output:</strong> [3,2,1,4,5]
 </pre>
 
 <p>&nbsp;</p>
-<strong>提示：</strong>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>链表中的节点数目为 <code>n</code></li>
+	<li>The number of nodes in the list is <code>n</code>.</li>
 	<li><code>1 &lt;= k &lt;= n &lt;= 5000</code></li>
 	<li><code>0 &lt;= Node.val &lt;= 1000</code></li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>你可以设计一个只用 <code>O(1)</code> 额外内存空间的算法解决此问题吗？</p>
-
-<ul>
-</ul>
+<p><strong>Follow-up:</strong> Can you solve the problem in <code>O(1)</code> extra memory space?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以根据题意，模拟整个翻转的过程。
+We can simulate the entire reversal process according to the problem description.
 
-首先，我们定义一个辅助函数 $\textit{reverse}$，用于翻转一个链表。然后，我们定义一个虚拟头结点 $\textit{dummy}$，并将其 $\textit{next}$ 指针指向 $\textit{head}$。
+First, we define a helper function $\textit{reverse}$ to reverse a linked list. Then, we define a dummy head node $\textit{dummy}$ and set its $\textit{next}$ pointer to $\textit{head}$.
 
-接着，我们遍历链表，每次遍历 $k$ 个节点，若剩余节点不足 $k$ 个，则不进行翻转。否则，我们将 $k$ 个节点取出，然后调用 $\textit{reverse}$ 函数翻转这 $k$ 个节点。然后将翻转后的链表与原链表连接起来。继续遍历下一个 $k$ 个节点，直到遍历完整个链表。
+Next, we traverse the linked list, processing $k$ nodes at a time. If the remaining nodes are fewer than $k$, we do not perform the reversal. Otherwise, we extract $k$ nodes and call the $\textit{reverse}$ function to reverse these $k$ nodes. Then, we connect the reversed linked list back to the original linked list. We continue to process the next $k$ nodes until the entire linked list is traversed.
 
-时间复杂度 $O(n)$，其中 $n$ 为链表的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the linked list. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

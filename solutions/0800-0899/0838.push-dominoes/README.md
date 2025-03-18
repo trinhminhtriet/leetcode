@@ -1,74 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0838.Push%20Dominoes/README.md
+difficulty: Medium
 tags:
-    - 双指针
-    - 字符串
-    - 动态规划
+    - Two Pointers
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [838. 推多米诺](https://leetcode.cn/problems/push-dominoes)
+# [838. Push Dominoes](https://leetcode.com/problems/push-dominoes)
 
-[English Version](/solution/0800-0899/0838.Push%20Dominoes/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><code>n</code> 张多米诺骨牌排成一行，将每张多米诺骨牌垂直竖立。在开始时，同时把一些多米诺骨牌向左或向右推。</p>
+<p>There are <code>n</code> dominoes in a line, and we place each domino vertically upright. In the beginning, we simultaneously push some of the dominoes either to the left or to the right.</p>
 
-<p>每过一秒，倒向左边的多米诺骨牌会推动其左侧相邻的多米诺骨牌。同样地，倒向右边的多米诺骨牌也会推动竖立在其右侧的相邻多米诺骨牌。</p>
+<p>After each second, each domino that is falling to the left pushes the adjacent domino on the left. Similarly, the dominoes falling to the right push their adjacent dominoes standing on the right.</p>
 
-<p>如果一张垂直竖立的多米诺骨牌的两侧同时有多米诺骨牌倒下时，由于受力平衡， 该骨牌仍然保持不变。</p>
+<p>When a vertical domino has dominoes falling on it from both sides, it stays still due to the balance of the forces.</p>
 
-<p>就这个问题而言，我们会认为一张正在倒下的多米诺骨牌不会对其它正在倒下或已经倒下的多米诺骨牌施加额外的力。</p>
+<p>For the purposes of this question, we will consider that a falling domino expends no additional force to a falling or already fallen domino.</p>
 
-<p>给你一个字符串 <code>dominoes</code> 表示这一行多米诺骨牌的初始状态，其中：</p>
+<p>You are given a string <code>dominoes</code> representing the initial state where:</p>
 
 <ul>
-	<li><code>dominoes[i] = 'L'</code>，表示第 <code>i</code> 张多米诺骨牌被推向左侧，</li>
-	<li><code>dominoes[i] = 'R'</code>，表示第 <code>i</code> 张多米诺骨牌被推向右侧，</li>
-	<li><code>dominoes[i] = '.'</code>，表示没有推动第 <code>i</code> 张多米诺骨牌。</li>
+	<li><code>dominoes[i] = &#39;L&#39;</code>, if the <code>i<sup>th</sup></code> domino has been pushed to the left,</li>
+	<li><code>dominoes[i] = &#39;R&#39;</code>, if the <code>i<sup>th</sup></code> domino has been pushed to the right, and</li>
+	<li><code>dominoes[i] = &#39;.&#39;</code>, if the <code>i<sup>th</sup></code> domino has not been pushed.</li>
 </ul>
 
-<p>返回表示最终状态的字符串。</p>
-&nbsp;
+<p>Return <em>a string representing the final state</em>.</p>
 
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>dominoes = "RR.L"
-<strong>输出：</strong>"RR.L"
-<strong>解释：</strong>第一张多米诺骨牌没有给第二张施加额外的力。
+<strong>Input:</strong> dominoes = &quot;RR.L&quot;
+<strong>Output:</strong> &quot;RR.L&quot;
+<strong>Explanation:</strong> The first domino expends no additional force on the second domino.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0838.Push%20Dominoes/images/domino.png" style="height: 196px; width: 512px;" />
 <pre>
-<strong>输入：</strong>dominoes = ".L.R...LR..L.."
-<strong>输出：</strong>"LL.RR.LLRRLL.."
+<strong>Input:</strong> dominoes = &quot;.L.R...LR..L..&quot;
+<strong>Output:</strong> &quot;LL.RR.LLRRLL..&quot;
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == dominoes.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li><code>dominoes[i]</code> 为 <code>'L'</code>、<code>'R'</code> 或 <code>'.'</code></li>
+	<li><code>dominoes[i]</code> is either <code>&#39;L&#39;</code>, <code>&#39;R&#39;</code>, or <code>&#39;.&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

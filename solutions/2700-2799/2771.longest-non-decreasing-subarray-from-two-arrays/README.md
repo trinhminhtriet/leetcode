@@ -1,66 +1,64 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2771.Longest%20Non-decreasing%20Subarray%20From%20Two%20Arrays/README.md
+difficulty: Medium
 rating: 1791
-source: 第 353 场周赛 Q3
+source: Weekly Contest 353 Q3
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2771. 构造最长非递减子数组](https://leetcode.cn/problems/longest-non-decreasing-subarray-from-two-arrays)
+# [2771. Longest Non-decreasing Subarray From Two Arrays](https://leetcode.com/problems/longest-non-decreasing-subarray-from-two-arrays)
 
-[English Version](/solution/2700-2799/2771.Longest%20Non-decreasing%20Subarray%20From%20Two%20Arrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个下标从 <strong>0</strong> 开始的整数数组 <code>nums1</code> 和 <code>nums2</code> ，长度均为 <code>n</code> 。</p>
+<p>You are given two <strong>0-indexed</strong> integer arrays <code>nums1</code> and <code>nums2</code> of length <code>n</code>.</p>
 
-<p>让我们定义另一个下标从 <strong>0</strong> 开始、长度为 <code>n</code> 的整数数组，<code>nums3</code> 。对于范围&nbsp;<code>[0, n - 1]</code> 的每个下标 <code>i</code> ，你可以将 <code>nums1[i]</code> 或 <code>nums2[i]</code> 的值赋给 <code>nums3[i]</code> 。</p>
+<p>Let&#39;s define another <strong>0-indexed</strong> integer array, <code>nums3</code>, of length <code>n</code>. For each index <code>i</code> in the range <code>[0, n - 1]</code>, you can assign either <code>nums1[i]</code> or <code>nums2[i]</code> to <code>nums3[i]</code>.</p>
 
-<p>你的任务是使用最优策略为 <code>nums3</code> 赋值，以最大化 <code>nums3</code> 中 <strong>最长非递减子数组</strong> 的长度。</p>
+<p>Your task is to maximize the length of the <strong>longest non-decreasing subarray</strong> in <code>nums3</code> by choosing its values optimally.</p>
 
-<p>以整数形式表示并返回 <code>nums3</code> 中 <strong>最长非递减</strong> 子数组的长度。</p>
+<p>Return <em>an integer representing the length of the <strong>longest non-decreasing</strong> subarray in</em> <code>nums3</code>.</p>
 
-<p><strong>注意：子数组</strong> 是数组中的一个连续非空元素序列。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>nums1 = [2,3,1], nums2 = [1,2,1]
-<strong>输出：</strong>2
-<strong>解释：</strong>构造 nums3 的方法之一是： 
-nums3 = [nums1[0], nums2[1], nums2[2]] =&gt; [2,2,1]
-从下标 0 开始到下标 1 结束，形成了一个长度为 2 的非递减子数组 [2,2] 。 
-可以证明 2 是可达到的最大长度。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>nums1 = [1,3,2,1], nums2 = [2,2,3,4]
-<strong>输出：</strong>4
-<strong>解释：</strong>构造 nums3 的方法之一是： 
-nums3 = [nums1[0], nums2[1], nums2[2], nums2[3]] =&gt; [1,2,3,4]
-整个数组形成了一个长度为 4 的非递减子数组，并且是可达到的最大长度。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>nums1 = [1,1], nums2 = [2,2]
-<strong>输出：</strong>2
-<strong>解释：</strong>构造 nums3 的方法之一是： 
-nums3 = [nums1[0], nums1[1]] =&gt; [1,1] 
-整个数组形成了一个长度为 2 的非递减子数组，并且是可达到的最大长度。
-</pre>
+<p><strong>Note: </strong>A <strong>subarray</strong> is a contiguous <strong>non-empty</strong> sequence of elements within an array.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums1 = [2,3,1], nums2 = [1,2,1]
+<strong>Output:</strong> 2
+<strong>Explanation: </strong>One way to construct nums3 is: 
+nums3 = [nums1[0], nums2[1], nums2[2]] =&gt; [2,2,1]. 
+The subarray starting from index 0 and ending at index 1, [2,2], forms a non-decreasing subarray of length 2. 
+We can show that 2 is the maximum achievable length.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [1,3,2,1], nums2 = [2,2,3,4]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> One way to construct nums3 is: 
+nums3 = [nums1[0], nums2[1], nums2[2], nums2[3]] =&gt; [1,2,3,4]. 
+The entire array forms a non-decreasing subarray of length 4, making it the maximum achievable length.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [1,1], nums2 = [2,2]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> One way to construct nums3 is: 
+nums3 = [nums1[0], nums1[1]] =&gt; [1,1]. 
+The entire array forms a non-decreasing subarray of length 2, making it the maximum achievable length.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length == nums2.length == n &lt;= 10<sup>5</sup></code></li>
@@ -69,28 +67,28 @@ nums3 = [nums1[0], nums1[1]] =&gt; [1,1]
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义两个变量 $f$ 和 $g$，分别表示当前位置的最长非递减子数组长度，其中 $f$ 表示以 $nums1$ 元素为结尾的最长非递减子数组长度，而 $g$ 表示以 $nums2$ 元素为结尾的最长非递减子数组长度。初始时 $f = g = 1$，初始答案 $ans = 1$。
+We define two variables $f$ and $g$, which represent the length of the longest non-decreasing subarray at the current position. Here, $f$ represents the length of the longest non-decreasing subarray ending with an element from $nums1$, and $g$ represents the length of the longest non-decreasing subarray ending with an element from $nums2$. Initially, $f = g = 1$, and the initial answer $ans = 1$.
 
-接下来，我们在 $i \in [1, n)$ 的范围内遍历数组元素，对于每个 $i$，我们定义两个变量 $ff$ 和 $gg$，分别表示以 $nums1[i]$ 和 $nums2[i]$ 元素为结尾的最长非递减子数组长度，初始化时 $ff = gg = 1$。
+Next, we iterate over the array elements in the range $i \in [1, n)$, and for each $i$, we define two variables $ff$ and $gg$, which represent the length of the longest non-decreasing subarray ending with $nums1[i]$ and $nums2[i]$ respectively. When initialized, $ff = gg = 1$.
 
-我们可以通过 $f$ 和 $g$ 的值来计算出 $ff$ 和 $gg$ 的值：
+We can calculate the values of $ff$ and $gg$ based on the values of $f$ and $g$:
 
--   如果 $nums1[i] \ge nums1[i - 1]$，那么 $ff = \max(ff, f + 1)$；
--   如果 $nums1[i] \ge nums2[i - 1]$，那么 $ff = \max(ff, g + 1)$；
--   如果 $nums2[i] \ge nums1[i - 1]$，那么 $gg = \max(gg, f + 1)$；
--   如果 $nums2[i] \ge nums2[i - 1]$，那么 $gg = \max(gg, g + 1)$。
+-   If $nums1[i] \ge nums1[i - 1]$, then $ff = \max(ff, f + 1)$;
+-   If $nums1[i] \ge nums2[i - 1]$, then $ff = \max(ff, g + 1)$;
+-   If $nums2[i] \ge nums1[i - 1]$, then $gg = \max(gg, f + 1)$;
+-   If $nums2[i] \ge nums2[i - 1]$, then $gg = \max(gg, g + 1)$.
 
-然后，我们更新 $f = ff$ 和 $g = gg$，并将 $ans$ 更新为 $\max(ans, f, g)$。
+Then, we update $f = ff$ and $g = gg$, and update $ans$ to $\max(ans, f, g)$.
 
-遍历结束后，我们返回 $ans$ 即可。
+After the iteration ends, we return $ans$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

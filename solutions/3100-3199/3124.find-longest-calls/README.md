@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3124.Find%20Longest%20Calls/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3124. 查找最长的电话 🔒](https://leetcode.cn/problems/find-longest-calls)
+# [3124. Find Longest Calls 🔒](https://leetcode.com/problems/find-longest-calls)
 
-[English Version](/solution/3100-3199/3124.Find%20Longest%20Calls/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Contacts</code></p>
+<p>Table: <code>Contacts</code></p>
 
 <pre>
 +-------------+---------+
@@ -26,12 +23,12 @@ tags:
 | first_name  | varchar |
 | last_name   | varchar |
 +-------------+---------+
-id 是这张表的主键（有不同值的列）。
-id 是 Calls 表的外键（引用列）。
-这张表的每一行都包含 id，first_name 和 last_name。
+id is the primary key (column with unique values) of this table.
+id is a foreign key (reference column) to <code>Calls</code> table.
+Each row of this table contains id, first_name, and last_name.
 </pre>
 
-<p>表：<code>Calls</code></p>
+<p>Table: <code>Calls</code></p>
 
 <pre>
 +-------------+------+
@@ -41,25 +38,24 @@ id 是 Calls 表的外键（引用列）。
 | type        | enum |
 | duration    | int  |
 +-------------+------+
-(contact_id, type, duration) 是这张表的主键（有不同值的列）。
-type 字段是 ('incoming', 'outgoing') 的 ENUM (category)。
-这张表的每一行包含有 calls, 包括 contact_id，type 和以秒为单位的 duration 的信息。
+(contact_id, type, duration) is the primary key (column with unique values) of this table.
+type is an ENUM (category) type of (&#39;incoming&#39;, &#39;outgoing&#39;).
+Each row of this table contains information about calls, comprising of contact_id, type, and duration in seconds.
 </pre>
 
-<p>编写一个解决方案来找到&nbsp;<strong>三个最长的呼入</strong>&nbsp;和&nbsp;<strong>呼出</strong>&nbsp;电话。</p>
+<p>Write a solution to find the <b>three longest&nbsp;</b><strong>incoming</strong> and <strong>outgoing</strong> calls.</p>
 
-<p>返回结果表，以&nbsp;<code>type</code>，<code>duration</code>&nbsp;和&nbsp;<code>first_name</code>&nbsp;<em><strong>降序排序</strong>&nbsp;，<code>duration</code>&nbsp;的格式必须为&nbsp;<strong>HH:MM:SS</strong>。</em></p>
+<p>Return t<em>he result table ordered by</em> <code>type</code>, <code>duration</code>, and<code> first_name</code>&nbsp;<em>in <strong>descending&nbsp;</strong>order and <code>duration</code> must be formatted as <strong>HH:MM:SS</strong>.</em></p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><b>输入：</b></p>
+<p><strong>Input:</strong></p>
 
-<p>Contacts 表：</p>
+<p>Contacts table:</p>
 
 <pre class="example-io">
 +----+------------+-----------+
@@ -73,7 +69,7 @@ type 字段是 ('incoming', 'outgoing') 的 ENUM (category)。
 +----+------------+-----------+        
 </pre>
 
-<p>Calls 表：</p>
+<p>Calls table:</p>
 
 <pre class="example-io">
 +------------+----------+----------+
@@ -92,44 +88,44 @@ type 字段是 ('incoming', 'outgoing') 的 ENUM (category)。
 +------------+----------+----------+
         </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +-----------+----------+-------------------+
 | first_name| type     | duration_formatted|
 +-----------+----------+-------------------+
-| Michael   | incoming | 00:07:00          |
-| Jane      | incoming | 00:05:00          |
-| Emily     | incoming | 00:03:00          |
 | Alice     | outgoing | 00:06:00          |
 | Emily     | outgoing | 00:04:40          |
 | Jane      | outgoing | 00:04:00          |
+| Michael   | incoming | 00:07:00          |
+| Jane      | incoming | 00:05:00          |
+| Emily     | incoming | 00:03:00          |
 +-----------+----------+-------------------+
         </pre>
 
-<p><strong>解释:</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>Michael 有一通长达 7 分钟的呼入电话。</li>
-	<li>Jane 有一通长达 5&nbsp;分钟的呼入电话。</li>
-	<li>Emily 有一通长达 3&nbsp;分钟的呼入电话。</li>
-	<li>Alice 有一通长达 6&nbsp;分钟的呼出电话。</li>
-	<li>Emily 有一通长达 4&nbsp;分 40 秒的呼出电话。</li>
-	<li>Jane 有一通长达 4&nbsp;分钟的呼出电话。</li>
+	<li>Alice had an outgoing call lasting 6 minutes.</li>
+	<li>Emily had an outgoing call lasting 4 minutes and 40 seconds.</li>
+	<li>Jane had an outgoing call lasting 4 minutes.</li>
+	<li>Michael had an incoming call lasting 7 minutes.</li>
+	<li>Jane had an incoming call lasting 5 minutes.</li>
+	<li>Emily had an incoming call lasting 3 minutes.</li>
 </ul>
 
-<p><b>注意：</b>输出表以&nbsp;type，duration&nbsp;和 first_name 降序排序。</p>
+<p><b>Note:</b> Output table is sorted by type, duration, and first_name in descending order.</p>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：等值连接 + 窗口函数
+### Solution 1: Equi-Join + Window Function
 
-我们可以使用等值连接将两张表连接起来，然后使用窗口函数 `RANK()` 计算每个类型的电话的排名。最后，我们只需要筛选出排名前三的电话即可。
+We can use equi-join to connect the two tables, and then use the window function `RANK()` to calculate the ranking of each type of phone. Finally, we just need to filter out the top three phones.
 
 <!-- tabs:start -->
 

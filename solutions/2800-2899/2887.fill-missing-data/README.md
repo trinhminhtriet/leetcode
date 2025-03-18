@@ -1,18 +1,15 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2887.Fill%20Missing%20Data/README.md
+difficulty: Easy
 tags:
     - Pandas
 ---
 
 <!-- problem:start -->
 
-# [2887. 填充缺失值](https://leetcode.cn/problems/fill-missing-data)
+# [2887. Fill Missing Data](https://leetcode.com/problems/fill-missing-data)
 
-[English Version](/solution/2800-2899/2887.Fill%20Missing%20Data/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
@@ -27,42 +24,40 @@ DataFrame <code>products</code>
 +-------------+--------+
 </pre>
 
-<p>编写一个解决方案，在 <code>quantity</code> 列中将缺失的值填充为&nbsp;<code><strong>0</strong></code>。</p>
+<p>Write a solution to fill in the missing value as <code><strong>0</strong></code> in the <code>quantity</code> column.</p>
 
-<p>返回结果如下示例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-<strong class="example">示例 1：</strong>
-
 <pre>
-<strong>输入：
-</strong>+-----------------+----------+-------+
+<strong class="example">Example 1:</strong>
+<strong>Input:</strong>+-----------------+----------+-------+
 | name            | quantity | price |
 +-----------------+----------+-------+
-| Wristwatch      | 32       | 135   |
+| Wristwatch      | None     | 135   |
 | WirelessEarbuds | None     | 821   |
-| GolfClubs       | None     | 9319  |
+| GolfClubs       | 779      | 9319  |
 | Printer         | 849      | 3051  |
 +-----------------+----------+-------+
-<strong>输出：
+<strong>Output:
 </strong>+-----------------+----------+-------+
 | name            | quantity | price |
 +-----------------+----------+-------+
-| Wristwatch      | 32       | 135   |
+| Wristwatch      | 0        | 135   |
 | WirelessEarbuds | 0        | 821   |
-| GolfClubs       | 0        | 9319  |
+| GolfClubs       | 779      | 9319  |
 | Printer         | 849      | 3051  |
 +-----------------+----------+-------+
-<b>解释：</b>
-Toaster 和 Headphones 的数量被填充为 0。</pre>
+<strong>Explanation:</strong> 
+The quantity for Wristwatch and WirelessEarbuds are filled by 0.</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

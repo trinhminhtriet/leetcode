@@ -1,97 +1,76 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1040.Moving%20Stones%20Until%20Consecutive%20II/README.md
+difficulty: Medium
 rating: 2455
-source: 第 135 场周赛 Q4
+source: Weekly Contest 135 Q4
 tags:
-    - 数组
-    - 数学
-    - 双指针
-    - 排序
+    - Array
+    - Math
+    - Two Pointers
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1040. 移动石子直到连续 II](https://leetcode.cn/problems/moving-stones-until-consecutive-ii)
+# [1040. Moving Stones Until Consecutive II](https://leetcode.com/problems/moving-stones-until-consecutive-ii)
 
-[English Version](/solution/1000-1099/1040.Moving%20Stones%20Until%20Consecutive%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在 X 轴上有一些不同位置的石子。给定一个整数数组&nbsp;<code>stones</code>&nbsp;表示石子的位置。</p>
+<p>There are some stones in different positions on the X-axis. You are given an integer array <code>stones</code>, the positions of the stones.</p>
 
-<p>如果一个石子在最小或最大的位置，称其为&nbsp;<strong>端点石子</strong>。每个回合，你可以将一颗 <strong>端点石子</strong> 拿起并移动到一个未占用的位置，使得该石子不再是一颗 <strong>端点石子</strong>。</p>
+<p>Call a stone an <strong>endpoint stone</strong> if it has the smallest or largest position. In one move, you pick up an <strong>endpoint stone</strong> and move it to an unoccupied position so that it is no longer an <strong>endpoint stone</strong>.</p>
 
 <ul>
-	<li>值得注意的是，如果石子像&nbsp;<code>stones = [1,2,5]</code>&nbsp;这样，你将 <strong>无法 </strong>移动位于位置 <code>5</code> 的端点石子，因为无论将它移动到任何位置（例如 <code>0</code> 或 <code>3</code>），该石子都仍然会是端点石子。</li>
+	<li>In particular, if the stones are at say, <code>stones = [1,2,5]</code>, you cannot move the endpoint stone at position <code>5</code>, since moving it to any position (such as <code>0</code>, or <code>3</code>) will still keep that stone as an endpoint stone.</li>
 </ul>
 
-<p>当你无法进行任何移动时，即，这些石子的位置连续时，游戏结束。</p>
+<p>The game ends when you cannot make any more moves (i.e., the stones are in three consecutive positions).</p>
 
-<p>以长度为 2 的数组形式返回答案，其中：</p>
+<p>Return <em>an integer array </em><code>answer</code><em> of length </em><code>2</code><em> where</em>:</p>
 
 <ul>
-	<li><code>answer[0]</code>&nbsp;是你可以移动的最小次数</li>
-	<li><code>answer[1]</code>&nbsp;是你可以移动的最大次数。</li>
+	<li><code>answer[0]</code> <em>is the minimum number of moves you can play, and</em></li>
+	<li><code>answer[1]</code> <em>is the maximum number of moves you can play</em>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>[7,4,9]
-<strong>输出：</strong>[1,2]
-<strong>解释：</strong>
-我们可以移动一次，4 -&gt; 8，游戏结束。
-或者，我们可以移动两次 9 -&gt; 5，4 -&gt; 6，游戏结束。
+<strong>Input:</strong> stones = [7,4,9]
+<strong>Output:</strong> [1,2]
+<strong>Explanation:</strong> We can move 4 -&gt; 8 for one move to finish the game.
+Or, we can move 9 -&gt; 5, 4 -&gt; 6 for two moves to finish the game.
 </pre>
 
-<p><strong>示例&nbsp;2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>[6,5,4,3,10]
-<strong>输出：</strong>[2,3]
-<strong>解释：</strong>
-我们可以移动 3 -&gt; 8，接着是 10 -&gt; 7，游戏结束。
-或者，我们可以移动 3 -&gt; 7, 4 -&gt; 8, 5 -&gt; 9，游戏结束。
-注意，我们无法进行 10 -&gt; 2 这样的移动来结束游戏，因为这是不合要求的移动。
+<strong>Input:</strong> stones = [6,5,4,3,10]
+<strong>Output:</strong> [2,3]
+<strong>Explanation:</strong> We can move 3 -&gt; 8 then 10 -&gt; 7 to finish the game.
+Or, we can move 3 -&gt; 7, 4 -&gt; 8, 5 -&gt; 9 to finish the game.
+Notice we cannot move 10 -&gt; 2 to finish the game, because that would be an illegal move.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= stones.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= stones[i] &lt;= 10<sup>9</sup></code></li>
-	<li><code>stones</code>&nbsp;的值各不相同。</li>
+	<li>All the values of <code>stones</code> are <strong>unique</strong>.</li>
 </ul>
-
-<p>&nbsp;</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 分类讨论 + 双指针
-
-我们先对数组 `stones` 进行升序排序，接下来分别考虑最大移动次数 $mx$ 和最小移动次数 $mi$。
-
-对于最大移动次数 $mx$：
-
-由于我们每一次只能选择将端点石子移动到未占用且不是端点石子的位置，如果我们选择 `stones[0]` 作为第一次移动的端点石子，那么从 `stones[0]` 到 `stones[1]` 之间的所有未占用的位置都会被跳过，我们可以选择移动到最近的且未占用的位置，接下来每一次都将最左端的石子移动到最近的且未占用的位置，那么最多可以移动的次数为 $stones[n - 1] - stones[1] + 1 - (n - 1)$；同理，如果我们选择 `stones[n - 1]` 作为第一次移动的端点石子，那么最多可以移动的次数为 $stones[n - 2] - stones[0] + 1 - (n - 1)$。取两者的最大值即为最大移动次数 $mx$。
-
-对于最小移动次数 $mi$：
-
-我们用双指针 $i$ 和 $j$ 标识一个窗口的左右端点，若窗口内的位置数 $stones[j] - stones[i] + 1 \gt n$ 时，我们需要缩小窗口，即指针 $i$ 向右移动。如果此时窗口中有连续的 $n-1$ 个石子，即满足 $j - i + 1 = n - 1$ 且 $stones[j] - stones[i] + 1 = n - 1$，那么最少需要移动的次数为 $2$；否则，我们用 $n$ 减去窗口内的石子数，可以得到最少需要移动的次数，即 $n - (j - i + 1)$。取所有情况的最小值即为最小移动次数 $mi$。
-
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 `stones` 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

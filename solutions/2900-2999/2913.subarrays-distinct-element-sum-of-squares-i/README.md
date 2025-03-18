@@ -1,70 +1,62 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2913.Subarrays%20Distinct%20Element%20Sum%20of%20Squares%20I/README.md
+difficulty: Easy
 rating: 1297
-source: 第 116 场双周赛 Q1
+source: Biweekly Contest 116 Q1
 tags:
-    - 数组
-    - 哈希表
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [2913. 子数组不同元素数目的平方和 I](https://leetcode.cn/problems/subarrays-distinct-element-sum-of-squares-i)
+# [2913. Subarrays Distinct Element Sum of Squares I](https://leetcode.com/problems/subarrays-distinct-element-sum-of-squares-i)
 
-[English Version](/solution/2900-2999/2913.Subarrays%20Distinct%20Element%20Sum%20of%20Squares%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed </strong>integer array <code>nums</code>.</p>
 
-<p>定义 <code>nums</code>&nbsp;一个子数组的 <strong>不同计数</strong>&nbsp;值如下：</p>
+<p>The <strong>distinct count</strong> of a subarray of <code>nums</code> is defined as:</p>
 
 <ul>
-	<li>令&nbsp;<code>nums[i..j]</code>&nbsp;表示 <code>nums</code> 中所有下标在 <code>i</code> 到 <code>j</code> 范围内的元素构成的子数组（满足 <code>0 &lt;= i &lt;= j &lt; nums.length</code> ），那么我们称子数组&nbsp;<code>nums[i..j]</code>&nbsp;中不同值的数目为&nbsp;<code>nums[i..j]</code>&nbsp;的不同计数。</li>
+	<li>Let <code>nums[i..j]</code> be a subarray of <code>nums</code> consisting of all the indices from <code>i</code> to <code>j</code> such that <code>0 &lt;= i &lt;= j &lt; nums.length</code>. Then the number of distinct values in <code>nums[i..j]</code> is called the distinct count of <code>nums[i..j]</code>.</li>
 </ul>
 
-<p>请你返回 <code>nums</code>&nbsp;中所有子数组的 <strong>不同计数</strong>&nbsp;的 <strong>平方</strong>&nbsp;和。</p>
+<p>Return <em>the sum of the <strong>squares</strong> of <strong>distinct counts</strong> of all subarrays of </em><code>nums</code>.</p>
 
-<p>由于答案可能会很大，请你将它对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
-
-<p>子数组指的是一个数组里面一段连续 <strong>非空</strong>&nbsp;的元素序列。</p>
+<p>A subarray is a contiguous <strong>non-empty</strong> sequence of elements within an array.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [1,2,1]
-<b>输出：</b>15
-<b>解释：</b>六个子数组分别为：
-[1]: 1 个互不相同的元素。
-[2]: 1 个互不相同的元素。
-[1]: 1 个互不相同的元素。
-[1,2]: 2 个互不相同的元素。
-[2,1]: 2 个互不相同的元素。
-[1,2,1]: 2 个互不相同的元素。
-所有不同计数的平方和为 1<sup>2</sup> + 1<sup>2</sup> + 1<sup>2</sup> + 2<sup>2</sup> + 2<sup>2</sup> + 2<sup>2</sup> = 15 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [2,2]
-<b>输出：3</b>
-<strong>解释：</strong>三个子数组分别为：
-[2]: 1 个互不相同的元素。
-[2]: 1 个互不相同的元素。
-[2,2]: 1 个互不相同的元素。
-所有不同计数的平方和为 1<sup>2</sup> + 1<sup>2</sup> + 1<sup>2</sup> = 3 。
+<strong>Input:</strong> nums = [1,2,1]
+<strong>Output:</strong> 15
+<strong>Explanation:</strong> Six possible subarrays are:
+[1]: 1 distinct value
+[2]: 1 distinct value
+[1]: 1 distinct value
+[1,2]: 2 distinct values
+[2,1]: 2 distinct values
+[1,2,1]: 2 distinct values
+The sum of the squares of the distinct counts in all subarrays is equal to 1<sup>2</sup> + 1<sup>2</sup> + 1<sup>2</sup> + 2<sup>2</sup> + 2<sup>2</sup> + 2<sup>2</sup> = 15.
 </pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,1]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> Three possible subarrays are:
+[1]: 1 distinct value
+[1]: 1 distinct value
+[1,1]: 1 distinct value
+The sum of the squares of the distinct counts in all subarrays is equal to 1<sup>2</sup> + 1<sup>2</sup> + 1<sup>2</sup> = 3.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -73,17 +65,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们可以枚举子数组的左端点下标 $i$，对于每个 $i$，我们在 $[i, n)$ 的范围内枚举子数组的右端点下标 $j$，并统计 $nums[j]$ 的值，将其加入到集合 $s$ 中，记 $s$ 的大小为 $cnt$，那么 $nums[i..j]$ 的不同计数为 $cnt$，将其平方后加入到答案中。
+We can enumerate the left endpoint index $i$ of the subarray, and for each $i$, we enumerate the right endpoint index $j$ in the range $[i, n)$, and calculate the distinct count of $nums[i..j]$ by adding the count of $nums[j]$ to a set $s$, and then taking the square of the size of $s$ as the contribution of $nums[i..j]$ to the answer.
 
-枚举结束后，返回答案即可。
+After the enumeration, we return the answer.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

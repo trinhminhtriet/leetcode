@@ -1,83 +1,76 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2293.Min%20Max%20Game/README.md
+difficulty: Easy
 rating: 1241
-source: 第 296 场周赛 Q1
+source: Weekly Contest 296 Q1
 tags:
-    - 数组
-    - 模拟
+    - Array
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2293. 极大极小游戏](https://leetcode.cn/problems/min-max-game)
+# [2293. Min Max Game](https://leetcode.com/problems/min-max-game)
 
-[English Version](/solution/2200-2299/2293.Min%20Max%20Game/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> ，其长度是 <code>2</code> 的幂。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> whose length is a power of <code>2</code>.</p>
 
-<p>对 <code>nums</code> 执行下述算法：</p>
+<p>Apply the following algorithm on <code>nums</code>:</p>
 
 <ol>
-	<li>设 <code>n</code> 等于 <code>nums</code> 的长度，如果 <code>n == 1</code> ，<strong>终止</strong> 算法过程。否则，<strong>创建</strong> 一个新的整数数组&nbsp;<code>newNums</code> ，新数组长度为 <code>n / 2</code> ，下标从 <strong>0</strong> 开始。</li>
-	<li>对于满足&nbsp;<code>0 &lt;= i &lt; n / 2</code> 的每个 <strong>偶数</strong> 下标 <code>i</code> ，将 <code>newNums[i]</code> <strong>赋值</strong> 为 <code>min(nums[2 * i], nums[2 * i + 1])</code> 。</li>
-	<li>对于满足&nbsp;<code>0 &lt;= i &lt; n / 2</code> 的每个 <strong>奇数</strong> 下标 <code>i</code> ，将 <code>newNums[i]</code> <strong>赋值</strong> 为 <code>max(nums[2 * i], nums[2 * i + 1])</code> 。</li>
-	<li>用 <code>newNums</code> 替换 <code>nums</code> 。</li>
-	<li>从步骤 1 开始 <strong>重复</strong> 整个过程。</li>
+	<li>Let <code>n</code> be the length of <code>nums</code>. If <code>n == 1</code>, <strong>end</strong> the process. Otherwise, <strong>create</strong> a new <strong>0-indexed</strong> integer array <code>newNums</code> of length <code>n / 2</code>.</li>
+	<li>For every <strong>even</strong> index <code>i</code> where <code>0 &lt;= i &lt; n / 2</code>, <strong>assign</strong> the value of <code>newNums[i]</code> as <code>min(nums[2 * i], nums[2 * i + 1])</code>.</li>
+	<li>For every <strong>odd</strong> index <code>i</code> where <code>0 &lt;= i &lt; n / 2</code>, <strong>assign</strong> the value of <code>newNums[i]</code> as <code>max(nums[2 * i], nums[2 * i + 1])</code>.</li>
+	<li><strong>Replace</strong> the array <code>nums</code> with <code>newNums</code>.</li>
+	<li><strong>Repeat</strong> the entire process starting from step 1.</li>
 </ol>
 
-<p>执行算法后，返回 <code>nums</code> 中剩下的那个数字。</p>
+<p>Return <em>the last number that remains in </em><code>nums</code><em> after applying the algorithm.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2293.Min%20Max%20Game/images/example1drawio-1.png" style="width: 500px; height: 240px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2293.Min%20Max%20Game/images/example1drawio-1.png" style="width: 500px; height: 240px;" />
 <pre>
-<strong>输入：</strong>nums = [1,3,5,2,4,8,2,2]
-<strong>输出：</strong>1
-<strong>解释：</strong>重复执行算法会得到下述数组。
-第一轮：nums = [1,5,4,2]
-第二轮：nums = [1,4]
-第三轮：nums = [1]
-1 是最后剩下的那个数字，返回 1 。
+<strong>Input:</strong> nums = [1,3,5,2,4,8,2,2]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The following arrays are the results of applying the algorithm repeatedly.
+First: nums = [1,5,4,2]
+Second: nums = [1,4]
+Third: nums = [1]
+1 is the last remaining number, so we return 1.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3]
-<strong>输出：</strong>3
-<strong>解释：</strong>3 就是最后剩下的数字，返回 3 。
+<strong>Input:</strong> nums = [3]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 3 is already the last remaining number, so we return 3.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1024</code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
-	<li><code>nums.length</code> 是 <code>2</code> 的幂</li>
+	<li><code>nums.length</code> is a power of <code>2</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-根据题意，我们可以模拟整个过程，最后剩下的数字即为答案。在实现上，我们不需要额外创建数组，直接在原数组上进行操作即可。
+According to the problem statement, we can simulate the entire process, and the remaining number will be the answer. In implementation, we do not need to create an additional array; we can directly operate on the original array.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

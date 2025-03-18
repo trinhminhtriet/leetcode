@@ -1,81 +1,60 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0587.Erect%20the%20Fence/README.md
+difficulty: Hard
 tags:
-    - 几何
-    - 数组
-    - 数学
+    - Geometry
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [587. 安装栅栏](https://leetcode.cn/problems/erect-the-fence)
+# [587. Erect the Fence](https://leetcode.com/problems/erect-the-fence)
 
-[English Version](/solution/0500-0599/0587.Erect%20the%20Fence/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个数组 <code>trees</code>，其中 <code>trees[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> 表示树在花园中的位置。</p>
+<p>You are given an array <code>trees</code> where <code>trees[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> represents the location of a tree in the garden.</p>
 
-<p>你被要求用最短长度的绳子把整个花园围起来，因为绳子很贵。只有把&nbsp;<strong>所有的树都围起来</strong>，花园才围得很好。</p>
+<p>Fence the entire garden using the minimum length of rope, as it is expensive. The garden is well-fenced only if <strong>all the trees are enclosed</strong>.</p>
 
-<p>返回<em>恰好位于围栏周边的树木的坐标</em>。</p>
-
-<p><strong>示例 1:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0587.Erect%20the%20Fence/images/erect2-plane.jpg" style="width: 400px;" /></p>
-
-<pre>
-<strong>输入:</strong> points = [[1,1],[2,2],[2,0],[2,4],[3,3],[4,2]]
-<strong>输出:</strong> [[1,1],[2,0],[3,3],[2,4],[4,2]]</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0587.Erect%20the%20Fence/images/erect1-plane.jpg" style="height: 393px; width: 400px;" /></p>
-
-<pre>
-<strong>输入:</strong> points = [[1,2],[2,2],[4,2]]
-<strong>输出:</strong> [[4,2],[2,2],[1,2]]</pre>
+<p>Return <em>the coordinates of trees that are exactly located on the fence perimeter</em>. You may return the answer in <strong>any order</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0587.Erect%20the%20Fence/images/erect2-plane.jpg" style="width: 400px; height: 393px;" />
+<pre>
+<strong>Input:</strong> trees = [[1,1],[2,2],[2,0],[2,4],[3,3],[4,2]]
+<strong>Output:</strong> [[1,1],[2,0],[4,2],[3,3],[2,4]]
+<strong>Explanation:</strong> All the trees will be on the perimeter of the fence except the tree at [2, 2], which will be inside the fence.
+</pre>
 
-<p><strong>注意:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0587.Erect%20the%20Fence/images/erect1-plane.jpg" style="width: 400px; height: 393px;" />
+<pre>
+<strong>Input:</strong> trees = [[1,2],[2,2],[4,2]]
+<strong>Output:</strong> [[4,2],[2,2],[1,2]]
+<strong>Explanation:</strong> The fence forms a line that passes through all the trees.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= points.length &lt;= 3000</code></li>
-	<li><code>points[i].length == 2</code></li>
-	<li><code>0 &lt;= x<sub>i</sub>, y<sub>i</sub>&nbsp;&lt;= 100</code></li>
-	<li>
-	<p data-group="1-1">所有给定的点都是&nbsp;<strong>唯一&nbsp;</strong>的。</p>
-	</li>
+	<li><code>1 &lt;= trees.length &lt;= 3000</code></li>
+	<li><code>trees[i].length == 2</code></li>
+	<li><code>0 &lt;= x<sub>i</sub>, y<sub>i</sub> &lt;= 100</code></li>
+	<li>All the given positions are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：Andrew 算法
-
-原理：
-
-利用夹角，让整个图形保持左转。先将最左边的前两个点加入栈中，每次加入新点时判断是否左拐（叉积大于 0），如果是就将新点直接加入；如果不是，就弹出栈顶，直到左拐，将新点加入栈中。
-
-流程：
-
-1. 将所有点 `(x, y)` 进行排序，以 x 为第一关键字，y 为第二关键字升序排序；
-1. 先从左至右维护凸包的下半部分，然后再从右至左维护上半部分；
-1. 将第一个点放入栈中，这个点一定时凸包的最左边的点了，是不会清理掉的，然后再将第二个点放入栈中。当栈中元素大于等于 2 的时候，就要判断栈顶元素是否还要保留：
-    - 如果新点在栈顶元素和次栈顶元素所组成的直线的逆时针方向上，那么直接将新点加入栈中；
-    - 否则，将栈顶元素不断弹出，直至新点的位置出现在栈顶元素与次栈顶元素所在直线的逆时针方向。
-
-这个过程，是从左往右走的，并且得到的凸包是凸壳的下半部分。求上半部分的时候，从右往左遍历。
-
-时间复杂度 O(nlogn)。
+### Solution 1
 
 <!-- tabs:start -->
 

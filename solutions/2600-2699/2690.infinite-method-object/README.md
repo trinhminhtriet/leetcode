@@ -1,49 +1,44 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2690.Infinite%20Method%20Object/README.md
+difficulty: Easy
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2690. 无穷方法对象 🔒](https://leetcode.cn/problems/infinite-method-object)
+# [2690. Infinite Method Object 🔒](https://leetcode.com/problems/infinite-method-object)
 
-[English Version](/solution/2600-2699/2690.Infinite%20Method%20Object/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你编写一个函数，返回一个 <strong>无穷方法对象</strong> 。</p>
+<p>Write a function that&nbsp;returns an&nbsp;<strong>infinite-method</strong><strong>&nbsp;object</strong>.</p>
 
-<p><strong>无穷方法对象</strong> 被定义为一个对象，它允许您调用任何方法，并始终返回方法的名称。</p>
+<p>An&nbsp;<strong>infinite-method</strong><strong>&nbsp;object</strong>&nbsp;is defined as an object that allows you to call any method and it will always return the name of the method.</p>
 
-<p>例如，如果执行 <code>obj.abc123()</code> ，它将返回 <code>"abc123"</code> 。</p>
+<p>For example, if you execute&nbsp;<code>obj.abc123()</code>, it will return&nbsp;<code>&quot;abc123&quot;</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>method = "abc123"
-<b>输出：</b>"abc123"
-<strong>解释：</strong>
+<strong>Input:</strong> method = &quot;abc123&quot;
+<strong>Output:</strong> &quot;abc123&quot;
+<strong>Explanation:</strong>
 const obj = createInfiniteObject();
-obj['abc123'](); // "abc123"
-返回的字符串应始终与方法名称匹配。</pre>
+obj[&#39;abc123&#39;](); // &quot;abc123&quot;
+The returned string should always match the method name.</pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>method = ".-qw73n|^2It"
-<strong>输出：</strong>".-qw73n|^2It"
-<b>解释：</b>返回的字符串应始终与方法名称匹配。</pre>
+<strong>Input:</strong> method = &quot;.-qw73n|^2It&quot;
+<strong>Output:</strong> &quot;.-qw73n|^2It&quot;
+<strong>Explanation:</strong> The returned string should always match the method name.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= method.length &lt;= 1000</code></li>
@@ -51,11 +46,11 @@ obj['abc123'](); // "abc123"
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

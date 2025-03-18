@@ -1,70 +1,65 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0720.Longest%20Word%20in%20Dictionary/README.md
+difficulty: Medium
 tags:
-    - 字典树
-    - 数组
-    - 哈希表
-    - 字符串
-    - 排序
+    - Trie
+    - Array
+    - Hash Table
+    - String
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [720. 词典中最长的单词](https://leetcode.cn/problems/longest-word-in-dictionary)
+# [720. Longest Word in Dictionary](https://leetcode.com/problems/longest-word-in-dictionary)
 
-[English Version](/solution/0700-0799/0720.Longest%20Word%20in%20Dictionary/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给出一个字符串数组&nbsp;<code>words</code> 组成的一本英语词典。返回&nbsp;<code>words</code> 中最长的一个单词，该单词是由&nbsp;<code>words</code>&nbsp;词典中其他单词逐步添加一个字母组成。</p>
+<p>Given an array of strings <code>words</code> representing an English Dictionary, return <em>the longest word in</em> <code>words</code> <em>that can be built one character at a time by other words in</em> <code>words</code>.</p>
 
-<p>若其中有多个可行的答案，则返回答案中字典序最小的单词。若无答案，则返回空字符串。</p>
+<p>If there is more than one possible answer, return the longest word with the smallest lexicographical order. If there is no answer, return the empty string.</p>
 
-<p>请注意，单词应该从左到右构建，每个额外的字符都添加到前一个单词的结尾。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>words = ["w","wo","wor","worl", "world"]
-<strong>输出：</strong>"world"
-<strong>解释：</strong> 单词"world"可由"w", "wo", "wor", 和 "worl"逐步添加一个字母组成。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>words = ["a", "banana", "app", "appl", "ap", "apply", "apple"]
-<strong>输出：</strong>"apple"
-<strong>解释：</strong>"apply" 和 "apple" 都能由词典中的单词组成。但是 "apple" 的字典序小于 "apply" 
-</pre>
+<p>Note that the word should be built from left to right with each additional character being added to the end of a previous word.&nbsp;</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> words = [&quot;w&quot;,&quot;wo&quot;,&quot;wor&quot;,&quot;worl&quot;,&quot;world&quot;]
+<strong>Output:</strong> &quot;world&quot;
+<strong>Explanation:</strong> The word &quot;world&quot; can be built one character at a time by &quot;w&quot;, &quot;wo&quot;, &quot;wor&quot;, and &quot;worl&quot;.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> words = [&quot;a&quot;,&quot;banana&quot;,&quot;app&quot;,&quot;appl&quot;,&quot;ap&quot;,&quot;apply&quot;,&quot;apple&quot;]
+<strong>Output:</strong> &quot;apple&quot;
+<strong>Explanation:</strong> Both &quot;apply&quot; and &quot;apple&quot; can be built from other words in the dictionary. However, &quot;apple&quot; is lexicographically smaller than &quot;apply&quot;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 30</code></li>
-	<li>所有输入的字符串&nbsp;<code>words[i]</code>&nbsp;都只包含小写字母。</li>
+	<li><code>words[i]</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：字典树
+### Solution 1: Trie
 
-我们可以使用字典树来存储所有的单词，然后遍历所有的单词，判断当前单词是否可以由字典树中的其他单词逐步添加一个字母组成，找出满足条件的最长的，且字典序最小的单词。
+We can use a trie to store all the words, then traverse all the words to determine if the current word can be formed by adding one letter at a time from other words in the trie. Find the longest word that meets the condition and has the smallest lexicographical order.
 
-时间复杂度 $O(L)$，空间复杂度 $O(L)$，其中 $L$ 是所有单词的长度之和。
+The time complexity is $O(L)$, and the space complexity is $O(L)$, where $L$ is the sum of the lengths of all words.
 
 <!-- tabs:start -->
 

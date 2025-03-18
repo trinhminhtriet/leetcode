@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1083.Sales%20Analysis%20II/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1083. 销售分析 II 🔒](https://leetcode.cn/problems/sales-analysis-ii)
+# [1083. Sales Analysis II 🔒](https://leetcode.com/problems/sales-analysis-ii)
 
-[English Version](/solution/1000-1099/1083.Sales%20Analysis%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Product</code></p>
+<p>Table: <code>Product</code></p>
 
 <pre>
 +--------------+---------+
@@ -26,11 +23,11 @@ tags:
 | product_name | varchar |
 | unit_price   | int     |
 +--------------+---------+
-Product_id 是该表的主键(具有唯一值的列)。
-该表的每一行表示每种产品的名称和价格。
+product_id is the primary key (column with unique values) of this table.
+Each row of this table indicates the name and the price of each product.
 </pre>
 
-<p>表：<code>Sales</code></p>
+<p>Table: <code>Sales</code></p>
 
 <pre>
 +-------------+---------+
@@ -42,28 +39,27 @@ Product_id 是该表的主键(具有唯一值的列)。
 | sale_date   | date    |
 | quantity    | int     |
 | price       | int     |
-+------ ------+---------+
-这个表可能有重复的行。
-product_id 是 Product 表的外键(reference 列)。
-buyer_id 永远不会是 NULL。
-sale_date 永远不会是 NULL。
-该表的每一行都包含一次销售的一些信息。
++-------------+---------+
+This table might have repeated rows.
+product_id is a foreign key (reference column) to the Product table.
+buyer_id is never NULL. 
+sale_date is never NULL. 
+Each row of this table contains some information about one sale.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写一个解决方案，报告那些买了 <em>S8</em> 而没有买 <em>iPhone</em> 的 <strong>买家</strong>。注意，<em>S8</em> 和 <em>iPhone</em> 是 <code>Product</code> 表中显示的产品。</p>
+<p>Write a solution to&nbsp;report&nbsp;the <strong>buyers</strong> who have bought <em>S8</em> but not <em>iPhone</em>. Note that <em>S8</em> and <em>iPhone</em> are products presented in the <code>Product</code> table.</p>
 
-<p>以 <strong>任意顺序</strong> 返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 Product table:
 +------------+--------------+------------+
 | product_id | product_name | unit_price |
@@ -72,7 +68,7 @@ Product table:
 | 2          | G4           | 800        |
 | 3          | iPhone       | 1400       |
 +------------+--------------+------------+
-<code>Sales </code>table:
+Sales table:
 +-----------+------------+----------+------------+----------+-------+
 | seller_id | product_id | buyer_id | sale_date  | quantity | price |
 +-----------+------------+----------+------------+----------+-------+
@@ -81,25 +77,22 @@ Product table:
 | 2         | 1          | 3        | 2019-06-02 | 1        | 800   |
 | 3         | 3          | 3        | 2019-05-13 | 2        | 2800  |
 +-----------+------------+----------+------------+----------+-------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-------------+
 | buyer_id    |
 +-------------+
 | 1           |
 +-------------+
-解释：
-id 为 1 的买家购买了一部 S8，但是却没有购买 iPhone，而 id 为 3 的买家却同时购买了这 2 部手机。
+<strong>Explanation:</strong> The buyer with id 1 bought an S8 but did not buy an iPhone. The buyer with id 3 bought both.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：JOIN + GROUP BY + HAVING
-
-我们先将 `Sales` 表和 `Product` 表连接起来，然后根据 `buyer_id` 分组，最后用 `HAVING` 子句筛选出购买了 S8 却没有购买 iPhone 的买家。
+### Solution 1
 
 <!-- tabs:start -->
 

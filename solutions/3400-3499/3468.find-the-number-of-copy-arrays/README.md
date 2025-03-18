@@ -1,45 +1,41 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3468.Find%20the%20Number%20of%20Copy%20Arrays/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 数学
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [3468. 可行数组的数目](https://leetcode.cn/problems/find-the-number-of-copy-arrays)
+# [3468. Find the Number of Copy Arrays](https://leetcode.com/problems/find-the-number-of-copy-arrays)
 
-[English Version](/solution/3400-3499/3468.Find%20the%20Number%20of%20Copy%20Arrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code> 的数组 <code>original</code> 和一个长度为 <code>n x 2</code> 的二维数组 <code>bounds</code>，其中 <code>bounds[i] = [u<sub>i</sub>, v<sub>i</sub>]</code>。</p>
+<p>You are given an array <code>original</code> of length <code>n</code> and a 2D array <code>bounds</code> of length <code>n x 2</code>, where <code>bounds[i] = [u<sub>i</sub>, v<sub>i</sub>]</code>.</p>
 
-<p>你需要找到长度为 <code>n</code>&nbsp;且满足以下条件的&nbsp;<strong>可能的&nbsp;</strong>数组 <code>copy</code> 的数量：</p>
+<p>You need to find the number of <strong>possible</strong> arrays <code>copy</code> of length <code>n</code> such that:</p>
 
 <ol>
-	<li>对于 <code>1 &lt;= i &lt;= n - 1</code>&nbsp;，都有&nbsp;<code>(copy[i] - copy[i - 1]) == (original[i] - original[i - 1])</code>&nbsp;。</li>
-	<li>对于 <code>0 &lt;= i &lt;= n - 1</code>&nbsp;，都有&nbsp;<code>u<sub>i</sub> &lt;= copy[i] &lt;= v<sub>i</sub></code><sub>&nbsp;</sub>。</li>
+	<li><code>(copy[i] - copy[i - 1]) == (original[i] - original[i - 1])</code> for <code>1 &lt;= i &lt;= n - 1</code>.</li>
+	<li><code>u<sub>i</sub> &lt;= copy[i] &lt;= v<sub>i</sub></code> for <code>0 &lt;= i &lt;= n - 1</code>.</li>
 </ol>
 
-<p>返回满足这些条件的数组数目。</p>
+<p>Return the number of such arrays.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">original = [1,2,3,4], bounds = [[1,2],[2,3],[3,4],[4,5]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">original = [1,2,3,4], bounds = [[1,2],[2,3],[3,4],[4,5]]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>可能的数组为：</p>
+<p>The possible arrays are:</p>
 
 <ul>
 	<li><code>[1, 2, 3, 4]</code></li>
@@ -47,16 +43,16 @@ tags:
 </ul>
 </div>
 
-<p><strong class="example">示例 2</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">original = [1,2,3,4], bounds = [[1,10],[2,9],[3,8],[4,7]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">original = [1,2,3,4], bounds = [[1,10],[2,9],[3,8],[4,7]]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">4</span></p>
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>可能的数组为：</p>
+<p>The possible arrays are:</p>
 
 <ul>
 	<li><code>[1, 2, 3, 4]</code></li>
@@ -66,21 +62,20 @@ tags:
 </ul>
 </div>
 
-<p><strong class="example">示例 3</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">original = [1,2,1,2], bounds = [[1,1],[2,3],[3,3],[2,3]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">original = [1,2,1,2], bounds = [[1,1],[2,3],[3,3],[2,3]]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">0</span></p>
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>没有可行的数组。</p>
+<p>No array is possible.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n == original.length &lt;= 10<sup>5</sup></code></li>
@@ -92,11 +87,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

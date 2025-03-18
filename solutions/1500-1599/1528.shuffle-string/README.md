@@ -1,69 +1,60 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1528.Shuffle%20String/README.md
+difficulty: Easy
 rating: 1193
-source: 第 199 场周赛 Q1
+source: Weekly Contest 199 Q1
 tags:
-    - 数组
-    - 字符串
+    - Array
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1528. 重新排列字符串](https://leetcode.cn/problems/shuffle-string)
+# [1528. Shuffle String](https://leetcode.com/problems/shuffle-string)
 
-[English Version](/solution/1500-1599/1528.Shuffle%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> 和一个 <strong>长度相同</strong> 的整数数组 <code>indices</code> 。</p>
+<p>You are given a string <code>s</code> and an integer array <code>indices</code> of the <strong>same length</strong>. The string <code>s</code> will be shuffled such that the character at the <code>i<sup>th</sup></code> position moves to <code>indices[i]</code> in the shuffled string.</p>
 
-<p>请你重新排列字符串 <code>s</code> ，其中第 <code>i</code> 个字符需要移动到 <code>indices[i]</code> 指示的位置。</p>
-
-<p>返回重新排列后的字符串。</p>
+<p>Return <em>the shuffled string</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1528.Shuffle%20String/images/q1.jpg" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1528.Shuffle%20String/images/q1.jpg" style="width: 321px; height: 243px;" />
 <pre>
-<strong>输入：</strong>s = "codeleet", <code>indices</code> = [4,5,6,7,0,2,1,3]
-<strong>输出：</strong>"leetcode"
-<strong>解释：</strong>如图所示，"codeleet" 重新排列后变为 "leetcode" 。
+<strong>Input:</strong> s = &quot;codeleet&quot;, <code>indices</code> = [4,5,6,7,0,2,1,3]
+<strong>Output:</strong> &quot;leetcode&quot;
+<strong>Explanation:</strong> As shown, &quot;codeleet&quot; becomes &quot;leetcode&quot; after shuffling.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "abc", <code>indices</code> = [0,1,2]
-<strong>输出：</strong>"abc"
-<strong>解释：</strong>重新排列后，每个字符都还留在原来的位置上。
+<strong>Input:</strong> s = &quot;abc&quot;, <code>indices</code> = [0,1,2]
+<strong>Output:</strong> &quot;abc&quot;
+<strong>Explanation:</strong> After shuffling, each character remains in its position.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>s.length == indices.length == n</code></li>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
-	<li><code>s</code> 仅包含小写英文字母</li>
-	<li><code>0 &lt;= indices[i] &lt;&nbsp;n</code></li>
-	<li><code>indices</code> 的所有的值都是 <strong>唯一</strong> 的</li>
+	<li><code>s</code> consists of only lowercase English letters.</li>
+	<li><code>0 &lt;= indices[i] &lt; n</code></li>
+	<li>All values of <code>indices</code> are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

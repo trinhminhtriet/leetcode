@@ -1,91 +1,88 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0726.Number%20of%20Atoms/README.md
+difficulty: Hard
 tags:
-    - 栈
-    - 哈希表
-    - 字符串
-    - 排序
+    - Stack
+    - Hash Table
+    - String
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [726. 原子的数量](https://leetcode.cn/problems/number-of-atoms)
+# [726. Number of Atoms](https://leetcode.com/problems/number-of-atoms)
 
-[English Version](/solution/0700-0799/0726.Number%20of%20Atoms/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串化学式 <code>formula</code> ，返回 <strong>每种原子的数量</strong> 。</p>
+<p>Given a string <code>formula</code> representing a chemical formula, return <em>the count of each atom</em>.</p>
 
-<p>原子总是以一个大写字母开始，接着跟随 0 个或任意个小写字母，表示原子的名字。</p>
+<p>The atomic element always starts with an uppercase character, then zero or more lowercase letters, representing the name.</p>
 
-<p>如果数量大于 1，原子后会跟着数字表示原子的数量。如果数量等于 1 则不会跟数字。</p>
-
-<ul>
-	<li>例如，<code>"H2O"</code> 和 <code>"H2O2"</code> 是可行的，但 <code>"H1O2"</code> 这个表达是不可行的。</li>
-</ul>
-
-<p>两个化学式连在一起可以构成新的化学式。</p>
+<p>One or more digits representing that element&#39;s count may follow if the count is greater than <code>1</code>. If the count is <code>1</code>, no digits will follow.</p>
 
 <ul>
-	<li>例如 <code>"H2O2He3Mg4"</code> 也是化学式。</li>
+	<li>For example, <code>&quot;H2O&quot;</code> and <code>&quot;H2O2&quot;</code> are possible, but <code>&quot;H1O2&quot;</code> is impossible.</li>
 </ul>
 
-<p>由括号括起的化学式并佐以数字（可选择性添加）也是化学式。</p>
+<p>Two formulas are concatenated together to produce another formula.</p>
 
 <ul>
-	<li>例如 <code>"(H2O2)"</code> 和 <code>"(H2O2)3"</code> 是化学式。</li>
+	<li>For example, <code>&quot;H2O2He3Mg4&quot;</code> is also a formula.</li>
 </ul>
 
-<p>返回所有原子的数量，格式为：第一个（按字典序）原子的名字，跟着它的数量（如果数量大于 1），然后是第二个原子的名字（按字典序），跟着它的数量（如果数量大于 1），以此类推。</p>
+<p>A formula placed in parentheses, and a count (optionally added) is also a formula.</p>
+
+<ul>
+	<li>For example, <code>&quot;(H2O2)&quot;</code> and <code>&quot;(H2O2)3&quot;</code> are formulas.</li>
+</ul>
+
+<p>Return the count of all elements as a string in the following form: the first name (in sorted order), followed by its count (if that count is more than <code>1</code>), followed by the second name (in sorted order), followed by its count (if that count is more than <code>1</code>), and so on.</p>
+
+<p>The test cases are generated so that all the values in the output fit in a <strong>32-bit</strong> integer.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>formula = "H2O"
-<strong>输出：</strong>"H2O"
-<strong>解释：</strong>原子的数量是 {'H': 2, 'O': 1}。
+<strong>Input:</strong> formula = &quot;H2O&quot;
+<strong>Output:</strong> &quot;H2O&quot;
+<strong>Explanation:</strong> The count of elements are {&#39;H&#39;: 2, &#39;O&#39;: 1}.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>formula = "Mg(OH)2"
-<strong>输出：</strong>"H2MgO2"
-<strong>解释：</strong>原子的数量是 {'H': 2, 'Mg': 1, 'O': 2}。
+<strong>Input:</strong> formula = &quot;Mg(OH)2&quot;
+<strong>Output:</strong> &quot;H2MgO2&quot;
+<strong>Explanation:</strong> The count of elements are {&#39;H&#39;: 2, &#39;Mg&#39;: 1, &#39;O&#39;: 2}.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>formula = "K4(ON(SO3)2)2"
-<strong>输出：</strong>"K4N2O14S4"
-<strong>解释：</strong>原子的数量是 {'K': 4, 'N': 2, 'O': 14, 'S': 4}。
+<strong>Input:</strong> formula = &quot;K4(ON(SO3)2)2&quot;
+<strong>Output:</strong> &quot;K4N2O14S4&quot;
+<strong>Explanation:</strong> The count of elements are {&#39;K&#39;: 4, &#39;N&#39;: 2, &#39;O&#39;: 14, &#39;S&#39;: 4}.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= formula.length&nbsp;&lt;= 1000</code></li>
-	<li><code>formula</code> 由英文字母、数字、<code>'('</code> 和 <code>')'</code> 组成</li>
-	<li><code>formula</code> 总是有效的化学式</li>
+	<li><code>1 &lt;= formula.length &lt;= 1000</code></li>
+	<li><code>formula</code> consists of English letters, digits, <code>&#39;(&#39;</code>, and <code>&#39;)&#39;</code>.</li>
+	<li><code>formula</code> is always valid.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

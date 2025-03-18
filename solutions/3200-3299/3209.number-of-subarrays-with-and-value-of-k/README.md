@@ -1,69 +1,64 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3209.Number%20of%20Subarrays%20With%20AND%20Value%20of%20K/README.md
+difficulty: Hard
 rating: 2050
-source: 第 134 场双周赛 Q4
+source: Biweekly Contest 134 Q4
 tags:
-    - 位运算
-    - 线段树
-    - 数组
-    - 二分查找
+    - Bit Manipulation
+    - Segment Tree
+    - Array
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [3209. 子数组按位与值为 K 的数目](https://leetcode.cn/problems/number-of-subarrays-with-and-value-of-k)
+# [3209. Number of Subarrays With AND Value of K](https://leetcode.com/problems/number-of-subarrays-with-and-value-of-k)
 
-[English Version](/solution/3200-3299/3209.Number%20of%20Subarrays%20With%20AND%20Value%20of%20K/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;，请你返回&nbsp;<code>nums</code>&nbsp;中有多少个<span data-keyword="subarray-nonempty">子数组</span>满足：子数组中所有元素按位&nbsp;<code>AND</code>&nbsp;的结果为 <code>k</code>&nbsp;。</p>
+<p>Given an array of integers <code>nums</code> and an integer <code>k</code>, return the number of <span data-keyword="subarray-nonempty">subarrays</span> of <code>nums</code> where the bitwise <code>AND</code> of the elements of the subarray equals <code>k</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,1,1], k = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,1,1], k = 1</span></p>
 
-<p><span class="example-io"><b>输出：</b>6</span></p>
+<p><strong>Output:</strong> <span class="example-io">6</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>所有子数组都只含有元素 1 。</p>
+<p>All subarrays contain only 1&#39;s.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,1,2], k = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,1,2], k = 1</span></p>
 
-<p><span class="example-io"><b>输出：</b>3</span></p>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>按位&nbsp;<code>AND</code>&nbsp;值为 1 的子数组包括：<code>[<u><strong>1</strong></u>,1,2]</code>, <code>[1,<u><strong>1</strong></u>,2]</code>, <code>[<u><strong>1,1</strong></u>,2]</code>&nbsp;。</p>
+<p>Subarrays having an <code>AND</code> value of 1 are: <code>[<u><strong>1</strong></u>,1,2]</code>, <code>[1,<u><strong>1</strong></u>,2]</code>, <code>[<u><strong>1,1</strong></u>,2]</code>.</p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,2,3], k = 2</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3], k = 2</span></p>
 
-<p><span class="example-io"><b>输出：</b>2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>按位&nbsp;<code>AND</code>&nbsp;值为 2 的子数组包括：<code>[1,<b><u>2</u></b>,3]</code>, <code>[1,<u><strong>2,3</strong></u>]</code>&nbsp;。</p>
+<p>Subarrays having an <code>AND</code> value of 2 are: <code>[1,<b><u>2</u></b>,3]</code>, <code>[1,<u><strong>2,3</strong></u>]</code>.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -72,21 +67,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 枚举
+### Solution 1: Hash Table + Enumeration
 
-根据题目描述，我们需要求出数组 $\textit{nums}$ 下标 $l$ 到 $r$ 的元素的按位与运算的结果，即 $\textit{nums}[l] \land \textit{nums}[l + 1] \land \cdots \land \textit{nums}[r]$。其中 $\land$ 表示按位与运算。
+According to the problem description, we need to find the result of the bitwise AND operation of elements from index $l$ to $r$ in the array $\textit{nums}$, that is, $\textit{nums}[l] \land \textit{nums}[l + 1] \land \cdots \land \textit{nums}[r]$, where $\land$ represents the bitwise AND operation.
 
-如果我们每次固定右端点 $r$，那么左端点 $l$ 的范围是 $[0, r]$。由于按位与之和随着 $l$ 的减小而单调递减，并且 $nums[i]$ 的值不超过 $10^9$，因此区间 $[0, r]$ 最多只有 $30$ 种不同的值。因此，我们可以用一个集合来维护所有的 $\textit{nums}[l] \land \textit{nums}[l + 1] \land \cdots \land \textit{nums}[r]$ 的值，以及这些值出现的次数。
+If we fix the right endpoint $r$, then the range of the left endpoint $l$ is $[0, r]$. Since the sum of bitwise AND decreases monotonically as $l$ decreases, and the value of $nums[i]$ does not exceed $10^9$, the interval $[0, r]$ can have at most $30$ different values. Therefore, we can use a set to maintain all the values of $\textit{nums}[l] \land \textit{nums}[l + 1] \land \cdots \land \textit{nums}[r]$ and the number of times these values occur.
 
-当我们从 $r$ 遍历到 $r+1$ 时，以 $r+1$ 为右端点的值，就是集合中每个值与 $nums[r + 1]$ 进行按位与运算得到的值，再加上 $\textit{nums}[r + 1]$ 本身。
+When we traverse from $r$ to $r+1$, the values with $r+1$ as the right endpoint are the values obtained by performing the bitwise AND operation of each value in the set with $nums[r + 1]$, plus $\textit{nums}[r + 1]$ itself.
 
-因此，我们只需要枚举集合中的每个值，与 $\textit{nums[r]}$ 进行按位与运算，就可以得到以 $r$ 为右端点的所有值及其出现的次数。然后，我们还需要将 $\textit{nums[r]}$ 的出现次数加上去。此时，我们将值为 $k$ 的出现次数累加到答案中。继续遍历 $r$，直到遍历完整个数组。
+Therefore, we only need to enumerate each value in the set and perform the bitwise AND operation with $\textit{nums[r]}$ to get all the values and their occurrences with $r$ as the right endpoint. Then, we need to add the occurrence count of $\textit{nums[r]}$. At this point, we add the occurrence count of value $k$ to the answer. Continue traversing $r$ until the entire array is traversed.
 
-时间复杂度 $O(n \times \log M)$，空间复杂度 $O(\log M)$。其中 $n$ 和 $M$ 分别是数组 $\textit{nums}$ 的长度和数组 $\textit{nums}$ 中元素的最大值。
+The time complexity is $O(n \times \log M)$, and the space complexity is $O(\log M)$. Here, $n$ and $M$ are the length of the array $\textit{nums}$ and the maximum value in the array $\textit{nums}$, respectively.
 
 <!-- tabs:start -->
 

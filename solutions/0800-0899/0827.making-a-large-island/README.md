@@ -1,81 +1,77 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0827.Making%20A%20Large%20Island/README.md
+difficulty: Hard
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 并查集
-    - 数组
-    - 矩阵
+    - Depth-First Search
+    - Breadth-First Search
+    - Union Find
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [827. 最大人工岛](https://leetcode.cn/problems/making-a-large-island)
+# [827. Making A Large Island](https://leetcode.com/problems/making-a-large-island)
 
-[English Version](/solution/0800-0899/0827.Making%20A%20Large%20Island/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个大小为 <code>n x n</code> 二进制矩阵 <code>grid</code> 。<strong>最多</strong> 只能将一格&nbsp;<code>0</code> 变成&nbsp;<code>1</code> 。</p>
+<p>You are given an <code>n x n</code> binary matrix <code>grid</code>. You are allowed to change <strong>at most one</strong> <code>0</code> to be <code>1</code>.</p>
 
-<p>返回执行此操作后，<code>grid</code> 中最大的岛屿面积是多少？</p>
+<p>Return <em>the size of the largest <strong>island</strong> in</em> <code>grid</code> <em>after applying this operation</em>.</p>
 
-<p><strong>岛屿</strong> 由一组上、下、左、右四个方向相连的&nbsp;<code>1</code> 形成。</p>
+<p>An <strong>island</strong> is a 4-directionally connected group of <code>1</code>s.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入: </strong>grid = [[1, 0], [0, 1]]
-<strong>输出:</strong> 3
-<strong>解释:</strong> 将一格0变成1，最终连通两个小岛得到面积为 3 的岛屿。
+<strong>Input:</strong> grid = [[1,0],[0,1]]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> Change one 0 to 1 and connect two 1s, then we get an island with area = 3.
 </pre>
 
-<p><strong class="example">示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入: </strong>grid =<strong> </strong>[[1, 1], [1, 0]]
-<strong>输出:</strong> 4
-<strong>解释:</strong> 将一格0变成1，岛屿的面积扩大为 4。</pre>
+<strong>Input:</strong> grid = [[1,1],[1,0]]
+<strong>Output:</strong> 4
+<strong>Explanation: </strong>Change the 0 to 1 and make the island bigger, only one island with area = 4.</pre>
 
-<p><strong class="example">示例 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入: </strong>grid = [[1, 1], [1, 1]]
-<strong>输出:</strong> 4
-<strong>解释:</strong> 没有0可以让我们变成1，面积依然为 4。</pre>
+<strong>Input:</strong> grid = [[1,1],[1,1]]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Can&#39;t change any 0 to 1, only one island with area = 4.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= n &lt;= 500</code></li>
-	<li><code>grid[i][j]</code> 为 <code>0</code> 或 <code>1</code></li>
+	<li><code>grid[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
+### Solution 1: DFS
 
-我们可以给每个连通块一个唯一的标识，用数组 $p$ 记录每个位置所属的连通块，即 $p[i][j]$ 表示 $(i, j)$ 所属的连通块编号。用数组 $cnt$ 记录每个连通块的大小，即 $cnt[root]$ 表示连通块 $root$ 的大小。
+We can assign a unique identifier to each connected component, using an array $p$ to record the connected component each position belongs to, i.e., $p[i][j]$ represents the connected component number of $(i, j)$. Use an array $cnt$ to record the size of each connected component, i.e., $cnt[root]$ represents the size of the connected component $root$.
 
-首先，我们遍历整个矩阵，对于每个 $grid[i][j] = 1$ 且 $p[i][j] = 0$ 的位置，我们对其进行深度优先搜索，将其所属的连通块标记为 $root$，并统计连通块的大小。
+First, we traverse the entire matrix. For each position $grid[i][j] = 1$ and $p[i][j] = 0$, we perform a depth-first search on it, mark its connected component as $root$, and count the size of the connected component.
 
-接着，我们遍历整个矩阵，对于每个 $grid[i][j] = 0$ 的位置，我们找到其上、下、左、右四个位置所属的连通块，将这些连通块的大小相加，再加上当前位置的 $1$，即可得到将当前位置变为 $1$ 后的最大岛屿面积。
+Then, we traverse the entire matrix again. For each position $grid[i][j] = 0$, we find the connected components of the four positions above, below, left, and right of it, add up the sizes of these connected components, and add $1$ for the current position, to get the maximum island area after changing the current position to $1$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为矩阵的边长。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Where $n$ is the length of the sides of the matrix.
 
 <!-- tabs:start -->
 

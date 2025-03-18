@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3182.Find%20Top%20Scoring%20Students/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3182. 查找得分最高的学生 🔒](https://leetcode.cn/problems/find-top-scoring-students)
+# [3182. Find Top Scoring Students 🔒](https://leetcode.com/problems/find-top-scoring-students)
 
-[English Version](/solution/3100-3199/3182.Find%20Top%20Scoring%20Students/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>students</code></p>
+<p>Table: <code>students</code></p>
 
 <pre>
 +-------------+----------+
@@ -26,11 +23,11 @@ tags:
 | name        | varchar  |
 | major       | varchar  |
 +-------------+----------+
-student_id 是这张表的主键（有不同值的列的组合）。
-这张表的每一行包含学生 ID，学生姓名和他们的专业。
+student_id is the primary key (combination of columns with unique values) for this table.
+Each row of this table contains the student ID, student name, and their major.
 </pre>
 
-<p>表格：<code>courses</code></p>
+<p>Table: <code>courses</code></p>
 
 <pre>
 +-------------+----------+
@@ -41,11 +38,11 @@ student_id 是这张表的主键（有不同值的列的组合）。
 | credits     | int      |
 | major       | varchar  |
 +-------------+----------+
-course_id 是这张表的主键（有不同值的列的组合）。
-这张表的每一行包含课程 ID，课程名，课程学分和所属专业。
+course_id is the primary key (combination of columns with unique values) for this table.
+Each row of this table contains the course ID, course name, the number of credits for the course, and the major it belongs to.
 </pre>
 
-<p>表：<code>enrollments</code></p>
+<p>Table: <code>enrollments</code></p>
 
 <pre>
 +-------------+----------+
@@ -56,24 +53,23 @@ course_id 是这张表的主键（有不同值的列的组合）。
 | semester    | varchar  |
 | grade       | varchar  |
 +-------------+----------+
-(student_id, course_id, semester) 是这张表的主键（有不同值的列的组合）。
-这张表的每一行包含学生 ID，课程 ID，学期和获得的学分。
+(student_id, course_id, semester) is the primary key (combination of columns with unique values) for this table.
+Each row of this table contains the student ID, course ID, semester, and grade received.
 </pre>
 
-<p>编写一个解决方案来找到参加过他们的&nbsp;<code>major</code>&nbsp;提供的 <strong>所有课程&nbsp;</strong>并在&nbsp;<strong>所有这些课程中取得等级 A</strong> 的人。</p>
+<p>Write a solution to find the students who have <strong>taken</strong> <strong>all courses</strong> offered in their <code>major</code> and have achieved a <strong>grade of A</strong> <strong>in all these courses</strong>.</p>
 
-<p>返回结果表以&nbsp;<code>student_id</code> <em><strong>升序&nbsp;</strong></em>排序。</p>
+<p>Return <em>the result table ordered by</em> <code>student_id</code> <em>in <strong>ascending</strong> order</em>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><b>输入：</b></p>
+<p><strong>Input:</strong></p>
 
-<p>students 表：</p>
+<p>students table:</p>
 
 <pre class="example-io">
 +------------+------------------+------------------+
@@ -86,7 +82,7 @@ course_id 是这张表的主键（有不同值的列的组合）。
 +------------+------------------+------------------+
 </pre>
 
-<p>courses 表：</p>
+<p>courses table:</p>
 
 <pre class="example-io">
 +-----------+-----------------+---------+------------------+
@@ -99,7 +95,7 @@ course_id 是这张表的主键（有不同值的列的组合）。
 +-----------+-----------------+---------+------------------+
 </pre>
 
-<p>enrollments 表：</p>
+<p>enrollments table:</p>
 
 <pre class="example-io">
 +------------+-----------+----------+-------+
@@ -116,7 +112,7 @@ course_id 是这张表的主键（有不同值的列的组合）。
 +------------+-----------+----------+-------+
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +------------+
@@ -127,27 +123,27 @@ course_id 是这张表的主键（有不同值的列的组合）。
 +------------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>Alice (student_id 1) 是计算机科学专业并且修了 “Algorithms” 和 “Data Structures” 课程，都获得了 ‘A’。</li>
-	<li>Bob (student_id 2) 是计算机科学专业但没有在全部必修课程中获得 ‘A’。</li>
-	<li>Charlie (student_id 3) 是数学专业并且修了 “Calculus”&nbsp;和 “Linear Algebra”&nbsp;课程，都获得了 ‘A’。</li>
-	<li>David (student_id 4) 是数学专业但没有在全部必修课程中获得 'A'。</li>
+	<li>Alice (student_id 1) is a Computer Science major and has taken both &quot;Algorithms&quot; and &quot;Data Structures&quot;, receiving an &#39;A&#39; in both.</li>
+	<li>Bob (student_id 2) is a Computer Science major but did not receive an &#39;A&#39; in all required courses.</li>
+	<li>Charlie (student_id 3) is a Mathematics major and has taken both &quot;Calculus&quot; and &quot;Linear Algebra&quot;, receiving an &#39;A&#39; in both.</li>
+	<li>David (student_id 4) is a Mathematics major but did not receive an &#39;A&#39; in all required courses.</li>
 </ul>
 
-<p><b>注意：</b>输出表以&nbsp;student_id 升序排序。</p>
+<p><b>Note:</b> Output table is ordered by student_id in ascending order.</p>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：连接表 + 分组
+### Solution 1: Join Tables + Grouping
 
-我们可以将 `students` 表和 `courses` 按照 `major` 字段连接起来，然后再将 `enrollments` 表左连接到上述结果表中，最后按照 `student_id` 分组，筛选出满足条件的学生。
+We can join the `students` table and `courses` table based on the `major` field, then left join the `enrollments` table to the resulting table, and finally group by `student_id` to filter out the students who meet the conditions.
 
 <!-- tabs:start -->
 

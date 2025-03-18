@@ -1,87 +1,79 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0968.Binary%20Tree%20Cameras/README.md
+difficulty: Hard
 tags:
-    - 树
-    - 深度优先搜索
-    - 动态规划
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Dynamic Programming
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [968. 监控二叉树](https://leetcode.cn/problems/binary-tree-cameras)
+# [968. Binary Tree Cameras](https://leetcode.com/problems/binary-tree-cameras)
 
-[English Version](/solution/0900-0999/0968.Binary%20Tree%20Cameras/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个二叉树，我们在树的节点上安装摄像头。</p>
+<p>You are given the <code>root</code> of a binary tree. We install cameras on the tree nodes where each camera at a node can monitor its parent, itself, and its immediate children.</p>
 
-<p>节点上的每个摄影头都可以监视<strong>其父对象、自身及其直接子对象。</strong></p>
-
-<p>计算监控树的所有节点所需的最小摄像头数量。</p>
+<p>Return <em>the minimum number of cameras needed to monitor all nodes of the tree</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0968.Binary%20Tree%20Cameras/images/bst_cameras_01.png" style="height: 163px; width: 138px;"></p>
-
-<pre><strong>输入：</strong>[0,0,null,0,0]
-<strong>输出：</strong>1
-<strong>解释：</strong>如图所示，一台摄像头足以监控所有节点。
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0968.Binary%20Tree%20Cameras/images/bst_cameras_01.png" style="width: 138px; height: 163px;" />
+<pre>
+<strong>Input:</strong> root = [0,0,null,0,0]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> One camera is enough to monitor all nodes if placed as shown.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0968.Binary%20Tree%20Cameras/images/bst_cameras_02.png" style="height: 312px; width: 139px;"></p>
-
-<pre><strong>输入：</strong>[0,0,null,0,null,0,null,null,0]
-<strong>输出：</strong>2
-<strong>解释：</strong>需要至少两个摄像头来监视树的所有节点。 上图显示了摄像头放置的有效位置之一。
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0968.Binary%20Tree%20Cameras/images/bst_cameras_02.png" style="width: 139px; height: 312px;" />
+<pre>
+<strong>Input:</strong> root = [0,0,null,0,null,0,null,null,0]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> At least two cameras are needed to monitor all nodes of the tree. The above image shows one of the valid configurations of camera placement.
 </pre>
 
-<p><br>
-<strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
-<ol>
-	<li>给定树的节点数的范围是&nbsp;<code>[1, 1000]</code>。</li>
-	<li>每个节点的值都是 0。</li>
-</ol>
+<ul>
+	<li>The number of nodes in the tree is in the range <code>[1, 1000]</code>.</li>
+	<li><code>Node.val == 0</code></li>
+</ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划（树形 DP）
+### Solution 1: Dynamic Programming (Tree DP)
 
-对于每个节点，我们定义三种状态：
+For each node, we define three states:
 
--   `a`：当前节点有摄像头
--   `b`：当前节点无摄像头，但被子节点监控
--   `c`：当前节点无摄像头，也没被子节点监控
+-   `a`: The current node has a camera
+-   `b`: The current node does not have a camera, but is monitored by its children
+-   `c`: The current node does not have a camera and is not monitored by its children
 
-接下来，我们设计一个函数 $dfs(root)$，它将返回一个长度为 3 的数组，表示以 `root` 为根的子树中，三种状态下的最小摄像头数量。那么答案就是 $\min(dfs(root)[0], dfs(root)[1])$。
+Next, we design a function $dfs(root)$, which will return an array of length 3, representing the minimum number of cameras in the subtree rooted at `root` for the three states. The answer is $\min(dfs(root)[0], dfs(root)[1])$.
 
-函数 $dfs(root)$ 的计算过程如下：
+The calculation process of the function $dfs(root)$ is as follows:
 
-如果 `root` 为空，则返回 $[inf, 0, 0]$，其中 `inf` 表示一个很大的数，它用于表示不可能的情况。
+If `root` is null, return $[inf, 0, 0]$, where `inf` represents a very large number, used to indicate an impossible situation.
 
-否则，我们递归计算 `root` 的左右子树，分别得到 $[la, lb, lc]$ 和 $[ra, rb, rc]$。
+Otherwise, we recursively calculate the left and right subtrees of `root`, obtaining $[la, lb, lc]$ and $[ra, rb, rc]$ respectively.
 
--   如果当前节点有摄像头，那么它的左右节点必须都是被监控的状态，即 $a = \min(la, lb, lc) + \min(ra, rb, rc) + 1$。
--   如果当前节点无摄像头，但被子节点监控，那么子节点可以是其中之一或者两个都有摄像头，即 $b = \min(la + rb, lb + ra, la + ra)$。
--   如果当前节点无摄像头，也没被子节点监控，那么子节点必须被其子节点监控，即 $c = lb + rb$。
+-   If the current node has a camera, then its left and right children must be in a monitored state, i.e., $a = \min(la, lb, lc) + \min(ra, rb, rc) + 1$.
+-   If the current node does not have a camera but is monitored by its children, then one or both of the children must have a camera, i.e., $b = \min(la + rb, lb + ra, la + ra)$.
+-   If the current node does not have a camera and is not monitored by its children, then the children must be monitored by their children, i.e., $c = lb + rb$.
 
-最后，我们返回 $[a, b, c]$。
+Finally, we return $[a, b, c]$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 

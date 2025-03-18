@@ -1,53 +1,46 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0976.Largest%20Perimeter%20Triangle/README.md
+difficulty: Easy
 tags:
-    - 贪心
-    - 数组
-    - 数学
-    - 排序
+    - Greedy
+    - Array
+    - Math
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [976. 三角形的最大周长](https://leetcode.cn/problems/largest-perimeter-triangle)
+# [976. Largest Perimeter Triangle](https://leetcode.com/problems/largest-perimeter-triangle)
 
-[English Version](/solution/0900-0999/0976.Largest%20Perimeter%20Triangle/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定由一些正数（代表长度）组成的数组 <code>nums</code>&nbsp;，返回 <em>由其中三个长度组成的、<strong>面积不为零</strong>的三角形的最大周长</em>&nbsp;。如果不能形成任何面积不为零的三角形，返回&nbsp;<code>0</code>。</p>
+<p>Given an integer array <code>nums</code>, return <em>the largest perimeter of a triangle with a non-zero area, formed from three of these lengths</em>. If it is impossible to form any triangle of a non-zero area, return <code>0</code>.</p>
 
 <p>&nbsp;</p>
-
-<ol>
-</ol>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2,1,2]
-<strong>输出：</strong>5
-<strong>解释：</strong>你可以用三个边长组成一个三角形:1 2 2。
+<strong>Input:</strong> nums = [2,1,2]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> You can form a triangle with three side lengths: 1, 2, and 2.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,1,10]
-<strong>输出：</strong>0
-<strong>解释：</strong>
-你不能用边长 1,1,2 来组成三角形。
-不能用边长 1,1,10 来构成三角形。
-不能用边长 1、2 和 10 来构成三角形。
-因为我们不能用任何三条边长来构成一个非零面积的三角形，所以我们返回 0。</pre>
+<strong>Input:</strong> nums = [1,2,1,10]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> 
+You cannot use the side lengths 1, 1, and 2 to form a triangle.
+You cannot use the side lengths 1, 1, and 10 to form a triangle.
+You cannot use the side lengths 1, 2, and 10 to form a triangle.
+As we cannot use any three side lengths to form a triangle of non-zero area, we return 0.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
@@ -56,20 +49,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 贪心
-
-> 三角形由三条边组成，且满足 <var>C</var> >= <var>B</var> && <var>C</var> >= <var>A</var> && <var>C</var> < <var>A</var> + <var>B</var>
-
-贪心策略，尽可能使用长边来组成三角形。
-
-1. 对 `nums` 排序（从大到小）。
-2. 遍历 `nums`，以三个元素一组，进行条件判断，如滑动窗口一般。
-3. 当找到满足条件的三个元素时直接返回即可。
-4. 否则，在遍历结束时返回 0。
+### Solution 1
 
 <!-- tabs:start -->
 

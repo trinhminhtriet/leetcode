@@ -1,69 +1,66 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2762.Continuous%20Subarrays/README.md
+difficulty: Medium
 rating: 1940
-source: 第 352 场周赛 Q3
+source: Weekly Contest 352 Q3
 tags:
-    - 队列
-    - 数组
-    - 有序集合
-    - 滑动窗口
-    - 单调队列
-    - 堆（优先队列）
+    - Queue
+    - Array
+    - Ordered Set
+    - Sliding Window
+    - Monotonic Queue
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2762. 不间断子数组](https://leetcode.cn/problems/continuous-subarrays)
+# [2762. Continuous Subarrays](https://leetcode.com/problems/continuous-subarrays)
 
-[English Version](/solution/2700-2799/2762.Continuous%20Subarrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;。<code>nums</code>&nbsp;的一个子数组如果满足以下条件，那么它是 <strong>不间断</strong> 的：</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. A subarray of <code>nums</code> is called <strong>continuous</strong> if:</p>
 
 <ul>
-	<li><code>i</code>，<code>i + 1</code>&nbsp;，...，<code>j</code><sub> </sub>&nbsp;表示子数组中的下标。对于所有满足&nbsp;<code>i &lt;= i<sub>1</sub>, i<sub>2</sub> &lt;= j</code>&nbsp;的下标对，都有 <code>0 &lt;= |nums[i<sub>1</sub>] - nums[i<sub>2</sub>]| &lt;= 2</code>&nbsp;。</li>
+	<li>Let <code>i</code>, <code>i + 1</code>, ..., <code>j</code><sub> </sub>be the indices in the subarray. Then, for each pair of indices <code>i &lt;= i<sub>1</sub>, i<sub>2</sub> &lt;= j</code>, <code><font face="monospace">0 &lt;=</font> |nums[i<sub>1</sub>] - nums[i<sub>2</sub>]| &lt;= 2</code>.</li>
 </ul>
 
-<p>请你返回 <strong>不间断</strong> 子数组的总数目。</p>
+<p>Return <em>the total number of <strong>continuous</strong> subarrays.</em></p>
 
-<p>子数组是一个数组中一段连续 <strong>非空</strong>&nbsp;的元素序列。</p>
+<p>A subarray is a contiguous <strong>non-empty</strong> sequence of elements within an array.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [5,4,2,4]
-<strong>输出：</strong>8
-<b>解释：</b>
-大小为 1 的不间断子数组：[5], [4], [2], [4] 。
-大小为 2 的不间断子数组：[5,4], [4,2], [2,4] 。
-大小为 3 的不间断子数组：[4,2,4] 。
-没有大小为 4 的不间断子数组。
-不间断子数组的总数目为 4 + 3 + 1 = 8 。
-除了这些以外，没有别的不间断子数组。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,2,3]
-<b>输出：</b>6
-<b>解释：</b>
-大小为 1 的不间断子数组：[1], [2], [3] 。
-大小为 2 的不间断子数组：[1,2], [2,3] 。
-大小为 3 的不间断子数组：[1,2,3] 。
-不间断子数组的总数目为 3 + 2 + 1 = 6 。
+<strong>Input:</strong> nums = [5,4,2,4]
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> 
+Continuous subarray of size 1: [5], [4], [2], [4].
+Continuous subarray of size 2: [5,4], [4,2], [2,4].
+Continuous subarray of size 3: [4,2,4].
+There are no subarrys of size 4.
+Total continuous subarrays = 4 + 3 + 1 = 8.
+It can be shown that there are no more continuous subarrays.
 </pre>
 
 <p>&nbsp;</p>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,2,3]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> 
+Continuous subarray of size 1: [1], [2], [3].
+Continuous subarray of size 2: [1,2], [2,3].
+Continuous subarray of size 3: [1,2,3].
+Total continuous subarrays = 3 + 2 + 1 = 6.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -72,19 +69,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：有序列表 + 双指针
+### Solution 1: Ordered List + Two Pointers
 
-我们可以用双指针 $i$ 和 $j$ 维护当前子数组的左右端点，用一个有序列表维护当前子数组的所有元素。
+We can use two pointers, $i$ and $j$, to maintain the left and right endpoints of the current subarray, and use an ordered list to maintain all elements in the current subarray.
 
-遍历数组 $nums$，对于当前遍历到的数字 $nums[i]$，我们将其加到有序列表中，如果此时有序列表中的最大值与最小值的差值大于 $2$，那么我们循环右移指针 $i$，不断将 $nums[i]$ 从有序列表中移出，直到列表为空或者有序列表元素的最大差值不大于 $2$。此时不间断的子数组数目为 $j - i + 1$，我们将其添加到答案中。
+Iterate through the array $nums$. For the current number $nums[i]$ we're iterating over, we add it to the ordered list. If the difference between the maximum and minimum values in the ordered list is greater than $2$, we then loop to move the pointer $i$ to the right, continuously removing $nums[i]$ from the ordered list, until the list is empty or the maximum difference between elements in the ordered list is not greater than $2$. At this point, the number of uninterrupted subarrays is $j - i + 1$, which we add to the answer.
 
-遍历结束，返回答案即可。
+After the iteration, return the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n \times \log n)$ and the space complexity is $O(n)$, where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 
@@ -177,6 +174,7 @@ func continuousSubarrays(nums []int) (ans int64) {
 		}
 		ans += int64(j - i + 1)
 	}
+	return
 }
 ```
 
@@ -186,7 +184,7 @@ func continuousSubarrays(nums []int) (ans int64) {
 
 <!-- solution:start -->
 
-### 方法二：单调队列 + 双指针
+### Solution 2: Monotonic queue + Two Pointers
 
 <!-- tabs:start -->
 

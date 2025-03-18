@@ -1,78 +1,73 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2432.The%20Employee%20That%20Worked%20on%20the%20Longest%20Task/README.md
+difficulty: Easy
 rating: 1266
-source: 第 314 场周赛 Q1
+source: Weekly Contest 314 Q1
 tags:
-    - 数组
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2432. 处理用时最长的那个任务的员工](https://leetcode.cn/problems/the-employee-that-worked-on-the-longest-task)
+# [2432. The Employee That Worked on the Longest Task](https://leetcode.com/problems/the-employee-that-worked-on-the-longest-task)
 
-[English Version](/solution/2400-2499/2432.The%20Employee%20That%20Worked%20on%20the%20Longest%20Task/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>共有 <code>n</code> 位员工，每位员工都有一个从 <code>0</code> 到 <code>n - 1</code> 的唯一 id 。</p>
+<p>There are <code>n</code> employees, each with a unique id from <code>0</code> to <code>n - 1</code>.</p>
 
-<p>给你一个二维整数数组 <code>logs</code> ，其中 <code>logs[i] = [id<sub>i</sub>, leaveTime<sub>i</sub>]</code> ：</p>
+<p>You are given a 2D integer array <code>logs</code> where <code>logs[i] = [id<sub>i</sub>, leaveTime<sub>i</sub>]</code> where:</p>
 
 <ul>
-	<li><code>id<sub>i</sub></code> 是处理第 <code>i</code> 个任务的员工的 id ，且</li>
-	<li><code>leaveTime<sub>i</sub></code> 是员工完成第 <code>i</code> 个任务的时刻。所有 <code>leaveTime<sub>i</sub></code> 的值都是 <strong>唯一</strong> 的。</li>
+	<li><code>id<sub>i</sub></code> is the id of the employee that worked on the <code>i<sup>th</sup></code> task, and</li>
+	<li><code>leaveTime<sub>i</sub></code> is the time at which the employee finished the <code>i<sup>th</sup></code> task. All the values <code>leaveTime<sub>i</sub></code> are <strong>unique</strong>.</li>
 </ul>
 
-<p>注意，第 <code>i</code> 个任务在第 <code>(i - 1)</code> 个任务结束后立即开始，且第 <code>0</code> 个任务从时刻 <code>0</code> 开始。</p>
+<p>Note that the <code>i<sup>th</sup></code> task starts the moment right after the <code>(i - 1)<sup>th</sup></code> task ends, and the <code>0<sup>th</sup></code> task starts at time <code>0</code>.</p>
 
-<p>返回处理用时最长的那个任务的员工的 id 。如果存在两个或多个员工同时满足，则返回几人中 <strong>最小</strong> 的 id 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 10, logs = [[0,3],[2,5],[0,9],[1,15]]
-<strong>输出：</strong>1
-<strong>解释：</strong>
-任务 0 于时刻 0 开始，且在时刻 3 结束，共计 3 个单位时间。
-任务 1 于时刻 3 开始，且在时刻 5 结束，共计 2 个单位时间。
-任务 2 于时刻 5 开始，且在时刻 9 结束，共计 4 个单位时间。
-任务 3 于时刻 9 开始，且在时刻 15 结束，共计 6 个单位时间。
-时间最长的任务是任务 3 ，而 id 为 1 的员工是处理此任务的员工，所以返回 1 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 26, logs = [[1,1],[3,7],[2,12],[7,17]]
-<strong>输出：</strong>3
-<strong>解释：</strong>
-任务 0 于时刻 0 开始，且在时刻 1 结束，共计 1 个单位时间。
-任务 1 于时刻 1 开始，且在时刻 7 结束，共计 6 个单位时间。
-任务 2 于时刻 7 开始，且在时刻 12 结束，共计 5 个单位时间。
-任务 3 于时刻 12 开始，且在时刻 17 结束，共计 5 个单位时间。
-时间最长的任务是任务 1 ，而 id 为 3 的员工是处理此任务的员工，所以返回 3 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 2, logs = [[0,10],[1,20]]
-<strong>输出：</strong>0
-<strong>解释：</strong>
-任务 0 于时刻 0 开始，且在时刻 10 结束，共计 10 个单位时间。
-任务 1 于时刻 10 开始，且在时刻 20 结束，共计 10 个单位时间。
-时间最长的任务是任务 0 和 1 ，处理这两个任务的员工的 id 分别是 0 和 1 ，所以返回最小的 0 。
-</pre>
+<p>Return <em>the id of the employee that worked the task with the longest time.</em> If there is a tie between two or more employees, return<em> the <strong>smallest</strong> id among them</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 10, logs = [[0,3],[2,5],[0,9],[1,15]]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> 
+Task 0 started at 0 and ended at 3 with 3 units of times.
+Task 1 started at 3 and ended at 5 with 2 units of times.
+Task 2 started at 5 and ended at 9 with 4 units of times.
+Task 3 started at 9 and ended at 15 with 6 units of times.
+The task with the longest time is task 3 and the employee with id 1 is the one that worked on it, so we return 1.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 26, logs = [[1,1],[3,7],[2,12],[7,17]]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 
+Task 0 started at 0 and ended at 1 with 1 unit of times.
+Task 1 started at 1 and ended at 7 with 6 units of times.
+Task 2 started at 7 and ended at 12 with 5 units of times.
+Task 3 started at 12 and ended at 17 with 5 units of times.
+The tasks with the longest time is task 1. The employee that worked on it is 3, so we return 3.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 2, logs = [[0,10],[1,20]]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> 
+Task 0 started at 0 and ended at 10 with 10 units of times.
+Task 1 started at 10 and ended at 20 with 10 units of times.
+The tasks with the longest time are tasks 0 and 1. The employees that worked on them are 0 and 1, so we return the smallest id 0.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 500</code></li>
@@ -80,25 +75,25 @@ tags:
 	<li><code>logs[i].length == 2</code></li>
 	<li><code>0 &lt;= id<sub>i</sub> &lt;= n - 1</code></li>
 	<li><code>1 &lt;= leaveTime<sub>i</sub> &lt;= 500</code></li>
-	<li><code>id<sub>i</sub> != id<sub>i + 1</sub></code></li>
-	<li><code>leaveTime<sub>i</sub></code> 按严格递增顺序排列</li>
+	<li><code>id<sub>i</sub> != id<sub>i+1</sub></code></li>
+	<li><code>leaveTime<sub>i</sub></code> are sorted in a strictly increasing order.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：直接遍历
+### Solution 1: Direct Traversal
 
-我们用变量 $last$ 记录上一个任务的结束时间，用变量 $mx$ 记录最长的工作时间，用变量 $ans$ 记录工作时间最长且 $id$ 最小的员工。初始时，三个变量均为 $0$。
+We use a variable $last$ to record the end time of the last task, a variable $mx$ to record the longest working time, and a variable $ans$ to record the employee with the longest working time and the smallest $id$. Initially, all three variables are $0$.
 
-接下来，遍历数组 $logs$，对于每个员工，我们将员工完成任务的时间减去上一个任务的结束时间，即可得到该员工的工作时间 $t$。如果 $mx$ 小于 $t$，或者 $mx$ 等于 $t$ 且该员工的 $id$ 小于 $ans$，则更新 $mx$ 和 $ans$。然后我们将 $last$ 更新为上一个任务的结束时间加上 $t$。继续遍历，直到遍历完整个数组。
+Next, we traverse the array $logs$. For each employee, we subtract the end time of the last task from the time the employee completes the task to get the working time $t$ of this employee. If $mx$ is less than $t$, or $mx$ equals $t$ and the $id$ of this employee is less than $ans$, then we update $mx$ and $ans$. Then we update $last$ to be the end time of the last task plus $t$. Continue to traverse until the entire array is traversed.
 
-最后返回答案 $ans$ 即可。
+Finally, return the answer $ans$.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 $logs$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $logs$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -241,7 +236,7 @@ int hardestWorker(int n, int** logs, int logsSize, int* logsColSize) {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

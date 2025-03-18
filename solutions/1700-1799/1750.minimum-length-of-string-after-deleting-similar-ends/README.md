@@ -1,87 +1,82 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1750.Minimum%20Length%20of%20String%20After%20Deleting%20Similar%20Ends/README.md
+difficulty: Medium
 rating: 1501
-source: 第 45 场双周赛 Q3
+source: Biweekly Contest 45 Q3
 tags:
-    - 双指针
-    - 字符串
+    - Two Pointers
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1750. 删除字符串两端相同字符后的最短长度](https://leetcode.cn/problems/minimum-length-of-string-after-deleting-similar-ends)
+# [1750. Minimum Length of String After Deleting Similar Ends](https://leetcode.com/problems/minimum-length-of-string-after-deleting-similar-ends)
 
-[English Version](/solution/1700-1799/1750.Minimum%20Length%20of%20String%20After%20Deleting%20Similar%20Ends/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个只包含字符 <code>'a'</code>，<code>'b'</code> 和 <code>'c'</code> 的字符串 <code>s</code> ，你可以执行下面这个操作（5 个步骤）任意次：</p>
+<p>Given a string <code>s</code> consisting only of characters <code>&#39;a&#39;</code>, <code>&#39;b&#39;</code>, and <code>&#39;c&#39;</code>. You are asked to apply the following algorithm on the string any number of times:</p>
 
 <ol>
-	<li>选择字符串 <code>s</code> 一个 <strong>非空</strong> 的前缀，这个前缀的所有字符都相同。</li>
-	<li>选择字符串 <code>s</code> 一个 <strong>非空</strong> 的后缀，这个后缀的所有字符都相同。</li>
-	<li>前缀和后缀在字符串中任意位置都不能有交集。</li>
-	<li>前缀和后缀包含的所有字符都要相同。</li>
-	<li>同时删除前缀和后缀。</li>
+	<li>Pick a <strong>non-empty</strong> prefix from the string <code>s</code> where all the characters in the prefix are equal.</li>
+	<li>Pick a <strong>non-empty</strong> suffix from the string <code>s</code> where all the characters in this suffix are equal.</li>
+	<li>The prefix and the suffix should not intersect at any index.</li>
+	<li>The characters from the prefix and suffix must be the same.</li>
+	<li>Delete both the prefix and the suffix.</li>
 </ol>
 
-<p>请你返回对字符串 <code>s</code> 执行上面操作任意次以后（可能 0 次），能得到的 <strong>最短长度</strong> 。</p>
+<p>Return <em>the <strong>minimum length</strong> of </em><code>s</code> <em>after performing the above operation any number of times (possibly zero times)</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>s = "ca"
-<b>输出：</b>2
-<strong>解释：</strong>你没法删除任何一个字符，所以字符串长度仍然保持不变。
+<strong>Input:</strong> s = &quot;ca&quot;
+<strong>Output:</strong> 2
+<strong>Explanation: </strong>You can&#39;t remove any characters, so the string stays as is.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>s = "cabaabac"
-<b>输出：</b>0
-<b>解释：</b>最优操作序列为：
-- 选择前缀 "c" 和后缀 "c" 并删除它们，得到 s = "abaaba" 。
-- 选择前缀 "a" 和后缀 "a" 并删除它们，得到 s = "baab" 。
-- 选择前缀 "b" 和后缀 "b" 并删除它们，得到 s = "aa" 。
-- 选择前缀 "a" 和后缀 "a" 并删除它们，得到 s = "" 。</pre>
+<strong>Input:</strong> s = &quot;cabaabac&quot;
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> An optimal sequence of operations is:
+- Take prefix = &quot;c&quot; and suffix = &quot;c&quot; and remove them, s = &quot;abaaba&quot;.
+- Take prefix = &quot;a&quot; and suffix = &quot;a&quot; and remove them, s = &quot;baab&quot;.
+- Take prefix = &quot;b&quot; and suffix = &quot;b&quot; and remove them, s = &quot;aa&quot;.
+- Take prefix = &quot;a&quot; and suffix = &quot;a&quot; and remove them, s = &quot;&quot;.</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>s = "aabccabba"
-<b>输出：</b>3
-<b>解释：</b>最优操作序列为：
-- 选择前缀 "aa" 和后缀 "a" 并删除它们，得到 s = "bccabb" 。
-- 选择前缀 "b" 和后缀 "bb" 并删除它们，得到 s = "cca" 。
+<strong>Input:</strong> s = &quot;aabccabba&quot;
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> An optimal sequence of operations is:
+- Take prefix = &quot;aa&quot; and suffix = &quot;a&quot; and remove them, s = &quot;bccabb&quot;.
+- Take prefix = &quot;b&quot; and suffix = &quot;bb&quot; and remove them, s = &quot;cca&quot;.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= s.length <= 10<sup>5</sup></code></li>
-	<li><code>s</code> 只包含字符 <code>'a'</code>，<code>'b'</code> 和 <code>'c'</code> 。</li>
+	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>s</code> only consists of characters <code>&#39;a&#39;</code>, <code>&#39;b&#39;</code>, and <code>&#39;c&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1: Two pointers
 
-我们定义两个指针 $i$ 和 $j$ 分别指向字符串 $s$ 的头部和尾部，然后向中间移动，直到 $i$ 和 $j$ 指向的字符不相等，此时 $\max(0, j - i + 1)$ 即为答案。
+We define two pointers $i$ and $j$ to point to the head and tail of the string $s$ respectively, then move them to the middle until the characters pointed to by $i$ and $j$ are not equal, then $\max(0, j - i + 1)$ is the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为字符串 $s$ 的长度。
+The time complexity is $O(n)$ and the space complexity is $O(1)$. Where $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3421.Find%20Students%20Who%20Improved/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3421. 查找进步的学生](https://leetcode.cn/problems/find-students-who-improved)
+# [3421. Find Students Who Improved](https://leetcode.com/problems/find-students-who-improved)
 
-[English Version](/solution/3400-3499/3421.Find%20Students%20Who%20Improved/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Scores</code></p>
+<p>Table: <code>Scores</code></p>
 
 <pre>
 +-------------+---------+
@@ -27,31 +24,30 @@ tags:
 | score       | int     |
 | exam_date   | varchar |
 +-------------+---------+
-(student_id, subject, exam_date) 是这张表的主键。
-每一行包含有关学生在特定考试日期特定科目成绩的信息。分数范围从 0 到 100（包括边界）。
+(student_id, subject, exam_date) is the primary key for this table.
+Each row contains information about a student&#39;s score in a specific subject on a particular exam date. score is between 0 and 100 (inclusive).
 </pre>
 
-<p>编写一个解决方案来查找 <strong>进步的学生</strong>。如果 <strong>同时</strong> 满足以下两个条件，则该学生被认为是进步的：</p>
+<p>Write a solution to find the <strong>students who have shown improvement</strong>. A student is considered to have shown improvement if they meet <strong>both</strong> of these conditions:</p>
 
 <ul>
-	<li>在 <strong>同一科目</strong> 至少参加过两个不同日期的考试。</li>
-	<li>他们在该学科<strong> 最近的分数 </strong>比他们 第一次该学科考试的分数更高。</li>
+	<li>Have taken exams in the <strong>same subject</strong> on at least two different dates</li>
+	<li>Their <strong>latest score</strong> in that subject is <strong>higher</strong> than their <strong>first score</strong></li>
 </ul>
 
-<p>返回结果表以&nbsp;<code>student_id</code>，<code>subject</code> <strong>升序</strong>&nbsp;排序。</p>
+<p>Return <em>the result table</em>&nbsp;<em>ordered by</em> <code>student_id,</code> <code>subject</code> <em>in <strong>ascending</strong> order</em>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p>Scores 表：</p>
+<p>Scores table:</p>
 
-<pre>
+<pre class="example-io">
 +------------+----------+-------+------------+
 | student_id | subject  | score | exam_date  |
 +------------+----------+-------+------------+
@@ -64,9 +60,10 @@ tags:
 | 103        | Math     | 90    | 2023-01-15 |
 | 104        | Physics  | 75    | 2023-01-15 |
 | 104        | Physics  | 85    | 2023-02-15 |
-+------------+----------+-------+------------+</pre>
++------------+----------+-------+------------+
+</pre>
 
-<p><strong>出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +------------+----------+-------------+--------------+
@@ -78,30 +75,30 @@ tags:
 +------------+----------+-------------+--------------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>学生 101 的数学：从 70 分进步到 85 分。</li>
-	<li>学生 101 的物理：没有进步（从 65 分退步到 60分）</li>
-	<li>学生 102 的数学：从 80 进步到 85 分。</li>
-	<li>学生 103 的数学：只有一次考试，不符合资格。</li>
-	<li>学生 104 的物理：从 75 分进步到 85 分。</li>
+	<li>Student 101 in Math: Improved from 70 to 85</li>
+	<li>Student 101 in Physics: No improvement (dropped from 65 to 60)</li>
+	<li>Student 102 in Math: Improved from 80 to 85</li>
+	<li>Student 103 in Math: Only one exam, not eligible</li>
+	<li>Student 104 in Physics: Improved from 75 to 85</li>
 </ul>
 
-<p>结果表以 student_id，subject 升序排序。</p>
+<p>Result table is ordered by student_id, subject.</p>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：窗口函数 + 子连接 + 条件过滤
+### Solution 1: Window Function + Subquery + Conditional Filtering
 
-首先，我们使用窗口函数 `ROW_NUMBER()` 计算每个学生在每个科目中的考试日期的排名，分别计算出每个学生在每个科目中的第一次考试和最近一次考试的排名。
+First, we use the window function `ROW_NUMBER()` to calculate the ranking of each student's exam date in each subject, separately calculating the first and most recent exam rankings for each student in each subject.
 
-然后，我们使用子连接 `JOIN` 操作将第一次考试和最近一次考试的分数连接在一起，最后根据题目要求筛选出最近一次考试的分数比第一次考试的分数高的学生。
+Then, we use a subquery `JOIN` operation to join the scores of the first and most recent exams together. Finally, we filter out the students whose most recent exam scores are higher than their first exam scores according to the problem requirements.
 
 <!-- tabs:start -->
 

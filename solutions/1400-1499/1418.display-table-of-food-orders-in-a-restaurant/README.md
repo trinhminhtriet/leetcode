@@ -1,96 +1,121 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1418.Display%20Table%20of%20Food%20Orders%20in%20a%20Restaurant/README.md
+difficulty: Medium
 rating: 1485
-source: 第 185 场周赛 Q2
+source: Weekly Contest 185 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
-    - 有序集合
-    - 排序
+    - Array
+    - Hash Table
+    - String
+    - Ordered Set
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1418. 点菜展示表](https://leetcode.cn/problems/display-table-of-food-orders-in-a-restaurant)
+# [1418. Display Table of Food Orders in a Restaurant](https://leetcode.com/problems/display-table-of-food-orders-in-a-restaurant)
 
-[English Version](/solution/1400-1499/1418.Display%20Table%20of%20Food%20Orders%20in%20a%20Restaurant/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组 <code>orders</code>，表示客户在餐厅中完成的订单，确切地说， <code>orders[i]=[customerName<sub>i</sub>,tableNumber<sub>i</sub>,foodItem<sub>i</sub>]</code> ，其中 <code>customerName<sub>i</sub></code> 是客户的姓名，<code>tableNumber<sub>i</sub></code> 是客户所在餐桌的桌号，而 <code>foodItem<sub>i</sub></code> 是客户点的餐品名称。</p>
+<p>Given&nbsp;the array <code>orders</code>, which represents the orders that customers have done in a restaurant. More specifically&nbsp;<code>orders[i]=[customerName<sub>i</sub>,tableNumber<sub>i</sub>,foodItem<sub>i</sub>]</code> where <code>customerName<sub>i</sub></code> is the name of the customer, <code>tableNumber<sub>i</sub></code>&nbsp;is the table customer sit at, and <code>foodItem<sub>i</sub></code>&nbsp;is the item customer orders.</p>
 
-<p>请你返回该餐厅的 <strong>点菜展示表</strong><em> 。</em>在这张表中，表中第一行为标题，其第一列为餐桌桌号 &ldquo;Table&rdquo; ，后面每一列都是按字母顺序排列的餐品名称。接下来每一行中的项则表示每张餐桌订购的相应餐品数量，第一列应当填对应的桌号，后面依次填写下单的餐品数量。</p>
-
-<p>注意：客户姓名不是点菜展示表的一部分。此外，表中的数据行应该按餐桌桌号升序排列。</p>
+<p><em>Return the restaurant&#39;s &ldquo;<strong>display table</strong>&rdquo;</em>. The &ldquo;<strong>display table</strong>&rdquo; is a table whose row entries denote how many of each food item each table ordered. The first column is the table number and the remaining columns correspond to each food item in alphabetical order. The first row should be a header whose first column is &ldquo;Table&rdquo;, followed by the names of the food items. Note that the customer names are not part of the table. Additionally, the rows should be sorted in numerically increasing order.</p>
 
 <p>&nbsp;</p>
 
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
-<pre><strong>输入：</strong>orders = [[&quot;David&quot;,&quot;3&quot;,&quot;Ceviche&quot;],[&quot;Corina&quot;,&quot;10&quot;,&quot;Beef Burrito&quot;],[&quot;David&quot;,&quot;3&quot;,&quot;Fried Chicken&quot;],[&quot;Carla&quot;,&quot;5&quot;,&quot;Water&quot;],[&quot;Carla&quot;,&quot;5&quot;,&quot;Ceviche&quot;],[&quot;Rous&quot;,&quot;3&quot;,&quot;Ceviche&quot;]]
-<strong>输出：</strong>[[&quot;Table&quot;,&quot;Beef Burrito&quot;,&quot;Ceviche&quot;,&quot;Fried Chicken&quot;,&quot;Water&quot;],[&quot;3&quot;,&quot;0&quot;,&quot;2&quot;,&quot;1&quot;,&quot;0&quot;],[&quot;5&quot;,&quot;0&quot;,&quot;1&quot;,&quot;0&quot;,&quot;1&quot;],[&quot;10&quot;,&quot;1&quot;,&quot;0&quot;,&quot;0&quot;,&quot;0&quot;]] 
-<strong>解释：
-</strong>点菜展示表如下所示：
+<pre>
+
+<strong>Input:</strong> orders = [[&quot;David&quot;,&quot;3&quot;,&quot;Ceviche&quot;],[&quot;Corina&quot;,&quot;10&quot;,&quot;Beef Burrito&quot;],[&quot;David&quot;,&quot;3&quot;,&quot;Fried Chicken&quot;],[&quot;Carla&quot;,&quot;5&quot;,&quot;Water&quot;],[&quot;Carla&quot;,&quot;5&quot;,&quot;Ceviche&quot;],[&quot;Rous&quot;,&quot;3&quot;,&quot;Ceviche&quot;]]
+
+<strong>Output:</strong> [[&quot;Table&quot;,&quot;Beef Burrito&quot;,&quot;Ceviche&quot;,&quot;Fried Chicken&quot;,&quot;Water&quot;],[&quot;3&quot;,&quot;0&quot;,&quot;2&quot;,&quot;1&quot;,&quot;0&quot;],[&quot;5&quot;,&quot;0&quot;,&quot;1&quot;,&quot;0&quot;,&quot;1&quot;],[&quot;10&quot;,&quot;1&quot;,&quot;0&quot;,&quot;0&quot;,&quot;0&quot;]] 
+
+<strong>Explanation:
+
+</strong>The displaying table looks like:
+
 <strong>Table,Beef Burrito,Ceviche,Fried Chicken,Water</strong>
+
 3    ,0           ,2      ,1            ,0
+
 5    ,0           ,1      ,0            ,1
+
 10   ,1           ,0      ,0            ,0
-对于餐桌 3：David 点了 &quot;Ceviche&quot; 和 &quot;Fried Chicken&quot;，而 Rous 点了 &quot;Ceviche&quot;
-而餐桌 5：Carla 点了 &quot;Water&quot; 和 &quot;Ceviche&quot;
-餐桌 10：Corina 点了 &quot;Beef Burrito&quot; 
+
+For the table 3: David orders &quot;Ceviche&quot; and &quot;Fried Chicken&quot;, and Rous orders &quot;Ceviche&quot;.
+
+For the table 5: Carla orders &quot;Water&quot; and &quot;Ceviche&quot;.
+
+For the table 10: Corina orders &quot;Beef Burrito&quot;. 
+
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>orders = [[&quot;James&quot;,&quot;12&quot;,&quot;Fried Chicken&quot;],[&quot;Ratesh&quot;,&quot;12&quot;,&quot;Fried Chicken&quot;],[&quot;Amadeus&quot;,&quot;12&quot;,&quot;Fried Chicken&quot;],[&quot;Adam&quot;,&quot;1&quot;,&quot;Canadian Waffles&quot;],[&quot;Brianna&quot;,&quot;1&quot;,&quot;Canadian Waffles&quot;]]
-<strong>输出：</strong>[[&quot;Table&quot;,&quot;Canadian Waffles&quot;,&quot;Fried Chicken&quot;],[&quot;1&quot;,&quot;2&quot;,&quot;0&quot;],[&quot;12&quot;,&quot;0&quot;,&quot;3&quot;]] 
-<strong>解释：</strong>
-对于餐桌 1：Adam 和 Brianna 都点了 &quot;Canadian Waffles&quot;
-而餐桌 12：James, Ratesh 和 Amadeus 都点了 &quot;Fried Chicken&quot;
+<pre>
+
+<strong>Input:</strong> orders = [[&quot;James&quot;,&quot;12&quot;,&quot;Fried Chicken&quot;],[&quot;Ratesh&quot;,&quot;12&quot;,&quot;Fried Chicken&quot;],[&quot;Amadeus&quot;,&quot;12&quot;,&quot;Fried Chicken&quot;],[&quot;Adam&quot;,&quot;1&quot;,&quot;Canadian Waffles&quot;],[&quot;Brianna&quot;,&quot;1&quot;,&quot;Canadian Waffles&quot;]]
+
+<strong>Output:</strong> [[&quot;Table&quot;,&quot;Canadian Waffles&quot;,&quot;Fried Chicken&quot;],[&quot;1&quot;,&quot;2&quot;,&quot;0&quot;],[&quot;12&quot;,&quot;0&quot;,&quot;3&quot;]] 
+
+<strong>Explanation:</strong> 
+
+For the table 1: Adam and Brianna order &quot;Canadian Waffles&quot;.
+
+For the table 12: James, Ratesh and Amadeus order &quot;Fried Chicken&quot;.
+
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>orders = [[&quot;Laura&quot;,&quot;2&quot;,&quot;Bean Burrito&quot;],[&quot;Jhon&quot;,&quot;2&quot;,&quot;Beef Burrito&quot;],[&quot;Melissa&quot;,&quot;2&quot;,&quot;Soda&quot;]]
-<strong>输出：</strong>[[&quot;Table&quot;,&quot;Bean Burrito&quot;,&quot;Beef Burrito&quot;,&quot;Soda&quot;],[&quot;2&quot;,&quot;1&quot;,&quot;1&quot;,&quot;1&quot;]]
+<pre>
+
+<strong>Input:</strong> orders = [[&quot;Laura&quot;,&quot;2&quot;,&quot;Bean Burrito&quot;],[&quot;Jhon&quot;,&quot;2&quot;,&quot;Beef Burrito&quot;],[&quot;Melissa&quot;,&quot;2&quot;,&quot;Soda&quot;]]
+
+<strong>Output:</strong> [[&quot;Table&quot;,&quot;Bean Burrito&quot;,&quot;Beef Burrito&quot;,&quot;Soda&quot;],[&quot;2&quot;,&quot;1&quot;,&quot;1&quot;,&quot;1&quot;]]
+
 </pre>
 
 <p>&nbsp;</p>
 
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;=&nbsp;orders.length &lt;= 5 * 10^4</code></li>
-	<li><code>orders[i].length == 3</code></li>
-	<li><code>1 &lt;= customerName<sub>i</sub>.length, foodItem<sub>i</sub>.length &lt;= 20</code></li>
-	<li><code>customerName<sub>i</sub></code> 和 <code>foodItem<sub>i</sub></code> 由大小写英文字母及空格字符 <code>&#39; &#39;</code> 组成。</li>
-	<li><code>tableNumber<sub>i</sub></code> 是 <code>1</code> 到 <code>500</code> 范围内的整数。</li>
+
+    <li><code>1 &lt;=&nbsp;orders.length &lt;= 5 * 10^4</code></li>
+
+    <li><code>orders[i].length == 3</code></li>
+
+    <li><code>1 &lt;= customerName<sub>i</sub>.length, foodItem<sub>i</sub>.length &lt;= 20</code></li>
+
+    <li><code>customerName<sub>i</sub></code> and <code>foodItem<sub>i</sub></code> consist of lowercase and uppercase English letters and the space character.</li>
+
+    <li><code>tableNumber<sub>i</sub>&nbsp;</code>is a valid integer between <code>1</code> and <code>500</code>.</li>
+
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 排序
+### Solution 1: Hash Table + Sorting
 
-我们可以用一个哈希表 $\textit{tables}$ 来存储每张餐桌点的菜品，用一个集合 $\textit{items}$ 来存储所有的菜品。
+We can use a hash table $\textit{tables}$ to store the dishes ordered at each table, and a set $\textit{items}$ to store all the dishes.
 
-遍历 $\textit{orders}$，将每张餐桌点的菜品存入 $\textit{tables}$ 和 $\textit{items}$ 中。
+Traverse $\textit{orders}$, storing the dishes ordered at each table in $\textit{tables}$ and $\textit{items}$.
 
-然后我们将 $\textit{items}$ 排序，得到 $\textit{sortedItems}$。
+Then we sort $\textit{items}$ to get $\textit{sortedItems}$.
 
-接下来，我们构建答案数组 $\textit{ans}$，首先将标题行 $\textit{header}$ 加入 $\textit{ans}$，然后遍历排序后的 $\textit{tables}$，对于每张餐桌，我们用一个计数器 $\textit{cnt}$ 来统计每种菜品的数量，然后构建一行 $\textit{row}$，将其加入 $\textit{ans}$。
+Next, we construct the answer array $\textit{ans}$. First, add the header row $\textit{header}$ to $\textit{ans}$. Then, traverse the sorted $\textit{tables}$. For each table, use a counter $\textit{cnt}$ to count the number of each dish, then construct a row $\textit{row}$ and add it to $\textit{ans}$.
 
-最后返回 $\textit{ans}$。
+Finally, return $\textit{ans}$.
 
-时间复杂度 $O(n + m \times \log m + k \times \log k + m \times k)$，空间复杂度 $O(n + m + k)$。其中 $n$ 是数组 $\textit{orders}$ 的长度，而 $m$ 和 $k$ 分别表示菜品种类数和餐桌数。
+The time complexity is $O(n + m \times \log m + k \times \log k + m \times k)$, and the space complexity is $O(n + m + k)$. Here, $n$ is the length of the array $\textit{orders}$, while $m$ and $k$ represent the number of dish types and the number of tables, respectively.
 
 <!-- tabs:start -->
 

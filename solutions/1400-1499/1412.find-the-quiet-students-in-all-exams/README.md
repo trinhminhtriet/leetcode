@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1412.Find%20the%20Quiet%20Students%20in%20All%20Exams/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1412. 查找成绩处于中游的学生 🔒](https://leetcode.cn/problems/find-the-quiet-students-in-all-exams)
+# [1412. Find the Quiet Students in All Exams 🔒](https://leetcode.com/problems/find-the-quiet-students-in-all-exams)
 
-[English Version](/solution/1400-1499/1412.Find%20the%20Quiet%20Students%20in%20All%20Exams/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Student</code></p>
+<p>Table: <code>Student</code></p>
 
 <pre>
 +---------------------+---------+
@@ -25,12 +22,12 @@ tags:
 | student_id          | int     |
 | student_name        | varchar |
 +---------------------+---------+
-student_id 是该表主键(具有唯一值的列)。
-student_name 学生名字。</pre>
+student_id is the primary key (column with unique values) for this table.
+student_name is the name of the student.</pre>
 
 <p>&nbsp;</p>
 
-<p>表: <code>Exam</code></p>
+<p>Table: <code>Exam</code></p>
 
 <pre>
 +---------------+---------+
@@ -40,27 +37,26 @@ student_name 学生名字。</pre>
 | student_id    | int     |
 | score         | int     |
 +---------------+---------+
-(exam_id, student_id) 是该表主键(具有唯一值的列的组合)。
-学生 student_id 在测验 exam_id 中得分为 score。
+(exam_id, student_id) is the primary key (combination of columns with unique values) for this table.
+Each row of this table indicates that the student with student_id had a score points in the exam with id exam_id.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>成绩处于中游的学生是指至少参加了一次测验,&nbsp;且得分既不是最高分也不是最低分的学生。</p>
+<p>A <strong>quiet student</strong> is the one who took at least one exam and did not score the highest or the lowest score.</p>
 
-<p>编写解决方案，找出在 <strong>所有</strong> 测验中都处于中游的学生 <code>(student_id, student_name)</code>。不要返回从来没有参加过测验的学生。</p>
+<p>Write a solution&nbsp;to report the students <code>(student_id, student_name)</code> being quiet in all exams. Do not return the student who has never taken any exam.</p>
 
-<p>返回结果表按照&nbsp;<code>student_id</code>&nbsp;排序。</p>
+<p>Return the result table <strong>ordered</strong> by <code>student_id</code>.</p>
 
-<p>返回结果格式如下。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Student 表：
+<strong>Input:</strong> 
+Student table:
 +-------------+---------------+
 | student_id  | student_name  |
 +-------------+---------------+
@@ -70,7 +66,7 @@ Student 表：
 | 4           | Jonathan      |
 | 5           | Will          |
 +-------------+---------------+
-Exam 表：
+Exam table:
 +------------+--------------+-----------+
 | exam_id    | student_id   | score     |
 +------------+--------------+-----------+
@@ -85,31 +81,32 @@ Exam 表：
 | 40         |     2        |    70     |
 | 40         |     4        |    80     |
 +------------+--------------+-----------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-------------+---------------+
 | student_id  | student_name  |
 +-------------+---------------+
 | 2           | Jade          |
 +-------------+---------------+
-<strong>解释：</strong>
-对于测验 1: 学生 1 和 3 分别获得了最低分和最高分。
-对于测验 2: 学生 1 既获得了最高分, 也获得了最低分。
-对于测验 3 和 4: 学生 1 和 4 分别获得了最低分和最高分。
-学生 2 和 5 没有在任一场测验中获得了最高分或者最低分。
-因为学生 5 从来没有参加过任何测验, 所以他被排除于结果表。
-由此, 我们仅仅返回学生 2 的信息。</pre>
+<strong>Explanation:</strong> 
+For exam 1: Student 1 and 3 hold the lowest and high scores respectively.
+For exam 2: Student 1 hold both highest and lowest score.
+For exam 3 and 4: Studnet 1 and 4 hold the lowest and high scores respectively.
+Student 2 and 5 have never got the highest or lowest in any of the exams.
+Since student 5 is not taking any exam, he is excluded from the result.
+So, we only return the information of Student 2.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：使用 RANK() 窗口函数 + 分组聚合
+### Solution 1: Using RANK() Window Function + Group By
 
-我们可以使用 `RANK()` 窗口函数来计算每个学生在每场考试中的正序排名 $rk1$ 和倒序排序 $rk2$，得到表 $T$。
+We can use the `RANK()` window function to calculate the ascending rank $rk1$ and descending rank $rk2$ of each student in each exam, and obtain the table $T$.
 
-接下来，我们将表 $T$ 与表 $Student$ 进行内连接，然后按照学生编号进行分组聚合，得到每个学生在所有考试中的正序排名为 $1$ 的次数 $cnt1$ 和倒序排名为 $1$ 的次数 $cnt2$。如果 $cnt1$ 和 $cnt2$ 都为 $0$，则说明该学生在所有考试中都处于中游。
+Next, we can perform an inner join between the table $T$ and the table $Student$, and then group by student ID to obtain the number of times each student has a rank of $1$ in ascending order $cnt1$ and descending order $cnt2$ in all exams. If both $cnt1$ and $cnt2$ are $0$, it means that the student is in the middle of the pack in all exams.
 
 <!-- tabs:start -->
 

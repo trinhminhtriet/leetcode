@@ -1,56 +1,53 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1512.Number%20of%20Good%20Pairs/README.md
+difficulty: Easy
 rating: 1160
-source: 第 197 场周赛 Q1
+source: Weekly Contest 197 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 数学
-    - 计数
+    - Array
+    - Hash Table
+    - Math
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [1512. 好数对的数目](https://leetcode.cn/problems/number-of-good-pairs)
+# [1512. Number of Good Pairs](https://leetcode.com/problems/number-of-good-pairs)
 
-[English Version](/solution/1500-1599/1512.Number%20of%20Good%20Pairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 。</p>
+<p>Given an array of integers <code>nums</code>, return <em>the number of <strong>good pairs</strong></em>.</p>
 
-<p>如果一组数字 <code>(i,j)</code> 满足 <code>nums[i]</code> == <code>nums[j]</code> 且 <code>i</code> &lt; <code>j</code> ，就可以认为这是一组 <strong>好数对</strong> 。</p>
-
-<p>返回好数对的数目。</p>
+<p>A pair <code>(i, j)</code> is called <em>good</em> if <code>nums[i] == nums[j]</code> and <code>i</code> &lt; <code>j</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>nums = [1,2,3,1,1,3]
-<strong>输出：</strong>4
-<strong>解释：</strong>有 4 组好数对，分别是 (0,3), (0,4), (3,4), (2,5) ，下标从 0 开始
+<pre>
+<strong>Input:</strong> nums = [1,2,3,1,1,3]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> There are 4 good pairs (0,3), (0,4), (3,4), (2,5) 0-indexed.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>nums = [1,1,1,1]
-<strong>输出：</strong>6
-<strong>解释：</strong>数组中的每组数字都是好数对</pre>
+<pre>
+<strong>Input:</strong> nums = [1,1,1,1]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> Each pair in the array are <em>good</em>.
+</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>nums = [1,2,3]
-<strong>输出：</strong>0
+<pre>
+<strong>Input:</strong> nums = [1,2,3]
+<strong>Output:</strong> 0
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -59,15 +56,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-遍历数组，对于每个元素 $x$，计算 $x$ 之前有多少个元素与其相等，即为 $x$ 与之前元素组成的好数对的数目。遍历完数组后，即可得到答案。
+Traverse the array, and for each element $x$, count how many elements before it are equal to $x$. This count represents the number of good pairs formed by $x$ and the previous elements. After traversing the entire array, we obtain the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 为数组长度，而 $C$ 为数组中元素的取值范围。本题中 $C = 101$。
+The time complexity is $O(n)$, and the space complexity is $O(C)$. Here, $n$ is the length of the array, and $C$ is the range of values in the array. In this problem, $C = 101$.
 
 <!-- tabs:start -->
 

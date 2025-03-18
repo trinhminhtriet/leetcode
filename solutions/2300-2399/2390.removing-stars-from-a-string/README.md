@@ -1,87 +1,82 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2390.Removing%20Stars%20From%20a%20String/README.md
+difficulty: Medium
 rating: 1347
-source: 第 308 场周赛 Q2
+source: Weekly Contest 308 Q2
 tags:
-    - 栈
-    - 字符串
-    - 模拟
+    - Stack
+    - String
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2390. 从字符串中移除星号](https://leetcode.cn/problems/removing-stars-from-a-string)
+# [2390. Removing Stars From a String](https://leetcode.com/problems/removing-stars-from-a-string)
 
-[English Version](/solution/2300-2399/2390.Removing%20Stars%20From%20a%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个包含若干星号 <code>*</code> 的字符串 <code>s</code> 。</p>
+<p>You are given a string <code>s</code>, which contains stars <code>*</code>.</p>
 
-<p>在一步操作中，你可以：</p>
+<p>In one operation, you can:</p>
 
 <ul>
-	<li>选中 <code>s</code> 中的一个星号。</li>
-	<li>移除星号 <strong>左侧</strong> 最近的那个 <strong>非星号</strong> 字符，并移除该星号自身。</li>
+	<li>Choose a star in <code>s</code>.</li>
+	<li>Remove the closest <strong>non-star</strong> character to its <strong>left</strong>, as well as remove the star itself.</li>
 </ul>
 
-<p>返回移除 <strong>所有</strong> 星号之后的字符串<strong>。</strong></p>
+<p>Return <em>the string after <strong>all</strong> stars have been removed</em>.</p>
 
-<p><strong>注意：</strong></p>
+<p><strong>Note:</strong></p>
 
 <ul>
-	<li>生成的输入保证总是可以执行题面中描述的操作。</li>
-	<li>可以证明结果字符串是唯一的。</li>
+	<li>The input will be generated such that the operation is always possible.</li>
+	<li>It can be shown that the resulting string will always be unique.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "leet**cod*e"
-<strong>输出：</strong>"lecoe"
-<strong>解释：</strong>从左到右执行移除操作：
-- 距离第 1 个星号最近的字符是 "lee<em><strong>t</strong></em>**cod*e" 中的 't' ，s 变为 "lee*cod*e" 。
-- 距离第 2 个星号最近的字符是 "le<em><strong>e</strong></em>*cod*e" 中的 'e' ，s 变为 "lecod*e" 。
-- 距离第 3 个星号最近的字符是 "leco<em><strong>d</strong></em>*e" 中的 'd' ，s 变为 "lecoe" 。
-不存在其他星号，返回 "lecoe" 。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "erase*****"
-<strong>输出：</strong>""
-<strong>解释：</strong>整个字符串都会被移除，所以返回空字符串。
+<strong>Input:</strong> s = &quot;leet**cod*e&quot;
+<strong>Output:</strong> &quot;lecoe&quot;
+<strong>Explanation:</strong> Performing the removals from left to right:
+- The closest character to the 1<sup>st</sup> star is &#39;t&#39; in &quot;lee<strong><u>t</u></strong>**cod*e&quot;. s becomes &quot;lee*cod*e&quot;.
+- The closest character to the 2<sup>nd</sup> star is &#39;e&#39; in &quot;le<strong><u>e</u></strong>*cod*e&quot;. s becomes &quot;lecod*e&quot;.
+- The closest character to the 3<sup>rd</sup> star is &#39;d&#39; in &quot;leco<strong><u>d</u></strong>*e&quot;. s becomes &quot;lecoe&quot;.
+There are no more stars, so we return &quot;lecoe&quot;.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;erase*****&quot;
+<strong>Output:</strong> &quot;&quot;
+<strong>Explanation:</strong> The entire string is removed, so we return an empty string.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> 由小写英文字母和星号 <code>*</code> 组成</li>
-	<li><code>s</code> 可以执行上述操作</li>
+	<li><code>s</code> consists of lowercase English letters and stars <code>*</code>.</li>
+	<li>The operation above can be performed on <code>s</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：栈模拟
+### Solution 1: Stack Simulation
 
-我们可以使用栈模拟操作过程。遍历字符串 $s$，如果当前字符不是星号，则将其入栈；如果当前字符是星号，则将栈顶元素出栈。
+We can use a stack to simulate the operation process. Traverse the string $s$, and if the current character is not an asterisk, push it onto the stack; if the current character is an asterisk, pop the top element from the stack.
 
-最后我们将栈中元素拼接成字符串返回即可。
+Finally, concatenate the elements in the stack into a string and return it.
 
-时间复杂度 $O(n)$，其中 $n$ 是字符串 $s$ 的长度。忽略答案字符串的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. Ignoring the space consumption of the answer string, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

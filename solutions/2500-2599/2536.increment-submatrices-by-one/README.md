@@ -1,62 +1,54 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2536.Increment%20Submatrices%20by%20One/README.md
+difficulty: Medium
 rating: 1583
-source: 第 328 场周赛 Q2
+source: Weekly Contest 328 Q2
 tags:
-    - 数组
-    - 矩阵
-    - 前缀和
+    - Array
+    - Matrix
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [2536. 子矩阵元素加 1](https://leetcode.cn/problems/increment-submatrices-by-one)
+# [2536. Increment Submatrices by One](https://leetcode.com/problems/increment-submatrices-by-one)
 
-[English Version](/solution/2500-2599/2536.Increment%20Submatrices%20by%20One/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数 <code>n</code> ，表示最初有一个 <code>n x n</code> 、下标从 <strong>0</strong> 开始的整数矩阵 <code>mat</code> ，矩阵中填满了 0 。</p>
+<p>You are given a positive integer <code>n</code>, indicating that we initially have an <code>n x n</code>&nbsp;<strong>0-indexed</strong> integer matrix <code>mat</code> filled with zeroes.</p>
 
-<p>另给你一个二维整数数组 <code>query</code> 。针对每个查询 <code>query[i] = [row1<sub>i</sub>, col1<sub>i</sub>, row2<sub>i</sub>, col2<sub>i</sub>]</code> ，请你执行下述操作：</p>
+<p>You are also given a 2D integer array <code>query</code>. For each <code>query[i] = [row1<sub>i</sub>, col1<sub>i</sub>, row2<sub>i</sub>, col2<sub>i</sub>]</code>, you should do the following operation:</p>
 
 <ul>
-	<li>找出 <strong>左上角</strong> 为 <code>(row1<sub>i</sub>, col1<sub>i</sub>)</code> 且 <strong>右下角</strong> 为 <code>(row2<sub>i</sub>, col2<sub>i</sub>)</code> 的子矩阵，将子矩阵中的 <strong>每个元素</strong> 加 <code>1</code> 。也就是给所有满足 <code>row1<sub>i</sub> &lt;= x &lt;= row2<sub>i</sub></code> 和 <code>col1<sub>i</sub> &lt;= y &lt;= col2<sub>i</sub></code> 的 <code>mat[x][y]</code> 加 <code>1</code> 。</li>
+	<li>Add <code>1</code> to <strong>every element</strong> in the submatrix with the <strong>top left</strong> corner <code>(row1<sub>i</sub>, col1<sub>i</sub>)</code> and the <strong>bottom right</strong> corner <code>(row2<sub>i</sub>, col2<sub>i</sub>)</code>. That is, add <code>1</code> to <code>mat[x][y]</code> for all <code>row1<sub>i</sub> &lt;= x &lt;= row2<sub>i</sub></code> and <code>col1<sub>i</sub> &lt;= y &lt;= col2<sub>i</sub></code>.</li>
 </ul>
 
-<p>返回执行完所有操作后得到的矩阵 <code>mat</code> 。</p>
+<p>Return<em> the matrix</em> <code>mat</code><em> after performing every query.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2536.Increment%20Submatrices%20by%20One/images/p2example11.png" style="width: 531px; height: 121px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2536.Increment%20Submatrices%20by%20One/images/p2example11.png" style="width: 531px; height: 121px;" />
 <pre>
-<strong>输入：</strong>n = 3, queries = [[1,1,2,2],[0,0,1,1]]
-<strong>输出：</strong>[[1,1,0],[1,2,1],[0,1,1]]
-<strong>解释：</strong>上图所展示的分别是：初始矩阵、执行完第一个操作后的矩阵、执行完第二个操作后的矩阵。
-- 第一个操作：将左上角为 (1, 1) 且右下角为 (2, 2) 的子矩阵中的每个元素加 1 。 
-- 第二个操作：将左上角为 (0, 0) 且右下角为 (1, 1) 的子矩阵中的每个元素加 1 。 
+<strong>Input:</strong> n = 3, queries = [[1,1,2,2],[0,0,1,1]]
+<strong>Output:</strong> [[1,1,0],[1,2,1],[0,1,1]]
+<strong>Explanation:</strong> The diagram above shows the initial matrix, the matrix after the first query, and the matrix after the second query.
+- In the first query, we add 1 to every element in the submatrix with the top left corner (1, 1) and bottom right corner (2, 2).
+- In the second query, we add 1 to every element in the submatrix with the top left corner (0, 0) and bottom right corner (1, 1).
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2536.Increment%20Submatrices%20by%20One/images/p2example22.png" style="width: 261px; height: 82px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2536.Increment%20Submatrices%20by%20One/images/p2example22.png" style="width: 261px; height: 82px;" />
 <pre>
-<strong>输入：</strong>n = 2, queries = [[0,0,1,1]]
-<strong>输出：</strong>[[1,1],[1,1]]
-<strong>解释：</strong>上图所展示的分别是：初始矩阵、执行完第一个操作后的矩阵。 
-- 第一个操作：将矩阵中的每个元素加 1 。</pre>
+<strong>Input:</strong> n = 2, queries = [[0,0,1,1]]
+<strong>Output:</strong> [[1,1],[1,1]]
+<strong>Explanation:</strong> The diagram above shows the initial matrix and the matrix after the first query.
+- In the first query we add 1 to every element in the matrix.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 500</code></li>
@@ -67,31 +59,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二维差分
-
-二维差分模板题。
-
-```python
-mat = [[0] * (n + 1) for _ in range(n + 1)]
-
-
-def insert(x1, y1, x2, y2, c):
-    mat[x1][y1] += c
-    mat[x1][y2 + 1] -= c
-    mat[x2 + 1][y1] -= c
-    mat[x2 + 1][y2 + 1] += c
-
-
-for i in range(1, n + 1):
-    for j in range(1, n + 1):
-        mat[i][j] += mat[i - 1][j] + mat[i][j - 1] - mat[i - 1][j - 1]
-```
-
-时间复杂度 $O(m + n^2)$，其中 $m$ 和 $n$ 分别是 `queries` 的长度和给定的 $n$。忽略答案的空间消耗，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 

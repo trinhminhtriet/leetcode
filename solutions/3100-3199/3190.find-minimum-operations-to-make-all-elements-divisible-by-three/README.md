@@ -1,59 +1,54 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3190.Find%20Minimum%20Operations%20to%20Make%20All%20Elements%20Divisible%20by%20Three/README.md
+difficulty: Easy
 rating: 1139
-source: 第 133 场双周赛 Q1
+source: Biweekly Contest 133 Q1
 tags:
-    - 数组
-    - 数学
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [3190. 使所有元素都可以被 3 整除的最少操作数](https://leetcode.cn/problems/find-minimum-operations-to-make-all-elements-divisible-by-three)
+# [3190. Find Minimum Operations to Make All Elements Divisible by Three](https://leetcode.com/problems/find-minimum-operations-to-make-all-elements-divisible-by-three)
 
-[English Version](/solution/3100-3199/3190.Find%20Minimum%20Operations%20to%20Make%20All%20Elements%20Divisible%20by%20Three/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;。一次操作中，你可以将&nbsp;<code>nums</code>&nbsp;中的&nbsp;<strong>任意</strong>&nbsp;一个元素增加或者减少 1 。</p>
+<p>You are given an integer array <code>nums</code>. In one operation, you can add or subtract 1 from <strong>any</strong> element of <code>nums</code>.</p>
 
-<p>请你返回将 <code>nums</code>&nbsp;中所有元素都可以被 3 整除的 <strong>最少</strong>&nbsp;操作次数。</p>
+<p>Return the <strong>minimum</strong> number of operations to make all elements of <code>nums</code> divisible by 3.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,2,3,4]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3,4]</span></p>
 
-<p><span class="example-io"><b>输出：</b>3</span></p>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>通过以下 3 个操作，数组中的所有元素都可以被 3 整除：</p>
+<p>All array elements can be made divisible by 3 using 3 operations:</p>
 
 <ul>
-	<li>将 1 减少 1 。</li>
-	<li>将 2 增加 1 。</li>
-	<li>将 4 减少 1 。</li>
+	<li>Subtract 1 from 1.</li>
+	<li>Add 1 to 2.</li>
+	<li>Subtract 1 from 4.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [3,6,9]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [3,6,9]</span></p>
 
-<p><span class="example-io"><b>输出：</b>0</span></p>
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 50</code></li>
@@ -62,15 +57,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
+### Solution 1: Mathematics
 
-我们直接遍历数组 $\textit{nums}$，对于每个元素 $x$，我们计算 $x$ 除以 3 的余数 $x \bmod 3$，如果余数不为 0，我们需要将 $x$ 变为能被 3 整除且操作次数最少，那么我们可以选择将 $x$ 减少 $x \bmod 3$ 或者增加 $3 - x \bmod 3$，取两者的最小值累加到答案中。
+We directly iterate through the array $\textit{nums}$. For each element $x$, we calculate the remainder of $x$ divided by 3, $x \bmod 3$. If the remainder is not 0, we need to make $x$ divisible by 3 with the minimum number of operations. Therefore, we can choose to either decrease $x$ by $x \bmod 3$ or increase $x$ by $3 - x \bmod 3$, and we accumulate the minimum of these two values to the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

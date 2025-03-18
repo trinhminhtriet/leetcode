@@ -1,55 +1,49 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2582.Pass%20the%20Pillow/README.md
+difficulty: Easy
 rating: 1278
-source: 第 335 场周赛 Q1
+source: Weekly Contest 335 Q1
 tags:
-    - 数学
-    - 模拟
+    - Math
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2582. 递枕头](https://leetcode.cn/problems/pass-the-pillow)
+# [2582. Pass the Pillow](https://leetcode.com/problems/pass-the-pillow)
 
-[English Version](/solution/2500-2599/2582.Pass%20the%20Pillow/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><code>n</code> 个人站成一排，按从 <code>1</code> 到 <code>n</code> 编号。最初，排在队首的第一个人拿着一个枕头。每秒钟，拿着枕头的人会将枕头传递给队伍中的下一个人。一旦枕头到达队首或队尾，传递方向就会改变，队伍会继续沿相反方向传递枕头。</p>
+<p>There are <code>n</code> people standing in a line labeled from <code>1</code> to <code>n</code>. The first person in the line is holding a pillow initially. Every second, the person holding the pillow passes it to the next person standing in the line. Once the pillow reaches the end of the line, the direction changes, and people continue passing the pillow in the opposite direction.</p>
 
 <ul>
-	<li>例如，当枕头到达第 <code>n</code> 个人时，TA 会将枕头传递给第 <code>n - 1</code> 个人，然后传递给第 <code>n - 2</code> 个人，依此类推。</li>
+	<li>For example, once the pillow reaches the <code>n<sup>th</sup></code> person they pass it to the <code>n - 1<sup>th</sup></code> person, then to the <code>n - 2<sup>th</sup></code> person and so on.</li>
 </ul>
 
-<p>给你两个正整数 <code>n</code> 和 <code>time</code> ，返回 <code>time</code> 秒后拿着枕头的人的编号。</p>
-
+<p>Given the two positive integers <code>n</code> and <code>time</code>, return <em>the index of the person holding the pillow after </em><code>time</code><em> seconds</em>.</p>
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 4, time = 5
-<strong>输出：</strong>2
-<strong>解释：</strong>队伍中枕头的传递情况为：1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 3 -&gt; 2 。
-5 秒后，枕头传递到第 2 个人手中。
+<strong>Input:</strong> n = 4, time = 5
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> People pass the pillow in the following way: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 3 -&gt; 2.
+After five seconds, the 2<sup>nd</sup> person is holding the pillow.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 3, time = 2
-<strong>输出：</strong>3
-<strong>解释：</strong>队伍中枕头的传递情况为：1 -&gt; 2 -&gt; 3 。
-2 秒后，枕头传递到第 3 个人手中。
+<strong>Input:</strong> n = 3, time = 2
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> People pass the pillow in the following way: 1 -&gt; 2 -&gt; 3.
+After two seconds, the 3<sup>r</sup><sup>d</sup> person is holding the pillow.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 1000</code></li>
@@ -57,20 +51,19 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-
-<p><b>注意：</b>本题与 <a href="https://leetcode.cn/problems/find-the-child-who-has-the-ball-after-k-seconds/">3178.找出 K 秒后拿着球的孩子</a>&nbsp;一致。</p>
+<p><strong>Note:</strong> This question is the same as <a href="https://leetcode.com/problems/find-the-child-who-has-the-ball-after-k-seconds/description/" target="_blank"> 3178: Find the Child Who Has the Ball After K Seconds.</a></p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以模拟枕头传递的过程，每次传递枕头时，如果枕头到达队首或队尾，传递方向就会改变，队伍会继续沿相反方向传递枕头。
+We can simulate the process of passing the pillow, and each time the pillow is passed, if the pillow reaches the front or the end of the queue, the direction of the pillow will change, and the queue will continue to pass the pillow along the opposite direction.
 
-时间复杂度 $O(time)$，空间复杂度 $O(1)$。其中 $time$ 为给定的时间。
+The time complexity is $O(time)$ and the space complexity is $O(1)$, where $time$ is the given time.
 
 <!-- tabs:start -->
 
@@ -180,16 +173,16 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：数学
+### Solution 2: Math
 
-我们注意到，每一轮有 $n - 1$ 次传递，因此我们可以将 $time$ 除以 $n - 1$ 得到枕头传递的轮数 $k$，然后再将 $time$ 对 $n - 1$ 取余得到枕头在当前轮的剩余传递次数 $mod$。
+We notice that there are $n - 1$ passes in each round. Therefore, we can divide $time$ by $n - 1$ to get the number of rounds $k$ that the pillow is passed, and then take the remainder of $time$ modulo $n - 1$ to get the remaining passes $mod$ in the current round.
 
-接下来我们判断当前的轮数 $k$：
+Then we judge the current round $k$:
 
--   如果 $k$ 为奇数，那么枕头当前的传递方向是从队尾到队首，因此枕头会传递到编号为 $n - mod$ 的人手中；
--   如果 $k$ 为偶数，那么枕头当前的传递方向是从队首到队尾，因此枕头会传递到编号为 $mod + 1$ 的人手中。
+-   If $k$ is odd, then the current direction of the pillow is from the end of the queue to the front, so the pillow will be passed to the person with the number $n - mod$.
+-   If $k$ is even, then the current direction of the pillow is from the front of the queue to the back, so the pillow will be passed to the person with the number $mod + 1$.
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+The time complexity is $O(1)$ and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,79 +1,74 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0032.Longest%20Valid%20Parentheses/README.md
+difficulty: Hard
 tags:
-    - 栈
-    - 字符串
-    - 动态规划
+    - Stack
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [32. 最长有效括号](https://leetcode.cn/problems/longest-valid-parentheses)
+# [32. Longest Valid Parentheses](https://leetcode.com/problems/longest-valid-parentheses)
 
-[English Version](/solution/0000-0099/0032.Longest%20Valid%20Parentheses/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个只包含 <code>'('</code>&nbsp;和 <code>')'</code>&nbsp;的字符串，找出最长有效（格式正确且连续）括号<span data-keyword="substring">子串</span>的长度。</p>
+<p>Given a string containing just the characters <code>&#39;(&#39;</code> and <code>&#39;)&#39;</code>, return <em>the length of the longest valid (well-formed) parentheses </em><span data-keyword="substring-nonempty"><em>substring</em></span>.</p>
 
 <p>&nbsp;</p>
-
-<div class="original__bRMd">
-<div>
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "(()"
-<strong>输出：</strong>2
-<strong>解释：</strong>最长有效括号子串是 "()"
+<strong>Input:</strong> s = &quot;(()&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The longest valid parentheses substring is &quot;()&quot;.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = ")()())"
-<strong>输出：</strong>4
-<strong>解释：</strong>最长有效括号子串是 "()()"
+<strong>Input:</strong> s = &quot;)()())&quot;
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The longest valid parentheses substring is &quot;()()&quot;.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = ""
-<strong>输出：</strong>0
+<strong>Input:</strong> s = &quot;&quot;
+<strong>Output:</strong> 0
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= s.length &lt;= 3 * 10<sup>4</sup></code></li>
-	<li><code>s[i]</code> 为 <code>'('</code> 或 <code>')'</code></li>
+	<li><code>s[i]</code> is <code>&#39;(&#39;</code>, or <code>&#39;)&#39;</code>.</li>
 </ul>
-</div>
-</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i]$ 表示以 $s[i-1]$ 结尾的最长有效括号的长度，那么答案就是 $\max\limits_{i=1}^n f[i]$。
+We define $f[i]$ to be the length of the longest valid parentheses that ends with $s[i-1]$, and the answer is $max(f[i])$.
 
--   如果 $s[i-1]$ 是左括号，那么以 $s[i-1]$ 结尾的最长有效括号的长度一定为 $0$，因此 $f[i] = 0$。
--   如果 $s[i-1]$ 是右括号，有以下两种情况：
-    -   如果 $s[i-2]$ 是左括号，那么以 $s[i-1]$ 结尾的最长有效括号的长度为 $f[i-2] + 2$。
-    -   如果 $s[i-2]$ 是右括号，那么以 $s[i-1]$ 结尾的最长有效括号的长度为 $f[i-1] + 2$，但是还需要考虑 $s[i-f[i-1]-2]$ 是否是左括号，如果是左括号，那么以 $s[i-1]$ 结尾的最长有效括号的长度为 $f[i-1] + 2 + f[i-f[i-1]-2]$。
+When $i \lt 2$, the length of the string is less than $2$, and there is no valid parentheses, so $f[i] = 0$.
 
-因此，我们可以得到状态转移方程：
+When $i \ge 2$, we consider the length of the longest valid parentheses that ends with $s[i-1]$, that is, $f[i]$:
+
+-   If $s[i-1]$ is a left parenthesis, then the length of the longest valid parentheses that ends with $s[i-1]$ must be $0$, so $f[i] = 0$.
+-   If $s[i-1]$ is a right parenthesis, there are the following two cases:
+    -   If $s[i-2]$ is a left parenthesis, then the length of the longest valid parentheses that ends with $s[i-1]$ is $f[i-2] + 2$.
+    -   If $s[i-2]$ is a right parenthesis, then the length of the longest valid parentheses that ends with $s[i-1]$ is $f[i-1] + 2$, but we also need to consider whether $s[i-f[i-1]-2]$ is a left parenthesis. If it is a left parenthesis, then the length of the longest valid parentheses that ends with $s[i-1]$ is $f[i-1] + 2 + f[i-f[i-1]-2]$.
+
+Therefore, we can get the state transition equation:
 
 $$
 \begin{cases}
@@ -83,9 +78,9 @@ f[i] = f[i-1] + 2 + f[i-f[i-1]-2], & \textit{if } s[i-1] = ')' \textit{ and } s[
 \end{cases}
 $$
 
-最后返回 $\max\limits_{i=1}^n f[i]$ 即可。
+Finally, we only need to return $max(f)$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the string.
 
 <!-- tabs:start -->
 
@@ -282,19 +277,20 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二：使用栈
+### Solution 2: Using Stack
 
--   使用栈来存储左括号的索引，栈底元素初始化为 `-1`，用于辅助计算有效括号的长度。
--   遍历字符串，对于每个字符：
-    -   如果是左括号，将当前位置压入栈。
-    -   如果是右括号，弹出栈顶元素表示匹配了一个左括号。
-        -   如果栈为空，说明当前右括号无法匹配，将当前位置压入栈作为新的起点。
-        -   如果栈不为空，计算当前有效括号子串的长度，更新最大长度。
--   最终返回最大长度。
+-   Maintain a stack to store the indices of left parentheses. Initialize the bottom element of the stack with the value -1 to facilitate the calculation of the length of valid parentheses.
+-   Iterate through each element of the string:
+    -   If the character is a left parenthesis, push the index of the character onto the stack.
+    -   If the character is a right parenthesis, pop an element from the stack to represent that we have found a valid pair of parentheses.
+        -   If the stack is empty, it means we couldn't find a left parenthesis to match the right parenthesis. In this case, push the index of the character as a new starting point.
+        -   If the stack is not empty, calculate the length of the valid parentheses and update it.
 
-总结：这个算法的关键在于维护一个线，栈内存放的是左括号的索引，通过弹出和压入的操作来更新有效括号子串的长度。
+Summary:
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串的长度。
+The key to this algorithm is to maintain a stack to store the indices of left parentheses and then update the length of the valid substring of parentheses by pushing and popping elements.
+
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the string.
 
 <!-- tabs:start -->
 

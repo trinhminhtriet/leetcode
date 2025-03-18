@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1440.Evaluate%20Boolean%20Expression/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1440. 计算布尔表达式的值 🔒](https://leetcode.cn/problems/evaluate-boolean-expression)
+# [1440. Evaluate Boolean Expression 🔒](https://leetcode.com/problems/evaluate-boolean-expression)
 
-[English Version](/solution/1400-1499/1440.Evaluate%20Boolean%20Expression/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表 <code>Variables</code>:</p>
+<p>Table <code>Variables</code>:</p>
 
 <pre>
 +---------------+---------+
@@ -25,13 +22,13 @@ tags:
 | name          | varchar |
 | value         | int     |
 +---------------+---------+
-在 SQL 中，name 是该表主键.
-该表包含了存储的变量及其对应的值.
+In SQL, name is the primary key for this table.
+This table contains the stored variables and their values.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>表 <code>Expressions</code>:</p>
+<p>Table <code>Expressions</code>:</p>
 
 <pre>
 +---------------+---------+
@@ -41,35 +38,33 @@ tags:
 | operator      | enum    |
 | right_operand | varchar |
 +---------------+---------+
-在 SQL 中，(left_operand, operator, right_operand) 是该表主键.
-该表包含了需要计算的布尔表达式.
-operator 是枚举类型, 取值于('&lt;', '&gt;', '=')
-left_operand 和 right_operand 的值保证存在于 Variables 表单中.
+In SQL, (left_operand, operator, right_operand) is the primary key for this table.
+This table contains a boolean expression that should be evaluated.
+operator is an enum that takes one of the values (&#39;&lt;&#39;, &#39;&gt;&#39;, &#39;=&#39;)
+The values of left_operand and right_operand are guaranteed to be in the Variables table.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>计算表 <code>Expressions</code>&nbsp;中的布尔表达式。</p>
+<p>Evaluate the boolean expressions in <code>Expressions</code> table.</p>
 
-<p>返回的结果表 <strong>无顺序要求</strong> 。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果格式如下例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Variables 表:
+<strong>Input:</strong> 
+Variables table:
 +------+-------+
 | name | value |
 +------+-------+
 | x    | 66    |
 | y    | 77    |
 +------+-------+
-
-Expressions 表:
+Expressions table:
 +--------------+----------+---------------+
 | left_operand | operator | right_operand |
 +--------------+----------+---------------+
@@ -80,8 +75,7 @@ Expressions 表:
 | y            | &lt;        | x             |
 | x            | =        | x             |
 +--------------+----------+---------------+
-
-<strong>输出:</strong>
+<strong>Output:</strong> 
 +--------------+----------+---------------+-------+
 | left_operand | operator | right_operand | value |
 +--------------+----------+---------------+-------+
@@ -92,19 +86,19 @@ Expressions 表:
 | y            | &lt;        | x             | false |
 | x            | =        | x             | true  |
 +--------------+----------+---------------+-------+
-<strong>解释：</strong>
-如上所示, 你需要通过使用 Variables 表来找到 Expressions 表中的每一个布尔表达式的值.
+<strong>Explanation:</strong> 
+As shown, you need to find the value of each boolean expression in the table using the variables table.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：等值连接 + CASE 表达式
+### Solution 1: Equi-Join + CASE Expression
 
-我们可以通过等值连接，将 `Expressions` 表中的每一行与 `Variables` 表中的两行进行关联，关联的条件是 `left_operand = name` 和 `right_operand = name`，然后通过 `CASE` 表达式来判断布尔表达式的值。如果 `operator` 为 `=`，则判断两个值是否相等；如果 `operator` 为 `>`，则判断左值是否大于右值；如果 `operator` 为 `<`，则判断左值是否小于右值。若是，那么布尔表达式的值为 `true`，否则为 `false`。
+We can associate each row in the `Expressions` table with two rows in the `Variables` table using an equi-join, where the conditions for the association are `left_operand = name` and `right_operand = name`. Then, we can use a `CASE` expression to determine the value of the boolean expression. If the `operator` is `=`, we check if the two values are equal. If the `operator` is `>`, we check if the left value is greater than the right value. If the `operator` is `<`, we check if the left value is less than the right value. If the condition is true, the boolean expression evaluates to `true`, otherwise it evaluates to `false`.
 
 <!-- tabs:start -->
 

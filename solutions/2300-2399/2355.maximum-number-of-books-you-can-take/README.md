@@ -1,76 +1,71 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2355.Maximum%20Number%20of%20Books%20You%20Can%20Take/README.md
+difficulty: Hard
 tags:
-    - 栈
-    - 数组
-    - 动态规划
-    - 单调栈
+    - Stack
+    - Array
+    - Dynamic Programming
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [2355. 你能拿走的最大图书数量 🔒](https://leetcode.cn/problems/maximum-number-of-books-you-can-take)
+# [2355. Maximum Number of Books You Can Take 🔒](https://leetcode.com/problems/maximum-number-of-books-you-can-take)
 
-[English Version](/solution/2300-2399/2355.Maximum%20Number%20of%20Books%20You%20Can%20Take/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个长度为 <code>n</code> 的<b>&nbsp;下标从 0 开始&nbsp;</b>的整数数组 <code>books</code>，其中 <code>books[i]</code> 表示书架的第 <code>i</code> 个书架上的书的数量。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>books</code> of length <code>n</code> where <code>books[i]</code> denotes the number of books on the <code>i<sup>th</sup></code> shelf of a bookshelf.</p>
 
-<p>你要从书架&nbsp;<code>l</code> 到 <code>r</code> 的一个&nbsp;<strong>连续&nbsp;</strong>的部分中取书，其中 <code>0 &lt;= l &lt;= r &lt; n</code>。对于 <code>l &lt;= i &lt; r</code> 范围内的每个索引 <code>i</code>，你从书架 <code>i</code>&nbsp;取书的数量必须&nbsp;<strong>严格小于 </strong>你从书架 <code>i + 1</code> 取书的数量。</p>
+<p>You are going to take books from a <strong>contiguous</strong> section of the bookshelf spanning from <code>l</code> to <code>r</code> where <code>0 &lt;= l &lt;= r &lt; n</code>. For each index <code>i</code> in the range <code>l &lt;= i &lt; r</code>, you must take <strong>strictly fewer</strong> books from shelf <code>i</code> than shelf <code>i + 1</code>.</p>
 
-<p>返回<em>你能从书架上拿走的书的&nbsp;<strong>最大&nbsp;</strong>数量。</em></p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入:</strong> books = [8,5,2,7,9]
-<strong>输出:</strong> 19
-<strong>解释:</strong>
-- 从书架 1 上取 1 本书。
-- 从书架 2 上取 2 本书。
-- 从书架 3 上取 7 本书
-- 从书架 4 上取 9 本书
-你已经拿了19本书，所以返回 19。
-可以证明 19 本是你所能拿走的书的最大数量。
-</pre>
-
-<p><strong>示例&nbsp;2:</strong></p>
-
-<pre>
-<strong>输入:</strong> books = [7,0,3,4,5]
-<strong>输出:</strong> 12
-<strong>解释:</strong>
-- 从书架 2 上取 3 本书。
-- 从书架 3 上取 4 本书。
-- 从书架 4 上取 5 本书。
-你已经拿了 12 本书，所以返回 12。
-可以证明 12 本是你所能拿走的书的最大数量。
-</pre>
-
-<p><strong>示例 3:</strong></p>
-
-<pre>
-<strong>输入:</strong> books = [8,2,3,7,3,4,0,1,4,3]
-<strong>输出:</strong> 13
-<strong>解释:</strong>
-- 从书架 0 上取 1 本书。
-- 从书架 1 上取 2 本书。
-- 从书架 2 上取 3 本书。
-- 从书架 3 上取 7 本书。
-你已经拿了 13 本书，所以返回 13。
-可以证明 13 本是你所能拿走的书的最大数量。
-</pre>
+<p>Return <em>the <strong>maximum</strong> number of books you can take from the bookshelf.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示:</strong></p>
+<pre>
+<strong>Input:</strong> books = [8,5,2,7,9]
+<strong>Output:</strong> 19
+<strong>Explanation:</strong>
+- Take 1 book from shelf 1.
+- Take 2 books from shelf 2.
+- Take 7 books from shelf 3.
+- Take 9 books from shelf 4.
+You have taken 19 books, so return 19.
+It can be proven that 19 is the maximum number of books you can take.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> books = [7,0,3,4,5]
+<strong>Output:</strong> 12
+<strong>Explanation:</strong>
+- Take 3 books from shelf 2.
+- Take 4 books from shelf 3.
+- Take 5 books from shelf 4.
+You have taken 12 books so return 12.
+It can be proven that 12 is the maximum number of books you can take.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> books = [8,2,3,7,3,4,0,1,4,3]
+<strong>Output:</strong> 13
+<strong>Explanation:</strong>
+- Take 1 book from shelf 0.
+- Take 2 books from shelf 1.
+- Take 3 books from shelf 2.
+- Take 7 books from shelf 3.
+You have taken 13 books so return 13.
+It can be proven that 13 is the maximum number of books you can take.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= books.length &lt;= 10<sup>5</sup></code></li>
@@ -79,21 +74,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：单调栈 + 动态规划
+### Solution 1: Simulation
 
-我们定义 $dp[i]$ 表示以 $books[i]$ 结尾时能取走的书的最大数量。
+We directly compare each row and column of the matrix $grid$. If they are equal, then it is a pair of equal row-column pairs, and we increment the answer by one.
 
-若从 $i$ 到 $0$ 可以取成一个公差为 $1$ 的等差数列，那么 $dp[i]$ 可以直接通过等差数列求和算出。
-
-若从 $i$ 到 $0$ 不能取成一个公差为 $-1$ 的等差数列，即这个规律在某个 $j$ 处断掉了（$0 \le j \lt i$），那么一定有 $books[j] \lt books[i] - (i-j)$，也即 $books[j] - j \lt books[i] - i$，利用单调栈在新数组 $books[i] - i$ 的每个位置，找到左边第一个比它严格小的数的位置，可以求出符合题意的 $j$，此时 $dp[i]=dp[j] + \sum_{k=j+1}^{i} (books[k]-k)$。
-
-答案为 $\max_{i=0}^{n-1} dp[i]$。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
+The time complexity is $O(n^3)$, where $n$ is the number of rows or columns in the matrix $grid$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,71 +1,56 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0739.Daily%20Temperatures/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 数组
-    - 单调栈
+    - Stack
+    - Array
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [739. 每日温度](https://leetcode.cn/problems/daily-temperatures)
+# [739. Daily Temperatures](https://leetcode.com/problems/daily-temperatures)
 
-[English Version](/solution/0700-0799/0739.Daily%20Temperatures/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数数组&nbsp;<code>temperatures</code>&nbsp;，表示每天的温度，返回一个数组&nbsp;<code>answer</code>&nbsp;，其中&nbsp;<code>answer[i]</code>&nbsp;是指对于第 <code>i</code> 天，下一个更高温度出现在几天后。如果气温在这之后都不会升高，请在该位置用&nbsp;<code>0</code> 来代替。</p>
+<p>Given an array of integers <code>temperatures</code> represents the daily temperatures, return <em>an array</em> <code>answer</code> <em>such that</em> <code>answer[i]</code> <em>is the number of days you have to wait after the</em> <code>i<sup>th</sup></code> <em>day to get a warmer temperature</em>. If there is no future day for which this is possible, keep <code>answer[i] == 0</code> instead.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入:</strong> <code>temperatures</code> = [73,74,75,71,69,72,76,73]
-<strong>输出:</strong>&nbsp;[1,1,4,2,1,1,0,0]
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> temperatures = [73,74,75,71,69,72,76,73]
+<strong>Output:</strong> [1,1,4,2,1,1,0,0]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> temperatures = [30,40,50,60]
+<strong>Output:</strong> [1,1,1,0]
+</pre><p><strong class="example">Example 3:</strong></p>
+<pre><strong>Input:</strong> temperatures = [30,60,90]
+<strong>Output:</strong> [1,1,0]
 </pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> temperatures = [30,40,50,60]
-<strong>输出:</strong>&nbsp;[1,1,1,0]
-</pre>
-
-<p><strong>示例 3:</strong></p>
-
-<pre>
-<strong>输入:</strong> temperatures = [30,60,90]
-<strong>输出: </strong>[1,1,0]</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;=&nbsp;temperatures.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>30 &lt;=&nbsp;temperatures[i]&nbsp;&lt;= 100</code></li>
+	<li><code>30 &lt;=&nbsp;temperatures[i] &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：单调栈
+### Solution 1: Monotonic Stack
 
-本题需要我们找出每个元素右边第一个比它大的元素的位置，这是一个典型的单调栈应用场景。
+This problem requires us to find the position of the first element greater than each element to its right, which is a typical application scenario for a monotonic stack.
 
-我们从右往左遍历数组 $\textit{temperatures}$，维护一个从栈顶到栈底温度单调递增的栈 $\textit{stk}$，栈中存储的是数组元素的下标。对于每个元素 $\textit{temperatures}[i]$，我们不断将其与栈顶元素进行比较，如果栈顶元素对应的温度小于等于 $\textit{temperatures}[i]$，那么循环将栈顶元素弹出，直到栈为空或者栈顶元素对应的温度大于 $\textit{temperatures}[i]$。此时，栈顶元素就是右边第一个比 $\textit{temperatures}[i]$ 大的元素，距离为 $\textit{stk.top()} - i$，我们更新答案数组。然后将 $\textit{temperatures}[i]$ 入栈，继续遍历。
+We traverse the array $\textit{temperatures}$ from right to left, maintaining a stack $\textit{stk}$ that is monotonically increasing from top to bottom in terms of temperature. The stack stores the indices of the array elements. For each element $\textit{temperatures}[i]$, we continuously compare it with the top element of the stack. If the temperature corresponding to the top element of the stack is less than or equal to $\textit{temperatures}[i]$, we pop the top element of the stack in a loop until the stack is empty or the temperature corresponding to the top element of the stack is greater than $\textit{temperatures}[i]$. At this point, the top element of the stack is the first element greater than $\textit{temperatures}[i]$ to its right, and the distance is $\textit{stk.top()} - i$. We update the answer array accordingly. Then we push $\textit{temperatures}[i]$ onto the stack and continue traversing.
 
-遍历结束后，返回答案数组即可。
+After the traversal, we return the answer array.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{temperatures}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{temperatures}$.
 
 <!-- tabs:start -->
 
@@ -168,26 +153,6 @@ function dailyTemperatures(temperatures: number[]): number[] {
         stk.push(i);
     }
     return ans;
-}
-```
-
-#### Rust
-
-```rust
-impl Solution {
-    pub fn daily_temperatures(temperatures: Vec<i32>) -> Vec<i32> {
-        let n = temperatures.len();
-        let mut stack = vec![];
-        let mut res = vec![0; n];
-        for i in 0..n {
-            while !stack.is_empty() && temperatures[*stack.last().unwrap()] < temperatures[i] {
-                let j = stack.pop().unwrap();
-                res[j] = (i - j) as i32;
-            }
-            stack.push(i);
-        }
-        res
-    }
 }
 ```
 

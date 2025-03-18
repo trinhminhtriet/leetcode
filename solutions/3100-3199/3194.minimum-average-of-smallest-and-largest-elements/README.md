@@ -1,51 +1,47 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3194.Minimum%20Average%20of%20Smallest%20and%20Largest%20Elements/README.md
+difficulty: Easy
 rating: 1194
-source: 第 403 场周赛 Q1
+source: Weekly Contest 403 Q1
 tags:
-    - 数组
-    - 双指针
-    - 排序
+    - Array
+    - Two Pointers
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [3194. 最小元素和最大元素的最小平均值](https://leetcode.cn/problems/minimum-average-of-smallest-and-largest-elements)
+# [3194. Minimum Average of Smallest and Largest Elements](https://leetcode.com/problems/minimum-average-of-smallest-and-largest-elements)
 
-[English Version](/solution/3100-3199/3194.Minimum%20Average%20of%20Smallest%20and%20Largest%20Elements/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有一个初始为空的浮点数数组 <code>averages</code>。另给你一个包含 <code>n</code> 个整数的数组 <code>nums</code>，其中 <code>n</code> 为偶数。</p>
+<p>You have an array of floating point numbers <code>averages</code> which is initially empty. You are given an array <code>nums</code> of <code>n</code> integers where <code>n</code> is even.</p>
 
-<p>你需要重复以下步骤 <code>n / 2</code> 次：</p>
+<p>You repeat the following procedure <code>n / 2</code> times:</p>
 
 <ul>
-	<li>从 <code>nums</code> 中移除<strong> 最小 </strong>的元素 <code>minElement</code> 和<strong> 最大 </strong>的元素 <code>maxElement</code>。</li>
-	<li>将 <code>(minElement + maxElement) / 2</code> 加入到 <code>averages</code> 中。</li>
+	<li>Remove the <strong>smallest</strong> element, <code>minElement</code>, and the <strong>largest</strong> element <code>maxElement</code>,&nbsp;from <code>nums</code>.</li>
+	<li>Add <code>(minElement + maxElement) / 2</code> to <code>averages</code>.</li>
 </ul>
 
-<p>返回 <code>averages</code> 中的 <strong>最小 </strong>元素。</p>
+<p>Return the <strong>minimum</strong> element in <code>averages</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [7,8,3,4,15,13,4,1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [7,8,3,4,15,13,4,1]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">5.5</span></p>
+<p><strong>Output:</strong> <span class="example-io">5.5</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <table>
 	<tbody>
 		<tr>
-			<th>步骤</th>
+			<th>step</th>
 			<th>nums</th>
 			<th>averages</th>
 		</tr>
@@ -76,37 +72,37 @@ tags:
 		</tr>
 	</tbody>
 </table>
-返回 averages 中最小的元素，即 5.5。</div>
+The smallest element of averages, 5.5, is returned.</div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [1,9,8,3,10,5]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,9,8,3,10,5]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">5.5</span></p>
+<p><strong>Output:</strong> <span class="example-io">5.5</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <table>
 	<tbody>
 		<tr>
-			<th>步骤</th>
+			<th>step</th>
 			<th>nums</th>
 			<th>averages</th>
 		</tr>
 		<tr>
 			<td>0</td>
-			<td>[1,9,8,3,10,5]</td>
+			<td><span class="example-io">[1,9,8,3,10,5]</span></td>
 			<td>[]</td>
 		</tr>
 		<tr>
 			<td>1</td>
-			<td>[9,8,3,5]</td>
+			<td><span class="example-io">[9,8,3,5]</span></td>
 			<td>[5.5]</td>
 		</tr>
 		<tr>
 			<td>2</td>
-			<td>[8,5]</td>
+			<td><span class="example-io">[8,5]</span></td>
 			<td>[5.5,6]</td>
 		</tr>
 		<tr>
@@ -118,40 +114,40 @@ tags:
 </table>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [1,2,3,7,8,9]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3,7,8,9]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">5.0</span></p>
+<p><strong>Output:</strong> <span class="example-io">5.0</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <table>
 	<tbody>
 		<tr>
-			<th>步骤</th>
+			<th>step</th>
 			<th>nums</th>
 			<th>averages</th>
 		</tr>
 		<tr>
 			<td>0</td>
-			<td>[1,2,3,7,8,9]</td>
+			<td><span class="example-io">[1,2,3,7,8,9]</span></td>
 			<td>[]</td>
 		</tr>
 		<tr>
 			<td>1</td>
-			<td>[2,3,7,8]</td>
+			<td><span class="example-io">[2,3,7,8]</span></td>
 			<td>[5]</td>
 		</tr>
 		<tr>
 			<td>2</td>
-			<td>[3,7]</td>
+			<td><span class="example-io">[3,7]</span></td>
 			<td>[5,5]</td>
 		</tr>
 		<tr>
 			<td>3</td>
-			<td>[]</td>
+			<td><span class="example-io">[]</span></td>
 			<td>[5,5,5]</td>
 		</tr>
 	</tbody>
@@ -159,26 +155,25 @@ tags:
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n == nums.length &lt;= 50</code></li>
-	<li><code>n</code> 为偶数。</li>
+	<li><code>n</code> is even.</li>
 	<li><code>1 &lt;= nums[i] &lt;= 50</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序
+### Solution 1: Sorting
 
-我们首先对数组 $\textit{nums}$ 进行排序，然后从数组的两端开始取元素，分别计算两个元素的和，取最小值。最后将最小值除以 2 作为答案返回即可。
+First, we sort the array $\textit{nums}$. Then, we start taking elements from both ends of the array, calculating the sum of the two elements, and taking the minimum value. Finally, we return the minimum value divided by 2 as the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \log n)$, and the space complexity is $O(\log n)$, where $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

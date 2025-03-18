@@ -1,82 +1,77 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0341.Flatten%20Nested%20List%20Iterator/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 树
-    - 深度优先搜索
-    - 设计
-    - 队列
-    - 迭代器
+    - Stack
+    - Tree
+    - Depth-First Search
+    - Design
+    - Queue
+    - Iterator
 ---
 
 <!-- problem:start -->
 
-# [341. 扁平化嵌套列表迭代器](https://leetcode.cn/problems/flatten-nested-list-iterator)
+# [341. Flatten Nested List Iterator](https://leetcode.com/problems/flatten-nested-list-iterator)
 
-[English Version](/solution/0300-0399/0341.Flatten%20Nested%20List%20Iterator/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个嵌套的整数列表 <code>nestedList</code> 。每个元素要么是一个整数，要么是一个列表；该列表的元素也可能是整数或者是其他列表。请你实现一个迭代器将其扁平化，使之能够遍历这个列表中的所有整数。</p>
+<p>You are given a nested list of integers <code>nestedList</code>. Each element is either an integer or a list whose elements may also be integers or other lists. Implement an iterator to flatten it.</p>
 
-<p>实现扁平迭代器类 <code>NestedIterator</code> ：</p>
+<p>Implement the <code>NestedIterator</code> class:</p>
 
 <ul>
-	<li><code>NestedIterator(List&lt;NestedInteger&gt; nestedList)</code> 用嵌套列表 <code>nestedList</code> 初始化迭代器。</li>
-	<li><code>int next()</code> 返回嵌套列表的下一个整数。</li>
-	<li><code>boolean hasNext()</code> 如果仍然存在待迭代的整数，返回 <code>true</code> ；否则，返回 <code>false</code> 。</li>
+	<li><code>NestedIterator(List&lt;NestedInteger&gt; nestedList)</code> Initializes the iterator with the nested list <code>nestedList</code>.</li>
+	<li><code>int next()</code> Returns the next integer in the nested list.</li>
+	<li><code>boolean hasNext()</code> Returns <code>true</code> if there are still some integers in the nested list and <code>false</code> otherwise.</li>
 </ul>
 
-<p>你的代码将会用下述伪代码检测：</p>
+<p>Your code will be tested with the following pseudocode:</p>
 
 <pre>
 initialize iterator with nestedList
 res = []
 while iterator.hasNext()
     append iterator.next() to the end of res
-return res</pre>
+return res
+</pre>
 
-<p>如果 <code>res</code> 与预期的扁平化列表匹配，那么你的代码将会被判为正确。</p>
+<p>If <code>res</code> matches the expected flattened list, then your code will be judged as correct.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nestedList = [[1,1],2,[1,1]]
-<strong>输出：</strong>[1,1,2,1,1]
-<strong>解释：</strong>通过重复调用&nbsp;<em>next </em>直到&nbsp;<em>hasNex</em>t 返回 false，<em>next&nbsp;</em>返回的元素的顺序应该是: <code>[1,1,2,1,1]</code>。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nestedList = [1,[4,[6]]]
-<strong>输出：</strong>[1,4,6]
-<strong>解释：</strong>通过重复调用&nbsp;<em>next&nbsp;</em>直到&nbsp;<em>hasNex</em>t 返回 false，<em>next&nbsp;</em>返回的元素的顺序应该是: <code>[1,4,6]</code>。
+<strong>Input:</strong> nestedList = [[1,1],2,[1,1]]
+<strong>Output:</strong> [1,1,2,1,1]
+<strong>Explanation:</strong> By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,1,2,1,1].
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nestedList = [1,[4,[6]]]
+<strong>Output:</strong> [1,4,6]
+<strong>Explanation:</strong> By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,4,6].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nestedList.length &lt;= 500</code></li>
-	<li>嵌套列表中的整数值在范围 <code>[-10<sup>6</sup>, 10<sup>6</sup>]</code> 内</li>
+	<li>The values of the integers in the nested list is in the range <code>[-10<sup>6</sup>, 10<sup>6</sup>]</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
-
-根据题意要求可以将 NestedInteger 数据结构视作一个 N 叉树，当元素为一个整数时，该节点是 N 叉树的叶子节点，当元素为一个整数数组时，该节点是 N 叉树的非叶子节点，数组中的每一个元素包含子树的所有节点。故直接递归遍历 N 叉树并记录所有的叶子节点即可。
+### Solution 1
 
 <!-- tabs:start -->
 

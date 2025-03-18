@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1070.Product%20Sales%20Analysis%20III/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1070. 产品销售分析 III](https://leetcode.cn/problems/product-sales-analysis-iii)
+# [1070. Product Sales Analysis III](https://leetcode.com/problems/product-sales-analysis-iii)
 
-[English Version](/solution/1000-1099/1070.Product%20Sales%20Analysis%20III/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>销售表&nbsp;<code>Sales</code>：</p>
+<p>Table: <code>Sales</code></p>
 
 <pre>
 +-------------+-------+
@@ -28,15 +25,15 @@ tags:
 | quantity    | int   |
 | price       | int   |
 +-------------+-------+
-(sale_id, year) 是这张表的主键（具有唯一值的列的组合）。
-product_id 是产品表的外键（reference 列）。
-这张表的每一行都表示：编号 product_id 的产品在某一年的销售额。
-请注意，价格是按每单位计的。
+(sale_id, year) is the primary key (combination of columns with unique values) of this table.
+product_id is a foreign key (reference column) to <code>Product</code> table.
+Each row of this table shows a sale on the product product_id in a certain year.
+Note that the price is per unit.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>产品表&nbsp;<code>Product</code>：</p>
+<p>Table: <code>Product</code></p>
 
 <pre>
 +--------------+---------+
@@ -45,24 +42,24 @@ product_id 是产品表的外键（reference 列）。
 | product_id   | int     |
 | product_name | varchar |
 +--------------+---------+
-product_id 是这张表的主键（具有唯一值的列）。
-这张表的每一行都标识：每个产品的 id 和 产品名称。</pre>
+product_id is the primary key (column with unique values) of this table.
+Each row of this table indicates the product name of each product.
+</pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案，选出每个售出过的产品&nbsp;<strong>第一年</strong> 销售的 <strong>产品 id</strong>、<strong>年份</strong>、<strong>数量&nbsp;</strong>和 <strong>价格</strong>。</p>
+<p>Write a solution to select&nbsp;the <strong>product id</strong>, <strong>year</strong>, <strong>quantity</strong>, and <strong>price</strong> for the <strong>first year</strong> of every product sold.</p>
 
-<p>结果表中的条目可以按 <strong>任意顺序</strong> 排列。</p>
+<p>Return the resulting table in <strong>any order</strong>.</p>
 
-<p>结果格式如下例所示：</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Sales 表：
+<strong>Input:</strong> 
+Sales table:
 +---------+------------+------+----------+-------+
 | sale_id | product_id | year | quantity | price |
 +---------+------------+------+----------+-------+ 
@@ -70,7 +67,7 @@ Sales 表：
 | 2       | 100        | 2009 | 12       | 5000  |
 | 7       | 200        | 2011 | 15       | 9000  |
 +---------+------------+------+----------+-------+
-Product 表：
+Product table:
 +------------+--------------+
 | product_id | product_name |
 +------------+--------------+
@@ -78,21 +75,22 @@ Product 表：
 | 200        | Apple        |
 | 300        | Samsung      |
 +------------+--------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +------------+------------+----------+-------+
 | product_id | first_year | quantity | price |
 +------------+------------+----------+-------+ 
 | 100        | 2008       | 10       | 5000  |
 | 200        | 2011       | 15       | 9000  |
-+------------+------------+----------+-------+</pre>
++------------+------------+----------+-------+
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -122,7 +120,7 @@ WHERE
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

@@ -1,87 +1,66 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1525.Number%20of%20Good%20Ways%20to%20Split%20a%20String/README.md
+difficulty: Medium
 rating: 1499
-source: 第 31 场双周赛 Q3
+source: Biweekly Contest 31 Q3
 tags:
-    - 位运算
-    - 哈希表
-    - 字符串
-    - 动态规划
+    - Bit Manipulation
+    - Hash Table
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1525. 字符串的好分割数目](https://leetcode.cn/problems/number-of-good-ways-to-split-a-string)
+# [1525. Number of Good Ways to Split a String](https://leetcode.com/problems/number-of-good-ways-to-split-a-string)
 
-[English Version](/solution/1500-1599/1525.Number%20of%20Good%20Ways%20to%20Split%20a%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>s</code>&nbsp;，一个分割被称为 「好分割」&nbsp;当它满足：将&nbsp;<code>s</code>&nbsp;分割成 2 个字符串&nbsp;<code>p</code> 和&nbsp;<code>q</code>&nbsp;，它们连接起来等于&nbsp;<code>s</code>&nbsp;且 <code>p</code>&nbsp;和 <code>q</code>&nbsp;中不同字符的数目相同。</p>
+<p>You are given a string <code>s</code>.</p>
 
-<p>请你返回 <code>s</code>&nbsp;中好分割的数目。</p>
+<p>A split is called <strong>good</strong> if you can split <code>s</code> into two non-empty strings <code>s<sub>left</sub></code> and <code>s<sub>right</sub></code> where their concatenation is equal to <code>s</code> (i.e., <code>s<sub>left</sub> + s<sub>right</sub> = s</code>) and the number of distinct letters in <code>s<sub>left</sub></code> and <code>s<sub>right</sub></code> is the same.</p>
+
+<p>Return <em>the number of <strong>good splits</strong> you can make in <code>s</code></em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;aacaba&quot;
-<strong>输出：</strong>2
-<strong>解释：</strong>总共有 5 种分割字符串 <code>&quot;aacaba&quot;</code> 的方法，其中 2 种是好分割。
-(&quot;a&quot;, &quot;acaba&quot;) 左边字符串和右边字符串分别包含 1 个和 3 个不同的字符。
-(&quot;aa&quot;, &quot;caba&quot;) 左边字符串和右边字符串分别包含 1 个和 3 个不同的字符。
-(&quot;aac&quot;, &quot;aba&quot;) 左边字符串和右边字符串分别包含 2 个和 2 个不同的字符。这是一个好分割。
-(&quot;aaca&quot;, &quot;ba&quot;) 左边字符串和右边字符串分别包含 2 个和 2 个不同的字符。这是一个好分割。
-(&quot;aacab&quot;, &quot;a&quot;) 左边字符串和右边字符串分别包含 3 个和 1 个不同的字符。
+<pre>
+<strong>Input:</strong> s = &quot;aacaba&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> There are 5 ways to split <code>&quot;aacaba&quot;</code> and 2 of them are good. 
+(&quot;a&quot;, &quot;acaba&quot;) Left string and right string contains 1 and 3 different letters respectively.
+(&quot;aa&quot;, &quot;caba&quot;) Left string and right string contains 1 and 3 different letters respectively.
+(&quot;aac&quot;, &quot;aba&quot;) Left string and right string contains 2 and 2 different letters respectively (good split).
+(&quot;aaca&quot;, &quot;ba&quot;) Left string and right string contains 2 and 2 different letters respectively (good split).
+(&quot;aacab&quot;, &quot;a&quot;) Left string and right string contains 3 and 1 different letters respectively.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>s = &quot;abcd&quot;
-<strong>输出：</strong>1
-<strong>解释：</strong>好分割为将字符串分割成 (&quot;ab&quot;, &quot;cd&quot;) 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;aaaaa&quot;
-<strong>输出：</strong>4
-<strong>解释：</strong>所有分割都是好分割。</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;acbadbaada&quot;
-<strong>输出：</strong>2
+<pre>
+<strong>Input:</strong> s = &quot;abcd&quot;
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> Split the string as follows (&quot;ab&quot;, &quot;cd&quot;).
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
-	<li><code>1 &lt;= s.length &lt;= 10^5</code></li>
+	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>s</code> consists of only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
-
-我们维护两个哈希表，分别记录左侧出现的字符、右侧的字符以及出现的次数。初始时，左侧的哈希表为空，右侧的哈希表为字符串 $s$ 中所有字符出现的次数。
-
-接下来，我们从左到右遍历字符串 $s$，对于遍历到的字符 $c$，我们将其加入左侧的哈希表，同时将其在右侧的哈希表中的出现次数减一。如果减一后，右侧哈希表中的出现次数为 0，则将其从右侧哈希表中移除。然后，我们判断左侧哈希表中的键值对数量是否与右侧哈希表中的键值对数量相等，如果相等，则将答案加一。
-
-最终，我们返回答案即可。
-
-时间复杂度为 $O(n)$，空间复杂度为 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

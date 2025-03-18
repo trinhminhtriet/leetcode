@@ -1,73 +1,77 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2523.Closest%20Prime%20Numbers%20in%20Range/README.md
+difficulty: Medium
 rating: 1649
-source: 第 326 场周赛 Q4
+source: Weekly Contest 326 Q4
 tags:
-    - 数学
-    - 数论
+    - Math
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [2523. 范围内最接近的两个质数](https://leetcode.cn/problems/closest-prime-numbers-in-range)
+# [2523. Closest Prime Numbers in Range](https://leetcode.com/problems/closest-prime-numbers-in-range)
 
-[English Version](/solution/2500-2599/2523.Closest%20Prime%20Numbers%20in%20Range/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个正整数&nbsp;<code>left</code> 和&nbsp;<code>right</code>&nbsp;，请你找到两个整数&nbsp;<code>num1</code> 和&nbsp;<code>num2</code>&nbsp;，它们满足：</p>
+<p>Given two positive integers <code>left</code> and <code>right</code>, find the two integers <code>num1</code> and <code>num2</code> such that:</p>
 
 <ul>
-	<li><code>left &lt;= nums1 &lt; nums2 &lt;= right&nbsp;</code>&nbsp;。</li>
-	<li><code>nums1</code> 和&nbsp;<code>nums2</code>&nbsp;都是 <strong><span data-keyword="prime-number">质数</span></strong>&nbsp;。</li>
-	<li><code>nums2 - nums1</code>&nbsp;是满足上述条件的质数对中的 <strong>最小值</strong>&nbsp;。</li>
+	<li><code>left &lt;= num1 &lt; num2 &lt;= right </code>.</li>
+	<li>Both <code>num1</code> and <code>num2</code> are <span data-keyword="prime-number">prime numbers</span>.</li>
+	<li><code>num2 - num1</code> is the <strong>minimum</strong> amongst all other pairs satisfying the above conditions.</li>
 </ul>
 
-<p>请你返回正整数数组&nbsp;<code>ans = [nums1, nums2]</code>&nbsp;。如果有多个整数对满足上述条件，请你返回&nbsp;<code>nums1</code>&nbsp;最小的质数对。如果不存在符合题意的质数对，请你返回&nbsp;<code>[-1, -1]</code>&nbsp;。</p>
+<p>Return the positive integer array <code>ans = [num1, num2]</code>. If there are multiple pairs satisfying these conditions, return the one with the <strong>smallest</strong> <code>num1</code> value. If no such numbers exist, return <code>[-1, -1]</code><em>.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>left = 10, right = 19
-<b>输出：</b>[11,13]
-<b>解释：</b>10 到 19 之间的质数为 11 ，13 ，17 和 19 。
-质数对的最小差值是 2 ，[11,13] 和 [17,19] 都可以得到最小差值。
-由于 11 比 17 小，我们返回第一个质数对。
+<strong>Input:</strong> left = 10, right = 19
+<strong>Output:</strong> [11,13]
+<strong>Explanation:</strong> The prime numbers between 10 and 19 are 11, 13, 17, and 19.
+The closest gap between any pair is 2, which can be achieved by [11,13] or [17,19].
+Since 11 is smaller than 17, we return the first pair.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>left = 4, right = 6
-<b>输出：</b>[-1,-1]
-<b>解释：</b>给定范围内只有一个质数，所以题目条件无法被满足。
+<strong>Input:</strong> left = 4, right = 6
+<strong>Output:</strong> [-1,-1]
+<strong>Explanation:</strong> There exists only one prime number in the given range, so the conditions cannot be satisfied.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= left &lt;= right &lt;= 10<sup>6</sup></code></li>
 </ul>
 
+<p>&nbsp;</p>
+<style type="text/css">.spoilerbutton {display:block; border:dashed; padding: 0px 0px; margin:10px 0px; font-size:150%; font-weight: bold; color:#000000; background-color:cyan; outline:0; 
+}
+.spoiler {overflow:hidden;}
+.spoiler > div {-webkit-transition: all 0s ease;-moz-transition: margin 0s ease;-o-transition: all 0s ease;transition: margin 0s ease;}
+.spoilerbutton[value="Show Message"] + .spoiler > div {margin-top:-500%;}
+.spoilerbutton[value="Hide Message"] + .spoiler {padding:5px;}
+</style>
+
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：线性筛
+### Solution 1: Linear Sieve
 
-对于给定的范围 $[\textit{left}, \textit{right}]$，我们可以使用线性筛求出所有质数，然后从小到大遍历质数，找到相邻的两个质数，其差值最小的质数对即为答案。
+For the given range $[\textit{left}, \textit{right}]$, we can use the linear sieve method to find all prime numbers. Then, we traverse the prime numbers in ascending order to find the pair of adjacent prime numbers with the smallest difference, which will be the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n = \textit{right}$。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n = \textit{right}$.
 
 <!-- tabs:start -->
 

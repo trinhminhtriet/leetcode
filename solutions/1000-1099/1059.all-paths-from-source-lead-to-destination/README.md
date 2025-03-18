@@ -1,100 +1,73 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1059.All%20Paths%20from%20Source%20Lead%20to%20Destination/README.md
+difficulty: Medium
 tags:
-    - 图
-    - 拓扑排序
+    - Graph
+    - Topological Sort
 ---
 
 <!-- problem:start -->
 
-# [1059. 从始点到终点的所有路径 🔒](https://leetcode.cn/problems/all-paths-from-source-lead-to-destination)
+# [1059. All Paths from Source Lead to Destination 🔒](https://leetcode.com/problems/all-paths-from-source-lead-to-destination)
 
-[English Version](/solution/1000-1099/1059.All%20Paths%20from%20Source%20Lead%20to%20Destination/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定有向图的边&nbsp;<code>edges</code>，以及该图的始点&nbsp;<code>source</code>&nbsp;和目标终点&nbsp;<code>destination</code>，确定从始点&nbsp;<code>source</code>&nbsp;出发的所有路径是否最终结束于目标终点&nbsp;<code>destination</code>，即：</p>
+<p>Given the <code>edges</code> of a directed graph where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code>, and two nodes <code>source</code> and <code>destination</code> of this graph, determine whether or not all paths starting from <code>source</code> eventually, end at <code>destination</code>, that is:</p>
 
 <ul>
-	<li>从始点&nbsp;<code>source</code> 到目标终点&nbsp;<code>destination</code> 存在至少一条路径</li>
-	<li>如果存在从始点&nbsp;<code>source</code> 到没有出边的节点的路径，则该节点就是路径终点。</li>
-	<li>从始点<code>source</code>到目标终点&nbsp;<code>destination</code> 可能路径数是有限数字</li>
+	<li>At least one path exists from the <code>source</code> node to the <code>destination</code> node</li>
+	<li>If a path exists from the <code>source</code> node to a node with no outgoing edges, then that node is equal to <code>destination</code>.</li>
+	<li>The number of possible paths from <code>source</code> to <code>destination</code> is a finite number.</li>
 </ul>
 
-<p>当从始点&nbsp;<code>source</code> 出发的所有路径都可以到达目标终点&nbsp;<code>destination</code> 时返回&nbsp;<code>true</code>，否则返回 <code>false</code>。</p>
+<p>Return <code>true</code> if and only if all roads from <code>source</code> lead to <code>destination</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1000-1099/1059.All%20Paths%20from%20Source%20Lead%20to%20Destination/images/485_example_1.png" style="height: 208px; width: 200px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1000-1099/1059.All%20Paths%20from%20Source%20Lead%20to%20Destination/images/485_example_1.png" style="width: 200px; height: 208px;" />
 <pre>
-<strong>输入：</strong>n = 3, edges = [[0,1],[0,2]], source = 0, destination = 2
-<strong>输出：</strong>false
-<strong>说明：</strong>节点 1 和节点 2 都可以到达，但也会卡在那里。
+<strong>Input:</strong> n = 3, edges = [[0,1],[0,2]], source = 0, destination = 2
+<strong>Output:</strong> false
+<strong>Explanation:</strong> It is possible to reach and get stuck on both node 1 and node 2.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1000-1099/1059.All%20Paths%20from%20Source%20Lead%20to%20Destination/images/485_example_2.png" style="height: 230px; width: 200px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1000-1099/1059.All%20Paths%20from%20Source%20Lead%20to%20Destination/images/485_example_2.png" style="width: 200px; height: 230px;" />
 <pre>
-<strong>输入：</strong>n = 4, edges = [[0,1],[0,3],[1,2],[2,1]], source = 0, destination = 3
-<strong>输出：</strong>false
-<strong>说明：</strong>有两种可能：在节点 3 处结束，或是在节点 1 和节点 2 之间无限循环。
+<strong>Input:</strong> n = 4, edges = [[0,1],[0,3],[1,2],[2,1]], source = 0, destination = 3
+<strong>Output:</strong> false
+<strong>Explanation:</strong> We have two possibilities: to end at node 3, or to loop over node 1 and node 2 indefinitely.
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1000-1099/1059.All%20Paths%20from%20Source%20Lead%20to%20Destination/images/485_example_3.png" style="height: 183px; width: 200px;" /></p>
-
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1000-1099/1059.All%20Paths%20from%20Source%20Lead%20to%20Destination/images/485_example_3.png" style="width: 200px; height: 183px;" />
 <pre>
-<strong>输入：</strong>n = 4, edges = [[0,1],[0,2],[1,3],[2,3]], source = 0, destination = 3
-<strong>输出：</strong>true
+<strong>Input:</strong> n = 4, edges = [[0,1],[0,2],[1,3],[2,3]], source = 0, destination = 3
+<strong>Output:</strong> true
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= edges.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>edges.length == 2</code></li>
-	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub>&nbsp;&lt;= n - 1</code></li>
+	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt;= n - 1</code></li>
 	<li><code>0 &lt;= source &lt;= n - 1</code></li>
 	<li><code>0 &lt;= destination &lt;= n - 1</code></li>
-	<li>给定的图中可能带有自环和平行边。</li>
+	<li>The given graph may have self-loops and parallel edges.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
-
-建图，然后从 `source` 出发，进行深度优先搜索：
-
-如果遇到了 `destination`，判断此时是否还有出边，如果有出边，返回 `false`，否则返回 `true`。
-
-如果遇到了环（此前访问过），或者遇到了没有出边的节点，直接返回 `false`。
-
-否则，我们把当前节点标记为已访问，然后对当前节点的所有出边进行深度优先搜索，只要有一条路径无法可以到达 `destination`，就返回 `false`，否则返回 `true`。
-
-过程中我们用一个数组 $f$ 记录每个节点的状态，每个 $f[i]$ 的值有三种，分别表示：
-
--   对于 $f[i] = 0$，表示节点 $i$ 未被访问；
--   对于 $f[i] = 1$，表示节点 $i$ 已被访问，且可以到达 `destination`；
--   对于 $f[i] = 2$，表示节点 $i$ 已被访问，但无法到达 `destination`。
-
-时间复杂度 $O(n)$。其中 $n$ 为节点数。
+### Solution 1
 
 <!-- tabs:start -->
 

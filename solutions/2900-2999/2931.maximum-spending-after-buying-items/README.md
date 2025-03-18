@@ -1,103 +1,98 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2931.Maximum%20Spending%20After%20Buying%20Items/README.md
+difficulty: Hard
 rating: 1822
-source: 第 117 场双周赛 Q4
+source: Biweekly Contest 117 Q4
 tags:
-    - 贪心
-    - 数组
-    - 矩阵
-    - 排序
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Matrix
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2931. 购买物品的最大开销](https://leetcode.cn/problems/maximum-spending-after-buying-items)
+# [2931. Maximum Spending After Buying Items](https://leetcode.com/problems/maximum-spending-after-buying-items)
 
-[English Version](/solution/2900-2999/2931.Maximum%20Spending%20After%20Buying%20Items/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始大小为&nbsp;<code>m * n</code>&nbsp;的整数矩阵&nbsp;<code>values</code>&nbsp;，表示&nbsp;<code>m</code>&nbsp;个不同商店里&nbsp;<code>m * n</code>&nbsp;件不同的物品。每个商店有 <code>n</code>&nbsp;件物品，第&nbsp;<code>i</code>&nbsp;个商店的第 <code>j</code>&nbsp;件物品的价值为&nbsp;<code>values[i][j]</code>&nbsp;。除此以外，第&nbsp;<code>i</code>&nbsp;个商店的物品已经按照价值非递增排好序了，也就是说对于所有&nbsp;<code>0 &lt;= j &lt; n - 1</code>&nbsp;都有&nbsp;<code>values[i][j] &gt;= values[i][j + 1]</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> <code>m * n</code> integer matrix <code>values</code>, representing the values of <code>m * n</code> different items in <code>m</code> different shops. Each shop has <code>n</code> items where the <code>j<sup>th</sup></code> item in the <code>i<sup>th</sup></code> shop has a value of <code>values[i][j]</code>. Additionally, the items in the <code>i<sup>th</sup></code> shop are sorted in non-increasing order of value. That is, <code>values[i][j] &gt;= values[i][j + 1]</code> for all <code>0 &lt;= j &lt; n - 1</code>.</p>
 
-<p>每一天，你可以在一个商店里购买一件物品。具体来说，在第&nbsp;<code>d</code>&nbsp;天，你可以：</p>
+<p>On each day, you would like to buy a single item from one of the shops. Specifically, On the <code>d<sup>th</sup></code> day you can:</p>
 
 <ul>
-	<li>选择商店&nbsp;<code>i</code>&nbsp;。</li>
-	<li>购买数组中最右边的物品&nbsp;<code>j</code>&nbsp;，开销为&nbsp;<code>values[i][j] * d</code>&nbsp;。换句话说，选择该商店中还没购买过的物品中最大的下标&nbsp;<code>j</code>&nbsp;，并且花费&nbsp;<code>values[i][j] * d</code>&nbsp;去购买。</li>
+	<li>Pick any shop <code>i</code>.</li>
+	<li>Buy the rightmost available item <code>j</code> for the price of <code>values[i][j] * d</code>. That is, find the greatest index <code>j</code> such that item <code>j</code> was never bought before, and buy it for the price of <code>values[i][j] * d</code>.</li>
 </ul>
 
-<p><strong>注意</strong>，所有物品都视为不同的物品。比方说如果你已经从商店 <code>1</code>&nbsp;购买了物品&nbsp;<code>0</code>&nbsp;，你还可以在别的商店里购买其他商店的物品&nbsp;<code>0</code>&nbsp;。</p>
+<p><strong>Note</strong> that all items are pairwise different. For example, if you have bought item <code>0</code> from shop <code>1</code>, you can still buy item <code>0</code> from any other shop.</p>
 
-<p>请你返回购买所有 <code>m * n</code>&nbsp;件物品需要的 <strong>最大开销</strong>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>values = [[8,5,2],[6,4,1],[9,7,3]]
-<b>输出：</b>285
-<b>解释：</b>第一天，从商店 1 购买物品 2 ，开销为 values[1][2] * 1 = 1 。
-第二天，从商店 0 购买物品 2 ，开销为 values[0][2] * 2 = 4 。
-第三天，从商店 2 购买物品 2 ，开销为 values[2][2] * 3 = 9 。
-第四天，从商店 1 购买物品 1 ，开销为 values[1][1] * 4 = 16 。
-第五天，从商店 0 购买物品 1 ，开销为 values[0][1] * 5 = 25 。
-第六天，从商店 1 购买物品 0 ，开销为 values[1][0] * 6 = 36 。
-第七天，从商店 2 购买物品 1 ，开销为 values[2][1] * 7 = 49 。
-第八天，从商店 0 购买物品 0 ，开销为 values[0][0] * 8 = 64 。
-第九天，从商店 2 购买物品 0 ，开销为 values[2][0] * 9 = 81 。
-所以总开销为 285 。
-285 是购买所有 m * n 件物品的最大总开销。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>values = [[10,8,6,4,2],[9,7,5,3,2]]
-<b>输出：</b>386
-<b>解释：</b>第一天，从商店 0 购买物品 4 ，开销为 values[0][4] * 1 = 2 。
-第二天，从商店 1 购买物品 4 ，开销为 values[1][4] * 2 = 4 。
-第三天，从商店 1 购买物品 3 ，开销为 values[1][3] * 3 = 9 。
-第四天，从商店 0 购买物品 3 ，开销为 values[0][3] * 4 = 16 。
-第五天，从商店 1 购买物品 2 ，开销为 values[1][2] * 5 = 25 。
-第六天，从商店 0 购买物品 2 ，开销为 values[0][2] * 6 = 36 。
-第七天，从商店 1 购买物品 1 ，开销为 values[1][1] * 7 = 49 。
-第八天，从商店 0 购买物品 1 ，开销为 values[0][1] * 8 = 64 。
-第九天，从商店 1 购买物品 0 ，开销为 values[1][0] * 9 = 81 。
-第十天，从商店 0 购买物品 0 ，开销为 values[0][0] * 10 = 100 。
-所以总开销为 386 。
-386 是购买所有 m * n 件物品的最大总开销。
-</pre>
+<p>Return <em>the <strong>maximum amount of money that can be spent</strong> on buying all </em> <code>m * n</code> <em>products</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> values = [[8,5,2],[6,4,1],[9,7,3]]
+<strong>Output:</strong> 285
+<strong>Explanation:</strong> On the first day, we buy product 2 from shop 1 for a price of values[1][2] * 1 = 1.
+On the second day, we buy product 2 from shop 0 for a price of values[0][2] * 2 = 4.
+On the third day, we buy product 2 from shop 2 for a price of values[2][2] * 3 = 9.
+On the fourth day, we buy product 1 from shop 1 for a price of values[1][1] * 4 = 16.
+On the fifth day, we buy product 1 from shop 0 for a price of values[0][1] * 5 = 25.
+On the sixth day, we buy product 0 from shop 1 for a price of values[1][0] * 6 = 36.
+On the seventh day, we buy product 1 from shop 2 for a price of values[2][1] * 7 = 49.
+On the eighth day, we buy product 0 from shop 0 for a price of values[0][0] * 8 = 64.
+On the ninth day, we buy product 0 from shop 2 for a price of values[2][0] * 9 = 81.
+Hence, our total spending is equal to 285.
+It can be shown that 285 is the maximum amount of money that can be spent buying all m * n products. 
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> values = [[10,8,6,4,2],[9,7,5,3,2]]
+<strong>Output:</strong> 386
+<strong>Explanation:</strong> On the first day, we buy product 4 from shop 0 for a price of values[0][4] * 1 = 2.
+On the second day, we buy product 4 from shop 1 for a price of values[1][4] * 2 = 4.
+On the third day, we buy product 3 from shop 1 for a price of values[1][3] * 3 = 9.
+On the fourth day, we buy product 3 from shop 0 for a price of values[0][3] * 4 = 16.
+On the fifth day, we buy product 2 from shop 1 for a price of values[1][2] * 5 = 25.
+On the sixth day, we buy product 2 from shop 0 for a price of values[0][2] * 6 = 36.
+On the seventh day, we buy product 1 from shop 1 for a price of values[1][1] * 7 = 49.
+On the eighth day, we buy product 1 from shop 0 for a price of values[0][1] * 8 = 64
+On the ninth day, we buy product 0 from shop 1 for a price of values[1][0] * 9 = 81.
+On the tenth day, we buy product 0 from shop 0 for a price of values[0][0] * 10 = 100.
+Hence, our total spending is equal to 386.
+It can be shown that 386 is the maximum amount of money that can be spent buying all m * n products.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= m == values.length &lt;= 10</code></li>
 	<li><code>1 &lt;= n == values[i].length &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= values[i][j] &lt;= 10<sup>6</sup></code></li>
-	<li><code>values[i]</code>&nbsp;按照非递增顺序排序。</li>
+	<li><code>values[i]</code> are sorted in non-increasing order.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 优先队列
+### Solution 1: Greedy + Priority Queue
 
-根据题目描述，我们应该优先选择价值越小的物品，把价值越大的物品留到后面购买，这样才能使得总开销最大。因此，我们使用优先队列（小根堆）存储每个商店中还未购买的最小价值的物品。初始时，我们将每个商店中最右边的物品加入优先队列。
+According to the problem description, we should prioritize purchasing items with smaller values and leave items with larger values to be purchased later in order to maximize the total cost. Therefore, we use a priority queue (min-heap) to store the smallest value item that has not been purchased in each store. Initially, we add the rightmost item in each store to the priority queue.
 
-在每一天，我们从优先队列中取出价值最小的物品，将其加入答案，并将该物品所在商店中的上一个物品加入优先队列。我们重复上述操作，直到优先队列为空。
+Each day, we take out the item with the smallest value from the priority queue, add it to the answer, and add the previous item in the store where the item is located to the priority queue. We repeat the above operation until the priority queue is empty.
 
-时间复杂度 $O(m \times n \times \log m)$，空间复杂度 $O(m)$。其中 $m$ 和 $n$ 分别是数组 $values$ 的行数和列数。
+The time complexity is $O(m \times n \times \log m)$, and the space complexity is $O(m)$. Here, $m$ and $n$ are the number of rows and columns of the array $values$, respectively.
 
 <!-- tabs:start -->
 

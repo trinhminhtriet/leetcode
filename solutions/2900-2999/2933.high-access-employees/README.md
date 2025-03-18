@@ -1,96 +1,91 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2933.High-Access%20Employees/README.md
+difficulty: Medium
 rating: 1536
-source: 第 371 场周赛 Q2
+source: Weekly Contest 371 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
-    - 排序
+    - Array
+    - Hash Table
+    - String
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2933. 高访问员工](https://leetcode.cn/problems/high-access-employees)
+# [2933. High-Access Employees](https://leetcode.com/problems/high-access-employees)
 
-[English Version](/solution/2900-2999/2933.High-Access%20Employees/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code> 、下标从 <strong>0</strong> 开始的二维字符串数组 <code>access_times</code> 。对于每个 <code>i</code>（<code>0 &lt;= i &lt;= n - 1</code> ），<code>access_times[i][0]</code> 表示某位员工的姓名，<code>access_times[i][1]</code> 表示该员工的访问时间。<code>access_times</code> 中的所有条目都发生在同一天内。</p>
+<p>You are given a 2D <strong>0-indexed</strong> array of strings, <code>access_times</code>, with size <code>n</code>. For each <code>i</code> where <code>0 &lt;= i &lt;= n - 1</code>, <code>access_times[i][0]</code> represents the name of an employee, and <code>access_times[i][1]</code> represents the access time of that employee. All entries in <code>access_times</code> are within the same day.</p>
 
-<p>访问时间用 <strong>四位</strong> 数字表示， 符合 <strong>24 小时制</strong> ，例如 <code>"0800"</code> 或 <code>"2250"</code> 。</p>
+<p>The access time is represented as <strong>four digits</strong> using a <strong>24-hour</strong> time format, for example, <code>&quot;0800&quot;</code> or <code>&quot;2250&quot;</code>.</p>
 
-<p>如果员工在 <strong>同一小时内</strong> 访问系统 <strong>三次或更多</strong> ，则称其为 <strong>高访问</strong> 员工。</p>
+<p>An employee is said to be <strong>high-access</strong> if he has accessed the system <strong>three or more</strong> times within a <strong>one-hour period</strong>.</p>
 
-<p>时间间隔正好相差一小时的时间 <strong>不</strong> 被视为同一小时内。例如，<code>"0815"</code> 和 <code>"0915"</code> 不属于同一小时内。</p>
+<p>Times with exactly one hour of difference are <strong>not</strong> considered part of the same one-hour period. For example, <code>&quot;0815&quot;</code> and <code>&quot;0915&quot;</code> are not part of the same one-hour period.</p>
 
-<p>一天开始和结束时的访问时间不被计算为同一小时内。例如，<code>"0005"</code> 和 <code>"2350"</code> 不属于同一小时内。</p>
+<p>Access times at the start and end of the day are <strong>not</strong> counted within the same one-hour period. For example, <code>&quot;0005&quot;</code> and <code>&quot;2350&quot;</code> are not part of the same one-hour period.</p>
 
-<p>以列表形式，按任意顺序，返回所有 <strong>高访问</strong> 员工的姓名。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>access_times = [["a","0549"],["b","0457"],["a","0532"],["a","0621"],["b","0540"]]
-<strong>输出：</strong>["a"]
-<strong>解释：</strong>"a" 在时间段 [05:32, 06:31] 内有三条访问记录，时间分别为 05:32 、05:49 和 06:21 。
-但是 "b" 的访问记录只有两条。
-因此，答案是 ["a"] 。</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>access_times = [["d","0002"],["c","0808"],["c","0829"],["e","0215"],["d","1508"],["d","1444"],["d","1410"],["c","0809"]]
-<strong>输出：</strong>["c","d"]
-<strong>解释：</strong>"c" 在时间段 [08:08, 09:07] 内有三条访问记录，时间分别为 08:08 、08:09 和 08:29 。
-"d" 在时间段 [14:10, 15:09] 内有三条访问记录，时间分别为 14:10 、14:44 和 15:08 。
-然而，"e" 只有一条访问记录，因此不能包含在答案中，最终答案是 ["c","d"] 。</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>access_times = [["cd","1025"],["ab","1025"],["cd","1046"],["cd","1055"],["ab","1124"],["ab","1120"]]
-<strong>输出：</strong>["ab","cd"]
-<strong>解释：</strong>"ab"在时间段 [10:25, 11:24] 内有三条访问记录，时间分别为 10:25 、11:20 和 11:24 。
-"cd" 在时间段 [10:25, 11:24] 内有三条访问记录，时间分别为 10:25 、10:46 和 10:55 。
-因此，答案是 ["ab","cd"] 。</pre>
+<p>Return <em>a list that contains the names of <strong>high-access</strong> employees with any order you want.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> access_times = [[&quot;a&quot;,&quot;0549&quot;],[&quot;b&quot;,&quot;0457&quot;],[&quot;a&quot;,&quot;0532&quot;],[&quot;a&quot;,&quot;0621&quot;],[&quot;b&quot;,&quot;0540&quot;]]
+<strong>Output:</strong> [&quot;a&quot;]
+<strong>Explanation:</strong> &quot;a&quot; has three access times in the one-hour period of [05:32, 06:31] which are 05:32, 05:49, and 06:21.
+But &quot;b&quot; does not have more than two access times at all.
+So the answer is [&quot;a&quot;].</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> access_times = [[&quot;d&quot;,&quot;0002&quot;],[&quot;c&quot;,&quot;0808&quot;],[&quot;c&quot;,&quot;0829&quot;],[&quot;e&quot;,&quot;0215&quot;],[&quot;d&quot;,&quot;1508&quot;],[&quot;d&quot;,&quot;1444&quot;],[&quot;d&quot;,&quot;1410&quot;],[&quot;c&quot;,&quot;0809&quot;]]
+<strong>Output:</strong> [&quot;c&quot;,&quot;d&quot;]
+<strong>Explanation:</strong> &quot;c&quot; has three access times in the one-hour period of [08:08, 09:07] which are 08:08, 08:09, and 08:29.
+&quot;d&quot; has also three access times in the one-hour period of [14:10, 15:09] which are 14:10, 14:44, and 15:08.
+However, &quot;e&quot; has just one access time, so it can not be in the answer and the final answer is [&quot;c&quot;,&quot;d&quot;].</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> access_times = [[&quot;cd&quot;,&quot;1025&quot;],[&quot;ab&quot;,&quot;1025&quot;],[&quot;cd&quot;,&quot;1046&quot;],[&quot;cd&quot;,&quot;1055&quot;],[&quot;ab&quot;,&quot;1124&quot;],[&quot;ab&quot;,&quot;1120&quot;]]
+<strong>Output:</strong> [&quot;ab&quot;,&quot;cd&quot;]
+<strong>Explanation:</strong> &quot;ab&quot; has three access times in the one-hour period of [10:25, 11:24] which are 10:25, 11:20, and 11:24.
+&quot;cd&quot; has also three access times in the one-hour period of [10:25, 11:24] which are 10:25, 10:46, and 10:55.
+So the answer is [&quot;ab&quot;,&quot;cd&quot;].</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= access_times.length &lt;= 100</code></li>
 	<li><code>access_times[i].length == 2</code></li>
 	<li><code>1 &lt;= access_times[i][0].length &lt;= 10</code></li>
-	<li><code>access_times[i][0]</code> 仅由小写英文字母组成。</li>
+	<li><code>access_times[i][0]</code> consists only of English small letters.</li>
 	<li><code>access_times[i][1].length == 4</code></li>
-	<li><code>access_times[i][1]</code> 采用24小时制表示时间。</li>
-	<li><code>access_times[i][1]</code> 仅由数字 <code>'0'</code> 到 <code>'9'</code> 组成。</li>
+	<li><code>access_times[i][1]</code> is in 24-hour time format.</li>
+	<li><code>access_times[i][1]</code> consists only of <code>&#39;0&#39;</code> to <code>&#39;9&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 排序
+### Solution 1: Hash Table + Sorting
 
-我们用一个哈希表 $d$ 来存储每个员工的所有访问时间，其中键为员工的姓名，值为一个整数数组，表示该员工的所有访问时间，该时间为从当天 00:00 开始的分钟数。
+We use a hash table $d$ to store all access times of each employee, where the key is the employee's name, and the value is an integer array, representing all access times of the employee, which are the number of minutes from the start of the day at 00:00.
 
-对于每个员工，我们将其所有访问时间按照从小到大的顺序进行排序。然后我们遍历该员工的所有访问时间，如果存在连续的三个访问时间 $t_1, t_2, t_3$，满足 $t_3 - t_1 < 60$，则该员工为高访问员工，我们将其姓名加入答案数组中。
+For each employee, we sort all their access times in ascending order. Then we traverse all access times of the employee. If there are three consecutive access times $t_1, t_2, t_3$ that satisfy $t_3 - t_1 < 60$, then the employee is a high-frequency visitor, and we add their name to the answer array.
 
-最后，返回答案数组即可。
+Finally, we return the answer array.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为访问记录的数量。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of access records.
 
 <!-- tabs:start -->
 

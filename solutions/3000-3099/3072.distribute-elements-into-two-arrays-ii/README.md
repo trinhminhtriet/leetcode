@@ -1,82 +1,77 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3072.Distribute%20Elements%20Into%20Two%20Arrays%20II/README.md
+difficulty: Hard
 rating: 2052
-source: 第 387 场周赛 Q4
+source: Weekly Contest 387 Q4
 tags:
-    - 树状数组
-    - 线段树
-    - 数组
-    - 模拟
+    - Binary Indexed Tree
+    - Segment Tree
+    - Array
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [3072. 将元素分配到两个数组中 II](https://leetcode.cn/problems/distribute-elements-into-two-arrays-ii)
+# [3072. Distribute Elements Into Two Arrays II](https://leetcode.com/problems/distribute-elements-into-two-arrays-ii)
 
-[English Version](/solution/3000-3099/3072.Distribute%20Elements%20Into%20Two%20Arrays%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>1</strong> 开始、长度为 <code>n</code> 的整数数组 <code>nums</code> 。</p>
+<p>You are given a <strong>1-indexed</strong> array of integers <code>nums</code> of length <code>n</code>.</p>
 
-<p>现定义函数 <code>greaterCount</code> ，使得 <code>greaterCount(arr, val)</code> 返回数组 <code>arr</code> 中<strong> 严格大于</strong> <code>val</code> 的元素数量。</p>
+<p>We define a function <code>greaterCount</code> such that <code>greaterCount(arr, val)</code> returns the number of elements in <code>arr</code> that are <strong>strictly greater</strong> than <code>val</code>.</p>
 
-<p>你需要使用 <code>n</code> 次操作，将 <code>nums</code> 的所有元素分配到两个数组 <code>arr1</code> 和 <code>arr2</code> 中。在第一次操作中，将 <code>nums[1]</code> 追加到 <code>arr1</code> 。在第二次操作中，将 <code>nums[2]</code> 追加到 <code>arr2</code> 。之后，在第 <code>i</code> 次操作中：</p>
+<p>You need to distribute all the elements of <code>nums</code> between two arrays <code>arr1</code> and <code>arr2</code> using <code>n</code> operations. In the first operation, append <code>nums[1]</code> to <code>arr1</code>. In the second operation, append <code>nums[2]</code> to <code>arr2</code>. Afterwards, in the <code>i<sup>th</sup></code> operation:</p>
 
 <ul>
-	<li>如果 <code>greaterCount(arr1, nums[i]) &gt; greaterCount(arr2, nums[i])</code> ，将 <code>nums[i]</code> 追加到 <code>arr1</code> 。</li>
-	<li>如果 <code>greaterCount(arr1, nums[i]) &lt; greaterCount(arr2, nums[i])</code> ，将 <code>nums[i]</code> 追加到 <code>arr2</code> 。</li>
-	<li>如果 <code>greaterCount(arr1, nums[i]) == greaterCount(arr2, nums[i])</code> ，将 <code>nums[i]</code> 追加到元素数量较少的数组中。</li>
-	<li>如果仍然相等，那么将 <code>nums[i]</code> 追加到 <code>arr1</code> 。</li>
+	<li>If <code>greaterCount(arr1, nums[i]) &gt; greaterCount(arr2, nums[i])</code>, append <code>nums[i]</code> to <code>arr1</code>.</li>
+	<li>If <code>greaterCount(arr1, nums[i]) &lt; greaterCount(arr2, nums[i])</code>, append <code>nums[i]</code> to <code>arr2</code>.</li>
+	<li>If <code>greaterCount(arr1, nums[i]) == greaterCount(arr2, nums[i])</code>, append <code>nums[i]</code> to the array with a <strong>lesser</strong> number of elements.</li>
+	<li>If there is still a tie, append <code>nums[i]</code> to <code>arr1</code>.</li>
 </ul>
 
-<p>连接数组 <code>arr1</code> 和 <code>arr2</code> 形成数组 <code>result</code> 。例如，如果 <code>arr1 == [1,2,3]</code> 且 <code>arr2 == [4,5,6]</code> ，那么 <code>result = [1,2,3,4,5,6]</code> 。</p>
+<p>The array <code>result</code> is formed by concatenating the arrays <code>arr1</code> and <code>arr2</code>. For example, if <code>arr1 == [1,2,3]</code> and <code>arr2 == [4,5,6]</code>, then <code>result = [1,2,3,4,5,6]</code>.</p>
 
-<p>返回整数数组 <code>result</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [2,1,3,3]
-<strong>输出：</strong>[2,3,1,3]
-<strong>解释：</strong>在前两次操作后，arr1 = [2] ，arr2 = [1] 。
-在第 3 次操作中，两个数组中大于 3 的元素数量都是零，并且长度相等，因此，将 nums[3] 追加到 arr1 。
-在第 4 次操作中，两个数组中大于 3 的元素数量都是零，但 arr2 的长度较小，因此，将 nums[4] 追加到 arr2 。
-在 4 次操作后，arr1 = [2,3] ，arr2 = [1,3] 。
-因此，连接形成的数组 result 是 [2,3,1,3] 。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [5,14,3,1,2]
-<strong>输出：</strong>[5,3,1,2,14]
-<strong>解释：</strong>在前两次操作后，arr1 = [5] ，arr2 = [14] 。
-在第 3 次操作中，两个数组中大于 3 的元素数量都是一，并且长度相等，因此，将 nums[3] 追加到 arr1 。
-在第 4 次操作中，arr1 中大于 1 的元素数量大于 arr2 中的数量（2 &gt; 1），因此，将 nums[4] 追加到 arr1 。
-在第 5 次操作中，arr1 中大于 2 的元素数量大于 arr2 中的数量（2 &gt; 1），因此，将 nums[5] 追加到 arr1 。
-在 5 次操作后，arr1 = [5,3,1,2] ，arr2 = [14] 。
-因此，连接形成的数组 result 是 [5,3,1,2,14] 。
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [3,3,3,3]
-<strong>输出：</strong>[3,3,3,3]
-<strong>解释：</strong>在 4 次操作后，arr1 = [3,3] ，arr2 = [3,3] 。
-因此，连接形成的数组 result 是 [3,3,3,3] 。
-</pre>
+<p>Return <em>the integer array</em> <code>result</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [2,1,3,3]
+<strong>Output:</strong> [2,3,1,3]
+<strong>Explanation:</strong> After the first 2 operations, arr1 = [2] and arr2 = [1].
+In the 3<sup>rd</sup> operation, the number of elements greater than 3 is zero in both arrays. Also, the lengths are equal, hence, append nums[3] to arr1.
+In the 4<sup>th</sup> operation, the number of elements greater than 3 is zero in both arrays. As the length of arr2 is lesser, hence, append nums[4] to arr2.
+After 4 operations, arr1 = [2,3] and arr2 = [1,3].
+Hence, the array result formed by concatenation is [2,3,1,3].
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [5,14,3,1,2]
+<strong>Output:</strong> [5,3,1,2,14]
+<strong>Explanation:</strong> After the first 2 operations, arr1 = [5] and arr2 = [14].
+In the 3<sup>rd</sup> operation, the number of elements greater than 3 is one in both arrays. Also, the lengths are equal, hence, append nums[3] to arr1.
+In the 4<sup>th</sup> operation, the number of elements greater than 1 is greater in arr1 than arr2 (2 &gt; 1). Hence, append nums[4] to arr1.
+In the 5<sup>th</sup> operation, the number of elements greater than 2 is greater in arr1 than arr2 (2 &gt; 1). Hence, append nums[5] to arr1.
+After 5 operations, arr1 = [5,3,1,2] and arr2 = [14].
+Hence, the array result formed by concatenation is [5,3,1,2,14].
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [3,3,3,3]
+<strong>Output:</strong> [3,3,3,3]
+<strong>Explanation:</strong> At the end of 4 operations, arr1 = [3,3] and arr2 = [3,3].
+Hence, the array result formed by concatenation is [3,3,3,3].
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= n &lt;= 10<sup>5</sup></code></li>
@@ -85,17 +80,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：离散化 + 树状数组
+### Solution 1: Discretization + Binary Indexed Tree
 
-我们可以用两个树状数组 `tree1` 和 `tree2` 分别维护 `arr1` 和 `arr2` 中小于等于某个数的元素个数。每一次，我们在树状数组中查询小于等于当前数的元素个数，那么大于当前数的元素个数就是当前数组的长度减去查询的结果。然后我们就可以根据这个差值来决定将当前数加入到哪个数组中。
+We can use two binary indexed trees `tree1` and `tree2` to maintain the number of elements in `arr1` and `arr2` that are less than or equal to a certain number. Each time, we query the number of elements that are less than or equal to the current number in the binary indexed tree, then the number of elements that are greater than the current number is the length of the current array minus the query result. Then we can decide which array to add the current number to based on this difference.
 
-由于题目中给出的数的范围很大，所以我们需要对这些数进行离散化。我们可以将这些数排序后去重，然后用二分查找来找到每个数在排序后的数组中的位置。
+Since the range of numbers given in the problem is very large, we need to discretize these numbers. We can sort these numbers and remove duplicates, then use binary search to find the position of each number in the sorted array.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 `nums` 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$, where $n$ is the length of the array `nums`.
 
 <!-- tabs:start -->
 
@@ -436,64 +431,6 @@ function resultArray(nums: number[]): number[] {
         }
     }
     return arr1.concat(arr2);
-}
-```
-
-#### PHP
-
-```php
-class Solution {
-    /**
-     * @param String $s
-     * @param String[] $words
-     * @return Integer[]
-     */
-    function findSubstring($s, $words) {
-        $cnt = [];
-        foreach ($words as $w) {
-            if (!isset($cnt[$w])) {
-                $cnt[$w] = 1;
-            } else {
-                $cnt[$w]++;
-            }
-        }
-        $m = strlen($s);
-        $n = count($words);
-        $k = strlen($words[0]);
-        $ans = [];
-        for ($i = 0; $i < $k; ++$i) {
-            $cnt1 = [];
-            $l = $i;
-            $r = $i;
-            $t = 0;
-            while ($r + $k <= $m) {
-                $w = substr($s, $r, $k);
-                $r += $k;
-                if (!array_key_exists($w, $cnt)) {
-                    $cnt1 = [];
-                    $l = $r;
-                    $t = 0;
-                    continue;
-                }
-                if (!isset($cnt1[$w])) {
-                    $cnt1[$w] = 1;
-                } else {
-                    $cnt1[$w]++;
-                }
-                ++$t;
-                while ($cnt1[$w] > $cnt[$w]) {
-                    $remove = substr($s, $l, $k);
-                    $l += $k;
-                    $cnt1[$remove]--;
-                    $t--;
-                }
-                if ($t == $n) {
-                    $ans[] = $l;
-                }
-            }
-        }
-        return $ans;
-    }
 }
 ```
 

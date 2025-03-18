@@ -1,90 +1,83 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2565.Subsequence%20With%20the%20Minimum%20Score/README.md
+difficulty: Hard
 rating: 2432
-source: 第 332 场周赛 Q4
+source: Weekly Contest 332 Q4
 tags:
-    - 双指针
-    - 字符串
-    - 二分查找
+    - Two Pointers
+    - String
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [2565. 最少得分子序列](https://leetcode.cn/problems/subsequence-with-the-minimum-score)
+# [2565. Subsequence With the Minimum Score](https://leetcode.com/problems/subsequence-with-the-minimum-score)
 
-[English Version](/solution/2500-2599/2565.Subsequence%20With%20the%20Minimum%20Score/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串&nbsp;<code>s</code> 和&nbsp;<code>t</code>&nbsp;。</p>
+<p>You are given two strings <code>s</code> and <code>t</code>.</p>
 
-<p>你可以从字符串 <code>t</code>&nbsp;中删除任意数目的字符。</p>
+<p>You are allowed to remove any number of characters from the string <code>t</code>.</p>
 
-<p>如果没有从字符串&nbsp;<code>t</code>&nbsp;中删除字符，那么得分为&nbsp;<code>0</code>&nbsp;，否则：</p>
+<p>The score of the string is <code>0</code> if no characters are removed from the string <code>t</code>, otherwise:</p>
 
 <ul>
-	<li>令&nbsp;<code>left</code>&nbsp;为删除字符中的最小下标。</li>
-	<li>令&nbsp;<code>right</code>&nbsp;为删除字符中的最大下标。</li>
+	<li>Let <code>left</code> be the minimum index among all removed characters.</li>
+	<li>Let <code>right</code> be the maximum index among all removed characters.</li>
 </ul>
 
-<p>字符串的得分为&nbsp;<code>right - left + 1</code>&nbsp;。</p>
+<p>Then the score of the string is <code>right - left + 1</code>.</p>
 
-<p>请你返回使<em>&nbsp;</em><code>t</code><em> </em>成为<em>&nbsp;</em><code>s</code>&nbsp;子序列的最小得分。</p>
+<p>Return <em>the minimum possible score to make </em><code>t</code><em>&nbsp;a subsequence of </em><code>s</code><em>.</em></p>
 
-<p>一个字符串的 <strong>子序列</strong>&nbsp;是从原字符串中删除一些字符后（也可以一个也不删除），剩余字符不改变顺序得到的字符串。（比方说&nbsp;<code>"ace"</code> 是&nbsp;<code>"<strong><em>a</em></strong>b<strong><em>c</em></strong>d<strong><em>e</em></strong>"</code>&nbsp;的子序列，但是&nbsp;<code>"aec"</code>&nbsp;不是）。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>s = "abacaba", t = "bzaa"
-<b>输出：</b>1
-<b>解释：</b>这个例子中，我们删除下标 1 处的字符 "z" （下标从 0 开始）。
-字符串 t 变为 "baa" ，它是字符串 "abacaba" 的子序列，得分为 1 - 1 + 1 = 1 。
-1 是能得到的最小得分。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>s = "cde", t = "xyz"
-<b>输出：</b>3
-<b>解释：</b>这个例子中，我们将下标为 0， 1 和 2 处的字符 "x" ，"y" 和 "z" 删除（下标从 0 开始）。
-字符串变成 "" ，它是字符串 "cde" 的子序列，得分为 2 - 0 + 1 = 3 。
-3 是能得到的最小得分。
-</pre>
+<p>A <strong>subsequence</strong> of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., <code>&quot;ace&quot;</code> is a subsequence of <code>&quot;<u>a</u>b<u>c</u>d<u>e</u>&quot;</code> while <code>&quot;aec&quot;</code> is not).</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;abacaba&quot;, t = &quot;bzaa&quot;
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> In this example, we remove the character &quot;z&quot; at index 1 (0-indexed).
+The string t becomes &quot;baa&quot; which is a subsequence of the string &quot;abacaba&quot; and the score is 1 - 1 + 1 = 1.
+It can be proven that 1 is the minimum score that we can achieve.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;cde&quot;, t = &quot;xyz&quot;
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> In this example, we remove characters &quot;x&quot;, &quot;y&quot; and &quot;z&quot; at indices 0, 1, and 2 (0-indexed).
+The string t becomes &quot;&quot; which is a subsequence of the string &quot;cde&quot; and the score is 2 - 0 + 1 = 3.
+It can be proven that 3 is the minimum score that we can achieve.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length, t.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> 和&nbsp;<code>t</code>&nbsp;都只包含小写英文字母。</li>
+	<li><code>s</code> and <code>t</code> consist of only lowercase English letters.</li>
 </ul>
-
-<p>&nbsp;</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前后缀预处理 + 二分查找
+### Solution 1: Prefix and Suffix Preprocessing + Binary Search
 
-根据题目我们知道，删除字符的下标范围是 `[left, right]`，最优的做法一定是删除 `[left, right]` 范围内的所有字符。也就是说，我们要删除字符串 $t$ 中的一个子串，使得字符串 $t$ 的剩余前缀可以匹配字符串 $s$ 的前缀，字符串 $t$ 的剩余后缀可以匹配字符串 $s$ 的后缀，且字符串 $s$ 的前后缀不相交。注意，这里的匹配指的是子序列匹配。
+According to the problem, we know that the range of the index to delete characters is `[left, right]`. The optimal approach is to delete all characters within the range `[left, right]`. In other words, we need to delete a substring from string $t$, so that the remaining prefix of string $t$ can match the prefix of string $s$, and the remaining suffix of string $t$ can match the suffix of string $s$, and the prefix and suffix of string $s$ do not overlap. Note that the match here refers to subsequence matching.
 
-因此，我们可以先预处理得到数组 $f$ 和 $g$，其中 $f[i]$ 表示字符串 $t$ 的前缀 $t[0,..i]$ 中，最少与字符串前 $[0,..f[i]]$ 个字符匹配；同理 $g[i]$ 表示字符串 $t$ 的后缀 $t[i,..n-1]$ 中，最多与字符串后 $[g[i],..n-1]$ 个字符匹配。
+Therefore, we can preprocess to get arrays $f$ and $g$, where $f[i]$ represents the minimum number of characters in the prefix $t[0,..i]$ of string $t$ that match the first $[0,..f[i]]$ characters of string $s$; similarly, $g[i]$ represents the maximum number of characters in the suffix $t[i,..n-1]$ of string $t$ that match the last $[g[i],..n-1]$ characters of string $s$.
 
-而删除字符的长度具备单调性，如果删除长度为 $x$ 的字符串后，满足条件，那么删除长度为 $x+1$ 的字符串也一定满足条件。因此，我们可以使用二分查找的方法，找到最小的满足条件的长度。
+The length of the deleted characters has monotonicity. If the condition is satisfied after deleting a string of length $x$, then the condition is definitely satisfied after deleting a string of length $x+1$. Therefore, we can use the method of binary search to find the smallest length that satisfies the condition.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $t$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of string $t$.
 
 <!-- tabs:start -->
 

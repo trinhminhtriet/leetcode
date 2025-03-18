@@ -1,56 +1,54 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1802.Maximum%20Value%20at%20a%20Given%20Index%20in%20a%20Bounded%20Array/README.md
+difficulty: Medium
 rating: 1929
-source: 第 233 场周赛 Q3
+source: Weekly Contest 233 Q3
 tags:
-    - 贪心
-    - 二分查找
+    - Greedy
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [1802. 有界数组中指定下标处的最大值](https://leetcode.cn/problems/maximum-value-at-a-given-index-in-a-bounded-array)
+# [1802. Maximum Value at a Given Index in a Bounded Array](https://leetcode.com/problems/maximum-value-at-a-given-index-in-a-bounded-array)
 
-[English Version](/solution/1800-1899/1802.Maximum%20Value%20at%20a%20Given%20Index%20in%20a%20Bounded%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你三个正整数 <code>n</code>、<code>index</code> 和 <code>maxSum</code> 。你需要构造一个同时满足下述所有条件的数组 <code>nums</code>（下标 <strong>从 0 开始</strong> 计数）：</p>
+<p>You are given three positive integers:&nbsp;<code>n</code>, <code>index</code>, and <code>maxSum</code>. You want to construct an array <code>nums</code> (<strong>0-indexed</strong>)<strong> </strong>that satisfies the following conditions:</p>
 
 <ul>
 	<li><code>nums.length == n</code></li>
-	<li><code>nums[i]</code> 是 <strong>正整数</strong> ，其中 <code>0 &lt;= i &lt; n</code></li>
-	<li><code>abs(nums[i] - nums[i+1]) &lt;= 1</code> ，其中 <code>0 &lt;= i &lt; n-1</code></li>
-	<li><code>nums</code> 中所有元素之和不超过 <code>maxSum</code></li>
-	<li><code>nums[index]</code> 的值被 <strong>最大化</strong></li>
+	<li><code>nums[i]</code> is a <strong>positive</strong> integer where <code>0 &lt;= i &lt; n</code>.</li>
+	<li><code>abs(nums[i] - nums[i+1]) &lt;= 1</code> where <code>0 &lt;= i &lt; n-1</code>.</li>
+	<li>The sum of all the elements of <code>nums</code> does not exceed <code>maxSum</code>.</li>
+	<li><code>nums[index]</code> is <strong>maximized</strong>.</li>
 </ul>
 
-<p>返回你所构造的数组中的 <code>nums[index]</code> 。</p>
+<p>Return <code>nums[index]</code><em> of the constructed array</em>.</p>
 
-<p>注意：<code>abs(x)</code> 等于 <code>x</code> 的前提是 <code>x &gt;= 0</code> ；否则，<code>abs(x)</code> 等于 <code>-x</code> 。</p>
+<p>Note that <code>abs(x)</code> equals <code>x</code> if <code>x &gt;= 0</code>, and <code>-x</code> otherwise.</p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>n = 4, index = 2,  maxSum = 6
-<strong>输出：</strong>2
-<strong>解释：</strong>数组 [1,1,<strong>2</strong>,1] 和 [1,2,<strong>2</strong>,1] 满足所有条件。不存在其他在指定下标处具有更大值的有效数组。
+<pre>
+<strong>Input:</strong> n = 4, index = 2,  maxSum = 6
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> nums = [1,2,<u><strong>2</strong></u>,1] is one array that satisfies all the conditions.
+There are no arrays that satisfy all the conditions and have nums[2] == 3, so 2 is the maximum nums[2].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>n = 6, index = 1,  maxSum = 10
-<strong>输出：</strong>3
+<pre>
+<strong>Input:</strong> n = 6, index = 1,  maxSum = 10
+<strong>Output:</strong> 3
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= maxSum &lt;= 10<sup>9</sup></code></li>
@@ -59,26 +57,26 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-根据题目描述，如果我们确定了 $nums[index]$ 的值为 $x$，此时我们可以找到一个最小的数组总和。也就是说，在 $index$ 左侧的数组元素从 $x-1$ 一直递减到 $1$，如果还有剩余的元素，那么剩余的元素都为 $1$；同理，在 $index$ 及右侧的数组元素从 $x$ 一直递减到 $1$，如果还有剩余的元素，那么剩余的元素都为 $1$。
+According to the problem description, if we determine the value of $nums[index]$ as $x$, we can find a minimum array sum. That is, the elements on the left side of $index$ in the array decrease from $x-1$ to $1$, and if there are remaining elements, the remaining elements are all $1$; similarly, the elements at $index$ and on the right side of the array decrease from $x$ to $1$, and if there are remaining elements, the remaining elements are all $1$.
 
-这样我们就可以计算出数组的总和，如果总和小于等于 $maxSum$，那么此时的 $x$ 是合法的。随着 $x$ 的增大，数组的总和也会增大，因此我们可以使用二分查找的方法，找到一个最大的且符合条件的 $x$。
+In this way, we can calculate the sum of the array. If the sum is less than or equal to $maxSum$, then the current $x$ is valid. As $x$ increases, the sum of the array will also increase, so we can use the binary search method to find the maximum $x$ that meets the conditions.
 
-为了方便计算数组左侧、右侧的元素之和，我们定义一个函数 $sum(x, cnt)$，表示一共有 $cnt$ 个元素，且最大值为 $x$ 的数组的总和。函数 $sum(x, cnt)$ 可以分为两种情况：
+To facilitate the calculation of the sum of the elements on the left and right sides of the array, we define a function $sum(x, cnt)$, which represents the sum of an array with $cnt$ elements and a maximum value of $x$. The function $sum(x, cnt)$ can be divided into two cases:
 
--   如果 $x \geq cnt$，那么数组的总和为 $\frac{(x + x - cnt + 1) \times cnt}{2}$
--   如果 $x \lt cnt$，那么数组的总和为 $\frac{(x + 1) \times x}{2} + cnt - x$
+-   If $x \geq cnt$, then the sum of the array is $\frac{(x + x - cnt + 1) \times cnt}{2}$
+-   If $x \lt cnt$, then the sum of the array is $\frac{(x + 1) \times x}{2} + cnt - x$
 
-接下来，定义二分的左边界 $left = 1$，右边界 $right = maxSum$，然后二分查找 $nums[index]$ 的值 $mid$，如果 $sum(mid - 1, index) + sum(mid, n - index) \leq maxSum$，那么此时的 $mid$ 是合法的，我们可以将 $left$ 更新为 $mid$，否则我们将 $right$ 更新为 $mid - 1$。
+Next, define the left boundary of the binary search as $left = 1$, the right boundary as $right = maxSum$, and then binary search for the value $mid$ of $nums[index]$. If $sum(mid - 1, index) + sum(mid, n - index) \leq maxSum$, then the current $mid$ is valid, we can update $left$ to $mid$, otherwise we update $right$ to $mid - 1$.
 
-最后将 $left$ 作为答案返回即可。
+Finally, return $left$ as the answer.
 
-时间复杂度 $O(\log M)$，其中 $M=maxSum$。空间复杂度 $O(1)$。
+The time complexity is $O(\log M)$, where $M=maxSum$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

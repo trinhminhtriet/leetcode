@@ -1,73 +1,59 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2022.Convert%201D%20Array%20Into%202D%20Array/README.md
+difficulty: Easy
 rating: 1307
-source: 第 62 场双周赛 Q1
+source: Biweekly Contest 62 Q1
 tags:
-    - 数组
-    - 矩阵
-    - 模拟
+    - Array
+    - Matrix
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2022. 将一维数组转变成二维数组](https://leetcode.cn/problems/convert-1d-array-into-2d-array)
+# [2022. Convert 1D Array Into 2D Array](https://leetcode.com/problems/convert-1d-array-into-2d-array)
 
-[English Version](/solution/2000-2099/2022.Convert%201D%20Array%20Into%202D%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的一维整数数组&nbsp;<code>original</code>&nbsp;和两个整数&nbsp;<code>m</code>&nbsp;和&nbsp;&nbsp;<code>n</code>&nbsp;。你需要使用&nbsp;<code>original</code>&nbsp;中&nbsp;<strong>所有</strong>&nbsp;元素创建一个&nbsp;<code>m</code>&nbsp;行&nbsp;<code>n</code>&nbsp;列的二维数组。</p>
+<p>You are given a <strong>0-indexed</strong> 1-dimensional (1D) integer array <code>original</code>, and two integers, <code>m</code> and <code>n</code>. You are tasked with creating a 2-dimensional (2D) array with <code> m</code> rows and <code>n</code> columns using <strong>all</strong> the elements from <code>original</code>.</p>
 
-<p><code>original</code>&nbsp;中下标从 <code>0</code>&nbsp;到 <code>n - 1</code>&nbsp;（都 <strong>包含</strong> ）的元素构成二维数组的第一行，下标从 <code>n</code>&nbsp;到 <code>2 * n - 1</code>&nbsp;（都 <strong>包含</strong>&nbsp;）的元素构成二维数组的第二行，依此类推。</p>
+<p>The elements from indices <code>0</code> to <code>n - 1</code> (<strong>inclusive</strong>) of <code>original</code> should form the first row of the constructed 2D array, the elements from indices <code>n</code> to <code>2 * n - 1</code> (<strong>inclusive</strong>) should form the second row of the constructed 2D array, and so on.</p>
 
-<p>请你根据上述过程返回一个<em>&nbsp;</em><code>m x n</code>&nbsp;的二维数组。如果无法构成这样的二维数组，请你返回一个空的二维数组。</p>
+<p>Return <em>an </em><code>m x n</code><em> 2D array constructed according to the above procedure, or an empty 2D array if it is impossible</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2022.Convert%201D%20Array%20Into%202D%20Array/images/image-20210826114243-1.png" style="width: 500px; height: 174px;">
-<pre><b>输入：</b>original = [1,2,3,4], m = 2, n = 2
-<b>输出：</b>[[1,2],[3,4]]
-<strong>解释：
-</strong>构造出的二维数组应该包含 2 行 2 列。
-original 中第一个 n=2 的部分为 [1,2] ，构成二维数组的第一行。
-original 中第二个 n=2 的部分为 [3,4] ，构成二维数组的第二行。
+<p><strong class="example">Example 1:</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2022.Convert%201D%20Array%20Into%202D%20Array/images/image-20210826114243-1.png" style="width: 500px; height: 174px;" />
+<pre>
+<strong>Input:</strong> original = [1,2,3,4], m = 2, n = 2
+<strong>Output:</strong> [[1,2],[3,4]]
+<strong>Explanation:</strong> The constructed 2D array should contain 2 rows and 2 columns.
+The first group of n=2 elements in original, [1,2], becomes the first row in the constructed 2D array.
+The second group of n=2 elements in original, [3,4], becomes the second row in the constructed 2D array.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>original = [1,2,3], m = 1, n = 3
-<b>输出：</b>[[1,2,3]]
-<b>解释：</b>
-构造出的二维数组应该包含 1 行 3 列。
-将 original 中所有三个元素放入第一行中，构成要求的二维数组。
+<pre>
+<strong>Input:</strong> original = [1,2,3], m = 1, n = 3
+<strong>Output:</strong> [[1,2,3]]
+<strong>Explanation:</strong> The constructed 2D array should contain 1 row and 3 columns.
+Put all three elements in original into the first row of the constructed 2D array.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><b>输入：</b>original = [1,2], m = 1, n = 1
-<b>输出：</b>[]
-<strong>解释：
-</strong>original 中有 2 个元素。
-无法将 2 个元素放入到一个 1x1 的二维数组中，所以返回一个空的二维数组。
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><b>输入：</b>original = [3], m = 1, n = 2
-<b>输出：</b>[]
-<strong>解释：</strong>
-original 中只有 1 个元素。
-无法将 1 个元素放满一个 1x2 的二维数组，所以返回一个空的二维数组。
+<pre>
+<strong>Input:</strong> original = [1,2], m = 1, n = 1
+<strong>Output:</strong> []
+<strong>Explanation:</strong> There are 2 elements in original.
+It is impossible to fit 2 elements in a 1x1 2D array, so return an empty 2D array.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= original.length &lt;= 5 * 10<sup>4</sup></code></li>
@@ -77,17 +63,17 @@ original 中只有 1 个元素。
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-根据题目描述，我们知道，要想构造出一个 $m$ 行 $n$ 列的二维数组，需要满足 $m \times n$ 等于原数组的长度。如果不满足，直接返回空数组即可。
+According to the problem description, we know that to construct an $m$-row and $n$-column two-dimensional array, it needs to satisfy that $m \times n$ equals the length of the original array. If it does not satisfy, return an empty array directly.
 
-如果满足，我们可以按照题目描述的过程，将原数组中的元素依次放入二维数组中即可。
+If it does satisfy, we can follow the process described in the problem, and put the elements from the original array into the two-dimensional array in order.
 
-时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别为二维数组的行数和列数。忽略答案的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(m \times n)$, where $m$ and $n$ are the number of rows and columns of the two-dimensional array, respectively. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

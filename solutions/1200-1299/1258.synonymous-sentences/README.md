@@ -1,79 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1258.Synonymous%20Sentences/README.md
+difficulty: Medium
 rating: 1847
-source: 第 13 场双周赛 Q3
+source: Biweekly Contest 13 Q3
 tags:
-    - 并查集
-    - 数组
-    - 哈希表
-    - 字符串
-    - 回溯
+    - Union Find
+    - Array
+    - Hash Table
+    - String
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [1258. 近义词句子 🔒](https://leetcode.cn/problems/synonymous-sentences)
+# [1258. Synonymous Sentences 🔒](https://leetcode.com/problems/synonymous-sentences)
 
-[English Version](/solution/1200-1299/1258.Synonymous%20Sentences/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个近义词表&nbsp;<code>synonyms</code> 和一个句子&nbsp;<code>text</code>&nbsp;，&nbsp;<code>synonyms</code> 表中是一些近义词对 ，你可以将句子&nbsp;<code>text</code> 中每个单词用它的近义词来替换。</p>
+<p>You are given a list of equivalent string pairs <code>synonyms</code> where <code>synonyms[i] = [s<sub>i</sub>, t<sub>i</sub>]</code> indicates that <code>s<sub>i</sub></code> and <code>t<sub>i</sub></code> are equivalent strings. You are also given a sentence <code>text</code>.</p>
 
-<p>请你找出所有用近义词替换后的句子，按&nbsp;<strong>字典序排序</strong>&nbsp;后返回。</p>
+<p>Return <em>all possible synonymous sentences <strong>sorted lexicographically</strong></em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：
-</strong>synonyms = [[&quot;happy&quot;,&quot;joy&quot;],[&quot;sad&quot;,&quot;sorrow&quot;],[&quot;joy&quot;,&quot;cheerful&quot;]],
-text = &quot;I am happy today but was sad yesterday&quot;
-<strong>输出：
-</strong>[&quot;I am cheerful today but was sad yesterday&quot;,
-&quot;I am cheerful today but was sorrow yesterday&quot;,
-&quot;I am happy today but was sad yesterday&quot;,
-&quot;I am happy today but was sorrow yesterday&quot;,
-&quot;I am joy today but was sad yesterday&quot;,
-&quot;I am joy today but was sorrow yesterday&quot;]
+<strong>Input:</strong> synonyms = [[&quot;happy&quot;,&quot;joy&quot;],[&quot;sad&quot;,&quot;sorrow&quot;],[&quot;joy&quot;,&quot;cheerful&quot;]], text = &quot;I am happy today but was sad yesterday&quot;
+<strong>Output:</strong> [&quot;I am cheerful today but was sad yesterday&quot;,&quot;I am cheerful today but was sorrow yesterday&quot;,&quot;I am happy today but was sad yesterday&quot;,&quot;I am happy today but was sorrow yesterday&quot;,&quot;I am joy today but was sad yesterday&quot;,&quot;I am joy today but was sorrow yesterday&quot;]
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> synonyms = [[&quot;happy&quot;,&quot;joy&quot;],[&quot;cheerful&quot;,&quot;glad&quot;]], text = &quot;I am happy today but was sad yesterday&quot;
+<strong>Output:</strong> [&quot;I am happy today but was sad yesterday&quot;,&quot;I am joy today but was sad yesterday&quot;]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>0 &lt;=&nbsp;synonyms.length &lt;= 10</code></li>
+	<li><code>0 &lt;= synonyms.length &lt;= 10</code></li>
 	<li><code>synonyms[i].length == 2</code></li>
-	<li><code>synonyms[0] != synonyms[1]</code></li>
-	<li>所有单词仅包含英文字母，且长度最多为&nbsp;<code>10</code> 。</li>
-	<li><code>text</code>&nbsp;最多包含&nbsp;<code>10</code> 个单词，且单词间用单个空格分隔开。</li>
+	<li><code>1 &lt;= s<sub>i</sub>.length,<sub> </sub>t<sub>i</sub>.length &lt;= 10</code></li>
+	<li><code>s<sub>i</sub> != t<sub>i</sub></code></li>
+	<li><code>text</code> consists of at most <code>10</code> words.</li>
+	<li>All the pairs of&nbsp;<code>synonyms</code> are <strong>unique</strong>.</li>
+	<li>The words of <code>text</code> are separated by single spaces.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：并查集 + DFS
+### Solution 1: Union-Find + DFS
 
-我们可以发现，题目中的近义词是可以传递的，即如果 `a` 和 `b` 是近义词，`b` 和 `c` 是近义词，那么 `a` 和 `c` 也是近义词。因此，我们可以用并查集找出近义词的连通分量，每个连通分量中的单词都是近义词，并且按字典序从小到大排列。
+We can notice that the synonyms in the problem are transitive, i.e., if `a` and `b` are synonyms, and `b` and `c` are synonyms, then `a` and `c` are also synonyms. Therefore, we can use a union-find set to find the connected components of synonyms, where all the words in each connected component are synonyms and are sorted in lexicographical order.
 
-接下来，我们将字符串 `text` 按空格分割成单词数组 `sentence`，对于每个单词 `sentence[i]`，如果它是近义词，那么我们就将它替换成连通分量中的所有单词，否则不替换。这样，我们就可以得到所有的句子。这可以通过 DFS 搜索实现。
+Next, we split the string `text` into a word array `sentence` by spaces. For each word `sentence[i]`, if it is a synonym, we replace it with all the words in the connected component, otherwise, we do not replace it. In this way, we can get all the sentences. This can be implemented by DFS search.
 
-我们设计一个函数 $dfs(i)$，表示从 `sentence` 的第 $i$ 个单词开始，将其替换成连通分量中的所有单词，然后递归地处理后面的单词。
+We design a function $dfs(i)$, which represents starting from the $i$th word of `sentence`, replacing it with all the words in the connected component, and then recursively processing the following words.
 
-如果 $i$ 大于等于 `sentence` 的长度，那么说明我们已经处理完了所有的单词，此时将当前的句子加入答案数组中。否则，如果 `sentence[i]` 不是近义词，那么我们不替换它，直接将它加入当前的句子中，然后递归地处理后面的单词。否则，我们将 `sentence[i]` 替换成连通分量中的所有单词，同样递归地处理后面的单词。
+If $i$ is greater than or equal to the length of `sentence`, it means that we have processed all the words, and at this time, we add the current sentence to the answer array. Otherwise, if `sentence[i]` is not a synonym, we do not replace it, directly add it to the current sentence, and then recursively process the following words. Otherwise, we replace `sentence[i]` with all the words in the connected component, and also recursively process the following words.
 
-最后，返回答案数组即可。
+Finally, return the answer array.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是单词的数量。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Where $n$ is the number of words.
 
 <!-- tabs:start -->
 

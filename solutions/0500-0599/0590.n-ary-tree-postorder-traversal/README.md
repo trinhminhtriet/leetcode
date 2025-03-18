@@ -1,72 +1,62 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0590.N-ary%20Tree%20Postorder%20Traversal/README.md
+difficulty: Easy
 tags:
-    - 栈
-    - 树
-    - 深度优先搜索
+    - Stack
+    - Tree
+    - Depth-First Search
 ---
 
 <!-- problem:start -->
 
-# [590. N 叉树的后序遍历](https://leetcode.cn/problems/n-ary-tree-postorder-traversal)
+# [590. N-ary Tree Postorder Traversal](https://leetcode.com/problems/n-ary-tree-postorder-traversal)
 
-[English Version](/solution/0500-0599/0590.N-ary%20Tree%20Postorder%20Traversal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个 n&nbsp;叉树的根节点<meta charset="UTF-8" />&nbsp;<code>root</code>&nbsp;，返回 <em>其节点值的<strong> 后序遍历</strong></em> 。</p>
+<p>Given the <code>root</code> of an n-ary tree, return <em>the postorder traversal of its nodes&#39; values</em>.</p>
 
-<p>n 叉树 在输入中按层序遍历进行序列化表示，每组子节点由空值 <code>null</code> 分隔（请参见示例）。</p>
+<p>Nary-Tree input serialization is represented in their level order traversal. Each group of children is separated by the null value (See examples)</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0590.N-ary%20Tree%20Postorder%20Traversal/images/narytreeexample.png" style="height: 193px; width: 300px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0590.N-ary%20Tree%20Postorder%20Traversal/images/narytreeexample.png" style="width: 100%; max-width: 300px;" />
 <pre>
-<strong>输入：</strong>root = [1,null,3,2,4,null,5,6]
-<strong>输出：</strong>[5,6,3,2,4,1]
+<strong>Input:</strong> root = [1,null,3,2,4,null,5,6]
+<strong>Output:</strong> [5,6,3,2,4,1]
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0590.N-ary%20Tree%20Postorder%20Traversal/images/sample_4_964.png" style="height: 269px; width: 296px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0590.N-ary%20Tree%20Postorder%20Traversal/images/sample_4_964.png" style="width: 296px; height: 241px;" />
 <pre>
-<strong>输入：</strong>root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
-<strong>输出：</strong>[2,6,14,11,7,3,12,8,4,13,9,10,5,1]
+<strong>Input:</strong> root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
+<strong>Output:</strong> [2,6,14,11,7,3,12,8,4,13,9,10,5,1]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>节点总数在范围 <code>[0, 10<sup>4</sup>]</code> 内</li>
+	<li>The number of nodes in the tree is in the range <code>[0, 10<sup>4</sup>]</code>.</li>
 	<li><code>0 &lt;= Node.val &lt;= 10<sup>4</sup></code></li>
-	<li>n 叉树的高度小于或等于 <code>1000</code></li>
+	<li>The height of the n-ary tree is less than or equal to <code>1000</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>递归法很简单，你可以使用迭代法完成此题吗?</p>
+<p><strong>Follow up:</strong> Recursive solution is trivial, could you do it iteratively?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
+### Solution 1: Recursion
 
-我们可以递归地遍历整棵树。对于每个节点，先对该节点的每个子节点递归地调用函数，然后将节点的值加入答案。
+We can recursively traverse the entire tree. For each node, we first recursively call the function for each of the node's children, then add the node's value to the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes.
 
 <!-- tabs:start -->
 
@@ -244,13 +234,13 @@ function postorder(root: Node | null): number[] {
 
 <!-- solution:start -->
 
-### 方法二：迭代（栈实现）
+### Solution 2: Iteration (Stack Implementation)
 
-我们也可以用迭代的方法来解决这个问题。
+We can also solve this problem iteratively.
 
-我们使用一个栈来帮助我们得到后序遍历，我们首先把根节点入栈，因为后序遍历是左子树、右子树、根节点，栈的特点是先进后出，所以我们先把节点的值加入答案，然后对该节点的每个子节点按照从左到右的顺序依次入栈，这样可以得到根节点、右子树、左子树的遍历结果。最后把答案反转即可得到后序遍历的结果。
+We use a stack to help us get the post-order traversal. We first push the root node into the stack. Since the post-order traversal is left subtree, right subtree, root, and the characteristic of the stack is first in last out, we first add the node's value to the answer, then push each of the node's children into the stack in the order from left to right. This way, we can get the traversal result of root, right subtree, left subtree. Finally, we reverse the answer to get the post-order traversal result.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes.
 
 <!-- tabs:start -->
 

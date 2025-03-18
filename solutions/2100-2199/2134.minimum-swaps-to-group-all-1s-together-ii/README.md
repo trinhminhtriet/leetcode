@@ -1,84 +1,83 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2134.Minimum%20Swaps%20to%20Group%20All%201%27s%20Together%20II/README.md
+difficulty: Medium
 rating: 1748
-source: 第 275 场周赛 Q2
+source: Weekly Contest 275 Q2
 tags:
-    - 数组
-    - 滑动窗口
+    - Array
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [2134. 最少交换次数来组合所有的 1 II](https://leetcode.cn/problems/minimum-swaps-to-group-all-1s-together-ii)
+# [2134. Minimum Swaps to Group All 1's Together II](https://leetcode.com/problems/minimum-swaps-to-group-all-1s-together-ii)
 
-[English Version](/solution/2100-2199/2134.Minimum%20Swaps%20to%20Group%20All%201%27s%20Together%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong>交换</strong> 定义为选中一个数组中的两个 <strong>互不相同</strong> 的位置并交换二者的值。</p>
+<p>A <strong>swap</strong> is defined as taking two <strong>distinct</strong> positions in an array and swapping the values in them.</p>
 
-<p><strong>环形</strong> 数组是一个数组，可以认为 <strong>第一个</strong> 元素和 <strong>最后一个</strong> 元素 <strong>相邻</strong> 。</p>
+<p>A <strong>circular</strong> array is defined as an array where we consider the <strong>first</strong> element and the <strong>last</strong> element to be <strong>adjacent</strong>.</p>
 
-<p>给你一个 <strong>二进制环形</strong> 数组 <code>nums</code> ，返回在 <strong>任意位置</strong> 将数组中的所有 <code>1</code> 聚集在一起需要的最少交换次数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>nums = [0,1,0,1,1,0,0]
-<strong>输出：</strong>1
-<strong>解释：</strong>这里列出一些能够将所有 1 聚集在一起的方案：
-[0,<strong><em>0</em></strong>,<em><strong>1</strong></em>,1,1,0,0] 交换 1 次。
-[0,1,<em><strong>1</strong></em>,1,<em><strong>0</strong></em>,0,0] 交换 1 次。
-[1,1,0,0,0,0,1] 交换 2 次（利用数组的环形特性）。
-无法在交换 0 次的情况下将数组中的所有 1 聚集在一起。
-因此，需要的最少交换次数为 1 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>nums = [0,1,1,1,0,0,1,1,0]
-<strong>输出：</strong>2
-<strong>解释：</strong>这里列出一些能够将所有 1 聚集在一起的方案：
-[1,1,1,0,0,0,0,1,1] 交换 2 次（利用数组的环形特性）。
-[1,1,1,1,1,0,0,0,0] 交换 2 次。
-无法在交换 0 次或 1 次的情况下将数组中的所有 1 聚集在一起。
-因此，需要的最少交换次数为 2 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>nums = [1,1,0,0,1]
-<strong>输出：</strong>0
-<strong>解释：</strong>得益于数组的环形特性，所有的 1 已经聚集在一起。
-因此，需要的最少交换次数为 0 。</pre>
+<p>Given a <strong>binary</strong> <strong>circular</strong> array <code>nums</code>, return <em>the minimum number of swaps required to group all </em><code>1</code><em>&#39;s present in the array together at <strong>any location</strong></em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [0,1,0,1,1,0,0]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> Here are a few of the ways to group all the 1&#39;s together:
+[0,<u>0</u>,<u>1</u>,1,1,0,0] using 1 swap.
+[0,1,<u>1</u>,1,<u>0</u>,0,0] using 1 swap.
+[1,1,0,0,0,0,1] using 2 swaps (using the circular property of the array).
+There is no way to group all 1&#39;s together with 0 swaps.
+Thus, the minimum number of swaps required is 1.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [0,1,1,1,0,0,1,1,0]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> Here are a few of the ways to group all the 1&#39;s together:
+[1,1,1,0,0,0,0,1,1] using 2 swaps (using the circular property of the array).
+[1,1,1,1,1,0,0,0,0] using 2 swaps.
+There is no way to group all 1&#39;s together with 0 or 1 swaps.
+Thus, the minimum number of swaps required is 2.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,1,0,0,1]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> All the 1&#39;s are already grouped together due to the circular property of the array.
+Thus, the minimum number of swaps required is 0.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>nums[i]</code> 为 <code>0</code> 或者 <code>1</code></li>
+	<li><code>nums[i]</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：滑动窗口
+### Solution 1: Sliding Window
 
-我们先统计数组中 $1$ 的个数，记为 $k$，那么题目实际上就是求一个长度为 $k$ 的环形子数组，使得子数组中 $1$ 的个数最多，那么最少交换次数就是 $k$ 减去子数组中 $1$ 的个数最多的那个子数组中 $1$ 的个数。
+First, we count the number of $1$s in the array, denoted as $k$. The problem is actually asking for a circular subarray of length $k$ that contains the maximum number of $1$s. Therefore, the minimum number of swaps is $k$ minus the maximum number of $1$s in that subarray.
 
-我们可以使用滑动窗口来解决这个问题，首先统计数组中前 $k$ 个元素中 $1$ 的个数，记为 $cnt$，然后我们维护一个长度为 $k$ 的滑动窗口，每次向右移动一个位置，更新 $cnt$，同时更新最大的 $cnt$ 值，即 $mx = \max(mx, cnt)$，最后答案就是 $k - mx$。
+We can solve this problem using a sliding window. First, we count the number of $1$s in the first $k$ elements of the array, denoted as $cnt$. Then, we maintain a sliding window of length $k$. Each time we move the window one position to the right, we update $cnt$ and simultaneously update the maximum $cnt$ value, i.e., $mx = \max(mx, cnt)$. Finally, the answer is $k - mx$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -179,7 +178,7 @@ function minSwaps(nums: number[]): number {
 
 #### JavaScript
 
-```js
+```ts
 function minSwaps(nums) {
     const n = nums.length;
     const k = nums.reduce((a, b) => a + b, 0);
@@ -244,7 +243,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二：前缀和
+### Solution 2: Prefix Sum
 
 <!-- tabs:start -->
 

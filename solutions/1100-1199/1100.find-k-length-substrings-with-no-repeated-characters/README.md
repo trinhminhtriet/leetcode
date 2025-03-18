@@ -1,71 +1,67 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1100.Find%20K-Length%20Substrings%20With%20No%20Repeated%20Characters/README.md
+difficulty: Medium
 rating: 1348
-source: 第 3 场双周赛 Q2
+source: Biweekly Contest 3 Q2
 tags:
-    - 哈希表
-    - 字符串
-    - 滑动窗口
+    - Hash Table
+    - String
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [1100. 长度为 K 的无重复字符子串 🔒](https://leetcode.cn/problems/find-k-length-substrings-with-no-repeated-characters)
+# [1100. Find K-Length Substrings With No Repeated Characters 🔒](https://leetcode.com/problems/find-k-length-substrings-with-no-repeated-characters)
 
-[English Version](/solution/1100-1199/1100.Find%20K-Length%20Substrings%20With%20No%20Repeated%20Characters/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>S</code>，找出所有长度为&nbsp;<code>K</code>&nbsp;且不含重复字符的子串，请你返回全部满足要求的子串的&nbsp;<strong>数目</strong>。</p>
+<p>Given a string <code>s</code> and an integer <code>k</code>, return <em>the number of substrings in </em><code>s</code><em> of length </em><code>k</code><em> with no repeated characters</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>S = &quot;havefunonleetcode&quot;, K = 5
-<strong>输出：</strong>6
-<strong>解释：</strong>
-这里有 6 个满足题意的子串，分别是：&#39;havef&#39;,&#39;avefu&#39;,&#39;vefun&#39;,&#39;efuno&#39;,&#39;etcod&#39;,&#39;tcode&#39;。
+<pre>
+<strong>Input:</strong> s = &quot;havefunonleetcode&quot;, k = 5
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> There are 6 substrings they are: &#39;havef&#39;,&#39;avefu&#39;,&#39;vefun&#39;,&#39;efuno&#39;,&#39;etcod&#39;,&#39;tcode&#39;.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>S = &quot;home&quot;, K = 5
-<strong>输出：</strong>0
-<strong>解释：</strong>
-注意：K 可能会大于 S 的长度。在这种情况下，就无法找到任何长度为 K 的子串。</pre>
+<pre>
+<strong>Input:</strong> s = &quot;home&quot;, k = 5
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> Notice k can be larger than the length of s. In this case, it is not possible to find any substring.
+</pre>
 
 <p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
-<p><strong>提示：</strong></p>
-
-<ol>
-	<li><code>1 &lt;= S.length &lt;= 10^4</code></li>
-	<li><code>S</code> 中的所有字符均为小写英文字母</li>
-	<li><code>1 &lt;= K &lt;= 10^4</code></li>
-</ol>
+<ul>
+	<li><code>1 &lt;= s.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>s</code> consists of lowercase English letters.</li>
+	<li><code>1 &lt;= k &lt;= 10<sup>4</sup></code></li>
+</ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：滑动窗口 + 哈希表
+### Solution 1: Sliding Window + Hash Table
 
-我们维护一个长度为 $k$ 的滑动窗口，用一个哈希表 $cnt$ 统计窗口中每个字符的出现次数。
+We maintain a sliding window of length $k$, and use a hash table $cnt$ to count the occurrences of each character in the window.
 
-首先，我们将字符串 $s$ 的前 $k$ 个字符加入哈希表 $cnt$ 中，并判断 $cnt$ 的大小是否等于 $k$，如果等于 $k$，则说明窗口中的字符都不相同，答案 $ans$ 加一。
+First, we add the first $k$ characters of the string $s$ to the hash table $cnt$, and check whether the size of $cnt$ is equal to $k$. If it is, it means that all characters in the window are different, and the answer $ans$ is incremented by one.
 
-接下来，我们从 $k$ 开始遍历字符串 $s$，每次将 $s[i]$ 加入哈希表 $cnt$ 中，同时将 $s[i-k]$ 从哈希表 $cnt$ 中减一，如果 $cnt[s[i-k]]$ 减一后等于 $0$，则将 $s[i-k]$ 从哈希表 $cnt$ 中删除。如果此时哈希表 $cnt$ 的大小等于 $k$，则说明窗口中的字符都不相同，答案 $ans$ 加一。
+Next, we start to traverse the string $s$ from $k$. Each time we add $s[i]$ to the hash table $cnt$, and at the same time subtract $s[i-k]$ from the hash table $cnt$ by one. If $cnt[s[i-k]]$ is equal to $0$ after subtraction, we remove $s[i-k]$ from the hash table $cnt$. If the size of the hash table $cnt$ is equal to $k$ at this time, it means that all characters in the window are different, and the answer $ans$ is incremented by one.
 
-最后，返回答案 $ans$ 即可。
+Finally, return the answer $ans$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(\min(k, |\Sigma|))$，其中 $n$ 为字符串 $s$ 的长度；而 $\Sigma$ 为字符集，本题中字符集为小写英文字母，所以 $|\Sigma| = 26$。
+The time complexity is $O(n)$, and the space complexity is $O(\min(k, |\Sigma|))$, where $n$ is the length of the string $s$; and $\Sigma$ is the character set, in this problem the character set is lowercase English letters, so $|\Sigma| = 26$.
 
 <!-- tabs:start -->
 

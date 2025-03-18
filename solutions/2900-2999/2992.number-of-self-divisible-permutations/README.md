@@ -1,30 +1,27 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2992.Number%20of%20Self-Divisible%20Permutations/README.md
+difficulty: Medium
 tags:
-    - 位运算
-    - 数组
-    - 动态规划
-    - 回溯
-    - 状态压缩
+    - Bit Manipulation
+    - Array
+    - Dynamic Programming
+    - Backtracking
+    - Bitmask
 ---
 
 <!-- problem:start -->
 
-# [2992. 自整除排列的数量 🔒](https://leetcode.cn/problems/number-of-self-divisible-permutations)
+# [2992. Number of Self-Divisible Permutations 🔒](https://leetcode.com/problems/number-of-self-divisible-permutations)
 
-[English Version](/solution/2900-2999/2992.Number%20of%20Self-Divisible%20Permutations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数 <code>n</code>，返回 <strong>下标从 1 开始</strong> 的数组 <code>nums = [1, 2, ..., n]</code>的 <strong>可能的排列组合数量</strong>，使其满足 <strong>自整除</strong> 条件。</p>
+<p>Given an integer <code>n</code>, return <em>the number of <strong>permutations</strong> of the <strong>1-indexed</strong> array</em> <code>nums = [1, 2, ..., n]</code><em>, such that it&#39;s <strong>self-divisible</strong></em>.</p>
 
-<p>如果对于每个 <code>1 &lt;= i &lt;= n</code>，满足 <code>gcd(a[i], i) == 1</code>，数组 <code>nums</code> 就是 <strong>自整除</strong> 的。</p>
+<p>A <strong>1-indexed</strong> array <code>a</code> of length <code>n</code> is <strong>self-divisible</strong> if for every <code>1 &lt;= i &lt;= n</code>, <code><span data-keyword="gcd-function">gcd</span>(a[i], i) == 1</code>.</p>
 
-<p>数组的 <strong>排列</strong>&nbsp;是对数组元素的重新排列组合，例如，下面是数组 <code>[1, 2, 3]</code>&nbsp;的所有排列组合：</p>
+<p>A <strong>permutation</strong> of an array is a rearrangement of the elements of that array, for example here are all of the permutations of the array <code>[1, 2, 3]</code>:</p>
 
 <ul>
 	<li><code>[1, 2, 3]</code></li>
@@ -36,37 +33,35 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1：</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>n = 1
-<b>输出：</b>1
-<b>解释：</b>数组 [1] 只有一个排列，它是自整除的。
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The array [1] has only 1 permutation which is self-divisible.
 </pre>
 
-<p><b>示例 2：</b></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>n = 2
-<b>输出：1</b>
-<b>解释：</b>数组 [1,2] 有 2 个排列，但只有其中一个是自整除的：
-nums = [1,2]：这不是自整除的，因为 gcd(nums[2], 2) != 1。
-nums = [2,1]：这是自整除的，因为 gcd(nums[1], 1) == 1 并且 gcd(nums[2], 2) == 1。
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The array [1,2] has 2 permutations and only one of them is self-divisible:
+nums = [1,2]: This is not self-divisible since gcd(nums[2], 2) != 1.
+nums = [2,1]: This is self-divisible since gcd(nums[1], 1) == 1 and gcd(nums[2], 2) == 1.
 </pre>
 
-<p><b>示例 3：</b></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>n = 3
-<b>输出：</b>3
-<b>解释：</b>数组 [1,2,3] 有 3 个自整除的排列：[1,2,3]、[2,1,3]、[3,2,1]。
-其他 3 个排列不能满足自整除条件。因此答案是 3。
+<strong>Input:</strong> n = 3
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The array [1,2,3] has 3 self-divisble permutations: [1,3,2], [3,1,2], [2,3,1].
+It can be shown that the other 3 permutations are not self-divisible. Hence the answer is 3.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 12</code></li>
@@ -74,25 +69,25 @@ nums = [2,1]：这是自整除的，因为 gcd(nums[1], 1) == 1 并且 gcd(nums[
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：状态压缩 + 记忆化搜索
+### Solution 1: State Compression + Memoization Search
 
-我们可以用一个二进制数 $mask$ 来表示当前排列的状态，其中第 $i$ 位为 $1$ 表示数字 $i$ 已经被使用，为 $0$ 表示数字 $i$ 还未被使用。
+We can use a binary number $mask$ to represent the current permutation state, where the $i$-th bit is $1$ indicates that the number $i$ has been used, and $0$ indicates that the number $i$ has not been used yet.
 
-那么，我们设计一个函数 $dfs(mask)$，表示从当前排列的状态 $mask$ 开始，能够构造出的满足题目要求的排列的数量。答案即为 $dfs(0)$。
+Then, we design a function $dfs(mask)$, which represents the number of permutations that can be constructed from the current permutation state $mask$ and meet the requirements of the problem. The answer is $dfs(0)$.
 
-我们可以用记忆化搜索的方法来计算 $dfs(mask)$ 的值。
+We can use the method of memoization search to calculate the value of $dfs(mask)$.
 
-在计算 $dfs(mask)$ 的过程中，我们用 $i$ 表示当前要加入排列的是第几个数字，如果 $i \gt n$，说明排列已经构造完毕，我们可以返回 $1$。
+In the process of calculating $dfs(mask)$, we use $i$ to indicate which number is to be added to the permutation. If $i \gt n$, it means that the permutation has been constructed, and we can return $1$.
 
-否则，我们枚举当前排列中还未被使用的数字 $j$，如果 $i$ 和 $j$ 满足题目要求，那么我们就可以将 $j$ 加入排列中，此时状态变为 $mask \mid 2^j$，其中 $|$ 表示按位或运算。由于 $j$ 已经被使用，因此我们需要递归计算 $dfs(mask \mid 2^j)$ 的值，并将其累加到 $dfs(mask)$ 上。
+Otherwise, we enumerate the numbers $j$ that have not been used in the current permutation. If $i$ and $j$ meet the requirements of the problem, then we can add $j$ to the permutation. At this time, the state becomes $mask \mid 2^j$, where $|$ represents bitwise OR operation. Since $j$ has been used, we need to recursively calculate the value of $dfs(mask \mid 2^j)$ and add it to $dfs(mask)$.
 
-最终，我们可以得到 $dfs(0)$ 的值，即为答案。
+Finally, we can get the value of $dfs(0)$, which is the answer.
 
-时间复杂度 $O(n \times 2^n)$，空间复杂度 $O(2^n)$。其中 $n$ 为排列的长度。
+The time complexity is $O(n \times 2^n)$, and the space complexity is $O(2^n)$. Where $n$ is the length of the permutation.
 
 <!-- tabs:start -->
 
@@ -245,15 +240,15 @@ function bitCount(i: number): number {
 
 <!-- solution:start -->
 
-### 方法二：状态压缩 + 动态规划
+### Solution 2: State Compression + Dynamic Programming
 
-我们可以将方法一中的记忆化搜索改写为动态规划的形式，定义 $f[mask]$ 表示当前排列的状态为 $mask$，且满足题目要求的排列的数量。初始时 $f[0]=1$，其余值均为 $0$。
+We can rewrite the memoization search in Solution 1 into the form of dynamic programming, define $f[mask]$ to represent the number of permutations that the current permutation state is $mask$ and meet the requirements of the problem. Initially, $f[0]=1$, and the rest are $0$.
 
-我们在 $[0, 2^n)$ 的范围内枚举 $mask$，对于每个 $mask$，我们用 $i$ 表示当前最后一个加入排列的是第几个数字，然后我们枚举当前排列中最后一个加入的数字 $j$，如果 $i$ 和 $j$ 满足题目要求，那么状态 $f[mask]$ 就可以从状态 $f[mask \oplus 2^(j-1)]$ 转移而来，其中 $\oplus$ 表示按位异或运算。我们将所有转移得到的状态 $f[mask \oplus 2^(j-1)]$ 的值累加到 $f[mask]$ 上，即为 $f[mask]$ 的值。
+We enumerate $mask$ in the range of $[0, 2^n)$, for each $mask$, we use $i$ to represent which number is the last one to join the permutation, then we enumerate the last number $j$ added to the current permutation. If $i$ and $j$ meet the requirements of the problem, then the state $f[mask]$ can be transferred from the state $f[mask \oplus 2^(j-1)]$, where $\oplus$ represents bitwise XOR operation. We add all the values of the transferred state $f[mask \oplus 2^(j-1)]$ to $f[mask]$, which is the value of $f[mask]$.
 
-最终，我们可以得到 $f[2^n - 1]$ 的值，即为答案。
+Finally, we can get the value of $f[2^n - 1]$, which is the answer.
 
-时间复杂度 $O(n \times 2^n)$，空间复杂度 $O(2^n)$。其中 $n$ 为排列的长度。
+The time complexity is $O(n \times 2^n)$, and the space complexity is $O(2^n)$. Where $n$ is the length of the permutation.
 
 <!-- tabs:start -->
 

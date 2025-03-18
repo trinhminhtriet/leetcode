@@ -1,46 +1,43 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2177.Find%20Three%20Consecutive%20Integers%20That%20Sum%20to%20a%20Given%20Number/README.md
+difficulty: Medium
 rating: 1257
-source: 第 72 场双周赛 Q2
+source: Biweekly Contest 72 Q2
 tags:
-    - 数学
-    - 模拟
+    - Math
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2177. 找到和为给定整数的三个连续整数](https://leetcode.cn/problems/find-three-consecutive-integers-that-sum-to-a-given-number)
+# [2177. Find Three Consecutive Integers That Sum to a Given Number](https://leetcode.com/problems/find-three-consecutive-integers-that-sum-to-a-given-number)
 
-[English Version](/solution/2100-2199/2177.Find%20Three%20Consecutive%20Integers%20That%20Sum%20to%20a%20Given%20Number/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>num</code>&nbsp;，请你返回三个连续的整数，它们的&nbsp;<strong>和</strong>&nbsp;为<em>&nbsp;</em><code>num</code>&nbsp;。如果&nbsp;<code>num</code>&nbsp;无法被表示成三个连续整数的和，请你返回一个 <strong>空</strong>&nbsp;数组。</p>
+<p>Given an integer <code>num</code>, return <em>three consecutive integers (as a sorted array)</em><em> that <strong>sum</strong> to </em><code>num</code>. If <code>num</code> cannot be expressed as the sum of three consecutive integers, return<em> an <strong>empty</strong> array.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>num = 33
-<b>输出：</b>[10,11,12]
-<b>解释：</b>33 可以表示为 10 + 11 + 12 = 33 。
-10, 11, 12 是 3 个连续整数，所以返回 [10, 11, 12] 。
+<pre>
+<strong>Input:</strong> num = 33
+<strong>Output:</strong> [10,11,12]
+<strong>Explanation:</strong> 33 can be expressed as 10 + 11 + 12 = 33.
+10, 11, 12 are 3 consecutive integers, so we return [10, 11, 12].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>num = 4
-<b>输出：</b>[]
-<b>解释：</b>没有办法将 4 表示成 3 个连续整数的和。
+<pre>
+<strong>Input:</strong> num = 4
+<strong>Output:</strong> []
+<strong>Explanation:</strong> There is no way to express 4 as the sum of 3 consecutive integers.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= num &lt;= 10<sup>15</sup></code></li>
@@ -48,15 +45,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
+### Solution 1: Mathematics
 
-我们假设三个连续的整数分别为 $x-1$, $x$, $x+1$，则它们的和为 $3x$，因此 $\textit{num}$ 必须是 $3$ 的倍数。如果 $\textit{num}$ 不是 $3$ 的倍数，则无法表示成三个连续整数的和，返回空数组。否则，令 $x = \frac{\textit{num}}{3}$，则 $x-1$, $x$, $x+1$ 就是三个连续整数，它们的和为 $\textit{num}$。
+Assume the three consecutive integers are $x-1$, $x$, and $x+1$. Their sum is $3x$, so $\textit{num}$ must be a multiple of $3$. If $\textit{num}$ is not a multiple of $3$, it cannot be represented as the sum of three consecutive integers, and we return an empty array. Otherwise, let $x = \frac{\textit{num}}{3}$, then $x-1$, $x$, and $x+1$ are the three consecutive integers whose sum is $\textit{num}$.
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+The time complexity is $O(1)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

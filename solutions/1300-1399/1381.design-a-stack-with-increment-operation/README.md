@@ -1,89 +1,84 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1381.Design%20a%20Stack%20With%20Increment%20Operation/README.md
+difficulty: Medium
 rating: 1285
-source: 第 180 场周赛 Q2
+source: Weekly Contest 180 Q2
 tags:
-    - 栈
-    - 设计
-    - 数组
+    - Stack
+    - Design
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [1381. 设计一个支持增量操作的栈](https://leetcode.cn/problems/design-a-stack-with-increment-operation)
+# [1381. Design a Stack With Increment Operation](https://leetcode.com/problems/design-a-stack-with-increment-operation)
 
-[English Version](/solution/1300-1399/1381.Design%20a%20Stack%20With%20Increment%20Operation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你设计一个支持对其元素进行增量操作的栈。</p>
+<p>Design a stack that supports increment operations on its elements.</p>
 
-<p>实现自定义栈类 <code>CustomStack</code> ：</p>
+<p>Implement the <code>CustomStack</code> class:</p>
 
 <ul>
-	<li><code>CustomStack(int maxSize)</code>：用 <code>maxSize</code> 初始化对象，<code>maxSize</code> 是栈中最多能容纳的元素数量。</li>
-	<li><code>void push(int x)</code>：如果栈还未增长到 <code>maxSize</code> ，就将 <code>x</code> 添加到栈顶。</li>
-	<li><code>int pop()</code>：弹出栈顶元素，并返回栈顶的值，或栈为空时返回 <strong>-1</strong> 。</li>
-	<li><code>void inc(int k, int val)</code>：栈底的 <code>k</code> 个元素的值都增加 <code>val</code> 。如果栈中元素总数小于 <code>k</code> ，则栈中的所有元素都增加 <code>val</code> 。</li>
+	<li><code>CustomStack(int maxSize)</code> Initializes the object with <code>maxSize</code> which is the maximum number of elements in the stack.</li>
+	<li><code>void push(int x)</code> Adds <code>x</code> to the top of the stack if the stack has not reached the <code>maxSize</code>.</li>
+	<li><code>int pop()</code> Pops and returns the top of the stack or <code>-1</code> if the stack is empty.</li>
+	<li><code>void inc(int k, int val)</code> Increments the bottom <code>k</code> elements of the stack by <code>val</code>. If there are less than <code>k</code> elements in the stack, increment all the elements in the stack.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["CustomStack","push","push","pop","push","push","push","increment","increment","pop","pop","pop","pop"]
+<strong>Input</strong>
+[&quot;CustomStack&quot;,&quot;push&quot;,&quot;push&quot;,&quot;pop&quot;,&quot;push&quot;,&quot;push&quot;,&quot;push&quot;,&quot;increment&quot;,&quot;increment&quot;,&quot;pop&quot;,&quot;pop&quot;,&quot;pop&quot;,&quot;pop&quot;]
 [[3],[1],[2],[],[2],[3],[4],[5,100],[2,100],[],[],[],[]]
-<strong>输出：</strong>
+<strong>Output</strong>
 [null,null,null,2,null,null,null,null,null,103,202,201,-1]
-<strong>解释：</strong>
-CustomStack stk = new CustomStack(3); // 栈是空的 []
-stk.push(1);                          // 栈变为 [1]
-stk.push(2);                          // 栈变为 [1, 2]
-stk.pop();                            // 返回 2 --&gt; 返回栈顶值 2，栈变为 [1]
-stk.push(2);                          // 栈变为 [1, 2]
-stk.push(3);                          // 栈变为 [1, 2, 3]
-stk.push(4);                          // 栈仍然是 [1, 2, 3]，不能添加其他元素使栈大小变为 4
-stk.increment(5, 100);                // 栈变为 [101, 102, 103]
-stk.increment(2, 100);                // 栈变为 [201, 202, 103]
-stk.pop();                            // 返回 103 --&gt; 返回栈顶值 103，栈变为 [201, 202]
-stk.pop();                            // 返回 202 --&gt; 返回栈顶值 202，栈变为 [201]
-stk.pop();                            // 返回 201 --&gt; 返回栈顶值 201，栈变为 []
-stk.pop();                            // 返回 -1 --&gt; 栈为空，返回 -1
+<strong>Explanation</strong>
+CustomStack stk = new CustomStack(3); // Stack is Empty []
+stk.push(1);                          // stack becomes [1]
+stk.push(2);                          // stack becomes [1, 2]
+stk.pop();                            // return 2 --&gt; Return top of the stack 2, stack becomes [1]
+stk.push(2);                          // stack becomes [1, 2]
+stk.push(3);                          // stack becomes [1, 2, 3]
+stk.push(4);                          // stack still [1, 2, 3], Do not add another elements as size is 4
+stk.increment(5, 100);                // stack becomes [101, 102, 103]
+stk.increment(2, 100);                // stack becomes [201, 202, 103]
+stk.pop();                            // return 103 --&gt; Return top of the stack 103, stack becomes [201, 202]
+stk.pop();                            // return 202 --&gt; Return top of the stack 202, stack becomes [201]
+stk.pop();                            // return 201 --&gt; Return top of the stack 201, stack becomes []
+stk.pop();                            // return -1 --&gt; Stack is empty return -1.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= maxSize, x, k &lt;= 1000</code></li>
 	<li><code>0 &lt;= val &lt;= 100</code></li>
-	<li>每种方法 <code>increment</code>，<code>push</code> 以及 <code>pop</code> 分别最多调用 <code>1000</code> 次</li>
+	<li>At most <code>1000</code> calls will be made to each method of <code>increment</code>, <code>push</code> and <code>pop</code> each separately.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数组模拟
+### Solution 1: Array Simulation
 
-我们可以用一个数组 $stk$ 来模拟栈，用一个整数 $i$ 表示下一个入栈的元素位置。另外，我们还需要一个数组 $add$ 来记录每个位置上的增量累加值。
+We can use an array $stk$ to simulate the stack, and an integer $i$ to represent the position of the next element to be pushed into the stack. In addition, we need another array $add$ to record the cumulative increment value at each position.
 
-调用 $push(x)$ 时，如果 $i \lt maxSize$，我们将 $x$ 放入 $stk[i]$ 中，并将 $i$ 加一。
+When calling $push(x)$, if $i < maxSize$, we put $x$ into $stk[i]$ and increment $i$ by one.
 
-调用 $pop()$ 时，如果 $i \leq 0$，说明栈为空，返回 $-1$。否则我们将 $i$ 减一，答案为 $stk[i] + add[i]$，然后我们将 $add[i - 1]$ 加上 $add[i]$，并将 $add[i]$ 清零。最后返回答案。
+When calling $pop()$, if $i \leq 0$, it means the stack is empty, so we return $-1$. Otherwise, we decrement $i$ by one, and the answer is $stk[i] + add[i]$. Then we add $add[i]$ to $add[i - 1]$, and set $add[i]$ to zero. Finally, we return the answer.
 
-调用 $increment(k, val)$ 时，如果 $i \gt 0$，我们将 $add[\min(i, k) - 1]$ 加上 $val$。
+When calling $increment(k, val)$, if $i > 0$, we add $val$ to $add[\min(i, k) - 1]$.
 
-时间复杂度 $O(1)$，空间复杂度 $O(n)$。其中 $n$ 是栈的最大容量。
+The time complexity is $O(1)$, and the space complexity is $O(n)$. Where $n$ is the maximum capacity of the stack.
 
 <!-- tabs:start -->
 

@@ -1,66 +1,60 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1498.Number%20of%20Subsequences%20That%20Satisfy%20the%20Given%20Sum%20Condition/README.md
+difficulty: Medium
 rating: 2276
-source: 第 195 场周赛 Q3
+source: Weekly Contest 195 Q3
 tags:
-    - 数组
-    - 双指针
-    - 二分查找
-    - 排序
+    - Array
+    - Two Pointers
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1498. 满足条件的子序列数目](https://leetcode.cn/problems/number-of-subsequences-that-satisfy-the-given-sum-condition)
+# [1498. Number of Subsequences That Satisfy the Given Sum Condition](https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition)
 
-[English Version](/solution/1400-1499/1498.Number%20of%20Subsequences%20That%20Satisfy%20the%20Given%20Sum%20Condition/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>target</code> 。</p>
+<p>You are given an array of integers <code>nums</code> and an integer <code>target</code>.</p>
 
-<p>请你统计并返回 <code>nums</code> 中能满足其最小元素与最大元素的 <strong>和</strong> 小于或等于 <code>target</code> 的 <strong>非空</strong> 子序列的数目。</p>
-
-<p>由于答案可能很大，请将结果对<meta charset="UTF-8" />&nbsp;<code>10<sup>9</sup>&nbsp;+ 7</code>&nbsp;取余后返回。</p>
+<p>Return <em>the number of <strong>non-empty</strong> subsequences of </em><code>nums</code><em> such that the sum of the minimum and maximum element on it is less or equal to </em><code>target</code>. Since the answer may be too large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,5,6,7], target = 9
-<strong>输出：</strong>4
-<strong>解释：</strong>有 4 个子序列满足该条件。
-[3] -&gt; 最小元素 + 最大元素 &lt;= target (3 + 3 &lt;= 9)
+<strong>Input:</strong> nums = [3,5,6,7], target = 9
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> There are 4 subsequences that satisfy the condition.
+[3] -&gt; Min value + max value &lt;= target (3 + 3 &lt;= 9)
 [3,5] -&gt; (3 + 5 &lt;= 9)
 [3,5,6] -&gt; (3 + 6 &lt;= 9)
 [3,6] -&gt; (3 + 6 &lt;= 9)
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,3,6,8], target = 10
-<strong>输出：</strong>6
-<strong>解释：</strong>有 6 个子序列满足该条件。（nums 中可以有重复数字）
-[3] , [3] , [3,3], [3,6] , [3,6] , [3,3,6]</pre>
+<strong>Input:</strong> nums = [3,3,6,8], target = 10
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> There are 6 subsequences that satisfy the condition. (nums can have repeated numbers).
+[3] , [3] , [3,3], [3,6] , [3,6] , [3,3,6]
+</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2,3,3,4,6,7], target = 12
-<strong>输出：</strong>61
-<strong>解释：</strong>共有 63 个非空子序列，其中 2 个不满足条件（[6,7], [7]）
-有效序列总数为（63 - 2 = 61）
+<strong>Input:</strong> nums = [2,3,3,4,6,7], target = 12
+<strong>Output:</strong> 61
+<strong>Explanation:</strong> There are 63 non-empty subsequences, two of them do not satisfy the condition ([6,7], [7]).
+Number of valid subsequences (63 - 2 = 61).
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -70,17 +64,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 枚举贡献 + 二分查找
-
-由于题目中描述的是子序列，并且涉及到最小元素与最大元素的和，因此我们可以先对数组 `nums` 进行排序。
-
-然后我们枚举最小元素 $nums[i]$，对于每个 $nums[i]$，我们可以在 $nums[i + 1]$ 到 $nums[n - 1]$ 中找到最大元素 $nums[j]$，使得 $nums[i] + nums[j] \leq target$，此时满足条件的子序列数目为 $2^{j - i}$，其中 $2^{j - i}$ 表示从 $nums[i + 1]$ 到 $nums[j]$ 的所有子序列的数目。我们将所有的子序列数目累加即可。
-
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `nums` 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

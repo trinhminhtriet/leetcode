@@ -1,57 +1,55 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2395.Find%20Subarrays%20With%20Equal%20Sum/README.md
+difficulty: Easy
 rating: 1249
-source: 第 86 场双周赛 Q1
+source: Biweekly Contest 86 Q1
 tags:
-    - 数组
-    - 哈希表
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [2395. 和相等的子数组](https://leetcode.cn/problems/find-subarrays-with-equal-sum)
+# [2395. Find Subarrays With Equal Sum](https://leetcode.com/problems/find-subarrays-with-equal-sum)
 
-[English Version](/solution/2300-2399/2395.Find%20Subarrays%20With%20Equal%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;，判断是否存在&nbsp;<strong>两个</strong>&nbsp;长度为&nbsp;<code>2</code>&nbsp;的子数组且它们的&nbsp;<strong>和</strong>&nbsp;相等。注意，这两个子数组起始位置的下标必须&nbsp;<strong>不相同</strong>&nbsp;。</p>
+<p>Given a <strong>0-indexed</strong> integer array <code>nums</code>, determine whether there exist <strong>two</strong> subarrays of length <code>2</code> with <strong>equal</strong> sum. Note that the two subarrays must begin at <strong>different</strong> indices.</p>
 
-<p>如果这样的子数组存在，请返回&nbsp;<code>true</code>，否则返回&nbsp;<code>false</code><em>&nbsp;</em>。</p>
+<p>Return <code>true</code><em> if these subarrays exist, and </em><code>false</code><em> otherwise.</em></p>
 
-<p><strong>子数组</strong> 是一个数组中一段连续非空的元素组成的序列。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [4,2,4]
-<b>输出：</b>true
-<b>解释：</b>元素为 [4,2] 和 [2,4] 的子数组有相同的和 6 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>nums = [1,2,3,4,5]
-<b>输出：</b>false
-<b>解释：</b>没有长度为 2 的两个子数组和相等。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><b>输入：</b>nums = [0,0,0]
-<b>输出：</b>true
-<b>解释：</b>子数组 [nums[0],nums[1]] 和 [nums[1],nums[2]] 的和相等，都为 0 。
-注意即使子数组的元素相同，这两个子数组也视为不相同的子数组，因为它们在原数组中的起始位置不同。
-</pre>
+<p>A <b>subarray</b> is a contiguous non-empty sequence of elements within an array.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [4,2,4]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The subarrays with elements [4,2] and [2,4] have the same sum of 6.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,2,3,4,5]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> No two subarrays of size 2 have the same sum.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [0,0,0]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The subarrays [nums[0],nums[1]] and [nums[1],nums[2]] have the same sum of 0. 
+Note that even though the subarrays have the same content, the two subarrays are considered different because they are in different positions in the original array.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 1000</code></li>
@@ -60,17 +58,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们可以遍历数组 $nums$，用哈希表 $vis$ 记录数组中每两个相邻元素的和，如果当前两个元素的和已经在哈希表中出现过，则返回 `true`，否则将当前两个元素的和加入哈希表中。
+We can traverse the array $nums$, and use a hash table $vis$ to record the sum of every two adjacent elements in the array. If the sum of the current two elements has already appeared in the hash table, then return `true`. Otherwise, add the sum of the current two elements to the hash table.
 
-遍历结束后，说明没有找到满足条件的两个子数组，返回 `false`。
+If we finish traversing and haven't found two subarrays that meet the condition, return `false`.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

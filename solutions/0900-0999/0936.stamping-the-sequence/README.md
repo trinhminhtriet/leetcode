@@ -1,89 +1,99 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0936.Stamping%20The%20Sequence/README.md
+difficulty: Hard
 tags:
-    - 栈
-    - 贪心
-    - 队列
-    - 字符串
+    - Stack
+    - Greedy
+    - Queue
+    - String
 ---
 
 <!-- problem:start -->
 
-# [936. 戳印序列](https://leetcode.cn/problems/stamping-the-sequence)
+# [936. Stamping The Sequence](https://leetcode.com/problems/stamping-the-sequence)
 
-[English Version](/solution/0900-0999/0936.Stamping%20The%20Sequence/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你想要用<strong>小写字母</strong>组成一个目标字符串&nbsp;<code>target</code>。&nbsp;</p>
+<p>You are given two strings <code>stamp</code> and <code>target</code>. Initially, there is a string <code>s</code> of length <code>target.length</code> with all <code>s[i] == &#39;?&#39;</code>.</p>
 
-<p>开始的时候，序列由&nbsp;<code>target.length</code>&nbsp;个&nbsp;<code>&#39;?&#39;</code>&nbsp;记号组成。而你有一个小写字母印章&nbsp;<code>stamp</code>。</p>
+<p>In one turn, you can place <code>stamp</code> over <code>s</code> and replace every letter in the <code>s</code> with the corresponding letter from <code>stamp</code>.</p>
 
-<p>在每个回合，你可以将印章放在序列上，并将序列中的每个字母替换为印章上的相应字母。你最多可以进行&nbsp;<code>10 * target.length</code>&nbsp; 个回合。</p>
+<ul>
+	<li>For example, if <code>stamp = &quot;abc&quot;</code> and <code>target = &quot;abcba&quot;</code>, then <code>s</code> is <code>&quot;?????&quot;</code> initially. In one turn you can:
 
-<p>举个例子，如果初始序列为 &quot;?????&quot;，而你的印章 <code>stamp</code>&nbsp;是&nbsp;<code>&quot;abc&quot;</code>，那么在第一回合，你可以得到&nbsp;&quot;abc??&quot;、&quot;?abc?&quot;、&quot;??abc&quot;。（请注意，印章必须完全包含在序列的边界内才能盖下去。）</p>
+    <ul>
+    	<li>place <code>stamp</code> at index <code>0</code> of <code>s</code> to obtain <code>&quot;abc??&quot;</code>,</li>
+    	<li>place <code>stamp</code> at index <code>1</code> of <code>s</code> to obtain <code>&quot;?abc?&quot;</code>, or</li>
+    	<li>place <code>stamp</code> at index <code>2</code> of <code>s</code> to obtain <code>&quot;??abc&quot;</code>.</li>
+    </ul>
+    Note that <code>stamp</code> must be fully contained in the boundaries of <code>s</code> in order to stamp (i.e., you cannot place <code>stamp</code> at index <code>3</code> of <code>s</code>).</li>
 
-<p>如果可以印出序列，那么返回一个数组，该数组由每个回合中被印下的最左边字母的索引组成。如果不能印出序列，就返回一个空数组。</p>
+</ul>
 
-<p>例如，如果序列是 &quot;ababc&quot;，印章是 <code>&quot;abc&quot;</code>，那么我们就可以返回与操作&nbsp;&quot;?????&quot; -&gt; &quot;abc??&quot; -&gt; &quot;ababc&quot; 相对应的答案 <code>[0, 2]</code>；</p>
+<p>We want to convert <code>s</code> to <code>target</code> using <strong>at most</strong> <code>10 * target.length</code> turns.</p>
 
-<p>另外，如果可以印出序列，那么需要保证可以在 <code>10 * target.length</code>&nbsp;个回合内完成。任何超过此数字的答案将不被接受。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>stamp = &quot;abc&quot;, target = &quot;ababc&quot;
-<strong>输出：</strong>[0,2]
-（[1,0,2] 以及其他一些可能的结果也将作为答案被接受）
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>stamp = &quot;abca&quot;, target = &quot;aabcaca&quot;
-<strong>输出：</strong>[3,0,1]
-</pre>
+<p>Return <em>an array of the index of the left-most letter being stamped at each turn</em>. If we cannot obtain <code>target</code> from <code>s</code> within <code>10 * target.length</code> turns, return an empty array.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> stamp = &quot;abc&quot;, target = &quot;ababc&quot;
+<strong>Output:</strong> [0,2]
+<strong>Explanation:</strong> Initially s = &quot;?????&quot;.
+- Place stamp at index 0 to get &quot;abc??&quot;.
+- Place stamp at index 2 to get &quot;ababc&quot;.
+[1,0,2] would also be accepted as an answer, as well as some other answers.
+</pre>
 
-<ol>
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> stamp = &quot;abca&quot;, target = &quot;aabcaca&quot;
+<strong>Output:</strong> [3,0,1]
+<strong>Explanation:</strong> Initially s = &quot;???????&quot;.
+- Place stamp at index 3 to get &quot;???abca&quot;.
+- Place stamp at index 0 to get &quot;abcabca&quot;.
+- Place stamp at index 1 to get &quot;aabcaca&quot;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
 	<li><code>1 &lt;= stamp.length &lt;= target.length &lt;= 1000</code></li>
-	<li><code>stamp</code> 和&nbsp;<code>target</code>&nbsp;只包含小写字母。</li>
-</ol>
+	<li><code>stamp</code> and <code>target</code> consist of lowercase English letters.</li>
+</ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：逆向思维 + 拓扑排序
+### Solution 1: Reverse Thinking + Topological Sorting
 
-如果我们正向地对序列进行操作，那么处理起来会比较麻烦，因为后续的操作会把前面的操作覆盖掉。我们不妨考虑逆向地对序列进行操作，即从目标字符串 $target$ 开始，考虑将 $target$ 变成 $?????$ 的过程。
+If we operate on the sequence in a forward manner, it would be quite complicated because subsequent operations would overwrite previous ones. Therefore, we consider operating on the sequence in a reverse manner, i.e., starting from the target string $target$ and considering the process of turning $target$ into $?????$.
 
-我们不妨记字母印章的长度为 $m$，目标字符串的长度为 $n$。如果我们拿着字母印章在目标字符串上操作，那么一共有 $n-m+1$ 个开始位置可以放置字母印章。我们可以枚举这 $n-m+1$ 个开始位置，利用类似拓扑排序的方法，逆向地进行操作。
+Let's denote the length of the stamp as $m$ and the length of the target string as $n$. If we operate on the target string with the stamp, there are $n-m+1$ starting positions where the stamp can be placed. We can enumerate these $n-m+1$ starting positions and use a method similar to topological sorting to operate in reverse.
 
-首先，我们明确，每个开始位置都对应着一个长度为 $m$ 的窗口。
+Firstly, we clarify that each starting position corresponds to a window of length $m$.
 
-接下来，我们定义以下数据结构或变量，其中：
+Next, we define the following data structures or variables:
 
--   入度数组 $indeg$，其中 $indeg[i]$ 表示第 $i$ 个窗口中有多少位置的字符与字母印章中的字符不同，初始时，$indeg[i]=m$。若 $indeg[i]=0$，说明第 $i$ 个窗口中的字符都与字母印章中的字符相同，那么我们就可以在第 $i$ 个窗口中放置字母印章。
--   邻接表 $g$，其中 $g[i]$ 表示目标字符串 $target$ 的第 $i$ 个位置上，所有与字母印章存在不同字符的窗口的集合。
--   队列 $q$，用于存储所有入度为 $0$ 的窗口的编号。
--   数组 $vis$，用于标记目标字符串 $target$ 的每个位置是否已经被覆盖。
--   数组 $ans$，用于存储答案。
+-   In-degree array $indeg$, where $indeg[i]$ represents how many characters in the $i$-th window are different from the characters in the stamp. Initially, $indeg[i]=m$. If $indeg[i]=0$, it means that all characters in the $i$-th window are the same as those in the stamp, and we can place the stamp in the $i$-th window.
+-   Adjacency list $g$, where $g[i]$ represents the set of all windows with different characters from the stamp on the $i$-th position of the target string $target$.
+-   Queue $q$, used to store the numbers of all windows with an in-degree of $0$.
+-   Array $vis$, used to mark whether each position of the target string $target$ has been covered.
+-   Array $ans$, used to store the answer.
 
-接下来，我们进行拓扑排序。在拓扑排序的每一步中，我们取出队首的窗口编号 $i$，并将 $i$ 放入答案数组 $ans$ 中。然后，我们枚举字母印章中的每个位置 $j$，如果第 $i$ 个窗口中的第 $j$ 个位置未被覆盖，那么我们就将其覆盖，并将 $indeg$ 数组中所有与第 $i$ 个窗口中的第 $j$ 个位置相同的窗口的入度减少 $1$。如果某个窗口的入度变为 $0$，那么我们就将其放入队列 $q$ 中等待下一次处理。
+Then, we perform topological sorting. In each step of the topological sorting, we take out the window number $i$ at the head of the queue, and put $i$ into the answer array $ans$. Then, we enumerate each position $j$ in the stamp. If the $j$-th position in the $i$-th window has not been covered, we cover it and reduce the in-degree of all windows in the $indeg$ array that are the same as the $j$-th position in the $i$-th window by $1$. If the in-degree of a window becomes $0$, we put it into the queue $q$ for processing next time.
 
-在拓扑排序结束后，如果目标字符串 $target$ 的每个位置都被覆盖，那么答案数组 $ans$ 中存储的就是我们要求的答案。否则，目标字符串 $target$ 无法被覆盖，我们就返回一个空数组。
+After the topological sorting is over, if every position of the target string $target$ has been covered, then the answer array $ans$ stores the answer we are looking for. Otherwise, the target string $target$ cannot be covered, and we return an empty array.
 
-时间复杂度 $O(n \times (n - m + 1))$，空间复杂度 $O(n \times (n - m + 1))$。其中 $n$ 和 $m$ 分别是目标字符串 $target$ 和字母印章的长度。
+The time complexity is $O(n \times (n - m + 1))$, and the space complexity is $O(n \times (n - m + 1))$. Here, $n$ and $m$ are the lengths of the target string $target$ and the stamp, respectively.
 
 <!-- tabs:start -->
 

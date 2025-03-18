@@ -1,111 +1,89 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0460.LFU%20Cache/README.md
+difficulty: Hard
 tags:
-    - 设计
-    - 哈希表
-    - 链表
-    - 双向链表
+    - Design
+    - Hash Table
+    - Linked List
+    - Doubly-Linked List
 ---
 
 <!-- problem:start -->
 
-# [460. LFU 缓存](https://leetcode.cn/problems/lfu-cache)
+# [460. LFU Cache](https://leetcode.com/problems/lfu-cache)
 
-[English Version](/solution/0400-0499/0460.LFU%20Cache/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你为 <a href="https://baike.baidu.com/item/%E7%BC%93%E5%AD%98%E7%AE%97%E6%B3%95">最不经常使用（LFU）</a>缓存算法设计并实现数据结构。</p>
+<p>Design and implement a data structure for a <a href="https://en.wikipedia.org/wiki/Least_frequently_used" target="_blank">Least Frequently Used (LFU)</a> cache.</p>
 
-<p>实现 <code>LFUCache</code> 类：</p>
+<p>Implement the <code>LFUCache</code> class:</p>
 
 <ul>
-	<li><code>LFUCache(int capacity)</code> - 用数据结构的容量&nbsp;<code>capacity</code> 初始化对象</li>
-	<li><code>int get(int key)</code>&nbsp;- 如果键&nbsp;<code>key</code> 存在于缓存中，则获取键的值，否则返回 <code>-1</code> 。</li>
-	<li><code>void put(int key, int value)</code>&nbsp;- 如果键&nbsp;<code>key</code> 已存在，则变更其值；如果键不存在，请插入键值对。当缓存达到其容量&nbsp;<code>capacity</code> 时，则应该在插入新项之前，移除最不经常使用的项。在此问题中，当存在平局（即两个或更多个键具有相同使用频率）时，应该去除 <strong>最久未使用</strong> 的键。</li>
+	<li><code>LFUCache(int capacity)</code> Initializes the object with the <code>capacity</code> of the data structure.</li>
+	<li><code>int get(int key)</code> Gets the value of the <code>key</code> if the <code>key</code> exists in the cache. Otherwise, returns <code>-1</code>.</li>
+	<li><code>void put(int key, int value)</code> Update the value of the <code>key</code> if present, or inserts the <code>key</code> if not already present. When the cache reaches its <code>capacity</code>, it should invalidate and remove the <strong>least frequently used</strong> key before inserting a new item. For this problem, when there is a <strong>tie</strong> (i.e., two or more keys with the same frequency), the <strong>least recently used</strong> <code>key</code> would be invalidated.</li>
 </ul>
 
-<p>为了确定最不常使用的键，可以为缓存中的每个键维护一个 <strong>使用计数器</strong> 。使用计数最小的键是最久未使用的键。</p>
+<p>To determine the least frequently used key, a <strong>use counter</strong> is maintained for each key in the cache. The key with the smallest <strong>use counter</strong> is the least frequently used key.</p>
 
-<p>当一个键首次插入到缓存中时，它的使用计数器被设置为 <code>1</code> (由于 put 操作)。对缓存中的键执行 <code>get</code> 或 <code>put</code> 操作，使用计数器的值将会递增。</p>
+<p>When a key is first inserted into the cache, its <strong>use counter</strong> is set to <code>1</code> (due to the <code>put</code> operation). The <strong>use counter</strong> for a key in the cache is incremented either a <code>get</code> or <code>put</code> operation is called on it.</p>
 
-<p>函数 <code>get</code> 和 <code>put</code> 必须以 <code>O(1)</code> 的平均时间复杂度运行。</p>
+<p>The functions&nbsp;<code data-stringify-type="code">get</code>&nbsp;and&nbsp;<code data-stringify-type="code">put</code>&nbsp;must each run in <code>O(1)</code> average time complexity.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["LFUCache", "put", "put", "get", "put", "get", "get", "put", "get", "get", "get"]
+<strong>Input</strong>
+[&quot;LFUCache&quot;, &quot;put&quot;, &quot;put&quot;, &quot;get&quot;, &quot;put&quot;, &quot;get&quot;, &quot;get&quot;, &quot;put&quot;, &quot;get&quot;, &quot;get&quot;, &quot;get&quot;]
 [[2], [1, 1], [2, 2], [1], [3, 3], [2], [3], [4, 4], [1], [3], [4]]
-<strong>输出：</strong>
+<strong>Output</strong>
 [null, null, null, 1, null, -1, 3, null, -1, 3, 4]
 
-<strong>解释：</strong>
-// cnt(x) = 键 x 的使用计数
-// cache=[] 将显示最后一次使用的顺序（最左边的元素是最近的）
+<strong>Explanation</strong>
+// cnt(x) = the use counter for key x
+// cache=[] will show the last used order for tiebreakers (leftmost element is  most recent)
 LFUCache lfu = new LFUCache(2);
 lfu.put(1, 1);   // cache=[1,_], cnt(1)=1
 lfu.put(2, 2);   // cache=[2,1], cnt(2)=1, cnt(1)=1
-lfu.get(1);      // 返回 1
+lfu.get(1);      // return 1
                  // cache=[1,2], cnt(2)=1, cnt(1)=2
-lfu.put(3, 3);   // 去除键 2 ，因为 cnt(2)=1 ，使用计数最小
-                 // cache=[3,1], cnt(3)=1, cnt(1)=2
-lfu.get(2);      // 返回 -1（未找到）
-lfu.get(3);      // 返回 3
+lfu.put(3, 3);   // 2 is the LFU key because cnt(2)=1 is the smallest, invalidate 2.
+&nbsp;                // cache=[3,1], cnt(3)=1, cnt(1)=2
+lfu.get(2);      // return -1 (not found)
+lfu.get(3);      // return 3
                  // cache=[3,1], cnt(3)=2, cnt(1)=2
-lfu.put(4, 4);   // 去除键 1 ，1 和 3 的 cnt 相同，但 1 最久未使用
+lfu.put(4, 4);   // Both 1 and 3 have the same cnt, but 1 is LRU, invalidate 1.
                  // cache=[4,3], cnt(4)=1, cnt(3)=2
-lfu.get(1);      // 返回 -1（未找到）
-lfu.get(3);      // 返回 3
+lfu.get(1);      // return -1 (not found)
+lfu.get(3);      // return 3
                  // cache=[3,4], cnt(4)=1, cnt(3)=3
-lfu.get(4);      // 返回 4
-                 // cache=[3,4], cnt(4)=2, cnt(3)=3</pre>
+lfu.get(4);      // return 4
+                 // cache=[4,3], cnt(4)=2, cnt(3)=3
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= capacity&nbsp;&lt;= 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= key &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= value &lt;= 10<sup>9</sup></code></li>
-	<li>最多调用 <code>2 * 10<sup>5</sup></code> 次 <code>get</code> 和 <code>put</code> 方法</li>
+	<li>At most <code>2 * 10<sup>5</sup></code>&nbsp;calls will be made to <code>get</code> and <code>put</code>.</li>
 </ul>
+
+<p>&nbsp;</p>
+<span style="display: none;">&nbsp;</span>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双哈希表 + 双向链表
-
-我们定义两个哈希表，其中：
-
--   哈希表 $map$：用于存储缓存的键值对，哈希表的键 $key$ 对应到缓存节点 $node$，方便 $O(1)$ 时间内获取缓存节点。
--   哈希表 $freqMap$：用于存储使用频率相同的缓存节点的双向链表，哈希表的键 $freq$ 对应到双向链表 $list$，方便 $O(1)$ 时间内获取使用频率相同的缓存节点的双向链表。
-
-另外，我们还需要维护一个变量 $minFreq$，用于记录当前最小的使用频率，方便 $O(1)$ 时间内获取最小使用频率的缓存节点。
-
-对于 $get(key)$ 操作：
-
-我们首先判断 $capacity$ 是否为 $0$ 或者 $map$ 中是否存在键 $key$，如果不存在则返回 $-1$；否则从 $map$ 中获取缓存节点 $node$，并将 $node$ 的使用频率加 $1$，最后返回 $node$ 的值。
-
-对于 $put(key, value)$ 操作：
-
-我们首先判断 $capacity$ 是否为 $0$，如果为 $0$ 则直接返回；
-
-否则判断 $map$ 中是否存在键 $key$，如果存在则从 $map$ 中获取缓存节点 $node$，更新 $node$ 的值为 $value$，并将 $node$ 的使用频率加 $1$，最后返回 $node$ 的值；
-
-如果不存在则判断 $map$ 的长度是否等于 $capacity$，如果等于 $capacity$ 则从 $freqMap$ 中获取使用频率最小的双向链表 $list$，从 $list$ 中删除最后一个节点，并且移除该节点对应的键值对。然后创建新的缓存节点 $node$，将 $node$ 的使用频率设置为 $1$，将 $node$ 添加到 $map$ 和 $freqMap$ 中，最后将 $minFreq$ 设置为 $1$。
-
-时间复杂度方面，操作 $get$ 和 $put$ 的时间复杂度都是 $O(1)$。空间复杂度 $O(n)$，其中 $n$ 为缓存的容量。
+### Solution 1
 
 <!-- tabs:start -->
 

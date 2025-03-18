@@ -1,99 +1,97 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2676.Throttle/README.md
+difficulty: Medium
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2676. 节流 🔒](https://leetcode.cn/problems/throttle)
+# [2676. Throttle 🔒](https://leetcode.com/problems/throttle)
 
-[English Version](/solution/2600-2699/2676.Throttle/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>现给定一个函数 <code>fn</code> 和一个以毫秒为单位的时间 <code>t</code> ，请你返回该函数的 <strong>节流</strong> 版本。</p>
+<p>Given a function <code>fn</code> and&nbsp;a time in milliseconds <code>t</code>, return&nbsp;a <strong>throttled</strong> version of that function.</p>
 
-<p><strong>节流</strong> 函数首先立即被调用，然后在 <code>t</code> 毫秒的时间间隔内不能再次执行，但应该存储最新的函数参数，以便在延迟结束后使用这些参数调用 <code>fn</code> 。</p>
+<p>A <strong>throttled</strong> function is first called without delay and then, for a time interval of <code>t</code> milliseconds, can&#39;t be executed but should store the latest function arguments provided to call <code>fn</code> with them after the end of the delay.</p>
 
-<p>例如，<code>t = 50ms</code> ，并且函数在 <code>30ms</code> 、 <code>40ms</code> 和 <code>60ms</code> 时被调用。</p>
+<p>For instance, <code>t = 50ms</code>, and the function was called at <code>30ms</code>, <code>40ms</code>, and <code>60ms</code>.</p>
 
-<p>在 <code>30ms</code>，<strong>节流</strong> 函数 <code>fn</code>&nbsp;会以这些函数调用，并且对 <strong>节流</strong> 函数&nbsp;<code>fn</code> 的调用在接下来的&nbsp;<code>t</code> 毫秒会被阻塞。</p>
+<p>At <code>30ms</code>, without delay, the&nbsp;<strong>throttled</strong> function <code>fn</code> should be called with the arguments, and calling the <strong>throttled</strong> function <code>fn</code> should be blocked for the following <code>t</code> milliseconds.</p>
 
-<p>在 <code>40ms</code>，函数应当只是存储参数。</p>
+<p>At <code>40ms</code>, the function should just save arguments.</p>
 
-<p>在 <code>60ms</code>，参数应该覆盖第二次调用中当前存储的参数，因为第二次和第三次调用是在 <code>80ms</code> 之前进行的。延迟结束后，应该使用延迟期间提供的最新参数来调用 <strong>节流</strong> 函数 <code>fn</code>，并且它还应该创建另一个 <code>80ms + t</code> 的延迟。</p>
+<p>At <code>60ms</code>, arguments should overwrite currently stored arguments from the second call because the second and third calls are made before <code>80ms</code>. Once the delay has passed, the <strong>throttled</strong> function <code>fn</code> should be called with the latest arguments provided during the delay period, and it should also create another delay period of <code>80ms + t</code>.</p>
 
-<p><img alt="Throttle Diagram" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2676.Throttle/images/screen-shot-2023-04-08-at-120313-pm.png" style="width: 1156px; height: 372px;" />上面的图示展示了节流如何转换事件。每个矩形代表100毫秒，节流时间为400毫秒。每种颜色代表不同的输入集合。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>t = 100, 
-calls = [
-&nbsp; {"t":20,"inputs":[1]}
-]
-<b>输出：</b>[{"t":20,"inputs":[1]}]
-<b>解释：</b>第一次调用总是立即执行，没有延迟。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>t = 50, 
-calls = [
-  {"t":50,"inputs":[1]},
-  {"t":75,"inputs":[2]}
-]
-<b>输出：</b>[{"t":50,"inputs":[1]},{"t":100,"inputs":[2]}]
-<b>解释：</b>
-第一次调用立即执行带有参数 (1) 的函数。 
-第二次调用发生在 75毫秒 时，在延迟期间内，因为 50毫秒 + 50毫秒 = 100毫秒，所以下一次调用可以在 100毫秒 时执行。因此，我们保存第二次调用的参数，以便在第一次调用的回调函数中使用。
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>t = 70, 
-calls = [
-  {"t":50,"inputs":[1]},
-  {"t":75,"inputs":[2]},
-  {"t":90,"inputs":[8]},
-  {"t": 140, "inputs":[5,7]},
-  {"t": 300, "inputs": [9,4]}
-]
-<b>输出：</b>[{"t":50,"inputs":[1]},{"t":120,"inputs":[8]},{"t":190,"inputs":[5,7]},{"t":300,"inputs":[9,4]}]
-<b>解释：</b>
-第一次调用立即执行带有参数 (1) 的函数。 
-第二次调用发生在 75毫秒 时，在延迟期间内，因为 50毫秒 + 70毫秒 = 120毫秒，所以它只应保存参数。 
-第三次调用也在延迟期间内，因为我们只需要最新的函数参数，所以覆盖之前的参数。延迟期过后，在 120毫秒时进行回调，并使用保存的参数进行调用。该回调会创建另一个延迟期间，时长为 120毫秒 + 70毫秒 = 190毫秒，以便下一个函数可以在 190毫秒时调用。 
-第四次调用发生在 140毫秒，在延迟期间内，因此应在190毫秒时作为回调进行调用。这将创建另一个延迟期间，时长为 190毫秒 + 70毫秒 = 260毫秒。 
-第五次调用发生在 300毫秒，但它是在 260毫秒 之后，所以应立即调用，并创建另一个延迟期间，时长为 300毫秒 + 70毫秒 = 370毫秒。</pre>
+<p><img alt="Throttle Diagram" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2676.Throttle/images/screen-shot-2023-04-08-at-120313-pm.png" style="width: 1156px; height: 372px;" />The above diagram&nbsp;shows how throttle&nbsp;will transform&nbsp;events. Each rectangle represents 100ms and the throttle&nbsp;time is 400ms. Each color represents a different set of inputs.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> 
+t = 100, 
+calls = [
+  {&quot;t&quot;:20,&quot;inputs&quot;:[1]}
+]
+<strong>Output:</strong> [{&quot;t&quot;:20,&quot;inputs&quot;:[1]}]
+<strong>Explanation:</strong> The 1st call is always called without delay
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> 
+t = 50, 
+calls = [
+  {&quot;t&quot;:50,&quot;inputs&quot;:[1]},
+  {&quot;t&quot;:75,&quot;inputs&quot;:[2]}
+]
+<strong>Output:</strong> [{&quot;t&quot;:50,&quot;inputs&quot;:[1]},{&quot;t&quot;:100,&quot;inputs&quot;:[2]}]
+<strong>Explanation:</strong> 
+The 1st is called a function with arguments (1) without delay.
+The 2nd is called at 75ms, within the delay period because 50ms + 50ms = 100ms, so the next call can be reached at 100ms. Therefore, we save arguments from the 2nd call to use them at the callback of the 1st call.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> 
+t = 70, 
+calls = [
+  {&quot;t&quot;:50,&quot;inputs&quot;:[1]},
+  {&quot;t&quot;:75,&quot;inputs&quot;:[2]},
+  {&quot;t&quot;:90,&quot;inputs&quot;:[8]},
+  {&quot;t&quot;: 140, &quot;inputs&quot;:[5,7]},
+  {&quot;t&quot;: 300, &quot;inputs&quot;: [9,4]}
+]
+<strong>Output:</strong> [{&quot;t&quot;:50,&quot;inputs&quot;:[1]},{&quot;t&quot;:120,&quot;inputs&quot;:[8]},{&quot;t&quot;:190,&quot;inputs&quot;:[5,7]},{&quot;t&quot;:300,&quot;inputs&quot;:[9,4]}]
+<strong>Explanation:</strong> 
+The 1st is called a function with arguments (1) without delay.
+The 2nd is called at 75ms within the delay period because 50ms + 70ms = 120ms, so it should only save arguments.&nbsp;
+The 3rd is also called within the delay period, and because we need just the latest function arguments, we overwrite previous ones. After the delay period, we do a callback at 120ms with saved arguments. That callback makes another delay period of 120ms + 70ms = 190ms so that the next function can be called at 190ms.
+The 4th is called at 140ms in the delay period, so it should be called as a callback at 190ms. That will create another delay period of 190ms + 70ms = 260ms.
+The 5th is called at 300ms, but it is after 260ms, so it should be called immediately and should create another delay period of 300ms + 70ms = 370ms.</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= t &lt;= 1000</code></li>
 	<li><code>1 &lt;= calls.length &lt;= 10</code></li>
 	<li><code>0 &lt;= calls[i].t &lt;= 1000</code></li>
-	<li><code>0 &lt;= calls[i].inputs[i], calls[i].inputs.length &lt;= 10</code></li>
+	<li><code>0 &lt;= calls[i].inputs[j], calls[i].inputs.length &lt;= 10</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

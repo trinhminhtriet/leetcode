@@ -1,71 +1,66 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0589.N-ary%20Tree%20Preorder%20Traversal/README.md
+difficulty: Easy
 tags:
-    - 栈
-    - 树
-    - 深度优先搜索
+    - Stack
+    - Tree
+    - Depth-First Search
 ---
 
 <!-- problem:start -->
 
-# [589. N 叉树的前序遍历](https://leetcode.cn/problems/n-ary-tree-preorder-traversal)
+# [589. N-ary Tree Preorder Traversal](https://leetcode.com/problems/n-ary-tree-preorder-traversal)
 
-[English Version](/solution/0500-0599/0589.N-ary%20Tree%20Preorder%20Traversal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个 n&nbsp;叉树的根节点 <meta charset="UTF-8" />&nbsp;<code>root</code>&nbsp;，返回 <em>其节点值的<strong> 前序遍历</strong></em> 。</p>
+<p>Given the <code>root</code> of an n-ary tree, return <em>the preorder traversal of its nodes&#39; values</em>.</p>
 
-<p>n 叉树 在输入中按层序遍历进行序列化表示，每组子节点由空值 <code>null</code> 分隔（请参见示例）。</p>
+<p>Nary-Tree input serialization is represented in their level order traversal. Each group of children is separated by the null value (See examples)</p>
 
-<p><br />
-<strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0589.N-ary%20Tree%20Preorder%20Traversal/images/narytreeexample.png" style="height: 193px; width: 300px;" /></p>
+<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0589.N-ary%20Tree%20Preorder%20Traversal/images/narytreeexample.png" style="width: 100%; max-width: 300px;" /></p>
 
 <pre>
-<strong>输入：</strong>root = [1,null,3,2,4,null,5,6]
-<strong>输出：</strong>[1,3,5,6,2,4]
+<strong>Input:</strong> root = [1,null,3,2,4,null,5,6]
+<strong>Output:</strong> [1,3,5,6,2,4]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0589.N-ary%20Tree%20Preorder%20Traversal/images/sample_4_964.png" style="height: 272px; width: 300px;" /></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0589.N-ary%20Tree%20Preorder%20Traversal/images/sample_4_964.png" style="width: 296px; height: 241px;" /></p>
 
 <pre>
-<strong>输入：</strong>root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
-<strong>输出：</strong>[1,2,3,6,7,11,14,4,8,12,5,9,13,10]
+<strong>Input:</strong> root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
+<strong>Output:</strong> [1,2,3,6,7,11,14,4,8,12,5,9,13,10]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>节点总数在范围<meta charset="UTF-8" />&nbsp;<code>[0, 10<sup>4</sup>]</code>内</li>
+	<li>The number of nodes in the tree is in the range <code>[0, 10<sup>4</sup>]</code>.</li>
 	<li><code>0 &lt;= Node.val &lt;= 10<sup>4</sup></code></li>
-	<li>n 叉树的高度小于或等于 <code>1000</code></li>
+	<li>The height of the n-ary tree is less than or equal to <code>1000</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>递归法很简单，你可以使用迭代法完成此题吗?</p>
+<p><strong>Follow up:</strong> Recursive solution is trivial, could you do it iteratively?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
+### Solution 1: Recursion
 
-我们可以递归地遍历整棵树。对于每个节点，先将节点的值加入答案，然后对该节点的每个子节点递归地调用函数。
+We can recursively traverse the entire tree. For each node, we first add the node's value to the answer, then recursively call the function for each of the node's children.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes.
 
 <!-- tabs:start -->
 
@@ -277,13 +272,13 @@ int* preorder(struct Node* root, int* returnSize) {
 
 <!-- solution:start -->
 
-### 方法二：迭代（栈实现）
+### Solution 2: Iteration (Stack Implementation)
 
-我们也可以用迭代的方法来解决这个问题。
+We can also solve this problem iteratively.
 
-我们使用一个栈来帮助我们得到前序遍历，我们首先把根节点入栈，因为前序遍历是根节点、左子树、右子树，栈的特点是先进后出，所以我们先把节点的值加入答案，然后对该节点的每个子节点按照从右到左的顺序依次入栈。循环直到栈为空。
+We use a stack to help us get the pre-order traversal. We first push the root node into the stack. Since the pre-order traversal is root, left subtree, right subtree, and the characteristic of the stack is first in last out, we first add the node's value to the answer, then push each of the node's children into the stack in the order from right to left. We continue this process until the stack is empty.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes.
 
 <!-- tabs:start -->
 

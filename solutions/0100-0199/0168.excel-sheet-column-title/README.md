@@ -1,82 +1,70 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0168.Excel%20Sheet%20Column%20Title/README.md
+difficulty: Easy
 tags:
-    - 数学
-    - 字符串
+    - Math
+    - String
 ---
 
 <!-- problem:start -->
 
-# [168. Excel 表列名称](https://leetcode.cn/problems/excel-sheet-column-title)
+# [168. Excel Sheet Column Title](https://leetcode.com/problems/excel-sheet-column-title)
 
-[English Version](/solution/0100-0199/0168.Excel%20Sheet%20Column%20Title/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>columnNumber</code> ，返回它在 Excel 表中相对应的列名称。</p>
+<p>Given an integer <code>columnNumber</code>, return <em>its corresponding column title as it appears in an Excel sheet</em>.</p>
 
-<p>例如：</p>
+<p>For example:</p>
 
 <pre>
-A -> 1
-B -> 2
-C -> 3
+A -&gt; 1
+B -&gt; 2
+C -&gt; 3
 ...
-Z -> 26
-AA -> 27
-AB -> 28 
+Z -&gt; 26
+AA -&gt; 27
+AB -&gt; 28 
 ...
 </pre>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>columnNumber = 1
-<strong>输出：</strong>"A"
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>columnNumber = 28
-<strong>输出：</strong>"AB"
+<strong>Input:</strong> columnNumber = 1
+<strong>Output:</strong> &quot;A&quot;
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>columnNumber = 701
-<strong>输出：</strong>"ZY"
+<strong>Input:</strong> columnNumber = 28
+<strong>Output:</strong> &quot;AB&quot;
 </pre>
 
-<p><strong>示例 4：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>columnNumber = 2147483647
-<strong>输出：</strong>"FXSHRXW"
+<strong>Input:</strong> columnNumber = 701
+<strong>Output:</strong> &quot;ZY&quot;
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= columnNumber <= 2<sup>31</sup> - 1</code></li>
+	<li><code>1 &lt;= columnNumber &lt;= 2<sup>31</sup> - 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

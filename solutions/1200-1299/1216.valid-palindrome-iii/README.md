@@ -1,74 +1,69 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1216.Valid%20Palindrome%20III/README.md
+difficulty: Hard
 rating: 1753
-source: 第 10 场双周赛 Q4
+source: Biweekly Contest 10 Q4
 tags:
-    - 字符串
-    - 动态规划
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1216. 验证回文串 III 🔒](https://leetcode.cn/problems/valid-palindrome-iii)
+# [1216. Valid Palindrome III 🔒](https://leetcode.com/problems/valid-palindrome-iii)
 
-[English Version](/solution/1200-1299/1216.Valid%20Palindrome%20III/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给出一个字符串&nbsp;<code>s</code>&nbsp;和一个整数&nbsp;<code>k</code>，若这个字符串是一个「k&nbsp;<strong>回文</strong>&nbsp;」，则返回 <code>true</code> 。</p>
+<p>Given a string <code>s</code> and an integer <code>k</code>, return <code>true</code> if <code>s</code> is a <code>k</code><strong>-palindrome</strong>.</p>
 
-<p>如果可以通过从字符串中删去最多 <code>k</code> 个字符将其转换为回文，那么这个字符串就是一个「<strong>k</strong>&nbsp;<strong>回文</strong>&nbsp;」。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "abcdeca", k = 2
-<strong>输</strong><strong>出：</strong>true
-<strong>解释：</strong>删去字符 “b” 和 “e”。
-</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "abbababa", k = 1
-<strong>输</strong><strong>出：</strong>true
-</pre>
+<p>A string is <code>k</code><strong>-palindrome</strong> if it can be transformed into a palindrome by removing at most <code>k</code> characters from it.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;abcdeca&quot;, k = 2
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Remove &#39;b&#39; and &#39;e&#39; characters.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;abbababa&quot;, k = 1
+<strong>Output:</strong> true
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
-	<li><code>s</code>&nbsp;中只含有小写英文字母</li>
-	<li><code>1 &lt;= k&nbsp;&lt;= s.length</code></li>
+	<li><code>s</code> consists of only lowercase English letters.</li>
+	<li><code>1 &lt;= k &lt;= s.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-题目要求删去最多 $k$ 个字符，使得剩余的字符串是回文串。可以转换为求最长回文子序列的问题。
+The problem requires us to remove at most $k$ characters to make the remaining string a palindrome. This can be transformed into finding the longest palindromic subsequence.
 
-我们定义 $f[i][j]$ 表示字符串 $s$ 中下标范围 $[i, j]$ 内的最长回文子序列的长度。初始时 $f[i][i] = 1$，即每个单独的字符都是一个回文子序列。
+We define $f[i][j]$ as the length of the longest palindromic subsequence in the substring $s[i..j]$. Initially, we have $f[i][i] = 1$ for all $i$, since each single character is a palindrome.
 
-当 $s[i] = s[j]$ 时，有 $f[i][j] = f[i + 1][j - 1] + 2$，即去掉 $s[i]$ 和 $s[j]$ 后，剩余的字符串的最长回文子序列长度加 $2$。
+If $s[i] = s[j]$, then we have $f[i][j] = f[i+1][j-1] + 2$, since we can add both $s[i]$ and $s[j]$ to the longest palindromic subsequence of $s[i+1..j-1]$.
 
-当 $s[i] \neq s[j]$ 时，有 $f[i][j] = \max(f[i + 1][j], f[i][j - 1])$，即去掉 $s[i]$ 或 $s[j]$ 后，剩余的字符串的最长回文子序列长度。
+If $s[i] \neq s[j]$, then we have $f[i][j] = \max(f[i+1][j], f[i][j-1])$, since we need to remove either $s[i]$ or $s[j]$ to make the remaining substring a palindrome.
 
-然后是否存在 $f[i][j] + k \geq n$，如果存在，说明可以通过删去 $k$ 个字符，使得剩余的字符串是回文串。
+Finally, we check whether there exists $f[i][j] + k \geq n$, where $n$ is the length of the string $s$. If so, it means that we can remove at most $k$ characters to make the remaining string a palindrome.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为字符串 $s$ 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

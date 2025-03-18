@@ -1,72 +1,68 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0978.Longest%20Turbulent%20Subarray/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 动态规划
-    - 滑动窗口
+    - Array
+    - Dynamic Programming
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [978. 最长湍流子数组](https://leetcode.cn/problems/longest-turbulent-subarray)
+# [978. Longest Turbulent Subarray](https://leetcode.com/problems/longest-turbulent-subarray)
 
-[English Version](/solution/0900-0999/0978.Longest%20Turbulent%20Subarray/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数数组 <code>arr</code>&nbsp;，返回 <code>arr</code>&nbsp;的&nbsp;<em>最大湍流子数组的<strong>长度</strong></em><strong>&nbsp;</strong>。</p>
+<p>Given an integer array <code>arr</code>, return <em>the length of a maximum size turbulent subarray of</em> <code>arr</code>.</p>
 
-<p>如果比较符号在子数组中的每个相邻元素对之间翻转，则该子数组是&nbsp;<strong>湍流子数组</strong>&nbsp;。</p>
+<p>A subarray is <strong>turbulent</strong> if the comparison sign flips between each adjacent pair of elements in the subarray.</p>
 
-<p>更正式地来说，当 <code>arr</code>&nbsp;的子数组&nbsp;<code>A[i], A[i+1], ..., A[j]</code>&nbsp;满足仅满足下列条件时，我们称其为<em>湍流子数组</em>：</p>
+<p>More formally, a subarray <code>[arr[i], arr[i + 1], ..., arr[j]]</code> of <code>arr</code> is said to be turbulent if and only if:</p>
 
 <ul>
-	<li>若&nbsp;<code>i &lt;= k &lt; j</code>&nbsp;：
+	<li>For <code>i &lt;= k &lt; j</code>:
 
     <ul>
-    	<li>当 <code>k</code>&nbsp;为奇数时，&nbsp;<code>A[k] &gt; A[k+1]</code>，且</li>
-    	<li>当 <code>k</code> 为偶数时，<code>A[k] &lt; A[k+1]</code>；</li>
+    	<li><code>arr[k] &gt; arr[k + 1]</code> when <code>k</code> is odd, and</li>
+    	<li><code>arr[k] &lt; arr[k + 1]</code> when <code>k</code> is even.</li>
     </ul>
     </li>
-    <li><strong>或 </strong>若&nbsp;<code>i &lt;= k &lt; j</code>&nbsp;：
+    <li>Or, for <code>i &lt;= k &lt; j</code>:
     <ul>
-    	<li>当 <code>k</code> 为偶数时，<code>A[k] &gt; A[k+1]</code>&nbsp;，且</li>
-    	<li>当 <code>k</code>&nbsp;为奇数时，&nbsp;<code>A[k] &lt; A[k+1]</code>。</li>
+    	<li><code>arr[k] &gt; arr[k + 1]</code> when <code>k</code> is even, and</li>
+    	<li><code>arr[k] &lt; arr[k + 1]</code> when <code>k</code> is odd.</li>
     </ul>
     </li>
 
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [9,4,2,10,7,8,8,1,9]
-<strong>输出：</strong>5
-<strong>解释：</strong>arr[1] &gt; arr[2] &lt; arr[3] &gt; arr[4] &lt; arr[5]</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [4,8,12,16]
-<strong>输出：</strong>2
+<strong>Input:</strong> arr = [9,4,2,10,7,8,8,1,9]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> arr[1] &gt; arr[2] &lt; arr[3] &gt; arr[4] &lt; arr[5]
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [100]
-<strong>输出：</strong>1
+<strong>Input:</strong> arr = [4,8,12,16]
+<strong>Output:</strong> 2
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [100]
+<strong>Output:</strong> 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 4 * 10<sup>4</sup></code></li>
@@ -75,19 +71,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i]$ 表示以 $\textit{nums}[i]$ 结尾且结尾处于上升状态的最长湍流子数组的长度，定义 $g[i]$ 表示以 $\textit{nums}[i]$ 结尾且结尾处于下降状态的最长湍流子数组的长度。初始时 $f[0] = 1$, $g[0] = 1$。答案为 $\max(f[i], g[i])$。
+We define $f[i]$ as the length of the longest turbulent subarray ending at $\textit{nums}[i]$ with an increasing state, and $g[i]$ as the length of the longest turbulent subarray ending at $\textit{nums}[i]$ with a decreasing state. Initially, $f[0] = 1$, $g[0] = 1$. The answer is $\max(f[i], g[i])$.
 
-对于 $i \gt 0$，若 $\textit{nums}[i] \gt \textit{nums}[i - 1]$，则 $f[i] = g[i - 1] + 1$，否则 $f[i] = 1$；若 $\textit{nums}[i] \lt \textit{nums}[i - 1]$，则 $g[i] = f[i - 1] + 1$，否则 $g[i] = 1$。
+For $i \gt 0$, if $\textit{nums}[i] \gt \textit{nums}[i - 1]$, then $f[i] = g[i - 1] + 1$, otherwise $f[i] = 1$; if $\textit{nums}[i] \lt \textit{nums}[i - 1]$, then $g[i] = f[i - 1] + 1$, otherwise $g[i] = 1$.
 
-由于 $f[i]$ 和 $g[i]$ 只与 $f[i - 1]$ 和 $g[i - 1]$ 有关，因此可以使用两个变量代替数组。
+Since $f[i]$ and $g[i]$ are only related to $f[i - 1]$ and $g[i - 1]$, two variables can be used instead of arrays.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

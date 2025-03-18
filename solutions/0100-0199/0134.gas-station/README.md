@@ -1,83 +1,71 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0134.Gas%20Station/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数组
+    - Greedy
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [134. 加油站](https://leetcode.cn/problems/gas-station)
+# [134. Gas Station](https://leetcode.com/problems/gas-station)
 
-[English Version](/solution/0100-0199/0134.Gas%20Station/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在一条环路上有 <code>n</code>&nbsp;个加油站，其中第 <code>i</code>&nbsp;个加油站有汽油&nbsp;<code>gas[i]</code><em>&nbsp;</em>升。</p>
+<p>There are <code>n</code> gas stations along a circular route, where the amount of gas at the <code>i<sup>th</sup></code> station is <code>gas[i]</code>.</p>
 
-<p>你有一辆油箱容量无限的的汽车，从第<em> </em><code>i</code><em> </em>个加油站开往第<em> </em><code>i+1</code><em>&nbsp;</em>个加油站需要消耗汽油&nbsp;<code>cost[i]</code><em>&nbsp;</em>升。你从其中的一个加油站出发，开始时油箱为空。</p>
+<p>You have a car with an unlimited gas tank and it costs <code>cost[i]</code> of gas to travel from the <code>i<sup>th</sup></code> station to its next <code>(i + 1)<sup>th</sup></code> station. You begin the journey with an empty tank at one of the gas stations.</p>
 
-<p>给定两个整数数组 <code>gas</code> 和 <code>cost</code> ，如果你可以按顺序绕环路行驶一周，则返回出发时加油站的编号，否则返回 <code>-1</code> 。如果存在解，则 <strong>保证</strong> 它是 <strong>唯一</strong> 的。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1:</strong></p>
-
-<pre>
-<strong>输入:</strong> gas = [1,2,3,4,5], cost = [3,4,5,1,2]
-<strong>输出:</strong> 3
-<strong>解释:
-</strong>从 3 号加油站(索引为 3 处)出发，可获得 4 升汽油。此时油箱有 = 0 + 4 = 4 升汽油
-开往 4 号加油站，此时油箱有 4 - 1 + 5 = 8 升汽油
-开往 0 号加油站，此时油箱有 8 - 2 + 1 = 7 升汽油
-开往 1 号加油站，此时油箱有 7 - 3 + 2 = 6 升汽油
-开往 2 号加油站，此时油箱有 6 - 4 + 3 = 5 升汽油
-开往 3 号加油站，你需要消耗 5 升汽油，正好足够你返回到 3 号加油站。
-因此，3 可为起始索引。</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> gas = [2,3,4], cost = [3,4,3]
-<strong>输出:</strong> -1
-<strong>解释:
-</strong>你不能从 0 号或 1 号加油站出发，因为没有足够的汽油可以让你行驶到下一个加油站。
-我们从 2 号加油站出发，可以获得 4 升汽油。 此时油箱有 = 0 + 4 = 4 升汽油
-开往 0 号加油站，此时油箱有 4 - 3 + 2 = 3 升汽油
-开往 1 号加油站，此时油箱有 3 - 3 + 3 = 3 升汽油
-你无法返回 2 号加油站，因为返程需要消耗 4 升汽油，但是你的油箱只有 3 升汽油。
-因此，无论怎样，你都不可能绕环路行驶一周。</pre>
+<p>Given two integer arrays <code>gas</code> and <code>cost</code>, return <em>the starting gas station&#39;s index if you can travel around the circuit once in the clockwise direction, otherwise return</em> <code>-1</code>. If there exists a solution, it is <strong>guaranteed</strong> to be <strong>unique</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示:</strong></p>
+<pre>
+<strong>Input:</strong> gas = [1,2,3,4,5], cost = [3,4,5,1,2]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong>
+Start at station 3 (index 3) and fill up with 4 unit of gas. Your tank = 0 + 4 = 4
+Travel to station 4. Your tank = 4 - 1 + 5 = 8
+Travel to station 0. Your tank = 8 - 2 + 1 = 7
+Travel to station 1. Your tank = 7 - 3 + 2 = 6
+Travel to station 2. Your tank = 6 - 4 + 3 = 5
+Travel to station 3. The cost is 5. Your gas is just enough to travel back to station 3.
+Therefore, return 3 as the starting index.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> gas = [2,3,4], cost = [3,4,3]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong>
+You can&#39;t start at station 0 or 1, as there is not enough gas to travel to the next station.
+Let&#39;s start at station 2 and fill up with 4 unit of gas. Your tank = 0 + 4 = 4
+Travel to station 0. Your tank = 4 - 3 + 2 = 3
+Travel to station 1. Your tank = 3 - 3 + 3 = 3
+You cannot travel back to station 2, as it requires 4 unit of gas but you only have 3.
+Therefore, you can&#39;t travel around the circuit once no matter where you start.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>gas.length == n</code></li>
-	<li><code>cost.length == n</code></li>
+	<li><code>n == gas.length == cost.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= gas[i], cost[i] &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：从任意起点开始遍历
-
-我们用 $i$, $j$ 分别标记起点和终点，用 $s$ 表示当前剩余汽油，而 $cnt$ 表示当前行驶过的加油站数量。初始时，我们将起点设在最后一个位置，即 $i=n-1$。
-
-开始行驶，移动 $j$。若发现当前剩余汽油小于 $0$，说明当前 $i$ 作为起点不符合要求，我们将起点 $i$ 循环左移，并且更新剩余汽油，直至剩余汽油是非负数。
-
-当行驶过的加油站数量达到 $n$ 时，结束行驶过程。若此时剩余汽油 $s$ 仍然小于 $0$，说明不存在这样的起点，返回 $-1$。否则，返回起点 $i$。
-
-时间复杂度 $O(n)$，其中 $n$ 表示加油站的数量。空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 

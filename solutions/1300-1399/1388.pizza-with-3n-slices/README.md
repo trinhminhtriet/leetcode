@@ -1,105 +1,94 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1388.Pizza%20With%203n%20Slices/README.md
+difficulty: Hard
 rating: 2409
-source: 第 22 场双周赛 Q4
+source: Biweekly Contest 22 Q4
 tags:
-    - 贪心
-    - 数组
-    - 动态规划
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Dynamic Programming
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1388. 3n 块披萨](https://leetcode.cn/problems/pizza-with-3n-slices)
+# [1388. Pizza With 3n Slices](https://leetcode.com/problems/pizza-with-3n-slices)
 
-[English Version](/solution/1300-1399/1388.Pizza%20With%203n%20Slices/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个披萨，它由 3n 块不同大小的部分组成，现在你和你的朋友们需要按照如下规则来分披萨：</p>
+<p>There is a pizza with <code>3n</code> slices of varying size, you and your friends will take slices of pizza as follows:</p>
 
 <ul>
-	<li>你挑选 <strong>任意</strong>&nbsp;一块披萨。</li>
-	<li>Alice 将会挑选你所选择的披萨逆时针方向的下一块披萨。</li>
-	<li>Bob 将会挑选你所选择的披萨顺时针方向的下一块披萨。</li>
-	<li>重复上述过程直到没有披萨剩下。</li>
+	<li>You will pick <strong>any</strong> pizza slice.</li>
+	<li>Your friend Alice will pick the next slice in the anti-clockwise direction of your pick.</li>
+	<li>Your friend Bob will pick the next slice in the clockwise direction of your pick.</li>
+	<li>Repeat until there are no more slices of pizzas.</li>
 </ul>
 
-<p>每一块披萨的大小按顺时针方向由循环数组 <code>slices</code>&nbsp;表示。</p>
-
-<p>请你返回你可以获得的披萨大小总和的最大值。</p>
+<p>Given an integer array <code>slices</code> that represent the sizes of the pizza slices in a clockwise direction, return <em>the maximum possible sum of slice sizes that you can pick</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1388.Pizza%20With%203n%20Slices/images/sample_3_1723.png" style="height: 240px; width: 475px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1388.Pizza%20With%203n%20Slices/images/sample_3_1723.png" style="width: 500px; height: 266px;" />
 <pre>
-<strong>输入：</strong>slices = [1,2,3,4,5,6]
-<strong>输出：</strong>10
-<strong>解释：</strong>选择大小为 4 的披萨，Alice 和 Bob 分别挑选大小为 3 和 5 的披萨。然后你选择大小为 6 的披萨，Alice 和 Bob 分别挑选大小为 2 和 1 的披萨。你获得的披萨总大小为 4 + 6 = 10 。
+<strong>Input:</strong> slices = [1,2,3,4,5,6]
+<strong>Output:</strong> 10
+<strong>Explanation:</strong> Pick pizza slice of size 4, Alice and Bob will pick slices with size 3 and 5 respectively. Then Pick slices with size 6, finally Alice and Bob will pick slice of size 2 and 1 respectively. Total = 4 + 6.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1388.Pizza%20With%203n%20Slices/images/sample_4_1723.png" style="height: 250px; width: 475px;" /></strong></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1388.Pizza%20With%203n%20Slices/images/sample_4_1723.png" style="width: 500px; height: 299px;" />
 <pre>
-<strong>输入：</strong>slices = [8,9,8,6,1,1]
-<strong>输出：</strong>16
-<strong>解释：</strong>两轮都选大小为 8 的披萨。如果你选择大小为 9 的披萨，你的朋友们就会选择大小为 8 的披萨，这种情况下你的总和不是最大的。
+<strong>Input:</strong> slices = [8,9,8,6,1,1]
+<strong>Output:</strong> 16
+<strong>Explanation:</strong> Pick pizza slice of size 8 in each turn. If you pick slice with size 9 your partners will pick slices of size 8.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
+	<li><code>3 * n == slices.length</code></li>
 	<li><code>1 &lt;= slices.length &lt;= 500</code></li>
-	<li><code>slices.length % 3 == 0</code></li>
 	<li><code>1 &lt;= slices[i] &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们可以将这个问题转化为：在一个长度为 $3n$ 的环形数组中，选择其中 $n$ 个不相邻的数，使得这 $n$ 个数的和最大。
+We can transform this problem into: In a circular array of length $3n$, select $n$ non-adjacent numbers so that the sum of these $n$ numbers is maximized.
 
-证明如下：
+The proof is as follows:
 
--   当 $n = 1$ 时，我们可以选择数组中的任意一个数。
--   当 $n \gt 1$ 时，那么一定存在一个数，使得它的某一侧有两个连续的数没有被选择，而另一侧至少有一个数没有被选择。因此，我们可以将这个数和它两侧的数一起从数组中删除，然后剩下的 $3(n - 1)$ 个数构成一个新的环形数组。问题规模缩小成了在长度为 $3(n - 1)$ 的环形数组中选择 $n - 1$ 个不相邻的数，使得这 $n - 1$ 个数的和最大。
+-   When $n = 1$, we can choose any number in the array.
+-   When $n > 1$, there must exist a number such that there are two consecutive numbers on one side of it that have not been selected, and at least one number on the other side has not been selected. Therefore, we can remove this number and the numbers on both sides of it from the array, and then the remaining $3(n - 1)$ numbers form a new circular array. The problem scale is reduced to selecting $n - 1$ non-adjacent numbers in a circular array of length $3(n - 1)$, so that the sum of these $n - 1$ numbers is maximized.
 
-因此，我们需要求解的问题可以转化为：在一个长度为 $3n$ 的环形数组中，选择其中 $n$ 个不相邻的数，使得这 $n$ 个数的和最大。
+Therefore, the problem we need to solve can be transformed into: In a circular array of length $3n$, select $n$ non-adjacent numbers so that the sum of these $n$ numbers is maximized.
 
-环形数组中，如果选择了第一个数，那么最后一个数就不能选择，如果选择了最后一个数，那么第一个数就不能选择，因此我们可以将环形数组拆成两个数组，一个是去掉第一个数的，一个是去掉最后一个数的，然后分别求解这两个数组的最大值，最后取两个最大值中的较大值即可。
+In a circular array, if the first number is selected, the last number cannot be selected. If the last number is selected, the first number cannot be selected. Therefore, we can split the circular array into two arrays, one is without the first number, and the other is without the last number. Then solve the maximum value of these two arrays separately, and finally take the larger of the two maximum values.
 
-我们用一个函数 $g(nums)$，表示在数组 $nums$ 中选择 $n$ 个不相邻的数，使得这 $n$ 个数的和最大，那么我们的目标就是求 $g(slices)$ 和 $g(slices[1:])$ 中的较大值。
+We use a function $g(nums)$, which represents the maximum sum of selecting $n$ non-adjacent numbers in the array $nums$. Then our goal is to find the larger value between $g(slices)$ and $g(slices[1:])$.
 
-函数 $g(nums)$ 的求解方法如下：
+The solution method of function $g(nums)$ is as follows:
 
-我们记数组 $nums$ 的长度为 $m$，定义 $f[i][j]$ 表示在数组 $nums$ 的前 $i$ 个数中选择 $j$ 个不相邻的数的最大和。
+We denote the length of array $nums$ as $m$, and define $f[i][j]$ as the maximum sum of selecting $j$ non-adjacent numbers in the first $i$ numbers of array $nums$.
 
-考虑 $f[i][j]$，如果我们不选择第 $i$ 个数，那么 $f[i][j] = f[i - 1][j]$，如果我们选择第 $i$ 个数，那么 $f[i][j] = f[i - 2][j - 1] + nums[i - 1]$，因此我们可以得到状态转移方程：
+Consider $f[i][j]$, if we do not select the $i$-th number, then $f[i][j] = f[i - 1][j]$. If we select the $i$-th number, then $f[i][j] = f[i - 2][j - 1] + nums[i - 1]$. Therefore, we can get the state transition equation:
 
 $$
 f[i][j] = \max(f[i - 1][j], f[i - 2][j - 1] + nums[i - 1])
 $$
 
-最后返回 $f[m][n]$ 即可。
+Finally, return $f[m][n]$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是数组 $slices$ 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Where $n$ is the length of the array $slices$.
 
 <!-- tabs:start -->
 

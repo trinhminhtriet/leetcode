@@ -1,86 +1,81 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0911.Online%20Election/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 数组
-    - 哈希表
-    - 二分查找
+    - Design
+    - Array
+    - Hash Table
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [911. 在线选举](https://leetcode.cn/problems/online-election)
+# [911. Online Election](https://leetcode.com/problems/online-election)
 
-[English Version](/solution/0900-0999/0911.Online%20Election/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数数组 <code>persons</code> 和 <code>times</code> 。在选举中，第&nbsp;<code>i</code>&nbsp;张票是在时刻为&nbsp;<code>times[i]</code>&nbsp;时投给候选人 <code>persons[i]</code>&nbsp;的。</p>
+<p>You are given two integer arrays <code>persons</code> and <code>times</code>. In an election, the <code>i<sup>th</sup></code> vote was cast for <code>persons[i]</code> at time <code>times[i]</code>.</p>
 
-<p>对于发生在时刻 <code>t</code> 的每个查询，需要找出在&nbsp;<code>t</code> 时刻在选举中领先的候选人的编号。</p>
+<p>For each query at a time <code>t</code>, find the person that was leading the election at time <code>t</code>. Votes cast at time <code>t</code> will count towards our query. In the case of a tie, the most recent vote (among tied candidates) wins.</p>
 
-<p>在&nbsp;<code>t</code> 时刻投出的选票也将被计入我们的查询之中。在平局的情况下，最近获得投票的候选人将会获胜。</p>
-
-<p>实现 <code>TopVotedCandidate</code> 类：</p>
+<p>Implement the <code>TopVotedCandidate</code> class:</p>
 
 <ul>
-	<li><code>TopVotedCandidate(int[] persons, int[] times)</code> 使用&nbsp;<code>persons</code> 和 <code>times</code> 数组初始化对象。</li>
-	<li><code>int q(int t)</code> 根据前面描述的规则，返回在时刻 <code>t</code> 在选举中领先的候选人的编号。</li>
+	<li><code>TopVotedCandidate(int[] persons, int[] times)</code> Initializes the object with the <code>persons</code> and <code>times</code> arrays.</li>
+	<li><code>int q(int t)</code> Returns the number of the person that was leading the election at time <code>t</code> according to the mentioned rules.</li>
 </ul>
-&nbsp;
 
-<p><strong>示例：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["TopVotedCandidate", "q", "q", "q", "q", "q", "q"]
+<strong>Input</strong>
+[&quot;TopVotedCandidate&quot;, &quot;q&quot;, &quot;q&quot;, &quot;q&quot;, &quot;q&quot;, &quot;q&quot;, &quot;q&quot;]
 [[[0, 1, 1, 0, 0, 1, 0], [0, 5, 10, 15, 20, 25, 30]], [3], [12], [25], [15], [24], [8]]
-<strong>输出：</strong>
+<strong>Output</strong>
 [null, 0, 1, 1, 0, 0, 1]
 
-<strong>解释：</strong>
+<strong>Explanation</strong>
 TopVotedCandidate topVotedCandidate = new TopVotedCandidate([0, 1, 1, 0, 0, 1, 0], [0, 5, 10, 15, 20, 25, 30]);
-topVotedCandidate.q(3); // 返回 0 ，在时刻 3 ，票数分布为 [0] ，编号为 0 的候选人领先。
-topVotedCandidate.q(12); // 返回 1 ，在时刻 12 ，票数分布为 [0,1,1] ，编号为 1 的候选人领先。
-topVotedCandidate.q(25); // 返回 1 ，在时刻 25 ，票数分布为 [0,1,1,0,0,1] ，编号为 1 的候选人领先。（在平局的情况下，1 是最近获得投票的候选人）。
-topVotedCandidate.q(15); // 返回 0
-topVotedCandidate.q(24); // 返回 0
-topVotedCandidate.q(8); // 返回 1
+topVotedCandidate.q(3); // return 0, At time 3, the votes are [0], and 0 is leading.
+topVotedCandidate.q(12); // return 1, At time 12, the votes are [0,1,1], and 1 is leading.
+topVotedCandidate.q(25); // return 1, At time 25, the votes are [0,1,1,0,0,1], and 1 is leading (as ties go to the most recent vote.)
+topVotedCandidate.q(15); // return 0
+topVotedCandidate.q(24); // return 0
+topVotedCandidate.q(8); // return 1
+
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= persons.length &lt;= 5000</code></li>
 	<li><code>times.length == persons.length</code></li>
 	<li><code>0 &lt;= persons[i] &lt; persons.length</code></li>
 	<li><code>0 &lt;= times[i] &lt;= 10<sup>9</sup></code></li>
-	<li><code>times</code> 是一个严格递增的有序数组</li>
+	<li><code>times</code> is sorted in a strictly increasing order.</li>
 	<li><code>times[0] &lt;= t &lt;= 10<sup>9</sup></code></li>
-	<li>每个测试用例最多调用 <code>10<sup>4</sup></code> 次 <code>q</code></li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>q</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-我们可以在初始化时，记录每个时刻的胜者，然后在查询时，使用二分查找找到小于等于 $t$ 的最大时刻，返回该时刻的胜者。
+We can record the winner at each moment during initialization, and then use binary search to find the largest moment less than or equal to $t$ during the query, and return the winner at that moment.
 
-初始化时，我们使用一个计数器 $cnt$ 记录每个候选人的票数，用一个变量 $cur$ 记录当前领先的候选人。然后遍历每个时刻，更新 $cnt$ 和 $cur$，并记录每个时刻的胜者。
+During initialization, we use a counter $cnt$ to record the votes of each candidate, and a variable $cur$ to record the current leading candidate. Then we traverse each moment, update $cnt$ and $cur$, and record the winner at each moment.
 
-查询时，我们使用二分查找找到小于等于 $t$ 的最大时刻，返回该时刻的胜者。
+During the query, we use binary search to find the largest moment less than or equal to $t$, and return the winner at that moment.
 
-时间复杂度方面，初始化时，我们需要 $O(n)$ 的时间，查询时，我们需要 $O(\log n)$ 的时间。空间复杂度为 $O(n)$。
+In terms of time complexity, during initialization, we need $O(n)$ time, and during the query, we need $O(\log n)$ time. The space complexity is $O(n)$.
 
 <!-- tabs:start -->
 

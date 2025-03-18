@@ -1,92 +1,77 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1540.Can%20Convert%20String%20in%20K%20Moves/README.md
+difficulty: Medium
 rating: 1631
-source: 第 32 场双周赛 Q2
+source: Biweekly Contest 32 Q2
 tags:
-    - 哈希表
-    - 字符串
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1540. K 次操作转变字符串](https://leetcode.cn/problems/can-convert-string-in-k-moves)
+# [1540. Can Convert String in K Moves](https://leetcode.com/problems/can-convert-string-in-k-moves)
 
-[English Version](/solution/1500-1599/1540.Can%20Convert%20String%20in%20K%20Moves/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串&nbsp;<code>s</code>&nbsp;和&nbsp;<code>t</code>&nbsp;，你的目标是在 <code>k</code>&nbsp;次操作以内把字符串&nbsp;<code>s</code>&nbsp;转变成&nbsp;<code>t</code>&nbsp;。</p>
+<p>Given two strings&nbsp;<code>s</code>&nbsp;and&nbsp;<code>t</code>, your goal is to convert&nbsp;<code>s</code>&nbsp;into&nbsp;<code>t</code>&nbsp;in&nbsp;<code>k</code><strong>&nbsp;</strong>moves or less.</p>
 
-<p>在第 <code>i</code>&nbsp;次操作时（<code>1 &lt;= i &lt;= k</code>），你可以选择进行如下操作：</p>
+<p>During the&nbsp;<code>i<sup>th</sup></code>&nbsp;(<font face="monospace"><code>1 &lt;= i &lt;= k</code>)&nbsp;</font>move you can:</p>
 
 <ul>
-	<li>选择字符串 <code>s</code>&nbsp;中满足 <code>1 &lt;= j &lt;= s.length</code>&nbsp;且之前未被选过的任意下标 <code>j</code>&nbsp;（下标从 1 开始），并将此位置的字符切换 <code>i</code>&nbsp;次。</li>
-	<li>不进行任何操作。</li>
+	<li>Choose any index&nbsp;<code>j</code>&nbsp;(1-indexed) from&nbsp;<code>s</code>, such that&nbsp;<code>1 &lt;= j &lt;= s.length</code>&nbsp;and <code>j</code>&nbsp;has not been chosen in any previous move,&nbsp;and shift the character at that index&nbsp;<code>i</code>&nbsp;times.</li>
+	<li>Do nothing.</li>
 </ul>
 
-<p>切换 1 个字符的意思是用字母表中该字母的下一个字母替换它（字母表环状接起来，所以 <code>'z'</code>&nbsp;切换后会变成 <code>'a'</code>）。第 <code>i</code>&nbsp;次操作意味着该字符应切换&nbsp;<code>i</code>&nbsp;次</p>
+<p>Shifting a character means replacing it by the next letter in the alphabet&nbsp;(wrapping around so that&nbsp;<code>&#39;z&#39;</code>&nbsp;becomes&nbsp;<code>&#39;a&#39;</code>). Shifting a character by&nbsp;<code>i</code>&nbsp;means applying the shift operations&nbsp;<code>i</code>&nbsp;times.</p>
 
-<p>请记住任意一个下标 <code>j</code>&nbsp;最多只能被操作&nbsp;1 次。</p>
+<p>Remember that any index&nbsp;<code>j</code>&nbsp;can be picked at most once.</p>
 
-<p>如果在不超过 <code>k</code>&nbsp;次操作内可以把字符串 <code>s</code>&nbsp;转变成 <code>t</code>&nbsp;，那么请你返回&nbsp;<code>true</code>&nbsp;，否则请你返回&nbsp;<code>false</code>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "input", t = "ouput", k = 9
-<strong>输出：</strong>true
-<strong>解释：</strong>第 6 次操作时，我们将 'i' 切换 6 次得到 'o' 。第 7 次操作时，我们将 'n' 切换 7 次得到 'u' 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "abc", t = "bcd", k = 10
-<strong>输出：</strong>false
-<strong>解释：</strong>我们需要将每个字符切换 1 次才能得到 t 。我们可以在第 1 次操作时将 'a' 切换成 'b' ，但另外 2 个字母在剩余操作中无法再转变为 t 中对应字母。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "aab", t = "bbb", k = 27
-<strong>输出：</strong>true
-<strong>解释：</strong>第 1 次操作时，我们将第一个 'a' 切换 1 次得到 'b' 。在第 27 次操作时，我们将第二个字母 'a' 切换 27 次得到 'b' 。
-</pre>
+<p>Return&nbsp;<code>true</code>&nbsp;if it&#39;s possible to convert&nbsp;<code>s</code>&nbsp;into&nbsp;<code>t</code>&nbsp;in no more than&nbsp;<code>k</code>&nbsp;moves, otherwise return&nbsp;<code>false</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;input&quot;, t = &quot;ouput&quot;, k = 9
+<strong>Output:</strong> true
+<b>Explanation: </b>In the 6th move, we shift &#39;i&#39; 6 times to get &#39;o&#39;. And in the 7th move we shift &#39;n&#39; to get &#39;u&#39;.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;abc&quot;, t = &quot;bcd&quot;, k = 10
+<strong>Output:</strong> false
+<strong>Explanation: </strong>We need to shift each character in s one time to convert it into t. We can shift &#39;a&#39; to &#39;b&#39; during the 1st move. However, there is no way to shift the other characters in the remaining moves to obtain t from s.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;aab&quot;, t = &quot;bbb&quot;, k = 27
+<strong>Output:</strong> true
+<b>Explanation: </b>In the 1st move, we shift the first &#39;a&#39; 1 time to get &#39;b&#39;. In the 27th move, we shift the second &#39;a&#39; 27 times to get &#39;b&#39;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length, t.length &lt;= 10^5</code></li>
 	<li><code>0 &lt;= k &lt;= 10^9</code></li>
-	<li><code>s</code>&nbsp;和&nbsp;<code>t</code>&nbsp;只包含小写英文字母。</li>
+	<li><code>s</code>, <code>t</code> contain&nbsp;only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
-
-我们首先判断字符串 $s$ 和字符串 $t$ 的长度是否相等，如果不相等，直接返回 `false`。
-
-如果相等，我们可以统计每个位置的字符需要操作的最小次数，即 $cnt[x]$ 表示最小操作次数为 $x$ 的字符的个数。
-
-如果有 $cnt[x]$ 个字符需要操作 $x$ 次，那么我们需要 $x + 26 \times (cnt[x] - 1)$ 次操作才能将这些字符转换为 $t$ 中对应的字符。因此，我们在 $[1,..25] 范围内枚举 $x$，如果 $x + 26 \times (cnt[x] - 1) \gt k$，说明我们无法将所有字符转换为 $t$ 中对应的字符，返回 `false`。
-
-否则，枚举结束后，说明我们可以将所有字符转换为 $t$ 中对应的字符，返回 `true`。
-
-时间复杂度 $O(n + C)$，空间复杂度 $O(C)$，其中 $n$ 为字符串 $s$ 和 $t$ 的长度；而 $C$ 为字符集大小，本题中 $C = 26$。
+### Solution 1
 
 <!-- tabs:start -->
 

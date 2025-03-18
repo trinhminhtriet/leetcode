@@ -1,73 +1,58 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0984.String%20Without%20AAA%20or%20BBB/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 字符串
+    - Greedy
+    - String
 ---
 
 <!-- problem:start -->
 
-# [984. 不含 AAA 或 BBB 的字符串](https://leetcode.cn/problems/string-without-aaa-or-bbb)
+# [984. String Without AAA or BBB](https://leetcode.com/problems/string-without-aaa-or-bbb)
 
-[English Version](/solution/0900-0999/0984.String%20Without%20AAA%20or%20BBB/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个整数 <code>a</code>&nbsp;和 <code>b</code>&nbsp;，返回&nbsp;<strong>任意</strong>&nbsp;字符串 <code>s</code>&nbsp;，要求满足：</p>
+<p>Given two integers <code>a</code> and <code>b</code>, return <strong>any</strong> string <code>s</code> such that:</p>
 
 <ul>
-	<li><code>s</code>&nbsp;的长度为 <code>a + b</code>，且正好包含&nbsp;<code>a</code>&nbsp;个 <code>'a'</code>&nbsp;字母与&nbsp;<code>b</code> 个 <code>'b'</code>&nbsp;字母；</li>
-	<li>子串&nbsp;<code>'aaa'</code>&nbsp;没有出现在 <code>s</code>&nbsp;中；</li>
-	<li>子串&nbsp;<code>'bbb'</code> 没有出现在 <code>s</code>&nbsp;中。</li>
+	<li><code>s</code> has length <code>a + b</code> and contains exactly <code>a</code> <code>&#39;a&#39;</code> letters, and exactly <code>b</code> <code>&#39;b&#39;</code> letters,</li>
+	<li>The substring <code>&#39;aaa&#39;</code> does not occur in <code>s</code>, and</li>
+	<li>The substring <code>&#39;bbb&#39;</code> does not occur in <code>s</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>a = 1, b = 2
-<strong>输出：</strong>"abb"
-<strong>解释：</strong>"abb", "bab" 和 "bba" 都是正确答案。
+<strong>Input:</strong> a = 1, b = 2
+<strong>Output:</strong> &quot;abb&quot;
+<strong>Explanation:</strong> &quot;abb&quot;, &quot;bab&quot; and &quot;bba&quot; are all correct answers.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>a = 4, b = 1
-<strong>输出：</strong>"aabaa"</pre>
+<strong>Input:</strong> a = 4, b = 1
+<strong>Output:</strong> &quot;aabaa&quot;
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>0 &lt;= a, b&nbsp;&lt;= 100</code></li>
-	<li>对于给定的 <code>a</code> 和 <code>b</code>，保证存在满足要求的 <code>s</code>&nbsp;</li>
+	<li><code>0 &lt;= a, b &lt;= 100</code></li>
+	<li>It is guaranteed such an <code>s</code> exists for the given <code>a</code> and <code>b</code>.</li>
 </ul>
-<span style="display:block"><span style="height:0px"><span style="position:absolute">​​​</span></span></span>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 构造
-
-循环构造字符串，当 $a$ 和 $b$ 都大于 `0` 时：
-
-1. 如果 $a\gt b$，添加字符串 "aab"
-1. 如果 $b\gt a$，添加字符串 "bba"
-1. 如果 $a=b$，添加字符串 "ab"
-
-循环结束，若 $a$ 有剩余，则添加 $a$ 个字符串 "a"；若 $b$ 有剩余，则添加 $b$ 个字符串 "b"。
-
-时间复杂度 $O(a+b)$。
+### Solution 1
 
 <!-- tabs:start -->
 

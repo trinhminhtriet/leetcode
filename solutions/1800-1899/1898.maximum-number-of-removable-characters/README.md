@@ -1,92 +1,87 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1898.Maximum%20Number%20of%20Removable%20Characters/README.md
+difficulty: Medium
 rating: 1912
-source: 第 245 场周赛 Q2
+source: Weekly Contest 245 Q2
 tags:
-    - 数组
-    - 双指针
-    - 字符串
-    - 二分查找
+    - Array
+    - Two Pointers
+    - String
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [1898. 可移除字符的最大数目](https://leetcode.cn/problems/maximum-number-of-removable-characters)
+# [1898. Maximum Number of Removable Characters](https://leetcode.com/problems/maximum-number-of-removable-characters)
 
-[English Version](/solution/1800-1899/1898.Maximum%20Number%20of%20Removable%20Characters/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串 <code>s</code> 和 <code>p</code> ，其中 <code>p</code> 是 <code>s</code> 的一个 <strong>子序列</strong> 。同时，给你一个元素 <strong>互不相同</strong> 且下标 <strong>从 0 开始</strong> 计数的整数数组 <code>removable</code> ，该数组是 <code>s</code> 中下标的一个子集（<code>s</code> 的下标也 <strong>从 0 开始</strong> 计数）。</p>
+<p>You are given two strings <code>s</code> and <code>p</code> where <code>p</code> is a <strong>subsequence </strong>of <code>s</code>. You are also given a <strong>distinct 0-indexed </strong>integer array <code>removable</code> containing a subset of indices of <code>s</code> (<code>s</code> is also <strong>0-indexed</strong>).</p>
 
-<p>请你找出一个整数 <code>k</code>（<code>0 <= k <= removable.length</code>），选出 <code>removable</code> 中的 <strong>前</strong> <code>k</code> 个下标，然后从 <code>s</code> 中移除这些下标对应的 <code>k</code> 个字符。整数 <code>k</code> 需满足：在执行完上述步骤后， <code>p</code> 仍然是 <code>s</code> 的一个 <strong>子序列</strong> 。更正式的解释是，对于每个 <code>0 <= i < k</code> ，先标记出位于 <code>s[removable[i]]</code> 的字符，接着移除所有标记过的字符，然后检查 <code>p</code> 是否仍然是 <code>s</code> 的一个子序列。</p>
+<p>You want to choose an integer <code>k</code> (<code>0 &lt;= k &lt;= removable.length</code>) such that, after removing <code>k</code> characters from <code>s</code> using the <strong>first</strong> <code>k</code> indices in <code>removable</code>, <code>p</code> is still a <strong>subsequence</strong> of <code>s</code>. More formally, you will mark the character at <code>s[removable[i]]</code> for each <code>0 &lt;= i &lt; k</code>, then remove all marked characters and check if <code>p</code> is still a subsequence.</p>
 
-<p>返回你可以找出的 <strong>最大</strong><em> </em><code>k</code><em> </em>，满足在移除字符后<em> </em><code>p</code><em> </em>仍然是 <code>s</code> 的一个子序列。</p>
+<p>Return <em>the <strong>maximum</strong> </em><code>k</code><em> you can choose such that </em><code>p</code><em> is still a <strong>subsequence</strong> of </em><code>s</code><em> after the removals</em>.</p>
 
-<p>字符串的一个 <strong>子序列</strong> 是一个由原字符串生成的新字符串，生成过程中可能会移除原字符串中的一些字符（也可能不移除）但不改变剩余字符之间的相对顺序。</p>
+<p>A <strong>subsequence</strong> of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "abcacb", p = "ab", removable = [3,1,0]
-<strong>输出：</strong>2
-<strong>解释：</strong>在移除下标 3 和 1 对应的字符后，"a<strong>b</strong>c<strong>a</strong>cb" 变成 "accb" 。
-"ab" 是 "<strong>a</strong>cc<strong>b</strong>" 的一个子序列。
-如果移除下标 3、1 和 0 对应的字符后，"<strong>ab</strong>c<strong>a</strong>cb" 变成 "ccb" ，那么 "ab" 就不再是 s 的一个子序列。
-因此，最大的 k 是 2 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "abcbddddd", p = "abcd", removable = [3,2,1,4,5,6]
-<strong>输出：</strong>1
-<strong>解释：</strong>在移除下标 3 对应的字符后，"abc<strong>b</strong>ddddd" 变成 "abcddddd" 。
-"abcd" 是 "<strong>abcd</strong>dddd" 的一个子序列。
+<strong>Input:</strong> s = &quot;abcacb&quot;, p = &quot;ab&quot;, removable = [3,1,0]
+<strong>Output:</strong> 2
+<strong>Explanation</strong>: After removing the characters at indices 3 and 1, &quot;a<s><strong>b</strong></s>c<s><strong>a</strong></s>cb&quot; becomes &quot;accb&quot;.
+&quot;ab&quot; is a subsequence of &quot;<strong><u>a</u></strong>cc<strong><u>b</u></strong>&quot;.
+If we remove the characters at indices 3, 1, and 0, &quot;<s><strong>ab</strong></s>c<s><strong>a</strong></s>cb&quot; becomes &quot;ccb&quot;, and &quot;ab&quot; is no longer a subsequence.
+Hence, the maximum k is 2.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "abcab", p = "abc", removable = [0,1,2,3,4]
-<strong>输出：</strong>0
-<strong>解释：</strong>如果移除数组 removable 的第一个下标，"abc" 就不再是 s 的一个子序列。
+<strong>Input:</strong> s = &quot;abcbddddd&quot;, p = &quot;abcd&quot;, removable = [3,2,1,4,5,6]
+<strong>Output:</strong> 1
+<strong>Explanation</strong>: After removing the character at index 3, &quot;abc<s><strong>b</strong></s>ddddd&quot; becomes &quot;abcddddd&quot;.
+&quot;abcd&quot; is a subsequence of &quot;<u><strong>abcd</strong></u>dddd&quot;.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;abcab&quot;, p = &quot;abc&quot;, removable = [0,1,2,3,4]
+<strong>Output:</strong> 0
+<strong>Explanation</strong>: If you remove the first index in the array removable, &quot;abc&quot; is no longer a subsequence.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= p.length <= s.length <= 10<sup>5</sup></code></li>
-	<li><code>0 <= removable.length < s.length</code></li>
-	<li><code>0 <= removable[i] < s.length</code></li>
-	<li><code>p</code> 是 <code>s</code> 的一个 <strong>子字符串</strong></li>
-	<li><code>s</code> 和 <code>p</code> 都由小写英文字母组成</li>
-	<li><code>removable</code> 中的元素 <strong>互不相同</strong></li>
+	<li><code>1 &lt;= p.length &lt;= s.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>0 &lt;= removable.length &lt; s.length</code></li>
+	<li><code>0 &lt;= removable[i] &lt; s.length</code></li>
+	<li><code>p</code> is a <strong>subsequence</strong> of <code>s</code>.</li>
+	<li><code>s</code> and <code>p</code> both consist of lowercase English letters.</li>
+	<li>The elements in <code>removable</code> are <strong>distinct</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-我们注意到，如果移除 $\textit{removable}$ 前 $k$ 个下标对应的字符后，满足 $p$ 仍然是 $s$ 的一个子序列，那么移除 $k \lt k' \leq \textit{removable.length}$ 个下标对应的字符后，依然满足条件，这存在着单调性。因此，我们可以使用二分查找，找到最大的 $k$。
+We notice that if removing the characters at the first $k$ indices in $\textit{removable}$ still makes $p$ a subsequence of $s$, then removing the characters at $k \lt k' \leq \textit{removable.length}$ indices will also satisfy the condition. This monotonicity allows us to use binary search to find the maximum $k$.
 
-我们定义二分查找的左边界 $l = 0$，右边界 $r = \textit{removable.length}$，然后进行二分查找。在每次查找中，我们取中间值 $mid = \left\lfloor \frac{l + r + 1}{2} \right\rfloor$，然后检查移除 $\textit{removable}$ 的前 $mid$ 个下标对应的字符后，是否满足 $p$ 仍然是 $s$ 的一个子序列。如果满足，我们更新左边界 $l = mid$，否则更新右边界 $r = mid - 1$。
+We define the left boundary of the binary search as $l = 0$ and the right boundary as $r = \textit{removable.length}$. Then we perform binary search. In each search, we take the middle value $mid = \left\lfloor \frac{l + r + 1}{2} \right\rfloor$ and check if removing the characters at the first $mid$ indices in $\textit{removable}$ still makes $p$ a subsequence of $s$. If it does, we update the left boundary $l = mid$; otherwise, we update the right boundary $r = mid - 1$.
 
-二分查找结束后，返回左边界 $l$ 即可。
+After the binary search ends, we return the left boundary $l$.
 
-时间复杂度 $O(k \times \log k)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度，而 $k$ 是 $\textit{removable}$ 的长度。
+The time complexity is $O(k \times \log k)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$, and $k$ is the length of $\textit{removable}$.
 
 <!-- tabs:start -->
 

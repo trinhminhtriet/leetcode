@@ -1,48 +1,43 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0903.Valid%20Permutations%20for%20DI%20Sequence/README.md
+difficulty: Hard
 tags:
-    - 字符串
-    - 动态规划
-    - 前缀和
+    - String
+    - Dynamic Programming
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [903. DI 序列的有效排列](https://leetcode.cn/problems/valid-permutations-for-di-sequence)
+# [903. Valid Permutations for DI Sequence](https://leetcode.com/problems/valid-permutations-for-di-sequence)
 
-[English Version](/solution/0900-0999/0903.Valid%20Permutations%20for%20DI%20Sequence/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个长度为 <code>n</code> 的字符串 <code>s</code> ，其中 <code>s[i]</code> 是:</p>
+<p>You are given a string <code>s</code> of length <code>n</code> where <code>s[i]</code> is either:</p>
 
 <ul>
-	<li><code>“D”</code> 意味着减少，或者</li>
-	<li><code>“I”</code> 意味着增加</li>
+	<li><code>&#39;D&#39;</code> means decreasing, or</li>
+	<li><code>&#39;I&#39;</code> means increasing.</li>
 </ul>
 
-<p><strong>有效排列</strong>&nbsp;是对有&nbsp;<code>n + 1</code>&nbsp;个在&nbsp;<code>[0, n]</code>&nbsp; 范围内的整数的一个排列&nbsp;<code>perm</code>&nbsp;，使得对所有的&nbsp;<code>i</code>：</p>
+<p>A permutation <code>perm</code> of <code>n + 1</code> integers of all the integers in the range <code>[0, n]</code> is called a <strong>valid permutation</strong> if for all valid <code>i</code>:</p>
 
 <ul>
-	<li>如果 <code>s[i] == 'D'</code>，那么&nbsp;<code>perm[i] &gt; perm[i+1]</code>，以及；</li>
-	<li>如果 <code>s[i] == 'I'</code>，那么 <code>perm[i] &lt; perm[i+1]</code>。</li>
+	<li>If <code>s[i] == &#39;D&#39;</code>, then <code>perm[i] &gt; perm[i + 1]</code>, and</li>
+	<li>If <code>s[i] == &#39;I&#39;</code>, then <code>perm[i] &lt; perm[i + 1]</code>.</li>
 </ul>
 
-<p>返回 <em><strong>有效排列 </strong>&nbsp;</em><code>perm</code><em>的数量 </em>。因为答案可能很大，所以请<strong>返回你的答案对</strong>&nbsp;<code>10<sup>9</sup>&nbsp;+ 7</code><strong>&nbsp;取余</strong>。</p>
+<p>Return <em>the number of <strong>valid permutations</strong> </em><code>perm</code>. Since the answer may be large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "DID"
-<strong>输出：</strong>5
-<strong>解释：</strong>
-(0, 1, 2, 3) 的五个有效排列是：
+<strong>Input:</strong> s = &quot;DID&quot;
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The 5 valid permutations of (0, 1, 2, 3) are:
 (1, 0, 3, 2)
 (2, 0, 3, 1)
 (2, 1, 3, 0)
@@ -50,42 +45,41 @@ tags:
 (3, 1, 2, 0)
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> s = "D"
-<strong>输出:</strong> 1
+<strong>Input:</strong> s = &quot;D&quot;
+<strong>Output:</strong> 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == s.length</code></li>
 	<li><code>1 &lt;= n &lt;= 200</code></li>
-	<li><code>s[i]</code>&nbsp;不是&nbsp;<code>'I'</code>&nbsp;就是&nbsp;<code>'D'</code></li>
+	<li><code>s[i]</code> is either <code>&#39;I&#39;</code> or <code>&#39;D&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][j]$ 表示字符串的前 $i$ 个字符中，以数字 $j$ 结尾的满足题目要求的排列的数量。初始时 $f[0][0]=1$，其余 $f[0][j]=0$。答案为 $\sum_{j=0}^n f[n][j]$。
+We define $f[i][j]$ as the number of permutations that satisfy the problem's requirements with the first $i$ characters of the string ending with the number $j$. Initially, $f[0][0]=1$, and the rest $f[0][j]=0$. The answer is $\sum_{j=0}^n f[n][j]$.
 
-考虑 $f[i][j]$，其中 $j \in [0, i]$。
+Consider $f[i][j]$, where $j \in [0, i]$.
 
-如果第 $i$ 个字符 $s[i-1]$ 是 `'D'`，那么 $f[i][j]$ 可以从 $f[i-1][k]$ 转移而来，其中 $k \in [j+1, i]$，而由于 $k-1$ 最大只能为 $i-1$，我们将 $k$ 向左移动一位，那么 $k \in [j, i-1]$，因此有 $f[i][j] = \sum_{k=j}^{i-1} f[i-1][k]$。
+If the $i$th character $s[i-1]$ is `'D'`, then $f[i][j]$ can be transferred from $f[i-1][k]$, where $k \in [j+1, i]$. Since $k-1$ can only be up to $i-1$, we move $k$ one place to the left, so $k \in [j, i-1]$. Therefore, we have $f[i][j] = \sum_{k=j}^{i-1} f[i-1][k]$.
 
-如果第 $i$ 个字符 $s[i-1]$ 是 `'I'`，那么 $f[i][j]$ 可以从 $f[i-1][k]$ 转移而来，其中 $k \in [0, j-1]$，因此有 $f[i][j] = \sum_{k=0}^{j-1} f[i-1][k]$。
+If the $i$th character $s[i-1]$ is `'I'`, then $f[i][j]$ can be transferred from $f[i-1][k]$, where $k \in [0, j-1]$. Therefore, we have $f[i][j] = \sum_{k=0}^{j-1} f[i-1][k]$.
 
-最终的答案即为 $\sum_{j=0}^n f[n][j]$。
+The final answer is $\sum_{j=0}^n f[n][j]$.
 
-时间复杂度 $O(n^3)$，空间复杂度 $O(n^2)$。其中 $n$ 是字符串的长度。
+The time complexity is $O(n^3)$, and the space complexity is $O(n^2)$. Here, $n$ is the length of the string.
 
 <!-- tabs:start -->
 
@@ -246,7 +240,7 @@ function numPermsDISequence(s: string): number {
 
 <!-- tabs:end -->
 
-我们可以用前缀和优化时间复杂度，使得时间复杂度降低到 $O(n^2)$。
+We can optimize the time complexity to $O(n^2)$ using prefix sums.
 
 <!-- tabs:start -->
 
@@ -404,7 +398,7 @@ function numPermsDISequence(s: string): number {
 
 <!-- tabs:end -->
 
-另外，我们也可以用滚动数组优化空间复杂度，使得空间复杂度降低到 $O(n)$。
+Additionally, we can optimize the space complexity to $O(n)$ using a rolling array.
 
 <!-- tabs:start -->
 

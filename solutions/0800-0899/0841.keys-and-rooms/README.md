@@ -1,58 +1,50 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0841.Keys%20and%20Rooms/README.md
+difficulty: Medium
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 图
+    - Depth-First Search
+    - Breadth-First Search
+    - Graph
 ---
 
 <!-- problem:start -->
 
-# [841. 钥匙和房间](https://leetcode.cn/problems/keys-and-rooms)
+# [841. Keys and Rooms](https://leetcode.com/problems/keys-and-rooms)
 
-[English Version](/solution/0800-0899/0841.Keys%20and%20Rooms/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有 <code>n</code> 个房间，房间按从 <code>0</code> 到 <code>n - 1</code> 编号。最初，除 <code>0</code> 号房间外的其余所有房间都被锁住。你的目标是进入所有的房间。然而，你不能在没有获得钥匙的时候进入锁住的房间。</p>
+<p>There are <code>n</code> rooms labeled from <code>0</code> to <code>n - 1</code>&nbsp;and all the rooms are locked except for room <code>0</code>. Your goal is to visit all the rooms. However, you cannot enter a locked room without having its key.</p>
 
-<p>当你进入一个房间，你可能会在里面找到一套 <strong>不同的钥匙</strong>，每把钥匙上都有对应的房间号，即表示钥匙可以打开的房间。你可以拿上所有钥匙去解锁其他房间。</p>
+<p>When you visit a room, you may find a set of <strong>distinct keys</strong> in it. Each key has a number on it, denoting which room it unlocks, and you can take all of them with you to unlock the other rooms.</p>
 
-<p>给你一个数组 <code>rooms</code> 其中 <code>rooms[i]</code> 是你进入 <code>i</code> 号房间可以获得的钥匙集合。如果能进入 <strong>所有</strong> 房间返回 <code>true</code>，否则返回 <code>false</code>。</p>
+<p>Given an array <code>rooms</code> where <code>rooms[i]</code> is the set of keys that you can obtain if you visited room <code>i</code>, return <code>true</code> <em>if you can visit <strong>all</strong> the rooms, or</em> <code>false</code> <em>otherwise</em>.</p>
 
 <p>&nbsp;</p>
-
-<ol>
-</ol>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>rooms = [[1],[2],[3],[]]
-<strong>输出：</strong>true
-<strong>解释：</strong>
-我们从 0 号房间开始，拿到钥匙 1。
-之后我们去 1 号房间，拿到钥匙 2。
-然后我们去 2 号房间，拿到钥匙 3。
-最后我们去了 3 号房间。
-由于我们能够进入每个房间，我们返回 true。
+<strong>Input:</strong> rooms = [[1],[2],[3],[]]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> 
+We visit room 0 and pick up key 1.
+We then visit room 1 and pick up key 2.
+We then visit room 2 and pick up key 3.
+We then visit room 3.
+Since we were able to visit every room, we return true.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>rooms = [[1,3],[3,0,1],[2],[0]]
-<strong>输出：</strong>false
-<strong>解释：</strong>我们不能进入 2 号房间。
+<strong>Input:</strong> rooms = [[1,3],[3,0,1],[2],[0]]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> We can not enter room number 2 since the only key that unlocks it is in that room.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == rooms.length</code></li>
@@ -60,22 +52,22 @@ tags:
 	<li><code>0 &lt;= rooms[i].length &lt;= 1000</code></li>
 	<li><code>1 &lt;= sum(rooms[i].length) &lt;= 3000</code></li>
 	<li><code>0 &lt;= rooms[i][j] &lt; n</code></li>
-	<li>所有 <code>rooms[i]</code> 的值 <strong>互不相同</strong></li>
+	<li>All the values of <code>rooms[i]</code> are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
+### Solution 1: Depth-First Search (DFS)
 
-我们可以使用深度优先搜索的方法遍历整张图，统计可以到达的节点个数，并利用数组 `vis` 标记当前节点是否访问过，以防止重复访问。
+We can use the Depth-First Search (DFS) method to traverse the entire graph, count the number of reachable nodes, and use an array `vis` to mark whether the current node has been visited to prevent repeated visits.
 
-最后统计访问过的节点个数，若与节点总数相同则说明可以访问所有节点，否则说明存在无法到达的节点。
+Finally, we count the number of visited nodes. If it is the same as the total number of nodes, it means that all nodes can be visited; otherwise, there are nodes that cannot be reached.
 
-时间复杂度 $O(n + m)$，空间复杂度 $O(n)$，其中 $n$ 为节点个数，而 $m$ 为边的个数。
+The time complexity is $O(n + m)$, and the space complexity is $O(n)$, where $n$ is the number of nodes, and $m$ is the number of edges.
 
 <!-- tabs:start -->
 
@@ -220,15 +212,15 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：BFS
+### Solution 2: BFS
 
-我们也可以使用广度优先搜索的方法遍历整张图，用一个哈希表或者数组 `vis` 标记当前节点是否访问过，以防止重复访问。
+We can also use the Breadth-First Search (BFS) method to traverse the entire graph. We use a hash table or an array `vis` to mark whether the current node has been visited to prevent repeated visits.
 
-具体地，我们定义一个队列 $q$，初始时将节点 $0$ 放入队列中，然后不断遍历队列。每次取出队首节点 $i$，如果 $i$ 被访问过则直接跳过，否则我们将其标记为已访问，然后将 $i$ 可以到达的节点加入队列中。
+Specifically, we define a queue $q$, initially put node $0$ into the queue, and then continuously traverse the queue. Each time we take out the front node $i$ of the queue, if $i$ has been visited, we skip it directly; otherwise, we mark it as visited, and then add the nodes that $i$ can reach to the queue.
 
-最后统计访问过的节点个数，若与节点总数相同则说明可以访问所有节点，否则说明存在无法到达的节点。
+Finally, we count the number of visited nodes. If it is the same as the total number of nodes, it means that all nodes can be visited; otherwise, it means that there are unreachable nodes.
 
-时间复杂度 $O(n + m)$，空间复杂度 $O(n)$，其中 $n$ 为节点个数，而 $m$ 为边的个数。
+The time complexity is $O(n + m)$, and the space complexity is $O(n)$. Where $n$ is the number of nodes, and $m$ is the number of edges.
 
 <!-- tabs:start -->
 

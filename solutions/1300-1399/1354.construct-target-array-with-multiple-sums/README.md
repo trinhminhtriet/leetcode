@@ -1,83 +1,81 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1354.Construct%20Target%20Array%20With%20Multiple%20Sums/README.md
+difficulty: Hard
 rating: 2014
-source: 第 176 场周赛 Q4
+source: Weekly Contest 176 Q4
 tags:
-    - 数组
-    - 堆（优先队列）
+    - Array
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1354. 多次求和构造目标数组](https://leetcode.cn/problems/construct-target-array-with-multiple-sums)
+# [1354. Construct Target Array With Multiple Sums](https://leetcode.com/problems/construct-target-array-with-multiple-sums)
 
-[English Version](/solution/1300-1399/1354.Construct%20Target%20Array%20With%20Multiple%20Sums/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>target</code> 。一开始，你有一个数组&nbsp;<code>A</code> ，它的所有元素均为 1 ，你可以执行以下操作：</p>
+<p>You are given an array <code>target</code> of n integers. From a starting array <code>arr</code> consisting of <code>n</code> 1&#39;s, you may perform the following procedure :</p>
 
 <ul>
-	<li>令&nbsp;<code>x</code>&nbsp;为你数组里所有元素的和</li>
-	<li>选择满足&nbsp;<code>0 &lt;= i &lt; target.size</code>&nbsp;的任意下标&nbsp;<code>i</code>&nbsp;，并让&nbsp;<code>A</code>&nbsp;数组里下标为&nbsp;<code>i</code>&nbsp;处的值为&nbsp;<code>x</code>&nbsp;。</li>
-	<li>你可以重复该过程任意次</li>
+	<li>let <code>x</code> be the sum of all elements currently in your array.</li>
+	<li>choose index <code>i</code>, such that <code>0 &lt;= i &lt; n</code> and set the value of <code>arr</code> at index <code>i</code> to <code>x</code>.</li>
+	<li>You may repeat this procedure as many times as needed.</li>
 </ul>
 
-<p>如果能从&nbsp;<code>A</code>&nbsp;开始构造出目标数组&nbsp;<code>target</code>&nbsp;，请你返回 True ，否则返回 False 。</p>
+<p>Return <code>true</code> <em>if it is possible to construct the</em> <code>target</code> <em>array from</em> <code>arr</code><em>, otherwise, return</em> <code>false</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>target = [9,3,5]
-<strong>输出：</strong>true
-<strong>解释：</strong>从 [1, 1, 1] 开始
-[1, 1, 1], 和为 3 ，选择下标 1
-[1, 3, 1], 和为 5， 选择下标 2
-[1, 3, 5], 和为 9， 选择下标 0
-[9, 3, 5] 完成
+<pre>
+<strong>Input:</strong> target = [9,3,5]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Start with arr = [1, 1, 1] 
+[1, 1, 1], sum = 3 choose index 1
+[1, 3, 1], sum = 5 choose index 2
+[1, 3, 5], sum = 9 choose index 0
+[9, 3, 5] Done
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>target = [1,1,1,2]
-<strong>输出：</strong>false
-<strong>解释：</strong>不可能从 [1,1,1,1] 出发构造目标数组。
+<pre>
+<strong>Input:</strong> target = [1,1,1,2]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> Impossible to create target array from [1,1,1,1].
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>target = [8,5]
-<strong>输出：</strong>true
+<pre>
+<strong>Input:</strong> target = [8,5]
+<strong>Output:</strong> true
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>N == target.length</code></li>
-	<li><code>1 &lt;= target.length&nbsp;&lt;= 5 * 10^4</code></li>
-	<li><code>1 &lt;= target[i] &lt;= 10^9</code></li>
+	<li><code>n == target.length</code></li>
+	<li><code>1 &lt;= n &lt;= 5 * 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= target[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：逆向构造 + 优先队列（大根堆）
+### Solution 1: Reverse Construction + Priority Queue (Max Heap)
 
-我们发现，如果从数组 $arr$ 开始正向构造目标数组 $target$，每次都不好确定选择哪个下标 $i$，问题比较复杂。而如果我们从数组 $target$ 开始逆向构造，每次构造都一定是选择当前数组中最大的元素，这样就可以保证每次构造都是唯一的，问题比较简单。
+We find that if we start from the array $arr$ and construct the target array $target$ forward, it is not easy to determine which index $i$ to choose each time, and the problem is relatively complex. However, if we start from the array $target$ and construct it in reverse, each construction must choose the largest element in the current array, which can ensure that each construction is unique, and the problem is relatively simple.
 
-因此，我们可以使用优先队列（大根堆）来存储数组 $target$ 中的元素，用一个变量 $s$ 记录数组 $target$ 中所有元素的和。每次从优先队列中取出最大的元素 $mx$，计算当前数组中除 $mx$ 以外的所有元素之和 $t$，如果 $t \lt 1$ 或者 $mx - t \lt 1$，则说明无法构造目标数组 $target$，返回 `false`。否则，我们计算 $mx \bmod t$，如果 $mx \bmod t = 0$，则令 $x = t$，否则令 $x = mx \bmod t$，将 $x$ 加入优先队列中，并更新 $s$ 的值，重复上述操作，直到优先队列中的所有元素都变为 $1$，此时返回 `true`。
+Therefore, we can use a priority queue (max heap) to store the elements in the array $target$, and use a variable $s$ to record the sum of all elements in the array $target$. Each time we take out the largest element $mx$ from the priority queue, calculate the sum $t$ of all elements in the current array except $mx$. If $t < 1$ or $mx - t < 1$, it means that the target array $target$ cannot be constructed, and we return `false`. Otherwise, we calculate $mx \bmod t$. If $mx \bmod t = 0$, let $x = t$, otherwise let $x = mx \bmod t$, add $x$ to the priority queue, and update the value of $s$, repeat the above operations until all elements in the priority queue become $1$, then return `true`.
 
-时间复杂度 $O(n \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $target$ 的长度。
+The time complexity is $O(n \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $target$.
 
 <!-- tabs:start -->
 

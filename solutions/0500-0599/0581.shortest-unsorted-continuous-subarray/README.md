@@ -1,82 +1,72 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0581.Shortest%20Unsorted%20Continuous%20Subarray/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 贪心
-    - 数组
-    - 双指针
-    - 排序
-    - 单调栈
+    - Stack
+    - Greedy
+    - Array
+    - Two Pointers
+    - Sorting
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [581. 最短无序连续子数组](https://leetcode.cn/problems/shortest-unsorted-continuous-subarray)
+# [581. Shortest Unsorted Continuous Subarray](https://leetcode.com/problems/shortest-unsorted-continuous-subarray)
 
-[English Version](/solution/0500-0599/0581.Shortest%20Unsorted%20Continuous%20Subarray/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> ，你需要找出一个 <strong>连续子数组</strong> ，如果对这个子数组进行升序排序，那么整个数组都会变为升序排序。</p>
+<p>Given an integer array <code>nums</code>, you need to find one <b>continuous subarray</b> such that if you only sort this subarray in non-decreasing order, then the whole array will be sorted in non-decreasing order.</p>
 
-<p>请你找出符合题意的 <strong>最短</strong> 子数组，并输出它的长度。</p>
+<p>Return <em>the shortest such subarray and output its length</em>.</p>
 
-<p> </p>
-
-<div class="original__bRMd">
-<div>
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2,6,4,8,10,9,15]
-<strong>输出：</strong>5
-<strong>解释：</strong>你只需要对 [6, 4, 8, 10, 9] 进行升序排序，那么整个表都会变为升序排序。
+<strong>Input:</strong> nums = [2,6,4,8,10,9,15]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> You need to sort [6, 4, 8, 10, 9] in ascending order to make the whole array sorted in ascending order.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3,4]
-<strong>输出：</strong>0
+<strong>Input:</strong> nums = [1,2,3,4]
+<strong>Output:</strong> 0
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1]
-<strong>输出：</strong>0
+<strong>Input:</strong> nums = [1]
+<strong>Output:</strong> 0
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= nums.length <= 10<sup>4</sup></code></li>
-	<li><code>-10<sup>5</sup> <= nums[i] <= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>-10<sup>5</sup> &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
 </ul>
 
-<p> </p>
-
-<p><strong>进阶：</strong>你可以设计一个时间复杂度为 <code>O(n)</code> 的解决方案吗？</p>
-</div>
-</div>
+<p>&nbsp;</p>
+<strong>Follow up:</strong> Can you solve it in <code>O(n)</code> time complexity?
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序
+### Solution 1: Sorting
 
-我们可以先对数组进行排序，然后比较排序后的数组和原数组，找到最左边和最右边不相等的位置，它们之间的长度就是我们要找的最短无序连续子数组的长度。
+We can first sort the array, and then compare the sorted array with the original array to find the leftmost and rightmost positions where they differ. The length between them is the length of the shortest unsorted continuous subarray.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 
@@ -209,11 +199,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：维护左侧最大值和右侧最小值
+### Solution 2: Maintaining the Maximum Value on the Left and the Minimum Value on the Right
 
-我们可以从左到右遍历数组，维护一个最大值 $mx$，如果当前值小于 $mx$，说明当前值不在正确的位置上，我们更新右边界 $r$ 为当前位置。同理，我们可以从右到左遍历数组，维护一个最小值 $mi$，如果当前值大于 $mi$，说明当前值不在正确的位置上，我们更新左边界 $l$ 为当前位置。在初始化时，我们将 $l$ 和 $r$ 都初始化为 $-1$，如果 $l$ 和 $r$ 都没有被更新，说明数组已经有序，返回 $0$，否则返回 $r - l + 1$。
+We can traverse the array from left to right and maintain a maximum value $mx$. If the current value is less than $mx$, it means that the current value is not in the correct position, and we update the right boundary $r$ to the current position. Similarly, we can traverse the array from right to left and maintain a minimum value $mi$. If the current value is greater than $mi$, it means that the current value is not in the correct position, and we update the left boundary $l$ to the current position. At initialization, we set $l$ and $r$ to $-1$. If $l$ and $r$ are not updated, it means that the array is already sorted, and we return $0$. Otherwise, we return $r - l + 1$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

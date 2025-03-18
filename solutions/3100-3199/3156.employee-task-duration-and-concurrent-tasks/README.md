@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3156.Employee%20Task%20Duration%20and%20Concurrent%20Tasks/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3156. 员工任务持续时间和并发任务 🔒](https://leetcode.cn/problems/employee-task-duration-and-concurrent-tasks)
+# [3156. Employee Task Duration and Concurrent Tasks 🔒](https://leetcode.com/problems/employee-task-duration-and-concurrent-tasks)
 
-[English Version](/solution/3100-3199/3156.Employee%20Task%20Duration%20and%20Concurrent%20Tasks/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Tasks</code></p>
+<p>Table: <code>Tasks</code></p>
 
 <pre>
 +---------------+----------+
@@ -27,24 +24,23 @@ tags:
 | start_time    | datetime |
 | end_time      | datetime |
 +---------------+----------+
-(task_id, employee_id) 是这张表的主键。
-这张表的每一行包含任务标识，员工标识和每个任务的开始和结束时间。
+(task_id, employee_id) is the primary key for this table.
+Each row in this table contains the task identifier, the employee identifier, and the start and end times of each task.
 </pre>
 
-<p>编写一个解决方案来查找 <strong>每个</strong> 员工的任务 <strong>总持续时间</strong> 以及员工在任何时间点处理的 <strong>最大并发任务数</strong>。总时长应该 <strong>舍入</strong> 到最近的 <strong>整小时</strong>。</p>
+<p>Write a solution to find the <strong>total duration</strong> of tasks for <strong>each</strong> employee and the <strong>maximum number of concurrent tasks</strong> an employee handled at <strong>any point in time</strong>. The total duration should be <strong>rounded down</strong> to the nearest number of <strong>full hours</strong>.</p>
 
-<p>返回结果表以&nbsp;<code>employee_id</code><strong> <em>升序</em></strong><em>&nbsp;排序。</em></p>
+<p>Return <em>the result table ordered by</em>&nbsp;<code>employee_id</code><strong> <em>ascending</em></strong><em> order</em>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p>Tasks 表：</p>
+<p>Tasks table:</p>
 
 <pre class="example-io">
 +---------+-------------+---------------------+---------------------+
@@ -60,7 +56,7 @@ tags:
 +---------+-------------+---------------------+---------------------+
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +-------------+------------------+----------------------+
@@ -72,50 +68,50 @@ tags:
 +-------------+------------------+----------------------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>对于员工 ID 1001：
+	<li>For employee ID 1001:
 	<ul>
-		<li>任务 1 和任务 2 从 08:30 到&nbsp;09:00 重叠（30 分钟）。</li>
-		<li>任务 7 持续时间为 150 分钟（2 小时 30 分钟）。</li>
-		<li>总工作小时：60（任务 1）+ 120（任务 2）+ 60（任务&nbsp;3）+ 150（任务 7）- 30（重叠）= 360 分钟 = 6 小时。</li>
-		<li>最大并发任务：2 （重叠期间）。</li>
+		<li>Task 1 and Task 2 overlap from 08:30 to 09:00 (30 minutes).</li>
+		<li>Task 7 has a duration of 150 minutes (2 hours and 30 minutes).</li>
+		<li>Total task time: 60 (Task 1) + 120 (Task 2) + 60 (Task 3) + 150 (Task 7) - 30 (overlap) = 360 minutes = 6 hours.</li>
+		<li>Maximum concurrent tasks: 2 (during the overlap period).</li>
 	</ul>
 	</li>
-	<li>对于员工 ID 1002：
+	<li>For employee ID 1002:
 	<ul>
-		<li>任务 4 和任务 5 从 09:30 到&nbsp;10:00 重叠（30 分钟）。</li>
-		<li>总工作时间：60 （任务&nbsp;4）+ 120（任务 5）- 30（重叠）= 150 分钟 = 2 小时 30 分钟。</li>
-		<li>总工作小时：（舍入后）：2 小时。</li>
-		<li>最大并发任务：2 （重叠期间）。</li>
+		<li>Task 4 and Task 5 overlap from 09:30 to 10:00 (30 minutes).</li>
+		<li>Total task time: 60 (Task 4) + 120 (Task 5) - 30 (overlap) = 150 minutes = 2 hours and 30 minutes.</li>
+		<li>Total task hours (rounded down): 2 hours.</li>
+		<li>Maximum concurrent tasks: 2 (during the overlap period).</li>
 	</ul>
 	</li>
-	<li>对于员工 ID 1003：
+	<li>For employee ID 1003:
 	<ul>
-		<li>没有重叠的工作。</li>
-		<li>总工作时间：120 分钟 = 2 小时。</li>
-		<li>最大并发任务：1。</li>
+		<li>No overlapping tasks.</li>
+		<li>Total task time: 120 minutes = 2 hours.</li>
+		<li>Maximum concurrent tasks: 1.</li>
 	</ul>
 	</li>
 </ul>
 
-<p><b>注意：</b>输出表以 employee_id 升序排序。</p>
+<p><b>Note:</b> Output table is ordered by employee_id in ascending order.</p>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：合并 + 连接
+### Solution 1: Merge + Join
 
-我们首先将 `employee_id` 的 `start_time` 和 `end_time` 合并到一个新的表 `T` 中，然后使用 `LEAD` 函数计算出每个员工的下一个任务的开始时间，接着我们将 `T` 表和 `Tasks` 表连接起来，计算出每个员工的并发任务数，最后按照 `employee_id` 分组，计算出每个员工的总任务时间和最大并发任务数。
+First, we merge the `start_time` and `end_time` for each `employee_id` into a new table `T`. Then, using the `LEAD` function, we calculate the start time of the next task for each employee. Next, we join table `T` with the `Tasks` table to compute the concurrent task count for each employee. Finally, we group by `employee_id` to calculate the total task duration and the maximum concurrent tasks for each employee.
 
-相似题目：
+Similar Problem:
 
--   [3268. Find Overlapping Shifts II 🔒](https://github.com/doocs/leetcode/blob/main/solution/3200-3299/3268.Find%20Overlapping%20Shifts%20II/README.md)
+-   [3268. Find Overlapping Shifts II 🔒](https://github.com/doocs/leetcode/blob/main/solution/3200-3299/3268.Find%20Overlapping%20Shifts%20II/README_EN.md)
 
 <!-- tabs:start -->
 

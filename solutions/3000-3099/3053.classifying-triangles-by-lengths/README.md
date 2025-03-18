@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3053.Classifying%20Triangles%20by%20Lengths/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3053. 根据长度分类三角形 🔒](https://leetcode.cn/problems/classifying-triangles-by-lengths)
+# [3053. Classifying Triangles by Lengths 🔒](https://leetcode.com/problems/classifying-triangles-by-lengths)
 
-[English Version](/solution/3000-3099/3053.Classifying%20Triangles%20by%20Lengths/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<font face="monospace"><code>Triangles</code></font></p>
+<p>Table: <font face="monospace"><code>Triangles</code></font></p>
 
 <pre>
 +-------------+------+ 
@@ -26,30 +23,29 @@ tags:
 | B           | int  |
 | C           | int  |
 +-------------+------+
-(A, B, C) 是这张表的主键。
-每一行包含三角形三边的长度。
+(A, B, C) is the primary key for this table.
+Each row include the lengths of each of a triangle&#39;s three sides.
 </pre>
 
-<p>编写一个查询来找到 <strong>三角形</strong> 的类型。对于每一行输出下面的其中一个：</p>
+<p>Write a query to find the type of <strong>triangle</strong>. Output one of the following for each row:</p>
 
 <ul>
-	<li><strong>Equilateral</strong>：<code>3</code>&nbsp;边长度相同的三角形。</li>
-	<li><strong>Isosceles</strong>：<code>2</code>&nbsp;边长度相同的三角形。</li>
-	<li><strong>Scalene</strong>：<code>3</code>&nbsp;边长度不同的三角形。</li>
-	<li><strong>Not A Triangle</strong>：给定的&nbsp;<code>A</code>&nbsp;，<code>B</code>，<code>C</code>&nbsp;的值不能形成三角形。</li>
+	<li><strong>Equilateral</strong>: It&#39;s a triangle with <code>3</code> sides of equal length.</li>
+	<li><strong>Isosceles</strong>: It&#39;s a triangle with <code>2</code> sides of equal length.</li>
+	<li><strong>Scalene</strong>: It&#39;s a triangle with <code>3</code> sides of differing lengths.</li>
+	<li><strong>Not A Triangle: </strong>The given values of <code>A</code>, <code>B</code>, and <code>C</code> don&#39;t form a triangle.</li>
 </ul>
 
-<p>以 <strong>任何顺序</strong> 返回结果表。</p>
+<p>Return <em>the result table in <strong>any order</strong></em>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
-Triangles 表：
+<strong>Input:</strong> 
+Triangles table:
 +----+----+----+
 | A  | B  | C  |
 +----+----+----+
@@ -58,7 +54,7 @@ Triangles 表：
 | 20 | 21 | 22 |
 | 13 | 14 | 30 |
 +----+----+----+
-<strong>输出：</strong> 
+<strong>Output:</strong> 
 +----------------+
 | triangle_type  | 
 +----------------+
@@ -67,29 +63,29 @@ Triangles 表：
 | Scalene        |
 | Not A Triangle |
 +----------------+
-<strong>解释：</strong> 
-- 第一行的值形成了等腰三角形，因为 A = B。
-- 第二行的值形成了等边三角形，因为 A = B = C.
-- 第三行的值形成了斜三角形，因为 A != B != C.
-- 第四行中的值不能形成三角形，因为边 A 和边 B 的和不大于边 C。</pre>
+<strong>Explanation:</strong> 
+- Values in the first row from an Isosceles triangle, because A = B.
+- Values in the second row from an Equilateral triangle, because A = B = C.
+- Values in the third row from an Scalene triangle, because A != B != C.
+- Values in the fourth row cannot form a triangle, because the combined value of sides A and B is not larger than that of side C.</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：使用 CASE WHEN 语句
+### Solution 1: Using CASE WHEN Statement
 
-我们可以使用 `CASE WHEN` 语句来判断三角形的类型。
+We can use the `CASE WHEN` statement to determine the type of the triangle.
 
-首先，我们需要判断三个边是否能够构成一个三角形。如果不能，我们返回 `Not A Triangle`。
+First, we need to determine whether the three sides can form a triangle. If not, we return `Not A Triangle`.
 
-然后，我们判断三个边的长度是否相等。如果相等，我们返回 `Equilateral`。
+Then, we check if the lengths of the three sides are equal. If they are, we return `Equilateral`.
 
-接着，我们判断是否有两个边的长度相等。如果有，我们返回 `Isosceles`。
+Next, we check if there are two sides with equal length. If there are, we return `Isosceles`.
 
-否则，说明三个边的长度都不相等，我们返回 `Scalene`。
+Otherwise, it means that the lengths of the three sides are all different, so we return `Scalene`.
 
 <!-- tabs:start -->
 

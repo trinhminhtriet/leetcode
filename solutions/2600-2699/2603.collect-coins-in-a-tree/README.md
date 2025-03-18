@@ -1,62 +1,55 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2603.Collect%20Coins%20in%20a%20Tree/README.md
+difficulty: Hard
 rating: 2711
-source: 第 338 场周赛 Q4
+source: Weekly Contest 338 Q4
 tags:
-    - 树
-    - 图
-    - 拓扑排序
-    - 数组
+    - Tree
+    - Graph
+    - Topological Sort
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2603. 收集树中金币](https://leetcode.cn/problems/collect-coins-in-a-tree)
+# [2603. Collect Coins in a Tree](https://leetcode.com/problems/collect-coins-in-a-tree)
 
-[English Version](/solution/2600-2699/2603.Collect%20Coins%20in%20a%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>n</code>&nbsp;个节点的无向无根树，节点编号从&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;。给你整数&nbsp;<code>n</code>&nbsp;和一个长度为 <code>n - 1</code>&nbsp;的二维整数数组 <code>edges</code>&nbsp;，其中&nbsp;<code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;表示树中节点&nbsp;<code>a<sub>i</sub></code> 和&nbsp;<code>b<sub>i</sub></code>&nbsp;之间有一条边。再给你一个长度为 <code>n</code>&nbsp;的数组&nbsp;<code>coins</code>&nbsp;，其中&nbsp;<code>coins[i]</code> 可能为&nbsp;<code>0</code>&nbsp;也可能为&nbsp;<code>1</code>&nbsp;，<code>1</code>&nbsp;表示节点 <code>i</code>&nbsp;处有一个金币。</p>
+<p>There exists an undirected and unrooted tree with <code>n</code> nodes indexed from <code>0</code> to <code>n - 1</code>. You are given an integer <code>n</code> and a 2D integer array edges of length <code>n - 1</code>, where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the tree. You are also given&nbsp;an array <code>coins</code> of size <code>n</code> where <code>coins[i]</code> can be either <code>0</code> or <code>1</code>, where <code>1</code> indicates the presence of a coin in the vertex <code>i</code>.</p>
 
-<p>一开始，你需要选择树中任意一个节点出发。你可以执行下述操作任意次：</p>
+<p>Initially, you choose to start at any vertex in&nbsp;the tree.&nbsp;Then, you can perform&nbsp;the following operations any number of times:&nbsp;</p>
 
 <ul>
-	<li>收集距离当前节点距离为 <code>2</code>&nbsp;以内的所有金币，或者</li>
-	<li>移动到树中一个相邻节点。</li>
+	<li>Collect all the coins that are at a distance of at most <code>2</code> from the current vertex, or</li>
+	<li>Move to any adjacent vertex in the tree.</li>
 </ul>
 
-<p>你需要收集树中所有的金币，并且回到出发节点，请你返回最少经过的边数。</p>
+<p>Find <em>the minimum number of edges you need to go through to collect all the coins and go back to the initial vertex</em>.</p>
 
-<p>如果你多次经过一条边，每一次经过都会给答案加一。</p>
+<p>Note that if you pass an edge several times, you need to count it into the answer several times.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2603.Collect%20Coins%20in%20a%20Tree/images/graph-2.png" style="width: 522px; height: 522px;"></p>
-
-<pre><b>输入：</b>coins = [1,0,0,0,0,1], edges = [[0,1],[1,2],[2,3],[3,4],[4,5]]
-<b>输出：</b>2
-<b>解释：</b>从节点 2 出发，收集节点 0 处的金币，移动到节点 3 ，收集节点 5 处的金币，然后移动回节点 2 。
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2603.Collect%20Coins%20in%20a%20Tree/images/graph-2.png" style="width: 522px; height: 522px;" />
+<pre>
+<strong>Input:</strong> coins = [1,0,0,0,0,1], edges = [[0,1],[1,2],[2,3],[3,4],[4,5]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> Start at vertex 2, collect the coin at vertex 0, move to vertex 3, collect the coin at vertex 5 then move back to vertex 2.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2603.Collect%20Coins%20in%20a%20Tree/images/graph-4.png" style="width: 522px; height: 522px;"></p>
-
-<pre><b>输入：</b>coins = [0,0,0,1,1,0,0,1], edges = [[0,1],[0,2],[1,3],[1,4],[2,5],[5,6],[5,7]]
-<b>输出：</b>2
-<b>解释：</b>从节点 0 出发，收集节点 4 和 3 处的金币，移动到节点 2 处，收集节点 7 处的金币，移动回节点 0 。
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2603.Collect%20Coins%20in%20a%20Tree/images/graph-4.png" style="width: 522px; height: 522px;" />
+<pre>
+<strong>Input:</strong> coins = [0,0,0,1,1,0,0,1], edges = [[0,1],[0,2],[1,3],[1,4],[2,5],[5,6],[5,7]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> Start at vertex 0, collect the coins at vertices 4 and 3, move to vertex 2,  collect the coin at vertex 7, then move back to vertex 0.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == coins.length</code></li>
@@ -66,32 +59,32 @@ tags:
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt; n</code></li>
 	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
-	<li><code>edges</code>&nbsp;表示一棵合法的树。</li>
+	<li><code>edges</code> represents a valid tree.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：拓扑排序
+### Solution 1: Topological sorting
 
-我们先将 $edges$ 中的边转换成邻接表 $g$，其中 $g[i]$ 表示节点 $i$ 的所有邻接节点，用集合表示。
+We first convert the edges in $edges$ to the adjacency list $g$, where $g[i]$ represents all the adjacent nodes of node $i$, represented by a set.
 
-接下来我们遍历所有节点，找到 $coins[i]=0$ 且 $g[i]$ 中只有一个节点的节点（也即是金币为 $0$ 的叶子节点），将其加入队列 $q$ 中。
+Then we traverse all nodes and find the nodes where $coins[i]=0$ and $g[i]$ only has one node (that is, the leaf node where the coin is $0$), and add them to the queue $q$.
 
-然后我们不断地从队列中取出节点，将其从邻接表中删除，然后判断其邻接节点是否满足 $coins[j]=0$ 且 $g[j]$ 中只有一个节点的条件，如果满足则将其加入队列 $q$ 中。循环，直至队列为空。
+Then we continuously remove nodes from the queue and delete them from the adjacent list. Then we check whether the adjacent nodes meet the condition where $coins[j]=0$ and $g[j]$ only has one node. If it meets, we add it to the queue $q$. Loop until the queue is empty.
 
-经过上述操作后，我们得到了一棵新的树，且树的叶子节点都是金币为 $1$ 的节点。
+After the above operation, we get a new tree, and the leaf nodes of the tree are all nodes where the coin is $1$.
 
-然后，我们再删除剩下的两层叶子节点，最终得到的是一棵所有节点都需要被访问的节点，我们只需要统计其边数，乘上 $2$，即为答案。
+Then, we delete the remaining two layers of leaf nodes, and finally get a tree where all nodes need to be visited. We only need to count the number of edges and multiply it by $2$ to get the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为节点数。
+The time complexity is $O(n)$ and the space complexity is $O(n)$, where $n$ is the number of nodes.
 
-相似题目：
+Similar problems:
 
--   [2204. 无向图中到环的距离](https://github.com/doocs/leetcode/blob/main/solution/2200-2299/2204.Distance%20to%20a%20Cycle%20in%20Undirected%20Graph/README.md)
+-   [2204. Distance to a Cycle in Undirected Graph](https://github.com/doocs/leetcode/blob/main/solution/2200-2299/2204.Distance%20to%20a%20Cycle%20in%20Undirected%20Graph/README_EN.md)
 
 <!-- tabs:start -->
 

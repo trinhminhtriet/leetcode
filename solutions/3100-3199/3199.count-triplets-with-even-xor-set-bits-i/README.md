@@ -1,48 +1,44 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3199.Count%20Triplets%20with%20Even%20XOR%20Set%20Bits%20I/README.md
+difficulty: Easy
 tags:
-    - 位运算
-    - 数组
+    - Bit Manipulation
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [3199. 用偶数异或设置位计数三元组 I 🔒](https://leetcode.cn/problems/count-triplets-with-even-xor-set-bits-i)
+# [3199. Count Triplets with Even XOR Set Bits I 🔒](https://leetcode.com/problems/count-triplets-with-even-xor-set-bits-i)
 
-[English Version](/solution/3100-3199/3199.Count%20Triplets%20with%20Even%20XOR%20Set%20Bits%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定三个整数数组&nbsp;<code>a</code>，<code>b</code>&nbsp;和&nbsp;<code>c</code>，返回组内元素按位&nbsp;<code>XOR</code>&nbsp;有&nbsp;<strong>偶数</strong>&nbsp;个 <span data-keyword="set-bit">设置位</span> 的三元组&nbsp;<code>(a[i], b[j], c[k])</code>&nbsp;的数量。</p>
+Given three integer arrays <code>a</code>, <code>b</code>, and <code>c</code>, return the number of triplets <code>(a[i], b[j], c[k])</code>, such that the bitwise <code>XOR</code> of the elements of each triplet has an <strong>even</strong> number of <span data-keyword="set-bit">set bits</span>.
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>a = [1], b = [2], c = [3]</span></p>
+<p><strong>Input:</strong> <span class="example-io">a = [1], b = [2], c = [3]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">1</span></p>
+<p><strong>Output:</strong> <span class="example-io">1</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>只有一个三元组&nbsp;<code>(a[0], b[0], c[0])</code>&nbsp;并且它们的&nbsp;<code>XOR</code>&nbsp;为：<code>1 XOR 2 XOR 3 = 00<sub>2</sub></code>。</p>
+<p>The only triplet is <code>(a[0], b[0], c[0])</code> and their <code>XOR</code> is: <code>1 XOR 2 XOR 3 = 00<sub>2</sub></code>.</p>
 </div>
 
-<p><strong class="example">示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b></span><span class="example-io">a = [1,1], b = [2,3], c = [1,5]</span></p>
+<p><strong>Input:</strong> <span class="example-io">a = [1,1], b = [2,3], c = [1,5]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">4</span></p>
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>考虑以下 4 个三元组：</p>
+<p>Consider these four triplets:</p>
 
 <ul>
 	<li><code>(a[0], b[1], c[0])</code>: <code>1 XOR 3 XOR 1 = 011<sub>2</sub></code></li>
@@ -53,8 +49,7 @@ tags:
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= a.length, b.length, c.length &lt;= 100</code></li>
@@ -63,21 +58,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算
+### Solution 1: Bit Manipulation
 
-对于两个整数，异或结果中 $1$ 的个数的奇偶性，取决于两个整数的二进制表示中 $1$ 的个数的奇偶性。
+For two integers, the parity of the number of $1$s in the XOR result depends on the parity of the number of $1$s in the binary representations of the two integers.
 
-我们可以用三个数组 `cnt1`、`cnt2`、`cnt3` 分别记录数组 `a`、`b`、`c` 中每个数的二进制表示中 $1$ 的个数的奇偶性。
+We can use three arrays `cnt1`, `cnt2`, `cnt3` to record the parity of the number of $1$s in the binary representations of each number in arrays `a`, `b`, `c`, respectively.
 
-然后我们在 $[0, 1]$ 的范围内枚举三个数组中的每个数的二进制表示中 $1$ 的个数的奇偶性，如果三个数的二进制表示中 $1$ 的个数的奇偶性之和为偶数，那么这三个数的异或结果中 $1$ 的个数也为偶数，此时我们将这三个数的组合数相乘累加到答案中。
+Then, we enumerate the parity of the number of $1$s in the binary representations of each number in the three arrays within the range $[0, 1]$. If the sum of the parity of the number of $1$s in the binary representations of three numbers is even, then the number of $1$s in the XOR result of these three numbers is also even. At this time, we multiply the combination of these three numbers and accumulate it into the answer.
 
-最后返回答案即可。
+Finally, return the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 `a`、`b`、`c` 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of arrays `a`, `b`, `c`. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

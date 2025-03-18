@@ -1,108 +1,103 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3242.Design%20Neighbor%20Sum%20Service/README.md
+difficulty: Easy
 rating: 1334
-source: 第 409 场周赛 Q1
+source: Weekly Contest 409 Q1
 tags:
-    - 设计
-    - 数组
-    - 哈希表
-    - 矩阵
-    - 模拟
+    - Design
+    - Array
+    - Hash Table
+    - Matrix
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [3242. 设计相邻元素求和服务](https://leetcode.cn/problems/design-neighbor-sum-service)
+# [3242. Design Neighbor Sum Service](https://leetcode.com/problems/design-neighbor-sum-service)
 
-[English Version](/solution/3200-3299/3242.Design%20Neighbor%20Sum%20Service/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>n x n</code> 的二维数组 <code>grid</code>，它包含范围 <code>[0, n<sup>2</sup> - 1]</code> 内的<strong>不重复</strong>元素。</p>
+<p>You are given a <code>n x n</code> 2D array <code>grid</code> containing <strong>distinct</strong> elements in the range <code>[0, n<sup>2</sup> - 1]</code>.</p>
 
-<p>实现 <code>neighborSum</code> 类：</p>
+<p>Implement the <code>NeighborSum</code> class:</p>
 
 <ul>
-	<li><code>neighborSum(int [][]grid)</code> 初始化对象。</li>
-	<li><code>int adjacentSum(int value)</code> 返回在 <code>grid</code> 中与 <code>value</code> 相邻的元素之<strong>和</strong>，相邻指的是与 <code>value</code> 在上、左、右或下的元素。</li>
-	<li><code>int diagonalSum(int value)</code> 返回在 <code>grid</code> 中与 <code>value</code> 对角线相邻的元素之<strong>和</strong>，对角线相邻指的是与 <code>value</code> 在左上、右上、左下或右下的元素。</li>
+	<li><code>NeighborSum(int [][]grid)</code> initializes the object.</li>
+	<li><code>int adjacentSum(int value)</code> returns the <strong>sum</strong> of elements which are adjacent neighbors of <code>value</code>, that is either to the top, left, right, or bottom of <code>value</code> in <code>grid</code>.</li>
+	<li><code>int diagonalSum(int value)</code> returns the <strong>sum</strong> of elements which are diagonal neighbors of <code>value</code>, that is either to the top-left, top-right, bottom-left, or bottom-right of <code>value</code> in <code>grid</code>.</li>
 </ul>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3242.Design%20Neighbor%20Sum%20Service/images/design.png" style="width: 400px; height: 248px;" /></p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p>["neighborSum", "adjacentSum", "adjacentSum", "diagonalSum", "diagonalSum"]</p>
+<p>[&quot;NeighborSum&quot;, &quot;adjacentSum&quot;, &quot;adjacentSum&quot;, &quot;diagonalSum&quot;, &quot;diagonalSum&quot;]</p>
 
 <p>[[[[0, 1, 2], [3, 4, 5], [6, 7, 8]]], [1], [4], [4], [8]]</p>
 
-<p><strong>输出：</strong> [null, 6, 16, 16, 4]</p>
+<p><strong>Output:</strong> [null, 6, 16, 16, 4]</p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><strong class="example"><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3242.Design%20Neighbor%20Sum%20Service/images/designexample0.png" style="width: 250px; height: 249px;" /></strong></p>
 
 <ul>
-	<li>1 的相邻元素是 0、2 和 4。</li>
-	<li>4 的相邻元素是 1、3、5 和 7。</li>
-	<li>4 的对角线相邻元素是 0、2、6 和 8。</li>
-	<li>8 的对角线相邻元素是 4。</li>
+	<li>The adjacent neighbors of 1 are 0, 2, and 4.</li>
+	<li>The adjacent neighbors of 4 are 1, 3, 5, and 7.</li>
+	<li>The diagonal neighbors of 4 are 0, 2, 6, and 8.</li>
+	<li>The diagonal neighbor of 8 is 4.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p>["neighborSum", "adjacentSum", "diagonalSum"]</p>
+<p>[&quot;NeighborSum&quot;, &quot;adjacentSum&quot;, &quot;diagonalSum&quot;]</p>
 
 <p>[[[[1, 2, 0, 3], [4, 7, 15, 6], [8, 9, 10, 11], [12, 13, 14, 5]]], [15], [9]]</p>
 
-<p><strong>输出：</strong> [null, 23, 45]</p>
+<p><strong>Output:</strong> [null, 23, 45]</p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><strong class="example"><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3242.Design%20Neighbor%20Sum%20Service/images/designexample2.png" style="width: 300px; height: 300px;" /></strong></p>
 
 <ul>
-	<li>15 的相邻元素是 0、10、7 和 6。</li>
-	<li>9 的对角线相邻元素是 4、12、14 和 15。</li>
+	<li>The adjacent neighbors of 15 are 0, 10, 7, and 6.</li>
+	<li>The diagonal neighbors of 9 are 4, 12, 14, and 15.</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= n == grid.length == grid[0].length &lt;= 10</code></li>
 	<li><code>0 &lt;= grid[i][j] &lt;= n<sup>2</sup> - 1</code></li>
-	<li>所有 <code>grid[i][j]</code> 值均不重复。</li>
-	<li><code>adjacentSum</code> 和 <code>diagonalSum</code> 中的 <code>value</code> 均在范围 <code>[0, n<sup>2</sup> - 1]</code> 内。</li>
-	<li>最多会调用 <code>adjacentSum</code> 和 <code>diagonalSum</code> 总共 <code>2 * n<sup>2</sup></code> 次。</li>
+	<li>All <code>grid[i][j]</code> are distinct.</li>
+	<li><code>value</code> in <code>adjacentSum</code> and <code>diagonalSum</code> will be in the range <code>[0, n<sup>2</sup> - 1]</code>.</li>
+	<li>At most <code>2 * n<sup>2</sup></code> calls will be made to <code>adjacentSum</code> and <code>diagonalSum</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们可以用一个哈希表 $\textit{d}$ 来存储每个元素的坐标，然后根据题意，分别计算相邻元素和对角线相邻元素的和。
+We can use a hash table $\textit{d}$ to store the coordinates of each element. Then, according to the problem description, we separately calculate the sum of adjacent elements and diagonally adjacent elements.
 
-时间复杂度方面，初始化哈希表的时间复杂度为 $O(m \times n)$，计算相邻元素和对角线相邻元素的和的时间复杂度为 $O(1)$。空间复杂度为 $O(m \times n)$。
+In terms of time complexity, initializing the hash table has a time complexity of $O(m \times n)$, and calculating the sum of adjacent elements and diagonally adjacent elements has a time complexity of $O(1)$. The space complexity is $O(m \times n)$.
 
 <!-- tabs:start -->
 

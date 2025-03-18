@@ -1,83 +1,78 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3210.Find%20the%20Encrypted%20String/README.md
+difficulty: Easy
 rating: 1179
-source: 第 405 场周赛 Q1
+source: Weekly Contest 405 Q1
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [3210. 找出加密后的字符串](https://leetcode.cn/problems/find-the-encrypted-string)
+# [3210. Find the Encrypted String](https://leetcode.com/problems/find-the-encrypted-string)
 
-[English Version](/solution/3200-3299/3210.Find%20the%20Encrypted%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> 和一个整数 <code>k</code>。请你使用以下算法加密字符串：</p>
+<p>You are given a string <code>s</code> and an integer <code>k</code>. Encrypt the string using the following algorithm:</p>
 
 <ul>
-	<li>对于字符串 <code>s</code> 中的每个字符 <code>c</code>，用字符串中 <code>c</code> 后面的第 <code>k</code> 个字符替换 <code>c</code>（以循环方式）。</li>
+	<li>For each character <code>c</code> in <code>s</code>, replace <code>c</code> with the <code>k<sup>th</sup></code> character after <code>c</code> in the string (in a cyclic manner).</li>
 </ul>
 
-<p>返回加密后的字符串。</p>
+<p>Return the <em>encrypted string</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">s = "dart", k = 3</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;dart&quot;, k = 3</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">"tdar"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;tdar&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>对于 <code>i = 0</code>，<code>'d'</code> 后面的第 3 个字符是 <code>'t'</code>。</li>
-	<li>对于 <code>i = 1</code>，<code>'a'</code> 后面的第 3 个字符是 <code>'d'</code>。</li>
-	<li>对于 <code>i = 2</code>，<code>'r'</code> 后面的第 3 个字符是 <code>'a'</code>。</li>
-	<li>对于 <code>i = 3</code>，<code>'t'</code> 后面的第 3 个字符是 <code>'r'</code>。</li>
+	<li>For <code>i = 0</code>, the 3<sup>rd</sup> character after <code>&#39;d&#39;</code> is <code>&#39;t&#39;</code>.</li>
+	<li>For <code>i = 1</code>, the 3<sup>rd</sup> character after <code>&#39;a&#39;</code> is <code>&#39;d&#39;</code>.</li>
+	<li>For <code>i = 2</code>, the 3<sup>rd</sup> character after <code>&#39;r&#39;</code> is <code>&#39;a&#39;</code>.</li>
+	<li>For <code>i = 3</code>, the 3<sup>rd</sup> character after <code>&#39;t&#39;</code> is <code>&#39;r&#39;</code>.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">s = "aaa", k = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;aaa&quot;, k = 1</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">"aaa"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;aaa&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>由于所有字符都相同，加密后的字符串也将相同。</p>
+<p>As all the characters are the same, the encrypted string will also be the same.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 100</code></li>
 	<li><code>1 &lt;= k &lt;= 10<sup>4</sup></code></li>
-	<li><code>s</code> 仅由小写英文字母组成。</li>
+	<li><code>s</code> consists only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以使用模拟的方法，对字符串的第 $i$ 个字符，我们将其替换为字符串的第 $(i + k) \bmod n$ 个字符。
+We can use the simulation method. For the $i^{th}$ character of the string, we replace it with the character at position $(i + k) \bmod n$ of the string.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

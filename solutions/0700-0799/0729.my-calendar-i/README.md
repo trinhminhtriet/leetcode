@@ -1,77 +1,72 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0729.My%20Calendar%20I/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 线段树
-    - 数组
-    - 二分查找
-    - 有序集合
+    - Design
+    - Segment Tree
+    - Array
+    - Binary Search
+    - Ordered Set
 ---
 
 <!-- problem:start -->
 
-# [729. 我的日程安排表 I](https://leetcode.cn/problems/my-calendar-i)
+# [729. My Calendar I](https://leetcode.com/problems/my-calendar-i)
 
-[English Version](/solution/0700-0799/0729.My%20Calendar%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>实现一个 <code>MyCalendar</code> 类来存放你的日程安排。如果要添加的日程安排不会造成 <strong>重复预订</strong> ，则可以存储这个新的日程安排。</p>
+<p>You are implementing a program to use as your calendar. We can add a new event if adding the event will not cause a <strong>double booking</strong>.</p>
 
-<p>当两个日程安排有一些时间上的交叉时（例如两个日程安排都在同一时间内），就会产生 <strong>重复预订</strong> 。</p>
+<p>A <strong>double booking</strong> happens when two events have some non-empty intersection (i.e., some moment is common to both events.).</p>
 
-<p>日程可以用一对整数 <code>startTime</code> 和 <code>endTime</code> 表示，这里的时间是半开区间，即 <code>[startTime, endTime)</code>, 实数&nbsp;<code>x</code> 的范围为， &nbsp;<code>startTime &lt;= x &lt; endTime</code> 。</p>
+<p>The event can be represented as a pair of integers <code>startTime</code> and <code>endTime</code> that represents a booking on the half-open interval <code>[startTime, endTime)</code>, the range of real numbers <code>x</code> such that <code>startTime &lt;= x &lt; endTime</code>.</p>
 
-<p>实现 <code>MyCalendar</code> 类：</p>
+<p>Implement the <code>MyCalendar</code> class:</p>
 
 <ul>
-	<li><code>MyCalendar()</code> 初始化日历对象。</li>
-	<li><code>boolean book(int startTime, int endTime)</code> 如果可以将日程安排成功添加到日历中而不会导致重复预订，返回 <code>true</code> 。否则，返回 <code>false</code>&nbsp;并且不要将该日程安排添加到日历中。</li>
+	<li><code>MyCalendar()</code> Initializes the calendar object.</li>
+	<li><code>boolean book(int startTime, int endTime)</code> Returns <code>true</code> if the event can be added to the calendar successfully without causing a <strong>double booking</strong>. Otherwise, return <code>false</code> and do not add the event to the calendar.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["MyCalendar", "book", "book", "book"]
+<strong>Input</strong>
+[&quot;MyCalendar&quot;, &quot;book&quot;, &quot;book&quot;, &quot;book&quot;]
 [[], [10, 20], [15, 25], [20, 30]]
-<strong>输出：</strong>
+<strong>Output</strong>
 [null, true, false, true]
 
-<strong>解释：</strong>
+<strong>Explanation</strong>
 MyCalendar myCalendar = new MyCalendar();
 myCalendar.book(10, 20); // return True
-myCalendar.book(15, 25); // return False ，这个日程安排不能添加到日历中，因为时间 15 已经被另一个日程安排预订了。
-myCalendar.book(20, 30); // return True ，这个日程安排可以添加到日历中，因为第一个日程安排预订的每个时间都小于 20 ，且不包含时间 20 。</pre>
+myCalendar.book(15, 25); // return False, It can not be booked because time 15 is already booked by another event.
+myCalendar.book(20, 30); // return True, The event can be booked, as the first event takes every time less than 20, but not including 20.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= start &lt; end &lt;= 10<sup>9</sup></code></li>
-	<li>每个测试用例，调用 <code>book</code> 方法的次数最多不超过 <code>1000</code> 次。</li>
+	<li>At most <code>1000</code> calls will be made to <code>book</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：有序集合
+### Solution 1: Ordered Set
 
-我们可以使用有序集合来存储日程安排，有序集合可以在 $O(\log n)$ 的时间内完成插入、删除、查找操作。有序集合中的元素，按照日程安排的 $\textit{endTime}$ 从小到大排序。
+We can use an ordered set to store the schedule. An ordered set can perform insert, delete, and search operations in $O(\log n)$ time. The elements in the ordered set are sorted by the $\textit{endTime}$ of the schedule in ascending order.
 
-调用 $\text{book}(start, end)$ 方法时，我们在有序集合中查找第一个结束时间大于 $\textit{start}$ 的日程安排，如果存在并且其开始时间小于 $\textit{end}$，则说明存在重复预订，返回 $\text{false}$；否则，将 $\textit{end}$ 作为键，将 $\textit{start}$ 作为值插入有序集合中，返回 $\text{true}$。
+When calling the $\text{book}(start, end)$ method, we search for the first schedule in the ordered set with an end time greater than $\textit{start}$. If it exists and its start time is less than $\textit{end}$, it means there is a double booking, and we return $\text{false}$. Otherwise, we insert $\textit{end}$ as the key and $\textit{start}$ as the value into the ordered set and return $\text{true}$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为日程安排的数量。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of schedules.
 
 <!-- tabs:start -->
 

@@ -1,53 +1,49 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0265.Paint%20House%20II/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [265. 粉刷房子 II 🔒](https://leetcode.cn/problems/paint-house-ii)
+# [265. Paint House II 🔒](https://leetcode.com/problems/paint-house-ii)
 
-[English Version](/solution/0200-0299/0265.Paint%20House%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>假如有一排房子共有&nbsp;<code>n</code>&nbsp;幢，每个房子可以被粉刷成 <code>k</code>&nbsp;种颜色中的一种。房子粉刷成不同颜色的花费成本也是不同的。你需要粉刷所有的房子并且使其相邻的两个房子颜色不能相同。</p>
+<p>There are a row of <code>n</code> houses, each house can be painted with one of the <code>k</code> colors. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color.</p>
 
-<p>每个房子粉刷成不同颜色的花费以一个 <code>n x k</code> 的矩阵表示。</p>
+<p>The cost of painting each house with a certain color is represented by an <code>n x k</code> cost matrix costs.</p>
 
 <ul>
-	<li>例如，<code>costs[0][0]</code> 表示第 <code>0</code>&nbsp;幢房子粉刷成 <code>0</code> 号颜色的成本；<code>costs[1][2]</code>&nbsp;表示第 <code>1</code> 幢房子粉刷成 <code>2</code> 号颜色的成本，以此类推。</li>
+	<li>For example, <code>costs[0][0]</code> is the cost of painting house <code>0</code> with color <code>0</code>; <code>costs[1][2]</code> is the cost of painting house <code>1</code> with color <code>2</code>, and so on...</li>
 </ul>
 
-<p>返回 <em>粉刷完所有房子的最低成本</em>&nbsp;。</p>
+<p>Return <em>the minimum cost to paint all houses</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入: </strong>costs = [[1,5,3],[2,9,4]]
-<strong>输出: </strong>5
-<strong>解释: 
-</strong>将房子 0 刷成 0 号颜色，房子 1 刷成 2 号颜色。花费: 1 + 4 = 5; 
-或者将 房子 0 刷成 2 号颜色，房子 1 刷成 0 号颜色。花费: 3 + 2 = 5. </pre>
-
-<p><strong>示例&nbsp;<strong>2:</strong></strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> costs = [[1,3],[2,4]]
-<strong>输出:</strong> 5
+<strong>Input:</strong> costs = [[1,5,3],[2,9,4]]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong>
+Paint house 0 into color 0, paint house 1 into color 2. Minimum cost: 1 + 4 = 5; 
+Or paint house 0 into color 2, paint house 1 into color 0. Minimum cost: 3 + 2 = 5.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> costs = [[1,3],[2,4]]
+<strong>Output:</strong> 5
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>costs.length == n</code></li>
@@ -58,28 +54,15 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>您能否在&nbsp;<code>O(nk)</code> 的时间复杂度下解决此问题？</p>
+<p><strong>Follow up:</strong> Could you solve it in <code>O(nk)</code> runtime?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
-
-定义 $f[i][j]$ 表示粉刷前 $i$ 个房子，且最后一个房子被粉刷成第 $j$ 种颜色的最小花费。答案为 $\min_{0 \leq j < k} f[n][j]$。
-
-对于 $f[i][j]$，可以从 $f[i - 1][j']$ 转移而来，其中 $j' \neq j$。因此，可以得到状态转移方程：
-
-$$
-f[i][j] = \min_{0 \leq j' < k, j' \neq j} f[i - 1][j'] + costs[i - 1][j]
-$$
-
-由于 $f[i][j]$ 只与 $f[i - 1][j']$ 有关，因此可以使用滚动数组优化空间复杂度。
-
-时间复杂度 $O(n \times k^2)$，空间复杂度 $O(k)$。其中 $n$ 和 $k$ 分别为房子数量和颜色数量。
+### Solution 1
 
 <!-- tabs:start -->
 

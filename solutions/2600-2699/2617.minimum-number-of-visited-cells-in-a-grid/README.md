@@ -1,73 +1,65 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2617.Minimum%20Number%20of%20Visited%20Cells%20in%20a%20Grid/README.md
+difficulty: Hard
 rating: 2581
-source: 第 340 场周赛 Q4
+source: Weekly Contest 340 Q4
 tags:
-    - 栈
-    - 广度优先搜索
-    - 并查集
-    - 数组
-    - 动态规划
-    - 矩阵
-    - 单调栈
-    - 堆（优先队列）
+    - Stack
+    - Breadth-First Search
+    - Union Find
+    - Array
+    - Dynamic Programming
+    - Matrix
+    - Monotonic Stack
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2617. 网格图中最少访问的格子数](https://leetcode.cn/problems/minimum-number-of-visited-cells-in-a-grid)
+# [2617. Minimum Number of Visited Cells in a Grid](https://leetcode.com/problems/minimum-number-of-visited-cells-in-a-grid)
 
-[English Version](/solution/2600-2699/2617.Minimum%20Number%20of%20Visited%20Cells%20in%20a%20Grid/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的&nbsp;<code>m x n</code>&nbsp;整数矩阵&nbsp;<code>grid</code>&nbsp;。你一开始的位置在&nbsp;<strong>左上角</strong>&nbsp;格子&nbsp;<code>(0, 0)</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> <code>m x n</code> integer matrix <code>grid</code>. Your initial position is at the <strong>top-left</strong> cell <code>(0, 0)</code>.</p>
 
-<p>当你在格子&nbsp;<code>(i, j)</code>&nbsp;的时候，你可以移动到以下格子之一：</p>
+<p>Starting from the cell <code>(i, j)</code>, you can move to one of the following cells:</p>
 
 <ul>
-	<li>满足 <code>j &lt; k &lt;= grid[i][j] + j</code>&nbsp;的格子&nbsp;<code>(i, k)</code>&nbsp;（向右移动），或者</li>
-	<li>满足 <code>i &lt; k &lt;= grid[i][j] + i</code>&nbsp;的格子&nbsp;<code>(k, j)</code>&nbsp;（向下移动）。</li>
+	<li>Cells <code>(i, k)</code> with <code>j &lt; k &lt;= grid[i][j] + j</code> (rightward movement), or</li>
+	<li>Cells <code>(k, j)</code> with <code>i &lt; k &lt;= grid[i][j] + i</code> (downward movement).</li>
 </ul>
 
-<p>请你返回到达 <strong>右下角</strong>&nbsp;格子&nbsp;<code>(m - 1, n - 1)</code>&nbsp;需要经过的最少移动格子数，如果无法到达右下角格子，请你返回&nbsp;<code>-1</code>&nbsp;。</p>
+<p>Return <em>the minimum number of cells you need to visit to reach the <strong>bottom-right</strong> cell</em> <code>(m - 1, n - 1)</code>. If there is no valid path, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2617.Minimum%20Number%20of%20Visited%20Cells%20in%20a%20Grid/images/ex1.png" style="width: 271px; height: 171px;"></p>
-
-<pre><b>输入：</b>grid = [[3,4,2,1],[4,2,3,1],[2,1,0,0],[2,4,0,0]]
-<b>输出：</b>4
-<b>解释：</b>上图展示了到达右下角格子经过的 4 个格子。
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2617.Minimum%20Number%20of%20Visited%20Cells%20in%20a%20Grid/images/ex1.png" style="width: 271px; height: 171px;" />
+<pre>
+<strong>Input:</strong> grid = [[3,4,2,1],[4,2,3,1],[2,1,0,0],[2,4,0,0]]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The image above shows one of the paths that visits exactly 4 cells.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2617.Minimum%20Number%20of%20Visited%20Cells%20in%20a%20Grid/images/ex2.png" style="width: 271px; height: 171px;"></p>
-
-<pre><b>输入：</b>grid = [[3,4,2,1],[4,2,1,1],[2,1,1,0],[3,4,1,0]]
-<b>输出：</b>3
-<strong>解释：</strong>上图展示了到达右下角格子经过的 3 个格子。
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2617.Minimum%20Number%20of%20Visited%20Cells%20in%20a%20Grid/images/ex2.png" style="width: 271px; height: 171px;" />
+<pre>
+<strong>Input:</strong> grid = [[3,4,2,1],[4,2,1,1],[2,1,1,0],[3,4,1,0]]
+<strong>Output:</strong> 3
+<strong>Explanation: </strong>The image above shows one of the paths that visits exactly 3 cells.
 </pre>
 
-<p><strong>示例 3：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2617.Minimum%20Number%20of%20Visited%20Cells%20in%20a%20Grid/images/ex3.png" style="width: 181px; height: 81px;"></p>
-
-<pre><b>输入：</b>grid = [[2,1,0],[1,0,0]]
-<b>输出：</b>-1
-<b>解释：</b>无法到达右下角格子。
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2617.Minimum%20Number%20of%20Visited%20Cells%20in%20a%20Grid/images/ex3.png" style="width: 181px; height: 81px;" />
+<pre>
+<strong>Input:</strong> grid = [[2,1,0],[1,0,0]]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> It can be proven that no path exists.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
@@ -80,23 +72,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：优先队列
+### Solution 1: Priority Queue
 
-我们记网格的行数为 $m$，列数为 $n$，定义 $dist[i][j]$ 表示从坐标 $(0, 0)$ 移动到坐标 $(i, j)$ 的最短距离，初始时 $dist[0][0] = 1$，其它 $dist[i][j]=-1$。
+Let's denote the number of rows of the grid as $m$ and the number of columns as $n$. Define $dist[i][j]$ to be the shortest distance from the coordinate $(0, 0)$ to the coordinate $(i, j)$. Initially, $dist[0][0]=1$ and $dist[i][j]=-1$ for all other $i$ and $j$.
 
-对于每个格子 $(i, j)$，它可以从上边或者左边的格子移动过来。如果是从上边的格子 $(i', j)$ 移动过来，其中 $0 \leq i' \lt i$，那么 $(i', j)$ 需要满足 $grid[i'][j] + i' \geq i$，我们要从这些格子中选择一个距离最近的格子。
+For each grid $(i, j)$, it can come from the grid above or the grid on the left. If it comes from the grid above $(i', j)$, where $0 \leq i' \lt i$, then $(i', j)$ must satisfy $grid[i'][j] + i' \geq i$. We need to select from these grids the one that is closest.
 
-因此，我们可以对每一列 $j$ 维护一个优先队列（小根堆），优先队列中每个元素是一个二元组 $(dist[i][j], i)$，表示从坐标 $(0, 0)$ 移动到坐标 $(i, j)$ 的最短距离为 $dist[i][j]$。当我们考虑坐标 $(i, j)$ 时，我们只需要从优先队列中取出队头元素 $(dist[i'][j], i')$，如果 $grid[i'][j] + i' \geq i$，那么就可以从坐标 $(i', j)$ 移动到坐标 $(i, j)$，此时我们就可以更新 $dist[i][j]$ 的值，即 $dist[i][j] = dist[i'][j] + 1$，并将 $(dist[i][j], i)$ 加入到优先队列中。
+Therefore, we maintain a priority queue (min-heap) for each column $j$. Each element of the priority queue is a pair $(dist[i][j], i)$, which represents that the shortest distance from the coordinate $(0, 0)$ to the coordinate $(i, j)$ is $dist[i][j]$. When we consider the coordinate $(i, j)$, we only need to take out the head element $(dist[i'][j], i')$ of the priority queue. If $grid[i'][j] + i' \geq i$, we can move from the coordinate $(i', j)$ to the coordinate $(i, j)$. At this time, we can update the value of $dist[i][j]$, that is, $dist[i][j] = dist[i'][j] + 1$, and add $(dist[i][j], i)$ to the priority queue.
 
-同理，我们可以对每一行 $i$ 维护一个优先队列，然后进行与上述类似的操作。
+Similarly, we can maintain a priority queue for each row $i$ and perform a similar operation.
 
-最终，我们可以得到从坐标 $(0, 0)$ 移动到坐标 $(m - 1, n - 1)$ 的最短距离 $dist[m - 1][n - 1]$，即为答案。
+Finally, we can obtain the shortest distance from the coordinate $(0, 0)$ to the coordinate $(m - 1, n - 1)$, that is, $dist[m - 1][n - 1]$, which is the answer.
 
-时间复杂度 $O(m \times n \times \log (m \times n))$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别为网格的行数和列数。
+The time complexity is $O(m \times n \times \log (m \times n))$ and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the number of rows and columns of the grid, respectively.
 
 <!-- tabs:start -->
 

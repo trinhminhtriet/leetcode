@@ -1,49 +1,44 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3070.Count%20Submatrices%20with%20Top-Left%20Element%20and%20Sum%20Less%20Than%20k/README.md
+difficulty: Medium
 rating: 1498
-source: 第 387 场周赛 Q2
+source: Weekly Contest 387 Q2
 tags:
-    - 数组
-    - 矩阵
-    - 前缀和
+    - Array
+    - Matrix
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [3070. 元素和小于等于 k 的子矩阵的数目](https://leetcode.cn/problems/count-submatrices-with-top-left-element-and-sum-less-than-k)
+# [3070. Count Submatrices with Top-Left Element and Sum Less Than k](https://leetcode.com/problems/count-submatrices-with-top-left-element-and-sum-less-than-k)
 
-[English Version](/solution/3000-3099/3070.Count%20Submatrices%20with%20Top-Left%20Element%20and%20Sum%20Less%20Than%20k/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数矩阵 <code>grid</code> 和一个整数 <code>k</code>。</p>
+<p>You are given a <strong>0-indexed</strong> integer matrix <code>grid</code> and an integer <code>k</code>.</p>
 
-<p>返回包含 <code>grid</code> 左上角元素、元素和小于或等于 <code>k</code> 的 <strong><span data-keyword="submatrix">子矩阵</span></strong>的数目。</p>
+<p>Return <em>the <strong>number</strong> of <span data-keyword="submatrix">submatrices</span> that contain the top-left element of the</em> <code>grid</code>, <em>and have a sum less than or equal to </em><code>k</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3070.Count%20Submatrices%20with%20Top-Left%20Element%20and%20Sum%20Less%20Than%20k/images/example1.png" style="padding: 10px; background: #fff; border-radius: .5rem;" />
 <pre>
-<strong>输入：</strong>grid = [[7,6,3],[6,6,1]], k = 18
-<strong>输出：</strong>4
-<strong>解释：</strong>如上图所示，只有 4 个子矩阵满足：包含 grid 的左上角元素，并且元素和小于或等于 18 。</pre>
+<strong>Input:</strong> grid = [[7,6,3],[6,6,1]], k = 18
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> There are only 4 submatrices, shown in the image above, that contain the top-left element of grid, and have a sum less than or equal to 18.</pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3000-3099/3070.Count%20Submatrices%20with%20Top-Left%20Element%20and%20Sum%20Less%20Than%20k/images/example21.png" style="padding: 10px; background: #fff; border-radius: .5rem;" />
 <pre>
-<strong>输入：</strong>grid = [[7,2,9],[1,5,0],[2,6,6]], k = 20
-<strong>输出：</strong>6
-<strong>解释：</strong>如上图所示，只有 6 个子矩阵满足：包含 grid 的左上角元素，并且元素和小于或等于 20 。
+<strong>Input:</strong> grid = [[7,2,9],[1,5,0],[2,6,6]], k = 20
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> There are only 6 submatrices, shown in the image above, that contain the top-left element of grid, and have a sum less than or equal to 20.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == grid.length </code></li>
@@ -55,21 +50,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二维前缀和
+### Solution 1: Two-Dimensional Prefix Sum
 
-题目实际上求的是二维矩阵有多少个和小于等于 $k$ 的前缀子矩阵。
+The problem is actually asking for the number of prefix submatrices in a two-dimensional matrix whose sum is less than or equal to $k$.
 
-二维前缀和的计算公式为：
+The calculation formula for the two-dimensional prefix sum is:
 
 $$
 s[i][j] = s[i-1][j] + s[i][j-1] - s[i-1][j-1] + x
 $$
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
+The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$, where $m$ and $n$ are the number of rows and columns of the matrix, respectively.
 
 <!-- tabs:start -->
 

@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1892.Page%20Recommendations%20II/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1892. 页面推荐Ⅱ 🔒](https://leetcode.cn/problems/page-recommendations-ii)
+# [1892. Page Recommendations II 🔒](https://leetcode.com/problems/page-recommendations-ii)
 
-[English Version](/solution/1800-1899/1892.Page%20Recommendations%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：&nbsp;<code>Friendship</code></p>
+<p>Table: <code>Friendship</code></p>
 
 <pre>
 +---------------+---------+
@@ -25,13 +22,13 @@ tags:
 | user1_id      | int     |
 | user2_id      | int     |
 +---------------+---------+
-(user1_id,user2_id) 是 Friendship 表的主键(具有唯一值的列的组合)。
-该表的每一行表示用户user1_id和user2_id是好友。
+(user1_id, user2_id) is the primary key (combination of columns with unique values)&nbsp;for this table.
+Each row of this table indicates that the users user1_id and user2_id are friends.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>表：&nbsp;<code>Likes</code></p>
+<p>Table: <code>Likes</code></p>
 
 <pre>
 +-------------+---------+
@@ -40,33 +37,32 @@ tags:
 | user_id     | int     |
 | page_id     | int     |
 +-------------+---------+
-(user_id,page_id) 是 Likes 表的主键(具有唯一值的列)。
-该表的每一行表示user_id喜欢page_id。
+(user_id, page_id) is the primary key (combination of columns with unique values) for this table.
+Each row of this table indicates that user_id likes page_id.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>您正在为一个社交媒体网站实施一个页面推荐系统。如果页面被<code>user_id</code>的&nbsp;<strong>至少一个朋友喜欢&nbsp;</strong>，而&nbsp;<strong>不被</strong><code>user_id</code><strong>喜欢&nbsp;</strong>，你的系统将&nbsp;<strong>推荐&nbsp;</strong>一个页面到<code>user_id</code>。</p>
+<p>You are implementing a page recommendation system for a social media website. Your system will <strong>recommend</strong> a page to <code>user_id</code> if the page is <strong>liked</strong> by <strong>at least one</strong> friend of <code>user_id</code> and is <strong>not liked</strong> by <code>user_id</code>.</p>
 
-<p>编写一个解决方案来查找针对每个用户的所有可能的&nbsp;<strong>页面建议&nbsp;</strong>。每个建议应该在结果表中显示为一行，包含以下列:</p>
+<p>Write a solution&nbsp;to find all the possible <strong>page recommendations</strong> for every user. Each recommendation should appear as a row in the result table with these columns:</p>
 
 <ul>
-	<li><code>user_id</code>: 系统向其提出建议的用户的ID。</li>
-	<li><code>page_id</code>: 推荐为&nbsp;<code>user_id</code>&nbsp;的页面ID。.</li>
-	<li><code>friends_likes</code>:&nbsp;&nbsp;<code>user_id</code>&nbsp;对应&nbsp;<code>page_id</code>&nbsp;的好友数。</li>
+	<li><code>user_id</code>: The ID of the user that your system is making the recommendation to.</li>
+	<li><code>page_id</code>: The ID of the page that will be recommended to <code>user_id</code>.</li>
+	<li><code>friends_likes</code>: The number of the friends of <code>user_id</code> that like <code>page_id</code>.</li>
 </ul>
 
-<p>以&nbsp;<strong>任意顺序&nbsp;</strong>返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>返回结果格式示例如下。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Friendship 表:
+<strong>Input:</strong> 
+Friendship table:
 +----------+----------+
 | user1_id | user2_id |
 +----------+----------+
@@ -78,7 +74,7 @@ Friendship 表:
 | 2        | 5        |
 | 6        | 1        |
 +----------+----------+
-Likes 表:
+Likes table:
 +---------+---------+
 | user_id | page_id |
 +---------+---------+
@@ -92,7 +88,7 @@ Likes 表:
 | 3       | 77      |
 | 6       | 88      |
 +---------+---------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +---------+---------+---------------+
 | user_id | page_id | friends_likes |
 +---------+---------+---------------+
@@ -113,25 +109,26 @@ Likes 表:
 | 5       | 77      | 1             |
 | 5       | 23      | 1             |
 +---------+---------+---------------+
-<strong>解释：</strong>
-以用户1为例:
-—用户1是用户2、3、4、6的好友。
--推荐页面有23(用户2喜欢)，24(用户3喜欢)，56(用户3喜欢)，33(用户6喜欢)，77(用户2和用户3喜欢)。
--请注意，第88页不推荐，因为用户1已经喜欢它。
+<strong>Explanation:</strong> 
+Take user 1 as an example:
+  - User 1 is friends with users 2, 3, 4, and 6.
+  - Recommended pages are 23 (user 2 liked it), 24 (user 3 liked it), 56 (user 3 liked it), 33 (user 6 liked it), and 77 (user 2 and user 3 liked it).
+  - Note that page 88 is not recommended because user 1 already liked it.
 
-另一个例子是用户6:
-—用户6是用户1的好友。
--用户1只喜欢了88页，但用户6已经喜欢了。因此，用户6没有推荐。
+Another example is user 6:
+  - User 6 is friends with user 1.
+  - User 1 only liked page 88, but user 6 already liked it. Hence, user 6 has no recommendations.
 
-您可以使用类似的过程为用户2、3、4和5推荐页面。</pre>
+You can recommend pages for users 2, 3, 4, and 5 using a similar process.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,101 +1,82 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1580.Put%20Boxes%20Into%20the%20Warehouse%20II/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数组
-    - 排序
+    - Greedy
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1580. 把箱子放进仓库里 II 🔒](https://leetcode.cn/problems/put-boxes-into-the-warehouse-ii)
+# [1580. Put Boxes Into the Warehouse II 🔒](https://leetcode.com/problems/put-boxes-into-the-warehouse-ii)
 
-[English Version](/solution/1500-1599/1580.Put%20Boxes%20Into%20the%20Warehouse%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个正整数数组 <code>boxes</code> 和 <code>warehouse</code> ，分别包含单位宽度的箱子的高度，以及仓库中<code>n</code>个房间各自的高度。仓库的房间分别从<code>0</code> 到 <code>n - 1</code>自左向右编号，<code>warehouse[i]</code>（索引从 0 开始）是第 <code>i</code> 个房间的高度。</p>
+<p>You are given two arrays of positive integers, <code>boxes</code> and <code>warehouse</code>, representing the heights of some boxes of unit width and the heights of <code>n</code> rooms in a warehouse respectively. The warehouse&#39;s rooms are labeled from <code>0</code> to <code>n - 1</code> from left to right where <code>warehouse[i]</code> (0-indexed) is the height of the <code>i<sup>th</sup></code> room.</p>
 
-<p>箱子放进仓库时遵循下列规则：</p>
+<p>Boxes are put into the warehouse by the following rules:</p>
 
 <ul>
-	<li>箱子不可叠放。</li>
-	<li>你可以重新调整箱子的顺序。</li>
-	<li>箱子可以从任意方向（左边或右边）推入仓库中。</li>
-	<li>如果仓库中某房间的高度小于某箱子的高度，则这个箱子和之后的箱子都会停在这个房间的前面。</li>
+	<li>Boxes cannot be stacked.</li>
+	<li>You can rearrange the insertion order of the boxes.</li>
+	<li>Boxes can be pushed into the warehouse from <strong>either side</strong> (left or right)</li>
+	<li>If the height of some room in the warehouse is less than the height of a box, then that box and all other boxes behind it will be stopped before that room.</li>
 </ul>
 
-<p>你最多可以在仓库中放进多少个箱子？</p>
+<p>Return <em>the maximum number of boxes you can put into the warehouse.</em></p>
 
-<p> </p>
-
-<p><strong>示例 1:</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1580.Put%20Boxes%20Into%20the%20Warehouse%20II/images/22.png" style="width: 401px; height: 202px;" />
 <pre>
-<strong>输入:</strong> boxes = [1,2,2,3,4], warehouse = [3,4,1,2]
-<strong>输出:</strong> 4
-<strong>解释:
+<strong>Input:</strong> boxes = [1,2,2,3,4], warehouse = [3,4,1,2]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1580.Put%20Boxes%20Into%20the%20Warehouse%20II/images/22-1.png" style="width: 240px; height: 202px;" />
-</strong>我们可以按如下顺序推入箱子:
-1- 从左边或右边把黄色箱子推入2号房间；
-2- 从右边把橙色箱子推入3号房间；
-3- 从左边把绿色箱子推入1号房间；
-4- 从左边把红色箱子推入0号房间；
-还有其他方式推入4个箱子，比如交换红色与绿色箱子，或者交换红色与橙色箱子。
+We can store the boxes in the following order:
+1- Put the yellow box in room 2 from either the left or right side.
+2- Put the orange box in room 3 from the right side.
+3- Put the green box in room 1 from the left side.
+4- Put the red box in room 0 from the left side.
+Notice that there are other valid ways to put 4 boxes such as swapping the red and green boxes or the red and orange boxes.
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1580.Put%20Boxes%20Into%20the%20Warehouse%20II/images/22-2.png" style="width: 401px; height: 242px;" />
 <pre>
-<strong>输入:</strong> boxes = [3,5,5,2], warehouse = [2,1,3,4,5]
-<strong>输出:</strong> 3
-<strong>解释:
+<strong>Input:</strong> boxes = [3,5,5,2], warehouse = [2,1,3,4,5]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1580.Put%20Boxes%20Into%20the%20Warehouse%20II/images/22-3.png" style="width: 280px; height: 242px;" />
-</strong>因为只有一个高度大于等于5的房间，所以无法将两个高度为5的箱子都推入仓库。
-还有其他方式推入箱子，比如将绿色箱子推入2号房间，或者在绿色及红色箱子之前将橙色箱子推入2号房间。
+It is not possible to put the two boxes of height 5 in the warehouse since there&#39;s only 1 room of height &gt;= 5.
+Other valid solutions are to put the green box in room 2 or to put the orange box first in room 2 before putting the green and red boxes.
 </pre>
 
-<p><strong>示例 3:</strong></p>
-
-<pre>
-<strong>输入:</strong> boxes = [1,2,3], warehouse = [1,2,3,4]
-<strong>输出:</strong> 3
-</pre>
-
-<p><strong>示例 4:</strong></p>
-
-<pre>
-<strong>输入:</strong> boxes = [4,5,6], warehouse = [3,3,3,3,3]
-<strong>输出:</strong> 0
-</pre>
-
-<p> </p>
-
-<p><strong>提示:</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == warehouse.length</code></li>
-	<li><code>1 <= boxes.length, warehouse.length <= 10<sup>5</sup></code></li>
-	<li><code>1 <= boxes[i], warehouse[i] <= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= boxes.length, warehouse.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= boxes[i], warehouse[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：预处理 + 排序 + 贪心
+### Solution 1: Preprocessing + Sorting + Greedy
 
-我们先对仓库进行预处理，得到每个房间的最大高度，然后对箱子和仓库进行排序，从最小的箱子开始，从最小的房间开始，如果当前房间的高度大于等于当前箱子的高度，则可以将当前箱子放入当前房间，否则继续寻找下一个房间。
+First, we preprocess the warehouse to get the maximum height of each room. Then, we sort both the boxes and the warehouse. Starting with the smallest box and the smallest room, if the current room's height is greater than or equal to the current box's height, we can place the current box in the current room; otherwise, we continue to the next room.
 
-最后返回可以放入的箱子数量。
+Finally, we return the number of boxes that can be placed.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为仓库的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the warehouse.
 
 <!-- tabs:start -->
 

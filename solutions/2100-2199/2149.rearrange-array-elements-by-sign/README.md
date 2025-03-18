@@ -1,90 +1,84 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2149.Rearrange%20Array%20Elements%20by%20Sign/README.md
+difficulty: Medium
 rating: 1235
-source: 第 277 场周赛 Q2
+source: Weekly Contest 277 Q2
 tags:
-    - 数组
-    - 双指针
-    - 模拟
+    - Array
+    - Two Pointers
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2149. 按符号重排数组](https://leetcode.cn/problems/rearrange-array-elements-by-sign)
+# [2149. Rearrange Array Elements by Sign](https://leetcode.com/problems/rearrange-array-elements-by-sign)
 
-[English Version](/solution/2100-2199/2149.Rearrange%20Array%20Elements%20by%20Sign/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> ，数组长度为 <strong>偶数</strong> ，由数目 <strong>相等</strong> 的正整数和负整数组成。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of <strong>even</strong> length consisting of an <strong>equal</strong> number of positive and negative integers.</p>
 
-<p>你需要返回满足下述条件的数组&nbsp;<code>nums</code>：</p>
+<p>You should return the array of nums such that the the array follows the given conditions:</p>
 
 <ol>
-	<li>任意&nbsp;<strong>连续</strong> 的两个整数 <strong>符号相反</strong></li>
-	<li>对于符号相同的所有整数，<strong>保留</strong> 它们在 <code>nums</code> 中的 <strong>顺序</strong> 。</li>
-	<li>重排后数组以正整数开头。</li>
+	<li>Every <strong>consecutive pair</strong> of integers have <strong>opposite signs</strong>.</li>
+	<li>For all integers with the same sign, the <strong>order</strong> in which they were present in <code>nums</code> is <strong>preserved</strong>.</li>
+	<li>The rearranged array begins with a positive integer.</li>
 </ol>
 
-<p>重排元素满足上述条件后，返回修改后的数组。</p>
+<p>Return <em>the modified array after rearranging the elements to satisfy the aforementioned conditions</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,1,-2,-5,2,-4]
-<strong>输出：</strong>[3,-2,1,-5,2,-4]
-<strong>解释：</strong>
-nums 中的正整数是 [3,1,2] ，负整数是 [-2,-5,-4] 。
-重排的唯一可行方案是 [3,-2,1,-5,2,-4]，能满足所有条件。
-像 [1,-2,2,-5,3,-4]、[3,1,2,-2,-5,-4]、[-2,3,-5,1,-4,2] 这样的其他方案是不正确的，因为不满足一个或者多个条件。 
+<strong>Input:</strong> nums = [3,1,-2,-5,2,-4]
+<strong>Output:</strong> [3,-2,1,-5,2,-4]
+<strong>Explanation:</strong>
+The positive integers in nums are [3,1,2]. The negative integers are [-2,-5,-4].
+The only possible way to rearrange them such that they satisfy all conditions is [3,-2,1,-5,2,-4].
+Other ways such as [1,-2,2,-5,3,-4], [3,1,2,-2,-5,-4], [-2,3,-5,1,-4,2] are incorrect because they do not satisfy one or more conditions.  
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [-1,1]
-<strong>输出：</strong>[1,-1]
-<strong>解释：</strong>
-1 是 nums 中唯一一个正整数，-1 是 nums 中唯一一个负整数。
-所以 nums 重排为 [1,-1] 。
+<strong>Input:</strong> nums = [-1,1]
+<strong>Output:</strong> [1,-1]
+<strong>Explanation:</strong>
+1 is the only positive integer and -1 the only negative integer in nums.
+So nums is rearranged to [1,-1].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 2 * 10<sup>5</sup></code></li>
-	<li><code>nums.length</code> 是 <strong>偶数</strong></li>
+	<li><code>nums.length</code> is <strong>even</strong></li>
 	<li><code>1 &lt;= |nums[i]| &lt;= 10<sup>5</sup></code></li>
-	<li><code>nums</code> 由 <strong>相等</strong> 数量的正整数和负整数组成</li>
+	<li><code>nums</code> consists of <strong>equal</strong> number of positive and negative integers.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p>不需要原地进行修改。</p>
+It is not required to do the modifications in-place.
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1: Two Pointers
 
-我们先创建一个长度为 $n$ 的数组 $\textit{ans}$，然后使用两个指针 $i$ 和 $j$ 分别指向 $\textit{ans}$ 的偶数下标和奇数下标，初始时 $i = 0$, $j = 1$。
+First, we create an array $\textit{ans}$ of length $n$. Then, we use two pointers $i$ and $j$ to point to the even and odd indices of $\textit{ans}$, respectively, with initial values $i = 0$, $j = 1$.
 
-遍历数组 $\textit{nums}$，如果当前元素 $x$ 为正整数，则将 $x$ 放入 $\textit{ans}[i]$，并将 $i$ 增加 $2$；否则将 $x$ 放入 $\textit{ans}[j]$，并将 $j$ 增加 $2$。
+We iterate through the array $\textit{nums}$. If the current element $x$ is a positive integer, then we place $x$ into $\textit{ans}[i]$ and increase $i$ by $2$; otherwise, we place $x$ into $\textit{ans}[j]$ and increase $j$ by $2$.
 
-最后返回 $\textit{ans}$ 即可。
+Finally, we return $\textit{ans}$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

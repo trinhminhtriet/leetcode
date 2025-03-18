@@ -1,85 +1,80 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3442.Maximum%20Difference%20Between%20Even%20and%20Odd%20Frequency%20I/README.md
+difficulty: Easy
 tags:
-    - 哈希表
-    - 字符串
-    - 计数
+    - Hash Table
+    - String
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [3442. 奇偶频次间的最大差值 I](https://leetcode.cn/problems/maximum-difference-between-even-and-odd-frequency-i)
+# [3442. Maximum Difference Between Even and Odd Frequency I](https://leetcode.com/problems/maximum-difference-between-even-and-odd-frequency-i)
 
-[English Version](/solution/3400-3499/3442.Maximum%20Difference%20Between%20Even%20and%20Odd%20Frequency%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个由小写英文字母组成的字符串&nbsp;<code>s</code> 。请你找出字符串中两个字符的出现频次之间的 <strong>最大</strong> 差值，这两个字符需要满足：</p>
+<p>You are given a string <code>s</code> consisting of lowercase English letters. Your task is to find the <strong>maximum</strong> difference between the frequency of <strong>two</strong> characters in the string such that:</p>
 
 <ul>
-	<li>一个字符在字符串中出现 <strong>偶数次</strong> 。</li>
-	<li>另一个字符在字符串中出现 <strong>奇数次</strong>&nbsp;。</li>
+	<li>One of the characters has an <strong>even frequency</strong> in the string.</li>
+	<li>The other character has an <strong>odd frequency</strong> in the string.</li>
 </ul>
 
-<p>返回 <strong>最大</strong> 差值，计算方法是出现 <strong>奇数次</strong> 字符的次数 <strong>减去</strong> 出现 <strong>偶数次</strong> 字符的次数。</p>
+<p>Return the <strong>maximum</strong> difference, calculated as the frequency of the character with an <b>odd</b> frequency <strong>minus</strong> the frequency of the character with an <b>even</b> frequency.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1：</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "aaaaabbc"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;aaaaabbc&quot;</span></p>
 
-<p><b>输出：</b>3</p>
+<p><strong>Output:</strong> 3</p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>字符&nbsp;<code>'a'</code>&nbsp;出现 <strong>奇数次</strong>&nbsp;，次数为&nbsp;<code><font face="monospace">5</font></code><font face="monospace"> ；字符</font>&nbsp;<code>'b'</code>&nbsp;出现 <strong>偶数次</strong> ，次数为&nbsp;<code><font face="monospace">2</font></code>&nbsp;。</li>
-	<li>最大差值为&nbsp;<code>5 - 2 = 3</code>&nbsp;。</li>
+	<li>The character <code>&#39;a&#39;</code> has an <strong>odd frequency</strong> of <code><font face="monospace">5</font></code><font face="monospace">,</font> and <code>&#39;b&#39;</code> has an <strong>even frequency</strong> of <code><font face="monospace">2</font></code>.</li>
+	<li>The maximum difference is <code>5 - 2 = 3</code>.</li>
 </ul>
 </div>
 
-<p><b>示例 2：</b></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "abcabcab"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;abcabcab&quot;</span></p>
 
-<p><b>输出：</b>1</p>
+<p><strong>Output:</strong> 1</p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>字符&nbsp;<code>'a'</code>&nbsp;出现 <strong>奇数次</strong>&nbsp;，次数为&nbsp;<code><font face="monospace">3</font></code><font face="monospace"> ；字符</font>&nbsp;<code>'c'</code>&nbsp;出现 <strong>偶数次</strong>&nbsp;，次数为&nbsp;<font face="monospace">2 。</font></li>
-	<li>最大差值为&nbsp;<code>3 - 2 = 1</code> 。</li>
+	<li>The character <code>&#39;a&#39;</code> has an <strong>odd frequency</strong> of <code><font face="monospace">3</font></code><font face="monospace">,</font> and <code>&#39;c&#39;</code> has an <strong>even frequency</strong> of <font face="monospace">2</font>.</li>
+	<li>The maximum difference is <code>3 - 2 = 1</code>.</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code>&nbsp;仅由小写英文字母组成。</li>
-	<li><code>s</code>&nbsp;至少由一个出现奇数次的字符和一个出现偶数次的字符组成。</li>
+	<li><code>s</code> consists only of lowercase English letters.</li>
+	<li><code>s</code> contains at least one character with an odd frequency and one with an even frequency.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们可以用一个哈希表或数组 $\textit{cnt}$ 记录字符串 $s$ 中每个字符的出现次数。然后遍历 $\textit{cnt}$，找出出现奇数次的字符的最大频次 $a$ 和出现偶数次的字符的最小频次 $b$，最后返回 $a - b$ 即可。
+We can use a hash table or an array $\textit{cnt}$ to record the occurrences of each character in the string $s$. Then, we traverse $\textit{cnt}$ to find the maximum frequency $a$ of characters that appear an odd number of times and the minimum frequency $b$ of characters that appear an even number of times. Finally, we return $a - b$.
 
-时间复杂度 $O(n)$，其中 $n$ 是字符串 $s$ 的长度。空间复杂度 $O(|\Sigma|)$，其中 $\Sigma$ 是字符集，本题中 $|\Sigma| = 26$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(|\Sigma|)$, where $\Sigma$ is the character set. In this problem, $|\Sigma| = 26$.
 
 <!-- tabs:start -->
 

@@ -1,81 +1,74 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1910.Remove%20All%20Occurrences%20of%20a%20Substring/README.md
+difficulty: Medium
 rating: 1460
-source: 第 55 场双周赛 Q2
+source: Biweekly Contest 55 Q2
 tags:
-    - 栈
-    - 字符串
-    - 模拟
+    - Stack
+    - String
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [1910. 删除一个字符串中所有出现的给定子字符串](https://leetcode.cn/problems/remove-all-occurrences-of-a-substring)
+# [1910. Remove All Occurrences of a Substring](https://leetcode.com/problems/remove-all-occurrences-of-a-substring)
 
-[English Version](/solution/1900-1999/1910.Remove%20All%20Occurrences%20of%20a%20Substring/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串 <code>s</code> 和 <code>part</code> ，请你对 <code>s</code> 反复执行以下操作直到 <b>所有</b> 子字符串 <code>part</code> 都被删除：</p>
+<p>Given two strings <code>s</code> and <code>part</code>, perform the following operation on <code>s</code> until <strong>all</strong> occurrences of the substring <code>part</code> are removed:</p>
 
 <ul>
-	<li>找到 <code>s</code> 中 <strong>最左边</strong> 的子字符串 <code>part</code> ，并将它从 <code>s</code> 中删除。</li>
+	<li>Find the <strong>leftmost</strong> occurrence of the substring <code>part</code> and <strong>remove</strong> it from <code>s</code>.</li>
 </ul>
 
-<p>请你返回从 <code>s</code> 中删除所有 <code>part</code> 子字符串以后得到的剩余字符串。</p>
+<p>Return <code>s</code><em> after removing all occurrences of </em><code>part</code>.</p>
 
-<p>一个 <strong>子字符串</strong> 是一个字符串中连续的字符序列。</p>
+<p>A <strong>substring</strong> is a contiguous sequence of characters in a string.</p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>s = "daabcbaabcbc", part = "abc"
-<b>输出：</b>"dab"
-<b>解释：</b>以下操作按顺序执行：
-- s = "da<strong>abc</strong>baabcbc" ，删除下标从 2 开始的 "abc" ，得到 s = "dabaabcbc" 。
-- s = "daba<strong>abc</strong>bc" ，删除下标从 4 开始的 "abc" ，得到 s = "dababc" 。
-- s = "dab<strong>abc</strong>" ，删除下标从 3 开始的 "abc" ，得到 s = "dab" 。
-此时 s 中不再含有子字符串 "abc" 。
+<pre>
+<strong>Input:</strong> s = &quot;daabcbaabcbc&quot;, part = &quot;abc&quot;
+<strong>Output:</strong> &quot;dab&quot;
+<strong>Explanation</strong>: The following operations are done:
+- s = &quot;da<strong><u>abc</u></strong>baabcbc&quot;, remove &quot;abc&quot; starting at index 2, so s = &quot;dabaabcbc&quot;.
+- s = &quot;daba<strong><u>abc</u></strong>bc&quot;, remove &quot;abc&quot; starting at index 4, so s = &quot;dababc&quot;.
+- s = &quot;dab<strong><u>abc</u></strong>&quot;, remove &quot;abc&quot; starting at index 3, so s = &quot;dab&quot;.
+Now s has no occurrences of &quot;abc&quot;.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>s = "axxxxyyyyb", part = "xy"
-<b>输出：</b>"ab"
-<b>解释：</b>以下操作按顺序执行：
-- s = "axxx<strong>xy</strong>yyyb" ，删除下标从 4 开始的 "xy" ，得到 s = "axxxyyyb" 。
-- s = "axx<strong>xy</strong>yyb" ，删除下标从 3 开始的 "xy" ，得到 s = "axxyyb" 。
-- s = "ax<strong>xy</strong>yb" ，删除下标从 2 开始的 "xy" ，得到 s = "axyb" 。
-- s = "a<strong>xy</strong>b" ，删除下标从 1 开始的 "xy" ，得到 s = "ab" 。
-此时 s 中不再含有子字符串 "xy" 。
+<pre>
+<strong>Input:</strong> s = &quot;axxxxyyyyb&quot;, part = &quot;xy&quot;
+<strong>Output:</strong> &quot;ab&quot;
+<strong>Explanation</strong>: The following operations are done:
+- s = &quot;axxx<strong><u>xy</u></strong>yyyb&quot;, remove &quot;xy&quot; starting at index 4 so s = &quot;axxxyyyb&quot;.
+- s = &quot;axx<strong><u>xy</u></strong>yyb&quot;, remove &quot;xy&quot; starting at index 3 so s = &quot;axxyyb&quot;.
+- s = &quot;ax<strong><u>xy</u></strong>yb&quot;, remove &quot;xy&quot; starting at index 2 so s = &quot;axyb&quot;.
+- s = &quot;a<strong><u>xy</u></strong>b&quot;, remove &quot;xy&quot; starting at index 1 so s = &quot;ab&quot;.
+Now s has no occurrences of &quot;xy&quot;.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= part.length &lt;= 1000</code></li>
-	<li><code>s</code>​​​​​​ 和 <code>part</code> 只包小写英文字母。</li>
+	<li><code>s</code>​​​​​​ and <code>part</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：暴力替换
-
-我们循环判断 $s$ 中是否存在字符串 $part$，是则进行一次替换，继续循环此操作，直至 $s$ 中不存在字符串 $part$，返回此时的 $s$ 作为答案字符串。
-
-时间复杂度 $O(n^2 + n \times m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别是字符串 $s$ 和字符串 $part$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,91 +1,82 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0514.Freedom%20Trail/README.md
+difficulty: Hard
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 字符串
-    - 动态规划
+    - Depth-First Search
+    - Breadth-First Search
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [514. 自由之路](https://leetcode.cn/problems/freedom-trail)
+# [514. Freedom Trail](https://leetcode.com/problems/freedom-trail)
 
-[English Version](/solution/0500-0599/0514.Freedom%20Trail/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>电子游戏“辐射4”中，任务 <strong>“通向自由”</strong> 要求玩家到达名为 “<strong>Freedom Trail Ring”</strong> 的金属表盘，并使用表盘拼写特定关键词才能开门。</p>
+<p>In the video game Fallout 4, the quest <strong>&quot;Road to Freedom&quot;</strong> requires players to reach a metal dial called the <strong>&quot;Freedom Trail Ring&quot;</strong> and use the dial to spell a specific keyword to open the door.</p>
 
-<p>给定一个字符串&nbsp;<code>ring</code>&nbsp;，表示刻在外环上的编码；给定另一个字符串&nbsp;<code>key</code>&nbsp;，表示需要拼写的关键词。您需要算出能够拼写关键词中所有字符的<strong>最少</strong>步数。</p>
+<p>Given a string <code>ring</code> that represents the code engraved on the outer ring and another string <code>key</code> that represents the keyword that needs to be spelled, return <em>the minimum number of steps to spell all the characters in the keyword</em>.</p>
 
-<p>最初，<strong>ring&nbsp;</strong>的第一个字符与 <code>12:00</code> 方向对齐。您需要顺时针或逆时针旋转 <code>ring</code> 以使&nbsp;<strong>key&nbsp;</strong>的一个字符在 <code>12:00</code> 方向对齐，然后按下中心按钮，以此逐个拼写完&nbsp;<strong><code>key</code>&nbsp;</strong>中的所有字符。</p>
+<p>Initially, the first character of the ring is aligned at the <code>&quot;12:00&quot;</code> direction. You should spell all the characters in <code>key</code> one by one by rotating <code>ring</code> clockwise or anticlockwise to make each character of the string key aligned at the <code>&quot;12:00&quot;</code> direction and then by pressing the center button.</p>
 
-<p>旋转&nbsp;<code>ring</code><strong>&nbsp;</strong>拼出 key 字符&nbsp;<code>key[i]</code><strong>&nbsp;</strong>的阶段中：</p>
+<p>At the stage of rotating the ring to spell the key character <code>key[i]</code>:</p>
 
 <ol>
-	<li>您可以将&nbsp;<strong>ring&nbsp;</strong>顺时针或逆时针旋转&nbsp;<strong>一个位置&nbsp;</strong>，计为1步。旋转的最终目的是将字符串&nbsp;<strong><code>ring</code>&nbsp;</strong>的一个字符与 <code>12:00</code> 方向对齐，并且这个字符必须等于字符&nbsp;<strong><code>key[i]</code> 。</strong></li>
-	<li>如果字符&nbsp;<strong><code>key[i]</code>&nbsp;</strong>已经对齐到12:00方向，您需要按下中心按钮进行拼写，这也将算作&nbsp;<strong>1 步</strong>。按完之后，您可以开始拼写&nbsp;<strong>key&nbsp;</strong>的下一个字符（下一阶段）, 直至完成所有拼写。</li>
+	<li>You can rotate the ring clockwise or anticlockwise by one place, which counts as <strong>one step</strong>. The final purpose of the rotation is to align one of <code>ring</code>&#39;s characters at the <code>&quot;12:00&quot;</code> direction, where this character must equal <code>key[i]</code>.</li>
+	<li>If the character <code>key[i]</code> has been aligned at the <code>&quot;12:00&quot;</code> direction, press the center button to spell, which also counts as <strong>one step</strong>. After the pressing, you could begin to spell the next character in the key (next stage). Otherwise, you have finished all the spelling.</li>
 </ol>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0514.Freedom%20Trail/images/ring.jpg" style="height: 450px; width: 450px;" /></p>
-
-<center>&nbsp;</center>
-
+<p><strong class="example">Example 1:</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0514.Freedom%20Trail/images/ring.jpg" style="width: 450px; height: 450px;" />
 <pre>
-<strong>输入:</strong> ring = "godding", key = "gd"
-<strong>输出:</strong> 4
-<strong>解释:</strong>
- 对于 key 的第一个字符 'g'，已经在正确的位置, 我们只需要1步来拼写这个字符。 
- 对于 key 的第二个字符 'd'，我们需要逆时针旋转 ring "godding" 2步使它变成 "ddinggo"。
- 当然, 我们还需要1步进行拼写。
- 因此最终的输出是 4。
+<strong>Input:</strong> ring = &quot;godding&quot;, key = &quot;gd&quot;
+<strong>Output:</strong> 4
+<strong>Explanation:</strong>
+For the first key character &#39;g&#39;, since it is already in place, we just need 1 step to spell this character. 
+For the second key character &#39;d&#39;, we need to rotate the ring &quot;godding&quot; anticlockwise by two steps to make it become &quot;ddinggo&quot;.
+Also, we need 1 more step for spelling.
+So the final output is 4.
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> ring = "godding", key = "godding"
-<strong>输出:</strong> 13
+<strong>Input:</strong> ring = &quot;godding&quot;, key = &quot;godding&quot;
+<strong>Output:</strong> 13
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= ring.length, key.length &lt;= 100</code></li>
-	<li><code>ring</code>&nbsp;和&nbsp;<code>key</code>&nbsp;只包含小写英文字母</li>
-	<li><strong>保证</strong> 字符串&nbsp;<code>key</code>&nbsp;一定可以由字符串 &nbsp;<code>ring</code>&nbsp;旋转拼出</li>
+	<li><code>ring</code> and <code>key</code> consist of only lower case English letters.</li>
+	<li>It is guaranteed that <code>key</code> could always be spelled by rotating <code>ring</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们首先预处理出字符串 $ring$ 中每个字符 $c$ 出现的位置列表，记录在数组 $pos[c]$ 中。不妨假设字符串 $key$ 和 $ring$ 的长度分别为 $m$ 和 $n$。
+First, we preprocess the positions of each character $c$ in the string $ring$, and record them in the array $pos[c]$. Suppose the lengths of the strings $key$ and $ring$ are $m$ and $n$, respectively.
 
-然后我们定义 $f[i][j]$ 表示拼写完字符串 $key$ 的前 $i+1$ 个字符，且 $ring$ 的第 $j$ 个字符与 $12:00$ 方向对齐的最少步数。初始时 $f[i][j]=+\infty$。答案为 $\min_{0 \leq j < n} f[m - 1][j]$。
+Then we define $f[i][j]$ as the minimum number of steps to spell the first $i+1$ characters of the string $key$, and the $j$-th character of $ring$ is aligned with the $12:00$ direction. Initially, $f[i][j]=+\infty$. The answer is $\min_{0 \leq j < n} f[m - 1][j]$.
 
-我们可以先初始化 $f[0][j]$，其中 $j$ 是字符 $key[0]$ 在 $ring$ 中出现的位置。由于 $ring$ 的第 $j$ 个字符与 $12:00$ 方向对齐，因此我们只需要 $1$ 步即可拼写出 $key[0]$。此外，我们还需要 $min(j, n - j)$ 步将 $ring$ 旋转到 $12:00$ 方向。因此 $f[0][j]=min(j, n - j) + 1$。
+We can first initialize $f[0][j]$, where $j$ is the position where the character $key[0]$ appears in $ring$. Since the $j$-th character of $ring$ is aligned with the $12:00$ direction, we only need $1$ step to spell $key[0]$. In addition, we need $min(j, n - j)$ steps to rotate $ring$ to the $12:00$ direction. Therefore, $f[0][j]=min(j, n - j) + 1$.
 
-接下来，我们考虑当 $i \geq 1$ 时，状态如何转移。我们可以枚举 $key[i]$ 在 $ring$ 中的位置列表 $pos[key[i]]$，并枚举 $key[i-1]$ 在 $ring$ 中的位置列表 $pos[key[i-1]]$，然后更新 $f[i][j]$，即 $f[i][j]=\min_{k \in pos[key[i-1]]} f[i-1][k] + \min(\textit{abs}(j - k), n - \textit{abs}(j - k)) + 1$。
+Next, we consider how the state transitions when $i \geq 1$. We can enumerate the position list $pos[key[i]]$ where $key[i]$ appears in $ring$, and enumerate the position list $pos[key[i-1]]$ where $key[i-1]$ appears in $ring$, and then update $f[i][j]$, i.e., $f[i][j]=\min_{k \in pos[key[i-1]]} f[i-1][k] + \min(\textit{abs}(j - k), n - \textit{abs}(j - k)) + 1$.
 
-最后，我们返回 $\min_{0 \leq j \lt n} f[m - 1][j]$ 即可。
+Finally, we return $\min_{0 \leq j \lt n} f[m - 1][j]$.
 
-时间复杂度 $O(m \times n^2)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是字符串 $key$ 和 $ring$ 的长度。
+The time complexity is $O(m \times n^2)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the lengths of the strings $key$ and $ring$, respectively.
 
 <!-- tabs:start -->
 

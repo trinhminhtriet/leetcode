@@ -1,82 +1,77 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1815.Maximum%20Number%20of%20Groups%20Getting%20Fresh%20Donuts/README.md
+difficulty: Hard
 rating: 2559
-source: 第 49 场双周赛 Q4
+source: Biweekly Contest 49 Q4
 tags:
-    - 位运算
-    - 记忆化搜索
-    - 数组
-    - 动态规划
-    - 状态压缩
+    - Bit Manipulation
+    - Memoization
+    - Array
+    - Dynamic Programming
+    - Bitmask
 ---
 
 <!-- problem:start -->
 
-# [1815. 得到新鲜甜甜圈的最多组数](https://leetcode.cn/problems/maximum-number-of-groups-getting-fresh-donuts)
+# [1815. Maximum Number of Groups Getting Fresh Donuts](https://leetcode.com/problems/maximum-number-of-groups-getting-fresh-donuts)
 
-[English Version](/solution/1800-1899/1815.Maximum%20Number%20of%20Groups%20Getting%20Fresh%20Donuts/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有一个甜甜圈商店，每批次都烤 <code>batchSize</code> 个甜甜圈。这个店铺有个规则，就是在烤一批新的甜甜圈时，之前 <strong>所有</strong> 甜甜圈都必须已经全部销售完毕。给你一个整数 <code>batchSize</code> 和一个整数数组 <code>groups</code> ，数组中的每个整数都代表一批前来购买甜甜圈的顾客，其中 <code>groups[i]</code> 表示这一批顾客的人数。每一位顾客都恰好只要一个甜甜圈。</p>
+<p>There is a donuts shop that bakes donuts in batches of <code>batchSize</code>. They have a rule where they must serve <strong>all</strong> of the donuts of a batch before serving any donuts of the next batch. You are given an integer <code>batchSize</code> and an integer array <code>groups</code>, where <code>groups[i]</code> denotes that there is a group of <code>groups[i]</code> customers that will visit the shop. Each customer will get exactly one donut.</p>
 
-<p>当有一批顾客来到商店时，他们所有人都必须在下一批顾客来之前购买完甜甜圈。如果一批顾客中第一位顾客得到的甜甜圈不是上一组剩下的，那么这一组人都会很开心。</p>
+<p>When a group visits the shop, all customers of the group must be served before serving any of the following groups. A group will be happy if they all get fresh donuts. That is, the first customer of the group does not receive a donut that was left over from the previous group.</p>
 
-<p>你可以随意安排每批顾客到来的顺序。请你返回在此前提下，<strong>最多</strong> 有多少组人会感到开心。</p>
+<p>You can freely rearrange the ordering of the groups. Return <em>the <strong>maximum</strong> possible number of happy groups after rearranging the groups.</em></p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>batchSize = 3, groups = [1,2,3,4,5,6]
-<b>输出：</b>4
-<b>解释：</b>你可以将这些批次的顾客顺序安排为 [6,2,4,5,1,3] 。那么第 1，2，4，6 组都会感到开心。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>batchSize = 4, groups = [1,3,2,5,2,2,1,6]
-<b>输出：</b>4
+<strong>Input:</strong> batchSize = 3, groups = [1,2,3,4,5,6]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> You can arrange the groups as [6,2,4,5,1,3]. Then the 1<sup>st</sup>, 2<sup>nd</sup>, 4<sup>th</sup>, and 6<sup>th</sup> groups will be happy.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> batchSize = 4, groups = [1,3,2,5,2,2,1,6]
+<strong>Output:</strong> 4
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= batchSize <= 9</code></li>
-	<li><code>1 <= groups.length <= 30</code></li>
-	<li><code>1 <= groups[i] <= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= batchSize &lt;= 9</code></li>
+	<li><code>1 &lt;= groups.length &lt;= 30</code></li>
+	<li><code>1 &lt;= groups[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 状态压缩 + 记忆化搜索
+### Solution 1: Greedy + State Compression + Memorized Search
 
-题目实际上要我们找到一种安排顺序，使得前缀和（这里指的是“人数”）与 $batchSize$ 取模后为 $0$ 的组数最多。因此，我们可以将所有顾客按组分成两类：
+The problem actually asks us to find an arrangement order that maximizes the number of groups whose prefix sum (referring to "number of people" here) modulo $batchSize$ equals $0$. Therefore, we can divide all customers into two categories:
 
--   人数为 $batchSize$ 的整数倍的顾客，这些顾客不会对下一组顾客的甜甜圈产生影响，我们可以贪心地优先安排这些组的顾客，那么这些组的顾客都会感到开心，“初始答案”为这些组的数量；
--   人数不为 $batchSize$ 的整数倍的顾客，这些顾客的安排顺序会影响下一组顾客的甜甜圈。我们可以对这里每一组的人数 $v$ 模 $batchSize$，得到的这些余数构成一个集合，集合中的元素值范围是 $[1,2...,batchSize-1]$。数组 $groups$ 的长度最大为 $30$，因此，每个余数的数量最大不超过 $30$。我们可以用 $5$ 个二进制位来表示一个余数的数量，而 $batchSize$ 最大为 $9$，那么表示这些余数以及对应的数量总共需要的二进制位就是 $5\times (9-1)=40$。我们可以用一个 $64$ 位整数 $state$ 来表示。
+-   Customers whose number is a multiple of $batchSize$. These customers will not affect the donuts of the next group of customers. We can greedily arrange these groups of customers first, so these groups of customers will be happy. The "initial answer" is the number of these groups.
+-   Customers whose number is not a multiple of $batchSize$. The arrangement order of these customers will affect the donuts of the next group of customers. We can take the modulo $batchSize$ for the number of people $v$ in each group here, and the remainders form a set. The range of element values in the set is $[1,2...,batchSize-1]$. The maximum length of the $groups$ array is $30$, so the maximum number of each remainder does not exceed $30$. We can use $5$ binary bits to represent the quantity of a remainder, and the maximum $batchSize$ is $9$, so the total number of binary bits required to represent these remainders and their quantities is $5\times (9-1)=40$. We can use a $64$-bit integer $state$ to represent it.
 
-接下来，我们设计一个函数 $dfs(state, mod)$，表示安排状态为 $state$，且当前前缀余数为 $mod$ 时，能使得多少组感到开心。那么我们在“初始答案”加上 $dfs(state, 0)$，即为最终答案。
+Next, we design a function $dfs(state, mod)$, which represents the number of groups that can be happy when the arrangement state is $state$ and the current prefix remainder is $mod$. Then our "initial answer" plus $dfs(state, 0)$ is the final answer.
 
-函数 $dfs(state, mod)$ 的实现逻辑如下：
+The implementation logic of the function $dfs(state, mod)$ is as follows:
 
-我们枚举 $1$ 到 $batchSize-1$ 的每一个余数 $i$，如果余数 $i$ 的数量不为 $0$，那么我们可以将余数 $i$ 的数量减去 $1$，将当前前缀余数加上 $i$ 并且对 $batchSize$ 取模，然后递归调用函数 $dfs$，求出子状态的最优解，取最大值即可。最后判断 $mod$ 是否为 $0$，如果为 $0$，我们在最大值上加 $1$ 后返回，否则直接返回最大值。
+We enumerate each remainder $i$ from $1$ to $batchSize-1$. If the quantity of the remainder $i$ is not $0$, we can subtract $1$ from the quantity of the remainder $i$, add $i$ to the current prefix remainder and take modulo $batchSize$, then recursively call the function $dfs$ to find the optimal solution of the sub-state, and take the maximum value. Finally, check whether $mod$ is $0$. If it is $0$, we return after adding $1$ to the maximum value, otherwise we directly return the maximum value.
 
-过程中，我们可以使用记忆化搜索来避免状态的重复计算。
+During the process, we can use memorized search to avoid repeated calculation of states.
 
-时间复杂度不超过 $O(10^7)$，空间复杂度不超过 $O(10^6)$。
+The time complexity does not exceed $O(10^7)$, and the space complexity does not exceed $O(10^6)$.
 
 <!-- tabs:start -->
 
@@ -226,7 +221,7 @@ func maxHappyGroups(batchSize int, groups []int) (ans int) {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

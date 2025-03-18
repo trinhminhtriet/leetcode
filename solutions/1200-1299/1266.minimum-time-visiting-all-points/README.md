@@ -1,88 +1,83 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1266.Minimum%20Time%20Visiting%20All%20Points/README.md
+difficulty: Easy
 rating: 1302
-source: 第 164 场周赛 Q1
+source: Weekly Contest 164 Q1
 tags:
-    - 几何
-    - 数组
-    - 数学
+    - Geometry
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [1266. 访问所有点的最小时间](https://leetcode.cn/problems/minimum-time-visiting-all-points)
+# [1266. Minimum Time Visiting All Points](https://leetcode.com/problems/minimum-time-visiting-all-points)
 
-[English Version](/solution/1200-1299/1266.Minimum%20Time%20Visiting%20All%20Points/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>平面上有 <code>n</code> 个点，点的位置用整数坐标表示 <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> 。请你计算访问所有这些点需要的 <strong>最小时间</strong>（以秒为单位）。</p>
+<p>On a 2D plane, there are <code>n</code> points with integer coordinates <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code>. Return <em>the <strong>minimum time</strong> in seconds to visit all the points in the order given by </em><code>points</code>.</p>
 
-<p>你需要按照下面的规则在平面上移动：</p>
+<p>You can move according to these rules:</p>
 
 <ul>
-	<li>每一秒内，你可以：
-	<ul>
-		<li>沿水平方向移动一个单位长度，或者</li>
-		<li>沿竖直方向移动一个单位长度，或者</li>
-		<li>跨过对角线移动 <code>sqrt(2)</code> 个单位长度（可以看作在一秒内向水平和竖直方向各移动一个单位长度）。</li>
-	</ul>
-	</li>
-	<li>必须按照数组中出现的顺序来访问这些点。</li>
-	<li>在访问某个点时，可以经过该点后面出现的点，但经过的那些点不算作有效访问。</li>
+	<li>In <code>1</code> second, you can either:
+
+    <ul>
+    	<li>move vertically by one&nbsp;unit,</li>
+    	<li>move horizontally by one unit, or</li>
+    	<li>move diagonally <code>sqrt(2)</code> units (in other words, move one unit vertically then one unit horizontally in <code>1</code> second).</li>
+    </ul>
+    </li>
+    <li>You have to visit the points in the same order as they appear in the array.</li>
+    <li>You are allowed to pass through points that appear later in the order, but these do not count as visits.</li>
+
 </ul>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1266.Minimum%20Time%20Visiting%20All%20Points/images/1626_example_1.png" style="width: 500px; height: 428px;" />
+<pre>
+<strong>Input:</strong> points = [[1,1],[3,4],[-1,0]]
+<strong>Output:</strong> 7
+<strong>Explanation: </strong>One optimal path is <strong>[1,1]</strong> -&gt; [2,2] -&gt; [3,3] -&gt; <strong>[3,4] </strong>-&gt; [2,3] -&gt; [1,2] -&gt; [0,1] -&gt; <strong>[-1,0]</strong>   
+Time from [1,1] to [3,4] = 3 seconds 
+Time from [3,4] to [-1,0] = 4 seconds
+Total time = 7 seconds</pre>
 
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1266.Minimum%20Time%20Visiting%20All%20Points/images/1626_example_1.png" style="height: 428px; width: 500px;" /></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>points = [[1,1],[3,4],[-1,0]]
-<strong>输出：</strong>7
-<strong>解释：</strong>一条最佳的访问路径是： <strong>[1,1]</strong> -> [2,2] -> [3,3] -> <strong>[3,4] </strong>-> [2,3] -> [1,2] -> [0,1] -> <strong>[-1,0]</strong>   
-从 [1,1] 到 [3,4] 需要 3 秒 
-从 [3,4] 到 [-1,0] 需要 4 秒
-一共需要 7 秒</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>points = [[3,2],[-2,2]]
-<strong>输出：</strong>5
+<strong>Input:</strong> points = [[3,2],[-2,2]]
+<strong>Output:</strong> 5
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>points.length == n</code></li>
-	<li><code>1 <= n <= 100</code></li>
+	<li><code>1 &lt;= n&nbsp;&lt;= 100</code></li>
 	<li><code>points[i].length == 2</code></li>
-	<li><code>-1000 <= points[i][0], points[i][1] <= 1000</code></li>
+	<li><code>-1000&nbsp;&lt;= points[i][0], points[i][1]&nbsp;&lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-对于两个点 $p1=(x_1, y_1)$ 和 $p2=(x_2, y_2)$，横坐标和纵坐标分别移动的距离分别为 $dx = |x_1 - x_2|$ 和 $dy = |y_1 - y_2|$。
+For two points $p1=(x_1, y_1)$ and $p2=(x_2, y_2)$, the distances moved in the x-axis and y-axis are $dx = |x_1 - x_2|$ and $dy = |y_1 - y_2|$ respectively.
 
-如果 $dx \ge dy$，则沿对角线移动 $dy$，再沿水平方向移动 $dx - dy$；如果 $dx < dy$，则沿对角线移动 $dx$，再沿竖直方向移动 $dy - dx$。因此，两个点之间的最短距离为 $max(dx, dy)$。
+If $dx \ge dy$, move along the diagonal for $dy$ steps, then move horizontally for $dx - dy$ steps. If $dx < dy$, move along the diagonal for $dx$ steps, then move vertically for $dy - dx$ steps. Therefore, the minimum distance between the two points is $max(dx, dy)$.
 
-我们可以遍历所有的点对，计算出每个点对之间的最短距离，然后求和即可。
+We can iterate through all pairs of points, calculate the minimum distance between each pair of points, and then sum them up.
 
-时间复杂度 $O(n)$，其中 $n$ 为点的个数。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the number of points. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

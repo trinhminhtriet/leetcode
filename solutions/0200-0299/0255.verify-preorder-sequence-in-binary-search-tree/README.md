@@ -1,66 +1,60 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0255.Verify%20Preorder%20Sequence%20in%20Binary%20Search%20Tree/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 树
-    - 二叉搜索树
-    - 递归
-    - 数组
-    - 二叉树
-    - 单调栈
+    - Stack
+    - Tree
+    - Binary Search Tree
+    - Recursion
+    - Array
+    - Binary Tree
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [255. 验证二叉搜索树的前序遍历序列 🔒](https://leetcode.cn/problems/verify-preorder-sequence-in-binary-search-tree)
+# [255. Verify Preorder Sequence in Binary Search Tree 🔒](https://leetcode.com/problems/verify-preorder-sequence-in-binary-search-tree)
 
-[English Version](/solution/0200-0299/0255.Verify%20Preorder%20Sequence%20in%20Binary%20Search%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个&nbsp;<b>无重复元素</b>&nbsp;的整数数组&nbsp;<code>preorder</code>&nbsp;，&nbsp;<em>如果它是以二叉搜索树的<strong>先序遍历</strong>排列</em><em>&nbsp;</em>，返回 <code>true</code> 。</p>
+<p>Given an array of <strong>unique</strong> integers <code>preorder</code>, return <code>true</code> <em>if it is the correct preorder traversal sequence of a binary search tree</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0255.Verify%20Preorder%20Sequence%20in%20Binary%20Search%20Tree/images/preorder-tree.jpg" style="width: 292px; height: 302px;" />
+<pre>
+<strong>Input:</strong> preorder = [5,2,1,3,6]
+<strong>Output:</strong> true
+</pre>
 
-<p><strong>示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0255.Verify%20Preorder%20Sequence%20in%20Binary%20Search%20Tree/images/preorder-tree.jpg" /></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入: </strong>preorder = [5,2,1,3,6]
-<strong>输出: </strong>true</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入: </strong>preorder = [5,2,6,1,3]
-<strong>输出: </strong>false</pre>
+<strong>Input:</strong> preorder = [5,2,6,1,3]
+<strong>Output:</strong> false
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= preorder.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= preorder[i] &lt;= 10<sup>4</sup></code></li>
-	<li><code>preorder</code>&nbsp;中&nbsp;<strong>无重复元素</strong></li>
+	<li>All the elements of <code>preorder</code> are <strong>unique</strong>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>您能否使用恒定的空间复杂度来完成此题？</p>
+<p><strong>Follow up:</strong> Could you do it using only constant space complexity?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

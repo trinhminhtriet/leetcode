@@ -1,62 +1,59 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1938.Maximum%20Genetic%20Difference%20Query/README.md
+difficulty: Hard
 rating: 2502
-source: 第 250 场周赛 Q4
+source: Weekly Contest 250 Q4
 tags:
-    - 位运算
-    - 深度优先搜索
-    - 字典树
-    - 数组
-    - 哈希表
+    - Bit Manipulation
+    - Depth-First Search
+    - Trie
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [1938. 查询最大基因差](https://leetcode.cn/problems/maximum-genetic-difference-query)
+# [1938. Maximum Genetic Difference Query](https://leetcode.com/problems/maximum-genetic-difference-query)
 
-[English Version](/solution/1900-1999/1938.Maximum%20Genetic%20Difference%20Query/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一棵 <code>n</code> 个节点的有根树，节点编号从 <code>0</code> 到 <code>n - 1</code> 。每个节点的编号表示这个节点的 <strong>独一无二的基因值</strong> （也就是说节点 <code>x</code> 的基因值为 <code>x</code>）。两个基因值的 <strong>基因差</strong> 是两者的 <strong>异或和</strong> 。给你整数数组 <code>parents</code> ，其中 <code>parents[i]</code> 是节点 <code>i</code> 的父节点。如果节点 <code>x</code> 是树的 <strong>根</strong> ，那么 <code>parents[x] == -1</code> 。</p>
+<p>There is a rooted tree consisting of <code>n</code> nodes numbered <code>0</code> to <code>n - 1</code>. Each node&#39;s number denotes its <strong>unique genetic value</strong> (i.e. the genetic value of node <code>x</code> is <code>x</code>). The <strong>genetic difference</strong> between two genetic values is defined as the <strong>bitwise-</strong><strong>XOR</strong> of their values. You are given the integer array <code>parents</code>, where <code>parents[i]</code> is the parent for node <code>i</code>. If node <code>x</code> is the <strong>root</strong> of the tree, then <code>parents[x] == -1</code>.</p>
 
-<p>给你查询数组 <code>queries</code> ，其中 <code>queries[i] = [node<sub>i</sub>, val<sub>i</sub>]</code> 。对于查询 <code>i</code> ，请你找到 <code>val<sub>i</sub></code> 和 <code>p<sub>i</sub></code> 的 <strong>最大基因差</strong> ，其中 <code>p<sub>i</sub></code> 是节点 <code>node<sub>i</sub></code> 到根之间的任意节点（包含 <code>node<sub>i</sub></code> 和根节点）。更正式的，你想要最大化 <code>val<sub>i</sub> XOR p<sub>i</sub></code><sub> </sub>。</p>
+<p>You are also given the array <code>queries</code> where <code>queries[i] = [node<sub>i</sub>, val<sub>i</sub>]</code>. For each query <code>i</code>, find the <strong>maximum genetic difference</strong> between <code>val<sub>i</sub></code> and <code>p<sub>i</sub></code>, where <code>p<sub>i</sub></code> is the genetic value of any node that is on the path between <code>node<sub>i</sub></code> and the root (including <code>node<sub>i</sub></code> and the root). More formally, you want to maximize <code>val<sub>i</sub> XOR p<sub>i</sub></code>.</p>
 
-<p>请你返回数组<em> </em><code>ans</code> ，其中 <code>ans[i]</code> 是第 <code>i</code> 个查询的答案。</p>
+<p>Return <em>an array </em><code>ans</code><em> where </em><code>ans[i]</code><em> is the answer to the </em><code>i<sup>th</sup></code><em> query</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1938.Maximum%20Genetic%20Difference%20Query/images/c1.png" style="width: 118px; height: 163px;">
-<pre><b>输入：</b>parents = [-1,0,1,1], queries = [[0,2],[3,2],[2,5]]
-<b>输出：</b>[2,3,7]
-<strong>解释：</strong>查询数组处理如下：
-- [0,2]：最大基因差的对应节点为 0 ，基因差为 2 XOR 0 = 2 。
-- [3,2]：最大基因差的对应节点为 1 ，基因差为 2 XOR 1 = 3 。
-- [2,5]：最大基因差的对应节点为 2 ，基因差为 5 XOR 2 = 7 。
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1938.Maximum%20Genetic%20Difference%20Query/images/c1.png" style="width: 118px; height: 163px;" />
+<pre>
+<strong>Input:</strong> parents = [-1,0,1,1], queries = [[0,2],[3,2],[2,5]]
+<strong>Output:</strong> [2,3,7]
+<strong>Explanation: </strong>The queries are processed as follows:
+- [0,2]: The node with the maximum genetic difference is 0, with a difference of 2 XOR 0 = 2.
+- [3,2]: The node with the maximum genetic difference is 1, with a difference of 2 XOR 1 = 3.
+- [2,5]: The node with the maximum genetic difference is 2, with a difference of 5 XOR 2 = 7.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1938.Maximum%20Genetic%20Difference%20Query/images/c2.png" style="width: 256px; height: 221px;">
-<pre><b>输入：</b>parents = [3,7,-1,2,0,7,0,2], queries = [[4,6],[1,15],[0,5]]
-<b>输出：</b>[6,14,7]
-<strong>解释：</strong>查询数组处理如下：
-- [4,6]：最大基因差的对应节点为 0 ，基因差为 6 XOR 0 = 6 。
-- [1,15]：最大基因差的对应节点为 1 ，基因差为 15 XOR 1 = 14 。
-- [0,5]：最大基因差的对应节点为 2 ，基因差为 5 XOR 2 = 7 。
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1938.Maximum%20Genetic%20Difference%20Query/images/c2.png" style="width: 256px; height: 221px;" />
+<pre>
+<strong>Input:</strong> parents = [3,7,-1,2,0,7,0,2], queries = [[4,6],[1,15],[0,5]]
+<strong>Output:</strong> [6,14,7]
+<strong>Explanation: </strong>The queries are processed as follows:
+- [4,6]: The node with the maximum genetic difference is 0, with a difference of 6 XOR 0 = 6.
+- [1,15]: The node with the maximum genetic difference is 1, with a difference of 15 XOR 1 = 14.
+- [0,5]: The node with the maximum genetic difference is 2, with a difference of 5 XOR 2 = 7.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= parents.length &lt;= 10<sup>5</sup></code></li>
-	<li>对于每个 <strong>不是</strong> 根节点的 <code>i</code> ，有 <code>0 &lt;= parents[i] &lt;= parents.length - 1</code> 。</li>
+	<li><code>0 &lt;= parents[i] &lt;= parents.length - 1</code> for every node <code>i</code> that is <strong>not</strong> the root.</li>
 	<li><code>parents[root] == -1</code></li>
 	<li><code>1 &lt;= queries.length &lt;= 3 * 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= node<sub>i</sub> &lt;= parents.length - 1</code></li>
@@ -65,11 +62,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

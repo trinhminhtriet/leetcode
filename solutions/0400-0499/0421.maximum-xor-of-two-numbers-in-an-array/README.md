@@ -1,70 +1,54 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0421.Maximum%20XOR%20of%20Two%20Numbers%20in%20an%20Array/README.md
+difficulty: Medium
 tags:
-    - 位运算
-    - 字典树
-    - 数组
-    - 哈希表
+    - Bit Manipulation
+    - Trie
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [421. 数组中两个数的最大异或值](https://leetcode.cn/problems/maximum-xor-of-two-numbers-in-an-array)
+# [421. Maximum XOR of Two Numbers in an Array](https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array)
 
-[English Version](/solution/0400-0499/0421.Maximum%20XOR%20of%20Two%20Numbers%20in%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> ，返回<em> </em><code>nums[i] XOR nums[j]</code> 的最大运算结果，其中 <code>0 ≤ i ≤ j &lt; n</code> 。</p>
+<p>Given an integer array <code>nums</code>, return <em>the maximum result of </em><code>nums[i] XOR nums[j]</code>, where <code>0 &lt;= i &lt;= j &lt; n</code>.</p>
 
 <p>&nbsp;</p>
-
-<div class="original__bRMd">
-<div>
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,10,5,25,2,8]
-<strong>输出：</strong>28
-<strong>解释：</strong>最大运算结果是 5 XOR 25 = 28.</pre>
+<strong>Input:</strong> nums = [3,10,5,25,2,8]
+<strong>Output:</strong> 28
+<strong>Explanation:</strong> The maximum result is 5 XOR 25 = 28.
+</pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [14,70,53,83,49,91,36,80,92,51,66,70]
-<strong>输出：</strong>127
+<strong>Input:</strong> nums = [14,70,53,83,49,91,36,80,92,51,66,70]
+<strong>Output:</strong> 127
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 2 * 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= nums[i] &lt;= 2<sup>31</sup> - 1</code></li>
 </ul>
-</div>
-</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀树
-
-题目是求两个元素的异或最大值，可以从最高位开始考虑。
-
-我们把数组中的每个元素 $x$ 看作一个 $32$ 位的 $01$ 串，按二进制从高位到低位的顺序，插入前缀树（最低位为叶子节点）。
-
-搜索 $x$ 时，尽量走相反的 $01$ 字符指针的策略，因为异或运算的法则是相同得 $0$，不同得 $1$，所以我们尽可能往与 $x$ 当前位相反的字符方向走，才能得到能和 $x$ 产生最大异或值的结果。
-
-时间复杂度 $O(n \times \log M)$，空间复杂度 $O(n \times \log M)$，其中 $n$ 是数组 $nums$ 的长度，而 $M$ 是数组中元素的最大值。
+### Solution 1
 
 <!-- tabs:start -->
 

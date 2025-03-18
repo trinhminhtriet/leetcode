@@ -1,78 +1,74 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0748.Shortest%20Completing%20Word/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
+    - Array
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [748. 最短补全词](https://leetcode.cn/problems/shortest-completing-word)
+# [748. Shortest Completing Word](https://leetcode.com/problems/shortest-completing-word)
 
-[English Version](/solution/0700-0799/0748.Shortest%20Completing%20Word/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>licensePlate</code> 和一个字符串数组 <code>words</code> ，请你找出&nbsp;<code>words</code> 中的 <strong>最短补全词</strong> 。</p>
+<p>Given a string <code>licensePlate</code> and an array of strings <code>words</code>, find the <strong>shortest completing</strong> word in <code>words</code>.</p>
 
-<p><strong>补全词 </strong>是一个包含 <code>licensePlate</code> 中所有字母的单词。<strong>忽略</strong>&nbsp;<code>licensePlate</code> 中的 <strong>数字和空格 </strong>。<strong>不区分大小写</strong>。如果某个字母在 <code>licensePlate</code> 中出现不止一次，那么该字母在补全词中的出现次数应当一致或者更多。</p>
+<p>A <strong>completing</strong> word is a word that <strong>contains all the letters</strong> in <code>licensePlate</code>. <strong>Ignore numbers and spaces</strong> in <code>licensePlate</code>, and treat letters as <strong>case insensitive</strong>. If a letter appears more than once in <code>licensePlate</code>, then it must appear in the word the same number of times or more.</p>
 
-<p>例如：<code>licensePlate</code><code> = "aBc 12c"</code>，那么它的补全词应当包含字母 <code>'a'</code>、<code>'b'</code> （忽略大写）和两个 <code>'c'</code> 。可能的 <strong>补全词</strong> 有 <code>"abccdef"</code>、<code>"caaacab"</code> 以及 <code>"cbca"</code> 。</p>
+<p>For example, if <code>licensePlate</code><code> = &quot;aBc 12c&quot;</code>, then it contains letters <code>&#39;a&#39;</code>, <code>&#39;b&#39;</code> (ignoring case), and <code>&#39;c&#39;</code> twice. Possible <strong>completing</strong> words are <code>&quot;abccdef&quot;</code>, <code>&quot;caaacab&quot;</code>, and <code>&quot;cbca&quot;</code>.</p>
 
-<p>请返回 <code>words</code> 中的 <strong>最短补全词</strong> 。题目数据保证一定存在一个最短补全词。当有多个单词都符合最短补全词的匹配条件时取 <code>words</code> 中 <strong>第一个</strong> 出现的那个。</p>
+<p>Return <em>the shortest <strong>completing</strong> word in </em><code>words</code><em>.</em> It is guaranteed an answer exists. If there are multiple shortest <strong>completing</strong> words, return the <strong>first</strong> one that occurs in <code>words</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>licensePlate = "1s3 PSt", words = ["step", "steps", "stripe", "stepple"]
-<strong>输出：</strong>"steps"
-<strong>解释：</strong>最短补全词应该包括 "s"、"p"、"s"（忽略大小写） 以及 "t"。
-"step" 包含 "t"、"p"，但只包含一个 "s"，所以它不符合条件。
-"steps" 包含 "t"、"p" 和两个 "s"。
-"stripe" 缺一个 "s"。
-"stepple" 缺一个 "s"。
-因此，"steps" 是唯一一个包含所有字母的单词，也是本例的答案。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>licensePlate = "1s3 456", words = ["looks", "pest", "stew", "show"]
-<strong>输出：</strong>"pest"
-<strong>解释：</strong>licensePlate 只包含字母 "s" 。所有的单词都包含字母 "s" ，其中 "pest"、"stew"、和 "show" 三者最短。答案是 "pest" ，因为它是三个单词中在 words 里最靠前的那个。
+<strong>Input:</strong> licensePlate = &quot;1s3 PSt&quot;, words = [&quot;step&quot;,&quot;steps&quot;,&quot;stripe&quot;,&quot;stepple&quot;]
+<strong>Output:</strong> &quot;steps&quot;
+<strong>Explanation:</strong> licensePlate contains letters &#39;s&#39;, &#39;p&#39;, &#39;s&#39; (ignoring case), and &#39;t&#39;.
+&quot;step&quot; contains &#39;t&#39; and &#39;p&#39;, but only contains 1 &#39;s&#39;.
+&quot;steps&quot; contains &#39;t&#39;, &#39;p&#39;, and both &#39;s&#39; characters.
+&quot;stripe&quot; is missing an &#39;s&#39;.
+&quot;stepple&quot; is missing an &#39;s&#39;.
+Since &quot;steps&quot; is the only word containing all the letters, that is the answer.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> licensePlate = &quot;1s3 456&quot;, words = [&quot;looks&quot;,&quot;pest&quot;,&quot;stew&quot;,&quot;show&quot;]
+<strong>Output:</strong> &quot;pest&quot;
+<strong>Explanation:</strong> licensePlate only contains the letter &#39;s&#39;. All the words contain &#39;s&#39;, but among these &quot;pest&quot;, &quot;stew&quot;, and &quot;show&quot; are shortest. The answer is &quot;pest&quot; because it is the word that appears earliest of the 3.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= licensePlate.length &lt;= 7</code></li>
-	<li><code>licensePlate</code> 由数字、大小写字母或空格 <code>' '</code> 组成</li>
+	<li><code>licensePlate</code> contains digits, letters (uppercase or lowercase), or space <code>&#39; &#39;</code>.</li>
 	<li><code>1 &lt;= words.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 15</code></li>
-	<li><code>words[i]</code> 由小写英文字母组成</li>
+	<li><code>words[i]</code> consists of lower case English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们先用哈希表或者一个长度为 $26$ 的数组 $cnt$ 统计字符串 `licensePlate` 中每个字母出现的次数，注意这里我们统一将字母转换为小写进行计数。
+First, we use a hash table or an array $cnt$ of length $26$ to count the frequency of each letter in the string `licensePlate`. Note that we convert all letters to lowercase for counting.
 
-然后，我们遍历数组 `words` 中的每个单词 $w$，如果单词 $w$ 的长度比答案 $ans$ 的长度长，那么我们直接跳过该单词。否则，我们再用哈希表或者一个长度为 $26$ 的数组 $t$ 统计单词 $w$ 中每个字母出现的次数。如果对于任意一个字母，$t$ 中该字母出现的次数小于 $cnt$ 中该字母出现的次数，那么我们也可以直接跳过该单词。否则，我们就找到了一个满足条件的单词，我们更新答案 $ans$ 为当前单词 $w$。
+Then, we traverse each word $w$ in the array `words`. If the length of the word $w$ is longer than the length of the answer $ans$, we directly skip this word. Otherwise, we use another hash table or an array $t$ of length $26$ to count the frequency of each letter in the word $w$. If for any letter, the frequency of this letter in $t$ is less than the frequency of this letter in $cnt$, we can also directly skip this word. Otherwise, we have found a word that meets the conditions, and we update the answer $ans$ to the current word $w$.
 
-时间复杂度 $O(n \times |\Sigma|)$，空间复杂度 $O(|\Sigma|)$，其中 $n$ 是数组 `words` 的长度，而 $\Sigma$ 是字符集，这里字符集为所有小写字母，因此 $|\Sigma| = 26$。
+The time complexity is $O(n \times |\Sigma|)$, and the space complexity is $O(|\Sigma|)$. Here, $n$ is the length of the array `words`, and $\Sigma$ is the character set. In this case, the character set is all lowercase letters, so $|\Sigma| = 26$.
 
 <!-- tabs:start -->
 

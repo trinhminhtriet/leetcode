@@ -1,63 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2012.Sum%20of%20Beauty%20in%20the%20Array/README.md
+difficulty: Medium
 rating: 1467
-source: 第 259 场周赛 Q2
+source: Weekly Contest 259 Q2
 tags:
-    - 数组
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2012. 数组美丽值求和](https://leetcode.cn/problems/sum-of-beauty-in-the-array)
+# [2012. Sum of Beauty in the Array](https://leetcode.com/problems/sum-of-beauty-in-the-array)
 
-[English Version](/solution/2000-2099/2012.Sum%20of%20Beauty%20in%20the%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 。对于每个下标 <code>i</code>（<code>1 &lt;= i &lt;= nums.length - 2</code>），<code>nums[i]</code> 的 <strong>美丽值</strong> 等于：</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. For each index <code>i</code> (<code>1 &lt;= i &lt;= nums.length - 2</code>) the <strong>beauty</strong> of <code>nums[i]</code> equals:</p>
 
 <ul>
-	<li><code>2</code>，对于所有 <code>0 &lt;= j &lt; i</code> 且 <code>i &lt; k &lt;= nums.length - 1</code> ，满足 <code>nums[j] &lt; nums[i] &lt; nums[k]</code></li>
-	<li><code>1</code>，如果满足 <code>nums[i - 1] &lt; nums[i] &lt; nums[i + 1]</code> ，且不满足前面的条件</li>
-	<li><code>0</code>，如果上述条件全部不满足</li>
+	<li><code>2</code>, if <code>nums[j] &lt; nums[i] &lt; nums[k]</code>, for <strong>all</strong> <code>0 &lt;= j &lt; i</code> and for <strong>all</strong> <code>i &lt; k &lt;= nums.length - 1</code>.</li>
+	<li><code>1</code>, if <code>nums[i - 1] &lt; nums[i] &lt; nums[i + 1]</code>, and the previous condition is not satisfied.</li>
+	<li><code>0</code>, if none of the previous conditions holds.</li>
 </ul>
 
-<p>返回符合 <code>1 &lt;= i &lt;= nums.length - 2</code> 的所有<em> </em><code>nums[i]</code><em> </em>的 <strong>美丽值的总和</strong> 。</p>
+<p>Return<em> the <strong>sum of beauty</strong> of all </em><code>nums[i]</code><em> where </em><code>1 &lt;= i &lt;= nums.length - 2</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>nums = [1,2,3]
-<strong>输出：</strong>2
-<strong>解释：</strong>对于每个符合范围 1 &lt;= i &lt;= 1 的下标 i :
-- nums[1] 的美丽值等于 2
+<pre>
+<strong>Input:</strong> nums = [1,2,3]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> For each index i in the range 1 &lt;= i &lt;= 1:
+- The beauty of nums[1] equals 2.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>nums = [2,4,6,4]
-<strong>输出：</strong>1
-<strong>解释：</strong>对于每个符合范围 1 &lt;= i &lt;= 2 的下标 i :
-- nums[1] 的美丽值等于 1
-- nums[2] 的美丽值等于 0
+<pre>
+<strong>Input:</strong> nums = [2,4,6,4]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> For each index i in the range 1 &lt;= i &lt;= 2:
+- The beauty of nums[1] equals 1.
+- The beauty of nums[2] equals 0.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>nums = [3,2,1]
-<strong>输出：</strong>0
-<strong>解释：</strong>对于每个符合范围 1 &lt;= i &lt;= 1 的下标 i :
-- nums[1] 的美丽值等于 0
+<pre>
+<strong>Input:</strong> nums = [3,2,1]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> For each index i in the range 1 &lt;= i &lt;= 1:
+- The beauty of nums[1] equals 0.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -66,19 +64,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：预处理右侧最小值 + 遍历维护左侧最大值
+### Solution 1: Preprocessing Right Minimum + Traversing to Maintain Left Maximum
 
-我们可以预处理出右侧最小值数组 $right$，其中 $right[i]$ 表示 $nums[i..n-1]$ 中的最小值。
+We can preprocess the right minimum array $right$, where $right[i]$ represents the minimum value in $nums[i..n-1]$.
 
-然后我们从左到右遍历数组 $nums$，同时维护左侧最大值 $l$。对于每个位置 $i$，我们判断 $l < nums[i] < right[i + 1]$ 是否成立，如果成立则将 $2$ 累加至答案，否则判断 $nums[i - 1] < nums[i] < nums[i + 1]$ 是否成立，如果成立则将 $1$ 累加至答案。
+Then we traverse the array $nums$ from left to right, while maintaining the maximum value $l$ on the left. For each position $i$, we judge whether $l < nums[i] < right[i + 1]$ holds. If it does, we add $2$ to the answer. Otherwise, we judge whether $nums[i - 1] < nums[i] < nums[i + 1]$ holds. If it does, we add $1$ to the answer.
 
-遍历结束后即可得到答案。
+After the traversal, we can get the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

@@ -1,81 +1,76 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2861.Maximum%20Number%20of%20Alloys/README.md
+difficulty: Medium
 rating: 1981
-source: 第 363 场周赛 Q3
+source: Weekly Contest 363 Q3
 tags:
-    - 数组
-    - 二分查找
+    - Array
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [2861. 最大合金数](https://leetcode.cn/problems/maximum-number-of-alloys)
+# [2861. Maximum Number of Alloys](https://leetcode.com/problems/maximum-number-of-alloys)
 
-[English Version](/solution/2800-2899/2861.Maximum%20Number%20of%20Alloys/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>假设你是一家合金制造公司的老板，你的公司使用多种金属来制造合金。现在共有 <code>n</code> 种不同类型的金属可以使用，并且你可以使用 <code>k</code> 台机器来制造合金。每台机器都需要特定数量的每种金属来创建合金。</p>
+<p>You are the owner of a company that creates alloys using various types of metals. There are <code>n</code> different types of metals available, and you have access to <code>k</code> machines that can be used to create alloys. Each machine requires a specific amount of each metal type to create an alloy.</p>
 
-<p>对于第 <code>i</code> 台机器而言，创建合金需要 <code>composition[i][j]</code> 份 <code>j</code> 类型金属。最初，你拥有 <code>stock[i]</code> 份 <code>i</code> 类型金属，而每购入一份 <code>i</code> 类型金属需要花费 <code>cost[i]</code> 的金钱。</p>
+<p>For the <code>i<sup>th</sup></code> machine to create an alloy, it needs <code>composition[i][j]</code> units of metal of type <code>j</code>. Initially, you have <code>stock[i]</code> units of metal type <code>i</code>, and purchasing one unit of metal type <code>i</code> costs <code>cost[i]</code> coins.</p>
 
-<p>给你整数 <code>n</code>、<code>k</code>、<code>budget</code>，下标从 <strong>1</strong> 开始的二维数组 <code>composition</code>，两个下标从 <strong>1</strong> 开始的数组 <code>stock</code> 和 <code>cost</code>，请你在预算不超过 <code>budget</code> 金钱的前提下，<strong>最大化</strong> 公司制造合金的数量。</p>
+<p>Given integers <code>n</code>, <code>k</code>, <code>budget</code>, a <strong>1-indexed</strong> 2D array <code>composition</code>, and <strong>1-indexed</strong> arrays <code>stock</code> and <code>cost</code>, your goal is to <strong>maximize</strong> the number of alloys the company can create while staying within the budget of <code>budget</code> coins.</p>
 
-<p><strong>所有合金都需要由同一台机器制造。</strong></p>
+<p><strong>All alloys must be created with the same machine.</strong></p>
 
-<p>返回公司可以制造的最大合金数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 3, k = 2, budget = 15, composition = [[1,1,1],[1,1,10]], stock = [0,0,0], cost = [1,2,3]
-<strong>输出：</strong>2
-<strong>解释：</strong>最优的方法是使用第 1 台机器来制造合金。
-要想制造 2 份合金，我们需要购买：
-- 2 份第 1 类金属。
-- 2 份第 2 类金属。
-- 2 份第 3 类金属。
-总共需要 2 * 1 + 2 * 2 + 2 * 3 = 12 的金钱，小于等于预算 15 。
-注意，我们最开始时候没有任何一类金属，所以必须买齐所有需要的金属。
-可以证明在示例条件下最多可以制造 2 份合金。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 3, k = 2, budget = 15, composition = [[1,1,1],[1,1,10]], stock = [0,0,100], cost = [1,2,3]
-<strong>输出：</strong>5
-<strong>解释：</strong>最优的方法是使用第 2 台机器来制造合金。 
-要想制造 5 份合金，我们需要购买： 
-- 5 份第 1 类金属。
-- 5 份第 2 类金属。 
-- 0 份第 3 类金属。 
-总共需要 5 * 1 + 5 * 2 + 0 * 3 = 15 的金钱，小于等于预算 15 。 
-可以证明在示例条件下最多可以制造 5 份合金。
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 2, k = 3, budget = 10, composition = [[2,1],[1,2],[1,1]], stock = [1,1], cost = [5,5]
-<strong>输出：</strong>2
-<strong>解释：</strong>最优的方法是使用第 3 台机器来制造合金。
-要想制造 2 份合金，我们需要购买：
-- 1 份第 1 类金属。
-- 1 份第 2 类金属。
-总共需要 1 * 5 + 1 * 5 = 10 的金钱，小于等于预算 10 。
-可以证明在示例条件下最多可以制造 2 份合金。
-</pre>
+<p>Return <em>the maximum number of alloys that the company can create</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 3, k = 2, budget = 15, composition = [[1,1,1],[1,1,10]], stock = [0,0,0], cost = [1,2,3]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> It is optimal to use the 1<sup>st</sup> machine to create alloys.
+To create 2 alloys we need to buy the:
+- 2 units of metal of the 1<sup>st</sup> type.
+- 2 units of metal of the 2<sup>nd</sup> type.
+- 2 units of metal of the 3<sup>rd</sup> type.
+In total, we need 2 * 1 + 2 * 2 + 2 * 3 = 12 coins, which is smaller than or equal to budget = 15.
+Notice that we have 0 units of metal of each type and we have to buy all the required units of metal.
+It can be proven that we can create at most 2 alloys.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 3, k = 2, budget = 15, composition = [[1,1,1],[1,1,10]], stock = [0,0,100], cost = [1,2,3]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> It is optimal to use the 2<sup>nd</sup> machine to create alloys.
+To create 5 alloys we need to buy:
+- 5 units of metal of the 1<sup>st</sup> type.
+- 5 units of metal of the 2<sup>nd</sup> type.
+- 0 units of metal of the 3<sup>rd</sup> type.
+In total, we need 5 * 1 + 5 * 2 + 0 * 3 = 15 coins, which is smaller than or equal to budget = 15.
+It can be proven that we can create at most 5 alloys.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 2, k = 3, budget = 10, composition = [[2,1],[1,2],[1,1]], stock = [1,1], cost = [5,5]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> It is optimal to use the 3<sup>rd</sup> machine to create alloys.
+To create 2 alloys we need to buy the:
+- 1 unit of metal of the 1<sup>st</sup> type.
+- 1 unit of metal of the 2<sup>nd</sup> type.
+In total, we need 1 * 5 + 1 * 5 = 10 coins, which is smaller than or equal to budget = 10.
+It can be proven that we can create at most 2 alloys.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n, k &lt;= 100</code></li>
@@ -90,17 +85,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-我们注意到，所有合金都需要由同一台机器制造，因此我们可以枚举使用哪一台机器来制造合金。
+We note that all alloys need to be made by the same machine, so we can enumerate which machine to use to make the alloy.
 
-对于每一台机器，我们可以使用二分查找的方法找出最大的整数 $x$，使得我们可以使用这台机器制造 $x$ 份合金。找出所有 $x$ 中的最大值即为答案。
+For each machine, we can use binary search to find the maximum integer $x$ such that we can use this machine to make $x$ alloys. The maximum of all $x$ is the answer.
 
-时间复杂度 $O(n \times k \times \log M)$，其中 $M$ 是二分查找的上界，本题中 $M \leq 2 \times 10^8$。空间复杂度 $O(1)$。
+The time complexity is $O(n \times k \times \log M)$, where $M$ is the upper bound of the binary search, and in this problem, $M \leq 2 \times 10^8$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

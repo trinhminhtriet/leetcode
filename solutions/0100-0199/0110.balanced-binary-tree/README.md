@@ -1,73 +1,68 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0110.Balanced%20Binary%20Tree/README.md
+difficulty: Easy
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [110. 平衡二叉树](https://leetcode.cn/problems/balanced-binary-tree)
+# [110. Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree)
 
-[English Version](/solution/0100-0199/0110.Balanced%20Binary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个二叉树，判断它是否是 <span data-keyword="height-balanced">平衡二叉树</span> &nbsp;</p>
+<p>Given a binary tree, determine if it is <span data-keyword="height-balanced"><strong>height-balanced</strong></span>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0110.Balanced%20Binary%20Tree/images/balance_1.jpg" style="width: 342px; height: 221px;" />
 <pre>
-<strong>输入：</strong>root = [3,9,20,null,null,15,7]
-<strong>输出：</strong>true
+<strong>Input:</strong> root = [3,9,20,null,null,15,7]
+<strong>Output:</strong> true
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0110.Balanced%20Binary%20Tree/images/balance_2.jpg" style="width: 452px; height: 301px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,2,3,3,null,null,4,4]
-<strong>输出：</strong>false
+<strong>Input:</strong> root = [1,2,2,3,3,null,null,4,4]
+<strong>Output:</strong> false
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>root = []
-<strong>输出：</strong>true
+<strong>Input:</strong> root = []
+<strong>Output:</strong> true
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中的节点数在范围 <code>[0, 5000]</code> 内</li>
+	<li>The number of nodes in the tree is in the range <code>[0, 5000]</code>.</li>
 	<li><code>-10<sup>4</sup> &lt;= Node.val &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：自底向上的递归
+### Solution 1: Bottom-Up Recursion
 
-定义函数 $height(root)$ 计算二叉树的高度，处理逻辑如下：
+We define a function $height(root)$ to calculate the height of a binary tree, with the following logic:
 
--   如果二叉树 $root$ 为空，返回 $0$。
--   否则，递归计算左右子树的高度，分别为 $l$ 和 $r$。如果 $l$ 或 $r$ 为 $-1$，或者 $l$ 和 $r$ 的差的绝对值大于 $1$，则返回 $-1$，否则返回 $max(l, r) + 1$。
+-   If the binary tree $root$ is null, return $0$.
+-   Otherwise, recursively calculate the heights of the left and right subtrees, denoted as $l$ and $r$ respectively. If either $l$ or $r$ is $-1$, or the absolute difference between $l$ and $r$ is greater than $1$, then return $-1$. Otherwise, return $max(l, r) + 1$.
 
-那么，如果函数 $height(root)$ 返回的是 $-1$，则说明二叉树 $root$ 不是平衡二叉树，否则是平衡二叉树。
+Therefore, if the function $height(root)$ returns $-1$, it means the binary tree $root$ is not balanced. Otherwise, it is balanced.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 

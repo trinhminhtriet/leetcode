@@ -1,43 +1,31 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0371.Sum%20of%20Two%20Integers/README.md
+difficulty: Medium
 tags:
-    - 位运算
-    - 数学
+    - Bit Manipulation
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [371. 两整数之和](https://leetcode.cn/problems/sum-of-two-integers)
+# [371. Sum of Two Integers](https://leetcode.com/problems/sum-of-two-integers)
 
-[English Version](/solution/0300-0399/0371.Sum%20of%20Two%20Integers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数 <code>a</code> 和 <code>b</code> ，<strong>不使用 </strong>运算符&nbsp;<code>+</code> 和&nbsp;<code>-</code>&nbsp;​​​​​​​，计算并返回两整数之和。</p>
+<p>Given two integers <code>a</code> and <code>b</code>, return <em>the sum of the two integers without using the operators</em> <code>+</code> <em>and</em> <code>-</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>a = 1, b = 2
-<strong>输出：</strong>3
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> a = 1, b = 2
+<strong>Output:</strong> 3
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> a = 2, b = 3
+<strong>Output:</strong> 5
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>a = 2, b = 3
-<strong>输出：</strong>5
-</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>-1000 &lt;= a, b &lt;= 1000</code></li>
@@ -45,29 +33,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算
-
-两数字的二进制形式 a,b ，求和 s = a + b ，a(i)、b(i) 分别表示 a、b 的第 i 个二进制位。一共有 4 种情况：
-
-| a(i) | b(i) | 不进位的和 | 进位 |
-| ---- | ---- | ---------- | ---- |
-| 0    | 0    | 0          | 0    |
-| 0    | 1    | 1          | 0    |
-| 1    | 0    | 1          | 0    |
-| 1    | 1    | 0          | 1    |
-
-观察可以发现，“不进位的和”与“异或运算”有相同规律，而进位则与“与”运算规律相同，并且需要左移一位。
-
--   对两数进行按位 `^` 异或运算，得到不进位的和；
--   对两数进行按位 `&` 与运算，然后左移一位，得到进位；
--   问题转换为求：“不进位的数 + 进位” 之和；
--   循环，直至进位为 0，返回不进位的数即可（也可以用递归实现）。
-
-时间复杂度 $O(\log n)$。
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,67 +1,55 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0325.Maximum%20Size%20Subarray%20Sum%20Equals%20k/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
-    - 前缀和
+    - Array
+    - Hash Table
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [325. 和等于 k 的最长子数组长度 🔒](https://leetcode.cn/problems/maximum-size-subarray-sum-equals-k)
+# [325. Maximum Size Subarray Sum Equals k 🔒](https://leetcode.com/problems/maximum-size-subarray-sum-equals-k)
 
-[English Version](/solution/0300-0399/0325.Maximum%20Size%20Subarray%20Sum%20Equals%20k/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个数组 <code><em>nums</em></code> 和一个目标值 <code><em>k</em></code>，找到和等于<em> <code>k</code> </em>的最长连续<span data-keyword="subarray">子数组</span>长度。如果不存在任意一个符合要求的子数组，则返回 <code>0</code>。</p>
+<p>Given an integer array <code>nums</code> and an integer <code>k</code>, return <em>the maximum length of a </em><span data-keyword="subarray"><em>subarray</em></span><em> that sums to</em> <code>k</code>. If there is not one, return <code>0</code> instead.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入: </strong><em>nums</em> = <code>[1,-1,5,-2,3]</code>, <em>k</em> = <code>3</code>
-<strong>输出: </strong>4 
-<strong>解释: </strong>子数组 <code>[1, -1, 5, -2]</code> 和等于 3，且长度最长。
+<strong>Input:</strong> nums = [1,-1,5,-2,3], k = 3
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The subarray [1, -1, 5, -2] sums to 3 and is the longest.
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入: </strong><em>nums</em> = <code>[-2,-1,2,1]</code>, <em>k</em> = <code>1</code>
-<strong>输出: </strong>2 <strong>
-解释: </strong>子数组<code> [-1, 2]</code> 和等于 1，且长度最长。</pre>
+<strong>Input:</strong> nums = [-2,-1,2,1], k = 1
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The subarray [-1, 2] sums to 1 and is the longest.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 2 * 10<sup>5</sup></code></li>
-	<li><code>-10<sup>4</sup>&nbsp;&lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
 	<li><code>-10<sup>9</sup>&nbsp;&lt;= k &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 前缀和
-
-我们可以用一个哈希表 $d$ 记录数组 $nums$ 中每个前缀和第一次出现的下标，初始时 $d[0] = -1$。另外定义一个变量 $s$ 记录前缀和。
-
-接下来，遍历数组 $nums$，对于当前遍历到的数字 $nums[i]$，我们更新前缀和 $s = s + nums[i]$，如果 $s-k$ 在哈希表 $d$ 中存在，不妨记 $j = d[s - k]$，那么以 $nums[i]$ 结尾的符合条件的子数组的长度为 $i - j$，我们使用一个变量 $ans$ 来维护最长的符合条件的子数组的长度。然后，如果 $s$ 在哈希表中不存在，我们记录 $s$ 和对应的下标 $i$，即 $d[s] = i$，否则我们不更新 $d[s]$。需要注意的是，可能会有多个位置 $i$ 都满足 $s$ 的值，因此我们只记录最小的 $i$，这样就能保证子数组的长度最长。
-
-遍历结束之后，我们返回 $ans$ 即可。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

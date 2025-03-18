@@ -1,49 +1,46 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2176.Count%20Equal%20and%20Divisible%20Pairs%20in%20an%20Array/README.md
+difficulty: Easy
 rating: 1215
-source: 第 72 场双周赛 Q1
+source: Biweekly Contest 72 Q1
 tags:
-    - 数组
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2176. 统计数组中相等且可以被整除的数对](https://leetcode.cn/problems/count-equal-and-divisible-pairs-in-an-array)
+# [2176. Count Equal and Divisible Pairs in an Array](https://leetcode.com/problems/count-equal-and-divisible-pairs-in-an-array)
 
-[English Version](/solution/2100-2199/2176.Count%20Equal%20and%20Divisible%20Pairs%20in%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;，请你返回满足&nbsp;<code>0 &lt;= i &lt; j &lt; n</code>&nbsp;，<code>nums[i] == nums[j]</code> 且&nbsp;<code>(i * j)</code>&nbsp;能被&nbsp;<code>k</code>&nbsp;整除的数对&nbsp;<code>(i, j)</code>&nbsp;的&nbsp;<strong>数目</strong>&nbsp;。</p>
+Given a <strong>0-indexed</strong> integer array <code>nums</code> of length <code>n</code> and an integer <code>k</code>, return <em>the <strong>number of pairs</strong></em> <code>(i, j)</code> <em>where</em> <code>0 &lt;= i &lt; j &lt; n</code>, <em>such that</em> <code>nums[i] == nums[j]</code> <em>and</em> <code>(i \* j)</code> <em>is divisible by</em> <code>k</code>.
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [3,1,2,2,2,1,3], k = 2
-<b>输出：</b>4
-<strong>解释：</strong>
-总共有 4 对数符合所有要求：
-- nums[0] == nums[6] 且 0 * 6 == 0 ，能被 2 整除。
-- nums[2] == nums[3] 且 2 * 3 == 6 ，能被 2 整除。
-- nums[2] == nums[4] 且 2 * 4 == 8 ，能被 2 整除。
-- nums[3] == nums[4] 且 3 * 4 == 12 ，能被 2 整除。
+<pre>
+<strong>Input:</strong> nums = [3,1,2,2,2,1,3], k = 2
+<strong>Output:</strong> 4
+<strong>Explanation:</strong>
+There are 4 pairs that meet all the requirements:
+- nums[0] == nums[6], and 0 * 6 == 0, which is divisible by 2.
+- nums[2] == nums[3], and 2 * 3 == 6, which is divisible by 2.
+- nums[2] == nums[4], and 2 * 4 == 8, which is divisible by 2.
+- nums[3] == nums[4], and 3 * 4 == 12, which is divisible by 2.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>nums = [1,2,3,4], k = 1
-<b>输出：</b>0
-<b>解释：</b>由于数组中没有重复数值，所以没有数对 (i,j) 符合所有要求。
+<pre>
+<strong>Input:</strong> nums = [1,2,3,4], k = 1
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> Since no value in nums is repeated, there are no pairs (i,j) that meet all the requirements.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -52,15 +49,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们先在 $[0, n)$ 的范围内枚举下标 $j$，然后在 $[0, j)$ 的范围内枚举下标 $i$，统计满足 $\textit{nums}[i] = \textit{nums}[j]$ 且 $(i \times j) \bmod k = 0$ 的数对个数。
+We first enumerate the index $j$ in the range $[0, n)$, and then enumerate the index $i$ in the range $[0, j)$. We count the number of pairs that satisfy $\textit{nums}[i] = \textit{nums}[j]$ and $(i \times j) \bmod k = 0$.
 
-时间复杂度 $O(n^2)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n^2)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,95 +1,85 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1125.Smallest%20Sufficient%20Team/README.md
+difficulty: Hard
 rating: 2250
-source: 第 145 场周赛 Q4
+source: Weekly Contest 145 Q4
 tags:
-    - 位运算
-    - 数组
-    - 动态规划
-    - 状态压缩
+    - Bit Manipulation
+    - Array
+    - Dynamic Programming
+    - Bitmask
 ---
 
 <!-- problem:start -->
 
-# [1125. 最小的必要团队](https://leetcode.cn/problems/smallest-sufficient-team)
+# [1125. Smallest Sufficient Team](https://leetcode.com/problems/smallest-sufficient-team)
 
-[English Version](/solution/1100-1199/1125.Smallest%20Sufficient%20Team/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>作为项目经理，你规划了一份需求的技能清单 <code>req_skills</code>，并打算从备选人员名单 <code>people</code> 中选出些人组成一个「必要团队」（ 编号为 <code>i</code> 的备选人员 <code>people[i]</code> 含有一份该备选人员掌握的技能列表）。</p>
+<p>In a project, you have a list of required skills <code>req_skills</code>, and a list of people. The <code>i<sup>th</sup></code> person <code>people[i]</code> contains a list of skills that the person has.</p>
 
-<p>所谓「必要团队」，就是在这个团队中，对于所需求的技能列表 <code>req_skills</code> 中列出的每项技能，团队中至少有一名成员已经掌握。可以用每个人的编号来表示团队中的成员：</p>
+<p>Consider a sufficient team: a set of people such that for every required skill in <code>req_skills</code>, there is at least one person in the team who has that skill. We can represent these teams by the index of each person.</p>
 
 <ul>
-	<li>例如，团队 <code>team = [0, 1, 3]</code> 表示掌握技能分别为 <code>people[0]</code>，<code>people[1]</code>，和 <code>people[3]</code> 的备选人员。</li>
+	<li>For example, <code>team = [0, 1, 3]</code> represents the people with skills <code>people[0]</code>, <code>people[1]</code>, and <code>people[3]</code>.</li>
 </ul>
 
-<p>请你返回 <strong>任一</strong> 规模最小的必要团队，团队成员用人员编号表示。你可以按 <strong>任意顺序</strong> 返回答案，题目数据保证答案存在。</p>
+<p>Return <em>any sufficient team of the smallest possible size, represented by the index of each person</em>. You may return the answer in <strong>any order</strong>.</p>
 
-<p> </p>
+<p>It is <strong>guaranteed</strong> an answer exists.</p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>req_skills = ["java","nodejs","reactjs"], people = [["java"],["nodejs"],["nodejs","reactjs"]]
-<strong>输出：</strong>[0,2]
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> req_skills = ["java","nodejs","reactjs"], people = [["java"],["nodejs"],["nodejs","reactjs"]]
+<strong>Output:</strong> [0,2]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> req_skills = ["algorithms","math","java","reactjs","csharp","aws"], people = [["algorithms","math","java"],["algorithms","math","reactjs"],["java","csharp","aws"],["reactjs","csharp"],["csharp","math"],["aws","java"]]
+<strong>Output:</strong> [1,2]
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>req_skills = ["algorithms","math","java","reactjs","csharp","aws"], people = [["algorithms","math","java"],["algorithms","math","reactjs"],["java","csharp","aws"],["reactjs","csharp"],["csharp","math"],["aws","java"]]
-<strong>输出：</strong>[1,2]
-</pre>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= req_skills.length <= 16</code></li>
-	<li><code>1 <= req_skills[i].length <= 16</code></li>
-	<li><code>req_skills[i]</code> 由小写英文字母组成</li>
-	<li><code>req_skills</code> 中的所有字符串 <strong>互不相同</strong></li>
-	<li><code>1 <= people.length <= 60</code></li>
-	<li><code>0 <= people[i].length <= 16</code></li>
-	<li><code>1 <= people[i][j].length <= 16</code></li>
-	<li><code>people[i][j]</code> 由小写英文字母组成</li>
-	<li><code>people[i]</code> 中的所有字符串 <strong>互不相同</strong></li>
-	<li><code>people[i]</code> 中的每个技能是 <code>req_skills</code> 中的技能</li>
-	<li>题目数据保证「必要团队」一定存在</li>
+	<li><code>1 &lt;= req_skills.length &lt;= 16</code></li>
+	<li><code>1 &lt;= req_skills[i].length &lt;= 16</code></li>
+	<li><code>req_skills[i]</code> consists of lowercase English letters.</li>
+	<li>All the strings of <code>req_skills</code> are <strong>unique</strong>.</li>
+	<li><code>1 &lt;= people.length &lt;= 60</code></li>
+	<li><code>0 &lt;= people[i].length &lt;= 16</code></li>
+	<li><code>1 &lt;= people[i][j].length &lt;= 16</code></li>
+	<li><code>people[i][j]</code> consists of lowercase English letters.</li>
+	<li>All the strings of <code>people[i]</code> are <strong>unique</strong>.</li>
+	<li>Every skill in <code>people[i]</code> is a skill in <code>req_skills</code>.</li>
+	<li>It is guaranteed a sufficient team exists.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：状态压缩动态规划
+### Solution 1: State Compression Dynamic Programming
 
-我们注意到，技能清单 `req_skills` 的长度不超过 $16$，因此，我们可以用一个长度不超过 $16$ 的二进制数来表示每一种技能是否被掌握。不妨记数组 `req_skills` 的长度为 $m$，数组 `people` 的长度为 $n$。
+We notice that the length of `req_skills` does not exceed $16$, so we can use a binary number of length no more than $16$ to represent whether each skill is mastered. Let's denote the length of `req_skills` as $m$ and the length of `people` as $n$.
 
-我们先将 `req_skills` 中的每个技能映射到一个编号，即 $d[s]$ 表示技能 $s$ 的编号。然后，我们遍历 `people` 中的每个人，将其掌握的技能用二进制数表示，即 $p[i]$ 表示编号为 $i$ 的人掌握的技能。
+First, we map each skill in `req_skills` to a number, i.e., $d[s]$ represents the number of skill $s$. Then, we traverse each person in `people` and represent the skills they master with a binary number, i.e., $p[i]$ represents the skills mastered by the person with number $i$.
 
-接下来，我们定义以下三个数组，其中：
+Next, we define the following three arrays:
 
--   数组 $f[i]$ 表示掌握技能集合为 $i$ 的最少人数，其中 $i$ 的二进制表示中的每一位为 $1$ 的位置，表示对应的技能被掌握。初始时 $f[0] = 0$，其余位置均为无穷大。
--   数组 $g[i]$ 表示掌握技能集合为 $i$ 的最少人数时，最后一个人的编号。
--   数组 $h[i]$ 表示掌握技能集合为 $i$ 的最少人数时，上一个技能集合状态。
+-   Array $f[i]$ represents the minimum number of people to master the skill set $i$, where each bit of the binary representation of $i$ is $1$, indicating that the corresponding skill is mastered. Initially, $f[0] = 0$, and all other positions are infinity.
+-   Array $g[i]$ represents the number of the last person when the skill set $i$ is mastered by the minimum number of people.
+-   Array $h[i]$ represents the previous skill set state when the skill set $i$ is mastered by the minimum number of people.
 
-我们在 $[0,..2^m-1]$ 的范围内枚举每个技能集合，对于每个技能集合 $i$：
+We enumerate each skill set in the range of $[0,..2^m-1]$, for each skill set $i$:
 
-我们枚举 `people` 中的每个人 $j$，如果 $f[i] + 1 \lt f[i | p[j]]$，说明 $f[i | p[j]]$ 可以通过 $f[i]$ 转移得到，此时，我们更新 $f[i | p[j]]$ 为 $f[i] + 1$，并将 $g[i | p[j]]$ 更新为 $j$，同时将 $h[i | p[j]]$ 更新为 $i$。即当前技能集合状态为 $i | p[j]$ 时，最后一个人的编号为 $j$，上一个技能集合状态为 $i$。这里符号 $|$ 表示按位或运算。
+We enumerate each person $j$ in `people`. If $f[i] + 1 \lt f[i | p[j]]$, it means that $f[i | p[j]]$ can be transferred from $f[i]$. At this time, we update $f[i | p[j]]$ to $f[i] + 1$, and update $g[i | p[j]]$ to $j$, and update $h[i | p[j]]$ to $i$. That is, when the current skill set state is $i | p[j]$, the number of the last person is $j$, and the previous skill set state is $i$. Here, the symbol $|$ represents bitwise OR operation.
 
-最后，我们从技能集合 $i=2^m-1$ 开始，找到此时最后一个人的编号 $g[i]$，将其加入答案中，然后将 $i$ 更新为 $h[i]$，不断地向前回溯，直到 $i=0$，即可得到最小的必要团队中的人员编号。
+Finally, we start from the skill set $i=2^m-1$, find the number of the last person at this time $g[i]$, add it to the answer, then update $i$ to $h[i]$, and keep backtracking until $i=0$, to get the personnel numbers in the smallest necessary team.
 
-时间复杂度 $O(2^m \times n)$，空间复杂度 $O(2^m)$。其中 $m$ 和 $n$ 分别为 `req_skills` 和 `people` 的长度。
+The time complexity is $O(2^m \times n)$, and the space complexity is $O(2^m)$. Here, $m$ and $n$ are the lengths of `req_skills` and `people`, respectively.
 
 <!-- tabs:start -->
 

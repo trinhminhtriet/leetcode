@@ -1,33 +1,29 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2877.Create%20a%20DataFrame%20from%20List/README.md
+difficulty: Easy
 tags:
     - Pandas
 ---
 
 <!-- problem:start -->
 
-# [2877. 从表中创建 DataFrame](https://leetcode.cn/problems/create-a-dataframe-from-list)
+# [2877. Create a DataFrame from List](https://leetcode.com/problems/create-a-dataframe-from-list)
 
-[English Version](/solution/2800-2899/2877.Create%20a%20DataFrame%20from%20List/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>编写一个解决方案，基于名为&nbsp;&nbsp;<code>student_data</code>&nbsp;的二维列表&nbsp;<b>创建 </b>一个 DataFrame 。这个二维列表包含一些学生的 ID 和年龄信息。</p>
+<p>Write a solution to <strong>create</strong> a DataFrame from a 2D list called <code>student_data</code>. This 2D list contains the IDs and ages of some students.</p>
 
-<p>DataFrame 应该有两列，&nbsp;<code>student_id</code>&nbsp;和&nbsp;<code>age</code>，并且与原始二维列表的顺序相同。</p>
+<p>The DataFrame should have two columns, <code>student_id</code> and <code>age</code>, and be in the same order as the original 2D list.</p>
 
-<p>返回结果格式如下示例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：
+<strong>Input:
 </strong>student_data:<strong>
 </strong><code>[
   [1, 15],
@@ -35,7 +31,7 @@ tags:
   [3, 11],
   [4, 20]
 ]</code>
-<b>输出：</b>
+<strong>Output:</strong>
 +------------+-----+
 | student_id | age |
 +------------+-----+
@@ -44,17 +40,17 @@ tags:
 | 3          | 11  |
 | 4          | 20  |
 +------------+-----+
-<b>解释：</b>
-基于 student_data 创建了一个 DataFrame，包含 student_id 和 age 两列。
+<strong>Explanation:</strong>
+A DataFrame was created on top of student_data, with two columns named <code>student_id</code> and <code>age</code>.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

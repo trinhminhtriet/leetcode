@@ -1,58 +1,55 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2654.Minimum%20Number%20of%20Operations%20to%20Make%20All%20Array%20Elements%20Equal%20to%201/README.md
+difficulty: Medium
 rating: 1928
-source: 第 342 场周赛 Q4
+source: Weekly Contest 342 Q4
 tags:
-    - 数组
-    - 数学
-    - 数论
+    - Array
+    - Math
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [2654. 使数组所有元素变成 1 的最少操作次数](https://leetcode.cn/problems/minimum-number-of-operations-to-make-all-array-elements-equal-to-1)
+# [2654. Minimum Number of Operations to Make All Array Elements Equal to 1](https://leetcode.com/problems/minimum-number-of-operations-to-make-all-array-elements-equal-to-1)
 
-[English Version](/solution/2600-2699/2654.Minimum%20Number%20of%20Operations%20to%20Make%20All%20Array%20Elements%20Equal%20to%201/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的 <strong>正</strong>&nbsp;整数数组&nbsp;<code>nums</code>&nbsp;。你可以对数组执行以下操作 <strong>任意</strong>&nbsp;次：</p>
+<p>You are given a <strong>0-indexed</strong>&nbsp;array <code>nums</code> consisiting of <strong>positive</strong> integers. You can do the following operation on the array <strong>any</strong> number of times:</p>
 
 <ul>
-	<li>选择一个满足&nbsp;<code>0 &lt;= i &lt; n - 1</code>&nbsp;的下标 <code>i</code>&nbsp;，将&nbsp;<code>nums[i]</code> 或者&nbsp;<code>nums[i+1]</code>&nbsp;两者之一替换成它们的最大公约数。</li>
+	<li>Select an index <code>i</code> such that <code>0 &lt;= i &lt; n - 1</code> and replace either of&nbsp;<code>nums[i]</code> or <code>nums[i+1]</code> with their gcd value.</li>
 </ul>
 
-<p>请你返回使数组 <code>nums</code>&nbsp;中所有元素都等于 <code>1</code>&nbsp;的 <strong>最少</strong>&nbsp;操作次数。如果无法让数组全部变成 <code>1</code>&nbsp;，请你返回 <code>-1</code>&nbsp;。</p>
+<p>Return <em>the <strong>minimum</strong> number of operations to make all elements of </em><code>nums</code><em> equal to </em><code>1</code>. If it is impossible, return <code>-1</code>.</p>
 
-<p>两个正整数的最大公约数指的是能整除这两个数的最大正整数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [2,6,3,4]
-<b>输出：</b>4
-<b>解释：</b>我们可以执行以下操作：
-- 选择下标 i = 2 ，将 nums[2] 替换为 gcd(3,4) = 1 ，得到 nums = [2,6,1,4] 。
-- 选择下标 i = 1 ，将 nums[1] 替换为 gcd(6,1) = 1 ，得到 nums = [2,1,1,4] 。
-- 选择下标 i = 0 ，将 nums[0] 替换为 gcd(2,1) = 1 ，得到 nums = [1,1,1,4] 。
-- 选择下标 i = 2 ，将 nums[3] 替换为 gcd(1,4) = 1 ，得到 nums = [1,1,1,1] 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>nums = [2,10,6,14]
-<b>输出：</b>-1
-<b>解释：</b>无法将所有元素都变成 1 。
-</pre>
+<p>The gcd of two integers is the greatest common divisor of the two integers.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [2,6,3,4]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> We can do the following operations:
+- Choose index i = 2 and replace nums[2] with gcd(3,4) = 1. Now we have nums = [2,6,1,4].
+- Choose index i = 1 and replace nums[1] with gcd(6,1) = 1. Now we have nums = [2,1,1,4].
+- Choose index i = 0 and replace nums[0] with gcd(2,1) = 1. Now we have nums = [1,1,1,4].
+- Choose index i = 2 and replace nums[3] with gcd(1,4) = 1. Now we have nums = [1,1,1,1].
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,10,6,14]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> It can be shown that it is impossible to make all the elements equal to 1.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 50</code></li>
@@ -61,19 +58,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
-
-我们先统计数组 $nums$ 中 $1$ 的个数 $cnt$，如果 $cnt \gt 0$，那么只需要 $n - cnt$ 次操作，就可以将整个数组变成 $1$。
-
-否则，我们需要首先将数组中的一个元素变成 $1$，然后剩余的最小操作次数就是 $n - 1$。
-
-考虑如何将数组中的一个元素变成 $1$，并且使得操作次数尽可能小。实际上，我们只需要找到一个最小的连续子数组区间 $nums[i,..j]$，使得子数组中所有元素的最大公约数为 $1$，子数组区间长度为 $mi = \min(mi, j - i + 1)$。最后我们总的操作次数就是 $n - 1 + mi - 1$。
-
-时间复杂度 $O(n \times (n + \log M))$，空间复杂度 $(\log M)$。其中 $n$ 和 $M$ 分别是数组 $nums$ 的长度以及数组 $nums$ 中的最大值。
+### Solution 1
 
 <!-- tabs:start -->
 

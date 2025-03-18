@@ -1,71 +1,67 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1509.Minimum%20Difference%20Between%20Largest%20and%20Smallest%20Value%20in%20Three%20Moves/README.md
+difficulty: Medium
 rating: 1653
-source: 第 30 场双周赛 Q3
+source: Biweekly Contest 30 Q3
 tags:
-    - 贪心
-    - 数组
-    - 排序
+    - Greedy
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1509. 三次操作后最大值与最小值的最小差](https://leetcode.cn/problems/minimum-difference-between-largest-and-smallest-value-in-three-moves)
+# [1509. Minimum Difference Between Largest and Smallest Value in Three Moves](https://leetcode.com/problems/minimum-difference-between-largest-and-smallest-value-in-three-moves)
 
-[English Version](/solution/1500-1599/1509.Minimum%20Difference%20Between%20Largest%20and%20Smallest%20Value%20in%20Three%20Moves/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组&nbsp;<code>nums</code>&nbsp;。</p>
+<p>You are given an integer array <code>nums</code>.</p>
 
-<p>每次操作你可以选择&nbsp;<code>nums</code>&nbsp;中的任意一个元素并将它改成 <strong>任意值</strong> 。</p>
+<p>In one move, you can choose one element of <code>nums</code> and change it to <strong>any value</strong>.</p>
 
-<p>在&nbsp;<strong>执行最多三次移动后&nbsp;</strong>，返回&nbsp;<code>nums</code>&nbsp;中最大值与最小值的最小差值。</p>
+<p>Return <em>the minimum difference between the largest and smallest value of <code>nums</code> <strong>after performing at most three moves</strong></em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [5,3,2,4]
-<strong>输出：</strong>0
-<strong>解释：</strong>我们最多可以走 3 步。
-第一步，将 2 变为 3 。 nums 变成 [5,3,3,4] 。
-第二步，将 4 改为 3 。 nums 变成 [5,3,3,3] 。
-第三步，将 5 改为 3 。 nums 变成 [3,3,3,3] 。
-执行 3 次移动后，最小值和最大值之间的差值为 3 - 3 = 0 。</pre>
-
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,5,0,10,14]
-<strong>输出：</strong>1
-<strong>解释：</strong>我们最多可以走 3 步。
-第一步，将 5 改为 0 。 nums变成 [1,0,0,10,14] 。
-第二步，将 10 改为 0 。 nums变成 [1,0,0,0,14] 。
-第三步，将 14 改为 1 。 nums变成 [1,0,0,0,1] 。
-执行 3 步后，最小值和最大值之间的差值为 1 - 0 = 1 。
-可以看出，没有办法可以在 3 步内使差值变为0。
+<strong>Input:</strong> nums = [5,3,2,4]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> We can make at most 3 moves.
+In the first move, change 2 to 3. nums becomes [5,3,3,4].
+In the second move, change 4 to 3. nums becomes [5,3,3,3].
+In the third move, change 5 to 3. nums becomes [3,3,3,3].
+After performing 3 moves, the difference between the minimum and maximum is 3 - 3 = 0.
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,100,20]
-<strong>输出：</strong>0
-<strong>解释：</strong>我们最多可以走 3 步。
-第一步，将 100 改为 7 。 nums 变成 [3,7,20] 。
-第二步，将 20 改为 7 。 nums 变成 [3,7,7] 。
-第三步，将 3 改为 7 。 nums 变成 [7,7,7] 。
-执行 3 步后，最小值和最大值之间的差值是 7 - 7 = 0。</pre>
+<strong>Input:</strong> nums = [1,5,0,10,14]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> We can make at most 3 moves.
+In the first move, change 5 to 0. nums becomes [1,0,0,10,14].
+In the second move, change 10 to 0. nums becomes [1,0,0,0,14].
+In the third move, change 14 to 1. nums becomes [1,0,0,0,1].
+After performing 3 moves, the difference between the minimum and maximum is 1 - 0 = 1.
+It can be shown that there is no way to make the difference 0 in 3 moves.</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [3,100,20]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> We can make at most 3 moves.
+In the first move, change 100 to 7. nums becomes [3,7,20].
+In the second move, change 20 to 7. nums becomes [3,7,7].
+In the third move, change 3 to 7. nums becomes [7,7,7].
+After performing 3 moves, the difference between the minimum and maximum is 7 - 7 = 0.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -74,21 +70,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 贪心
-
-我们可以先判断数组长度是否小于 $5$，如果小于 $5$，那么直接返回 $0$。
-
-否则，我们将数组排序，然后贪心地选择数组左边最小的 $l=[0,..3]$ 个数和右边最小的 $r = 3 - l$ 个数，取其中最小的差值 $nums[n - 1 - r] - nums[l]$ 即可。
-
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 `nums` 的长度。
-
-相似题目：
-
--   [2567. 修改两个元素的最小分数](https://github.com/doocs/leetcode/blob/main/solution/2500-2599/2567.Minimum%20Score%20by%20Changing%20Two%20Elements/README.md)
+### Solution 1
 
 <!-- tabs:start -->
 

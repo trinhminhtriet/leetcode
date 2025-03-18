@@ -1,77 +1,65 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2184.Number%20of%20Ways%20to%20Build%20Sturdy%20Brick%20Wall/README.md
+difficulty: Medium
 tags:
-    - 位运算
-    - 数组
-    - 动态规划
-    - 状态压缩
+    - Bit Manipulation
+    - Array
+    - Dynamic Programming
+    - Bitmask
 ---
 
 <!-- problem:start -->
 
-# [2184. 建造坚实的砖墙的方法数 🔒](https://leetcode.cn/problems/number-of-ways-to-build-sturdy-brick-wall)
+# [2184. Number of Ways to Build Sturdy Brick Wall 🔒](https://leetcode.com/problems/number-of-ways-to-build-sturdy-brick-wall)
 
-[English Version](/solution/2100-2199/2184.Number%20of%20Ways%20to%20Build%20Sturdy%20Brick%20Wall/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数&nbsp;<code>height</code>&nbsp;与<code>width</code>&nbsp;，表示你要建造的砖墙的高和宽。再给你一个下标从 <strong>0</strong> 开始的数组 <code>bricks</code> ，其中第 <code>i</code> 块砖的高度是 <code>1</code> ，宽度为 <code>bricks[i]</code> 。每种砖的数量都是 <strong>无限 </strong>的，并且砖 <strong>不可以</strong> 进行旋转。</p>
+<p>You are given integers <code>height</code> and <code>width</code> which specify the dimensions of a brick wall you are building. You are also given a <strong>0-indexed</strong> array of <strong>unique</strong> integers <code>bricks</code>, where the <code>i<sup>th</sup></code> brick has a height of <code>1</code> and a width of <code>bricks[i]</code>. You have an <strong>infinite </strong>supply of each type of brick and bricks may <strong>not</strong> be rotated.</p>
 
-<p>墙的每一行必须正好&nbsp;<code>width</code> 单位长。为了让墙体<strong> 坚实 </strong>，除了在首尾的位置，相邻的行砖缝<strong> 不能 </strong>在同一个位置。</p>
+<p>Each row in the wall must be exactly <code>width</code> units long. For the wall to be <strong>sturdy</strong>, adjacent rows in the wall should <strong>not </strong>join bricks at the same location, except at the ends of the wall.</p>
 
-<p>请你返回建造坚实的砖墙的方法数，由于答案可能很大，需要对 <code>10<sup>9</sup> + 7</code><strong> 取余</strong> 。</p>
+<p>Return <em>the number of ways to build a <strong>sturdy </strong>wall.</em> Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2184.Number%20of%20Ways%20to%20Build%20Sturdy%20Brick%20Wall/images/image-20220220190749-1.png" style="width: 919px; height: 250px;" />
 <pre>
-<strong>输入：</strong>height = 2, width = 3, bricks = [1,2]
-<strong>输出：</strong>2
-<strong>解释：</strong>前两图中的两种方法是建造一座坚实砖墙的唯二的方法。注意，第三幅图所展示的不是坚实的砖墙，因为相邻的行在中间的连接点位置相同。
+<strong>Input:</strong> height = 2, width = 3, bricks = [1,2]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong>
+The first two walls in the diagram show the only two ways to build a sturdy brick wall.
+Note that the third wall in the diagram is not sturdy because adjacent rows join bricks 2 units from the left.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>height = 1, width = 1, bricks = [5]
-<strong>输出：</strong>0
-<strong>解释：</strong>无法建造符合题目要求的砖墙，因为仅有的砖的长度比墙还要长。
+<strong>Input:</strong> height = 1, width = 1, bricks = [5]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong>
+There are no ways to build a sturdy wall because the only type of brick we have is longer than the width of the wall.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= height &lt;= 100</code></li>
 	<li><code>1 &lt;= width &lt;= 10</code></li>
 	<li><code>1 &lt;= bricks.length &lt;= 10</code></li>
 	<li><code>1 &lt;= bricks[i] &lt;= 10</code></li>
-	<li><code>bricks</code>&nbsp;中所有数字<strong> 互不相同</strong></li>
+	<li>All the values of <code>bricks</code> are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS + 动态规划
-
-首先通过 DFS 构造出所有合法的排列。然后所有排列进行两两比较，找出每种排列相邻的合法排列，记录在 `g` 数组中。
-
-然后进行动态规划。
-
-过程是这样的：计算以某种排列结束的所有方案数。
-
-初始化第一排每种排列的方案数为 1；每一排选取某种排列的总方案数为上一排能与自己相邻的排列的方案数之和。
-
-答案为最后一排的方案数之和。
+### Solution 1
 
 <!-- tabs:start -->
 

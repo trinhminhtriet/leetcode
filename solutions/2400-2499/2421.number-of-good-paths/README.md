@@ -1,79 +1,71 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2421.Number%20of%20Good%20Paths/README.md
+difficulty: Hard
 rating: 2444
-source: 第 312 场周赛 Q4
+source: Weekly Contest 312 Q4
 tags:
-    - 树
-    - 并查集
-    - 图
-    - 数组
-    - 哈希表
-    - 排序
+    - Tree
+    - Union Find
+    - Graph
+    - Array
+    - Hash Table
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2421. 好路径的数目](https://leetcode.cn/problems/number-of-good-paths)
+# [2421. Number of Good Paths](https://leetcode.com/problems/number-of-good-paths)
 
-[English Version](/solution/2400-2499/2421.Number%20of%20Good%20Paths/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一棵 <code>n</code>&nbsp;个节点的树（连通无向无环的图），节点编号从&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;且恰好有&nbsp;<code>n - 1</code>&nbsp;条边。</p>
+<p>There is a tree (i.e. a connected, undirected graph with no cycles) consisting of <code>n</code> nodes numbered from <code>0</code> to <code>n - 1</code> and exactly <code>n - 1</code> edges.</p>
 
-<p>给你一个长度为 <code>n</code>&nbsp;下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>vals</code>&nbsp;，分别表示每个节点的值。同时给你一个二维整数数组&nbsp;<code>edges</code>&nbsp;，其中&nbsp;<code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;表示节点&nbsp;<code>a<sub>i</sub></code> 和&nbsp;<code>b<sub>i</sub></code><sub>&nbsp;</sub>之间有一条&nbsp;<strong>无向</strong>&nbsp;边。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>vals</code> of length <code>n</code> where <code>vals[i]</code> denotes the value of the <code>i<sup>th</sup></code> node. You are also given a 2D integer array <code>edges</code> where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> denotes that there exists an <strong>undirected</strong> edge connecting nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code>.</p>
 
-<p>一条 <strong>好路径</strong>&nbsp;需要满足以下条件：</p>
+<p>A <strong>good path</strong> is a simple path that satisfies the following conditions:</p>
 
 <ol>
-	<li>开始节点和结束节点的值 <strong>相同</strong>&nbsp;。</li>
-	<li>开始节点和结束节点中间的所有节点值都 <strong>小于等于</strong>&nbsp;开始节点的值（也就是说开始节点的值应该是路径上所有节点的最大值）。</li>
+	<li>The starting node and the ending node have the <strong>same</strong> value.</li>
+	<li>All nodes between the starting node and the ending node have values <strong>less than or equal to</strong> the starting node (i.e. the starting node&#39;s value should be the maximum value along the path).</li>
 </ol>
 
-<p>请你返回不同好路径的数目。</p>
+<p>Return <em>the number of distinct good paths</em>.</p>
 
-<p>注意，一条路径和它反向的路径算作 <strong>同一</strong>&nbsp;路径。比方说，&nbsp;<code>0 -&gt; 1</code>&nbsp;与&nbsp;<code>1 -&gt; 0</code>&nbsp;视为同一条路径。单个节点也视为一条合法路径。</p>
+<p>Note that a path and its reverse are counted as the <strong>same</strong> path. For example, <code>0 -&gt; 1</code> is considered to be the same as <code>1 -&gt; 0</code>. A single node is also considered as a valid path.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2421.Number%20of%20Good%20Paths/images/f9caaac15b383af9115c5586779dec5.png" style="width: 400px; height: 333px;"></p>
-
-<pre><b>输入：</b>vals = [1,3,2,1,3], edges = [[0,1],[0,2],[2,3],[2,4]]
-<b>输出：</b>6
-<b>解释：</b>总共有 5 条单个节点的好路径。
-还有 1 条好路径：1 -&gt; 0 -&gt; 2 -&gt; 4 。
-（反方向的路径 4 -&gt; 2 -&gt; 0 -&gt; 1 视为跟 1 -&gt; 0 -&gt; 2 -&gt; 4 一样的路径）
-注意 0 -&gt; 2 -&gt; 3 不是一条好路径，因为 vals[2] &gt; vals[0] 。
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2421.Number%20of%20Good%20Paths/images/f9caaac15b383af9115c5586779dec5.png" style="width: 400px; height: 333px;" />
+<pre>
+<strong>Input:</strong> vals = [1,3,2,1,3], edges = [[0,1],[0,2],[2,3],[2,4]]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> There are 5 good paths consisting of a single node.
+There is 1 additional good path: 1 -&gt; 0 -&gt; 2 -&gt; 4.
+(The reverse path 4 -&gt; 2 -&gt; 0 -&gt; 1 is treated as the same as 1 -&gt; 0 -&gt; 2 -&gt; 4.)
+Note that 0 -&gt; 2 -&gt; 3 is not a good path because vals[2] &gt; vals[0].
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2421.Number%20of%20Good%20Paths/images/149d3065ec165a71a1b9aec890776ff.png" style="width: 273px; height: 350px;"></p>
-
-<pre><b>输入：</b>vals = [1,1,2,2,3], edges = [[0,1],[1,2],[2,3],[2,4]]
-<b>输出：</b>7
-<strong>解释：</strong>总共有 5 条单个节点的好路径。
-还有 2 条好路径：0 -&gt; 1 和 2 -&gt; 3 。
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2421.Number%20of%20Good%20Paths/images/149d3065ec165a71a1b9aec890776ff.png" style="width: 273px; height: 350px;" />
+<pre>
+<strong>Input:</strong> vals = [1,1,2,2,3], edges = [[0,1],[1,2],[2,3],[2,4]]
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> There are 5 good paths consisting of a single node.
+There are 2 additional good paths: 0 -&gt; 1 and 2 -&gt; 3.
 </pre>
 
-<p><strong>示例 3：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2421.Number%20of%20Good%20Paths/images/31705e22af3d9c0a557459bc7d1b62d.png" style="width: 100px; height: 88px;"></p>
-
-<pre><b>输入：</b>vals = [1], edges = []
-<b>输出：</b>1
-<b>解释：</b>这棵树只有一个节点，所以只有一条好路径。
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2421.Number%20of%20Good%20Paths/images/31705e22af3d9c0a557459bc7d1b62d.png" style="width: 100px; height: 88px;" />
+<pre>
+<strong>Input:</strong> vals = [1], edges = []
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The tree consists of only one node, so there is one good path.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == vals.length</code></li>
@@ -83,22 +75,22 @@ tags:
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt; n</code></li>
 	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
-	<li><code>edges</code>&nbsp;表示一棵合法的树。</li>
+	<li><code>edges</code> represents a valid tree.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 并查集
+### Solution 1: Sorting + Union Find
 
-要保证路径起点（终点）大于等于路径上的所有点，因此我们可以考虑先把所有点按值从小到大排序，然后再进行遍历，添加到连通块中，具体如下：
+To ensure that the starting point (or endpoint) of the path is greater than or equal to all points on the path, we can consider sorting all points from small to large first, then traverse and add them to the connected component, specifically as follows:
 
-当遍历到点 $a$ 时， 对于小于等于 $vals[a]$ 的邻接点 $b$ 来说，若二者不在同一个连通块，则可以合并，并且可以以点 $a$ 所在的连通块中所有值为 $vals[a]$ 的点为起点，以点 $b$ 所在的连通块中所有值为 $vals[a]$ 的点为终点，两种点的个数的乘积即为加入点 $a$ 时对答案的贡献。
+When traversing to point $a$, for the adjacent point $b$ that is less than or equal to $vals[a]$, if they are not in the same connected component, they can be merged. And we can use all points in the connected component where point $a$ is located with a value of $vals[a]$ as the starting point, and all points in the connected component where point $b$ is located with a value of $vals[a]$ as the endpoint. The product of the number of the two types of points is the contribution to the answer when adding point $a$.
 
-时间复杂度 $O(n \times \log n)$。
+The time complexity is $O(n \times \log n)$.
 
 <!-- tabs:start -->
 

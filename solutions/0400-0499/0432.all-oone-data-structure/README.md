@@ -1,78 +1,73 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0432.All%20O%60one%20Data%20Structure/README.md
+difficulty: Hard
 tags:
-    - 设计
-    - 哈希表
-    - 链表
-    - 双向链表
+    - Design
+    - Hash Table
+    - Linked List
+    - Doubly-Linked List
 ---
 
 <!-- problem:start -->
 
-# [432. 全 O(1) 的数据结构](https://leetcode.cn/problems/all-oone-data-structure)
+# [432. All O`one Data Structure](https://leetcode.com/problems/all-oone-data-structure)
 
-[English Version](/solution/0400-0499/0432.All%20O%60one%20Data%20Structure/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你设计一个用于存储字符串计数的数据结构，并能够返回计数最小和最大的字符串。</p>
+<p>Design a data structure to store the strings&#39; count with the ability to return the strings with minimum and maximum counts.</p>
 
-<p>实现 <code>AllOne</code> 类：</p>
+<p>Implement the <code>AllOne</code> class:</p>
 
 <ul>
-	<li><code>AllOne()</code> 初始化数据结构的对象。</li>
-	<li><code>inc(String key)</code> 字符串 <code>key</code> 的计数增加 <code>1</code> 。如果数据结构中尚不存在 <code>key</code> ，那么插入计数为 <code>1</code> 的 <code>key</code> 。</li>
-	<li><code>dec(String key)</code> 字符串 <code>key</code> 的计数减少 <code>1</code> 。如果 <code>key</code> 的计数在减少后为 <code>0</code> ，那么需要将这个 <code>key</code> 从数据结构中删除。测试用例保证：在减少计数前，<code>key</code> 存在于数据结构中。</li>
-	<li><code>getMaxKey()</code> 返回任意一个计数最大的字符串。如果没有元素存在，返回一个空字符串 <code>""</code> 。</li>
-	<li><code>getMinKey()</code> 返回任意一个计数最小的字符串。如果没有元素存在，返回一个空字符串 <code>""</code> 。</li>
+	<li><code>AllOne()</code> Initializes the object of the data structure.</li>
+	<li><code>inc(String key)</code> Increments the count of the string <code>key</code> by <code>1</code>. If <code>key</code> does not exist in the data structure, insert it with count <code>1</code>.</li>
+	<li><code>dec(String key)</code> Decrements the count of the string <code>key</code> by <code>1</code>. If the count of <code>key</code> is <code>0</code> after the decrement, remove it from the data structure. It is guaranteed that <code>key</code> exists in the data structure before the decrement.</li>
+	<li><code>getMaxKey()</code> Returns one of the keys with the maximal count. If no element exists, return an empty string <code>&quot;&quot;</code>.</li>
+	<li><code>getMinKey()</code> Returns one of the keys with the minimum count. If no element exists, return an empty string <code>&quot;&quot;</code>.</li>
 </ul>
 
-<p><strong>注意：</strong>每个函数都应当满足 <code>O(1)</code> 平均时间复杂度。</p>
+<p><strong>Note</strong> that each function must run in <code>O(1)</code> average time complexity.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["AllOne", "inc", "inc", "getMaxKey", "getMinKey", "inc", "getMaxKey", "getMinKey"]
-[[], ["hello"], ["hello"], [], [], ["leet"], [], []]
-<strong>输出</strong>
-[null, null, null, "hello", "hello", null, "hello", "leet"]
+<strong>Input</strong>
+[&quot;AllOne&quot;, &quot;inc&quot;, &quot;inc&quot;, &quot;getMaxKey&quot;, &quot;getMinKey&quot;, &quot;inc&quot;, &quot;getMaxKey&quot;, &quot;getMinKey&quot;]
+[[], [&quot;hello&quot;], [&quot;hello&quot;], [], [], [&quot;leet&quot;], [], []]
+<strong>Output</strong>
+[null, null, null, &quot;hello&quot;, &quot;hello&quot;, null, &quot;hello&quot;, &quot;leet&quot;]
 
-<strong>解释</strong>
+<strong>Explanation</strong>
 AllOne allOne = new AllOne();
-allOne.inc("hello");
-allOne.inc("hello");
-allOne.getMaxKey(); // 返回 "hello"
-allOne.getMinKey(); // 返回 "hello"
-allOne.inc("leet");
-allOne.getMaxKey(); // 返回 "hello"
-allOne.getMinKey(); // 返回 "leet"
+allOne.inc(&quot;hello&quot;);
+allOne.inc(&quot;hello&quot;);
+allOne.getMaxKey(); // return &quot;hello&quot;
+allOne.getMinKey(); // return &quot;hello&quot;
+allOne.inc(&quot;leet&quot;);
+allOne.getMaxKey(); // return &quot;hello&quot;
+allOne.getMinKey(); // return &quot;leet&quot;
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= key.length &lt;= 10</code></li>
-	<li><code>key</code> 由小写英文字母组成</li>
-	<li>测试用例保证：在每次调用 <code>dec</code> 时，数据结构中总存在 <code>key</code></li>
-	<li>最多调用 <code>inc</code>、<code>dec</code>、<code>getMaxKey</code> 和 <code>getMinKey</code> 方法 <code>5 * 10<sup>4</sup></code> 次</li>
+	<li><code>key</code> consists of lowercase English letters.</li>
+	<li>It is guaranteed that for each call to <code>dec</code>, <code>key</code> is existing in the data structure.</li>
+	<li>At most <code>5 * 10<sup>4</sup></code>&nbsp;calls will be made to <code>inc</code>, <code>dec</code>, <code>getMaxKey</code>, and <code>getMinKey</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

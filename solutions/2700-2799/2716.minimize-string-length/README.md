@@ -1,78 +1,105 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2716.Minimize%20String%20Length/README.md
+difficulty: Easy
 rating: 1242
-source: 第 348 场周赛 Q1
+source: Weekly Contest 348 Q1
 tags:
-    - 哈希表
-    - 字符串
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2716. 最小化字符串长度](https://leetcode.cn/problems/minimize-string-length)
+# [2716. Minimize String Length](https://leetcode.com/problems/minimize-string-length)
 
-[English Version](/solution/2700-2799/2716.Minimize%20String%20Length/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的字符串 <code>s</code> ，重复执行下述操作 <strong>任意</strong> 次：</p>
+<p>Given a string <code>s</code>, you have two types of operation:</p>
 
-<ul>
-	<li>在字符串中选出一个下标 <code>i</code> ，并使 <code>c</code> 为字符串下标 <code>i</code> 处的字符。并在 <code>i</code> <strong>左侧</strong>（如果有）和 <strong>右侧</strong>（如果有）各 <strong>删除 </strong>一个距离 <code>i</code> <strong>最近</strong> 的字符 <code>c</code> 。</li>
-</ul>
+<ol>
+	<li>Choose an index <code>i</code> in the string, and let <code>c</code> be the character in position <code>i</code>. <strong>Delete</strong> the <strong>closest occurrence</strong> of <code>c</code> to the <strong>left</strong> of <code>i</code> (if exists).</li>
+	<li>Choose an index <code>i</code> in the string, and let <code>c</code> be the character in position <code>i</code>. <strong>Delete</strong> the <strong>closest occurrence</strong> of <code>c</code> to the <strong>right</strong> of <code>i</code> (if exists).</li>
+</ol>
 
-<p>请你通过执行上述操作任意次，使 <code>s</code> 的长度 <strong>最小化</strong> 。</p>
+<p>Your task is to <strong>minimize</strong> the length of <code>s</code> by performing the above operations zero or more times.</p>
 
-<p>返回一个表示 <strong>最小化</strong> 字符串的长度的整数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "aaabc"
-<strong>输出：</strong>3
-<strong>解释：</strong>在这个示例中，s 等于 "aaabc" 。我们可以选择位于下标 1 处的字符 'a' 开始。接着删除下标 1 左侧最近的那个 'a'（位于下标 0）以及下标 1 右侧最近的那个 'a'（位于下标 2）。执行操作后，字符串变为 "abc" 。继续对字符串执行任何操作都不会改变其长度。因此，最小化字符串的长度是 3 。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "cbbd"
-<strong>输出：</strong>3
-<strong>解释：</strong>我们可以选择位于下标 1 处的字符 'b' 开始。下标 1 左侧不存在字符 'b' ，但右侧存在一个字符 'b'（位于下标 2），所以会删除位于下标 2 的字符 'b' 。执行操作后，字符串变为 "cbd" 。继续对字符串执行任何操作都不会改变其长度。因此，最小化字符串的长度是 3 。</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "dddaaa"
-<strong>输出：</strong>2
-<strong>解释：</strong>我们可以选择位于下标 1 处的字符 'd' 开始。接着删除下标 1 左侧最近的那个 'd'（位于下标 0）以及下标 1 右侧最近的那个 'd'（位于下标 2）。执行操作后，字符串变为 "daaa" 。继续对新字符串执行操作，可以选择位于下标 2 的字符 'a' 。接着删除下标 2 左侧最近的那个 'a'（位于下标 1）以及下标 2 右侧最近的那个 'a'（位于下标 3）。执行操作后，字符串变为 "da" 。继续对字符串执行任何操作都不会改变其长度。因此，最小化字符串的长度是 2 。
-</pre>
+<p>Return an integer denoting the length of the <strong>minimized</strong> string.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;aaabc&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<ol>
+	<li>Operation 2: we choose <code>i = 1</code> so <code>c</code> is &#39;a&#39;, then we remove <code>s[2]</code> as it is closest &#39;a&#39; character to the right of <code>s[1]</code>.<br />
+	<code>s</code> becomes &quot;aabc&quot; after this.</li>
+	<li>Operation 1: we choose <code>i = 1</code> so <code>c</code> is &#39;a&#39;, then we remove <code>s[0]</code> as it is closest &#39;a&#39; character to the left of <code>s[1]</code>.<br />
+	<code>s</code> becomes &quot;abc&quot; after this.</li>
+</ol>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;cbbd&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<ol>
+	<li>Operation 1: we choose <code>i = 2</code> so <code>c</code> is &#39;b&#39;, then we remove <code>s[1]</code> as it is closest &#39;b&#39; character to the left of <code>s[1]</code>.<br />
+	<code>s</code> becomes &quot;cbd&quot; after this.</li>
+</ol>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;baadccab&quot;</span></p>
+
+<p><strong>Output:</strong> 4</p>
+
+<p><strong>Explanation:</strong></p>
+
+<ol>
+	<li>Operation 1: we choose <code>i = 6</code> so <code>c</code> is &#39;a&#39;, then we remove <code>s[2]</code> as it is closest &#39;a&#39; character to the left of <code>s[6]</code>.<br />
+	<code>s</code> becomes &quot;badccab&quot; after this.</li>
+	<li>Operation 2: we choose <code>i = 0</code> so <code>c</code> is &#39;b&#39;, then we remove <code>s[6]</code> as it is closest &#39;b&#39; character to the right of <code>s[0]</code>.<br />
+	<code>s</code> becomes &quot;badcca&quot; fter this.</li>
+	<li>Operation 2: we choose <code>i = 3</code> so <code>c</code> is &#39;c&#39;, then we remove <code>s[4]</code> as it is closest &#39;c&#39; character to the right of <code>s[3]</code>.<br />
+	<code>s</code> becomes &quot;badca&quot; after this.</li>
+	<li>Operation 1: we choose <code>i = 4</code> so <code>c</code> is &#39;a&#39;, then we remove <code>s[1]</code> as it is closest &#39;a&#39; character to the left of <code>s[4]</code>.<br />
+	<code>s</code> becomes &quot;bdca&quot; after this.</li>
+</ol>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code> 仅由小写英文字母组成</li>
+	<li><code>s</code> contains only lowercase English letters</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-题目实际上可以转化为求字符串中不同字符的个数，因此，我们只需要统计字符串中不同字符的个数即可。
+The problem can actually be transformed into finding the number of different characters in the string. Therefore, we only need to count the number of different characters in the string.
 
-时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 是字符串的长度；而 $C$ 是字符集的大小，本题中字符集为小写英文字母，因此 $C=26$。
+The time complexity is $O(n)$, and the space complexity is $O(C)$. Here, $n$ is the length of the string, and $C$ is the size of the character set. In this problem, the character set is lowercase English letters, so $C=26$.
 
 <!-- tabs:start -->
 

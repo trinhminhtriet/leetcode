@@ -1,70 +1,65 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2460.Apply%20Operations%20to%20an%20Array/README.md
+difficulty: Easy
 rating: 1223
-source: 第 318 场周赛 Q1
+source: Weekly Contest 318 Q1
 tags:
-    - 数组
-    - 双指针
-    - 模拟
+    - Array
+    - Two Pointers
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2460. 对数组执行操作](https://leetcode.cn/problems/apply-operations-to-an-array)
+# [2460. Apply Operations to an Array](https://leetcode.com/problems/apply-operations-to-an-array)
 
-[English Version](/solution/2400-2499/2460.Apply%20Operations%20to%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的数组 <code>nums</code> ，数组大小为 <code>n</code> ，且由 <strong>非负</strong> 整数组成。</p>
+<p>You are given a <strong>0-indexed</strong> array <code>nums</code> of size <code>n</code> consisting of <strong>non-negative</strong> integers.</p>
 
-<p>你需要对数组执行 <code>n - 1</code> 步操作，其中第 <code>i</code> 步操作（从 <strong>0</strong> 开始计数）要求对 <code>nums</code> 中第 <code>i</code> 个元素执行下述指令：</p>
-
-<ul>
-	<li>如果 <code>nums[i] == nums[i + 1]</code> ，则 <code>nums[i]</code> 的值变成原来的 <code>2</code> 倍，<code>nums[i + 1]</code> 的值变成 <code>0</code> 。否则，跳过这步操作。</li>
-</ul>
-
-<p>在执行完 <strong>全部</strong> 操作后，将所有 <code>0</code> <strong>移动</strong> 到数组的 <strong>末尾</strong> 。</p>
+<p>You need to apply <code>n - 1</code> operations to this array where, in the <code>i<sup>th</sup></code> operation (<strong>0-indexed</strong>), you will apply the following on the <code>i<sup>th</sup></code> element of <code>nums</code>:</p>
 
 <ul>
-	<li>例如，数组 <code>[1,0,2,0,0,1]</code> 将所有 <code>0</code> 移动到末尾后变为 <code>[1,2,1,0,0,0]</code> 。</li>
+	<li>If <code>nums[i] == nums[i + 1]</code>, then multiply <code>nums[i]</code> by <code>2</code> and set <code>nums[i + 1]</code> to <code>0</code>. Otherwise, you skip this operation.</li>
 </ul>
 
-<p>返回结果数组。</p>
+<p>After performing <strong>all</strong> the operations, <strong>shift</strong> all the <code>0</code>&#39;s to the <strong>end</strong> of the array.</p>
 
-<p><strong>注意</strong> 操作应当 <strong>依次有序</strong> 执行，而不是一次性全部执行。</p>
+<ul>
+	<li>For example, the array <code>[1,0,2,0,0,1]</code> after shifting all its <code>0</code>&#39;s to the end, is <code>[1,2,1,0,0,0]</code>.</li>
+</ul>
 
-<p>&nbsp;</p>
+<p>Return <em>the resulting array</em>.</p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,2,1,1,0]
-<strong>输出：</strong>[1,4,2,0,0,0]
-<strong>解释：</strong>执行以下操作：
-- i = 0: nums[0] 和 nums[1] 不相等，跳过这步操作。
-- i = 1: nums[1] 和 nums[2] 相等，nums[1] 的值变成原来的 2 倍，nums[2] 的值变成 0 。数组变成 [1,<em><strong>4</strong></em>,<em><strong>0</strong></em>,1,1,0] 。
-- i = 2: nums[2] 和 nums[3] 不相等，所以跳过这步操作。
-- i = 3: nums[3] 和 nums[4] 相等，nums[3] 的值变成原来的 2 倍，nums[4] 的值变成 0 。数组变成 [1,4,0,<em><strong>2</strong></em>,<em><strong>0</strong></em>,0] 。
-- i = 4: nums[4] 和 nums[5] 相等，nums[4] 的值变成原来的 2 倍，nums[5] 的值变成 0 。数组变成 [1,4,0,2,<em><strong>0</strong></em>,<em><strong>0</strong></em>] 。
-执行完所有操作后，将 0 全部移动到数组末尾，得到结果数组 [1,4,2,0,0,0] 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [0,1]
-<strong>输出：</strong>[1,0]
-<strong>解释：</strong>无法执行任何操作，只需要将 0 移动到末尾。
-</pre>
+<p><strong>Note</strong> that the operations are applied <strong>sequentially</strong>, not all at once.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,2,2,1,1,0]
+<strong>Output:</strong> [1,4,2,0,0,0]
+<strong>Explanation:</strong> We do the following operations:
+- i = 0: nums[0] and nums[1] are not equal, so we skip this operation.
+- i = 1: nums[1] and nums[2] are equal, we multiply nums[1] by 2 and change nums[2] to 0. The array becomes [1,<strong><u>4</u></strong>,<strong><u>0</u></strong>,1,1,0].
+- i = 2: nums[2] and nums[3] are not equal, so we skip this operation.
+- i = 3: nums[3] and nums[4] are equal, we multiply nums[3] by 2 and change nums[4] to 0. The array becomes [1,4,0,<strong><u>2</u></strong>,<strong><u>0</u></strong>,0].
+- i = 4: nums[4] and nums[5] are equal, we multiply nums[4] by 2 and change nums[5] to 0. The array becomes [1,4,0,2,<strong><u>0</u></strong>,<strong><u>0</u></strong>].
+After that, we shift the 0&#39;s to the end, which gives the array [1,4,2,0,0,0].
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [0,1]
+<strong>Output:</strong> [1,0]
+<strong>Explanation:</strong> No operation can be applied, we just shift the 0 to the end.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 2000</code></li>
@@ -73,21 +68,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们直接根据题意模拟即可。
+We can directly simulate according to the problem description.
 
-首先，我们遍历数组 $nums$，对于任意相邻的两个元素 $nums[i]$ 和 $nums[i+1]$，如果 $nums[i]=nums[i+1]$，那么我们将 $nums[i]$ 的值变为原来的 $2$ 倍，同时将 $nums[i+1]$ 的值变为 $0$。
+First, we traverse the array $nums$. For any two adjacent elements $nums[i]$ and $nums[i+1]$, if $nums[i] = nums[i+1]$, then we double the value of $nums[i]$ and change the value of $nums[i+1]$ to $0$.
 
-然后，我们创建一个长度为 $n$ 的答案数组 $ans$，并将 $nums$ 中所有非零元素按顺序放入 $ans$ 中。
+Then, we create an answer array $ans$ of length $n$, and put all non-zero elements of $nums$ into $ans$ in order.
 
-最后，返回答案数组 $ans$ 即可。
+Finally, we return the answer array $ans$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。忽略答案的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $nums$. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

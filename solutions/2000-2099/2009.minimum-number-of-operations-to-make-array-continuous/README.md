@@ -1,70 +1,68 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2009.Minimum%20Number%20of%20Operations%20to%20Make%20Array%20Continuous/README.md
+difficulty: Hard
 rating: 2084
-source: 第 61 场双周赛 Q4
+source: Biweekly Contest 61 Q4
 tags:
-    - 数组
-    - 哈希表
-    - 二分查找
-    - 滑动窗口
+    - Array
+    - Hash Table
+    - Binary Search
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [2009. 使数组连续的最少操作数](https://leetcode.cn/problems/minimum-number-of-operations-to-make-array-continuous)
+# [2009. Minimum Number of Operations to Make Array Continuous](https://leetcode.com/problems/minimum-number-of-operations-to-make-array-continuous)
 
-[English Version](/solution/2000-2099/2009.Minimum%20Number%20of%20Operations%20to%20Make%20Array%20Continuous/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;。每一次操作中，你可以将&nbsp;<code>nums</code>&nbsp;中&nbsp;<strong>任意</strong>&nbsp;一个元素替换成 <strong>任意&nbsp;</strong>整数。</p>
+<p>You are given an integer array <code>nums</code>. In one operation, you can replace <strong>any</strong> element in <code>nums</code> with <strong>any</strong> integer.</p>
 
-<p>如果&nbsp;<code>nums</code>&nbsp;满足以下条件，那么它是 <strong>连续的</strong>&nbsp;：</p>
+<p><code>nums</code> is considered <strong>continuous</strong> if both of the following conditions are fulfilled:</p>
 
 <ul>
-	<li><code>nums</code>&nbsp;中所有元素都是 <b>互不相同</b>&nbsp;的。</li>
-	<li><code>nums</code>&nbsp;中 <strong>最大</strong>&nbsp;元素与&nbsp;<strong>最小</strong>&nbsp;元素的差等于&nbsp;<code>nums.length - 1</code>&nbsp;。</li>
+	<li>All elements in <code>nums</code> are <strong>unique</strong>.</li>
+	<li>The difference between the <strong>maximum</strong> element and the <strong>minimum</strong> element in <code>nums</code> equals <code>nums.length - 1</code>.</li>
 </ul>
 
-<p>比方说，<code>nums = [4, 2, 5, 3]</code>&nbsp;是 <strong>连续的</strong>&nbsp;，但是&nbsp;<code>nums = [1, 2, 3, 5, 6]</code> <strong>不是连续的</strong>&nbsp;。</p>
+<p>For example, <code>nums = [4, 2, 5, 3]</code> is <strong>continuous</strong>, but <code>nums = [1, 2, 3, 5, 6]</code> is <strong>not continuous</strong>.</p>
 
-<p>请你返回使 <code>nums</code>&nbsp;<strong>连续</strong>&nbsp;的 <strong>最少</strong>&nbsp;操作次数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [4,2,5,3]
-<b>输出：</b>0
-<b>解释：</b>nums 已经是连续的了。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>nums = [1,2,3,5,6]
-<b>输出：</b>1
-<b>解释：</b>一个可能的解是将最后一个元素变为 4 。
-结果数组为 [1,2,3,5,4] ，是连续数组。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><b>输入：</b>nums = [1,10,100,1000]
-<b>输出：</b>3
-<b>解释：</b>一个可能的解是：
-- 将第二个元素变为 2 。
-- 将第三个元素变为 3 。
-- 将第四个元素变为 4 。
-结果数组为 [1,2,3,4] ，是连续数组。
-</pre>
+<p>Return <em>the <strong>minimum</strong> number of operations to make </em><code>nums</code><em> </em><strong><em>continuous</em></strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [4,2,5,3]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong>&nbsp;nums is already continuous.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,2,3,5,6]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong>&nbsp;One possible solution is to change the last element to 4.
+The resulting array is [1,2,3,5,4], which is continuous.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,10,100,1000]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong>&nbsp;One possible solution is to:
+- Change the second element to 2.
+- Change the third element to 3.
+- Change the fourth element to 4.
+The resulting array is [1,2,3,4], which is continuous.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -73,19 +71,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 去重 + 二分查找
+### Solution 1: Sorting + Deduplication + Binary Search
 
-我们先将数组排序，去重。
+First, we sort the array and remove duplicates.
 
-然后遍历数组，枚举以当前元素 $nums[i]$ 作为连续数组的最小值，通过二分查找找到第一个大于 $nums[i] + n - 1$ 的位置 $j$，那么 $j-i$ 就是当前元素作为最小值时，连续数组的长度，更新答案，即 $ans = \min(ans, n - (j - i))$。
+Then, we traverse the array, enumerating the current element $nums[i]$ as the minimum value of the consecutive array. We use binary search to find the first position $j$ that is greater than $nums[i] + n - 1$. Then, $j-i$ is the length of the consecutive array when the current element is the minimum value. We update the answer, i.e., $ans = \min(ans, n - (j - i))$.
 
-最后返回 $ans$ 即可。
+Finally, we return $ans$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 
@@ -213,15 +211,15 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：排序 + 去重 + 双指针
+### Solution 2: Sorting + Deduplication + Two Pointers
 
-与方法一类似，我们先将数组排序，去重。
+Similar to Solution 1, we first sort the array and remove duplicates.
 
-然后遍历数组，枚举以当前元素 $nums[i]$ 作为连续数组的最小值，通过双指针找到第一个大于 $nums[i] + n - 1$ 的位置 $j$，那么 $j-i$ 就是当前元素作为最小值时，连续数组的长度，更新答案，即 $ans = \min(ans, n - (j - i))$。
+Then, we traverse the array, enumerating the current element $nums[i]$ as the minimum value of the consecutive array. We use two pointers to find the first position $j$ that is greater than $nums[i] + n - 1$. Then, $j-i$ is the length of the consecutive array when the current element is the minimum value. We update the answer, i.e., $ans = \min(ans, n - (j - i))$.
 
-最后返回 $ans$ 即可。
+Finally, we return $ans$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

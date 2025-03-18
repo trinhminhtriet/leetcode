@@ -1,50 +1,45 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1196.How%20Many%20Apples%20Can%20You%20Put%20into%20the%20Basket/README.md
+difficulty: Easy
 rating: 1248
-source: 第 9 场双周赛 Q1
+source: Biweekly Contest 9 Q1
 tags:
-    - 贪心
-    - 数组
-    - 排序
+    - Greedy
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1196. 最多可以买到的苹果数量 🔒](https://leetcode.cn/problems/how-many-apples-can-you-put-into-the-basket)
+# [1196. How Many Apples Can You Put into the Basket 🔒](https://leetcode.com/problems/how-many-apples-can-you-put-into-the-basket)
 
-[English Version](/solution/1100-1199/1196.How%20Many%20Apples%20Can%20You%20Put%20into%20the%20Basket/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有一些苹果和一个可以承载 <code>5000</code> 单位重量的篮子。</p>
+<p>You have some apples and a basket that can carry up to <code>5000</code> units of weight.</p>
 
-<p>给定一个整数数组 <code>weight</code> ，其中 <code>weight[i]</code> 是第 <code>i</code> 个苹果的重量，返回 <em>你可以放入篮子的最大苹果数量</em> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>weight = [100,200,150,1000]
-<strong>输出：</strong>4
-<strong>解释：</strong>所有 4 个苹果都可以装进去，因为它们的重量之和为 1450。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>weight = [900,950,800,1000,700,800]
-<strong>输出：</strong>5
-<strong>解释：</strong>6 个苹果的总重量超过了 5000，所以我们只能从中任选 5 个。
-</pre>
+<p>Given an integer array <code>weight</code> where <code>weight[i]</code> is the weight of the <code>i<sup>th</sup></code> apple, return <em>the maximum number of apples you can put in the basket</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> weight = [100,200,150,1000]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> All 4 apples can be carried by the basket since their sum of weights is 1450.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> weight = [900,950,800,1000,700,800]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The sum of weights of the 6 apples exceeds 5000 so we choose any 5 of them.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= weight.length &lt;= 10<sup>3</sup></code></li>
@@ -53,17 +48,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy Algorithm
 
-要使得苹果数量最多，那么就要使得苹果的重量尽可能的小，因此我们可以对苹果的重量进行排序，然后从小到大依次放入篮子中，直到篮子的重量超过 $5000$ 为止，返回此时放入篮子的苹果数量。
+To maximize the number of apples, we should try to minimize the weight of the apples. Therefore, we can sort the weights of the apples, and then put them into the basket in ascending order until the weight of the basket exceeds $5000$. We then return the number of apples in the basket at this point.
 
-如果所有的苹果都能放入篮子中，那么就返回苹果的数量。
+If all the apples can be put into the basket, then we return the total number of apples.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是苹果的数量。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the number of apples.
 
 <!-- tabs:start -->
 

@@ -1,84 +1,79 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1221.Split%20a%20String%20in%20Balanced%20Strings/README.md
+difficulty: Easy
 rating: 1219
-source: 第 158 场周赛 Q1
+source: Weekly Contest 158 Q1
 tags:
-    - 贪心
-    - 字符串
-    - 计数
+    - Greedy
+    - String
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [1221. 分割平衡字符串](https://leetcode.cn/problems/split-a-string-in-balanced-strings)
+# [1221. Split a String in Balanced Strings](https://leetcode.com/problems/split-a-string-in-balanced-strings)
 
-[English Version](/solution/1200-1299/1221.Split%20a%20String%20in%20Balanced%20Strings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong>平衡字符串</strong> 中，<code>'L'</code> 和 <code>'R'</code> 字符的数量是相同的。</p>
+<p><strong>Balanced</strong> strings are those that have an equal quantity of <code>&#39;L&#39;</code> and <code>&#39;R&#39;</code> characters.</p>
 
-<p>给你一个平衡字符串&nbsp;<code>s</code>，请你将它分割成尽可能多的子字符串，并满足：</p>
+<p>Given a <strong>balanced</strong> string <code>s</code>, split it into some number of substrings such that:</p>
 
 <ul>
-	<li>每个子字符串都是平衡字符串。</li>
+	<li>Each substring is balanced.</li>
 </ul>
 
-<p>返回可以通过分割得到的平衡字符串的 <strong>最大数量</strong> <strong>。</strong></p>
+<p>Return <em>the <strong>maximum</strong> number of balanced strings you can obtain.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "RLRRLLRLRL"
-<strong>输出：</strong>4
-<strong>解释：</strong>s 可以分割为 "RL"、"RRLL"、"RL"、"RL" ，每个子字符串中都包含相同数量的 'L' 和 'R' 。
+<strong>Input:</strong> s = &quot;RLRRLLRLRL&quot;
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> s can be split into &quot;RL&quot;, &quot;RRLL&quot;, &quot;RL&quot;, &quot;RL&quot;, each substring contains same number of &#39;L&#39; and &#39;R&#39;.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "RLRRRLLRLL"
-<strong>输出：</strong>2
-<strong>解释：</strong>s 可以分割为 "RL"、"RRRLLRLL"，每个子字符串中都包含相同数量的 'L' 和 'R' 。
-注意，s 无法分割为 "RL"、"RR"、"RL"、"LR"、"LL" 因为第 2 个和第 5 个子字符串不是平衡字符串。</pre>
+<strong>Input:</strong> s = &quot;RLRRRLLRLL&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> s can be split into &quot;RL&quot;, &quot;RRRLLRLL&quot;, each substring contains same number of &#39;L&#39; and &#39;R&#39;.
+Note that s cannot be split into &quot;RL&quot;, &quot;RR&quot;, &quot;RL&quot;, &quot;LR&quot;, &quot;LL&quot;, because the 2<sup>nd</sup> and 5<sup>th</sup> substrings are not balanced.</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "LLLLRRRR"
-<strong>输出：</strong>1
-<strong>解释：</strong>s 只能保持原样 "LLLLRRRR" 。
+<strong>Input:</strong> s = &quot;LLLLRRRR&quot;
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> s can be split into &quot;LLLLRRRR&quot;.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= s.length &lt;= 1000</code></li>
-	<li><code>s[i] = 'L' 或 'R'</code></li>
-	<li><code>s</code> 是一个 <strong>平衡</strong> 字符串</li>
+	<li><code>s[i]</code> is either <code>&#39;L&#39;</code> or <code>&#39;R&#39;</code>.</li>
+	<li><code>s</code> is a <strong>balanced</strong> string.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy
 
-我们用变量 $l$ 维护当前字符串的平衡度，即 $l$ 的值为当前字符串中 $L$ 的数量减去 $R$ 的数量。当 $l$ 的值为 0 时，我们就找到了一个平衡字符串。
+We use a variable $l$ to maintain the current balance of the string, i.e., the value of $l$ is the number of 'L's minus the number of 'R's in the current string. When the value of $l$ is 0, we have found a balanced string.
 
-遍历字符串 $s$，当遍历到第 $i$ 个字符时，如果 $s[i] = L$，则 $l$ 的值加 1，否则 $l$ 的值减 1。当 $l$ 的值为 0 时，我们将答案加 1。
+We traverse the string $s$. When we traverse to the $i$-th character, if $s[i] = L$, then the value of $l$ is increased by 1, otherwise, the value of $l$ is decreased by 1. When the value of $l$ is 0, we increase the answer by 1.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

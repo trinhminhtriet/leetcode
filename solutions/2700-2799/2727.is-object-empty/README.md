@@ -1,79 +1,70 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2727.Is%20Object%20Empty/README.md
+difficulty: Easy
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2727. 判断对象是否为空](https://leetcode.cn/problems/is-object-empty)
+# [2727. Is Object Empty](https://leetcode.com/problems/is-object-empty)
 
-[English Version](/solution/2700-2799/2727.Is%20Object%20Empty/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个对象或数组，判断它是否为空。</p>
+<p>Given an object or an array, return if it is empty.</p>
 
 <ul>
-	<li>一个空对象不包含任何键值对。</li>
-	<li>一个空数组不包含任何元素。</li>
+	<li>An empty object contains no key-value pairs.</li>
+	<li>An empty array contains no elements.</li>
 </ul>
 
-<p>你可以假设对象或数组是通过 <code>JSON.parse</code> 解析得到的。</p>
+<p>You may assume the object or array is the output of&nbsp;<code>JSON.parse</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>obj = {"x": 5, "y": 42}
-<b>输出：</b>false
-<b>解释：</b>这个对象有两个键值对，所以它不为空。
+<strong>Input:</strong> obj = {&quot;x&quot;: 5, &quot;y&quot;: 42}
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The object has 2 key-value pairs so it is not empty.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>obj = {}
-<b>输出：</b>true
-<b>解释：</b>这个对象没有任何键值对，所以它为空。
+<strong>Input:</strong> obj = {}
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The object doesn&#39;t have any key-value pairs so it is empty.
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>obj = [null, false, 0]
-<b>输出：</b>false
-<b>解释：</b>这个数组有 3 个元素，所以它不为空。
+<strong>Input:</strong> obj = [null, false, 0]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The array has 3 elements so it is not empty.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>obj</code> 是一个有效的 JSON 对象或数组</li>
+	<li><code>obj</code> is a valid JSON object or array</li>
 	<li><code>2 &lt;= JSON.stringify(obj).length &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <p>&nbsp;</p>
-<strong>你可以在 O(1) 时间复杂度内解决这个问题吗？</strong>
+<strong>Can you solve it in O(1) time?</strong>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：遍历
-
-我们可以遍历对象或数组，如果遍历到了第一个元素，就返回 `false`，否则返回 `true`。
-
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -109,7 +100,7 @@ var isEmpty = function (obj) {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

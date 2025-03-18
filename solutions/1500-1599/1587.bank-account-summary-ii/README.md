@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1587.Bank%20Account%20Summary%20II/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1587. 银行账户概要 II](https://leetcode.cn/problems/bank-account-summary-ii)
+# [1587. Bank Account Summary II](https://leetcode.com/problems/bank-account-summary-ii)
 
-[English Version](/solution/1500-1599/1587.Bank%20Account%20Summary%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Users</code></p>
+<p>Table: <code>Users</code></p>
 
 <pre>
 +--------------+---------+
@@ -25,14 +22,14 @@ tags:
 | account      | int     |
 | name         | varchar |
 +--------------+---------+
-account 是该表的主键(具有唯一值的列)。
-该表的每一行都包含银行中每个用户的帐号。
-表中不会有两个用户具有相同的名称。
+account is the primary key (column with unique values) for this table.
+Each row of this table contains the account number of each user in the bank.
+There will be no two users having the same name in the table.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>表: <code>Transactions</code></p>
+<p>Table: <code>Transactions</code></p>
 
 <pre>
 +---------------+---------+
@@ -43,27 +40,26 @@ account 是该表的主键(具有唯一值的列)。
 | amount        | int     |
 | transacted_on | date    |
 +---------------+---------+
-trans_id 是该表主键(具有唯一值的列)。
-该表的每一行包含了所有账户的交易改变情况。
-如果用户收到了钱, 那么金额是正的; 如果用户转了钱, 那么金额是负的。
-所有账户的起始余额为 0。
+trans_id is the primary key (column with unique values) for this table.
+Each row of this table contains all changes made to all accounts.
+amount is positive if the user received money and negative if they transferred money.
+All accounts start with a balance of 0.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案,&nbsp;&nbsp;报告余额高于 10000 的所有用户的名字和余额.&nbsp;账户的余额等于包含该账户的所有交易的总和。</p>
+<p>Write a solution to report the name and balance of users with a balance higher than <code>10000</code>. The balance of an account is equal to the sum of the amounts of all transactions involving that account.</p>
 
-<p>返回结果表单 <strong>无顺序要求</strong> 。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>查询结果格式如下例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<code><strong>输入：</strong>
-Users</code> table:
+<strong>Input:</strong> 
+Users table:
 +------------+--------------+
 | account    | name         |
 +------------+--------------+
@@ -71,8 +67,7 @@ Users</code> table:
 | 900002     | Bob          |
 | 900003     | Charlie      |
 +------------+--------------+
-
-<code>Transactions</code> table:
+Transactions table:
 +------------+------------+------------+---------------+
 | trans_id   | account    | amount     | transacted_on |
 +------------+------------+------------+---------------+
@@ -84,27 +79,27 @@ Users</code> table:
 | 6          | 900003     | 6000       |  2020-09-07   |
 | 7          | 900003     | -4000      |  2020-09-11   |
 +------------+------------+------------+---------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +------------+------------+
-| <code>name    </code>   | <code>balance  </code>  |
+| name       | balance    |
 +------------+------------+
 | Alice      | 11000      |
 +------------+------------+
-<strong>解释：</strong>
-Alice 的余额为(7000 + 7000 - 3000) = 11000.
-Bob 的余额为1000.
-Charlie 的余额为(6000 + 6000 - 4000) = 8000.
+<strong>Explanation:</strong> 
+Alice&#39;s balance is (7000 + 7000 - 3000) = 11000.
+Bob&#39;s balance is 1000.
+Charlie&#39;s balance is (6000 + 6000 - 4000) = 8000.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：等值连接 + 分组求和
+### Solution 1: Equi-Join + Group By + Sum
 
-我们可以使用等值连接，将 `Users` 和 `Transactions` 表按照 `account` 列连接起来，然后按照 `account` 列分组求和，最后筛选出余额大于 $10000$ 的用户。
+We can use an equi-join to join the `Users` table and the `Transactions` table on the condition of `account`, and then group by `account` to calculate the balance for each account using the `SUM` function. Finally, we can filter out the users whose balance is less than or equal to $10000$.
 
 <!-- tabs:start -->
 

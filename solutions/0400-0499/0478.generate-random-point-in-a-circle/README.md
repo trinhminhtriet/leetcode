@@ -1,65 +1,63 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0478.Generate%20Random%20Point%20in%20a%20Circle/README.md
+difficulty: Medium
 tags:
-    - 几何
-    - 数学
-    - 拒绝采样
-    - 随机化
+    - Geometry
+    - Math
+    - Rejection Sampling
+    - Randomized
 ---
 
 <!-- problem:start -->
 
-# [478. 在圆内随机生成点](https://leetcode.cn/problems/generate-random-point-in-a-circle)
+# [478. Generate Random Point in a Circle](https://leetcode.com/problems/generate-random-point-in-a-circle)
 
-[English Version](/solution/0400-0499/0478.Generate%20Random%20Point%20in%20a%20Circle/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定圆的半径和圆心的位置，实现函数 <code>randPoint</code> ，在圆中产生均匀随机点。</p>
+<p>Given the radius and the position of the center of a circle, implement the function <code>randPoint</code> which generates a uniform random point inside the circle.</p>
 
-<p>实现&nbsp;<code>Solution</code>&nbsp;类:</p>
+<p>Implement the <code>Solution</code> class:</p>
 
 <ul>
-	<li><code>Solution(double radius, double x_center, double y_center)</code>&nbsp;用圆的半径&nbsp;<code>radius</code>&nbsp;和圆心的位置<code> (x_center, y_center)</code> 初始化对象</li>
-	<li><code>randPoint()</code>&nbsp;返回圆内的一个随机点。圆周上的一点被认为在圆内。答案作为数组返回 <code>[x, y]</code> 。</li>
+	<li><code>Solution(double radius, double x_center, double y_center)</code> initializes the object with the radius of the circle <code>radius</code> and the position of the center <code>(x_center, y_center)</code>.</li>
+	<li><code>randPoint()</code> returns a random point inside the circle. A point on the circumference of the circle is considered to be in the circle. The answer is returned as an array <code>[x, y]</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入: 
-</strong>["Solution","randPoint","randPoint","randPoint"]
+<strong>Input</strong>
+[&quot;Solution&quot;, &quot;randPoint&quot;, &quot;randPoint&quot;, &quot;randPoint&quot;]
 [[1.0, 0.0, 0.0], [], [], []]
-<strong>输出: </strong>[null, [-0.02493, -0.38077], [0.82314, 0.38945], [0.36572, 0.17248]]
-<strong>解释:</strong>
+<strong>Output</strong>
+[null, [-0.02493, -0.38077], [0.82314, 0.38945], [0.36572, 0.17248]]
+
+<strong>Explanation</strong>
 Solution solution = new Solution(1.0, 0.0, 0.0);
-solution.randPoint ();//返回[-0.02493，-0.38077]
-solution.randPoint ();//返回[0.82314,0.38945]
-solution.randPoint ();//返回[0.36572,0.17248]</pre>
+solution.randPoint(); // return [-0.02493, -0.38077]
+solution.randPoint(); // return [0.82314, 0.38945]
+solution.randPoint(); // return [0.36572, 0.17248]
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;&nbsp;radius &lt;= 10<sup>8</sup></code></li>
-	<li><code>-10<sup>7</sup>&nbsp;&lt;= x_center, y_center &lt;= 10<sup>7</sup></code></li>
-	<li><code>randPoint</code> 最多被调用&nbsp;<code>3 * 10<sup>4</sup></code>&nbsp;次</li>
+	<li><code>-10<sup>7</sup> &lt;= x_center, y_center &lt;= 10<sup>7</sup></code></li>
+	<li>At most <code>3 * 10<sup>4</sup></code> calls will be made to <code>randPoint</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

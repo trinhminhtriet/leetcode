@@ -1,91 +1,78 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1923.Longest%20Common%20Subpath/README.md
+difficulty: Hard
 rating: 2661
-source: 第 248 场周赛 Q4
+source: Weekly Contest 248 Q4
 tags:
-    - 数组
-    - 二分查找
-    - 后缀数组
-    - 哈希函数
-    - 滚动哈希
+    - Array
+    - Binary Search
+    - Suffix Array
+    - Hash Function
+    - Rolling Hash
 ---
 
 <!-- problem:start -->
 
-# [1923. 最长公共子路径](https://leetcode.cn/problems/longest-common-subpath)
+# [1923. Longest Common Subpath](https://leetcode.com/problems/longest-common-subpath)
 
-[English Version](/solution/1900-1999/1923.Longest%20Common%20Subpath/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个国家由 <code>n</code> 个编号为 <code>0</code> 到 <code>n - 1</code> 的城市组成。在这个国家里，<strong>每两个</strong> 城市之间都有一条道路连接。</p>
+<p>There is a country of <code>n</code> cities numbered from <code>0</code> to <code>n - 1</code>. In this country, there is a road connecting <b>every pair</b> of cities.</p>
 
-<p>总共有 <code>m</code> 个编号为 <code>0</code> 到 <code>m - 1</code> 的朋友想在这个国家旅游。他们每一个人的路径都会包含一些城市。每条路径都由一个整数数组表示，每个整数数组表示一个朋友按顺序访问过的城市序列。同一个城市在一条路径中可能 <strong>重复</strong> 出现，但同一个城市在一条路径中不会连续出现。</p>
+<p>There are <code>m</code> friends numbered from <code>0</code> to <code>m - 1</code> who are traveling through the country. Each one of them will take a path consisting of some cities. Each path is represented by an integer array that contains the visited cities in order. The path may contain a city <strong>more than once</strong>, but the same city will not be listed consecutively.</p>
 
-<p>给你一个整数 <code>n</code> 和二维数组 <code>paths</code> ，其中 <code>paths[i]</code> 是一个整数数组，表示第 <code>i</code> 个朋友走过的路径，请你返回 <strong>每一个</strong> 朋友都走过的 <strong>最长公共子路径</strong> 的长度，如果不存在公共子路径，请你返回 <code>0</code> 。</p>
+<p>Given an integer <code>n</code> and a 2D integer array <code>paths</code> where <code>paths[i]</code> is an integer array representing the path of the <code>i<sup>th</sup></code> friend, return <em>the length of the <strong>longest common subpath</strong> that is shared by <strong>every</strong> friend&#39;s path, or </em><code>0</code><em> if there is no common subpath at all</em>.</p>
 
-<p>一个 <strong>子路径</strong> 指的是一条路径中连续的城市序列。</p>
+<p>A <strong>subpath</strong> of a path is a contiguous sequence of cities within that path.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>n = 5, paths = [[0,1,<strong>2,3</strong>,4],
-                     [<strong>2,3</strong>,4],
-                     [4,0,1,<strong>2,3</strong>]]
-<b>输出：</b>2
-<b>解释：</b>最长公共子路径为 [2,3] 。
+<strong>Input:</strong> n = 5, paths = [[0,1,<u>2,3</u>,4],
+                       [<u>2,3</u>,4],
+                       [4,0,1,<u>2,3</u>]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The longest common subpath is [2,3].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>n = 3, paths = [[0],[1],[2]]
-<b>输出：</b>0
-<b>解释：</b>三条路径没有公共子路径。
+<strong>Input:</strong> n = 3, paths = [[0],[1],[2]]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There is no common subpath shared by the three paths.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>n = 5, paths = [[<strong>0</strong>,1,2,3,4],
-                     [4,3,2,1,<strong>0</strong>]]
-<b>输出：</b>1
-<b>解释：</b>最长公共子路径为 [0]，[1]，[2]，[3] 和 [4] 。它们长度都为 1 。</pre>
+<strong>Input:</strong> n = 5, paths = [[<u>0</u>,1,2,3,4],
+                       [4,3,2,1,<u>0</u>]]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The possible longest common subpaths are [0], [1], [2], [3], and [4]. All have a length of 1.</pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= n <= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>m == paths.length</code></li>
-	<li><code>2 <= m <= 10<sup>5</sup></code></li>
-	<li><code>sum(paths[i].length) <= 10<sup>5</sup></code></li>
-	<li><code>0 <= paths[i][j] < n</code></li>
-	<li><code>paths[i]</code> 中同一个城市不会连续重复出现。</li>
+	<li><code>2 &lt;= m &lt;= 10<sup>5</sup></code></li>
+	<li><code>sum(paths[i].length) &lt;= 10<sup>5</sup></code></li>
+	<li><code>0 &lt;= paths[i][j] &lt; n</code></li>
+	<li>The same city is not listed multiple times consecutively in <code>paths[i]</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：字符串哈希
-
-**字符串哈希**是把一个任意长度的字符串映射成一个非负整数，并且其冲突的概率几乎为 0。字符串哈希用于计算字符串哈希值，快速判断两个字符串是否相等。
-
-取一固定值 BASE，把字符串看作是 BASE 进制数，并分配一个大于 0 的数值，代表每种字符。一般来说，我们分配的数值都远小于 BASE。例如，对于小写字母构成的字符串，可以令 a=1, b=2, ..., z=26。取一固定值 MOD，求出该 BASE 进制对 M 的余数，作为该字符串的 hash 值。
-
-一般来说，取 BASE=131 或者 BASE=13331，此时 hash 值产生的冲突概率极低。只要两个字符串 hash 值相同，我们就认为两个字符串是相等的。通常 MOD 取 2^64，C++ 里，可以直接使用 unsigned long long 类型存储这个 hash 值，在计算时不处理算术溢出问题，产生溢出时相当于自动对 2^64 取模，这样可以避免低效取模运算。
-
-除了在极特殊构造的数据上，上述 hash 算法很难产生冲突，一般情况下上述 hash 算法完全可以出现在题目的标准答案中。我们还可以多取一些恰当的 BASE 和 MOD 的值（例如大质数），多进行几组 hash 运算，当结果都相同时才认为原字符串相等，就更加难以构造出使这个 hash 产生错误的数据。
+### Solution 1
 
 <!-- tabs:start -->
 

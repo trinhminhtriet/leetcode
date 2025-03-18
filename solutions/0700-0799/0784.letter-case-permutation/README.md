@@ -1,67 +1,62 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0784.Letter%20Case%20Permutation/README.md
+difficulty: Medium
 tags:
-    - 位运算
-    - 字符串
-    - 回溯
+    - Bit Manipulation
+    - String
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [784. 字母大小写全排列](https://leetcode.cn/problems/letter-case-permutation)
+# [784. Letter Case Permutation](https://leetcode.com/problems/letter-case-permutation)
 
-[English Version](/solution/0700-0799/0784.Letter%20Case%20Permutation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个字符串&nbsp;<code>s</code>&nbsp;，通过将字符串&nbsp;<code>s</code>&nbsp;中的每个字母转变大小写，我们可以获得一个新的字符串。</p>
+<p>Given a string <code>s</code>, you&nbsp;can transform every letter individually to be lowercase or uppercase to create another string.</p>
 
-<p>返回 <em>所有可能得到的字符串集合</em> 。以 <strong>任意顺序</strong> 返回输出。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "a1b2"
-<strong>输出：</strong>["a1b2", "a1B2", "A1b2", "A1B2"]
-</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> s = "3z4"
-<strong>输出:</strong> ["3z4","3Z4"]
-</pre>
+<p>Return <em>a list of all possible strings we could create</em>. Return the output in <strong>any order</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示:</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;a1b2&quot;
+<strong>Output:</strong> [&quot;a1b2&quot;,&quot;a1B2&quot;,&quot;A1b2&quot;,&quot;A1B2&quot;]
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;3z4&quot;
+<strong>Output:</strong> [&quot;3z4&quot;,&quot;3Z4&quot;]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 12</code></li>
-	<li><code>s</code>&nbsp;由小写英文字母、大写英文字母和数字组成</li>
+	<li><code>s</code> consists of lowercase English letters, uppercase English letters, and digits.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
+### Solution 1: DFS
 
-由于 $s$ 中的每个字母都可以转换为大写或小写，因此可以使用 DFS 深度优先搜索的方法，枚举所有可能的情况。
+Since each letter in $s$ can be converted to uppercase or lowercase, we can use the DFS (Depth-First Search) method to enumerate all possible cases.
 
-具体地，从左到右遍历字符串 $s$，对于遍历到的每个字母，可以选择将其转变为大写或小写，然后继续遍历后面的字母。当遍历到字符串的末尾时，得到一个转换方案，将该方案加入答案即可。
+Specifically, traverse the string $s$ from left to right. For each letter encountered, you can choose to convert it to uppercase or lowercase, and then continue to traverse the subsequent letters. When you reach the end of the string, you get a conversion scheme and add it to the answer.
 
-转变大小写的方法可以使用位运算实现。对于一个字母，小写形式与大写形式的 ASCII 码之差为 $32$，因此，我们可以通过将该字母的 ASCII 码与 $32$ 进行异或运算来实现大小写转换。
+The method of converting case can be implemented using bitwise operations. For a letter, the difference between the ASCII codes of its lowercase and uppercase forms is $32$, so we can achieve case conversion by XORing the ASCII code of the letter with $32$.
 
-时间复杂度 $O(n \times 2^n)$，其中 $n$ 是字符串 $s$ 的长度。对于每个字母，我们可以选择将其转换为大写或小写，因此一共有 $2^n$ 种转换方案。对于每种转换方案，我们需要 $O(n)$ 的时间生成一个新的字符串。
+The time complexity is $O(n \times 2^n)$, where $n$ is the length of the string $s$. For each letter, we can choose to convert it to uppercase or lowercase, so there are $2^n$ conversion schemes in total. For each conversion scheme, we need $O(n)$ time to generate a new string.
 
 <!-- tabs:start -->
 
@@ -213,15 +208,15 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：二进制枚举
+### Solution 2: Binary Enumeration
 
-对于一个字母，我们可以将其转换为大写或小写，因此对于每个字母，我们可以使用一个二进制位表示其转换的方案，其中 $1$ 表示小写，而 $0$ 表示大写。
+For a letter, we can convert it to uppercase or lowercase. Therefore, for each letter, we can use a binary bit to represent its conversion scheme, where $1$ represents lowercase and $0$ represents uppercase.
 
-我们先统计字符串 $s$ 中字母的个数，记为 $n$，那么一共有 $2^n$ 种转换方案，我们可以使用二进制数的每一位表示每个字母的转换方案，从 $0$ 到 $2^n-1$ 进行枚举。
+First, we count the number of letters in the string $s$, denoted as $n$. Then, there are $2^n$ conversion schemes in total. We can use each bit of a binary number to represent the conversion scheme of each letter, enumerating from $0$ to $2^n-1$.
 
-具体地，我们可以使用一个变量 $i$ 表示当前枚举到的二进制数，其中 $i$ 的第 $j$ 位表示第 $j$ 个字母的转换方案。即 $i$ 的第 $j$ 位为 $1$ 表示第 $j$ 个字母转换为小写，而 $i$ 的第 $j$ 位为 $0$ 表示第 $j$ 个字母转换为大写。
+Specifically, we can use a variable $i$ to represent the current binary number being enumerated, where the $j$-th bit of $i$ represents the conversion scheme of the $j$-th letter. That is, the $j$-th bit of $i$ being $1$ means the $j$-th letter is converted to lowercase, and $0$ means the $j$-th letter is converted to uppercase.
 
-时间复杂度 $O(n \times 2^n)$，其中 $n$ 是字符串 $s$ 的长度。对于每个字母，我们可以选择将其转换为大写或小写，因此一共有 $2^n$ 种转换方案。对于每种转换方案，我们需要 $O(n)$ 的时间生成一个新的字符串。
+The time complexity is $O(n \times 2^n)$, where $n$ is the length of the string $s$. For each letter, we can choose to convert it to uppercase or lowercase, so there are $2^n$ conversion schemes in total. For each conversion scheme, we need $O(n)$ time to generate a new string.
 
 <!-- tabs:start -->
 

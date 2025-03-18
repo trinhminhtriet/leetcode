@@ -1,48 +1,45 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1246.Palindrome%20Removal/README.md
+difficulty: Hard
 rating: 2203
-source: 第 12 场双周赛 Q4
+source: Biweekly Contest 12 Q4
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1246. 删除回文子数组 🔒](https://leetcode.cn/problems/palindrome-removal)
+# [1246. Palindrome Removal 🔒](https://leetcode.com/problems/palindrome-removal)
 
-[English Version](/solution/1200-1299/1246.Palindrome%20Removal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>arr</code>，每一次操作你都可以选择并删除它的一个 <strong>回文</strong> 子数组&nbsp;<code>arr[i], arr[i+1], ..., arr[j]</code>（ <code>i &lt;= j</code>）。</p>
+<p>You are given an integer array <code>arr</code>.</p>
 
-<p>注意，每当你删除掉一个子数组，右侧元素都会自行向前移动填补空位。</p>
+<p>In one move, you can select a <strong>palindromic</strong> subarray <code>arr[i], arr[i + 1], ..., arr[j]</code> where <code>i &lt;= j</code>, and remove that subarray from the given array. Note that after removing a subarray, the elements on the left and on the right of that subarray move to fill the gap left by the removal.</p>
 
-<p>请你计算并返回从数组中删除所有数字所需的最少操作次数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>arr = [1,2]
-<strong>输出：</strong>2
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>arr = [1,3,4,1,5]
-<strong>输出：</strong>3
-<strong>解释：</strong>先删除 [4]，然后删除 [1,3,1]，最后再删除 [5]。
-</pre>
+<p>Return <em>the minimum number of moves needed to remove all numbers from the array</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> arr = [1,2]
+<strong>Output:</strong> 2
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [1,3,4,1,5]
+<strong>Output:</strong> 3
+<b>Explanation: </b>Remove [4] then remove [1,3,1] then remove [5].
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 100</code></li>
@@ -51,21 +48,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划（区间 DP）
+### Solution 1: Dynamic Programming (Interval DP)
 
-我们定义 $f[i][j]$ 表示删除下标区间 $[i,..j]$ 内的所有数字所需的最少操作次数。初始时 $f[i][i] = 1$，表示只有一个数字时，需要执行一次删除操作。
+We define $f[i][j]$ as the minimum number of operations required to delete all numbers in the index range $[i,..j]$. Initially, $f[i][i] = 1$, which means that when there is only one number, one deletion operation is needed.
 
-对于 $f[i][j]$，如果 $i + 1 = j$，即只有两个数字时，如果 $arr[i]=arr[j]$，则 $f[i][j] = 1$，否则 $f[i][j] = 2$。
+For $f[i][j]$, if $i + 1 = j$, i.e., there are only two numbers, if $arr[i]=arr[j]$, then $f[i][j] = 1$, otherwise $f[i][j] = 2$.
 
-对于超过两个数字的情况，如果 $arr[i]=arr[j]$，那么 $f[i][j]$ 可以取 $f[i + 1][j - 1]$，或者我们可以在下标范围 $[i,..j-1]$ 范围内枚举 $k$，取 $f[i][k] + f[k + 1][j]$ 的最小值。将最小值赋给 $f[i][j]$。
+For the case of more than two numbers, if $arr[i]=arr[j]$, then $f[i][j]$ can be $f[i + 1][j - 1]$, or we can enumerate $k$ in the index range $[i,..j-1]$, take the minimum value of $f[i][k] + f[k + 1][j]$. Assign the minimum value to $f[i][j]$.
 
-答案即为 $f[0][n - 1]$。
+The answer is $f[0][n - 1]$.
 
-时间复杂度 $O(n^3)$，空间复杂度 $O(n^2)$。其中 $n$ 为数组长度。
+The time complexity is $O(n^3)$, and the space complexity is $O(n^2)$. Where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

@@ -1,73 +1,66 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0302.Smallest%20Rectangle%20Enclosing%20Black%20Pixels/README.md
+difficulty: Hard
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 数组
-    - 二分查找
-    - 矩阵
+    - Depth-First Search
+    - Breadth-First Search
+    - Array
+    - Binary Search
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [302. 包含全部黑色像素的最小矩形 🔒](https://leetcode.cn/problems/smallest-rectangle-enclosing-black-pixels)
+# [302. Smallest Rectangle Enclosing Black Pixels 🔒](https://leetcode.com/problems/smallest-rectangle-enclosing-black-pixels)
 
-[English Version](/solution/0300-0399/0302.Smallest%20Rectangle%20Enclosing%20Black%20Pixels/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>图片在计算机处理中往往是使用二维矩阵来表示的。</p>
+<p>You are given an <code>m x n</code> binary matrix <code>image</code> where <code>0</code> represents a white pixel and <code>1</code> represents a black pixel.</p>
 
-<p>给你一个大小为 <code>m x n</code> 的二进制矩阵&nbsp;<code>image</code> 表示一张黑白图片，<code>0</code>&nbsp;代表白色像素，<code>1</code>&nbsp;代表黑色像素。</p>
+<p>The black pixels are connected (i.e., there is only one black region). Pixels are connected horizontally and vertically.</p>
 
-<p>黑色像素相互连接，也就是说，图片中只会有一片连在一块儿的黑色像素。像素点是水平或竖直方向连接的。</p>
+<p>Given two integers <code>x</code> and <code>y</code> that represents the location of one of the black pixels, return <em>the area of the smallest (axis-aligned) rectangle that encloses all black pixels</em>.</p>
 
-<p>给你两个整数 <code>x</code> 和 <code>y</code> 表示某一个黑色像素的位置，请你找出包含全部黑色像素的最小矩形（与坐标轴对齐），并返回该矩形的面积。</p>
-
-<p>你必须设计并实现一个时间复杂度低于&nbsp;<code>O(mn)</code> 的算法来解决此问题。</p>
+<p>You must write an algorithm with less than <code>O(mn)</code> runtime complexity</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0302.Smallest%20Rectangle%20Enclosing%20Black%20Pixels/images/pixel-grid.jpg" style="width: 333px; height: 253px;" />
 <pre>
-<strong>输入：</strong>image = [["0","0","1","0"],["0","1","1","0"],["0","1","0","0"]], x = 0, y = 2
-<strong>输出：</strong>6
+<strong>Input:</strong> image = [[&quot;0&quot;,&quot;0&quot;,&quot;1&quot;,&quot;0&quot;],[&quot;0&quot;,&quot;1&quot;,&quot;1&quot;,&quot;0&quot;],[&quot;0&quot;,&quot;1&quot;,&quot;0&quot;,&quot;0&quot;]], x = 0, y = 2
+<strong>Output:</strong> 6
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>image = [["1"]], x = 0, y = 0
-<strong>输出：</strong>1
+<strong>Input:</strong> image = [[&quot;1&quot;]], x = 0, y = 0
+<strong>Output:</strong> 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == image.length</code></li>
 	<li><code>n == image[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 100</code></li>
-	<li><code>image[i][j]</code> 为 <code>'0'</code> 或 <code>'1'</code></li>
-	<li><code>1 &lt;= x &lt; m</code></li>
-	<li><code>1 &lt;= y &lt; n</code></li>
-	<li><code>image[x][y] == '1'</code></li>
-	<li><code>image</code> 中的黑色像素仅形成一个 <strong>组件</strong></li>
+	<li><code>image[i][j]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li><code>0 &lt;= x &lt; m</code></li>
+	<li><code>0 &lt;= y &lt; n</code></li>
+	<li><code>image[x][y] == &#39;1&#39;.</code></li>
+	<li>The black pixels in the <code>image</code> only form <strong>one component</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

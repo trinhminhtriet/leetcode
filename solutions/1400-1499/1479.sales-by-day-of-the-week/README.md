@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1479.Sales%20by%20Day%20of%20the%20Week/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1479. 周内每天的销售情况 🔒](https://leetcode.cn/problems/sales-by-day-of-the-week)
+# [1479. Sales by Day of the Week 🔒](https://leetcode.com/problems/sales-by-day-of-the-week)
 
-[English Version](/solution/1400-1499/1479.Sales%20by%20Day%20of%20the%20Week/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Orders</code></p>
+<p>Table: <code>Orders</code></p>
 
 <pre>
 +---------------+---------+
@@ -28,11 +25,14 @@ tags:
 | item_id       | varchar |
 | quantity      | int     |
 +---------------+---------+
-(order_id, item_id) 是该表主键(具有唯一值的列的组合)
-该表包含了订单信息
-order_date 是id为 item_id 的商品被id为 customer_id 的消费者订购的日期.</pre>
+(ordered_id, item_id) is the primary key (combination of columns with unique values) for this table.
+This table contains information on the orders placed.
+order_date is the date item_id was ordered by the customer with id customer_id.
+</pre>
 
-<p>表：<code>Items</code></p>
+<p>&nbsp;</p>
+
+<p>Table: <code>Items</code></p>
 
 <pre>
 +---------------------+---------+
@@ -42,28 +42,27 @@ order_date 是id为 item_id 的商品被id为 customer_id 的消费者订购的�
 | item_name           | varchar |
 | item_category       | varchar |
 +---------------------+---------+
-item_id 是该表主键(具有唯一值的列)
-item_name 是商品的名字
-item_category&nbsp;是商品的类别
+item_id is the primary key (column with unique values) for this table.
+item_name is the name of the item.
+item_category is the category of the item.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>你是企业主，想要获得分类商品和周内每天的销售报告。</p>
+<p>You are the business owner and would like to obtain a sales report for category items and the day of the week.</p>
 
-<p>编写解决方案，报告 <strong>周内每天 </strong>每个商品类别下订购了多少单位。</p>
+<p>Write a solution to report how many units in each category have been ordered on each <strong>day of the week</strong>.</p>
 
-<p>返回结果表单<strong> 按商品类别排序 </strong>。</p>
+<p>Return the result table <strong>ordered</strong> by <code>category</code>.</p>
 
-<p>结果格式如下例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<code><strong>输入：</strong>
-Orders</code> 表：
+<strong>Input:</strong> 
+Orders table:
 +------------+--------------+-------------+--------------+-------------+
 | order_id   | customer_id  | order_date  | item_id      | quantity    |
 +------------+--------------+-------------+--------------+-------------+
@@ -77,8 +76,7 @@ Orders</code> 表：
 | 8          | 5            | 2020-06-14  | 4            | 5           |
 | 9          | 5            | 2020-06-21  | 3            | 5           |
 +------------+--------------+-------------+--------------+-------------+
-
-<code>Items</code> 表：
+Items table:
 +------------+----------------+---------------+
 | item_id    | item_name      | item_category |
 +------------+----------------+---------------+
@@ -89,7 +87,7 @@ Orders</code> 表：
 | 5          | LC SmartGlass  | Glasses       |
 | 6          | LC T-Shirt XL  | T-Shirt       |
 +------------+----------------+---------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
 | Category   | Monday    | Tuesday   | Wednesday | Thursday  | Friday    | Saturday  | Sunday    |
 +------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
@@ -98,23 +96,24 @@ Orders</code> 表：
 | Phone      | 0         | 0         | 5         | 1         | 0         | 0         | 10        |
 | T-Shirt    | 0         | 0         | 0         | 0         | 0         | 0         | 0         |
 +------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-<strong>解释：</strong>
-在周一(2020-06-01, 2020-06-08)，Book分类(ids: 1, 2)下，总共销售了20个单位(10 + 10)
-在周二(2020-06-02)，Book分类(ids: 1, 2)下，总共销售了5个单位
-在周三(2020-06-03)，Phone分类(ids: 3, 4)下，总共销售了5个单位
-在周四(2020-06-04)，Phone分类(ids: 3, 4)下，总共销售了1个单位
-在周五(2020-06-05)，Book分类(ids: 1, 2)下，总共销售了10个单位，Glasses分类(ids: 5)下，总共销售了5个单位
-在周六, 没有商品销售
-在周天(2020-06-14, 2020-06-21)，Phone分类(ids: 3, 4)下，总共销售了10个单位(5 + 5)
-没有销售 T-Shirt 类别的商品</pre>
+<strong>Explanation:</strong> 
+On Monday (2020-06-01, 2020-06-08) were sold a total of 20 units (10 + 10) in the category Book (ids: 1, 2).
+On Tuesday (2020-06-02) were sold a total of 5 units in the category Book (ids: 1, 2).
+On Wednesday (2020-06-03) were sold a total of 5 units in the category Phone (ids: 3, 4).
+On Thursday (2020-06-04) were sold a total of 1 unit in the category Phone (ids: 3, 4).
+On Friday (2020-06-05) were sold 10 units in the category Book (ids: 1, 2) and 5 units in Glasses (ids: 5).
+On Saturday there are no items sold.
+On Sunday (2020-06-14, 2020-06-21) were sold a total of 10 units (5 +5) in the category Phone (ids: 3, 4).
+There are no sales of T-shirts.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

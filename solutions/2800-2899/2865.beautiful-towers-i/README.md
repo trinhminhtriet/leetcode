@@ -1,57 +1,65 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2865.Beautiful%20Towers%20I/README.md
+difficulty: Medium
 rating: 1519
-source: 第 364 场周赛 Q2
+source: Weekly Contest 364 Q2
 tags:
-    - 栈
-    - 数组
-    - 单调栈
+    - Stack
+    - Array
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [2865. 美丽塔 I](https://leetcode.cn/problems/beautiful-towers-i)
+# [2865. Beautiful Towers I](https://leetcode.com/problems/beautiful-towers-i)
 
-[English Version](/solution/2800-2899/2865.Beautiful%20Towers%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个包含&nbsp;<code>n</code>&nbsp;个整数的数组&nbsp;<code>heights</code>&nbsp;表示&nbsp;<code>n</code>&nbsp;座连续的塔中砖块的数量。你的任务是移除一些砖块来形成一个 <strong>山脉状</strong> 的塔排列。在这种布置中，塔高度先是非递减，有一个或多个连续塔达到最大峰值，然后非递增排列。</p>
+<p>You are given an array <code>heights</code> of <code>n</code> integers representing the number of bricks in <code>n</code> consecutive towers. Your task is to remove some bricks to form a <strong>mountain-shaped</strong> tower arrangement. In this arrangement, the tower heights are non-decreasing, reaching a maximum peak value with one or multiple consecutive towers and then non-increasing.</p>
 
-<p>返回满足山脉状塔排列的方案中，<strong>高度和的最大值</strong>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>maxHeights = [5,3,4,1,1]
-<b>输出：</b>13
-<b>解释：</b>我们移除一些砖块来形成 heights = [5,3,3,1,1]，峰值位于下标 0。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>maxHeights = [6,5,3,9,2,7]
-<b>输出：</b>22
-<strong>解释：</strong>我们移除一些砖块来形成 heights = [3,3,3,9,2,2]，峰值位于下标 3。</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>maxHeights = [3,2,5,5,2,3]
-<b>输出：</b>18
-<strong>解释：</strong>我们移除一些砖块来形成 heights = [2,2,5,5,2,2]，峰值位于下标 2 或 3。
-</pre>
+<p>Return the <strong>maximum possible sum</strong> of heights of a mountain-shaped tower arrangement.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">heights = [5,3,4,1,1]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">13</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>We remove some bricks to make <code>heights =&nbsp;[5,3,3,1,1]</code>, the peak is at index 0.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">heights = [6,5,3,9,2,7]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">22</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>We remove some bricks to make <code>heights =&nbsp;[3,3,3,9,2,2]</code>, the peak is at index 3.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">heights = [3,2,5,5,2,3]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">18</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>We remove some bricks to make <code>heights = [2,2,5,5,2,2]</code>, the peak is at index 2 or 3.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == heights.length &lt;= 10<sup>3</sup></code></li>
@@ -60,15 +68,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们可以枚举每一座塔作为最高塔，每一次向左右两边扩展，算出其他每个位置的高度，然后累加得到高度和 $t$。求出所有高度和的最大值即可。
+We can enumerate each tower as the tallest tower, each time expanding to the left and right, calculating the height of each other position, and then accumulating to get the height sum $t$. The maximum of all height sums is the answer.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(1)$。其中 $n$ 为数组 $maxHeights$ 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array $maxHeights$.
 
 <!-- tabs:start -->
 
@@ -196,11 +204,11 @@ function maximumSumOfHeights(maxHeights: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二：动态规划 + 单调栈
+### Solution 2: Dynamic Programming + Monotonic Stack
 
-方法一的做法足以通过本题，但是时间复杂度较高。我们可以使用“动态规划 + 单调栈”来优化枚举的过程。
+Solution 1 is sufficient to pass this problem, but the time complexity is relatively high. We can use "Dynamic Programming + Monotonic Stack" to optimize the enumeration process.
 
-我们定义 $f[i]$ 表示前 $i+1$ 座塔中，以最后一座塔作为最高塔的美丽塔方案的高度和。我们可以得到如下的状态转移方程：
+We define $f[i]$ to represent the height sum of the beautiful tower scheme with the last tower as the tallest tower among the first $i+1$ towers. We can get the following state transition equation:
 
 $$
 f[i]=
@@ -210,11 +218,11 @@ heights[i]\times(i-j)+f[j],&\textit{if } heights[i]<heights[i-1]
 \end{cases}
 $$
 
-其中 $j$ 是最后一座塔左边第一个高度小于等于 $heights[i]$ 的塔的下标。我们可以使用单调栈来维护这个下标。
+Where $j$ is the index of the first tower to the left of the last tower with a height less than or equal to $heights[i]$. We can use a monotonic stack to maintain this index.
 
-我们可以使用类似的方法求出 $g[i]$，表示从右往左，以第 $i$ 座塔作为最高塔的美丽塔方案的高度和。最终答案即为 $f[i]+g[i]-heights[i]$ 的最大值。
+We can use a similar method to find $g[i]$, which represents the height sum of the beautiful tower scheme from right to left with the $i$th tower as the tallest tower. The final answer is the maximum value of $f[i]+g[i]-heights[i]$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $maxHeights$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $maxHeights$.
 
 <!-- tabs:start -->
 

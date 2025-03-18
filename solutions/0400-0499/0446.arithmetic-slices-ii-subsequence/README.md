@@ -1,47 +1,43 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0446.Arithmetic%20Slices%20II%20-%20Subsequence/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [446. 等差数列划分 II - 子序列](https://leetcode.cn/problems/arithmetic-slices-ii-subsequence)
+# [446. Arithmetic Slices II - Subsequence](https://leetcode.com/problems/arithmetic-slices-ii-subsequence)
 
-[English Version](/solution/0400-0499/0446.Arithmetic%20Slices%20II%20-%20Subsequence/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> ，返回 <code>nums</code> 中所有 <strong>等差子序列</strong> 的数目。</p>
+<p>Given an integer array <code>nums</code>, return <em>the number of all the <strong>arithmetic subsequences</strong> of</em> <code>nums</code>.</p>
 
-<p>如果一个序列中 <strong>至少有三个元素</strong> ，并且任意两个相邻元素之差相同，则称该序列为等差序列。</p>
-
-<ul>
-	<li>例如，<code>[1, 3, 5, 7, 9]</code>、<code>[7, 7, 7, 7]</code> 和 <code>[3, -1, -5, -9]</code> 都是等差序列。</li>
-	<li>再例如，<code>[1, 1, 2, 5, 7]</code> 不是等差序列。</li>
-</ul>
-
-<p>数组中的子序列是从数组中删除一些元素（也可能不删除）得到的一个序列。</p>
+<p>A sequence of numbers is called arithmetic if it consists of <strong>at least three elements</strong> and if the difference between any two consecutive elements is the same.</p>
 
 <ul>
-	<li>例如，<code>[2,5,10]</code> 是 <code>[1,2,1,<em><strong>2</strong></em>,4,1,<strong><em>5</em></strong>,<em><strong>10</strong></em>]</code> 的一个子序列。</li>
+	<li>For example, <code>[1, 3, 5, 7, 9]</code>, <code>[7, 7, 7, 7]</code>, and <code>[3, -1, -5, -9]</code> are arithmetic sequences.</li>
+	<li>For example, <code>[1, 1, 2, 5, 7]</code> is not an arithmetic sequence.</li>
 </ul>
 
-<p>题目数据保证答案是一个 <strong>32-bit</strong> 整数。</p>
+<p>A <strong>subsequence</strong> of an array is a sequence that can be formed by removing some elements (possibly none) of the array.</p>
+
+<ul>
+	<li>For example, <code>[2,5,10]</code> is a subsequence of <code>[1,2,1,<strong><u>2</u></strong>,4,1,<u><strong>5</strong></u>,<u><strong>10</strong></u>]</code>.</li>
+</ul>
+
+<p>The test cases are generated so that the answer fits in <strong>32-bit</strong> integer.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2,4,6,8,10]
-<strong>输出：</strong>7
-<strong>解释：</strong>所有的等差子序列为：
+<strong>Input:</strong> nums = [2,4,6,8,10]
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> All arithmetic subsequence slices are:
 [2,4,6]
 [4,6,8]
 [6,8,10]
@@ -51,17 +47,16 @@ tags:
 [2,6,10]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [7,7,7,7,7]
-<strong>输出：</strong>16
-<strong>解释：</strong>数组中的任意子序列都是等差子序列。
+<strong>Input:</strong> nums = [7,7,7,7,7]
+<strong>Output:</strong> 16
+<strong>Explanation:</strong> Any subsequence of this array is arithmetic.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1&nbsp; &lt;= nums.length &lt;= 1000</code></li>
@@ -70,19 +65,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划 + 哈希表
-
-我们定义 $f[i][d]$ 表示以 $nums[i]$ 为结尾，公差为 $d$ 的弱等差子序列（最少有两个元素）的个数。由于 $d$ 的范围很大，所以我们使用哈希表来统计。
-
-接下来，我们枚举 $nums$ 中的所有元素对 $(nums[i], nums[j])$，其中 $j \lt i$。我们将其作为等差数列的最后两个元素，由此即可得到公差 $d = nums[i] - nums[j]$。由于公差相同，我们可以将 $nums[i]$ 加到以 $nums[j]$ 为结尾的弱等差子序列的末尾，此时以 $nums[i]$ 为结尾的等差子序列的数量为 $f[j][d]$，我们将其加入答案。然后，我们再将 $nums[i]$ 加到以 $nums[j]$ 为结尾的弱等差子序列的末尾，这对应着状态转移 $f[i][d] += f[j][d]$。同时，$(nums[i], nums[j])$ 这一对元素也可以当作一个弱等差子序列，因此有状态转移 $f[i][d] += f[j][d] + 1$。
-
-枚举结束，返回答案即可。
-
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是数组 $nums$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

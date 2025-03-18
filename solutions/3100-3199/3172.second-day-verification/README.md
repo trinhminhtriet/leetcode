@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3172.Second%20Day%20Verification/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3172. 第二天验证 🔒](https://leetcode.cn/problems/second-day-verification)
+# [3172. Second Day Verification 🔒](https://leetcode.com/problems/second-day-verification)
 
-[English Version](/solution/3100-3199/3172.Second%20Day%20Verification/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>emails</code></p>
+<p>Table: <code>emails</code></p>
 
 <pre>
 +-------------+----------+
@@ -26,11 +23,11 @@ tags:
 | user_id     | int      |
 | signup_date | datetime |
 +-------------+----------+
-(email_id, user_id) 是这张表的主键（有不同值的列的组合）。
-这张表的每一行包含 email ID，user ID 和注册日期。
+(email_id, user_id) is the primary key (combination of columns with unique values) for this table.
+Each row of this table contains the email ID, user ID, and signup date.
 </pre>
 
-<p>表：<code>texts</code></p>
+<p>Table: <code>texts</code></p>
 
 <pre>
 +---------------+----------+
@@ -41,25 +38,24 @@ tags:
 | signup_action | enum     |
 | action_date   | datetime |
 +---------------+----------+
-(text_id, email_id) 是这张表的主键（有不同值的列的组合）。
-signup_action 是 ('Verified', 'Not Verified') 的枚举类型。
-这张表的每一行包含 text ID，email ID，注册操作和操作日期。
+(text_id, email_id) is the primary key (combination of columns with unique values) for this table. 
+signup_action is an enum type of (&#39;Verified&#39;, &#39;Not Verified&#39;). 
+Each row of this table contains the text ID, email ID, signup action, and action date.
 </pre>
 
-<p>编写一个解决方案来找到&nbsp;<strong>第二天验证注册</strong>&nbsp;的用户 ID。</p>
+<p>Write a Solution to find the user IDs of those who <strong>verified</strong> their <strong>sign-up</strong> on the <strong>second day</strong>.</p>
 
-<p>返回结果表以&nbsp;<code>user_id</code> <strong>升序&nbsp;</strong>排序。</p>
+<p>Return <em>the result table ordered by</em> <code>user_id</code> <em>in <strong>ascending</strong> order</em>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><b>输入：</b></p>
+<p><strong>Input:</strong></p>
 
-<p>emails 表：</p>
+<p>emails table:</p>
 
 <pre class="example-io">
 +----------+---------+---------------------+
@@ -71,7 +67,7 @@ signup_action 是 ('Verified', 'Not Verified') 的枚举类型。
 +----------+---------+---------------------+
 </pre>
 
-<p>texts 表：</p>
+<p>texts table:</p>
 
 <pre class="example-io">
 +---------+----------+--------------+---------------------+
@@ -83,7 +79,7 @@ signup_action 是 ('Verified', 'Not Verified') 的枚举类型。
 +---------+----------+--------------+---------------------+
     </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +---------+
@@ -94,23 +90,23 @@ signup_action 是 ('Verified', 'Not Verified') 的枚举类型。
 +---------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>user_id 为 7005 的用户在 2022-08-20 10:00:00 注册并且在第二天验证。</li>
-	<li>user_id 为 7771 的用户在 2022-06-14 09:30:00 注册并且在第二天验证。</li>
+	<li>User with user_id 7005 and email_id 234 signed up on 2022-08-20 10:00:00 and&nbsp;verified on second day of the signup.</li>
+	<li>User with user_id 7771 and email_id 125 signed up on 2022-06-14 09:30:00 and&nbsp;verified on second day of the signup.</li>
 </ul>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双表关联
+### Solution 1: Joining Two Tables
 
-我们可以通过内连接两个表，然后根据 `DATEDIFF` 函数计算出注册日期和操作日期的差值是否等于 1，以及注册操作是否为 `Verified`，来筛选出满足条件的用户 ID。
+We can join the two tables and then use the `DATEDIFF` function to calculate whether the difference between the registration date and the operation date is equal to 1, and whether the registration operation is `Verified`, to filter out the user IDs that meet the conditions.
 
 <!-- tabs:start -->
 

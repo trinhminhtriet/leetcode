@@ -1,73 +1,66 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0424.Longest%20Repeating%20Character%20Replacement/README.md
+difficulty: Medium
 tags:
-    - 哈希表
-    - 字符串
-    - 滑动窗口
+    - Hash Table
+    - String
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [424. 替换后的最长重复字符](https://leetcode.cn/problems/longest-repeating-character-replacement)
+# [424. Longest Repeating Character Replacement](https://leetcode.com/problems/longest-repeating-character-replacement)
 
-[English Version](/solution/0400-0499/0424.Longest%20Repeating%20Character%20Replacement/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> 和一个整数 <code>k</code> 。你可以选择字符串中的任一字符，并将其更改为任何其他大写英文字符。该操作最多可执行 <code>k</code> 次。</p>
+<p>You are given a string <code>s</code> and an integer <code>k</code>. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most <code>k</code> times.</p>
 
-<p>在执行上述操作后，返回 <em>包含相同字母的最长子字符串的长度。</em></p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "ABAB", k = 2
-<strong>输出：</strong>4
-<strong>解释：</strong>用两个'A'替换为两个'B',反之亦然。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "AABABBA", k = 1
-<strong>输出：</strong>4
-<strong>解释：</strong>
-将中间的一个'A'替换为'B',字符串变为 "AABBBBA"。
-子串 "BBBB" 有最长重复字母, 答案为 4。
-可能存在其他的方法来得到同样的结果。
-</pre>
+<p>Return <em>the length of the longest substring containing the same letter you can get after performing the above operations</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;ABAB&quot;, k = 2
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Replace the two &#39;A&#39;s with two &#39;B&#39;s or vice versa.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;AABABBA&quot;, k = 1
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Replace the one &#39;A&#39; in the middle with &#39;B&#39; and form &quot;AABBBBA&quot;.
+The substring &quot;BBBB&quot; has the longest repeating letters, which is 4.
+There may exists other ways to achieve this answer too.</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> 仅由大写英文字母组成</li>
+	<li><code>s</code> consists of only uppercase English letters.</li>
 	<li><code>0 &lt;= k &lt;= s.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1: Two Pointers
 
-我们使用一个哈希表 `cnt` 统计字符串中每个字符出现的次数，使用双指针 `l` 和 `r` 维护一个滑动窗口，使得窗口的大小减去出现次数最多的字符的次数，结果不超过 $k$。
+We use a hash table `cnt` to count the occurrence of each character in the string, and two pointers `l` and `r` to maintain a sliding window, such that the size of the window minus the count of the most frequent character does not exceed $k$.
 
-我们遍历字符串，每次更新窗口的右边界 `r`，并更新窗口内的字符出现次数，同时更新出现过的字符的最大出现次数 `mx`。当窗口的大小减去 `mx` 大于 $k$ 时，我们需要缩小窗口的左边界 `l`，同时更新窗口内的字符出现次数，直到窗口的大小减去 `mx` 不大于 $k$。
+We iterate through the string, updating the right boundary `r` of the window each time, updating the count of characters within the window, and updating the maximum count `mx` of the characters that have appeared. When the size of the window minus `mx` is greater than $k$, we need to shrink the left boundary `l` of the window, updating the count of characters within the window, until the size of the window minus `mx` is no longer greater than $k$.
 
-最后，答案为 $n - l$，其中 $n$ 为字符串的长度。
+Finally, the answer is $n - l$, where $n$ is the length of the string.
 
-时间复杂度 $O(n)$，空间复杂度 $O(|\Sigma|)$。其中 $n$ 为字符串的长度，而 $|\Sigma|$ 为字符集的大小，本题中字符集为大写英文字母，所以 $|\Sigma| = 26$。
+The time complexity is $O(n)$, and the space complexity is $O(|\Sigma|)$. Where $n$ is the length of the string, and $|\Sigma|$ is the size of the character set. In this problem, the character set is uppercase English letters, so $|\Sigma| = 26$.
 
 <!-- tabs:start -->
 

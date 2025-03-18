@@ -1,58 +1,53 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2369.Check%20if%20There%20is%20a%20Valid%20Partition%20For%20The%20Array/README.md
+difficulty: Medium
 rating: 1779
-source: 第 305 场周赛 Q3
+source: Weekly Contest 305 Q3
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2369. 检查数组是否存在有效划分](https://leetcode.cn/problems/check-if-there-is-a-valid-partition-for-the-array)
+# [2369. Check if There is a Valid Partition For The Array](https://leetcode.com/problems/check-if-there-is-a-valid-partition-for-the-array)
 
-[English Version](/solution/2300-2399/2369.Check%20if%20There%20is%20a%20Valid%20Partition%20For%20The%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> ，你必须将数组划分为一个或多个 <strong>连续</strong> 子数组。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. You have to partition the array into one or more <strong>contiguous</strong> subarrays.</p>
 
-<p>如果获得的这些子数组中每个都能满足下述条件<strong> 之一</strong> ，则可以称其为数组的一种 <strong>有效</strong> 划分：</p>
+<p>We call a partition of the array <strong>valid</strong> if each of the obtained subarrays satisfies <strong>one</strong> of the following conditions:</p>
 
 <ol>
-	<li>子数组 <strong>恰</strong> 由 <code>2</code> 个相等元素组成，例如，子数组 <code>[2,2]</code> 。</li>
-	<li>子数组 <strong>恰</strong> 由 <code>3</code> 个相等元素组成，例如，子数组 <code>[4,4,4]</code> 。</li>
-	<li>子数组 <strong>恰</strong> 由 <code>3</code> 个连续递增元素组成，并且相邻元素之间的差值为 <code>1</code> 。例如，子数组 <code>[3,4,5]</code> ，但是子数组 <code>[1,3,5]</code> 不符合要求。</li>
+	<li>The subarray consists of <strong>exactly</strong> <code>2,</code> equal elements. For example, the subarray <code>[2,2]</code> is good.</li>
+	<li>The subarray consists of <strong>exactly</strong> <code>3,</code> equal elements. For example, the subarray <code>[4,4,4]</code> is good.</li>
+	<li>The subarray consists of <strong>exactly</strong> <code>3</code> consecutive increasing elements, that is, the difference between adjacent elements is <code>1</code>. For example, the subarray <code>[3,4,5]</code> is good, but the subarray <code>[1,3,5]</code> is not.</li>
 </ol>
 
-<p>如果数组 <strong>至少</strong> 存在一种有效划分，返回 <code>true</code><em> </em>，否则，返回 <code>false</code> 。</p>
+<p>Return <code>true</code><em> if the array has <strong>at least</strong> one valid partition</em>. Otherwise, return <code>false</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [4,4,4,5,6]
-<strong>输出：</strong>true
-<strong>解释：</strong>数组可以划分成子数组 [4,4] 和 [4,5,6] 。
-这是一种有效划分，所以返回 true 。
+<strong>Input:</strong> nums = [4,4,4,5,6]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The array can be partitioned into the subarrays [4,4] and [4,5,6].
+This partition is valid, so we return true.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,1,1,2]
-<strong>输出：</strong>false
-<strong>解释：</strong>该数组不存在有效划分。
+<strong>Input:</strong> nums = [1,1,1,2]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> There is no valid partition for this array.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -61,23 +56,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们设计一个函数 $dfs(i)$，表示从下标 $i$ 开始是否存在一种有效划分。那么答案就是 $dfs(0)$。
+We design a function $dfs(i)$, which represents whether there is a valid partition starting from index $i$. So the answer is $dfs(0)$.
 
-函数 $dfs(i)$ 的执行过程如下：
+The execution process of the function $dfs(i)$ is as follows:
 
--   如果 $i \ge n$，返回 $true$。
--   如果 $i$ 和 $i+1$ 下标的元素相等，那么可以选择将 $i$ 和 $i+1$ 作为一个子数组，递归调用 $dfs(i+2)$。
--   如果 $i$, $i+1$ 和 $i+2$ 下标的元素相等，那么可以选择将 $i$, $i+1$ 和 $i+2$ 作为一个子数组，递归调用 $dfs(i+3)$。
--   如果 $i$, $i+1$ 和 $i+2$ 下标的元素依次递增 $1$，那么可以选择将 $i$, $i+1$ 和 $i+2$ 作为一个子数组，递归调用 $dfs(i+3)$。
--   如果上述情况都不满足，返回 $false$，否则返回 $true$。
+-   If $i \ge n$, return $true$.
+-   If the elements at index $i$ and $i+1$ are equal, we can choose to make $i$ and $i+1$ a subarray, and recursively call $dfs(i+2)$.
+-   If the elements at index $i$, $i+1$ and $i+2$ are equal, we can choose to make $i$, $i+1$ and $i+2$ a subarray, and recursively call $dfs(i+3)$.
+-   If the elements at index $i$, $i+1$ and $i+2$ increase by $1$ in turn, we can choose to make $i$, $i+1$ and $i+2$ a subarray, and recursively call $dfs(i+3)$.
+-   If none of the above conditions are met, return $false$, otherwise return $true$.
 
-即：
+That is:
 
 $$
 dfs(i) = \textit{OR}
@@ -89,9 +84,9 @@ dfs(i+3),&i+2 < n\ \textit{and}\ \textit{nums}[i+1] - \textit{nums}[i] = 1\ \tex
 \end{cases}
 $$
 
-为了避免重复计算，我们使用记忆化搜索的方法。
+To avoid repeated calculations, we use the method of memoization search.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array.
 
 <!-- tabs:start -->
 
@@ -239,13 +234,13 @@ function validPartition(nums: number[]): boolean {
 
 <!-- solution:start -->
 
-### 方法二：动态规划
+### Solution 2: Dynamic Programming
 
-我们可以将方法一中的记忆化搜索转换为动态规划。
+We can convert the memoization search in Solution 1 into dynamic programming.
 
-设 $f[i]$ 表示数组的前 $i$ 个元素是否存在一种有效划分，初始时 $f[0] = true$，答案就是 $f[n]$。
+Let $f[i]$ represent whether there is a valid partition for the first $i$ elements of the array. Initially, $f[0] = true$, and the answer is $f[n]$.
 
-状态转移方程如下：
+The state transition equation is as follows:
 
 $$
 f[i] = \textit{OR}
@@ -257,7 +252,7 @@ f[i-3],&i-3 \ge 0\ \textit{and}\ \textit{nums}[i-1] - \textit{nums}[i-2] = 1\ \t
 \end{cases}
 $$
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

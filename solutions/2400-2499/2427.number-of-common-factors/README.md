@@ -1,47 +1,45 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2427.Number%20of%20Common%20Factors/README.md
+difficulty: Easy
 rating: 1172
-source: 第 313 场周赛 Q1
+source: Weekly Contest 313 Q1
 tags:
-    - 数学
-    - 枚举
-    - 数论
+    - Math
+    - Enumeration
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [2427. 公因子的数目](https://leetcode.cn/problems/number-of-common-factors)
+# [2427. Number of Common Factors](https://leetcode.com/problems/number-of-common-factors)
 
-[English Version](/solution/2400-2499/2427.Number%20of%20Common%20Factors/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个正整数 <code>a</code> 和 <code>b</code> ，返回 <code>a</code> 和 <code>b</code> 的 <strong>公</strong> 因子的数目。</p>
+<p>Given two positive integers <code>a</code> and <code>b</code>, return <em>the number of <strong>common</strong> factors of </em><code>a</code><em> and </em><code>b</code>.</p>
 
-<p>如果 <code>x</code> 可以同时整除 <code>a</code> 和 <code>b</code> ，则认为 <code>x</code> 是 <code>a</code> 和 <code>b</code> 的一个 <strong>公因子</strong> 。</p>
+<p>An integer <code>x</code> is a <strong>common factor</strong> of <code>a</code> and <code>b</code> if <code>x</code> divides both <code>a</code> and <code>b</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>a = 12, b = 6
-<strong>输出：</strong>4
-<strong>解释：</strong>12 和 6 的公因子是 1、2、3、6 。
+<pre>
+<strong>Input:</strong> a = 12, b = 6
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The common factors of 12 and 6 are 1, 2, 3, 6.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>a = 25, b = 30
-<strong>输出：</strong>2
-<strong>解释：</strong>25 和 30 的公因子是 1、5 。</pre>
+<pre>
+<strong>Input:</strong> a = 25, b = 30
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The common factors of 25 and 30 are 1, 5.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= a, b &lt;= 1000</code></li>
@@ -49,15 +47,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们可以先算出 $a$ 和 $b$ 的最大公约数 $g$，然后枚举 $[1,..g]$ 中的每个数，判断其是否是 $g$ 的因子，如果是，则答案加一。
+We can first calculate the greatest common divisor $g$ of $a$ and $b$, then enumerate each number in $[1,..g]$, check whether it is a factor of $g$, if it is, then increment the answer by one.
 
-时间复杂度 $O(\min(a, b))$，空间复杂度 $O(1)$。
+The time complexity is $O(\min(a, b))$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -153,11 +151,11 @@ function gcd(a: number, b: number): number {
 
 <!-- solution:start -->
 
-### 方法二：枚举优化
+### Solution 2: Optimized Enumeration
 
-与方法一类似，我们可以先算出 $a$ 和 $b$ 的最大公约数 $g$，然后枚举最大公约数 $g$ 的所有因子，累加答案。
+Similar to Solution 1, we can first calculate the greatest common divisor $g$ of $a$ and $b$, then enumerate all factors of the greatest common divisor $g$, and accumulate the answer.
 
-时间复杂度 $O(\sqrt{\min(a, b)})$，空间复杂度 $O(1)$。
+The time complexity is $O(\sqrt{\min(a, b)})$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

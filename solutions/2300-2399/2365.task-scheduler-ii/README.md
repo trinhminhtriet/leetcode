@@ -1,76 +1,73 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2365.Task%20Scheduler%20II/README.md
+difficulty: Medium
 rating: 1622
-source: 第 84 场双周赛 Q3
+source: Biweekly Contest 84 Q3
 tags:
-    - 数组
-    - 哈希表
-    - 模拟
+    - Array
+    - Hash Table
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2365. 任务调度器 II](https://leetcode.cn/problems/task-scheduler-ii)
+# [2365. Task Scheduler II](https://leetcode.com/problems/task-scheduler-ii)
 
-[English Version](/solution/2300-2399/2365.Task%20Scheduler%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的正整数数组&nbsp;<code>tasks</code>&nbsp;，表示需要 <strong>按顺序</strong>&nbsp;完成的任务，其中&nbsp;<code>tasks[i]</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;件任务的 <strong>类型</strong>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> array of positive integers <code>tasks</code>, representing tasks that need to be completed <strong>in order</strong>, where <code>tasks[i]</code> represents the <strong>type</strong> of the <code>i<sup>th</sup></code> task.</p>
 
-<p>同时给你一个正整数&nbsp;<code>space</code>&nbsp;，表示一个任务完成&nbsp;<strong>后</strong>&nbsp;，另一个&nbsp;<strong>相同</strong>&nbsp;类型任务完成前需要间隔的&nbsp;<strong>最少</strong>&nbsp;天数。</p>
+<p>You are also given a positive integer <code>space</code>, which represents the <strong>minimum</strong> number of days that must pass <strong>after</strong> the completion of a task before another task of the <strong>same</strong> type can be performed.</p>
 
-<p>在所有任务完成前的每一天，你都必须进行以下两种操作中的一种：</p>
+<p>Each day, until all tasks have been completed, you must either:</p>
 
 <ul>
-	<li>完成&nbsp;<code>tasks</code>&nbsp;中的下一个任务</li>
-	<li>休息一天</li>
+	<li>Complete the next task from <code>tasks</code>, or</li>
+	<li>Take a break.</li>
 </ul>
 
-<p>请你返回完成所有任务所需的 <strong>最少</strong>&nbsp;天数。</p>
+<p>Return<em> the <strong>minimum</strong> number of days needed to complete all tasks</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>tasks = [1,2,1,2,3,1], space = 3
-<b>输出：</b>9
-<strong>解释：</strong>
-9 天完成所有任务的一种方法是：
-第 1 天：完成任务 0 。
-第 2 天：完成任务 1 。
-第 3 天：休息。
-第 4 天：休息。
-第 5 天：完成任务 2 。
-第 6 天：完成任务 3 。
-第 7 天：休息。
-第 8 天：完成任务 4 。
-第 9 天：完成任务 5 。
-可以证明无法少于 9 天完成所有任务。
+<pre>
+<strong>Input:</strong> tasks = [1,2,1,2,3,1], space = 3
+<strong>Output:</strong> 9
+<strong>Explanation:</strong>
+One way to complete all tasks in 9 days is as follows:
+Day 1: Complete the 0th task.
+Day 2: Complete the 1st task.
+Day 3: Take a break.
+Day 4: Take a break.
+Day 5: Complete the 2nd task.
+Day 6: Complete the 3rd task.
+Day 7: Take a break.
+Day 8: Complete the 4th task.
+Day 9: Complete the 5th task.
+It can be shown that the tasks cannot be completed in less than 9 days.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>tasks = [5,8,8,5], space = 2
-<b>输出：</b>6
-<strong>解释：</strong>
-6 天完成所有任务的一种方法是：
-第 1 天：完成任务 0 。
-第 2 天：完成任务 1 。
-第 3 天：休息。
-第 4 天：休息。
-第 5 天：完成任务 2 。
-第 6 天：完成任务 3 。
-可以证明无法少于 6 天完成所有任务。
+<pre>
+<strong>Input:</strong> tasks = [5,8,8,5], space = 2
+<strong>Output:</strong> 6
+<strong>Explanation:</strong>
+One way to complete all tasks in 6 days is as follows:
+Day 1: Complete the 0th task.
+Day 2: Complete the 1st task.
+Day 3: Take a break.
+Day 4: Take a break.
+Day 5: Complete the 2nd task.
+Day 6: Complete the 3rd task.
+It can be shown that the tasks cannot be completed in less than 6 days.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= tasks.length &lt;= 10<sup>5</sup></code></li>
@@ -80,19 +77,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 模拟
+### Solution 1: Hash Table + Simulation
 
-我们可以用哈希表 $day$ 记录每个任务下一次可以被执行的时间，初始时 $day$ 中的所有值都为 $0$，用变量 $ans$ 记录当前时间。
+We can use a hash table $day$ to record the next time each task can be executed. Initially, all values in $day$ are $0$. We use a variable $ans$ to record the current time.
 
-遍历数组 $tasks$，对于每个任务 $task$，当前时间 $ans$ 加一，表示从上一次执行任务到现在已经过去了一天，如果此时 $day[task] \gt ans$，说明任务 $task$ 需要在第 $day[task]$ 天才能被执行，因此我们更新当前时间 $ans = \max(ans, day[task])$。然后更新 $day[task]$ 的值为 $ans + space + 1$，表示任务 $task$ 下一次可以被执行的时间为 $ans + space + 1$。
+We iterate through the array $tasks$. For each task $task$, we increment the current time $ans$ by one, indicating that one day has passed since the last task execution. If $day[task] > ans$ at this time, it means that task $task$ can only be executed on the $day[task]$ day. Therefore, we update the current time $ans = \max(ans, day[task])$. Then we update the value of $day[task]$ to $ans + space + 1$, indicating that the next time task $task$ can be executed is at $ans + space + 1$.
 
-遍历结束后，将 $ans$ 返回即可。
+After the iteration, we return $ans$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $tasks$ 的长度。
+The time complexity is $O(n)$ and the space complexity is $O(n)$, where $n$ is the length of the array $tasks$.
 
 <!-- tabs:start -->
 

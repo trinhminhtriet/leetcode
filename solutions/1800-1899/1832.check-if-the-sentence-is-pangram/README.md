@@ -1,67 +1,60 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1832.Check%20if%20the%20Sentence%20Is%20Pangram/README.md
+difficulty: Easy
 rating: 1166
-source: 第 237 场周赛 Q1
+source: Weekly Contest 237 Q1
 tags:
-    - 哈希表
-    - 字符串
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1832. 判断句子是否为全字母句](https://leetcode.cn/problems/check-if-the-sentence-is-pangram)
+# [1832. Check if the Sentence Is Pangram](https://leetcode.com/problems/check-if-the-sentence-is-pangram)
 
-[English Version](/solution/1800-1899/1832.Check%20if%20the%20Sentence%20Is%20Pangram/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong>全字母句</strong> 指包含英语字母表中每个字母至少一次的句子。</p>
+<p>A <strong>pangram</strong> is a sentence where every letter of the English alphabet appears at least once.</p>
 
-<p>给你一个仅由小写英文字母组成的字符串 <code>sentence</code> ，请你判断 <code>sentence</code> 是否为 <strong>全字母句</strong> 。</p>
+<p>Given a string <code>sentence</code> containing only lowercase English letters, return<em> </em><code>true</code><em> if </em><code>sentence</code><em> is a <strong>pangram</strong>, or </em><code>false</code><em> otherwise.</em></p>
 
-<p>如果是，返回<em> </em><code>true</code> ；否则，返回<em> </em><code>false</code> 。</p>
-
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>sentence = "thequickbrownfoxjumpsoverthelazydog"
-<strong>输出：</strong>true
-<strong>解释：</strong><code>sentence</code> 包含英语字母表中每个字母至少一次。
+<strong>Input:</strong> sentence = &quot;thequickbrownfoxjumpsoverthelazydog&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> sentence contains at least one of every letter of the English alphabet.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>sentence = "leetcode"
-<strong>输出：</strong>false
+<strong>Input:</strong> sentence = &quot;leetcode&quot;
+<strong>Output:</strong> false
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= sentence.length <= 1000</code></li>
-	<li><code>sentence</code> 由小写英语字母组成</li>
+	<li><code>1 &lt;= sentence.length &lt;= 1000</code></li>
+	<li><code>sentence</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数组或哈希表
+### Solution 1: Array or Hash Table
 
-遍历字符串 `sentence`，用数组或哈希表记录出现过的字母，最后判断数组或哈希表中是否有 $26$ 个字母即可。
+Traverse the string `sentence`, use an array or hash table to record the letters that have appeared, and finally check whether there are $26$ letters in the array or hash table.
 
-时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 为字符串 `sentence` 的长度，而 $C$ 为字符集大小。本题中 $C = 26$。
+The time complexity is $O(n)$, and the space complexity is $O(C)$. Where $n$ is the length of the string `sentence`, and $C$ is the size of the character set. In this problem, $C = 26$.
 
 <!-- tabs:start -->
 
@@ -173,13 +166,13 @@ bool checkIfPangram(char* sentence) {
 
 <!-- solution:start -->
 
-### 方法二：位运算
+### Solution 2: Bit Manipulation
 
-我们也可以用一个整数 $mask$ 记录出现过的字母，其中 $mask$ 的第 $i$ 位表示第 $i$ 个字母是否出现过。
+We can also use an integer $mask$ to record the letters that have appeared, where the $i$-th bit of $mask$ indicates whether the $i$-th letter has appeared.
 
-最后判断 $mask$ 的二进制表示中是否有 $26$ 个 $1$，也即判断 $mask$ 是否等于 $2^{26} - 1$。若是，返回 `true`，否则返回 `false`。
+Finally, check whether there are $26$ $1$s in the binary representation of $mask$, that is, check whether $mask$ is equal to $2^{26} - 1$. If so, return `true`, otherwise return `false`.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 `sentence` 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string `sentence`. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

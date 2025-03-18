@@ -1,78 +1,73 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2926.Maximum%20Balanced%20Subsequence%20Sum/README.md
+difficulty: Hard
 rating: 2448
-source: 第 370 场周赛 Q4
+source: Weekly Contest 370 Q4
 tags:
-    - 树状数组
-    - 线段树
-    - 数组
-    - 二分查找
-    - 动态规划
+    - Binary Indexed Tree
+    - Segment Tree
+    - Array
+    - Binary Search
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2926. 平衡子序列的最大和](https://leetcode.cn/problems/maximum-balanced-subsequence-sum)
+# [2926. Maximum Balanced Subsequence Sum](https://leetcode.com/problems/maximum-balanced-subsequence-sum)
 
-[English Version](/solution/2900-2999/2926.Maximum%20Balanced%20Subsequence%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>.</p>
 
-<p><code>nums</code>&nbsp;一个长度为 <code>k</code>&nbsp;的 <strong>子序列</strong>&nbsp;指的是选出 <code>k</code>&nbsp;个 <strong>下标</strong>&nbsp;<code>i<sub>0</sub>&nbsp;&lt;&nbsp;i<sub>1</sub> &lt;&nbsp;... &lt; i<sub>k-1</sub></code>&nbsp;，如果这个子序列满足以下条件，我们说它是 <strong>平衡的</strong>&nbsp;：</p>
+<p>A <strong>subsequence</strong> of <code>nums</code> having length <code>k</code> and consisting of <strong>indices</strong> <code>i<sub>0</sub>&nbsp;&lt;&nbsp;i<sub>1</sub> &lt;&nbsp;... &lt; i<sub>k-1</sub></code> is <strong>balanced</strong> if the following holds:</p>
 
 <ul>
-	<li>对于范围&nbsp;<code>[1, k - 1]</code>&nbsp;内的所有&nbsp;<code>j</code>&nbsp;，<code>nums[i<sub>j</sub>] - nums[i<sub>j-1</sub>] &gt;= i<sub>j</sub> - i<sub>j-1</sub></code>&nbsp;都成立。</li>
+	<li><code>nums[i<sub>j</sub>] - nums[i<sub>j-1</sub>] &gt;= i<sub>j</sub> - i<sub>j-1</sub></code>, for every <code>j</code> in the range <code>[1, k - 1]</code>.</li>
 </ul>
 
-<p><code>nums</code>&nbsp;长度为 <code>1</code>&nbsp;的 <strong>子序列</strong>&nbsp;是平衡的。</p>
+<p>A <strong>subsequence</strong> of <code>nums</code> having length <code>1</code> is considered balanced.</p>
 
-<p>请你返回一个整数，表示 <code>nums</code>&nbsp;<strong>平衡</strong>&nbsp;子序列里面的 <strong>最大元素和</strong>&nbsp;。</p>
+<p>Return <em>an integer denoting the <strong>maximum</strong> possible <strong>sum of elements</strong> in a <strong>balanced</strong> subsequence of </em><code>nums</code>.</p>
 
-<p>一个数组的 <strong>子序列</strong>&nbsp;指的是从原数组中删除一些元素（<strong>也可能一个元素也不删除</strong>）后，剩余元素保持相对顺序得到的 <strong>非空</strong>&nbsp;新数组。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [3,3,5,6]
-<b>输出：</b>14
-<b>解释：</b>这个例子中，选择子序列 [3,5,6] ，下标为 0 ，2 和 3 的元素被选中。
-nums[2] - nums[0] &gt;= 2 - 0 。
-nums[3] - nums[2] &gt;= 3 - 2 。
-所以，这是一个平衡子序列，且它的和是所有平衡子序列里最大的。
-包含下标 1 ，2 和 3 的子序列也是一个平衡的子序列。
-最大平衡子序列和为 14 。</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [5,-1,-3,8]
-<b>输出：</b>13
-<b>解释：</b>这个例子中，选择子序列 [5,8] ，下标为 0 和 3 的元素被选中。
-nums[3] - nums[0] &gt;= 3 - 0 。
-所以，这是一个平衡子序列，且它的和是所有平衡子序列里最大的。
-最大平衡子序列和为 13 。
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [-2,-1]
-<b>输出：</b>-1
-<b>解释：</b>这个例子中，选择子序列 [-1] 。
-这是一个平衡子序列，而且它的和是 nums 所有平衡子序列里最大的。
-</pre>
+<p>A <strong>subsequence</strong> of an array is a new <strong>non-empty</strong> array that is formed from the original array by deleting some (<strong>possibly none</strong>) of the elements without disturbing the relative positions of the remaining elements.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [3,3,5,6]
+<strong>Output:</strong> 14
+<strong>Explanation:</strong> In this example, the subsequence [3,5,6] consisting of indices 0, 2, and 3 can be selected.
+nums[2] - nums[0] &gt;= 2 - 0.
+nums[3] - nums[2] &gt;= 3 - 2.
+Hence, it is a balanced subsequence, and its sum is the maximum among the balanced subsequences of nums.
+The subsequence consisting of indices 1, 2, and 3 is also valid.
+It can be shown that it is not possible to get a balanced subsequence with a sum greater than 14.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [5,-1,-3,8]
+<strong>Output:</strong> 13
+<strong>Explanation:</strong> In this example, the subsequence [5,8] consisting of indices 0 and 3 can be selected.
+nums[3] - nums[0] &gt;= 3 - 0.
+Hence, it is a balanced subsequence, and its sum is the maximum among the balanced subsequences of nums.
+It can be shown that it is not possible to get a balanced subsequence with a sum greater than 13.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [-2,-1]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> In this example, the subsequence [-1] can be selected.
+It is a balanced subsequence, and its sum is the maximum among the balanced subsequences of nums.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -81,29 +76,29 @@ nums[3] - nums[0] &gt;= 3 - 0 。
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划 + 树状数组
+### Solution 1: Dynamic Programming + Binary Indexed Tree
 
-根据题目描述，我们可以将不等式 $nums[i] - nums[j] \ge i - j$ 转化为 $nums[i] - i \ge nums[j] - j$，因此，我们考虑定义一个新数组 $arr$，其中 $arr[i] = nums[i] - i$，那么平衡子序列满足对于任意 $j \lt i$，都有 $arr[j] \le arr[i]$。即题目转换为求在 $arr$ 中选出一个递增子序列，使得对应的 $nums$ 的和最大。
+According to the problem description, we can transform the inequality $nums[i] - nums[j] \ge i - j$ into $nums[i] - i \ge nums[j] - j$. Therefore, we consider defining a new array $arr$, where $arr[i] = nums[i] - i$. A balanced subsequence satisfies that for any $j < i$, $arr[j] \le arr[i]$. The problem is transformed into selecting an increasing subsequence in $arr$ such that the corresponding sum in $nums$ is maximized.
 
-假设 $i$ 是子序列中最后一个元素的下标，那么我们考虑子序列倒数第二个元素的下标 $j$，如果 $arr[j] \le arr[i]$，我们可以考虑是否要将 $j$ 加入到子序列中。
+Suppose $i$ is the index of the last element in the subsequence, then we consider the index $j$ of the second to last element in the subsequence. If $arr[j] \le arr[i]$, we can consider whether to add $j$ to the subsequence.
 
-因此，我们定义 $f[i]$ 表示子序列最后一个元素的下标为 $i$ 时，对应的 $nums$ 的最大和，那么答案为 $\max_{i=0}^{n-1} f[i]$。
+Therefore, we define $f[i]$ as the maximum sum of $nums$ when the index of the last element in the subsequence is $i$. The answer is $\max_{i=0}^{n-1} f[i]$.
 
-状态转移方程为：
+The state transition equation is:
 
 $$
 f[i] = \max(\max_{j=0}^{i-1} f[j], 0) + nums[i]
 $$
 
-其中 $j$ 满足 $arr[j] \le arr[i]$。
+where $j$ satisfies $arr[j] \le arr[i]$.
 
-我们可以使用树状数组来维护前缀的最大值，即对于每个 $arr[i]$，我们维护前缀 $arr[0..i]$ 中 $f[i]$ 的最大值。
+We can use a Binary Indexed Tree to maintain the maximum value of the prefix, i.e., for each $arr[i]$, we maintain the maximum value of $f[i]$ in the prefix $arr[0..i]$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

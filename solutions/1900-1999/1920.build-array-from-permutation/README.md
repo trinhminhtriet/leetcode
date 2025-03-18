@@ -1,75 +1,69 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1920.Build%20Array%20from%20Permutation/README.md
+difficulty: Easy
 rating: 1160
-source: 第 248 场周赛 Q1
+source: Weekly Contest 248 Q1
 tags:
-    - 数组
-    - 模拟
+    - Array
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [1920. 基于排列构建数组](https://leetcode.cn/problems/build-array-from-permutation)
+# [1920. Build Array from Permutation](https://leetcode.com/problems/build-array-from-permutation)
 
-[English Version](/solution/1900-1999/1920.Build%20Array%20from%20Permutation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <strong>从 0 开始的排列</strong> <code>nums</code>（<strong>下标也从 0 开始</strong>）。请你构建一个 <strong>同样长度</strong> 的数组 <code>ans</code> ，其中，对于每个 <code>i</code>（<code>0 &lt;= i &lt; nums.length</code>），都满足 <code>ans[i] = nums[nums[i]]</code> 。返回构建好的数组 <code>ans</code> 。</p>
+<p>Given a <strong>zero-based permutation</strong> <code>nums</code> (<strong>0-indexed</strong>), build an array <code>ans</code> of the <strong>same length</strong> where <code>ans[i] = nums[nums[i]]</code> for each <code>0 &lt;= i &lt; nums.length</code> and return it.</p>
 
-<p><strong>从 0 开始的排列</strong> <code>nums</code> 是一个由 <code>0</code> 到&nbsp;<code>nums.length - 1</code>（<code>0</code> 和 <code>nums.length - 1</code> 也包含在内）的不同整数组成的数组。</p>
+<p>A <strong>zero-based permutation</strong> <code>nums</code> is an array of <strong>distinct</strong> integers from <code>0</code> to <code>nums.length - 1</code> (<strong>inclusive</strong>).</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [0,2,1,5,3,4]
-<strong>输出：</strong>[0,1,2,4,5,3]<strong>
-解释：</strong>数组 ans 构建如下：
+<strong>Input:</strong> nums = [0,2,1,5,3,4]
+<strong>Output:</strong> [0,1,2,4,5,3]<strong>
+Explanation:</strong> The array ans is built as follows: 
 ans = [nums[nums[0]], nums[nums[1]], nums[nums[2]], nums[nums[3]], nums[nums[4]], nums[nums[5]]]
     = [nums[0], nums[2], nums[1], nums[5], nums[3], nums[4]]
     = [0,1,2,4,5,3]</pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [5,0,1,2,3,4]
-<strong>输出：</strong>[4,5,0,1,2,3]
-<strong>解释：</strong>数组 ans 构建如下：
+<strong>Input:</strong> nums = [5,0,1,2,3,4]
+<strong>Output:</strong> [4,5,0,1,2,3]
+<strong>Explanation:</strong> The array ans is built as follows:
 ans = [nums[nums[0]], nums[nums[1]], nums[nums[2]], nums[nums[3]], nums[nums[4]], nums[nums[5]]]
     = [nums[5], nums[0], nums[1], nums[2], nums[3], nums[4]]
     = [4,5,0,1,2,3]</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
 	<li><code>0 &lt;= nums[i] &lt; nums.length</code></li>
-	<li><code>nums</code> 中的元素 <strong>互不相同</strong></li>
+	<li>The elements in <code>nums</code> are <strong>distinct</strong>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>你能在不使用额外空间的情况下解决此问题吗（即 <code>O(1)</code> 内存）？</p>
+<p><strong>Follow-up:</strong> Can you solve it without using an extra space (i.e., <code>O(1)</code> memory)?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以直接模拟题目描述的过程，构建一个新的数组 $\textit{ans}$，对于每个 $i$，令 $\textit{ans}[i] = \textit{nums}[\textit{nums}[i]]$。
+We can directly simulate the process described in the problem by constructing a new array $\textit{ans}$. For each $i$, let $\textit{ans}[i] = \textit{nums}[\textit{nums}[i]]$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

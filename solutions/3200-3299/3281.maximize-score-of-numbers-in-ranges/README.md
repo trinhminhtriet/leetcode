@@ -1,61 +1,56 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3281.Maximize%20Score%20of%20Numbers%20in%20Ranges/README.md
+difficulty: Medium
 rating: 1768
-source: 第 414 场周赛 Q2
+source: Weekly Contest 414 Q2
 tags:
-    - 贪心
-    - 数组
-    - 二分查找
-    - 排序
+    - Greedy
+    - Array
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [3281. 范围内整数的最大得分](https://leetcode.cn/problems/maximize-score-of-numbers-in-ranges)
+# [3281. Maximize Score of Numbers in Ranges](https://leetcode.com/problems/maximize-score-of-numbers-in-ranges)
 
-[English Version](/solution/3200-3299/3281.Maximize%20Score%20of%20Numbers%20in%20Ranges/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>start</code> 和一个整数 <code>d</code>，代表 <code>n</code> 个区间 <code>[start[i], start[i] + d]</code>。</p>
+<p>You are given an array of integers <code>start</code> and an integer <code>d</code>, representing <code>n</code> intervals <code>[start[i], start[i] + d]</code>.</p>
 
-<p>你需要选择 <code>n</code> 个整数，其中第 <code>i</code> 个整数必须属于第 <code>i</code> 个区间。所选整数的 <strong>得分</strong> 定义为所选整数两两之间的 <strong>最小 </strong>绝对差。</p>
+<p>You are asked to choose <code>n</code> integers where the <code>i<sup>th</sup></code> integer must belong to the <code>i<sup>th</sup></code> interval. The <strong>score</strong> of the chosen integers is defined as the <strong>minimum</strong> absolute difference between any two integers that have been chosen.</p>
 
-<p>返回所选整数的 <strong>最大可能得分 </strong>。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">start = [6,0,3], d = 2</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">4</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>可以选择整数 8, 0 和 4 获得最大可能得分，得分为 <code>min(|8 - 0|, |8 - 4|, |0 - 4|)</code>，等于 4。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">start = [2,6,13,13], d = 5</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">5</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>可以选择整数 2, 7, 13 和 18 获得最大可能得分，得分为 <code>min(|2 - 7|, |2 - 13|, |2 - 18|, |7 - 13|, |7 - 18|, |13 - 18|)</code>，等于 5。</p>
-</div>
+<p>Return the <strong>maximum</strong> <em>possible score</em> of the chosen integers.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">start = [6,0,3], d = 2</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The maximum possible score can be obtained by choosing integers: 8, 0, and 4. The score of these chosen integers is <code>min(|8 - 0|, |8 - 4|, |0 - 4|)</code> which equals 4.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">start = [2,6,13,13], d = 5</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">5</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The maximum possible score can be obtained by choosing integers: 2, 7, 13, and 18. The score of these chosen integers is <code>min(|2 - 7|, |2 - 13|, |2 - 18|, |7 - 13|, |7 - 18|, |13 - 18|)</code> which equals 5.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= start.length &lt;= 10<sup>5</sup></code></li>
@@ -65,25 +60,25 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 二分查找
+### Solution 1: Sorting + Binary Search
 
-我们不妨先对 $\textit{start}$ 数组进行排序，然后我们考虑从左到右选择整数，那么得分就等于我们选择的相邻两个整数的差值的最小值。
+We can first sort the $\textit{start}$ array. Then, we consider selecting integers from left to right, where the score is equal to the minimum difference between any two adjacent selected integers.
 
-如果一个差值 $x$ 满足条件，那么对于任意 $x' \lt x$，也一定满足条件。因此我们可以使用二分查找的方法来找到最大的满足条件的差值。
+If a difference $x$ satisfies the condition, then any $x' < x$ will also satisfy the condition. Therefore, we can use binary search to find the largest difference that satisfies the condition.
 
-我们定义二分查找的左边界 $l = 0$，右边界 $r = \textit{start}[-1] + d - \textit{start}[0]$，然后我们每次取中间值 $mid = \left\lfloor \frac{l + r + 1}{2} \right\rfloor$，然后判断是否满足条件。
+We define the left boundary of the binary search as $l = 0$ and the right boundary as $r = \textit{start}[-1] + d - \textit{start}[0]$. Each time, we take the middle value $mid = \left\lfloor \frac{l + r + 1}{2} \right\rfloor$ and check whether it satisfies the condition.
 
-我们定义一个函数 $\text{check}(mi)$ 来判断是否满足条件，具体实现如下：
+We define a function $\text{check}(mi)$ to determine whether the condition is satisfied, implemented as follows:
 
--   我们定义一个变量 $\textit{last} = -\infty$，表示上一个选择的整数。
--   我们遍历 $\textit{start}$ 数组，如果 $\textit{last} + \textit{mi} > \textit{st} + d$，那么说明我们无法选择整数 $\textit{st}$，返回 $\text{false}$。否则，我们更新 $\textit{last} = \max(\textit{st}, \textit{last} + \textit{mi})$。
--   如果遍历完整个 $\textit{start}$ 数组都满足条件，那么返回 $\text{true}$。
+-   We define a variable $\textit{last} = -\infty$, representing the last selected integer.
+-   We traverse the $\textit{start}$ array. If $\textit{last} + \textit{mi} > \textit{st} + d$, it means we cannot select the integer $\textit{st}$, and we return $\text{false}$. Otherwise, we update $\textit{last} = \max(\textit{st}, \textit{last} + \textit{mi})$.
+-   If we traverse the entire $\textit{start}$ array and all conditions are satisfied, we return $\text{true}$.
 
-时间复杂度 $O(n \times \log M)$，其中 $n$ 和 $M$ 分别是 $\textit{start}$ 数组的长度和最大值。空间复杂度 $O(1)$。
+The time complexity is $O(n \times \log M)$, where $n$ and $M$ are the length and the maximum value of the $\textit{start}$ array, respectively. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

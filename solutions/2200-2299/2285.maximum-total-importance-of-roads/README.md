@@ -1,70 +1,63 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2285.Maximum%20Total%20Importance%20of%20Roads/README.md
+difficulty: Medium
 rating: 1496
-source: 第 79 场双周赛 Q3
+source: Biweekly Contest 79 Q3
 tags:
-    - 贪心
-    - 图
-    - 排序
-    - 堆（优先队列）
+    - Greedy
+    - Graph
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2285. 道路的最大总重要性](https://leetcode.cn/problems/maximum-total-importance-of-roads)
+# [2285. Maximum Total Importance of Roads](https://leetcode.com/problems/maximum-total-importance-of-roads)
 
-[English Version](/solution/2200-2299/2285.Maximum%20Total%20Importance%20of%20Roads/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>n</code>&nbsp;，表示一个国家里的城市数目。城市编号为&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;。</p>
+<p>You are given an integer <code>n</code> denoting the number of cities in a country. The cities are numbered from <code>0</code> to <code>n - 1</code>.</p>
 
-<p>给你一个二维整数数组&nbsp;<code>roads</code>&nbsp;，其中&nbsp;<code>roads[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;表示城市&nbsp;<code>a<sub>i</sub></code>&nbsp;和&nbsp;<code>b<sub>i</sub></code>&nbsp;之间有一条&nbsp;<strong>双向</strong>&nbsp;道路。</p>
+<p>You are also given a 2D integer array <code>roads</code> where <code>roads[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> denotes that there exists a <strong>bidirectional</strong> road connecting cities <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code>.</p>
 
-<p>你需要给每个城市安排一个从 <code>1</code>&nbsp;到 <code>n</code>&nbsp;之间的整数值，且每个值只能被使用 <strong>一次</strong>&nbsp;。道路的 <strong>重要性</strong>&nbsp;定义为这条道路连接的两座城市数值 <strong>之和</strong>&nbsp;。</p>
+<p>You need to assign each city with an integer value from <code>1</code> to <code>n</code>, where each value can only be used <strong>once</strong>. The <strong>importance</strong> of a road is then defined as the <strong>sum</strong> of the values of the two cities it connects.</p>
 
-<p>请你返回在最优安排下，<strong>所有道路重要性</strong> 之和 <strong>最大</strong>&nbsp;为多少。</p>
+<p>Return <em>the <strong>maximum total importance</strong> of all roads possible after assigning the values optimally.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2285.Maximum%20Total%20Importance%20of%20Roads/images/ex1drawio.png" style="width: 290px; height: 215px;"></p>
-
-<pre><b>输入：</b>n = 5, roads = [[0,1],[1,2],[2,3],[0,2],[1,3],[2,4]]
-<b>输出：</b>43
-<b>解释：</b>上图展示了国家图和每个城市被安排的值 [2,4,5,3,1] 。
-- 道路 (0,1) 重要性为 2 + 4 = 6 。
-- 道路 (1,2) 重要性为 4 + 5 = 9 。
-- 道路 (2,3) 重要性为 5 + 3 = 8 。
-- 道路 (0,2) 重要性为 2 + 5 = 7 。
-- 道路 (1,3) 重要性为 4 + 3 = 7 。
-- 道路 (2,4) 重要性为 5 + 1 = 6 。
-所有道路重要性之和为 6 + 9 + 8 + 7 + 7 + 6 = 43 。
-可以证明，重要性之和不可能超过 43 。
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2285.Maximum%20Total%20Importance%20of%20Roads/images/ex1drawio.png" style="width: 290px; height: 215px;" />
+<pre>
+<strong>Input:</strong> n = 5, roads = [[0,1],[1,2],[2,3],[0,2],[1,3],[2,4]]
+<strong>Output:</strong> 43
+<strong>Explanation:</strong> The figure above shows the country and the assigned values of [2,4,5,3,1].
+- The road (0,1) has an importance of 2 + 4 = 6.
+- The road (1,2) has an importance of 4 + 5 = 9.
+- The road (2,3) has an importance of 5 + 3 = 8.
+- The road (0,2) has an importance of 2 + 5 = 7.
+- The road (1,3) has an importance of 4 + 3 = 7.
+- The road (2,4) has an importance of 5 + 1 = 6.
+The total importance of all roads is 6 + 9 + 8 + 7 + 7 + 6 = 43.
+It can be shown that we cannot obtain a greater total importance than 43.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2285.Maximum%20Total%20Importance%20of%20Roads/images/ex2drawio.png" style="width: 281px; height: 151px;"></p>
-
-<pre><b>输入：</b>n = 5, roads = [[0,3],[2,4],[1,3]]
-<b>输出：</b>20
-<b>解释：</b>上图展示了国家图和每个城市被安排的值 [4,3,2,5,1] 。
-- 道路 (0,3) 重要性为 4 + 5 = 9 。
-- 道路 (2,4) 重要性为 2 + 1 = 3 。
-- 道路 (1,3) 重要性为 3 + 5 = 8 。
-所有道路重要性之和为 9 + 3 + 8 = 20 。
-可以证明，重要性之和不可能超过 20 。
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2285.Maximum%20Total%20Importance%20of%20Roads/images/ex2drawio.png" style="width: 281px; height: 151px;" />
+<pre>
+<strong>Input:</strong> n = 5, roads = [[0,3],[2,4],[1,3]]
+<strong>Output:</strong> 20
+<strong>Explanation:</strong> The figure above shows the country and the assigned values of [4,3,2,5,1].
+- The road (0,3) has an importance of 4 + 5 = 9.
+- The road (2,4) has an importance of 2 + 1 = 3.
+- The road (1,3) has an importance of 3 + 5 = 8.
+The total importance of all roads is 9 + 3 + 8 = 20.
+It can be shown that we cannot obtain a greater total importance than 20.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 5 * 10<sup>4</sup></code></li>
@@ -72,20 +65,20 @@ tags:
 	<li><code>roads[i].length == 2</code></li>
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt;= n - 1</code></li>
 	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
-	<li>没有重复道路。</li>
+	<li>There are no duplicate roads.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 排序
+### Solution 1: Greedy + Sorting
 
-我们考虑每个城市对所有道路的总重要性的贡献度，记录在数组 $\textit{deg}$ 中。然后将 $\textit{deg}$ 按贡献度从小到大排序，为城市依次分配 $[1, 2, ..., n]$。
+We consider the contribution of each city to the total importance of all roads, recorded in the array $\textit{deg}$. Then, we sort $\textit{deg}$ by contribution from smallest to largest and allocate $[1, 2, ..., n]$ to the cities in order.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。
+The time complexity is $O(n \log n)$, and the space complexity is $O(n)$.
 
 <!-- tabs:start -->
 

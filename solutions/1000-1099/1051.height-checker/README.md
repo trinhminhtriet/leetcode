@@ -1,68 +1,64 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1051.Height%20Checker/README.md
+difficulty: Easy
 rating: 1303
-source: 第 138 场周赛 Q1
+source: Weekly Contest 138 Q1
 tags:
-    - 数组
-    - 计数排序
-    - 排序
+    - Array
+    - Counting Sort
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1051. 高度检查器](https://leetcode.cn/problems/height-checker)
+# [1051. Height Checker](https://leetcode.com/problems/height-checker)
 
-[English Version](/solution/1000-1099/1051.Height%20Checker/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>学校打算为全体学生拍一张年度纪念照。根据要求，学生需要按照 <strong>非递减</strong> 的高度顺序排成一行。</p>
+<p>A school is trying to take an annual photo of all the students. The students are asked to stand in a single file line in <strong>non-decreasing order</strong> by height. Let this ordering be represented by the integer array <code>expected</code> where <code>expected[i]</code> is the expected height of the <code>i<sup>th</sup></code> student in line.</p>
 
-<p>排序后的高度情况用整数数组 <code>expected</code> 表示，其中 <code>expected[i]</code> 是预计排在这一行中第 <code>i</code> 位的学生的高度（<strong>下标从 0 开始</strong>）。</p>
+<p>You are given an integer array <code>heights</code> representing the <strong>current order</strong> that the students are standing in. Each <code>heights[i]</code> is the height of the <code>i<sup>th</sup></code> student in line (<strong>0-indexed</strong>).</p>
 
-<p>给你一个整数数组 <code>heights</code> ，表示 <strong>当前学生站位</strong> 的高度情况。<code>heights[i]</code> 是这一行中第 <code>i</code> 位学生的高度（<strong>下标从 0 开始</strong>）。</p>
-
-<p>返回满足<em> </em><code>heights[i] != expected[i]</code> 的 <strong>下标数量</strong> 。</p>
+<p>Return <em>the <strong>number of indices</strong> where </em><code>heights[i] != expected[i]</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
-
-<pre>
-<strong>输入：</strong>heights =&nbsp;[1,1,4,2,1,3]
-<strong>输出：</strong>3 
-<strong>解释：</strong>
-高度：[1,1,<em><strong>4</strong></em>,2,<em><strong>1</strong></em>,<em><strong>3</strong></em>]
-预期：[1,1,<em><strong>1</strong></em>,2,<em><strong>3</strong></em>,<em><strong>4</strong></em>]
-下标 2 、4 、5 处的学生高度不匹配。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>heights = [5,1,2,3,4]
-<strong>输出：</strong>5
-<strong>解释：</strong>
-高度：[<em><strong>5</strong></em>,<em><strong>1</strong></em>,<em><strong>2</strong></em>,<em><strong>3</strong></em>,<em><strong>4</strong></em>]
-预期：[<em><strong>1</strong></em>,<em><strong>2</strong></em>,<em><strong>3</strong></em>,<em><strong>4</strong></em>,<em><strong>5</strong></em>]
-所有下标的对应学生高度都不匹配。</pre>
+<strong>Input:</strong> heights = [1,1,4,2,1,3]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 
+heights:  [1,1,<u>4</u>,2,<u>1</u>,<u>3</u>]
+expected: [1,1,<u>1</u>,2,<u>3</u>,<u>4</u>]
+Indices 2, 4, and 5 do not match.
+</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>heights = [1,2,3,4,5]
-<strong>输出：</strong>0
-<strong>解释：</strong>
-高度：[1,2,3,4,5]
-预期：[1,2,3,4,5]
-所有下标的对应学生高度都匹配。</pre>
+<strong>Input:</strong> heights = [5,1,2,3,4]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong>
+heights:  [<u>5</u>,<u>1</u>,<u>2</u>,<u>3</u>,<u>4</u>]
+expected: [<u>1</u>,<u>2</u>,<u>3</u>,<u>4</u>,<u>5</u>]
+All indices do not match.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> heights = [1,2,3,4,5]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong>
+heights:  [1,2,3,4,5]
+expected: [1,2,3,4,5]
+All indices match.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= heights.length &lt;= 100</code></li>
@@ -71,15 +67,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序
+### Solution 1: Sorting
 
-我们可以先对学生的高度进行排序，然后比较排序后的高度和原始高度，统计不同的位置即可。
+We can first sort the heights of the students, then compare the sorted heights with the original heights, and count the positions that are different.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是学生的数量。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the number of students.
 
 <!-- tabs:start -->
 
@@ -157,11 +153,11 @@ function heightChecker(heights: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二：计数排序
+### Solution 2: Counting Sort
 
-由于题目中学生高度不超过 $100$，因此可以使用计数排序。这里我们用一个长度 $101$ 的数组 $cnt$ 统计每个高度 $h_i$ 出现的次数。
+Since the height of the students in the problem does not exceed $100$, we can use counting sort. Here we use an array $cnt$ of length $101$ to count the number of times each height $h_i$ appears.
 
-时间复杂度 $O(n + M)$，空间复杂度 $O(M)$。其中 $n$ 是学生的数量，而 $M$ 是学生的最大高度，本题中 $M = 101$。
+The time complexity is $O(n + M)$, and the space complexity is $O(M)$. Where $n$ is the number of students, and $M$ is the maximum height of the students. In this problem, $M = 101$.
 
 <!-- tabs:start -->
 

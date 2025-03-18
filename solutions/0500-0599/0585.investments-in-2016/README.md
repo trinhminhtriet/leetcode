@@ -1,25 +1,20 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0585.Investments%20in%202016/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [585. 2016年的投资](https://leetcode.cn/problems/investments-in-2016)
+# [585. Investments in 2016](https://leetcode.com/problems/investments-in-2016)
 
-[English Version](/solution/0500-0599/0585.Investments%20in%202016/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><code>Insurance</code> 表：</p>
+<p>Table: <code>Insurance</code></p>
 
-<div class="original__bRMd">
-<div>
 <pre>
 +-------------+-------+
 | Column Name | Type  |
@@ -30,33 +25,33 @@ tags:
 | lat         | float |
 | lon         | float |
 +-------------+-------+
-pid 是这张表的主键(具有唯一值的列)。
-表中的每一行都包含一条保险信息，其中：
-pid 是投保人的投保编号。
-tiv_2015 是该投保人在 2015 年的总投保金额，tiv_2016 是该投保人在 2016 年的总投保金额。
-lat 是投保人所在城市的纬度。题目数据确保 lat 不为空。
-lon 是投保人所在城市的经度。题目数据确保 lon 不为空。</pre>
+pid is the primary key (column with unique values) for this table.
+Each row of this table contains information about one policy where:
+pid is the policyholder&#39;s policy ID.
+tiv_2015 is the total investment value in 2015 and tiv_2016 is the total investment value in 2016.
+lat is the latitude of the policy holder&#39;s city. It&#39;s guaranteed that lat is not NULL.
+lon is the longitude of the policy holder&#39;s city. It&#39;s guaranteed that lon is not NULL.
+</pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案报告 2016 年 (<code>tiv_2016</code>) 所有满足下述条件的投保人的投保金额之和：</p>
+<p>Write a solution to report the sum of all total investment values in 2016 <code>tiv_2016</code>, for all policyholders who:</p>
 
 <ul>
-	<li>他在 2015 年的投保额&nbsp;(<code>tiv_2015</code>) 至少跟一个其他投保人在 2015 年的投保额相同。</li>
-	<li>他所在的城市必须与其他投保人都不同（也就是说&nbsp;(<code>lat, lon</code>) 不能跟其他任何一个投保人完全相同）。</li>
+	<li>have the same <code>tiv_2015</code> value as one or more other policyholders, and</li>
+	<li>are not located in the same city as any other policyholder (i.e., the (<code>lat, lon</code>) attribute pairs must be unique).</li>
 </ul>
 
-<p><code>tiv_2016</code> 四舍五入的 <strong>两位小数</strong> 。</p>
+<p>Round <code>tiv_2016</code> to <strong>two decimal places</strong>.</p>
 
-<p>查询结果格式如下例所示。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Insurance 表：
+<strong>Input:</strong> 
+Insurance table:
 +-----+----------+----------+-----+-----+
 | pid | tiv_2015 | tiv_2016 | lat | lon |
 +-----+----------+----------+-----+-----+
@@ -65,28 +60,27 @@ Insurance 表：
 | 3   | 10       | 30       | 20  | 20  |
 | 4   | 10       | 40       | 40  | 40  |
 +-----+----------+----------+-----+-----+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +----------+
 | tiv_2016 |
 +----------+
 | 45.00    |
 +----------+
-<strong>解释：
-</strong>表中的第一条记录和最后一条记录都满足两个条件。
-tiv_2015 值为 10 与第三条和第四条记录相同，且其位置是唯一的。
+<strong>Explanation:</strong> 
+The first record in the table, like the last record, meets both of the two criteria.
+The tiv_2015 value 10 is the same as the third and fourth records, and its location is unique.
 
-第二条记录不符合任何一个条件。其 tiv_2015 与其他投保人不同，并且位置与第三条记录相同，这也导致了第三条记录不符合题目要求。
-因此，结果是第一条记录和最后一条记录的 tiv_2016 之和，即 45 。</pre>
-</div>
-</div>
+The second record does not meet any of the two criteria. Its tiv_2015 is not like any other policyholders and its location is the same as the third record, which makes the third record fail, too.
+So, the result is the sum of tiv_2016 of the first and last record, which is 45.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

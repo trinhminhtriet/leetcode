@@ -1,82 +1,70 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0888.Fair%20Candy%20Swap/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 哈希表
-    - 二分查找
-    - 排序
+    - Array
+    - Hash Table
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [888. 公平的糖果交换](https://leetcode.cn/problems/fair-candy-swap)
+# [888. Fair Candy Swap](https://leetcode.com/problems/fair-candy-swap)
 
-[English Version](/solution/0800-0899/0888.Fair%20Candy%20Swap/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>爱丽丝和鲍勃拥有不同总数量的糖果。给你两个数组 <code>aliceSizes</code> 和 <code>bobSizes</code> ，<code>aliceSizes[i]</code> 是爱丽丝拥有的第 <code>i</code> 盒糖果中的糖果数量，<code>bobSizes[j]</code> 是鲍勃拥有的第 <code>j</code> 盒糖果中的糖果数量。</p>
+<p>Alice and Bob have a different total number of candies. You are given two integer arrays <code>aliceSizes</code> and <code>bobSizes</code> where <code>aliceSizes[i]</code> is the number of candies of the <code>i<sup>th</sup></code> box of candy that Alice has and <code>bobSizes[j]</code> is the number of candies of the <code>j<sup>th</sup></code> box of candy that Bob has.</p>
 
-<p>两人想要互相交换一盒糖果，这样在交换之后，他们就可以拥有相同总数量的糖果。一个人拥有的糖果总数量是他们每盒糖果数量的总和。</p>
+<p>Since they are friends, they would like to exchange one candy box each so that after the exchange, they both have the same total amount of candy. The total amount of candy a person has is the sum of the number of candies in each box they have.</p>
 
-<p>返回一个整数数组 <code>answer</code>，其中 <code>answer[0]</code> 是爱丽丝必须交换的糖果盒中的糖果的数目，<code>answer[1]</code> 是鲍勃必须交换的糖果盒中的糖果的数目。如果存在多个答案，你可以返回其中 <strong>任何一个</strong> 。题目测试用例保证存在与输入对应的答案。</p>
+<p>Return a<em>n integer array </em><code>answer</code><em> where </em><code>answer[0]</code><em> is the number of candies in the box that Alice must exchange, and </em><code>answer[1]</code><em> is the number of candies in the box that Bob must exchange</em>. If there are multiple answers, you may <strong>return any</strong> one of them. It is guaranteed that at least one answer exists.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>aliceSizes = [1,1], bobSizes = [2,2]
-<strong>输出：</strong>[1,2]
+<strong>Input:</strong> aliceSizes = [1,1], bobSizes = [2,2]
+<strong>Output:</strong> [1,2]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>aliceSizes = [1,2], bobSizes = [2,3]
-<strong>输出：</strong>[1,2]
+<strong>Input:</strong> aliceSizes = [1,2], bobSizes = [2,3]
+<strong>Output:</strong> [1,2]
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>aliceSizes = [2], bobSizes = [1,3]
-<strong>输出：</strong>[2,3]
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>aliceSizes = [1,2,5], bobSizes = [2,4]
-<strong>输出：</strong>[5,4]
+<strong>Input:</strong> aliceSizes = [2], bobSizes = [1,3]
+<strong>Output:</strong> [2,3]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= aliceSizes.length, bobSizes.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= aliceSizes[i], bobSizes[j] &lt;= 10<sup>5</sup></code></li>
-	<li>爱丽丝和鲍勃的糖果总数量不同。</li>
-	<li>题目数据保证对于给定的输入至少存在一个有效答案。</li>
+	<li>Alice and Bob have a different total number of candies.</li>
+	<li>There will be at least one valid answer for the given input.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们可以先计算出爱丽丝和鲍勃的糖果总数之差，除以二得到需要交换的糖果数之差 $\textit{diff}$，用一个哈希表 $\textit{s}$ 存储鲍勃的糖果盒中的糖果数，然后遍历爱丽丝的糖果盒，对于每个糖果数 $\textit{a}$，我们判断 $\textit{a} - \textit{diff}$ 是否在哈希表 $\textit{s}$ 中，如果存在，说明找到了一组答案，返回即可。
+We can first calculate the difference in the total number of candies between Alice and Bob, divide it by two to get the difference in the number of candies to be exchanged $\textit{diff}$, and use a hash table $\textit{s}$ to store the number of candies in Bob's candy boxes. Then, we traverse Alice's candy boxes, and for each candy count $\textit{a}$, we check if $\textit{a} - \textit{diff}$ is in the hash table $\textit{s}$. If it exists, it means we have found a valid answer, and we return it.
 
-时间复杂度 $O(m + n)$，空间复杂度 $O(n)$。其中 $m$ 和 $n$ 分别是爱丽丝和鲍勃的糖果盒的数量。
+The time complexity is $O(m + n)$, and the space complexity is $O(n)$. Where $m$ and $n$ are the number of candy boxes Alice and Bob have, respectively.
 
 <!-- tabs:start -->
 

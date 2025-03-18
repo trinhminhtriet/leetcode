@@ -1,88 +1,83 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3048.Earliest%20Second%20to%20Mark%20Indices%20I/README.md
+difficulty: Medium
 rating: 2262
-source: 第 386 场周赛 Q3
+source: Weekly Contest 386 Q3
 tags:
-    - 数组
-    - 二分查找
+    - Array
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [3048. 标记所有下标的最早秒数 I](https://leetcode.cn/problems/earliest-second-to-mark-indices-i)
+# [3048. Earliest Second to Mark Indices I](https://leetcode.com/problems/earliest-second-to-mark-indices-i)
 
-[English Version](/solution/3000-3099/3048.Earliest%20Second%20to%20Mark%20Indices%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个下标从 <strong>1</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code> 和&nbsp;<code>changeIndices</code>&nbsp;，数组的长度分别为&nbsp;<code>n</code> 和&nbsp;<code>m</code>&nbsp;。</p>
+<p>You are given two <strong>1-indexed</strong> integer arrays, <code>nums</code> and, <code>changeIndices</code>, having lengths <code>n</code> and <code>m</code>, respectively.</p>
 
-<p>一开始，<code>nums</code>&nbsp;中所有下标都是未标记的，你的任务是标记 <code>nums</code>&nbsp;中 <strong>所有</strong>&nbsp;下标。</p>
+<p>Initially, all indices in <code>nums</code> are unmarked. Your task is to mark <strong>all</strong> indices in <code>nums</code>.</p>
 
-<p>从第 <code>1</code>&nbsp;秒到第 <code>m</code>&nbsp;秒（<b>包括&nbsp;</b>第&nbsp;<code>m</code>&nbsp;秒），对于每一秒 <code>s</code>&nbsp;，你可以执行以下操作 <strong>之一</strong>&nbsp;：</p>
+<p>In each second, <code>s</code>, in order from <code>1</code> to <code>m</code> (<strong>inclusive</strong>), you can perform <strong>one</strong> of the following operations:</p>
 
 <ul>
-	<li>选择范围&nbsp;<code>[1, n]</code>&nbsp;中的一个下标 <code>i</code>&nbsp;，并且将&nbsp;<code>nums[i]</code> <strong>减少</strong>&nbsp;<code>1</code>&nbsp;。</li>
-	<li>如果&nbsp;<code>nums[changeIndices[s]]</code>&nbsp;<strong>等于</strong>&nbsp;<code>0</code>&nbsp;，<strong>标记</strong>&nbsp;下标&nbsp;<code>changeIndices[s]</code>&nbsp;。</li>
-	<li>什么也不做。</li>
+	<li>Choose an index <code>i</code> in the range <code>[1, n]</code> and <strong>decrement</strong> <code>nums[i]</code> by <code>1</code>.</li>
+	<li>If <code>nums[changeIndices[s]]</code> is <strong>equal</strong> to <code>0</code>, <strong>mark</strong> the index <code>changeIndices[s]</code>.</li>
+	<li>Do nothing.</li>
 </ul>
 
-<p>请你返回范围 <code>[1, m]</code>&nbsp;中的一个整数，表示最优操作下，标记&nbsp;<code>nums</code>&nbsp;中 <strong>所有</strong>&nbsp;下标的 <strong>最早秒数</strong>&nbsp;，如果无法标记所有下标，返回 <code>-1</code>&nbsp;。</p>
+<p>Return <em>an integer denoting the <strong>earliest second</strong> in the range </em><code>[1, m]</code><em> when <strong>all</strong> indices in </em><code>nums</code><em> can be marked by choosing operations optimally, or </em><code>-1</code><em> if it is impossible.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [2,2,0], changeIndices = [2,2,2,2,3,2,2,1]
-<b>输出：</b>8
-<b>解释：</b>这个例子中，我们总共有 8 秒。按照以下操作标记所有下标：
-第 1 秒：选择下标 1 ，将 nums[1] 减少 1 。nums 变为 [1,2,0] 。
-第 2 秒：选择下标 1 ，将 nums[1] 减少 1 。nums 变为 [0,2,0] 。
-第 3 秒：选择下标 2 ，将 nums[2] 减少 1 。nums 变为 [0,1,0] 。
-第 4 秒：选择下标 2 ，将 nums[2] 减少 1 。nums 变为 [0,0,0] 。
-第 5 秒，标​​​​​记 changeIndices[5] ，也就是标记下标 3 ，因为 nums[3] 等于 0 。
-第 6 秒，标​​​​​记 changeIndices[6] ，也就是标记下标 2 ，因为 nums[2] 等于 0 。
-第 7 秒，什么也不做。
-第 8 秒，标记 changeIndices[8] ，也就是标记下标 1 ，因为 nums[1] 等于 0 。
-现在所有下标已被标记。
-最早可以在第 8 秒标记所有下标。
-所以答案是 8 。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,3], changeIndices = [1,1,1,2,1,1,1]
-<b>输出：</b>6
-<b>解释：</b>这个例子中，我们总共有 7 秒。按照以下操作标记所有下标：
-第 1 秒：选择下标 2 ，将 nums[2] 减少 1 。nums 变为 [1,2] 。
-第 2 秒：选择下标 2 ，将 nums[2] 减少 1 。nums 变为 [1,1] 。
-第 3 秒：选择下标 2 ，将 nums[2] 减少 1 。nums 变为 [1,0] 。
-第 4 秒：标​​​​​记 changeIndices[4] ，也就是标记下标 2 ，因为 nums[2] 等于 0 。
-第 5 秒：选择下标 1 ，将 nums[1] 减少 1 。nums 变为 [0,0] 。
-第 6 秒：标​​​​​记 changeIndices[6] ，也就是标记下标 1 ，因为 nums[1] 等于 0 。
-现在所有下标已被标记。
-最早可以在第 6 秒标记所有下标。
-所以答案是 6 。
+<strong>Input:</strong> nums = [2,2,0], changeIndices = [2,2,2,2,3,2,2,1]
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> In this example, we have 8 seconds. The following operations can be performed to mark all indices:
+Second 1: Choose index 1 and decrement nums[1] by one. nums becomes [1,2,0].
+Second 2: Choose index 1 and decrement nums[1] by one. nums becomes [0,2,0].
+Second 3: Choose index 2 and decrement nums[2] by one. nums becomes [0,1,0].
+Second 4: Choose index 2 and decrement nums[2] by one. nums becomes [0,0,0].
+Second 5: Mark the index changeIndices[5], which is marking index 3, since nums[3] is equal to 0.
+Second 6: Mark the index changeIndices[6], which is marking index 2, since nums[2] is equal to 0.
+Second 7: Do nothing.
+Second 8: Mark the index changeIndices[8], which is marking index 1, since nums[1] is equal to 0.
+Now all indices have been marked.
+It can be shown that it is not possible to mark all indices earlier than the 8th second.
+Hence, the answer is 8.
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,3], changeIndices = [1,1,1,2,1,1,1]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> In this example, we have 7 seconds. The following operations can be performed to mark all indices:
+Second 1: Choose index 2 and decrement nums[2] by one. nums becomes [1,2].
+Second 2: Choose index 2 and decrement nums[2] by one. nums becomes [1,1].
+Second 3: Choose index 2 and decrement nums[2] by one. nums becomes [1,0].
+Second 4: Mark the index changeIndices[4], which is marking index 2, since nums[2] is equal to 0.
+Second 5: Choose index 1 and decrement nums[1] by one. nums becomes [0,0].
+Second 6: Mark the index changeIndices[6], which is marking index 1, since nums[1] is equal to 0.
+Now all indices have been marked.
+It can be shown that it is not possible to mark all indices earlier than the 6th second.
+Hence, the answer is 6.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
 <strong>Input:</strong> nums = [0,1], changeIndices = [2,2,2]
 <strong>Output:</strong> -1
-<strong>Explanation:</strong> 这个例子中，无法标记所有下标，因为下标 1 不在 changeIndices 中。
-所以答案是 -1 。
+<strong>Explanation:</strong> In this example, it is impossible to mark all indices because index 1 isn&#39;t in changeIndices.
+Hence, the answer is -1.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == nums.length &lt;= 2000</code></li>
@@ -93,21 +88,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-我们注意到，如果我们能够在 $t$ 秒内标记所有下标，那么我们也能在 $t' \geq t$ 秒内标记所有下标。因此，我们可以使用二分查找的方法找到最早的秒数。
+We notice that if we can mark all indices within $t$ seconds, then we can also mark all indices within $t' \geq t$ seconds. Therefore, we can use binary search to find the earliest seconds.
 
-我们定义二分查找的左右边界分别为 $l = 1$ 和 $r = m + 1$，其中 $m$ 是数组 `changeIndices` 的长度。对于每一个 $t = \frac{l + r}{2}$，我们检查是否能在 $t$ 秒内标记所有下标。如果能，我们将右边界移动到 $t$，否则我们将左边界移动到 $t + 1$。最终，我们判定左边界是否大于 $m$，如果是则返回 $-1$，否则返回左边界。
+We define the left and right boundaries of binary search as $l = 1$ and $r = m + 1$, where $m$ is the length of the array `changeIndices`. For each $t = \frac{l + r}{2}$, we check whether we can mark all indices within $t$ seconds. If we can, we move the right boundary to $t$, otherwise we move the left boundary to $t + 1$. Finally, we judge whether the left boundary is greater than $m$, if it is, return $-1$, otherwise return the left boundary.
 
-题目的关键在于如何判断是否能在 $t$ 秒内标记所有下标。我们可以使用一个数组 $last$ 记录每一个下标最晚需要被标记的时间，用一个变量 $decrement$ 记录当前可以减少的次数，用一个变量 $marked$ 记录已经被标记的下标的数量。
+The key to the problem is how to judge whether we can mark all indices within $t$ seconds. We can use an array $last$ to record the latest time each index needs to be marked, use a variable $decrement$ to record the current number of times that can be reduced, and use a variable $marked$ to record the number of indices that have been marked.
 
-我们遍历数组 `changeIndices` 的前 $t$ 个元素，对于每一个元素 $i$，如果 $last[i] = s$，那么我们需要检查 $decrement$ 是否大于等于 $nums[i - 1]$，如果是，我们将 $decrement$ 减去 $nums[i - 1]$，并且将 $marked$ 加一；否则，我们返回 `False`。如果 $last[i] \neq s$，那么我们可以暂时不标记下标，因此将 $decrement$ 加一。最后，我们检查 $marked$ 是否等于 $n$，如果是，我们返回 `True`，否则返回 `False`。
+We traverse the first $t$ elements of the array `changeIndices`, for each element $i$, if $last[i] = s$, then we need to check whether $decrement$ is greater than or equal to $nums[i - 1]$, if it is, we subtract $nums[i - 1]$ from $decrement$, and add one to $marked$; otherwise, we return `False`. If $last[i] \neq s$, then we can temporarily not mark the index, so we add one to $decrement$. Finally, we check whether $marked$ is equal to $n$, if it is, we return `True`, otherwise return `False`.
 
-时间复杂度 $O(m \times \log m)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别是数组 `nums` 和 `changeIndices` 的长度。
+The time complexity is $O(m \times \log m)$, and the space complexity is $O(n)$. Where $n$ and $m$ are the lengths of `nums` and `changeIndices` respectively.
 
 <!-- tabs:start -->
 

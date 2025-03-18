@@ -1,69 +1,64 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0559.Maximum%20Depth%20of%20N-ary%20Tree/README.md
+difficulty: Easy
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
 ---
 
 <!-- problem:start -->
 
-# [559. N 叉树的最大深度](https://leetcode.cn/problems/maximum-depth-of-n-ary-tree)
+# [559. Maximum Depth of N-ary Tree](https://leetcode.com/problems/maximum-depth-of-n-ary-tree)
 
-[English Version](/solution/0500-0599/0559.Maximum%20Depth%20of%20N-ary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个 N 叉树，找到其最大深度。</p>
+<p>Given a n-ary tree, find its maximum depth.</p>
 
-<p class="MachineTrans-lang-zh-CN">最大深度是指从根节点到最远叶子节点的最长路径上的节点总数。</p>
+<p>The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.</p>
 
-<p class="MachineTrans-lang-zh-CN">N 叉树输入按层序遍历序列化表示，每组子节点由空值分隔（请参见示例）。</p>
+<p><em>Nary-Tree input serialization is represented in their level order traversal, each group of children is separated by the null value (See examples).</em></p>
 
-<p class="MachineTrans-lang-zh-CN"> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0559.Maximum%20Depth%20of%20N-ary%20Tree/images/narytreeexample.png" style="width: 100%; max-width: 300px;" /></p>
 
 <pre>
-<strong>输入：</strong>root = [1,null,3,2,4,null,5,6]
-<strong>输出：</strong>3
+<strong>Input:</strong> root = [1,null,3,2,4,null,5,6]
+<strong>Output:</strong> 3
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0559.Maximum%20Depth%20of%20N-ary%20Tree/images/sample_4_964.png" style="width: 296px; height: 241px;" /></p>
 
 <pre>
-<strong>输入：</strong>root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
-<strong>输出：</strong>5
+<strong>Input:</strong> root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
+<strong>Output:</strong> 5
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树的深度不会超过 <code>1000</code> 。</li>
-	<li>树的节点数目位于 <code>[0, 10<sup>4</sup>]</code> 之间。</li>
+	<li>The total number of nodes is in the range <code>[0, 10<sup>4</sup>]</code>.</li>
+	<li>The depth of the n-ary tree is less than or equal to <code>1000</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
+### Solution 1: Recursion
 
-我们首先判断 $\textit{root}$ 是否为空，若为空则返回 0。否则我们初始化一个变量 $\textit{mx}$ 用来记录子节点的最大深度，然后遍历 $\textit{root}$ 的所有子节点，递归调用 $\text{maxDepth}$ 函数，更新 $\textit{mx}$ 的值。最后返回 $\textit{mx} + 1$ 即可。
+First, we check if $\textit{root}$ is null. If it is, we return 0. Otherwise, we initialize a variable $\textit{mx}$ to record the maximum depth of the child nodes, then traverse all the child nodes of $\textit{root}$, recursively call the $\text{maxDepth}$ function, and update the value of $\textit{mx}$. Finally, we return $\textit{mx} + 1$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为节点的数量。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the number of nodes.
 
 <!-- tabs:start -->
 

@@ -1,63 +1,51 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0771.Jewels%20and%20Stones/README.md
+difficulty: Easy
 tags:
-    - 哈希表
-    - 字符串
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [771. 宝石与石头](https://leetcode.cn/problems/jewels-and-stones)
+# [771. Jewels and Stones](https://leetcode.com/problems/jewels-and-stones)
 
-[English Version](/solution/0700-0799/0771.Jewels%20and%20Stones/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>&nbsp;给你一个字符串 <code>jewels</code>&nbsp;代表石头中宝石的类型，另有一个字符串 <code>stones</code> 代表你拥有的石头。&nbsp;<code>stones</code>&nbsp;中每个字符代表了一种你拥有的石头的类型，你想知道你拥有的石头中有多少是宝石。</p>
+<p>You&#39;re given strings <code>jewels</code> representing the types of stones that are jewels, and <code>stones</code> representing the stones you have. Each character in <code>stones</code> is a type of stone you have. You want to know how many of the stones you have are also jewels.</p>
 
-<p>字母区分大小写，因此 <code>"a"</code> 和 <code>"A"</code> 是不同类型的石头。</p>
+<p>Letters are case sensitive, so <code>&quot;a&quot;</code> is considered a different type of stone from <code>&quot;A&quot;</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>jewels = "aA", stones = "aAAbbbb"
-<strong>输出：</strong>3
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> jewels = "aA", stones = "aAAbbbb"
+<strong>Output:</strong> 3
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> jewels = "z", stones = "ZZ"
+<strong>Output:</strong> 0
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>jewels = "z", stones = "ZZ"
-<strong>输出：</strong>0<strong>
-</strong></pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;=&nbsp;jewels.length, stones.length &lt;= 50</code></li>
-	<li><code>jewels</code> 和 <code>stones</code> 仅由英文字母组成</li>
-	<li><code>jewels</code> 中的所有字符都是 <strong>唯一的</strong></li>
+	<li><code>jewels</code> and <code>stones</code> consist of only English letters.</li>
+	<li>All the characters of&nbsp;<code>jewels</code> are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表或数组
+### Solution 1: Hash Table or Array
 
-我们可以先用一个哈希表或数组 $s$ 记录所有宝石的类型。然后遍历所有石头，如果当前石头是宝石，就将答案加一。
+We can first use a hash table or array $s$ to record all types of jewels. Then traverse all the stones, and if the current stone is a jewel, increment the answer by one.
 
-时间复杂度 $O(m+n)$，空间复杂度 $O(|\Sigma|)$，其中 $m$ 和 $n$ 分别是字符串 $jewels$ 和 $stones$ 的长度，而 $\Sigma$ 是字符集，本题中字符集为所有大小写英文字母的集合。
+Time complexity is $O(m+n)$, and space complexity is $O(|\Sigma|)$, where $m$ and $n$ are the lengths of the strings $jewels$ and $stones$ respectively, and $\Sigma$ is the character set, which in this problem is the set of all uppercase and lowercase English letters.
 
 <!-- tabs:start -->
 

@@ -1,76 +1,70 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1323.Maximum%2069%20Number/README.md
+difficulty: Easy
 rating: 1193
-source: 第 172 场周赛 Q1
+source: Weekly Contest 172 Q1
 tags:
-    - 贪心
-    - 数学
+    - Greedy
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [1323. 6 和 9 组成的最大数字](https://leetcode.cn/problems/maximum-69-number)
+# [1323. Maximum 69 Number](https://leetcode.com/problems/maximum-69-number)
 
-[English Version](/solution/1300-1399/1323.Maximum%2069%20Number/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个仅由数字 6 和 9 组成的正整数&nbsp;<code>num</code>。</p>
+<p>You are given a positive integer <code>num</code> consisting only of digits <code>6</code> and <code>9</code>.</p>
 
-<p>你最多只能翻转一位数字，将 6 变成&nbsp;9，或者把&nbsp;9 变成&nbsp;6 。</p>
-
-<p>请返回你可以得到的最大数字。</p>
+<p>Return <em>the maximum number you can get by changing <strong>at most</strong> one digit (</em><code>6</code><em> becomes </em><code>9</code><em>, and </em><code>9</code><em> becomes </em><code>6</code><em>)</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>num = 9669
-<strong>输出：</strong>9969
-<strong>解释：</strong>
-改变第一位数字可以得到 6669 。
-改变第二位数字可以得到 9969 。
-改变第三位数字可以得到 9699 。
-改变第四位数字可以得到 9666 。
-其中最大的数字是 9969 。
+<pre>
+<strong>Input:</strong> num = 9669
+<strong>Output:</strong> 9969
+<strong>Explanation:</strong> 
+Changing the first digit results in 6669.
+Changing the second digit results in 9969.
+Changing the third digit results in 9699.
+Changing the fourth digit results in 9666.
+The maximum number is 9969.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>num = 9996
-<strong>输出：</strong>9999
-<strong>解释：</strong>将最后一位从 6 变到 9，其结果 9999 是最大的数。</pre>
+<pre>
+<strong>Input:</strong> num = 9996
+<strong>Output:</strong> 9999
+<strong>Explanation:</strong> Changing the last digit 6 to 9 results in the maximum number.
+</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>num = 9999
-<strong>输出：</strong>9999
-<strong>解释：</strong>无需改变就已经是最大的数字了。</pre>
+<pre>
+<strong>Input:</strong> num = 9999
+<strong>Output:</strong> 9999
+<strong>Explanation:</strong> It is better not to apply any change.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= num &lt;= 10^4</code></li>
-	<li><code>num</code>&nbsp;每一位上的数字都是 6 或者&nbsp;9 。</li>
+	<li><code>1 &lt;= num &lt;= 10<sup>4</sup></code></li>
+	<li><code>num</code>&nbsp;consists of only <code>6</code> and <code>9</code> digits.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
-
-我们将数组转换为字符串，然后从左到右遍历字符串，找到第一个出现的 $6$，将其替换为 $9$，然后返回转换后的字符串对应的整数即可。
-
-时间复杂度 $O(\log num)$，空间复杂度 $O(\log num)$。其中 $num$ 为给定的整数。
+### Solution 1
 
 <!-- tabs:start -->
 

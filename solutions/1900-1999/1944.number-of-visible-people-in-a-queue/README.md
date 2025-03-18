@@ -1,90 +1,81 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1944.Number%20of%20Visible%20People%20in%20a%20Queue/README.md
+difficulty: Hard
 rating: 2104
-source: 第 57 场双周赛 Q4
+source: Biweekly Contest 57 Q4
 tags:
-    - 栈
-    - 数组
-    - 单调栈
+    - Stack
+    - Array
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [1944. 队列中可以看到的人数](https://leetcode.cn/problems/number-of-visible-people-in-a-queue)
+# [1944. Number of Visible People in a Queue](https://leetcode.com/problems/number-of-visible-people-in-a-queue)
 
-[English Version](/solution/1900-1999/1944.Number%20of%20Visible%20People%20in%20a%20Queue/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有&nbsp;<code>n</code>&nbsp;个人排成一个队列，<strong>从左到右</strong>&nbsp;编号为&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;。给你以一个整数数组&nbsp;<code>heights</code>&nbsp;，每个整数 <strong>互不相同</strong>，<code>heights[i]</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;个人的高度。</p>
+<p>There are <code>n</code> people standing in a queue, and they numbered from <code>0</code> to <code>n - 1</code> in <strong>left to right</strong> order. You are given an array <code>heights</code> of <strong>distinct</strong> integers where <code>heights[i]</code> represents the height of the <code>i<sup>th</sup></code> person.</p>
 
-<p>一个人能 <strong>看到</strong> 他右边另一个人的条件是这两人之间的所有人都比他们两人 <strong>矮</strong>&nbsp;。更正式的，第&nbsp;<code>i</code>&nbsp;个人能看到第&nbsp;<code>j</code>&nbsp;个人的条件是&nbsp;<code>i &lt; j</code>&nbsp;且&nbsp;<code>min(heights[i], heights[j]) &gt; max(heights[i+1], heights[i+2], ..., heights[j-1])</code>&nbsp;。</p>
+<p>A person can <strong>see</strong> another person to their right in the queue if everybody in between is <strong>shorter</strong> than both of them. More formally, the <code>i<sup>th</sup></code> person can see the <code>j<sup>th</sup></code> person if <code>i &lt; j</code> and <code>min(heights[i], heights[j]) &gt; max(heights[i+1], heights[i+2], ..., heights[j-1])</code>.</p>
 
-<p>请你返回一个长度为 <code>n</code>&nbsp;的数组<em>&nbsp;</em><code>answer</code><em>&nbsp;</em>，其中<em>&nbsp;</em><code>answer[i]</code><em>&nbsp;</em>是第&nbsp;<code>i</code>&nbsp;个人在他右侧队列中能&nbsp;<strong>看到</strong>&nbsp;的&nbsp;<strong>人数</strong>&nbsp;。</p>
+<p>Return <em>an array </em><code>answer</code><em> of length </em><code>n</code><em> where </em><code>answer[i]</code><em> is the <strong>number of people</strong> the </em><code>i<sup>th</sup></code><em> person can <strong>see</strong> to their right in the queue</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1944.Number%20of%20Visible%20People%20in%20a%20Queue/images/queue-plane.jpg" style="width: 600px; height: 247px;" /></p>
 
 <pre>
-<b>输入：</b>heights = [10,6,8,5,11,9]
-<b>输出：</b>[3,1,2,1,1,0]
-<strong>解释：</strong>
-第 0 个人能看到编号为 1 ，2 和 4 的人。
-第 1 个人能看到编号为 2 的人。
-第 2 个人能看到编号为 3 和 4 的人。
-第 3 个人能看到编号为 4 的人。
-第 4 个人能看到编号为 5 的人。
-第 5 个人谁也看不到因为他右边没人。
+<strong>Input:</strong> heights = [10,6,8,5,11,9]
+<strong>Output:</strong> [3,1,2,1,1,0]
+<strong>Explanation:</strong>
+Person 0 can see person 1, 2, and 4.
+Person 1 can see person 2.
+Person 2 can see person 3 and 4.
+Person 3 can see person 4.
+Person 4 can see person 5.
+Person 5 can see no one since nobody is to the right of them.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>heights = [5,1,2,3,10]
-<b>输出：</b>[4,1,1,1,0]
+<strong>Input:</strong> heights = [5,1,2,3,10]
+<strong>Output:</strong> [4,1,1,1,0]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == heights.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= heights[i] &lt;= 10<sup>5</sup></code></li>
-	<li><code>heights</code>&nbsp;中所有数 <strong>互不相同</strong>&nbsp;。</li>
+	<li>All the values of <code>heights</code> are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：单调栈
+### Solution 1: Monotonic Stack
 
-我们观察发现，对于第 $i$ 个人来说，他能看到的人一定是按从左到右高度严格单调递增的。
+We observe that for the $i$-th person, the people he can see must be strictly increasing in height from left to right.
 
-因此，我们可以倒序遍历数组 $\textit{heights}$，用一个从栈顶到栈底单调递增的栈 $\textit{stk}$ 记录已经遍历过的人的高度。
+Therefore, we can traverse the array $\textit{heights}$ in reverse order, using a stack $\textit{stk}$ that is monotonically increasing from top to bottom to record the heights of the people we have traversed.
 
-对于第 $i$ 个人，如果栈不为空并且栈顶元素小于 $\textit{heights}[i]$，累加当前第 $i$ 个人能看到的人数，然后将栈顶元素出栈，直到栈为空或者栈顶元素大于等于 $\textit{heights}[i]$。如果此时栈不为空，说明栈顶元素大于等于 $\textit{heights}[i]$，那么第 $i$ 个人能看到的人数还要再加 $1$。
+For the $i$-th person, if the stack is not empty and the top element of the stack is less than $\textit{heights}[i]$, we increment the count of people the $i$-th person can see, then pop the top element of the stack, until the stack is empty or the top element of the stack is greater than or equal to $\textit{heights}[i]$. If the stack is not empty at this point, it means the top element of the stack is greater than or equal to $\textit{heights}[i]$, so we increment the count of people the $i$-th person can see by 1.
 
-接下来，我们将 $\textit{heights}[i]$ 入栈，继续遍历下一个人。
+Next, we push $\textit{heights}[i]$ onto the stack and continue to the next person.
 
-遍历结束后，返回答案数组 $\textit{ans}$。
+After traversing, we return the answer array $\textit{ans}$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{heights}$ 的长度。
-
-相似题目：
-
--   [2282. 在一个网格中可以看到的人数](https://github.com/doocs/leetcode/blob/main/solution/2200-2299/2282.Number%20of%20People%20That%20Can%20Be%20Seen%20in%20a%20Grid/README.md)
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{heights}$.
 
 <!-- tabs:start -->
 

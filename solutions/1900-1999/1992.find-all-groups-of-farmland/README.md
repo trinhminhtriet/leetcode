@@ -1,84 +1,78 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1992.Find%20All%20Groups%20of%20Farmland/README.md
+difficulty: Medium
 rating: 1539
-source: 第 60 场双周赛 Q2
+source: Biweekly Contest 60 Q2
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 数组
-    - 矩阵
+    - Depth-First Search
+    - Breadth-First Search
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [1992. 找到所有的农场组](https://leetcode.cn/problems/find-all-groups-of-farmland)
+# [1992. Find All Groups of Farmland](https://leetcode.com/problems/find-all-groups-of-farmland)
 
-[English Version](/solution/1900-1999/1992.Find%20All%20Groups%20of%20Farmland/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始，大小为&nbsp;<code>m x n</code>&nbsp;的二进制矩阵&nbsp;<code>land</code>&nbsp;，其中 <code>0</code>&nbsp;表示一单位的森林土地，<code>1</code>&nbsp;表示一单位的农场土地。</p>
+<p>You are given a <strong>0-indexed</strong> <code>m x n</code> binary matrix <code>land</code> where a <code>0</code> represents a hectare of forested land and a <code>1</code> represents a hectare of farmland.</p>
 
-<p>为了让农场保持有序，农场土地之间以矩形的 <strong>农场组</strong> 的形式存在。每一个农场组都 <strong>仅</strong>&nbsp;包含农场土地。且题目保证不会有两个农场组相邻，也就是说一个农场组中的任何一块土地都 <strong>不会</strong>&nbsp;与另一个农场组的任何一块土地在四个方向上相邻。</p>
+<p>To keep the land organized, there are designated rectangular areas of hectares that consist <strong>entirely</strong> of farmland. These rectangular areas are called <strong>groups</strong>. No two groups are adjacent, meaning farmland in one group is <strong>not</strong> four-directionally adjacent to another farmland in a different group.</p>
 
-<p><code>land</code>&nbsp;可以用坐标系统表示，其中 <code>land</code>&nbsp;左上角坐标为&nbsp;<code>(0, 0)</code>&nbsp;，右下角坐标为&nbsp;<code>(m-1, n-1)</code>&nbsp;。请你找到所有 <b>农场组</b>&nbsp;最左上角和最右下角的坐标。一个左上角坐标为&nbsp;<code>(r<sub>1</sub>, c<sub>1</sub>)</code>&nbsp;且右下角坐标为&nbsp;<code>(r<sub>2</sub>, c<sub>2</sub>)</code>&nbsp;的 <strong>农场组</strong> 用长度为 4 的数组&nbsp;<code>[r<sub>1</sub>, c<sub>1</sub>, r<sub>2</sub>, c<sub>2</sub>]</code>&nbsp;表示。</p>
+<p><code>land</code> can be represented by a coordinate system where the top left corner of <code>land</code> is <code>(0, 0)</code> and the bottom right corner of <code>land</code> is <code>(m-1, n-1)</code>. Find the coordinates of the top left and bottom right corner of each <strong>group</strong> of farmland. A <strong>group</strong> of farmland with a top left corner at <code>(r<sub>1</sub>, c<sub>1</sub>)</code> and a bottom right corner at <code>(r<sub>2</sub>, c<sub>2</sub>)</code> is represented by the 4-length array <code>[r<sub>1</sub>, c<sub>1</sub>, r<sub>2</sub>, c<sub>2</sub>].</code></p>
 
-<p>请你返回一个二维数组，它包含若干个长度为 4 的子数组，每个子数组表示 <code>land</code>&nbsp;中的一个 <strong>农场组</strong>&nbsp;。如果没有任何农场组，请你返回一个空数组。可以以 <strong>任意顺序</strong>&nbsp;返回所有农场组。</p>
+<p>Return <em>a 2D array containing the 4-length arrays described above for each <strong>group</strong> of farmland in </em><code>land</code><em>. If there are no groups of farmland, return an empty array. You may return the answer in <strong>any order</strong></em>.</p>
 
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1992.Find%20All%20Groups%20of%20Farmland/images/screenshot-2021-07-27-at-12-23-15-copy-of-diagram-drawio-diagrams-net.png" style="width: 300px; height: 300px;"></p>
-
-<pre><b>输入：</b>land = [[1,0,0],[0,1,1],[0,1,1]]
-<b>输出：</b>[[0,0,0,0],[1,1,2,2]]
-<strong>解释：</strong>
-第一个农场组的左上角为 land[0][0] ，右下角为 land[0][0] 。
-第二个农场组的左上角为 land[1][1] ，右下角为 land[2][2] 。
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1992.Find%20All%20Groups%20of%20Farmland/images/screenshot-2021-07-27-at-12-23-15-copy-of-diagram-drawio-diagrams-net.png" style="width: 300px; height: 300px;" />
+<pre>
+<strong>Input:</strong> land = [[1,0,0],[0,1,1],[0,1,1]]
+<strong>Output:</strong> [[0,0,0,0],[1,1,2,2]]
+<strong>Explanation:</strong>
+The first group has a top left corner at land[0][0] and a bottom right corner at land[0][0].
+The second group has a top left corner at land[1][1] and a bottom right corner at land[2][2].
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1992.Find%20All%20Groups%20of%20Farmland/images/screenshot-2021-07-27-at-12-30-26-copy-of-diagram-drawio-diagrams-net.png" style="width: 200px; height: 200px;"></p>
-
-<pre><b>输入：</b>land = [[1,1],[1,1]]
-<b>输出：</b>[[0,0,1,1]]
-<strong>解释：</strong>
-第一个农场组左上角为 land[0][0] ，右下角为 land[1][1] 。
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1992.Find%20All%20Groups%20of%20Farmland/images/screenshot-2021-07-27-at-12-30-26-copy-of-diagram-drawio-diagrams-net.png" style="width: 200px; height: 200px;" />
+<pre>
+<strong>Input:</strong> land = [[1,1],[1,1]]
+<strong>Output:</strong> [[0,0,1,1]]
+<strong>Explanation:</strong>
+The first group has a top left corner at land[0][0] and a bottom right corner at land[1][1].
 </pre>
 
-<p><strong>示例 3：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1992.Find%20All%20Groups%20of%20Farmland/images/screenshot-2021-07-27-at-12-32-24-copy-of-diagram-drawio-diagrams-net.png" style="width: 100px; height: 100px;"></p>
-
-<pre><b>输入：</b>land = [[0]]
-<b>输出：</b>[]
-<b>解释：</b>
-没有任何农场组。
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1992.Find%20All%20Groups%20of%20Farmland/images/screenshot-2021-07-27-at-12-32-24-copy-of-diagram-drawio-diagrams-net.png" style="width: 100px; height: 100px;" />
+<pre>
+<strong>Input:</strong> land = [[0]]
+<strong>Output:</strong> []
+<strong>Explanation:</strong>
+There are no groups of farmland.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == land.length</code></li>
 	<li><code>n == land[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 300</code></li>
-	<li><code>land</code>&nbsp;只包含&nbsp;<code>0</code>&nbsp;和&nbsp;<code>1</code>&nbsp;。</li>
-	<li>农场组都是 <strong>矩形</strong>&nbsp;的形状。</li>
+	<li><code>land</code> consists of only <code>0</code>&#39;s and <code>1</code>&#39;s.</li>
+	<li>Groups of farmland are <strong>rectangular</strong> in shape.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

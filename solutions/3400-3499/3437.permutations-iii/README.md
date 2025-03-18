@@ -1,55 +1,50 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3437.Permutations%20III/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 回溯
+    - Array
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [3437. 全排列 III 🔒](https://leetcode.cn/problems/permutations-iii)
+# [3437. Permutations III 🔒](https://leetcode.com/problems/permutations-iii)
 
-[English Version](/solution/3400-3499/3437.Permutations%20III/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数&nbsp;<code>n</code>，一个 <strong>交替排列</strong> 是没有 <strong>两个</strong> 相邻元素 <strong>同时</strong> 为奇数或偶数的前 <code>n</code> 个正整数的排列。</p>
+<p>Given an integer <code>n</code>, an <strong>alternating permutation</strong> is a permutation of the first <code>n</code> positive integers such that no <strong>two</strong> adjacent elements are <strong>both</strong> odd or <strong>both</strong> even.</p>
 
-<p>返回所有这样的 <strong>交替排列</strong>&nbsp;以字典序排序。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>n = 4</span></p>
-
-<p><span class="example-io"><b>输出：</b>[[1,2,3,4],[1,4,3,2],[2,1,4,3],[2,3,4,1],[3,2,1,4],[3,4,1,2],[4,1,2,3],[4,3,2,1]]</span></p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>n = 2</span></p>
-
-<p><span class="example-io"><b>输出：</b>[[1,2],[2,1]]</span></p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong><span class="example-io">n = 3</span></p>
-
-<p><span class="example-io"><b>输出：</b>[[1,2,3],[3,2,1]]</span></p>
-</div>
+<p>Return <em>all such </em><strong>alternating permutations</strong> sorted in lexicographical order.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">n = 4</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[[1,2,3,4],[1,4,3,2],[2,1,4,3],[2,3,4,1],[3,2,1,4],[3,4,1,2],[4,1,2,3],[4,3,2,1]]</span></p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">n = 2</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[[1,2],[2,1]]</span></p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">n = 3</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[[1,2,3],[3,2,1]]</span></p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10</code></li>
@@ -57,19 +52,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：回溯
+### Solution 1: Backtracking
 
-我们设计一个函数 $\textit{dfs}(i)$，表示当前要填第 $i$ 个位置的数，位置编号从 $0$ 开始。
+We design a function $\textit{dfs}(i)$, which represents filling the $i$-th position, with position indices starting from $0$.
 
-在 $\textit{dfs}(i)$ 中，如果 $i \geq n$，说明所有位置都已经填完，将当前排列加入答案数组中。
+In $\textit{dfs}(i)$, if $i \geq n$, it means all positions have been filled, and we add the current permutation to the answer array.
 
-否则，我们枚举当前位置可以填的数 $j$，如果 $j$ 没有被使用过，并且 $j$ 和当前排列的最后一个数不同奇偶性，我们就可以将 $j$ 放在当前位置，继续递归填下一个位置。
+Otherwise, we enumerate the numbers $j$ that can be placed in the current position. If $j$ has not been used and $j$ has a different parity from the last number in the current permutation, we can place $j$ in the current position and continue to recursively fill the next position.
 
-时间复杂度 $O(n \times n!)$，空间复杂度 $O(n)$。其中 $n$ 为排列的长度。
+The time complexity is $O(n \times n!)$, and the space complexity is $O(n)$. Here, $n$ is the length of the permutation.
 
 <!-- tabs:start -->
 

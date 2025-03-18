@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1683.Invalid%20Tweets/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1683. 无效的推文](https://leetcode.cn/problems/invalid-tweets)
+# [1683. Invalid Tweets](https://leetcode.com/problems/invalid-tweets)
 
-[English Version](/solution/1600-1699/1683.Invalid%20Tweets/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Tweets</code></p>
+<p>Table: <code>Tweets</code></p>
 
 <pre>
 +----------------+---------+
@@ -25,56 +22,55 @@ tags:
 | tweet_id       | int     |
 | content        | varchar |
 +----------------+---------+
-在 SQL 中，tweet_id 是这个表的主键。
-content 只包含美式键盘上的字符，不包含其它特殊字符。
-这个表包含某社交媒体 App 中所有的推文。</pre>
+tweet_id is the primary key (column with unique values) for this table.
+content consists of characters on an American Keyboard, and no other special characters.
+This table contains all the tweets in a social media app.
+</pre>
 
 <p>&nbsp;</p>
 
-<p>查询所有无效推文的编号（ID）。当推文内容中的字符数<strong>严格大于</strong> <code>15</code> 时，该推文是无效的。</p>
+<p>Write a solution to find the IDs of the invalid tweets. The tweet is invalid if the number of characters used in the content of the tweet is <strong>strictly greater</strong> than <code>15</code>.</p>
 
-<p>以<strong>任意顺序</strong>返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>查询结果格式如下所示：</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Tweets 表：
-+----------+----------------------------------+
-| tweet_id | content                          |
-+----------+----------------------------------+
-| 1        | Vote for Biden                   |
-| 2        | Let us make America great again! |
-+----------+----------------------------------+
-
-<strong>输出：</strong>
+<strong>Input:</strong> 
+Tweets table:
++----------+-----------------------------------+
+| tweet_id | content                           |
++----------+-----------------------------------+
+| 1        | Let us Code                       |
+| 2        | More than fifteen chars are here! |
++----------+-----------------------------------+
+<strong>Output:</strong> 
 +----------+
 | tweet_id |
 +----------+
 | 2        |
 +----------+
-<strong>解释：</strong>
-推文 1 的长度 length = 14。该推文是有效的。
-推文 2 的长度 length = 32。该推文是无效的。
+<strong>Explanation:</strong> 
+Tweet 1 has length = 11. It is a valid tweet.
+Tweet 2 has length = 33. It is an invalid tweet.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：使用 `CHAR_LENGTH` 函数
+### Solution 1: Using `CHAR_LENGTH` Function
 
-`CHAR_LENGTH()` 函数返回字符串的长度，其中中文、数字、字母都是 $1$ 字节。
+The `CHAR_LENGTH()` function returns the length of a string, where Chinese characters, numbers, and letters are all counted as $1$ byte.
 
-`LENGTH()` 函数返回字符串的长度，其中 utf8 编码下，中文 $3$ 字节，数字、字母 $1$ 字节；gbk 编码下，中文 $2$ 字节，数字、字母 $1$ 字节。
+The `LENGTH()` function returns the length of a string, where under utf8 encoding, Chinese characters are counted as $3$ bytes, while numbers and letters are counted as $1$ byte; under gbk encoding, Chinese characters are counted as $2$ bytes, while numbers and letters are counted as $1$ byte.
 
-对于本题，我们直接用 `CHAR_LENGTH` 函数获取字符串长度，筛选出长度大于 $15$ 的推文 ID 即可。
+For this problem, we can directly use the `CHAR_LENGTH` function to get the length of the string, and filter out the tweet IDs with a length greater than $15$.
 
 <!-- tabs:start -->
 

@@ -1,66 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0096.Unique%20Binary%20Search%20Trees/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 二叉搜索树
-    - 数学
-    - 动态规划
-    - 二叉树
+    - Tree
+    - Binary Search Tree
+    - Math
+    - Dynamic Programming
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [96. 不同的二叉搜索树](https://leetcode.cn/problems/unique-binary-search-trees)
+# [96. Unique Binary Search Trees](https://leetcode.com/problems/unique-binary-search-trees)
 
-[English Version](/solution/0000-0099/0096.Unique%20Binary%20Search%20Trees/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>n</code> ，求恰由 <code>n</code> 个节点组成且节点值从 <code>1</code> 到 <code>n</code> 互不相同的 <strong>二叉搜索树</strong> 有多少种？返回满足题意的二叉搜索树的种数。</p>
+<p>Given an integer <code>n</code>, return <em>the number of structurally unique <strong>BST&#39;</strong>s (binary search trees) which has exactly </em><code>n</code><em> nodes of unique values from</em> <code>1</code> <em>to</em> <code>n</code>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0096.Unique%20Binary%20Search%20Trees/images/uniquebstn3.jpg" style="width: 600px; height: 148px;" />
 <pre>
-<strong>输入：</strong>n = 3
-<strong>输出：</strong>5
+<strong>Input:</strong> n = 3
+<strong>Output:</strong> 5
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 1
-<strong>输出：</strong>1
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> 1
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= n <= 19</code></li>
+	<li><code>1 &lt;= n &lt;= 19</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i]$ 表示 $[1, i]$ 能产生的二叉搜索树的个数，初始时 $f[0] = 1$，答案为 $f[n]$。
+We define $f[i]$ to represent the number of binary search trees that can be generated from $[1, i]$. Initially, $f[0] = 1$, and the answer is $f[n]$.
 
-我们可以枚举节点数 $i$，那么左子树节点数 $j \in [0, i - 1]$，右子树节点数 $k = i - j - 1$，左子树节点数和右子树节点数的组合数为 $f[j] \times f[k]$，因此 $f[i] = \sum_{j = 0}^{i - 1} f[j] \times f[i - j - 1]$。
+We can enumerate the number of nodes $i$, then the number of nodes in the left subtree $j \in [0, i - 1]$, and the number of nodes in the right subtree $k = i - j - 1$. The number of combinations of the number of nodes in the left subtree and the right subtree is $f[j] \times f[k]$, so $f[i] = \sum_{j = 0}^{i - 1} f[j] \times f[i - j - 1]$.
 
-最后返回 $f[n]$ 即可。
+Finally, return $f[n]$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes.
 
 <!-- tabs:start -->
 

@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3188.Find%20Top%20Scoring%20Students%20II/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3188. 查找得分最高的学生 II 🔒](https://leetcode.cn/problems/find-top-scoring-students-ii)
+# [3188. Find Top Scoring Students II 🔒](https://leetcode.com/problems/find-top-scoring-students-ii)
 
-[English Version](/solution/3100-3199/3188.Find%20Top%20Scoring%20Students%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>students</code></p>
+<p>Table: <code>students</code></p>
 
 <pre>
 +-------------+----------+
@@ -26,11 +23,11 @@ tags:
 | name        | varchar  |
 | major       | varchar  |
 +-------------+----------+
-student_id 是这张表的主键（有不同值的列的组合）。
-这张表的每一行包含学生 ID，学生姓名和他们的专业。
+student_id is the primary key for this table. 
+Each row contains the student ID, student name, and their major.
 </pre>
 
-<p>表：<code>courses</code></p>
+<p>Table: <code>courses</code></p>
 
 <pre>
 +-------------+-------------------+
@@ -42,12 +39,12 @@ student_id 是这张表的主键（有不同值的列的组合）。
 | major       | varchar           |       
 | mandatory   | enum              |      
 +-------------+-------------------+
-course_id 是这张表的主键。 
-mandatory 是 ('Yes', 'No') 的枚举类型。
-每一行包含课程 ID，课程名，学分，所属专业，以及该课程是否必修。
+course_id is the primary key for this table. 
+mandatory is an enum type of (&#39;Yes&#39;, &#39;No&#39;).
+Each row contains the course ID, course name, credits, major it belongs to, and whether the course is mandatory.
 </pre>
 
-<p>表：<code>enrollments</code></p>
+<p>Table: <code>enrollments</code></p>
 
 <pre>
 +-------------+----------+
@@ -59,28 +56,27 @@ mandatory 是 ('Yes', 'No') 的枚举类型。
 | grade       | varchar  |
 | GPA         | decimal  | 
 +-------------+----------+
-(student_id, course_id, semester) 是这张表的主键（有不同值的列的组合）。
-这张表的每一行包含学生 ID，课程 ID，学期和获得的学分。
+(student_id, course_id, semester) is the primary key (combination of columns with unique values) for this table.
+Each row contains the student ID, course ID, semester, and grade received.
 </pre>
 
-<p>编写一个解决方案来查找满足下述标准的学生：</p>
+<p>Write a solution to find the students who meet the following criteria:</p>
 
 <ul>
-	<li>已经 <strong>修完他们专业中所有的必修课程</strong> 和 <strong>至少两个&nbsp;</strong>选修课程。</li>
-	<li>在 <strong>所有必修课程</strong> 中取得等级 <strong>A</strong> 并且 <strong>选修课程</strong> 至少取得 <strong>B</strong>。</li>
-	<li>保持他们所有课程（包括不属于他们专业的）的平均&nbsp;<code>GPA</code>&nbsp;至少在&nbsp;<code>2.5</code>&nbsp;以上。</li>
+	<li>Have<strong> taken all mandatory courses</strong> and <strong>at least two</strong> elective courses offered in <strong>their major.</strong></li>
+	<li>Achieved a grade of <strong>A</strong>&nbsp;in <strong>all mandatory courses</strong> and at least <strong>B</strong>&nbsp;in<strong> elective courses</strong>.</li>
+	<li>Maintained an average <code>GPA</code> of at least&nbsp;<code>2.5</code> across all their courses (including those outside their major).</li>
 </ul>
 
-<p>返回结果表以&nbsp;<code>student_id</code> <strong>升序&nbsp;</strong>排序。</p>
+<p>Return <em>the result table ordered by</em> <code>student_id</code> <em>in <strong>ascending</strong> order</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p>students 表：</p>
+<p>students table:</p>
 
 <pre class="example-io">
  +------------+------------------+------------------+
@@ -93,7 +89,7 @@ mandatory 是 ('Yes', 'No') 的枚举类型。
  +------------+------------------+------------------+
  </pre>
 
-<p>courses 表：</p>
+<p>courses table:</p>
 
 <pre class="example-io">
  +-----------+-------------------+---------+------------------+----------+
@@ -110,7 +106,7 @@ mandatory 是 ('Yes', 'No') 的枚举类型。
  +-----------+-------------------+---------+------------------+----------+
  </pre>
 
-<p>enrollments 表：</p>
+<p>enrollments table:</p>
 
 <pre class="example-io">
  +------------+-----------+-------------+-------+-----+
@@ -131,7 +127,7 @@ mandatory 是 ('Yes', 'No') 的枚举类型。
  +------------+-----------+-------------+-------+-----+
  </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
  +------------+
@@ -142,31 +138,31 @@ mandatory 是 ('Yes', 'No') 的枚举类型。
  +------------+
  </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>Alice (student_id 1) 是计算机科学专业并且修了&nbsp;Algorithms&nbsp;和 Data Structures，都取得了 A。她同时选修了&nbsp;Machine Learning&nbsp;和 Operating Systems，分别取得了 A 和 B。</li>
-	<li>Bob (student_id 2) 是计算机科学专业但没有在所有需求的课程中取得 A。</li>
-	<li>Charlie (student_id 3) 是数学专业并且修了 Calculus&nbsp;和 Linear Algebra，都取得了 A。他同时选修了&nbsp;Probability&nbsp;和 Statistics，分别取得了 A 和 B。</li>
-	<li>David (student_id 4) 是数学专业但没有在所有需要的课程中取得 A。</li>
+	<li>Alice (student_id 1) is a Computer Science major and has taken both Algorithms&nbsp;and Data Structures, receiving an A&nbsp;in both. She has also taken Machine Learning&nbsp;and Operating Systems&nbsp;as electives, receiving an A&nbsp;and B&nbsp;respectively.</li>
+	<li>Bob (student_id 2) is a Computer Science major but did not receive an A&nbsp;in all required courses.</li>
+	<li>Charlie (student_id 3) is a Mathematics major and has taken both Calculus&nbsp;and Linear Algebra, receiving an A&nbsp;in both. He has also taken Probability&nbsp;and Statistics&nbsp;as electives, receiving an A&nbsp;and B&nbsp;respectively.</li>
+	<li>David (student_id 4) is a Mathematics major but did not receive an A&nbsp;in all required courses.</li>
 </ul>
 
-<p><strong>注意：</strong>输出表以 student_id 升序排序。</p>
+<p><strong>Note:</strong> Output table is ordered by student_id in ascending order.</p>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：连接 + 分组 + 条件过滤
+### Solution 1: Joining + Grouping + Conditional Filtering
 
-我们首先筛选出平均 GPA 大于等于 2.5 的学生，记录在 `T` 表中。
+First, we filter out students with an average GPA greater than or equal to 2.5 and record them in table `T`.
 
-然后，我们将 `T` 表与 `students` 表按照 `student_id` 进行连接，然后与 `courses` 表按照 `major` 进行连接，再与 `enrollments` 表按照 `student_id` 和 `course_id` 进行左连接。
+Next, we join the `T` table with the `students` table based on `student_id`, then join with the `courses` table based on `major`, and finally perform a left join with the `enrollments` table based on `student_id` and `course_id`.
 
-接下来，我们按照学生 ID 进行分组，然后使用 `HAVING` 子句过滤出符合条件的学生，最后按照学生 ID 进行排序。
+After that, we group by student ID, use the `HAVING` clause to filter out students who meet the conditions, and finally sort by student ID.
 
 <!-- tabs:start -->
 

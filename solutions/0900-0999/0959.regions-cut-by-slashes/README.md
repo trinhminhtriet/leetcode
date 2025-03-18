@@ -1,81 +1,68 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/README.md
+difficulty: Medium
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 并查集
-    - 数组
-    - 哈希表
-    - 矩阵
+    - Depth-First Search
+    - Breadth-First Search
+    - Union Find
+    - Array
+    - Hash Table
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [959. 由斜杠划分区域](https://leetcode.cn/problems/regions-cut-by-slashes)
+# [959. Regions Cut By Slashes](https://leetcode.com/problems/regions-cut-by-slashes)
 
-[English Version](/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在由 <code>1 x 1</code> 方格组成的 <code>n&nbsp;x n</code>&nbsp;网格&nbsp;<code>grid</code> 中，每个 <code>1 x 1</code>&nbsp;方块由 <code>'/'</code>、<code>'\'</code> 或空格构成。这些字符会将方块划分为一些共边的区域。</p>
+<p>An <code>n x n</code> grid is composed of <code>1 x 1</code> squares where each <code>1 x 1</code> square consists of a <code>&#39;/&#39;</code>, <code>&#39;\&#39;</code>, or blank space <code>&#39; &#39;</code>. These characters divide the square into contiguous regions.</p>
 
-<p>给定网格&nbsp;<code>grid</code>&nbsp;表示为一个字符串数组，返回 <em>区域的数量</em> 。</p>
+<p>Given the grid <code>grid</code> represented as a string array, return <em>the number of regions</em>.</p>
 
-<p>请注意，反斜杠字符是转义的，因此&nbsp;<code>'\'</code> 用 <code>'\\'</code>&nbsp;表示。</p>
+<p>Note that backslash characters are escaped, so a <code>&#39;\&#39;</code> is represented as <code>&#39;\\&#39;</code>.</p>
 
 <p>&nbsp;</p>
-
-<ol>
-</ol>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/images/1.png" style="height: 200px; width: 200px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/images/1.png" style="width: 200px; height: 200px;" />
 <pre>
-<strong>输入：</strong>grid = [" /","/ "]
-<strong>输出：</strong>2</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/images/2.png" style="height: 198px; width: 200px;" /></p>
-
-<pre>
-<strong>输入：</strong>grid = [" /","  "]
-<strong>输出：</strong>1
+<strong>Input:</strong> grid = [&quot; /&quot;,&quot;/ &quot;]
+<strong>Output:</strong> 2
 </pre>
 
-<p><strong>示例 3：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/images/4.png" style="height: 200px; width: 200px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/images/2.png" style="width: 200px; height: 198px;" />
 <pre>
-<strong>输入：</strong>grid = ["/\\","\\/"]
-<strong>输出：</strong>5
-<strong>解释：</strong>回想一下，因为 \ 字符是转义的，所以 "/\\" 表示 /\，而 "\\/" 表示 \/。
+<strong>Input:</strong> grid = [&quot; /&quot;,&quot;  &quot;]
+<strong>Output:</strong> 1
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0959.Regions%20Cut%20By%20Slashes/images/4.png" style="width: 200px; height: 200px;" />
+<pre>
+<strong>Input:</strong> grid = [&quot;/\\&quot;,&quot;\\/&quot;]
+<strong>Output:</strong> 5
+<strong>Explanation: </strong>Recall that because \ characters are escaped, &quot;\\/&quot; refers to \/, and &quot;/\\&quot; refers to /\.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == grid.length == grid[i].length</code></li>
 	<li><code>1 &lt;= n &lt;= 30</code></li>
-	<li><code>grid[i][j]</code> 是&nbsp;<code>'/'</code>、<code>'\'</code>、或&nbsp;<code>' '</code></li>
+	<li><code>grid[i][j]</code> is either <code>&#39;/&#39;</code>, <code>&#39;\&#39;</code>, or <code>&#39; &#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1: Union-Find
 
 <!-- tabs:start -->
 
@@ -392,7 +379,7 @@ function regionsBySlashes(grid) {
 
 <!-- solution:start -->
 
-### 方法二：DFS
+### Solution 2: DFS
 
 <!-- tabs:start -->
 

@@ -1,90 +1,88 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1563.Stone%20Game%20V/README.md
+difficulty: Hard
 rating: 2087
-source: 第 203 场周赛 Q4
+source: Weekly Contest 203 Q4
 tags:
-    - 数组
-    - 数学
-    - 动态规划
-    - 博弈
+    - Array
+    - Math
+    - Dynamic Programming
+    - Game Theory
 ---
 
 <!-- problem:start -->
 
-# [1563. 石子游戏 V](https://leetcode.cn/problems/stone-game-v)
+# [1563. Stone Game V](https://leetcode.com/problems/stone-game-v)
 
-[English Version](/solution/1500-1599/1563.Stone%20Game%20V/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>几块石子 <strong>排成一行</strong> ，每块石子都有一个关联值，关联值为整数，由数组 <code>stoneValue</code> 给出。</p>
+<p>There are several stones <strong>arranged in a row</strong>, and each stone has an associated value which is an integer given in the array <code>stoneValue</code>.</p>
 
-<p>游戏中的每一轮：Alice 会将这行石子分成两个 <strong>非空行</strong>（即，左侧行和右侧行）；Bob 负责计算每一行的值，即此行中所有石子的值的总和。Bob 会丢弃值最大的行，Alice 的得分为剩下那行的值（每轮累加）。如果两行的值相等，Bob 让 Alice 决定丢弃哪一行。下一轮从剩下的那一行开始。</p>
+<p>In each round of the game, Alice divides the row into <strong>two non-empty rows</strong> (i.e. left row and right row), then Bob calculates the value of each row which is the sum of the values of all the stones in this row. Bob throws away the row which has the maximum value, and Alice&#39;s score increases by the value of the remaining row. If the value of the two rows are equal, Bob lets Alice decide which row will be thrown away. The next round starts with the remaining row.</p>
 
-<p>只 <strong>剩下一块石子</strong> 时，游戏结束。Alice 的分数最初为 <strong><code>0</code></strong> 。</p>
+<p>The game ends when there is only <strong>one stone remaining</strong>. Alice&#39;s is initially <strong>zero</strong>.</p>
 
-<p>返回 <strong>Alice 能够获得的最大分数</strong><em> 。</em></p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>stoneValue = [6,2,3,4,5,5]
-<strong>输出：</strong>18
-<strong>解释：</strong>在第一轮中，Alice 将行划分为 [6，2，3]，[4，5，5] 。左行的值是 11 ，右行的值是 14 。Bob 丢弃了右行，Alice 的分数现在是 11 。
-在第二轮中，Alice 将行分成 [6]，[2，3] 。这一次 Bob 扔掉了左行，Alice 的分数变成了 16（11 + 5）。
-最后一轮 Alice 只能将行分成 [2]，[3] 。Bob 扔掉右行，Alice 的分数现在是 18（16 + 2）。游戏结束，因为这行只剩下一块石头了。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>stoneValue = [7,7,7,7,7,7,7]
-<strong>输出：</strong>28
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>stoneValue = [4]
-<strong>输出：</strong>0
-</pre>
+<p>Return <i>the maximum score that Alice can obtain</i>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> stoneValue = [6,2,3,4,5,5]
+<strong>Output:</strong> 18
+<strong>Explanation:</strong> In the first round, Alice divides the row to [6,2,3], [4,5,5]. The left row has the value 11 and the right row has value 14. Bob throws away the right row and Alice&#39;s score is now 11.
+In the second round Alice divides the row to [6], [2,3]. This time Bob throws away the left row and Alice&#39;s score becomes 16 (11 + 5).
+The last round Alice has only one choice to divide the row which is [2], [3]. Bob throws away the right row and Alice&#39;s score is now 18 (16 + 2). The game ends because only one stone is remaining in the row.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> stoneValue = [7,7,7,7,7,7,7]
+<strong>Output:</strong> 28
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> stoneValue = [4]
+<strong>Output:</strong> 0
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= stoneValue.length &lt;= 500</code></li>
-	<li><code>1 &lt;=&nbsp;stoneValue[i] &lt;= 10^6</code></li>
+	<li><code>1 &lt;= stoneValue[i] &lt;= 10<sup>6</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索 + 剪枝
+### Solution 1: Memoization + Pruning
 
-我们先预处理出前缀和数组 $\textit{s}$，其中 $\textit{s}[i]$ 表示数组 $\textit{stoneValue}$ 前 $i$ 个元素的和。
+First, we preprocess the prefix sum array $\textit{s}$, where $\textit{s}[i]$ represents the sum of the first $i$ elements of the array $\textit{stoneValue}$.
 
-接下来，我们设计一个函数 $\textit{dfs}(i, j)$，表示数组 $\textit{stoneValue}$ 中下标范围 $[i, j]$ 内的石子，Alice 能够获得的最大分数。那么答案就是 $\textit{dfs}(0, n - 1)$。
+Next, we design a function $\textit{dfs}(i, j)$, which represents the maximum score Alice can get from the stones in the subarray $\textit{stoneValue}$ within the index range $[i, j]$. The answer is $\textit{dfs}(0, n - 1)$.
 
-函数 $\textit{dfs}(i, j)$ 的计算过程如下：
+The calculation process of the function $\textit{dfs}(i, j)$ is as follows:
 
--   如果 $i \geq j$，说明只剩下一块石子，Alice 无法进行分割，因此返回 $0$。
--   否则，我们枚举分割点 $k$，即 $i \leq k < j$，将数组 $\textit{stoneValue}$ 中下标范围 $[i, j]$ 内的石子分割为 $[i, k]$ 和 $[k + 1, j]$ 两部分，计算出 $a$ 和 $b$，分别表示两部分的石子总和。然后我们分别计算 $\textit{dfs}(i, k)$ 和 $\textit{dfs}(k + 1, j)$，并更新答案。
+-   If $i \geq j$, it means there is only one stone left, and Alice cannot split it, so return $0$.
+-   Otherwise, we enumerate the split point $k$, i.e., $i \leq k < j$, splitting the stones in the subarray $\textit{stoneValue}$ within the index range $[i, j]$ into two parts: $[i, k]$ and $[k + 1, j]$. We calculate $a$ and $b$, which represent the total sum of the stones in the two parts, respectively. Then we calculate $\textit{dfs}(i, k)$ and $\textit{dfs}(k + 1, j)$, and update the answer.
 
-注意，如果满足 $a < b$ 并且 $\textit{ans} \geq a \times 2$，那么这一次枚举可以跳过；如果满足 $a > b$ 并且 $\textit{ans} \geq b \times 2$，那么后续的枚举都可以跳过，直接退出循环。
+Note that if $a < b$ and $\textit{ans} \geq a \times 2$, this enumeration can be skipped; if $a > b$ and $\textit{ans} \geq b \times 2$, all subsequent enumerations can be skipped, and the loop can be exited directly.
 
-最后，我们返回答案即可。
+Finally, we return the answer.
 
-为了避免重复计算，我们可以使用记忆化搜索，同时使用剪枝优化枚举的效率。
+To avoid repeated calculations, we can use memoization and pruning to optimize the enumeration efficiency.
 
-时间复杂度 $O(n^3)$，空间复杂度 $O(n^2)$。其中 $n$ 为数组 $\textit{stoneValue}$ 的长度。
+The time complexity is $O(n^3)$, and the space complexity is $O(n^2)$. Here, $n$ is the length of the array $\textit{stoneValue}$.
 
 <!-- tabs:start -->
 

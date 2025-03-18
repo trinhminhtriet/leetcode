@@ -1,85 +1,80 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2091.Removing%20Minimum%20and%20Maximum%20From%20Array/README.md
+difficulty: Medium
 rating: 1384
-source: 第 269 场周赛 Q3
+source: Weekly Contest 269 Q3
 tags:
-    - 贪心
-    - 数组
+    - Greedy
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2091. 从数组中移除最大值和最小值](https://leetcode.cn/problems/removing-minimum-and-maximum-from-array)
+# [2091. Removing Minimum and Maximum From Array](https://leetcode.com/problems/removing-minimum-and-maximum-from-array)
 
-[English Version](/solution/2000-2099/2091.Removing%20Minimum%20and%20Maximum%20From%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的数组 <code>nums</code> ，数组由若干 <strong>互不相同</strong> 的整数组成。</p>
+<p>You are given a <strong>0-indexed</strong> array of <strong>distinct</strong> integers <code>nums</code>.</p>
 
-<p><code>nums</code> 中有一个值最小的元素和一个值最大的元素。分别称为 <strong>最小值</strong> 和 <strong>最大值</strong> 。你的目标是从数组中移除这两个元素。</p>
+<p>There is an element in <code>nums</code> that has the <strong>lowest</strong> value and an element that has the <strong>highest</strong> value. We call them the <strong>minimum</strong> and <strong>maximum</strong> respectively. Your goal is to remove <strong>both</strong> these elements from the array.</p>
 
-<p>一次 <strong>删除</strong> 操作定义为从数组的 <strong>前面</strong> 移除一个元素或从数组的 <strong>后面</strong> 移除一个元素。</p>
+<p>A <strong>deletion</strong> is defined as either removing an element from the <strong>front</strong> of the array or removing an element from the <strong>back</strong> of the array.</p>
 
-<p>返回将数组中最小值和最大值 <strong>都</strong> 移除需要的最小删除次数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [2,<em><strong>10</strong></em>,7,5,4,<em><strong>1</strong></em>,8,6]
-<strong>输出：</strong>5
-<strong>解释：</strong>
-数组中的最小元素是 nums[5] ，值为 1 。
-数组中的最大元素是 nums[1] ，值为 10 。
-将最大值和最小值都移除需要从数组前面移除 2 个元素，从数组后面移除 3 个元素。
-结果是 2 + 3 = 5 ，这是所有可能情况中的最小删除次数。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [0,<em><strong>-4</strong></em>,<em><strong>19</strong></em>,1,8,-2,-3,5]
-<strong>输出：</strong>3
-<strong>解释：</strong>
-数组中的最小元素是 nums[1] ，值为 -4 。
-数组中的最大元素是 nums[2] ，值为 19 。
-将最大值和最小值都移除需要从数组前面移除 3 个元素。
-结果是 3 ，这是所有可能情况中的最小删除次数。 
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [<em><strong>101</strong></em>]
-<strong>输出：</strong>1
-<strong>解释：</strong>
-数组中只有这一个元素，那么它既是数组中的最小值又是数组中的最大值。
-移除它只需要 1 次删除操作。
-</pre>
+<p>Return <em>the <strong>minimum</strong> number of deletions it would take to remove <strong>both</strong> the minimum and maximum element from the array.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [2,<u><strong>10</strong></u>,7,5,4,<u><strong>1</strong></u>,8,6]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> 
+The minimum element in the array is nums[5], which is 1.
+The maximum element in the array is nums[1], which is 10.
+We can remove both the minimum and maximum by removing 2 elements from the front and 3 elements from the back.
+This results in 2 + 3 = 5 deletions, which is the minimum number possible.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [0,<u><strong>-4</strong></u>,<u><strong>19</strong></u>,1,8,-2,-3,5]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 
+The minimum element in the array is nums[1], which is -4.
+The maximum element in the array is nums[2], which is 19.
+We can remove both the minimum and maximum by removing 3 elements from the front.
+This results in only 3 deletions, which is the minimum number possible.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [<u><strong>101</strong></u>]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong>  
+There is only one element in the array, which makes it both the minimum and maximum element.
+We can remove it with 1 deletion.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>-10<sup>5</sup> &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
-	<li><code>nums</code> 中的整数 <strong>互不相同</strong></li>
+	<li>The integers in <code>nums</code> are <strong>distinct</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

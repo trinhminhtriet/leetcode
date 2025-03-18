@@ -1,88 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2764.Is%20Array%20a%20Preorder%20of%20Some%20%E2%80%8CBinary%20Tree/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 树
-    - 深度优先搜索
-    - 二叉树
+    - Stack
+    - Tree
+    - Depth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [2764. 数组是否表示某二叉树的前序遍历 🔒](https://leetcode.cn/problems/is-array-a-preorder-of-some-binary-tree)
+# [2764. Is Array a Preorder of Some ‌Binary Tree 🔒](https://leetcode.com/problems/is-array-a-preorder-of-some-binary-tree)
 
-[English Version](/solution/2700-2799/2764.Is%20Array%20a%20Preorder%20of%20Some%20%E2%80%8CBinary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个以 <strong>0</strong> 为起始索引的整数 <strong>二维数组</strong> <code>nodes</code> ，你的任务是确定给定的数组是否表示某个 <strong>二叉</strong> 树的 <strong>前序</strong> 遍历。</p>
+<p>Given a <strong>0-indexed</strong> integer <strong>2D array</strong> <code>nodes</code>, your task is to determine if the given array represents the <strong>preorder</strong> traversal of some <strong>binary</strong> tree.</p>
 
-<p>对于每个索引 <code>i</code> ，<code>nodes[i] = [id, parentId]</code> ，其中 <code>id</code> 是索引 <code>i</code> 处节点的 id，<code>parentId</code> 是其在树中的父节点 id（如果该节点没有父节点，则 <code>parentId = -1</code> ）。</p>
+<p>For each index <code>i</code>, <code>nodes[i] = [id, parentId]</code>, where <code>id</code> is the id of the node at the index <code>i</code> and <code>parentId</code> is the id of its parent in the tree (if the node has no parent, then <code>parentId == -1</code>).</p>
 
-<p>如果给定的数组表示某个树的前序遍历，则返回 <code>true</code> ，否则返回 <code>false</code> 。</p>
+<p>Return <code>true</code> <em>if the given array </em><em>represents the preorder traversal of some tree, and</em> <code>false</code> <em>otherwise.</em></p>
 
-<p><strong>注意</strong>：树的 <strong>前序</strong> 遍历是一种递归的遍历方式，它首先访问当前节点，然后对左子节点进行前序遍历，最后对右子节点进行前序遍历。</p>
+<p><strong>Note:</strong> the <strong>preorder</strong> traversal of a tree is a recursive way to traverse a tree in which we first visit the current node, then we do the preorder traversal for the left child, and finally, we do it for the right child.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nodes = [[0,-1],[1,0],[2,0],[3,2],[4,2]]
-<b>输出：</b>true
-<b>解释：</b>给定的 nodes 数组可以构成下面图片中的树。 
-我们可以验证这是树的前序遍历，首先访问节点 0，然后对左子节点进行前序遍历，即 [1] ，然后对右子节点进行前序遍历，即 [2,3,4] 。
+<strong>Input:</strong> nodes = [[0,-1],[1,0],[2,0],[3,2],[4,2]]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The given nodes make the tree in the picture below.
+We can show that this is the preorder traversal of the tree, first we visit node 0, then we do the preorder traversal of the right child which is [1], then we do the preorder traversal of the left child which is [2,3,4].
 </pre>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2700-2799/2764.Is%20Array%20a%20Preorder%20of%20Some%20%E2%80%8CBinary%20Tree/images/1.png" style="padding: 10px; background: #fff; border-radius: .5rem; width: 250px; height: 251px;" /></p>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nodes = [[0,-1],[1,0],[2,0],[3,1],[4,1]]
-<b>输出：</b>false
-<b>解释：</b>给定的 nodes 数组可以构成下面图片中的树。 
-对于前序遍历，首先访问节点 0，然后对左子节点进行前序遍历，即 [1,3,4]，但是我们可以看到在给定的顺序中，2 位于 1 和 3 之间，因此它不是树的前序遍历。
+<strong>Input:</strong> nodes = [[0,-1],[1,0],[2,0],[3,1],[4,1]]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The given nodes make the tree in the picture below.
+For the preorder traversal, first we visit node 0, then we do the preorder traversal of the right child which is [1,3,4], but we can see that in the given order, 2 comes between 1 and 3, so, it&#39;s not the preorder traversal of the tree.
 </pre>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2700-2799/2764.Is%20Array%20a%20Preorder%20of%20Some%20%E2%80%8CBinary%20Tree/images/2.png" style="padding: 10px; background: #fff; border-radius: .5rem; width: 250px; height: 251px;" /></p>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nodes.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>nodes[i].length == 2</code></li>
 	<li><code>0 &lt;= nodes[i][0] &lt;= 10<sup>5</sup></code></li>
 	<li><code>-1 &lt;= nodes[i][1] &lt;= 10<sup>5</sup></code></li>
-	<li>生成的输入保证 <code>nodes</code> 可以组成二叉树。</li>
+	<li>The input is generated such that <code>nodes</code> make a binary tree.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
-
-我们先根据 $nodes$ 数据构建图 $g$，其中 $g[i]$ 表示节点 $i$ 的所有子节点。
-
-接下来，设计一个函数 $dfs(i)$，表示从节点 $i$ 开始进行先序遍历，用一个变量 $k$ 表示当前遍历到 $nodes$ 列表的第 $k$ 个节点，初始时 $k=0$。
-
-函数 $dfs(i)$ 的执行逻辑如下：
-
--   如果 $i \neq nodes[k][0]$，说明当前序列不是二叉树的先序遍历序列，返回 `false`。
--   否则，我们将 $k$ 加 $1$，然后递归搜索 $i$ 的所有子节点，如果搜索过程中发现 `false`，那么提前返回 `false`，否则搜索结束，返回 `true`。
-
-在主函数中，我们调用 $dfs(nodes[0][0])$，如果返回值为 `true`，并且 $k = |nodes|$，那么 $nodes$ 序列是二叉树的先序遍历序列，返回 `true`，否则返回 `false`。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是 $nodes$ 中的节点数目。
+### Solution 1
 
 <!-- tabs:start -->
 

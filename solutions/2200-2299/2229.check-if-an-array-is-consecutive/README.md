@@ -1,64 +1,60 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2229.Check%20if%20an%20Array%20Is%20Consecutive/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 哈希表
-    - 排序
+    - Array
+    - Hash Table
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2229. 检查数组是否连贯 🔒](https://leetcode.cn/problems/check-if-an-array-is-consecutive)
+# [2229. Check if an Array Is Consecutive 🔒](https://leetcode.com/problems/check-if-an-array-is-consecutive)
 
-[English Version](/solution/2200-2299/2229.Check%20if%20an%20Array%20Is%20Consecutive/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> ，如果 <code>nums</code> 是一个 <strong>连贯数组</strong> ，则返回 <code>true</code> ，否则返回 <code>false</code> 。</p>
+<p>Given an integer array <code>nums</code>, return <code>true</code> <em>if </em><code>nums</code><em> is <strong>consecutive</strong>, otherwise return </em><code>false</code><em>.</em></p>
 
-<p><span style="">如果数组包含 </span><code>[x, x + n - 1]</code><span style=""> 范围内的所有数字（包括 <code>x</code> 和 <code>x + n - 1</code> ），则该数组为连贯数组；其中</span> <code>x</code><span style=""> 是数组中最小的数，</span><code>n</code> <span style="">是数组的长度。</span></p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,3,4,2]
-<strong>输出：</strong>true
-<strong>解释：</strong>
-最小值是 1 ，数组长度为 4 。
-范围 [x, x + n - 1] 中的所有值都出现在 nums 中：[1, 1 + 4 - 1] = [1, 4] = (1, 2, 3, 4) 。
-因此，nums 是一个连贯数组。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,3]
-<strong>输出：</strong>false
-<strong>解释：
-</strong>最小值是 1 ，数组长度为 2 。 
-范围 [x, x + n - 1] 中的所有值没有都出现在 nums 中：[1, 1 + 2 - 1] = [1, 2] = (1, 2) 。 
-因此，nums 不是一个连贯数组。 
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [3,5,4]
-<strong>输出：</strong>true
-<strong>解释：</strong>
-最小值是 3 ，数组长度为 3 。
-范围 [x, x + n - 1] 中的所有值都出现在 nums 中：[3, 3 + 3 - 1] = [3, 5] = (3，4，5) 。
-因此，nums 是一个连贯数组。
-</pre>
+<p>An array is <strong>consecutive </strong>if it contains every number in the range <code>[x, x + n - 1]</code> (<strong>inclusive</strong>), where <code>x</code> is the minimum number in the array and <code>n</code> is the length of the array.</p>
 
 <p>&nbsp;</p>
-<strong>提示：</strong>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,3,4,2]
+<strong>Output:</strong> true
+<strong>Explanation:</strong>
+The minimum value is 1 and the length of nums is 4.
+All of the values in the range [x, x + n - 1] = [1, 1 + 4 - 1] = [1, 4] = (1, 2, 3, 4) occur in nums.
+Therefore, nums is consecutive.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,3]
+<strong>Output:</strong> false
+<strong>Explanation:</strong>
+The minimum value is 1 and the length of nums is 2.
+The value 2 in the range [x, x + n - 1] = [1, 1 + 2 - 1], = [1, 2] = (1, 2) does not occur in nums.
+Therefore, nums is not consecutive.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [3,5,4]
+<strong>Output:</strong> true
+<strong>Explanation:</strong>
+The minimum value is 3 and the length of nums is 3.
+All of the values in the range [x, x + n - 1] = [3, 3 + 3 - 1] = [3, 5] = (3, 4, 5) occur in nums.
+Therefore, nums is consecutive.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -67,17 +63,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们可以用一个哈希表 $\textit{s}$ 来存储数组 $\textit{nums}$ 中的所有元素，用两个变量 $\textit{mi}$ 和 $\textit{mx}$ 分别表示数组中的最小值和最大值。
+We can use a hash table $\textit{s}$ to store all the elements in the array $\textit{nums}$, and use two variables $\textit{mi}$ and $\textit{mx}$ to represent the minimum and maximum values in the array, respectively.
 
-如果数组中的所有元素都不相同，且数组的长度等于最大值和最小值之间的差值加 $1$，那么数组就是连贯数组，返回 $\textit{true}$；否则返回 $\textit{false}$。
+If all elements in the array are distinct and the length of the array equals the difference between the maximum and minimum values plus $1$, then the array is consecutive, and we return $\textit{true}$; otherwise, we return $\textit{false}$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

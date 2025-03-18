@@ -1,89 +1,82 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1567.Maximum%20Length%20of%20Subarray%20With%20Positive%20Product/README.md
+difficulty: Medium
 rating: 1710
-source: 第 204 场周赛 Q2
+source: Weekly Contest 204 Q2
 tags:
-    - 贪心
-    - 数组
-    - 动态规划
+    - Greedy
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1567. 乘积为正数的最长子数组长度](https://leetcode.cn/problems/maximum-length-of-subarray-with-positive-product)
+# [1567. Maximum Length of Subarray With Positive Product](https://leetcode.com/problems/maximum-length-of-subarray-with-positive-product)
 
-[English Version](/solution/1500-1599/1567.Maximum%20Length%20of%20Subarray%20With%20Positive%20Product/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code>&nbsp;，请你求出乘积为正数的最长子数组的长度。</p>
+<p>Given an array of integers <code>nums</code>, find the maximum length of a subarray where the product of all its elements is positive.</p>
 
-<p>一个数组的子数组是由原数组中零个或者更多个连续数字组成的数组。</p>
+<p>A subarray of an array is a consecutive sequence of zero or more values taken out of that array.</p>
 
-<p>请你返回乘积为正数的最长子数组长度。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例&nbsp; 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,-2,-3,4]
-<strong>输出：</strong>4
-<strong>解释：</strong>数组本身乘积就是正数，值为 24 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [0,1,-2,-3,-4]
-<strong>输出：</strong>3
-<strong>解释：</strong>最长乘积为正数的子数组为 [1,-2,-3] ，乘积为 6 。
-注意，我们不能把 0 也包括到子数组中，因为这样乘积为 0 ，不是正数。</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [-1,-2,-3,0,1]
-<strong>输出：</strong>2
-<strong>解释：</strong>乘积为正数的最长子数组是 [-1,-2] 或者 [-2,-3] 。
-</pre>
+<p>Return <em>the maximum length of a subarray with positive product</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,-2,-3,4]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The array nums already has a positive product of 24.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [0,1,-2,-3,-4]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The longest subarray with positive product is [1,-2,-3] which has a product of 6.
+Notice that we cannot include 0 in the subarray since that&#39;ll make the product 0 which is not positive.</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [-1,-2,-3,0,1]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The longest subarray with positive product is [-1,-2] or [-2,-3].
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 10^5</code></li>
-	<li><code>-10^9 &lt;= nums[i]&nbsp;&lt;= 10^9</code></li>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>9</sup> &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
-
-<p>&nbsp;</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义两个长度为 $n$ 的数组 $f$ 和 $g$，其中 $f[i]$ 表示以 $\textit{nums}[i]$ 结尾的乘积为正数的最长子数组的长度，而 $g[i]$ 表示以 $\textit{nums}[i]$ 结尾的乘积为负数的最长子数组的长度。
+We define two arrays $f$ and $g$ of length $n$, where $f[i]$ represents the length of the longest subarray ending at $\textit{nums}[i]$ with a positive product, and $g[i]$ represents the length of the longest subarray ending at $\textit{nums}[i]$ with a negative product.
 
-初始时，如果 $\textit{nums}[0] > 0$，则 $f[0] = 1$，否则 $f[0] = 0$；如果 $\textit{nums}[0] < 0$，则 $g[0] = 1$，否则 $g[0] = 0$。我们初始化答案 $ans = f[0]$。
+Initially, if $\textit{nums}[0] > 0$, then $f[0] = 1$, otherwise $f[0] = 0$; if $\textit{nums}[0] < 0$, then $g[0] = 1$, otherwise $g[0] = 0$. We initialize the answer $ans = f[0]$.
 
-接下来，我们从 $i = 1$ 开始遍历数组 $\textit{nums}$，对于每个 $i$，我们有以下几种情况：
+Next, we iterate through the array $\textit{nums}$ starting from $i = 1$. For each $i$, we have the following cases:
 
--   如果 $\textit{nums}[i] > 0$，那么 $f[i]$ 可以由 $f[i - 1]$ 转移而来，即 $f[i] = f[i - 1] + 1$，而 $g[i]$ 的值取决于 $g[i - 1]$ 是否为 $0$，如果 $g[i - 1] = 0$，则 $g[i] = 0$，否则 $g[i] = g[i - 1] + 1$；
--   如果 $\textit{nums}[i] < 0$，那么 $f[i]$ 的值取决于 $g[i - 1]$ 是否为 $0$，如果 $g[i - 1] = 0$，则 $f[i] = 0$，否则 $f[i] = g[i - 1] + 1$，而 $g[i]$ 可以由 $f[i - 1]$ 转移而来，即 $g[i] = f[i - 1] + 1$。
--   然后，我们更新答案 $ans = \max(ans, f[i])$。
+-   If $\textit{nums}[i] > 0$, then $f[i]$ can be transferred from $f[i - 1]$, i.e., $f[i] = f[i - 1] + 1$, and the value of $g[i]$ depends on whether $g[i - 1]$ is $0$. If $g[i - 1] = 0$, then $g[i] = 0$, otherwise $g[i] = g[i - 1] + 1$;
+-   If $\textit{nums}[i] < 0$, then the value of $f[i]$ depends on whether $g[i - 1]$ is $0$. If $g[i - 1] = 0$, then $f[i] = 0$, otherwise $f[i] = g[i - 1] + 1$, and $g[i]$ can be transferred from $f[i - 1]$, i.e., $g[i] = f[i - 1] + 1$.
+-   Then, we update the answer $ans = \max(ans, f[i])$.
 
-遍历结束后，返回答案 $ans$ 即可。
+After the iteration, we return the answer $ans$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 
@@ -237,11 +230,11 @@ function getMaxLen(nums: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二：动态规划（空间优化）
+### Solution 2: Dynamic Programming (Space Optimization)
 
-我们发现，对于每个 $i$，$f[i]$ 和 $g[i]$ 的值只与 $f[i - 1]$ 和 $g[i - 1]$ 有关，因此我们可以使用两个变量 $f$ 和 $g$ 分别记录 $f[i - 1]$ 和 $g[i - 1]$ 的值，从而将空间复杂度优化至 $O(1)$。
+We observe that for each $i$, the values of $f[i]$ and $g[i]$ only depend on $f[i - 1]$ and $g[i - 1]$. Therefore, we can use two variables $f$ and $g$ to record the values of $f[i - 1]$ and $g[i - 1]$, respectively, thus optimizing the space complexity to $O(1)$.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

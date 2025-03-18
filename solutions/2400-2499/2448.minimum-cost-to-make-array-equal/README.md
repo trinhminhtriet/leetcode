@@ -1,84 +1,79 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2448.Minimum%20Cost%20to%20Make%20Array%20Equal/README.md
+difficulty: Hard
 rating: 2005
-source: 第 316 场周赛 Q3
+source: Weekly Contest 316 Q3
 tags:
-    - 贪心
-    - 数组
-    - 二分查找
-    - 前缀和
-    - 排序
+    - Greedy
+    - Array
+    - Binary Search
+    - Prefix Sum
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2448. 使数组相等的最小开销](https://leetcode.cn/problems/minimum-cost-to-make-array-equal)
+# [2448. Minimum Cost to Make Array Equal](https://leetcode.com/problems/minimum-cost-to-make-array-equal)
 
-[English Version](/solution/2400-2499/2448.Minimum%20Cost%20to%20Make%20Array%20Equal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个下标从 <strong>0</strong>&nbsp;开始的数组&nbsp;<code>nums</code> 和&nbsp;<code>cost</code>&nbsp;，分别包含&nbsp;<code>n</code>&nbsp;个&nbsp;<strong>正</strong>&nbsp;整数。</p>
+<p>You are given two <strong>0-indexed</strong> arrays <code>nums</code> and <code>cost</code> consisting each of <code>n</code> <strong>positive</strong> integers.</p>
 
-<p>你可以执行下面操作 <strong>任意</strong>&nbsp;次：</p>
+<p>You can do the following operation <strong>any</strong> number of times:</p>
 
 <ul>
-	<li>将&nbsp;<code>nums</code>&nbsp;中 <strong>任意</strong>&nbsp;元素增加或者减小 <code>1</code>&nbsp;。</li>
+	<li>Increase or decrease <strong>any</strong> element of the array <code>nums</code> by <code>1</code>.</li>
 </ul>
 
-<p>对第 <code>i</code>&nbsp;个元素执行一次操作的开销是&nbsp;<code>cost[i]</code>&nbsp;。</p>
+<p>The cost of doing one operation on the <code>i<sup>th</sup></code> element is <code>cost[i]</code>.</p>
 
-<p>请你返回使 <code>nums</code>&nbsp;中所有元素 <strong>相等</strong>&nbsp;的 <strong>最少</strong>&nbsp;总开销。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [1,3,5,2], cost = [2,3,1,14]
-<b>输出：</b>8
-<b>解释：</b>我们可以执行以下操作使所有元素变为 2 ：
-- 增加第 0 个元素 1 次，开销为 2 。
-- 减小第 1 个元素 1 次，开销为 3 。
-- 减小第 2 个元素 3 次，开销为 1 + 1 + 1 = 3 。
-总开销为 2 + 3 + 3 = 8 。
-这是最小开销。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [2,2,2,2,2], cost = [4,2,8,1,3]
-<b>输出：</b>0
-<b>解释：</b>数组中所有元素已经全部相等，不需要执行额外的操作。
-</pre>
+<p>Return <em>the <strong>minimum</strong> total cost such that all the elements of the array </em><code>nums</code><em> become <strong>equal</strong></em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,3,5,2], cost = [2,3,1,14]
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> We can make all the elements equal to 2 in the following way:
+- Increase the 0<sup>th</sup> element one time. The cost is 2.
+- Decrease the 1<sup><span style="font-size: 10.8333px;">st</span></sup> element one time. The cost is 3.
+- Decrease the 2<sup>nd</sup> element three times. The cost is 1 + 1 + 1 = 3.
+The total cost is 2 + 3 + 3 = 8.
+It can be shown that we cannot make the array equal with a smaller cost.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,2,2,2,2], cost = [4,2,8,1,3]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> All the elements are already equal, so no operations are needed.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length == cost.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= nums[i], cost[i] &lt;= 10<sup>6</sup></code></li>
-	<li>测试用例确保输出不超过 2<sup>53</sup>-1。</li>
+	<li>Test cases are generated in a way that the output doesn&#39;t exceed&nbsp;2<sup>53</sup>-1</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和 + 排序 + 枚举
+### Solution 1: Prefix Sum + Sorting + Enumeration
 
-我们记数组 `nums` 所有元素为 $a_1, a_2, \cdots, a_n$，数组 `cost` 所有元素为 $b_1, b_2, \cdots, b_n$。我们不妨令 $a_1 \leq a_2 \leq \cdots \leq a_n$，即数组 `nums` 升序排列。
+Let's denote the elements of the array `nums` as $a_1, a_2, \cdots, a_n$ and the elements of the array `cost` as $b_1, b_2, \cdots, b_n$. We can assume that $a_1 \leq a_2 \leq \cdots \leq a_n$, i.e., the array `nums` is sorted in ascending order.
 
-假设我们将数组 `nums` 中的元素全部变为 $x$，那么我们需要的总开销为：
+Suppose we change all elements in the array `nums` to $x$, then the total cost we need is:
 
 $$
 \begin{aligned}
@@ -87,13 +82,13 @@ $$
 \end{aligned}
 $$
 
-其中 $k$ 为 $a_1, a_2, \cdots, a_n$ 中小于等于 $x$ 的元素个数。
+where $k$ is the number of elements in $a_1, a_2, \cdots, a_n$ that are less than or equal to $x$.
 
-我们可以使用前缀和的方法，计算 $\sum_{i=1}^{k} b_i$ 和 $\sum_{i=1}^{k} a_ib_i$，以及 $\sum_{i=k+1}^{n}a_ib_i$ 和 $\sum_{i=k+1}^{n}b_i$。
+We can use the prefix sum method to calculate $\sum_{i=1}^{k} b_i$ and $\sum_{i=1}^{k} a_ib_i$, as well as $\sum_{i=k+1}^{n}a_ib_i$ and $\sum_{i=k+1}^{n}b_i$.
 
-然后我们枚举 $x$，计算上述四个前缀和，得到上述的总开销，取其中的最小值即可。
+Then we enumerate $x$, calculate the above four prefix sums, get the total cost mentioned above, and take the minimum value.
 
-时间复杂度 $O(n\times \log n)$。其中 $n$ 为数组 `nums` 的长度。主要是排序的时间复杂度。
+The time complexity is $O(n\times \log n)$, where $n$ is the length of the array `nums`. The main time complexity comes from sorting.
 
 <!-- tabs:start -->
 
@@ -265,16 +260,16 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：排序 + 中位数
+### Solution 2: Sorting + Median
 
-我们还可以把 $b_i$ 看作是 $a_i$ 的出现次数，那么中位数下标是 $\frac{\sum_{i=1}^{n} b_i}{2}$。把所有数变成中位数，一定是最优的。
+We can also consider $b_i$ as the occurrence times of $a_i$, then the index of the median is $\frac{\sum_{i=1}^{n} b_i}{2}$. Changing all numbers to the median is definitely optimal.
 
-时间复杂度 $O(n\times \log n)$。其中 $n$ 为数组 `nums` 的长度。主要是排序的时间复杂度。
+The time complexity is $O(n\times \log n)$, where $n$ is the length of the array `nums`. The main time complexity comes from sorting.
 
-相似题目：
+Similar problems:
 
--   [296. 最佳的碰头地点](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0296.Best%20Meeting%20Point/README.md)
--   [462. 最少移动次数使数组元素相等 II](https://github.com/doocs/leetcode/blob/main/solution/0400-0499/0462.Minimum%20Moves%20to%20Equal%20Array%20Elements%20II/README.md)
+-   [296. Best Meeting Point](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0296.Best%20Meeting%20Point/README_EN.md)
+-   [462. Minimum Moves to Equal Array Elements II](https://github.com/doocs/leetcode/blob/main/solution/0400-0499/0462.Minimum%20Moves%20to%20Equal%20Array%20Elements%20II/README_EN.md)
 
 <!-- tabs:start -->
 

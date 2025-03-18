@@ -1,63 +1,50 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0360.Sort%20Transformed%20Array/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 数学
-    - 双指针
-    - 排序
+    - Array
+    - Math
+    - Two Pointers
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [360. 有序转化数组 🔒](https://leetcode.cn/problems/sort-transformed-array)
+# [360. Sort Transformed Array 🔒](https://leetcode.com/problems/sort-transformed-array)
 
-[English Version](/solution/0300-0399/0360.Sort%20Transformed%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个已经<strong>&nbsp;排好序</strong>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;和整数&nbsp;<code>a</code>&nbsp;、&nbsp;<code>b</code>&nbsp;、&nbsp;<code>c</code>&nbsp;。对于数组中的每一个元素&nbsp;<code>nums[i]</code>&nbsp;，计算函数值&nbsp;<code>f(<em>x</em>) = <em>ax</em><sup>2</sup> + <em>bx</em> + c</code>&nbsp;，请 <em>按升序返回数组</em> 。</p>
+<p>Given a <strong>sorted</strong> integer array <code>nums</code> and three integers <code>a</code>, <code>b</code> and <code>c</code>, apply a quadratic function of the form <code>f(x) = ax<sup>2</sup> + bx + c</code> to each element <code>nums[i]</code> in the array, and return <em>the array in a sorted order</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入: </strong>nums = [-4,-2,2,4], a = 1, b = 3, c = 5
-<strong>输出: </strong>[3,9,15,33]
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> nums = [-4,-2,2,4], a = 1, b = 3, c = 5
+<strong>Output:</strong> [3,9,15,33]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> nums = [-4,-2,2,4], a = -1, b = 3, c = 5
+<strong>Output:</strong> [-23,-5,1,7]
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入: </strong>nums = [-4,-2,2,4], a = -1, b = 3, c = 5
-<strong>输出: </strong>[-23,-5,1,7]
-</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 200</code></li>
 	<li><code>-100 &lt;= nums[i], a, b, c &lt;= 100</code></li>
-	<li><code>nums</code>&nbsp;按照 <strong>升序排列</strong></li>
+	<li><code>nums</code> is sorted in <strong>ascending</strong> order.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>你可以在时间复杂度为&nbsp;<code>O(n)</code>&nbsp;的情况下解决这个问题吗？</p>
+<p><strong>Follow up:</strong> Could you solve it in <code>O(n)</code> time?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

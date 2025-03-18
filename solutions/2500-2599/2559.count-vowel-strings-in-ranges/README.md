@@ -1,80 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2559.Count%20Vowel%20Strings%20in%20Ranges/README.md
+difficulty: Medium
 rating: 1435
-source: 第 331 场周赛 Q2
+source: Weekly Contest 331 Q2
 tags:
-    - 数组
-    - 字符串
-    - 前缀和
+    - Array
+    - String
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [2559. 统计范围内的元音字符串数](https://leetcode.cn/problems/count-vowel-strings-in-ranges)
+# [2559. Count Vowel Strings in Ranges](https://leetcode.com/problems/count-vowel-strings-in-ranges)
 
-[English Version](/solution/2500-2599/2559.Count%20Vowel%20Strings%20in%20Ranges/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的字符串数组 <code>words</code> 以及一个二维整数数组 <code>queries</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> array of strings <code>words</code> and a 2D array of integers <code>queries</code>.</p>
 
-<p>每个查询 <code>queries[i] = [l<sub>i</sub>, r<sub>i</sub>]</code> 会要求我们统计在 <code>words</code> 中下标在 <code>l<sub>i</sub></code> 到 <code>r<sub>i</sub></code> 范围内（<strong>包含</strong> 这两个值）并且以元音开头和结尾的字符串的数目。</p>
+<p>Each query <code>queries[i] = [l<sub>i</sub>, r<sub>i</sub>]</code> asks us to find the number of strings present at the indices ranging from <code>l<sub>i</sub></code> to <code>r<sub>i</sub></code> (both <strong>inclusive</strong>) of <code>words</code> that start and end with a vowel.</p>
 
-<p>返回一个整数数组，其中数组的第 <code>i</code> 个元素对应第 <code>i</code> 个查询的答案。</p>
+<p>Return <em>an array </em><code>ans</code><em> of size </em><code>queries.length</code><em>, where </em><code>ans[i]</code><em> is the answer to the </em><code>i</code><sup>th</sup><em> query</em>.</p>
 
-<p><strong>注意：</strong>元音字母是 <code>'a'</code>、<code>'e'</code>、<code>'i'</code>、<code>'o'</code> 和 <code>'u'</code> 。</p>
+<p><strong>Note</strong> that the vowel letters are <code>&#39;a&#39;</code>, <code>&#39;e&#39;</code>, <code>&#39;i&#39;</code>, <code>&#39;o&#39;</code>, and <code>&#39;u&#39;</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>words = ["aba","bcb","ece","aa","e"], queries = [[0,2],[1,4],[1,1]]
-<strong>输出：</strong>[2,3,0]
-<strong>解释：</strong>以元音开头和结尾的字符串是 "aba"、"ece"、"aa" 和 "e" 。
-查询 [0,2] 结果为 2（字符串 "aba" 和 "ece"）。
-查询 [1,4] 结果为 3（字符串 "ece"、"aa"、"e"）。
-查询 [1,1] 结果为 0 。
-返回结果 [2,3,0] 。
+<strong>Input:</strong> words = [&quot;aba&quot;,&quot;bcb&quot;,&quot;ece&quot;,&quot;aa&quot;,&quot;e&quot;], queries = [[0,2],[1,4],[1,1]]
+<strong>Output:</strong> [2,3,0]
+<strong>Explanation:</strong> The strings starting and ending with a vowel are &quot;aba&quot;, &quot;ece&quot;, &quot;aa&quot; and &quot;e&quot;.
+The answer to the query [0,2] is 2 (strings &quot;aba&quot; and &quot;ece&quot;).
+to query [1,4] is 3 (strings &quot;ece&quot;, &quot;aa&quot;, &quot;e&quot;).
+to query [1,1] is 0.
+We return [2,3,0].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>words = ["a","e","i"], queries = [[0,2],[0,1],[2,2]]
-<strong>输出：</strong>[3,2,1]
-<strong>解释：</strong>每个字符串都满足这一条件，所以返回 [3,2,1] 。</pre>
+<strong>Input:</strong> words = [&quot;a&quot;,&quot;e&quot;,&quot;i&quot;], queries = [[0,2],[0,1],[2,2]]
+<strong>Output:</strong> [3,2,1]
+<strong>Explanation:</strong> Every string satisfies the conditions, so we return [3,2,1].</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 40</code></li>
-	<li><code>words[i]</code> 仅由小写英文字母组成</li>
+	<li><code>words[i]</code> consists only of lowercase English letters.</li>
 	<li><code>sum(words[i].length) &lt;= 3 * 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= queries.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>0 &lt;= queries[j][0] &lt;= queries[j][1] &lt;&nbsp;words.length</code></li>
+	<li><code>0 &lt;= l<sub>i</sub> &lt;= r<sub>i</sub> &lt;&nbsp;words.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：预处理 + 二分查找
+### Solution 1: Preprocessing + Binary Search
 
-我们可以预处理出所有以元音开头和结尾的字符串的下标，按顺序记录在数组 $nums$ 中。
+We can preprocess all the indices of the strings that start and end with a vowel, and record them in order in the array $nums$.
 
-接下来，我们遍历每个查询 $(l, r)$，通过二分查找在 $nums$ 中找到第一个大于等于 $l$ 的下标 $i$，以及第一个大于 $r$ 的下标 $j$，那么当前查询的答案就是 $j - i$。
+Next, we iterate through each query $(l, r)$, and use binary search to find the first index $i$ in $nums$ that is greater than or equal to $l$, and the first index $j$ that is greater than $r$. Therefore, the answer to the current query is $j - i$.
 
-时间复杂度 $O(n + m \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别是数组 $words$ 和 $queries$ 的长度。
+The time complexity is $O(n + m \times \log n)$, and the space complexity is $O(n)$. Where $n$ and $m$ are the lengths of the arrays $words$ and $queries$, respectively.
 
 <!-- tabs:start -->
 
@@ -205,15 +200,15 @@ function vowelStrings(words: string[], queries: number[][]): number[] {
 
 <!-- solution:start -->
 
-### 方法二：前缀和
+### Solution 2: Prefix Sum
 
-我们可以创建一个长度为 $n+1$ 的前缀和数组 $s$，其中 $s[i]$ 表示数组 $words$ 的前 $i$ 个字符串中以元音开头和结尾的字符串的数目。初始时 $s[0] = 0$。
+We can create a prefix sum array $s$ of length $n+1$, where $s[i]$ represents the number of strings that start and end with a vowel in the first $i$ strings of the array $words$. Initially, $s[0] = 0$.
 
-接下来，我们遍历数组 $words$，如果当前字符串以元音开头和结尾，那么 $s[i+1] = s[i] + 1$，否则 $s[i+1] = s[i]$。
+Next, we iterate through the array $words$. If the current string starts and ends with a vowel, then $s[i+1] = s[i] + 1$, otherwise $s[i+1] = s[i]$.
 
-最后，我们遍历每个查询 $(l, r)$，那么当前查询的答案就是 $s[r+1] - s[l]$。
+Finally, we iterate through each query $(l, r)$. Therefore, the answer to the current query is $s[r+1] - s[l]$.
 
-时间复杂度 $O(n + m)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别是数组 $words$ 和 $queries$ 的长度。
+The time complexity is $O(n + m)$, and the space complexity is $O(n)$. Where $n$ and $m$ are the lengths of the arrays $words$ and $queries$, respectively.
 
 <!-- tabs:start -->
 

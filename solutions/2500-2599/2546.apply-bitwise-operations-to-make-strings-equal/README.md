@@ -1,75 +1,72 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2546.Apply%20Bitwise%20Operations%20to%20Make%20Strings%20Equal/README.md
+difficulty: Medium
 rating: 1604
-source: 第 329 场周赛 Q3
+source: Weekly Contest 329 Q3
 tags:
-    - 位运算
-    - 字符串
+    - Bit Manipulation
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2546. 执行逐位运算使字符串相等](https://leetcode.cn/problems/apply-bitwise-operations-to-make-strings-equal)
+# [2546. Apply Bitwise Operations to Make Strings Equal](https://leetcode.com/problems/apply-bitwise-operations-to-make-strings-equal)
 
-[English Version](/solution/2500-2599/2546.Apply%20Bitwise%20Operations%20to%20Make%20Strings%20Equal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个下标从 <strong>0</strong> 开始的 <strong>二元</strong> 字符串 <code>s</code> 和 <code>target</code> ，两个字符串的长度均为 <code>n</code> 。你可以对 <code>s</code> 执行下述操作 <strong>任意</strong> 次：</p>
+<p>You are given two <strong>0-indexed binary</strong> strings <code>s</code> and <code>target</code> of the same length <code>n</code>. You can do the following operation on <code>s</code> <strong>any</strong> number of times:</p>
 
 <ul>
-	<li>选择两个 <strong>不同</strong> 的下标 <code>i</code> 和 <code>j</code> ，其中 <code>0 &lt;= i, j &lt; n</code> 。</li>
-	<li>同时，将 <code>s[i]</code> 替换为 (<code>s[i]</code> <strong>OR</strong> <code>s[j]</code>) ，<code>s[j]</code> 替换为 (<code>s[i]</code> <strong>XOR</strong> <code>s[j]</code>) 。</li>
+	<li>Choose two <strong>different</strong> indices <code>i</code> and <code>j</code> where <code>0 &lt;= i, j &lt; n</code>.</li>
+	<li>Simultaneously, replace <code>s[i]</code> with (<code>s[i]</code> <strong>OR</strong> <code>s[j]</code>) and <code>s[j]</code> with (<code>s[i]</code> <strong>XOR</strong> <code>s[j]</code>).</li>
 </ul>
 
-<p>例如，如果 <code>s = "0110"</code> ，你可以选择 <code>i = 0</code> 和 <code>j = 2</code>，然后同时将 <code>s[0]</code> 替换为 (<code>s[0]</code> <strong>OR</strong> <code>s[2]</code> = <code>0</code> <strong>OR</strong> <code>1</code> = <code>1</code>)，并将 <code>s[2]</code> 替换为 (<code>s[0]</code> <strong>XOR</strong> <code>s[2]</code> = <code>0</code> <strong>XOR</strong> <code>1</code> = <code>1</code>)，最终得到 <code>s = "1110"</code> 。</p>
+<p>For example, if <code>s = &quot;0110&quot;</code>, you can choose <code>i = 0</code> and <code>j = 2</code>, then simultaneously replace <code>s[0]</code> with (<code>s[0]</code> <strong>OR</strong> <code>s[2]</code> = <code>0</code> <strong>OR</strong> <code>1</code> = <code>1</code>), and <code>s[2]</code> with (<code>s[0]</code> <strong>XOR</strong> <code>s[2]</code> = <code>0</code> <strong>XOR</strong> <code>1</code> = <code>1</code>), so we will have <code>s = &quot;1110&quot;</code>.</p>
 
-<p>如果可以使 <code>s</code> 等于 <code>target</code> ，返回 <code>true</code> ，否则，返回 <code>false</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>s = "1010", target = "0110"
-<strong>输出：</strong>true
-<strong>解释：</strong>可以执行下述操作：
-- 选择 i = 2 和 j = 0 ，得到 s = "<em><strong>0</strong></em>0<em><strong>1</strong></em>0".
-- 选择 i = 2 和 j = 1 ，得到 s = "0<em><strong>11</strong></em>0".
-可以使 s 等于 target ，返回 true 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>s = "11", target = "00"
-<strong>输出：</strong>false
-<strong>解释：</strong>执行任意次操作都无法使 s 等于 target 。
-</pre>
+<p>Return <code>true</code> <em>if you can make the string </em><code>s</code><em> equal to </em><code>target</code><em>, or </em><code>false</code><em> otherwise</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;1010&quot;, target = &quot;0110&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> We can do the following operations:
+- Choose i = 2 and j = 0. We have now s = &quot;<strong><u>0</u></strong>0<strong><u>1</u></strong>0&quot;.
+- Choose i = 2 and j = 1. We have now s = &quot;0<strong><u>11</u></strong>0&quot;.
+Since we can make s equal to target, we return true.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;11&quot;, target = &quot;00&quot;
+<strong>Output:</strong> false
+<strong>Explanation:</strong> It is not possible to make s equal to target with any number of operations.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == s.length == target.length</code></li>
 	<li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> 和 <code>target</code> 仅由数字 <code>0</code> 和 <code>1</code> 组成</li>
+	<li><code>s</code> and <code>target</code> consist of only the digits <code>0</code> and <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：脑筋急转弯
+### Solution 1: Lateral Thinking
 
-我们注意到 $1$ 其实是数字转换的“工具”，因此只要两个字符串中都有 $1$ 或者都没有 $1$，那么就可以通过操作使得两个字符串相等。
+We notice that $1$ is actually a "tool" for number conversion. Therefore, as long as both strings either have $1$ or neither have $1$, we can make the two strings equal through operations.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

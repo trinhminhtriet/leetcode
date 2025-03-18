@@ -1,73 +1,71 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2195.Append%20K%20Integers%20With%20Minimal%20Sum/README.md
+difficulty: Medium
 rating: 1658
-source: 第 283 场周赛 Q2
+source: Weekly Contest 283 Q2
 tags:
-    - 贪心
-    - 数组
-    - 数学
-    - 排序
+    - Greedy
+    - Array
+    - Math
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2195. 向数组中追加 K 个整数](https://leetcode.cn/problems/append-k-integers-with-minimal-sum)
+# [2195. Append K Integers With Minimal Sum](https://leetcode.com/problems/append-k-integers-with-minimal-sum)
 
-[English Version](/solution/2100-2199/2195.Append%20K%20Integers%20With%20Minimal%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> 。请你向 <code>nums</code> 中追加 <code>k</code> 个 <strong>未</strong> 出现在 <code>nums</code> 中的、<strong>互不相同</strong> 的 <strong>正</strong> 整数，并使结果数组的元素和 <strong>最小</strong> 。</p>
+<p>You are given an integer array <code>nums</code> and an integer <code>k</code>. Append <code>k</code> <strong>unique positive</strong> integers that do <strong>not</strong> appear in <code>nums</code> to <code>nums</code> such that the resulting total sum is <strong>minimum</strong>.</p>
 
-<p>返回追加到 <code>nums</code> 中的 <code>k</code> 个整数之和。</p>
+<p>Return<em> the sum of the</em> <code>k</code> <em>integers appended to</em> <code>nums</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,4,25,10,25], k = 2
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The two unique positive integers that do not appear in nums which we append are 2 and 3.
+The resulting sum of nums is 1 + 4 + 25 + 10 + 25 + 2 + 3 = 70, which is the minimum.
+The sum of the two integers appended is 2 + 3 = 5, so we return 5.</pre>
 
-<pre><strong>输入：</strong>nums = [1,4,25,10,25], k = 2
-<strong>输出：</strong>5
-<strong>解释：</strong>在该解法中，向数组中追加的两个互不相同且未出现的正整数是 2 和 3 。
-nums 最终元素和为 1 + 4 + 25 + 10 + 25 + 2 + 3 = 70 ，这是所有情况中的最小值。
-所以追加到数组中的两个整数之和是 2 + 3 = 5 ，所以返回 5 。</pre>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>nums = [5,6], k = 6
-<strong>输出：</strong>25
-<strong>解释：</strong>在该解法中，向数组中追加的两个互不相同且未出现的正整数是 1 、2 、3 、4 、7 和 8 。
-nums 最终元素和为 5 + 6 + 1 + 2 + 3 + 4 + 7 + 8 = 36 ，这是所有情况中的最小值。
-所以追加到数组中的两个整数之和是 1 + 2 + 3 + 4 + 7 + 8 = 25 ，所以返回 25 。
+<pre>
+<strong>Input:</strong> nums = [5,6], k = 6
+<strong>Output:</strong> 25
+<strong>Explanation:</strong> The six unique positive integers that do not appear in nums which we append are 1, 2, 3, 4, 7, and 8.
+The resulting sum of nums is 5 + 6 + 1 + 2 + 3 + 4 + 7 + 8 = 36, which is the minimum. 
+The sum of the six integers appended is 1 + 2 + 3 + 4 + 7 + 8 = 25, so we return 25.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= nums[i], k &lt;= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= k &lt;= 10<sup>8</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 贪心 + 数学
+### Solution 1: Sorting + Greedy + Mathematics
 
-我们不妨向数组中加入两个哨兵节点，分别为 $0$ 和 $2 \times 10^9$。
+We can add two sentinel nodes to the array, which are $0$ and $2 \times 10^9$.
 
-然后我们对数组进行排序，那么对于数组中的任意两个相邻的元素 $a$ 和 $b$，区间 $[a+1, b-1]$ 中的整数都是未出现在数组中的，我们可以将这些整数加入到数组中。
+Then we sort the array. For any two adjacent elements $a$ and $b$ in the array, the integers in the interval $[a+1, b-1]$ do not appear in the array, and we can add these integers to the array.
 
-因此，我们从小到大遍历数组中的相邻元素对 $(a, b)$，对于每个相邻元素对，我们计算区间 $[a+1, b-1]$ 中的整数个数 $m$，那么这 $m$ 个整数的和为 $\frac{m \times (a+1 + a+m)}{2}$，我们将这个和累加到答案中，并将 $k$ 减去 $m$。如果 $k$ 减到 $0$，我们就可以停止遍历了，返回答案。
+Therefore, we traverse the adjacent element pairs $(a, b)$ in the array from small to large. For each adjacent element pair, we calculate the number of integers $m$ in the interval $[a+1, b-1]$. The sum of these $m$ integers is $\frac{m \times (a+1 + a+m)}{2}$. We add this sum to the answer and subtract $m$ from $k$. If $k$ is reduced to $0$, we can stop the traversal and return the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

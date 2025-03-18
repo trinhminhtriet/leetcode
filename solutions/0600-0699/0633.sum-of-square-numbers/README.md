@@ -1,45 +1,40 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0633.Sum%20of%20Square%20Numbers/README.md
+difficulty: Medium
 tags:
-    - 数学
-    - 双指针
-    - 二分查找
+    - Math
+    - Two Pointers
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [633. 平方数之和](https://leetcode.cn/problems/sum-of-square-numbers)
+# [633. Sum of Square Numbers](https://leetcode.com/problems/sum-of-square-numbers)
 
-[English Version](/solution/0600-0699/0633.Sum%20of%20Square%20Numbers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个非负整数&nbsp;<code>c</code>&nbsp;，你要判断是否存在两个整数 <code>a</code> 和 <code>b</code>，使得&nbsp;<code>a<sup>2</sup> + b<sup>2</sup> = c</code> 。</p>
+<p>Given a non-negative integer <code>c</code>, decide whether there&#39;re two integers <code>a</code> and <code>b</code> such that <code>a<sup>2</sup> + b<sup>2</sup> = c</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>c = 5
-<strong>输出：</strong>true
-<strong>解释：</strong>1 * 1 + 2 * 2 = 5
+<strong>Input:</strong> c = 5
+<strong>Output:</strong> true
+<strong>Explanation:</strong> 1 * 1 + 2 * 2 = 5
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>c = 3
-<strong>输出：</strong>false
+<strong>Input:</strong> c = 3
+<strong>Output:</strong> false
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= c &lt;= 2<sup>31</sup> - 1</code></li>
@@ -47,15 +42,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学 + 双指针
+### Solution 1: Mathematics + Two Pointers
 
-我们可以使用双指针的方法来解决这个问题，定义两个指针 $a$ 和 $b$，分别指向 $0$ 和 $\sqrt{c}$。在每一步中，我们会计算 $s = a^2 + b^2$ 的值，然后比较 $s$ 与 $c$ 的大小。如果 $s = c$，我们就找到了两个整数 $a$ 和 $b$，使得 $a^2 + b^2 = c$。如果 $s < c$，我们将 $a$ 的值增加 $1$，如果 $s > c$，我们将 $b$ 的值减小 $1$。我们不断进行这个过程直到找到答案，或者 $a$ 的值大于 $b$ 的值，返回 `false`。
+We can use the two-pointer method to solve this problem. Define two pointers $a$ and $b$, pointing to $0$ and $\sqrt{c}$ respectively. In each step, we calculate the value of $s = a^2 + b^2$, and then compare the size of $s$ and $c$. If $s = c$, we have found two integers $a$ and $b$ such that $a^2 + b^2 = c$. If $s < c$, we increase the value of $a$ by $1$. If $s > c$, we decrease the value of $b$ by $1$. We continue this process until we find the answer, or the value of $a$ is greater than the value of $b$, and return `false`.
 
-时间复杂度 $O(\sqrt{c})$，其中 $c$ 是给定的非负整数。空间复杂度 $O(1)$。
+The time complexity is $O(\sqrt{c})$, where $c$ is the given non-negative integer. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -195,26 +190,26 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：数学
+### Solution 2: Mathematics
 
-这个问题实际上是关于一个数能否表示为两个平方数之和的条件。这个定理可以追溯到费马（Fermat）和欧拉（Euler），它在数论中是一个经典结果。
+This problem is essentially about the conditions under which a number can be expressed as the sum of two squares. This theorem dates back to Fermat and Euler and is a classic result in number theory.
 
-具体来说，这个定理可以表述为：
+Specifically, the theorem can be stated as follows:
 
-**一个正整数 \( n \) 能表示为两个平方数之和的充要条件是：\( n \) 的所有形如 \( 4k + 3 \) 的素数因子的幂次均为偶数。**
+> A positive integer $n$ can be expressed as the sum of two squares if and only if all prime factors of $n$ of the form $4k + 3$ have even powers.
 
-这意味着，如果我们将 $n$ 分解成素数因子乘积的形式，即 $n = p_1^{e_1} p_2^{e_2} \cdots p_k^{e_k}$，其中 $p_i$ 是素数且 $e_i$ 是它们对应的幂次，那么 $n$ 可以表示为两个平方数之和，当且仅当所有 $4k + 3$ 形式的素数因子 $p_i$ 的幂次 $e_i$ 都是偶数。
+This means that if we decompose $n$ into the product of its prime factors, $n = p_1^{e_1} p_2^{e_2} \cdots p_k^{e_k}$, where $p_i$ are primes and $e_i$ are their corresponding exponents, then $n$ can be expressed as the sum of two squares if and only if all prime factors $p_i$ of the form $4k + 3$ have even exponents $e_i$.
 
-更正式地，假设 $p_i$ 是形如 $4k + 3$ 的素数，则对于每一个这样的 $p_i$，要求 $e_i$ 是偶数。
+More formally, if $p_i$ is a prime of the form $4k + 3$, then for each such $p_i$, $e_i$ must be even.
 
-例如：
+For example:
 
--   数字 $13$ 是素数，且 $13 \equiv 1 \pmod{4}$，因此它可以表示为两个平方数之和，即 $13 = 2^2 + 3^2$。
--   数字 $21$ 分解为 $3 \times 7$，其中 $3$ 和 $7$ 都是形如 $4k + 3$ 的素数因子，并且它们的幂次都是 $1$（奇数），因此 $21$ 不能表示为两个平方数之和。
+-   The number $13$ is a prime and $13 \equiv 1 \pmod{4}$, so it can be expressed as the sum of two squares, i.e., $13 = 2^2 + 3^2$.
+-   The number $21$ can be decomposed into $3 \times 7$, where both $3$ and $7$ are prime factors of the form $4k + 3$ and their exponents are $1$ (odd), so $21$ cannot be expressed as the sum of two squares.
 
-总结起来，这个定理在数论中非常重要，用于判断一个数是否可以表示为两个平方数之和。
+In summary, this theorem is very important in number theory for determining whether a number can be expressed as the sum of two squares.
 
-时间复杂度 $O(\sqrt{c})$，其中 $c$ 是给定的非负整数。空间复杂度 $O(1)$。
+The time complexity is $O(\sqrt{c})$, where $c$ is the given non-negative integer. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

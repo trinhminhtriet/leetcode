@@ -1,68 +1,56 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0645.Set%20Mismatch/README.md
+difficulty: Easy
 tags:
-    - 位运算
-    - 数组
-    - 哈希表
-    - 排序
+    - Bit Manipulation
+    - Array
+    - Hash Table
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [645. 错误的集合](https://leetcode.cn/problems/set-mismatch)
+# [645. Set Mismatch](https://leetcode.com/problems/set-mismatch)
 
-[English Version](/solution/0600-0699/0645.Set%20Mismatch/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>集合 <code>s</code> 包含从 <code>1</code> 到 <code>n</code> 的整数。不幸的是，因为数据错误，导致集合里面某一个数字复制了成了集合里面的另外一个数字的值，导致集合 <strong>丢失了一个数字</strong> 并且 <strong>有一个数字重复</strong> 。</p>
+<p>You have a set of integers <code>s</code>, which originally contains all the numbers from <code>1</code> to <code>n</code>. Unfortunately, due to some error, one of the numbers in <code>s</code> got duplicated to another number in the set, which results in <strong>repetition of one</strong> number and <strong>loss of another</strong> number.</p>
 
-<p>给定一个数组 <code>nums</code> 代表了集合 <code>S</code> 发生错误后的结果。</p>
+<p>You are given an integer array <code>nums</code> representing the data status of this set after the error.</p>
 
-<p>请你找出重复出现的整数，再找到丢失的整数，将它们以数组的形式返回。</p>
+<p>Find the number that occurs twice and the number that is missing and return <em>them in the form of an array</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,2,4]
-<strong>输出：</strong>[2,3]
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> nums = [1,2,2,4]
+<strong>Output:</strong> [2,3]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> nums = [1,1]
+<strong>Output:</strong> [1,2]
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,1]
-<strong>输出：</strong>[1,2]
-</pre>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>2 <= nums.length <= 10<sup>4</sup></code></li>
-	<li><code>1 <= nums[i] <= 10<sup>4</sup></code></li>
+	<li><code>2 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
+### Solution 1: Mathematics
 
-我们用 $s_1$ 表示 $[1,..n]$ 所有数字的和，用 $s_2$ 表示数组 $nums$ 去重后的数字和，用 $s$ 表示数组 $nums$ 的数字和。
+We denote $s_1$ as the sum of all numbers from $[1,..n]$, $s_2$ as the sum of the numbers in the array $nums$ after removing duplicates, and $s$ as the sum of the numbers in the array $nums$.
 
-那么 $s - s_2$ 就是重复的数字，而 $s_1 - s_2$ 就是缺失的数字。
+Then $s - s_2$ is the duplicate number, and $s_1 - s_2$ is the missing number.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。需要额外的空间对数组去重。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array $nums$. Extra space is needed to store the array after de-duplication.
 
 <!-- tabs:start -->
 
@@ -175,13 +163,13 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：哈希表
+### Solution 2: Hash Table
 
-我们也可以一种更加直观的方法，直接用哈希表 $cnt$ 统计数组 $nums$ 中每个数字出现的次数。
+We can also use a more intuitive method, using a hash table $cnt$ to count the occurrence of each number in the array $nums$.
 
-接下来遍历 $x \in [1, n]$，如果 $cnt[x] = 2$，那么 $x$ 就是重复的数字，如果 $cnt[x] = 0$，那么 $x$ 就是缺失的数字。
+Next, iterate through $x \in [1, n]$, if $cnt[x] = 2$, then $x$ is the duplicate number, if $cnt[x] = 0$, then $x$ is the missing number.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 
@@ -328,15 +316,15 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法三：位运算
+### Solution 3: Bit Operation
 
-根据异或运算的性质，对于整数 $x$，有 $x \oplus x = 0$ 以及 $x \oplus 0 = x$，因此我们对数组 $nums$ 中的所有元素以及 $i \in [1, n]$ 的所有数字进行异或运算，可以消除出现两次的数字，最终只留下缺失的数字和重复的数字的异或结果，即 $xs = a \oplus b$。
+According to the properties of the XOR operation, for integer $x$, we have $x \oplus x = 0$ and $x \oplus 0 = x$. Therefore, if we perform the XOR operation on all elements in the array $nums$ and all numbers $i \in [1, n]$, we can eliminate the numbers that appear twice, leaving only the XOR result of the missing number and the duplicate number, i.e., $xs = a \oplus b$.
 
-由于这两个数字不相等，因此异或结果中至少存在一位为 $1$。我们通过 $lowbit$ 运算找到异或结果中最低位的 $1$，然后将数组 $nums$ 中所有数字以及 $i \in [1, n]$ 的所有数字按照该位是否为 $1$ 分为两组，这样两个数字就被分到了不同的组中。其中一组数字的异或结果为 $a$，另一组数字的异或结果为 $b$。那么这两个数字就是我们要找的答案。
+Since these two numbers are not equal, there must be at least one bit in the XOR result that is $1$. We find the lowest bit of $1$ in the XOR result through the $lowbit$ operation, and then divide all numbers in the array $nums$ and all numbers $i \in [1, n]$ into two groups according to whether this bit is $1$. In this way, the two numbers are divided into different groups. The XOR result of one group of numbers is $a$, and the XOR result of the other group is $b$. These two numbers are the answers we are looking for.
 
-接下来我们只需要判断 $a$ 和 $b$ 哪个数字是重复的数字，哪个数字是缺失的数字即可。因此，遍历数组 $nums$，对于遍历到的数字 $x$，如果 $x=a$，那么 $a$ 就是重复的数字，返回 $[a, b]$，否则遍历结束，返回 $[b, a]$。
+Next, we only need to determine which of $a$ and $b$ is the duplicate number and which is the missing number. Therefore, iterate through the array $nums$, for the traversed number $x$, if $x=a$, then $a$ is the duplicate number, return $[a, b]$, otherwise, at the end of the iteration, return $[b, a]$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$，仅使用常数大小的额外空间。
+The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$, only using a constant size of extra space.
 
 <!-- tabs:start -->
 

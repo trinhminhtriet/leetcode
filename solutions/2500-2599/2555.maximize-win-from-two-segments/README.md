@@ -1,79 +1,83 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2555.Maximize%20Win%20From%20Two%20Segments/README.md
+difficulty: Medium
 rating: 2080
-source: 第 97 场双周赛 Q3
+source: Biweekly Contest 97 Q3
 tags:
-    - 数组
-    - 二分查找
-    - 滑动窗口
+    - Array
+    - Binary Search
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [2555. 两个线段获得的最多奖品](https://leetcode.cn/problems/maximize-win-from-two-segments)
+# [2555. Maximize Win From Two Segments](https://leetcode.com/problems/maximize-win-from-two-segments)
 
-[English Version](/solution/2500-2599/2555.Maximize%20Win%20From%20Two%20Segments/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在 <strong>X轴</strong>&nbsp;上有一些奖品。给你一个整数数组&nbsp;<code>prizePositions</code>&nbsp;，它按照 <strong>非递减</strong>&nbsp;顺序排列，其中&nbsp;<code>prizePositions[i]</code>&nbsp;是第&nbsp;<code>i</code>&nbsp;件奖品的位置。数轴上一个位置可能会有多件奖品。再给你一个整数&nbsp;<code>k</code>&nbsp;。</p>
+<p>There are some prizes on the <strong>X-axis</strong>. You are given an integer array <code>prizePositions</code> that is <strong>sorted in non-decreasing order</strong>, where <code>prizePositions[i]</code> is the position of the <code>i<sup>th</sup></code> prize. There could be different prizes at the same position on the line. You are also given an integer <code>k</code>.</p>
 
-<p>你可以同时选择两个端点为整数的线段。每个线段的长度都必须是 <code>k</code>&nbsp;。你可以获得位置在任一线段上的所有奖品（包括线段的两个端点）。注意，两个线段可能会有相交。</p>
+<p>You are allowed to select two segments with integer endpoints. The length of each segment must be <code>k</code>. You will collect all prizes whose position falls within at least one of the two selected segments (including the endpoints of the segments). The two selected segments may intersect.</p>
 
 <ul>
-	<li>比方说&nbsp;<code>k = 2</code>&nbsp;，你可以选择线段&nbsp;<code>[1, 3]</code> 和&nbsp;<code>[2, 4]</code>&nbsp;，你可以获得满足&nbsp;<code>1 &lt;= prizePositions[i] &lt;= 3</code> 或者&nbsp;<code>2 &lt;= prizePositions[i] &lt;= 4</code>&nbsp;的所有奖品 i 。</li>
+	<li>For example if <code>k = 2</code>, you can choose segments <code>[1, 3]</code> and <code>[2, 4]</code>, and you will win any prize <font face="monospace">i</font> that satisfies <code>1 &lt;= prizePositions[i] &lt;= 3</code> or <code>2 &lt;= prizePositions[i] &lt;= 4</code>.</li>
 </ul>
 
-<p>请你返回在选择两个最优线段的前提下，可以获得的 <strong>最多</strong>&nbsp;奖品数目。</p>
+<p>Return <em>the <strong>maximum</strong> number of prizes you can win if you choose the two segments optimally</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>prizePositions = [1,1,2,2,3,3,5], k = 2
-<b>输出：</b>7
-<b>解释：</b>这个例子中，你可以选择线段 [1, 3] 和 [3, 5] ，获得 7 个奖品。
+<strong>Input:</strong> prizePositions = [1,1,2,2,3,3,5], k = 2
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> In this example, you can win all 7 prizes by selecting two segments [1, 3] and [3, 5].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>prizePositions = [1,2,3,4], k = 0
-<b>输出：</b>2
-<b>解释：</b>这个例子中，一个选择是选择线段 <code>[3, 3]</code> 和 <code>[4, 4]</code> ，获得 2 个奖品。
+<strong>Input:</strong> prizePositions = [1,2,3,4], k = 0
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> For this example, <strong>one choice</strong> for the segments is <code>[3, 3]</code> and <code>[4, 4],</code> and you will be able to get <code>2</code> prizes. 
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= prizePositions.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= prizePositions[i] &lt;= 10<sup>9</sup></code></li>
 	<li><code>0 &lt;= k &lt;= 10<sup>9</sup> </code></li>
-	<li><code>prizePositions</code>&nbsp;有序非递减。</li>
+	<li><code>prizePositions</code> is sorted in non-decreasing order.</li>
 </ul>
+
+<p>&nbsp;</p>
+<style type="text/css">.spoilerbutton {display:block; border:dashed; padding: 0px 0px; margin:10px 0px; font-size:150%; font-weight: bold; color:#000000; background-color:cyan; outline:0; 
+}
+.spoiler {overflow:hidden;}
+.spoiler > div {-webkit-transition: all 0s ease;-moz-transition: margin 0s ease;-o-transition: all 0s ease;transition: margin 0s ease;}
+.spoilerbutton[value="Show Message"] + .spoiler > div {margin-top:-500%;}
+.spoilerbutton[value="Hide Message"] + .spoiler {padding:5px;}
+</style>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划 + 二分查找
+### Solution 1: Dynamic Programming + Binary Search
 
-我们定义 $f[i]$ 表示在前 $i$ 个奖品中，选择一个长度为 $k$ 的线段，可以获得的最多奖品数目。初始时 $f[0] = 0$。定义答案变量 $ans = 0$。
+We define $f[i]$ as the maximum number of prizes that can be obtained by selecting a segment of length $k$ from the first $i$ prizes. Initially, $f[0] = 0$. We define the answer variable as $ans = 0$.
 
-接下来，我们枚举每个奖品的位置 $x$，通过二分查找，找到最左边的奖品下标 $j$，使得 $prizePositions[j] \geq x - k$。此时，我们更新答案 $ans = \max(ans, f[j] + i - j)$，并更新 $f[i] = \max(f[i - 1], i - j)$。
+Next, we enumerate the position $x$ of each prize, and use binary search to find the leftmost prize index $j$ such that $prizePositions[j] \geq x - k$. At this point, we update the answer $ans = \max(ans, f[j] + i - j)$, and update $f[i] = \max(f[i - 1], i - j)$.
 
-最后，返回 $ans$ 即可。
+Finally, we return $ans$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为奖品数目。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the number of prizes.
 
 <!-- tabs:start -->
 

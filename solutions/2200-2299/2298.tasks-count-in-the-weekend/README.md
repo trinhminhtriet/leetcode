@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2298.Tasks%20Count%20in%20the%20Weekend/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2298. 周末任务计数 🔒](https://leetcode.cn/problems/tasks-count-in-the-weekend)
+# [2298. Tasks Count in the Weekend 🔒](https://leetcode.com/problems/tasks-count-in-the-weekend)
 
-[English Version](/solution/2200-2299/2298.Tasks%20Count%20in%20the%20Weekend/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Tasks</code></p>
+<p>Table: <code>Tasks</code></p>
 
 <pre>
 +-------------+------+
@@ -26,29 +23,29 @@ tags:
 | assignee_id | int  |
 | submit_date | date |
 +-------------+------+
-<code>task_id</code> 是该表的主键（具有唯一值的列）。
-此表中的每一行都包含任务 ID、委托人 ID 和提交日期。
+task_id is the primary key (column with unique values) for this table.
+Each row in this table contains the ID of a task, the id of the assignee, and the submission date.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写一个解决方案来报告：</p>
+<p>Write a solution&nbsp;to report:</p>
 
 <ul>
-	<li>在周末 (周六，周日) 提交的任务的数量&nbsp;<code>weekend_cnt</code>，以及</li>
-	<li>工作日内提交的任务数 <code>working_cnt</code>。</li>
+	<li>the number of tasks that were submitted during the weekend (Saturday, Sunday) as <code>weekend_cnt</code>, and</li>
+	<li>the number of tasks that were submitted during the working days as <code>working_cnt</code>.</li>
 </ul>
 
-<p>按 <strong>任意顺序</strong> 返回结果表。<br />
-返回结果格式如以下示例所示。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
+
+<p>The&nbsp;result format is shown in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
-Tasks 表:
+<strong>Input:</strong> 
+Tasks table:
 +---------+-------------+-------------+
 | task_id | assignee_id | submit_date |
 +---------+-------------+-------------+
@@ -59,32 +56,30 @@ Tasks 表:
 | 5       | 5           | 2022-06-19  |
 | 6       | 7           | 2022-06-19  |
 +---------+-------------+-------------+
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +-------------+-------------+
 | weekend_cnt | working_cnt |
 +-------------+-------------+
 | 3           | 3           |
 +-------------+-------------+
-<strong>解释:</strong> 
-Task 1 是在周一提交的。
-Task 2 是在周二提交的。
-Task 3 是在周三提交的。
-Task 4 是在周六提交的。
-Task 5 是在周日提交的。
-Task 6 是在周日提交的。
-3 个任务是在周末提交的。
-3 个任务是在工作日提交的。
+<strong>Explanation:</strong> 
+Task 1 was submitted on Monday.
+Task 2 was submitted on Tuesday.
+Task 3 was submitted on Wednesday.
+Task 4 was submitted on Saturday.
+Task 5 was submitted on Sunday.
+Task 6 was submitted on Sunday.
+3 tasks were submitted during the weekend.
+3 tasks were submitted during the working days.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：WEEKDAY() 函数
-
-`WEEKDAY()` 函数返回日期的工作日编号，从 0 开始，0 表示星期一，1 表示星期二，以此类推，6 表示星期日。
+### Solution 1
 
 <!-- tabs:start -->
 

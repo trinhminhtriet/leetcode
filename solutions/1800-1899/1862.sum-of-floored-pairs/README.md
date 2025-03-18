@@ -1,54 +1,51 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1862.Sum%20of%20Floored%20Pairs/README.md
+difficulty: Hard
 rating: 2170
-source: 第 52 场双周赛 Q4
+source: Biweekly Contest 52 Q4
 tags:
-    - 数组
-    - 数学
-    - 二分查找
-    - 前缀和
+    - Array
+    - Math
+    - Binary Search
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [1862. 向下取整数对和](https://leetcode.cn/problems/sum-of-floored-pairs)
+# [1862. Sum of Floored Pairs](https://leetcode.com/problems/sum-of-floored-pairs)
 
-[English Version](/solution/1800-1899/1862.Sum%20of%20Floored%20Pairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> ，请你返回所有下标对 <code>0 &lt;= i, j &lt; nums.length</code> 的 <code>floor(nums[i] / nums[j])</code> 结果之和。由于答案可能会很大，请你返回答案对<code>10<sup>9</sup> + 7</code> <strong>取余</strong> 的结果。</p>
+<p>Given an integer array <code>nums</code>, return the sum of <code>floor(nums[i] / nums[j])</code> for all pairs of indices <code>0 &lt;= i, j &lt; nums.length</code> in the array. Since the answer may be too large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
-<p>函数 <code>floor()</code> 返回输入数字的整数部分。</p>
+<p>The <code>floor()</code> function returns the integer part of the division.</p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [2,5,9]
-<b>输出：</b>10
-<strong>解释：</strong>
+<pre>
+<strong>Input:</strong> nums = [2,5,9]
+<strong>Output:</strong> 10
+<strong>Explanation:</strong>
 floor(2 / 5) = floor(2 / 9) = floor(5 / 9) = 0
 floor(2 / 2) = floor(5 / 5) = floor(9 / 9) = 1
 floor(5 / 2) = 2
 floor(9 / 2) = 4
 floor(9 / 5) = 1
-我们计算每一个数对商向下取整的结果并求和得到 10 。
+We calculate the floor of the division for every pair of indices in the array then sum them up.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>nums = [7,7,7,7,7,7,7]
-<b>输出：</b>49
+<pre>
+<strong>Input:</strong> nums = [7,7,7,7,7,7,7]
+<strong>Output:</strong> 49
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -57,17 +54,17 @@ floor(9 / 5) = 1
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：值域前缀和 + 优化枚举
+### Solution 1: Prefix Sum of Value Range + Optimized Enumeration
 
-我们先统计数组 $nums$ 中每个元素出现的次数，记录在数组 $cnt$ 中，然后计算数组 $cnt$ 的前缀和，记录在数组 $s$ 中，即 $s[i]$ 表示小于等于 $i$ 的元素的个数。
+First, we count the occurrences of each element in the array $nums$ and record them in the array $cnt$. Then, we calculate the prefix sum of the array $cnt$ and record it in the array $s$, i.e., $s[i]$ represents the count of elements less than or equal to $i$.
 
-接下来，我们枚举分母 $y$ 以及商 $d$，利用前缀和数组计算得到分子的个数 $s[\min(mx, d \times y + y - 1)] - s[d \times y - 1]$，其中 $mx$ 表示数组 $nums$ 中的最大值。那么，我们将分子的个数，乘以分母的个数 $cnt[y]$，再乘以商 $d$，就可以得到所有满足条件的分式的值，将这些值累加起来，就可以得到答案。
+Next, we enumerate the denominator $y$ and the quotient $d$. Using the prefix sum array, we can calculate the count of the numerator $s[\min(mx, d \times y + y - 1)] - s[d \times y - 1]$, where $mx$ represents the maximum value in the array $nums$. Then, we multiply the count of the numerator by the count of the denominator $cnt[y]$, and then multiply by the quotient $d$. This gives us the value of all fractions that meet the conditions. By summing these values, we can get the answer.
 
-时间复杂度 $O(M \times \log M)$，空间复杂度 $O(M)$，其中 $M$ 表示数组 $nums$ 中的最大值。
+The time complexity is $O(M \times \log M)$, and the space complexity is $O(M)$. Here, $M$ is the maximum value in the array $nums$.
 
 <!-- tabs:start -->
 

@@ -1,82 +1,77 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1436.Destination%20City/README.md
+difficulty: Easy
 rating: 1192
-source: 第 187 场周赛 Q1
+source: Weekly Contest 187 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
+    - Array
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1436. 旅行终点站](https://leetcode.cn/problems/destination-city)
+# [1436. Destination City](https://leetcode.com/problems/destination-city)
 
-[English Version](/solution/1400-1499/1436.Destination%20City/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一份旅游线路图，该线路图中的旅行线路用数组 <code>paths</code> 表示，其中 <code>paths[i] = [cityA<sub>i</sub>, cityB<sub>i</sub>]</code> 表示该线路将会从 <code>cityA<sub>i</sub></code> 直接前往 <code>cityB<sub>i</sub></code> 。请你找出这次旅行的终点站，即没有任何可以通往其他城市的线路的城市<em>。</em></p>
+<p>You are given the array <code>paths</code>, where <code>paths[i] = [cityA<sub>i</sub>, cityB<sub>i</sub>]</code> means there exists a direct path going from <code>cityA<sub>i</sub></code> to <code>cityB<sub>i</sub></code>. <em>Return the destination city, that is, the city without any path outgoing to another city.</em></p>
 
-<p>题目数据保证线路图会形成一条不存在循环的线路，因此恰有一个旅行终点站。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>paths = [["London","New York"],["New York","Lima"],["Lima","Sao Paulo"]]
-<strong>输出：</strong>"Sao Paulo" 
-<strong>解释：</strong>从 "London" 出发，最后抵达终点站 "Sao Paulo" 。本次旅行的路线是 "London" -&gt; "New York" -&gt; "Lima" -&gt; "Sao Paulo" 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>paths = [["B","C"],["D","B"],["C","A"]]
-<strong>输出：</strong>"A"
-<strong>解释：</strong>所有可能的线路是：
-"D" -&gt; "B" -&gt; "C" -&gt; "A".&nbsp;
-"B" -&gt; "C" -&gt; "A".&nbsp;
-"C" -&gt; "A".&nbsp;
-"A".&nbsp;
-显然，旅行终点站是 "A" 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>paths = [["A","Z"]]
-<strong>输出：</strong>"Z"
-</pre>
+<p>It is guaranteed that the graph of paths forms a line without any loop, therefore, there will be exactly one destination city.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> paths = [[&quot;London&quot;,&quot;New York&quot;],[&quot;New York&quot;,&quot;Lima&quot;],[&quot;Lima&quot;,&quot;Sao Paulo&quot;]]
+<strong>Output:</strong> &quot;Sao Paulo&quot; 
+<strong>Explanation:</strong> Starting at &quot;London&quot; city you will reach &quot;Sao Paulo&quot; city which is the destination city. Your trip consist of: &quot;London&quot; -&gt; &quot;New York&quot; -&gt; &quot;Lima&quot; -&gt; &quot;Sao Paulo&quot;.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> paths = [[&quot;B&quot;,&quot;C&quot;],[&quot;D&quot;,&quot;B&quot;],[&quot;C&quot;,&quot;A&quot;]]
+<strong>Output:</strong> &quot;A&quot;
+<strong>Explanation:</strong> All possible trips are:&nbsp;
+&quot;D&quot; -&gt; &quot;B&quot; -&gt; &quot;C&quot; -&gt; &quot;A&quot;.&nbsp;
+&quot;B&quot; -&gt; &quot;C&quot; -&gt; &quot;A&quot;.&nbsp;
+&quot;C&quot; -&gt; &quot;A&quot;.&nbsp;
+&quot;A&quot;.&nbsp;
+Clearly the destination city is &quot;A&quot;.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> paths = [[&quot;A&quot;,&quot;Z&quot;]]
+<strong>Output:</strong> &quot;Z&quot;
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= paths.length &lt;= 100</code></li>
 	<li><code>paths[i].length == 2</code></li>
-	<li><code>1 &lt;=&nbsp;cityA<sub>i</sub>.length,&nbsp;cityB<sub>i</sub>.length &lt;= 10</code></li>
-	<li><code>cityA<sub>i&nbsp;</sub>!=&nbsp;cityB<sub>i</sub></code></li>
-	<li>所有字符串均由大小写英文字母和空格字符组成。</li>
+	<li><code>1 &lt;= cityA<sub>i</sub>.length, cityB<sub>i</sub>.length &lt;= 10</code></li>
+	<li><code>cityA<sub>i</sub> != cityB<sub>i</sub></code></li>
+	<li>All strings consist of lowercase and uppercase English letters and the space character.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-根据题目描述，终点一定不会出现在所有 $\textit{cityA}$ 中，因此，我们可以先遍历一遍 $\textit{paths}$，将所有 $\textit{cityA}$ 放入一个集合 $\textit{s}$ 中，然后再遍历一遍 $\textit{paths}$，找到不在 $\textit{s}$ 中的 $\textit{cityB}$ 即可。
+According to the problem description, the destination city will not appear in any of the $\textit{cityA}$. Therefore, we can first traverse the $\textit{paths}$ and put all $\textit{cityA}$ into a set $\textit{s}$. Then, we traverse the $\textit{paths}$ again to find the $\textit{cityB}$ that is not in $\textit{s}$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为 $\textit{paths}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of $\textit{paths}$.
 
 <!-- tabs:start -->
 

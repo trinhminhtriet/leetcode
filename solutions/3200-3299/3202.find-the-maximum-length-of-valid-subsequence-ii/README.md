@@ -1,62 +1,56 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3202.Find%20the%20Maximum%20Length%20of%20Valid%20Subsequence%20II/README.md
+difficulty: Medium
 rating: 1973
-source: 第 404 场周赛 Q3
+source: Weekly Contest 404 Q3
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3202. 找出有效子序列的最大长度 II](https://leetcode.cn/problems/find-the-maximum-length-of-valid-subsequence-ii)
+# [3202. Find the Maximum Length of Valid Subsequence II](https://leetcode.com/problems/find-the-maximum-length-of-valid-subsequence-ii)
 
-[English Version](/solution/3200-3299/3202.Find%20the%20Maximum%20Length%20of%20Valid%20Subsequence%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-给你一个整数数组&nbsp;<code>nums</code>&nbsp;和一个 <strong>正</strong>&nbsp;整数&nbsp;<code>k</code>&nbsp;。
+You are given an integer array <code>nums</code> and a <strong>positive</strong> integer <code>k</code>.
 
-<p><code>nums</code>&nbsp;的一个&nbsp;<span data-keyword="subsequence-array">子序列</span> <code>sub</code>&nbsp;的长度为 <code>x</code>&nbsp;，如果其满足以下条件，则称其为 <strong>有效子序列</strong>&nbsp;：</p>
+<p>A <span data-keyword="subsequence-array">subsequence</span> <code>sub</code> of <code>nums</code> with length <code>x</code> is called <strong>valid</strong> if it satisfies:</p>
 
 <ul>
-	<li><code>(sub[0] + sub[1]) % k == (sub[1] + sub[2]) % k == ... == (sub[x - 2] + sub[x - 1]) % k</code></li>
+	<li><code>(sub[0] + sub[1]) % k == (sub[1] + sub[2]) % k == ... == (sub[x - 2] + sub[x - 1]) % k.</code></li>
 </ul>
-返回 <code>nums</code>&nbsp;的 <strong>最长</strong><strong>有效子序列</strong>&nbsp;的长度。
-
+Return the length of the <strong>longest</strong> <strong>valid</strong> subsequence of <code>nums</code>.
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,2,3,4,5], k = 2</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3,4,5], k = 2</span></p>
 
-<p><span class="example-io"><b>输出：</b>5</span></p>
+<p><strong>Output:</strong> <span class="example-io">5</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>最长有效子序列是&nbsp;<code>[1, 2, 3, 4, 5]</code>&nbsp;。</p>
+<p>The longest valid subsequence is <code>[1, 2, 3, 4, 5]</code>.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,4,2,3,1,4], k = 3</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,4,2,3,1,4], k = 3</span></p>
 
-<p><span class="example-io"><b>输出：</b>4</span></p>
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>最长有效子序列是&nbsp;<code>[1, 4, 1, 4]</code>&nbsp;。</p>
+<p>The longest valid subsequence is <code>[1, 4, 1, 4]</code>.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 10<sup>3</sup></code></li>
@@ -66,21 +60,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-根据题目描述，我们可以得知，对于子序列 $a_1, a_2, a_3, \cdots, a_x$，如果满足 $(a_1 + a_2) \bmod k = (a_2 + a_3) \bmod k$。那么 $a_1 \bmod k = a_3 \bmod k$。也即是说，所有奇数项元素对 $k$ 取模的结果相同，所有偶数项元素对 $k$ 取模的结果相同。
+Based on the problem description, we know that for a subsequence $a_1, a_2, a_3, \cdots, a_x$, if it satisfies $(a_1 + a_2) \bmod k = (a_2 + a_3) \bmod k$, then $a_1 \bmod k = a_3 \bmod k$. This means that the result of taking modulo $k$ for all odd-indexed elements is the same, and the result for all even-indexed elements is the same as well.
 
-我们可以使用动态规划的方法解决这个问题。定义状态 $f[x][y]$ 表示最后一项对 $k$ 取模为 $x$，倒数第二项对 $k$ 取模为 $y$ 的最长有效子序列的长度。初始时 $f[x][y] = 0$。
+We can solve this problem using dynamic programming. Define the state $f[x][y]$ as the length of the longest valid subsequence where the last element modulo $k$ equals $x$, and the second to last element modulo $k$ equals $y$. Initially, $f[x][y] = 0$.
 
-遍历数组 $nums$，对于每一个数 $x$，我们得到 $x = x \bmod k$。然后我们可以枚举序列连续两个数对 $j$ 取模结果相同，其中 $j \in [0, k)$。那么 $x$ 的前一个数对 $k$ 取模结果为 $y = (j - x + k) \bmod k$。此时 $f[x][y] = f[y][x] + 1$。
+Iterate through the array $nums$, and for each number $x$, we get $x = x \bmod k$. Then, we can enumerate the sequences where two consecutive numbers modulo $j$ yield the same result, where $j \in [0, k)$. Thus, the previous number modulo $k$ would be $y = (j - x + k) \bmod k$. At this point, $f[x][y] = f[y][x] + 1$.
 
-答案为所有 $f[x][y]$ 中的最大值。
+The answer is the maximum value among all $f[x][y]$.
 
-时间复杂度 $O(n \times k)$，空间复杂度 $O(k^2)$。其中 $n$ 为数组 $\textit{nums}$ 的长度，而 $k$ 为给定的正整数。
+The time complexity is $O(n \times k)$, and the space complexity is $O(k^2)$. Here, $n$ is the length of the array $\textit{nums}$, and $k$ is the given positive integer.
+
+<!-- tabs:start -->
 
 #### Python3
 

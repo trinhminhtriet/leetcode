@@ -1,62 +1,55 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2560.House%20Robber%20IV/README.md
+difficulty: Medium
 rating: 2081
-source: 第 331 场周赛 Q3
+source: Weekly Contest 331 Q3
 tags:
-    - 数组
-    - 二分查找
+    - Array
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [2560. 打家劫舍 IV](https://leetcode.cn/problems/house-robber-iv)
+# [2560. House Robber IV](https://leetcode.com/problems/house-robber-iv)
 
-[English Version](/solution/2500-2599/2560.House%20Robber%20IV/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>沿街有一排连续的房屋。每间房屋内都藏有一定的现金。现在有一位小偷计划从这些房屋中窃取现金。</p>
+<p>There are several consecutive houses along a street, each of which has some money inside. There is also a robber, who wants to steal money from the homes, but he <strong>refuses to steal from adjacent homes</strong>.</p>
 
-<p>由于相邻的房屋装有相互连通的防盗系统，所以小偷 <strong>不会窃取相邻的房屋</strong> 。</p>
+<p>The <strong>capability</strong> of the robber is the maximum amount of money he steals from one house of all the houses he robbed.</p>
 
-<p>小偷的 <strong>窃取能力</strong> 定义为他在窃取过程中能从单间房屋中窃取的 <strong>最大金额</strong> 。</p>
+<p>You are given an integer array <code>nums</code> representing how much money is stashed in each house. More formally, the <code>i<sup>th</sup></code> house from the left has <code>nums[i]</code> dollars.</p>
 
-<p>给你一个整数数组 <code>nums</code> 表示每间房屋存放的现金金额。形式上，从左起第 <code>i</code> 间房屋中放有 <code>nums[i]</code> 美元。</p>
+<p>You are also given an integer <code>k</code>, representing the <strong>minimum</strong> number of houses the robber will steal from. It is always possible to steal at least <code>k</code> houses.</p>
 
-<p>另给你一个整数&nbsp;<code>k</code> ，表示窃贼将会窃取的 <strong>最少</strong> 房屋数。小偷总能窃取至少 <code>k</code> 间房屋。</p>
-
-<p>返回小偷的 <strong>最小</strong> 窃取能力。</p>
+<p>Return <em>the <strong>minimum</strong> capability of the robber out of all the possible ways to steal at least </em><code>k</code><em> houses</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2,3,5,9], k = 2
-<strong>输出：</strong>5
-<strong>解释：</strong>
-小偷窃取至少 2 间房屋，共有 3 种方式：
-- 窃取下标 0 和 2 处的房屋，窃取能力为 max(nums[0], nums[2]) = 5 。
-- 窃取下标 0 和 3 处的房屋，窃取能力为 max(nums[0], nums[3]) = 9 。
-- 窃取下标 1 和 3 处的房屋，窃取能力为 max(nums[1], nums[3]) = 9 。
-因此，返回 min(5, 9, 9) = 5 。
+<strong>Input:</strong> nums = [2,3,5,9], k = 2
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> 
+There are three ways to rob at least 2 houses:
+- Rob the houses at indices 0 and 2. Capability is max(nums[0], nums[2]) = 5.
+- Rob the houses at indices 0 and 3. Capability is max(nums[0], nums[3]) = 9.
+- Rob the houses at indices 1 and 3. Capability is max(nums[1], nums[3]) = 9.
+Therefore, we return min(5, 9, 9) = 5.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2,7,9,3,1], k = 2
-<strong>输出：</strong>2
-<strong>解释：</strong>共有 7 种窃取方式。窃取能力最小的情况所对应的方式是窃取下标 0 和 4 处的房屋。返回 max(nums[0], nums[4]) = 2 。
+<strong>Input:</strong> nums = [2,7,9,3,1], k = 2
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> There are 7 ways to rob the houses. The way which leads to minimum capability is to rob the house at index 0 and 4. Return max(nums[0], nums[4]) = 2.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -66,15 +59,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找 + 贪心
+### Solution 1: Binary Search + Greedy
 
-题目求的是窃贼的最小窃取能力，我们可以二分枚举窃贼的窃取能力，对于枚举的能力 $x$，我们可以通过贪心的方式判断窃贼是否能够窃取至少 $k$ 间房屋，具体地，我们从左到右遍历数组，对于当前遍历到的房屋 $i$，如果 $nums[i] \leq x$ 且 $i$ 与上一个窃取的房屋的下标之差大于 $1$，则窃贼可以窃取房屋 $i$，否则窃贼不能窃取房屋 $i$。累计窃取的房屋数，如果窃取的房屋数大于等于 $k$，则说明窃贼可以窃取至少 $k$ 间房屋，此时窃贼的窃取能力 $x$ 可能是最小的，否则窃贼的窃取能力 $x$ 不是最小的。
+The problem is asking for the minimum stealing ability of the thief. We can use binary search to enumerate the stealing ability of the thief. For the enumerated ability $x$, we can use a greedy approach to determine whether the thief can steal at least $k$ houses. Specifically, we traverse the array from left to right. For the current house $i$ we are traversing, if $nums[i] \leq x$ and the difference between the index of $i$ and the last stolen house is greater than $1$, then the thief can steal house $i$. Otherwise, the thief cannot steal house $i$. We accumulate the number of stolen houses. If the number of stolen houses is greater than or equal to $k$, it means that the thief can steal at least $k$ houses, and at this time, the stealing ability $x$ of the thief might be the minimum. Otherwise, the stealing ability $x$ of the thief is not the minimum.
 
-时间复杂度 $O(n \times \log m)$，空间复杂度 $O(1)$。其中 $n$ 和 $m$ 分别是数组 $nums$ 的长度和数组 $nums$ 中的最大值。
+The time complexity is $O(n \times \log m)$, and the space complexity is $O(1)$. Where $n$ and $m$ are the length of the array $nums$ and the maximum value in the array $nums$, respectively.
 
 <!-- tabs:start -->
 

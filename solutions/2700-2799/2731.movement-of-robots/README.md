@@ -1,108 +1,96 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2731.Movement%20of%20Robots/README.md
+difficulty: Medium
 rating: 1922
-source: 第 106 场双周赛 Q3
+source: Biweekly Contest 106 Q3
 tags:
-    - 脑筋急转弯
-    - 数组
-    - 前缀和
-    - 排序
+    - Brainteaser
+    - Array
+    - Prefix Sum
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2731. 移动机器人](https://leetcode.cn/problems/movement-of-robots)
+# [2731. Movement of Robots](https://leetcode.com/problems/movement-of-robots)
 
-[English Version](/solution/2700-2799/2731.Movement%20of%20Robots/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有一些机器人分布在一条无限长的数轴上，他们初始坐标用一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;表示。当你给机器人下达命令时，它们以每秒钟一单位的速度开始移动。</p>
+<p>Some robots are standing on an infinite number line with their initial coordinates given by a <strong>0-indexed</strong> integer array <code>nums</code> and will start moving once given the command to move. The robots will move a unit distance each second.</p>
 
-<p>给你一个字符串&nbsp;<code>s</code>&nbsp;，每个字符按顺序分别表示每个机器人移动的方向。<code>'L'</code>&nbsp;表示机器人往左或者数轴的负方向移动，<code>'R'</code>&nbsp;表示机器人往右或者数轴的正方向移动。</p>
+<p>You are given a string <code>s</code> denoting the direction in which robots will move on command. <code>&#39;L&#39;</code> means the robot will move towards the left side or negative side of the number line, whereas <code>&#39;R&#39;</code> means the robot will move towards the right side or positive side of the number line.</p>
 
-<p>当两个机器人相撞时，它们开始沿着原本相反的方向移动。</p>
+<p>If two robots collide, they will start moving in opposite directions.</p>
 
-<p>请你返回指令重复执行 <code>d</code>&nbsp;秒后，所有机器人之间两两距离之和。由于答案可能很大，请你将答案对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;取余后返回。</p>
+<p>Return <em>the sum of distances between all the&nbsp;pairs of robots </em><code>d</code> <em>seconds after&nbsp;the command. </em>Since the sum can be very large, return it modulo <code>10<sup>9</sup> + 7</code>.</p>
 
-<p><b>注意：</b></p>
+<p><b>Note: </b></p>
 
 <ul>
-	<li>对于坐标在&nbsp;<code>i</code> 和&nbsp;<code>j</code>&nbsp;的两个机器人，<code>(i,j)</code>&nbsp;和&nbsp;<code>(j,i)</code>&nbsp;视为相同的坐标对。也就是说，机器人视为无差别的。</li>
-	<li>当机器人相撞时，它们 <strong>立即改变</strong>&nbsp;它们的前进方向，这个过程不消耗任何时间。</li>
-	<li>
-	<p>当两个机器人在同一时刻占据相同的位置时，就会相撞。</p>
-
-    <ul>
-    	<li>
-    	<p>例如，如果一个机器人位于位置 0 并往右移动，另一个机器人位于位置 2 并往左移动，下一秒，它们都将占据位置 1，并改变方向。再下一秒钟后，第一个机器人位于位置 0 并往左移动，而另一个机器人位于位置 2 并往右移动。</p>
-    	</li>
-    	<li>
-    	<p>例如，如果一个机器人位于位置 0 并往右移动，另一个机器人位于位置 1 并往左移动，下一秒，第一个机器人位于位置 0 并往左行驶，而另一个机器人位于位置 1 并往右移动。</p>
-    	</li>
-    </ul>
-    </li>
-
+	<li>For two robots at the index <code>i</code> and <code>j</code>, pair <code>(i,j)</code> and pair <code>(j,i)</code> are considered the same pair.</li>
+	<li>When robots collide, they <strong>instantly change</strong> their directions without wasting any time.</li>
+	<li>Collision happens&nbsp;when two robots share the same place in a&nbsp;moment.
+	<ul>
+		<li>For example, if a robot is positioned in 0 going to the right and another is positioned in 2 going to the left, the next second they&#39;ll be both in 1 and they will change direction and the next second the first one will be in 0, heading left, and another will be in 2, heading right.</li>
+		<li>For example,&nbsp;if a robot is positioned in 0 going to the right and another is positioned in 1&nbsp;going to the left, the next second the first one will be in 0, heading left, and another will be in 1, heading right.</li>
+	</ul>
+	</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [-2,0,2], s = "RLL", d = 3
-<b>输出：</b>8
-<b>解释：</b>
-1 秒后，机器人的位置为 [-1,-1,1] 。现在下标为 0 的机器人开始往左移动，下标为 1 的机器人开始往右移动。
-2 秒后，机器人的位置为 [-2,0,0] 。现在下标为 1 的机器人开始往左移动，下标为 2 的机器人开始往右移动。
-3 秒后，机器人的位置为 [-3,-1,1] 。
-下标为 0 和 1 的机器人之间距离为 abs(-3 - (-1)) = 2 。
-下标为 0 和 2 的机器人之间的距离为 abs(-3 - 1) = 4 。
-下标为 1 和 2 的机器人之间的距离为 abs(-1 - 1) = 2 。
-所有机器人对之间的总距离为 2 + 4 + 2 = 8 。
+<strong>Input:</strong> nums = [-2,0,2], s = &quot;RLL&quot;, d = 3
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> 
+After 1 second, the positions are [-1,-1,1]. Now, the robot at index 0 will move left, and the robot at index 1 will move right.
+After 2 seconds, the positions are [-2,0,0]. Now, the robot at index 1 will move left, and the robot at index 2 will move right.
+After 3 seconds, the positions are [-3,-1,1].
+The distance between the robot at index 0 and 1 is abs(-3 - (-1)) = 2.
+The distance between the robot at index 0 and 2 is abs(-3 - 1) = 4.
+The distance between the robot at index 1 and 2 is abs(-1 - 1) = 2.
+The sum of the pairs of all distances = 2 + 4 + 2 = 8.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,0], s = "RL", d = 2
-<b>输出：</b>5
-<b>解释：</b>
-1 秒后，机器人的位置为 [2,-1] 。
-2 秒后，机器人的位置为 [3,-2] 。
-两个机器人的距离为 abs(-2 - 3) = 5 。
+<strong>Input:</strong> nums = [1,0], s = &quot;RL&quot;, d = 2
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> 
+After 1 second, the positions are [2,-1].
+After 2 seconds, the positions are [3,-2].
+The distance between the two robots is abs(-2 - 3) = 5.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>-2 * 10<sup>9</sup>&nbsp;&lt;= nums[i] &lt;= 2 * 10<sup>9</sup></code></li>
 	<li><code>0 &lt;= d &lt;= 10<sup>9</sup></code></li>
 	<li><code>nums.length == s.length&nbsp;</code></li>
-	<li><code>s</code>&nbsp;只包含&nbsp;<code>'L'</code> 和 <code>'R'</code>&nbsp;。</li>
-	<li><code>nums[i]</code>&nbsp;互不相同。</li>
+	<li><code>s</code> consists of &#39;L&#39; and &#39;R&#39; only</li>
+	<li><code>nums[i]</code>&nbsp;will be unique.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：脑筋急转弯 + 排序
+### Solution 1: Quick thinking + Sorting
 
-两个机器人相撞后，它们会立即改变方向，实际上相当于两个机器人继续往原来的方向移动。因此，我们遍历数组 $nums$，按照字符串 $s$ 的指令，将每个机器人的位置加上或减去 $d$，然后对数组 $nums$ 进行排序。
+After two robots collide, they will immediately change direction, which is equivalent to the two robots continuing to move in their original direction. Therefore, we traverse the array $nums$, and according to the instructions in the string $s$, we add or subtract $d$ from the position of each robot, and then sort the array $nums$.
 
-接下来，我们从小到大枚举每个机器人的位置，计算出当前机器人与前面所有机器人的距离之和，即为答案。
+Next, we enumerate the position of each robot from small to large, and calculate the sum of the distances between the current robot and all robots in front, which is the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是机器人的数目。
+The time complexity is $O(n \times \log n)$ and the space complexity is $O(n)$, where $n$ is the number of robots.
 
 <!-- tabs:start -->
 

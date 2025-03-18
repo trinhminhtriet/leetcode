@@ -1,68 +1,66 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2335.Minimum%20Amount%20of%20Time%20to%20Fill%20Cups/README.md
+difficulty: Easy
 rating: 1360
-source: 第 301 场周赛 Q1
+source: Weekly Contest 301 Q1
 tags:
-    - 贪心
-    - 数组
-    - 排序
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2335. 装满杯子需要的最短总时长](https://leetcode.cn/problems/minimum-amount-of-time-to-fill-cups)
+# [2335. Minimum Amount of Time to Fill Cups](https://leetcode.com/problems/minimum-amount-of-time-to-fill-cups)
 
-[English Version](/solution/2300-2399/2335.Minimum%20Amount%20of%20Time%20to%20Fill%20Cups/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>现有一台饮水机，可以制备冷水、温水和热水。每秒钟，可以装满 <code>2</code> 杯 <strong>不同</strong> 类型的水或者 <code>1</code> 杯任意类型的水。</p>
+<p>You have a water dispenser that can dispense cold, warm, and hot water. Every second, you can either fill up <code>2</code> cups with <strong>different</strong> types of water, or <code>1</code> cup of any type of water.</p>
 
-<p>给你一个下标从 <strong>0</strong> 开始、长度为 <code>3</code> 的整数数组 <code>amount</code> ，其中 <code>amount[0]</code>、<code>amount[1]</code> 和 <code>amount[2]</code> 分别表示需要装满冷水、温水和热水的杯子数量。返回装满所有杯子所需的 <strong>最少</strong> 秒数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>amount = [1,4,2]
-<strong>输出：</strong>4
-<strong>解释：</strong>下面给出一种方案：
-第 1 秒：装满一杯冷水和一杯温水。
-第 2 秒：装满一杯温水和一杯热水。
-第 3 秒：装满一杯温水和一杯热水。
-第 4 秒：装满一杯温水。
-可以证明最少需要 4 秒才能装满所有杯子。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>amount = [5,4,4]
-<strong>输出：</strong>7
-<strong>解释：</strong>下面给出一种方案：
-第 1 秒：装满一杯冷水和一杯热水。
-第 2 秒：装满一杯冷水和一杯温水。
-第 3 秒：装满一杯冷水和一杯温水。
-第 4 秒：装满一杯温水和一杯热水。
-第 5 秒：装满一杯冷水和一杯热水。
-第 6 秒：装满一杯冷水和一杯温水。
-第 7 秒：装满一杯热水。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>amount = [5,0,0]
-<strong>输出：</strong>5
-<strong>解释：</strong>每秒装满一杯冷水。
-</pre>
+<p>You are given a <strong>0-indexed</strong> integer array <code>amount</code> of length <code>3</code> where <code>amount[0]</code>, <code>amount[1]</code>, and <code>amount[2]</code> denote the number of cold, warm, and hot water cups you need to fill respectively. Return <em>the <strong>minimum</strong> number of seconds needed to fill up all the cups</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> amount = [1,4,2]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> One way to fill up the cups is:
+Second 1: Fill up a cold cup and a warm cup.
+Second 2: Fill up a warm cup and a hot cup.
+Second 3: Fill up a warm cup and a hot cup.
+Second 4: Fill up a warm cup.
+It can be proven that 4 is the minimum number of seconds needed.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> amount = [5,4,4]
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> One way to fill up the cups is:
+Second 1: Fill up a cold cup, and a hot cup.
+Second 2: Fill up a cold cup, and a warm cup.
+Second 3: Fill up a cold cup, and a warm cup.
+Second 4: Fill up a warm cup, and a hot cup.
+Second 5: Fill up a cold cup, and a hot cup.
+Second 6: Fill up a cold cup, and a warm cup.
+Second 7: Fill up a hot cup.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> amount = [5,0,0]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> Every second, we fill up a cold cup.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>amount.length == 3</code></li>
@@ -71,15 +69,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 排序
-
-我们可以每次贪心地选择其中较大的两个数进行减一操作（最多减为 $0$），直至所有数变为 $0$。
-
-时间复杂度 $O(S)$，空间复杂度 $O(1)$。其中 $S$ 为数组 `amount` 中所有数的和，本题中 $S \leq 300$。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -182,14 +176,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：贪心 + 分类讨论
-
-我们可以将数组 `amount` 排序，设 $a$, $b$, $c$ 分别为数组 `amount` 中的三个数，有以下两种情况：
-
--   如果 $a + b \leq c$，此时我们只需要 $c$ 次操作即可将所有数变为 $0$，因此答案为 $c$。
--   如果 $a + b > c$，每一次操作我们都可以将其中两个数减一，最终匹配完，或者剩下最后一个数（取决于总和是偶数还是奇数），因此答案为 $\left \lfloor \frac{a + b + c + 1}{2}  \right \rfloor$。
-
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+### Solution 2
 
 <!-- tabs:start -->
 

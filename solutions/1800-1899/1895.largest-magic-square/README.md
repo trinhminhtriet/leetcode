@@ -1,51 +1,48 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1895.Largest%20Magic%20Square/README.md
+difficulty: Medium
 rating: 1781
-source: 第 54 场双周赛 Q3
+source: Biweekly Contest 54 Q3
 tags:
-    - 数组
-    - 矩阵
-    - 前缀和
+    - Array
+    - Matrix
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [1895. 最大的幻方](https://leetcode.cn/problems/largest-magic-square)
+# [1895. Largest Magic Square](https://leetcode.com/problems/largest-magic-square)
 
-[English Version](/solution/1800-1899/1895.Largest%20Magic%20Square/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个 <code>k x k</code> 的<strong> 幻方</strong> 指的是一个 <code>k x k</code> 填满整数的方格阵，且每一行、每一列以及两条对角线的和 <strong>全部</strong><strong>相等</strong> 。幻方中的整数 <strong>不需要互不相同</strong> 。显然，每个 <code>1 x 1</code> 的方格都是一个幻方。</p>
+<p>A <code>k x k</code> <strong>magic square</strong> is a <code>k x k</code> grid filled with integers such that every row sum, every column sum, and both diagonal sums are <strong>all equal</strong>. The integers in the magic square <strong>do not have to be distinct</strong>. Every <code>1 x 1</code> grid is trivially a <strong>magic square</strong>.</p>
 
-<p>给你一个 <code>m x n</code> 的整数矩阵 <code>grid</code> ，请你返回矩阵中 <strong>最大幻方</strong> 的 <strong>尺寸</strong> （即边长 <code>k</code>）。</p>
+<p>Given an <code>m x n</code> integer <code>grid</code>, return <em>the <strong>size</strong> (i.e., the side length </em><code>k</code><em>) of the <strong>largest magic square</strong> that can be found within this grid</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1895.Largest%20Magic%20Square/images/magicsquare-grid.jpg" style="width: 413px; height: 335px;">
-<pre><b>输入：</b>grid = [[7,1,4,5,6],[2,5,1,6,4],[1,5,4,3,2],[1,2,7,3,4]]
-<b>输出：</b>3
-<b>解释：</b>最大幻方尺寸为 3 。
-每一行，每一列以及两条对角线的和都等于 12 。
-- 每一行的和：5+1+6 = 5+4+3 = 2+7+3 = 12
-- 每一列的和：5+5+2 = 1+4+7 = 6+3+3 = 12
-- 对角线的和：5+4+3 = 6+4+2 = 12
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1895.Largest%20Magic%20Square/images/magicsquare-grid.jpg" style="width: 413px; height: 335px;" />
+<pre>
+<strong>Input:</strong> grid = [[7,1,4,5,6],[2,5,1,6,4],[1,5,4,3,2],[1,2,7,3,4]]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The largest magic square has a size of 3.
+Every row sum, column sum, and diagonal sum of this magic square is equal to 12.
+- Row sums: 5+1+6 = 5+4+3 = 2+7+3 = 12
+- Column sums: 5+5+2 = 1+4+7 = 6+3+3 = 12
+- Diagonal sums: 5+4+3 = 6+4+2 = 12
 </pre>
 
-<p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1895.Largest%20Magic%20Square/images/magicsquare2-grid.jpg" style="width: 333px; height: 255px;">
-<pre><b>输入：</b>grid = [[5,1,3,1],[9,3,3,1],[1,3,3,8]]
-<b>输出：</b>2
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1895.Largest%20Magic%20Square/images/magicsquare2-grid.jpg" style="width: 333px; height: 255px;" />
+<pre>
+<strong>Input:</strong> grid = [[5,1,3,1],[9,3,3,1],[1,3,3,8]]
+<strong>Output:</strong> 2
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
@@ -56,11 +53,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

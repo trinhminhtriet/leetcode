@@ -1,85 +1,78 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0832.Flipping%20an%20Image/README.md
+difficulty: Easy
 tags:
-    - 位运算
-    - 数组
-    - 双指针
-    - 矩阵
-    - 模拟
+    - Bit Manipulation
+    - Array
+    - Two Pointers
+    - Matrix
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [832. 翻转图像](https://leetcode.cn/problems/flipping-an-image)
+# [832. Flipping an Image](https://leetcode.com/problems/flipping-an-image)
 
-[English Version](/solution/0800-0899/0832.Flipping%20an%20Image/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个<meta charset="UTF-8" />&nbsp;<code>n x n</code>&nbsp;的二进制矩阵&nbsp;<code>image</code>&nbsp;，先 <strong>水平</strong> 翻转图像，然后&nbsp;<strong>反转&nbsp;</strong>图像并返回&nbsp;<em>结果</em>&nbsp;。</p>
+<p>Given an <code>n x n</code> binary matrix <code>image</code>, flip the image <strong>horizontally</strong>, then invert it, and return <em>the resulting image</em>.</p>
 
-<p><strong>水平</strong>翻转图片就是将图片的每一行都进行翻转，即逆序。</p>
+<p>To flip an image horizontally means that each row of the image is reversed.</p>
 
 <ul>
-	<li>例如，水平翻转&nbsp;<code>[1,1,0]</code>&nbsp;的结果是&nbsp;<code>[0,1,1]</code>。</li>
+	<li>For example, flipping <code>[1,1,0]</code> horizontally results in <code>[0,1,1]</code>.</li>
 </ul>
 
-<p><strong>反转</strong>图片的意思是图片中的&nbsp;<code>0</code>&nbsp;全部被&nbsp;<code>1</code>&nbsp;替换，&nbsp;<code>1</code>&nbsp;全部被&nbsp;<code>0</code>&nbsp;替换。</p>
+<p>To invert an image means that each <code>0</code> is replaced by <code>1</code>, and each <code>1</code> is replaced by <code>0</code>.</p>
 
 <ul>
-	<li>例如，反转&nbsp;<code>[0,1,1]</code>&nbsp;的结果是&nbsp;<code>[1,0,0]</code>。</li>
+	<li>For example, inverting <code>[0,1,1]</code> results in <code>[1,0,0]</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>image = [[1,1,0],[1,0,1],[0,0,0]]
-<strong>输出：</strong>[[1,0,0],[0,1,0],[1,1,1]]
-<strong>解释：</strong>首先翻转每一行: [[0,1,1],[1,0,1],[0,0,0]]；
-     然后反转图片: [[1,0,0],[0,1,0],[1,1,1]]
+<strong>Input:</strong> image = [[1,1,0],[1,0,1],[0,0,0]]
+<strong>Output:</strong> [[1,0,0],[0,1,0],[1,1,1]]
+<strong>Explanation:</strong> First reverse each row: [[0,1,1],[1,0,1],[0,0,0]].
+Then, invert the image: [[1,0,0],[0,1,0],[1,1,1]]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>image = [[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]
-<strong>输出：</strong>[[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
-<strong>解释：</strong>首先翻转每一行: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]]；
-     然后反转图片: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+<strong>Input:</strong> image = [[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]
+<strong>Output:</strong> [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+<strong>Explanation:</strong> First reverse each row: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]].
+Then invert the image: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
-
-<p><meta charset="UTF-8" /></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == image.length</code></li>
 	<li><code>n == image[i].length</code></li>
 	<li><code>1 &lt;= n &lt;= 20</code></li>
-	<li><code>images[i][j]</code>&nbsp;==&nbsp;<code>0</code>&nbsp;或&nbsp;<code>1</code>.</li>
+	<li><code>images[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1: Two Pointers
 
-我们可以遍历矩阵，对于遍历到的每一行 $\textit{row}$，我们使用双指针 $i$ 和 $j$ 分别指向该行的首尾元素，如果 $\textit{row}[i] = \textit{row}[j]$，交换后两者的值仍然保持不变，因此，我们只需要对 $\textit{row}[i]$ 和 $\textit{row}[j]$ 进行异或反转即可，然后将 $i$ 和 $j$ 分别向中间移动一位，直到 $i \geq j$。如果 $\textit{row}[i] \neq \textit{row}[j]$，此时交换后再反转两者的值，仍然保持不变，因此，可以不进行任何操作。
+We can traverse the matrix, and for each row $\textit{row}$, we use two pointers $i$ and $j$ pointing to the first and last elements of the row, respectively. If $\textit{row}[i] = \textit{row}[j]$, swapping them will keep their values unchanged, so we only need to XOR invert $\textit{row}[i]$ and $\textit{row}[j]$, then move $i$ and $j$ one position towards the center until $i \geq j$. If $\textit{row}[i] \neq \textit{row}[j]$, swapping and then inverting their values will also keep them unchanged, so no operation is needed.
 
-最后，如果 $i = j$，我们直接对 $\textit{row}[i]$ 进行反转即可。
+Finally, if $i = j$, we directly invert $\textit{row}[i]$.
 
-时间复杂度 $O(n^2)$，其中 $n$ 是矩阵的行数或列数。空间复杂度 $O(1)$。
+The time complexity is $O(n^2)$, where $n$ is the number of rows or columns in the matrix. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

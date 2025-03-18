@@ -1,69 +1,64 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0567.Permutation%20in%20String/README.md
+difficulty: Medium
 tags:
-    - 哈希表
-    - 双指针
-    - 字符串
-    - 滑动窗口
+    - Hash Table
+    - Two Pointers
+    - String
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [567. 字符串的排列](https://leetcode.cn/problems/permutation-in-string)
+# [567. Permutation in String](https://leetcode.com/problems/permutation-in-string)
 
-[English Version](/solution/0500-0599/0567.Permutation%20in%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串&nbsp;<code>s1</code>&nbsp;和&nbsp;<code>s2</code> ，写一个函数来判断 <code>s2</code> 是否包含 <code>s1</code><strong>&nbsp;</strong>的 <span data-keyword="permutation-string">排列</span>。如果是，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
+<p>Given two strings <code>s1</code> and <code>s2</code>, return <code>true</code> if <code>s2</code> contains a <span data-keyword="permutation-string">permutation</span> of <code>s1</code>, or <code>false</code> otherwise.</p>
 
-<p>换句话说，<code>s1</code> 的排列之一是 <code>s2</code> 的 <strong>子串</strong> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s1 = "ab" s2 = "eidbaooo"
-<strong>输出：</strong>true
-<strong>解释：</strong>s2 包含 s1 的排列之一 ("ba").
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s1= "ab" s2 = "eidboaoo"
-<strong>输出：</strong>false
-</pre>
+<p>In other words, return <code>true</code> if one of <code>s1</code>&#39;s permutations is the substring of <code>s2</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s1 = &quot;ab&quot;, s2 = &quot;eidbaooo&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> s2 contains one permutation of s1 (&quot;ba&quot;).
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s1 = &quot;ab&quot;, s2 = &quot;eidboaoo&quot;
+<strong>Output:</strong> false
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s1.length, s2.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>s1</code> 和 <code>s2</code> 仅包含小写字母</li>
+	<li><code>s1</code> and <code>s2</code> consist of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：滑动窗口
+### Solution 1: Sliding Window
 
-我们用一个数组 $\textit{cnt}$ 记录当前需要匹配的字符及其个数，用一个变量 $\textit{need}$ 记录当前还需要匹配的字符种类数，初始时 $\textit{cnt}$ 为字符串 $\textit{s1}$ 中各字符出现次数，而 $\textit{need}$ 为 $\textit{s1}$ 中不同字符的个数。
+We use an array $\textit{cnt}$ to record the characters and their counts that need to be matched, and a variable $\textit{need}$ to record the number of different characters that still need to be matched. Initially, $\textit{cnt}$ contains the character counts from the string $\textit{s1}$, and $\textit{need}$ is the number of different characters in $\textit{s1}$.
 
-然后我们遍历字符串 $\textit{s2}$，对于每个字符，我们将其在 $\textit{cnt}$ 中的对应值减一，如果减一后的值等于 $0$，说明当前字符在 $\textit{s1}$ 中出现次数已经满足要求，我们将 $\textit{need}$ 减一。如果当前下标 $i$ 大于等于 $\textit{s1}$ 的长度，我们需要将 $\textit{s2}[i-\textit{s1}]\textit{cnt}$ 中对应值加一，如果加一后的值等于 $1$，说明当前字符在 $\textit{s1}$ 中出现次数不再满足要求，我们将 $\textit{need}$ 加一。在遍历过程中，如果 $\textit{need}$ 的值等于 $0$，说明所有字符的出现次数都满足要求，我们就找到了一个满足要求的子串，返回 $\text{true}$。
+Then we traverse the string $\textit{s2}$. For each character, we decrement its corresponding value in $\textit{cnt}$. If the decremented value equals $0$, it means the current character's count in $\textit{s1}$ is satisfied, and we decrement $\textit{need}$. If the current index $i$ is greater than or equal to the length of $\textit{s1}$, we need to increment the corresponding value in $\textit{cnt}$ for $\textit{s2}[i-\textit{s1}]$. If the incremented value equals $1$, it means the current character's count in $\textit{s1}$ is no longer satisfied, and we increment $\textit{need}$. During the traversal, if the value of $\textit{need}$ equals $0$, it means all character counts are satisfied, and we have found a valid substring, so we return $\text{true}$.
 
-否则，如果遍历结束后没有找到满足要求的子串，我们返回 $\text{false}$。
+Otherwise, if the traversal ends without finding a valid substring, we return $\text{false}$.
 
-时间复杂度 $O(m + n)$，其中 $m$ 和 $n$ 分别是字符串 $\textit{s1}$ 和 $\textit{s2}$ 的长度。空间复杂度 $O(|\Sigma|)$，其中 $\Sigma$ 是字符集，这道题中字符集为小写字母，所以空间复杂度是常数级别的。
+The time complexity is $O(m + n)$, where $m$ and $n$ are the lengths of strings $\textit{s1}$ and $\textit{s2}$, respectively. The space complexity is $O(|\Sigma|)$, where $\Sigma$ is the character set. In this problem, the character set is lowercase letters, so the space complexity is constant.
 
 <!-- tabs:start -->
 

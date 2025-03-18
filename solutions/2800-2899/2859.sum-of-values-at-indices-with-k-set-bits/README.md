@@ -1,65 +1,62 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2859.Sum%20of%20Values%20at%20Indices%20With%20K%20Set%20Bits/README.md
+difficulty: Easy
 rating: 1218
-source: 第 363 场周赛 Q1
+source: Weekly Contest 363 Q1
 tags:
-    - 位运算
-    - 数组
+    - Bit Manipulation
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2859. 计算 K 置位下标对应元素的和](https://leetcode.cn/problems/sum-of-values-at-indices-with-k-set-bits)
+# [2859. Sum of Values at Indices With K Set Bits](https://leetcode.com/problems/sum-of-values-at-indices-with-k-set-bits)
 
-[English Version](/solution/2800-2899/2859.Sum%20of%20Values%20at%20Indices%20With%20K%20Set%20Bits/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 和一个整数 <code>k</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> and an integer <code>k</code>.</p>
 
-<p>请你用整数形式返回 <code>nums</code> 中的特定元素之 <strong>和</strong> ，这些特定元素满足：其对应下标的二进制表示中恰存在 <code>k</code> 个置位。</p>
+<p>Return <em>an integer that denotes the <strong>sum</strong> of elements in </em><code>nums</code><em> whose corresponding <strong>indices</strong> have <strong>exactly</strong> </em><code>k</code><em> set bits in their binary representation.</em></p>
 
-<p>整数的二进制表示中的 1 就是这个整数的 <strong>置位</strong> 。</p>
+<p>The <strong>set bits</strong> in an integer are the <code>1</code>&#39;s present when it is written in binary.</p>
 
-<p>例如，<code>21</code> 的二进制表示为 <code>10101</code> ，其中有 <code>3</code> 个置位。</p>
+<ul>
+	<li>For example, the binary representation of <code>21</code> is <code>10101</code>, which has <code>3</code> set bits.</li>
+</ul>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [5,10,1,5,2], k = 1
-<strong>输出：</strong>13
-<strong>解释：</strong>下标的二进制表示是： 
+<strong>Input:</strong> nums = [5,10,1,5,2], k = 1
+<strong>Output:</strong> 13
+<strong>Explanation:</strong> The binary representation of the indices are: 
 0 = 000<sub>2</sub>
 1 = 001<sub>2</sub>
 2 = 010<sub>2</sub>
 3 = 011<sub>2</sub>
 4 = 100<sub>2 
-</sub>下标 1、2 和 4 在其二进制表示中都存在 k = 1 个置位。
-因此，答案为 nums[1] + nums[2] + nums[4] = 13 。</pre>
+</sub>Indices 1, 2, and 4 have k = 1 set bits in their binary representation.
+Hence, the answer is nums[1] + nums[2] + nums[4] = 13.</pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [4,3,2,1], k = 2
-<strong>输出：</strong>1
-<strong>解释：</strong>下标的二进制表示是： 
+<strong>Input:</strong> nums = [4,3,2,1], k = 2
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The binary representation of the indices are:
 0 = 00<sub>2</sub>
 1 = 01<sub>2</sub>
 2 = 10<sub>2</sub>
 3 = 11<sub>2
-</sub>只有下标 3 的二进制表示中存在 k = 2 个置位。
-因此，答案为 nums[3] = 1 。
+</sub>Only index 3 has k = 2 set bits in its binary representation.
+Hence, the answer is nums[3] = 1.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -69,17 +66,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们直接遍历每个下标 $i$，判断其二进制表示中 $1$ 的个数是否等于 $k$，如果等于则将其对应的元素累加到答案 $ans$ 中。
+We directly traverse each index $i$, and check whether the number of $1$s in its binary representation is equal to $k$. If it is, we add the corresponding element to the answer $ans$.
 
-遍历结束后，返回答案即可。
+After the traversal ends, we return the answer.
 
-时间复杂度 $O(n \times \log n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n \times \log n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

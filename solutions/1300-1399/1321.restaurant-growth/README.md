@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1321.Restaurant%20Growth/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1321. 餐馆营业额变化增长](https://leetcode.cn/problems/restaurant-growth)
+# [1321. Restaurant Growth](https://leetcode.com/problems/restaurant-growth)
 
-[English Version](/solution/1300-1399/1321.Restaurant%20Growth/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Customer</code></p>
+<p>Table: <code>Customer</code></p>
 
 <pre>
 +---------------+---------+
@@ -27,29 +24,28 @@ tags:
 | visited_on    | date    |
 | amount        | int     |
 +---------------+---------+
-在 SQL 中，(customer_id, visited_on) 是该表的主键。
-该表包含一家餐馆的顾客交易数据。
-visited_on 表示 (customer_id) 的顾客在 visited_on 那天访问了餐馆。
-amount 是一个顾客某一天的消费总额。
+In SQL,(customer_id, visited_on) is the primary key for this table.
+This table contains data about customer transactions in a restaurant.
+visited_on is the date on which the customer with ID (customer_id) has visited the restaurant.
+amount is the total paid by a customer.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>你是餐馆的老板，现在你想分析一下可能的营业额变化增长（每天至少有一位顾客）。</p>
+<p>You are the restaurant owner and you want to analyze a possible expansion (there will be at least one customer every day).</p>
 
-<p>计算以 7 天（某日期 + 该日期前的 6 天）为一个时间段的顾客消费平均值。<code>average_amount</code>&nbsp;要 <strong>保留两位小数。</strong></p>
+<p>Compute the moving average of how much the customer paid in a seven days window (i.e., current day + 6 days before). <code>average_amount</code> should be <strong>rounded to two decimal places</strong>.</p>
 
-<p>结果按 <code>visited_on</code>&nbsp;<strong>升序排序</strong>。</p>
+<p>Return the result table ordered by <code>visited_on</code> <strong>in ascending order</strong>.</p>
 
-<p>返回结果格式的例子如下。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Customer 表:
+<strong>Input:</strong> 
+Customer table:
 +-------------+--------------+--------------+-------------+
 | customer_id | name         | visited_on   | amount      |
 +-------------+--------------+--------------+-------------+
@@ -65,7 +61,7 @@ Customer 表:
 | 1           | Jhon         | 2019-01-10   | 130         | 
 | 3           | Jade         | 2019-01-10   | 150         | 
 +-------------+--------------+--------------+-------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +--------------+--------------+----------------+
 | visited_on   | amount       | average_amount |
 +--------------+--------------+----------------+
@@ -74,19 +70,20 @@ Customer 表:
 | 2019-01-09   | 840          | 120            |
 | 2019-01-10   | 1000         | 142.86         |
 +--------------+--------------+----------------+
-<strong>解释：</strong>
-第一个七天消费平均值从 2019-01-01 到 2019-01-07 是restaurant-growth/restaurant-growth/ (100 + 110 + 120 + 130 + 110 + 140 + 150)/7 = 122.86
-第二个七天消费平均值从 2019-01-02 到 2019-01-08 是 (110 + 120 + 130 + 110 + 140 + 150 + 80)/7 = 120
-第三个七天消费平均值从 2019-01-03 到 2019-01-09 是 (120 + 130 + 110 + 140 + 150 + 80 + 110)/7 = 120
-第四个七天消费平均值从 2019-01-04 到 2019-01-10 是 (130 + 110 + 140 + 150 + 80 + 110 + 130 + 150)/7 = 142.86</pre>
+<strong>Explanation:</strong> 
+1st moving average from 2019-01-01 to 2019-01-07 has an average_amount of (100 + 110 + 120 + 130 + 110 + 140 + 150)/7 = 122.86
+2nd moving average from 2019-01-02 to 2019-01-08 has an average_amount of (110 + 120 + 130 + 110 + 140 + 150 + 80)/7 = 120
+3rd moving average from 2019-01-03 to 2019-01-09 has an average_amount of (120 + 130 + 110 + 140 + 150 + 80 + 110)/7 = 120
+4th moving average from 2019-01-04 to 2019-01-10 has an average_amount of (130 + 110 + 140 + 150 + 80 + 110 + 130 + 150)/7 = 142.86
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -124,7 +121,7 @@ WHERE rk > 6;
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

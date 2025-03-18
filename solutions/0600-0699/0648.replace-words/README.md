@@ -1,80 +1,64 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0648.Replace%20Words/README.md
+difficulty: Medium
 tags:
-    - 字典树
-    - 数组
-    - 哈希表
-    - 字符串
+    - Trie
+    - Array
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [648. 单词替换](https://leetcode.cn/problems/replace-words)
+# [648. Replace Words](https://leetcode.com/problems/replace-words)
 
-[English Version](/solution/0600-0699/0648.Replace%20Words/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在英语中，我们有一个叫做&nbsp;<strong>词根</strong>(root) 的概念，可以词根&nbsp;<strong>后面&nbsp;</strong>添加其他一些词组成另一个较长的单词——我们称这个词为 <strong>衍生词</strong>&nbsp;(<strong>derivative</strong>)。例如，词根&nbsp;<code>help</code>，跟随着 <strong>继承</strong>词&nbsp;<code>"ful"</code>，可以形成新的单词&nbsp;<code>"helpful"</code>。</p>
+<p>In English, we have a concept called <strong>root</strong>, which can be followed by some other word to form another longer word - let&#39;s call this word <strong>derivative</strong>. For example, when the <strong>root</strong> <code>&quot;help&quot;</code> is followed by the word <code>&quot;ful&quot;</code>, we can form a derivative <code>&quot;helpful&quot;</code>.</p>
 
-<p>现在，给定一个由许多&nbsp;<strong>词根&nbsp;</strong>组成的词典 <code>dictionary</code> 和一个用空格分隔单词形成的句子 <code>sentence</code>。你需要将句子中的所有&nbsp;<strong>衍生词&nbsp;</strong>用&nbsp;<strong>词根&nbsp;</strong>替换掉。如果&nbsp;<strong>衍生词&nbsp;</strong>有许多可以形成它的&nbsp;<strong>词根</strong>，则用&nbsp;<strong>最短&nbsp;</strong>的 <strong>词根</strong> 替换它。</p>
+<p>Given a <code>dictionary</code> consisting of many <strong>roots</strong> and a <code>sentence</code> consisting of words separated by spaces, replace all the derivatives in the sentence with the <strong>root</strong> forming it. If a derivative can be replaced by more than one <strong>root</strong>, replace it with the <strong>root</strong> that has <strong>the shortest length</strong>.</p>
 
-<p>你需要输出替换之后的句子。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>dictionary = ["cat","bat","rat"], sentence = "the cattle was rattled by the battery"
-<strong>输出：</strong>"the cat was rat by the bat"
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>dictionary = ["a","b","c"], sentence = "aadsfasf absbs bbab cadsfafs"
-<strong>输出：</strong>"a a b c"
-</pre>
+<p>Return <em>the <code>sentence</code></em> after the replacement.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> dictionary = [&quot;cat&quot;,&quot;bat&quot;,&quot;rat&quot;], sentence = &quot;the cattle was rattled by the battery&quot;
+<strong>Output:</strong> &quot;the cat was rat by the bat&quot;
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> dictionary = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;], sentence = &quot;aadsfasf absbs bbab cadsfafs&quot;
+<strong>Output:</strong> &quot;a a b c&quot;
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= dictionary.length&nbsp;&lt;= 1000</code></li>
+	<li><code>1 &lt;= dictionary.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= dictionary[i].length &lt;= 100</code></li>
-	<li><code>dictionary[i]</code>&nbsp;仅由小写字母组成。</li>
+	<li><code>dictionary[i]</code> consists of only lower-case letters.</li>
 	<li><code>1 &lt;= sentence.length &lt;= 10<sup>6</sup></code></li>
-	<li><code>sentence</code>&nbsp;仅由小写字母和空格组成。</li>
-	<li><code>sentence</code> 中单词的总量在范围 <code>[1, 1000]</code> 内。</li>
-	<li><code>sentence</code> 中每个单词的长度在范围 <code>[1, 1000]</code> 内。</li>
-	<li><code>sentence</code> 中单词之间由一个空格隔开。</li>
-	<li><code>sentence</code>&nbsp;没有前导或尾随空格。</li>
+	<li><code>sentence</code> consists of only lower-case letters and spaces.</li>
+	<li>The number of words in <code>sentence</code> is in the range <code>[1, 1000]</code></li>
+	<li>The length of each word in <code>sentence</code> is in the range <code>[1, 1000]</code></li>
+	<li>Every two consecutive words in <code>sentence</code> will be separated by exactly one space.</li>
+	<li><code>sentence</code> does not have leading or trailing spaces.</li>
 </ul>
-
-<p>&nbsp;</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀树
-
-我们定义前缀树的节点数据结构如下：
-
--   `children`：子节点数组，长度为 $26$，每个元素为一个节点或 `None`
--   `ref`：如果当前节点是一个单词的结尾，则 `ref` 为该单词在 `dictionary` 中的索引，否则为 $-1$
-
-我们首先将 `dictionary` 中的单词插入到前缀树中，然后遍历 `sentence` 中的每个单词，查找前缀树中是否存在该单词的前缀，如果存在，则将该单词替换为前缀。
-
-时间复杂度为 $O(\sum_{w \in dictionary} |w| + |sentence|)$，空间复杂度为 $O(\sum_{w \in dictionary} |w|)$。其中 $|w|$ 表示单词 $w$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -312,7 +296,7 @@ function replaceWords(dictionary: string[], sentence: string): string {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

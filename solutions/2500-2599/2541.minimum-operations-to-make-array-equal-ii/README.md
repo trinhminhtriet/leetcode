@@ -1,56 +1,53 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2541.Minimum%20Operations%20to%20Make%20Array%20Equal%20II/README.md
+difficulty: Medium
 rating: 1619
-source: 第 96 场双周赛 Q2
+source: Biweekly Contest 96 Q2
 tags:
-    - 贪心
-    - 数组
-    - 数学
+    - Greedy
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [2541. 使数组中所有元素相等的最小操作数 II](https://leetcode.cn/problems/minimum-operations-to-make-array-equal-ii)
+# [2541. Minimum Operations to Make Array Equal II](https://leetcode.com/problems/minimum-operations-to-make-array-equal-ii)
 
-[English Version](/solution/2500-2599/2541.Minimum%20Operations%20to%20Make%20Array%20Equal%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数数组&nbsp;<code>nums1</code> 和&nbsp;<code>nums2</code>&nbsp;，两个数组长度都是&nbsp;<code>n</code>&nbsp;，再给你一个整数&nbsp;<code>k</code>&nbsp;。你可以对数组&nbsp;<code>nums1</code>&nbsp;进行以下操作：</p>
+<p>You are given two integer arrays <code>nums1</code> and <code>nums2</code> of equal length <code>n</code> and an integer <code>k</code>. You can perform the following operation on <code>nums1</code>:</p>
 
 <ul>
-	<li>选择两个下标&nbsp;<code>i</code> 和&nbsp;<code>j</code>&nbsp;，将&nbsp;<code>nums1[i]</code>&nbsp;增加&nbsp;<code>k</code>&nbsp;，将&nbsp;<code>nums1[j]</code>&nbsp;减少&nbsp;<code>k</code>&nbsp;。换言之，<code>nums1[i] = nums1[i] + k</code> 且&nbsp;<code>nums1[j] = nums1[j] - k</code>&nbsp;。</li>
+	<li>Choose two indexes <code>i</code> and <code>j</code> and increment <code>nums1[i]</code> by <code>k</code> and decrement <code>nums1[j]</code> by <code>k</code>. In other words, <code>nums1[i] = nums1[i] + k</code> and <code>nums1[j] = nums1[j] - k</code>.</li>
 </ul>
 
-<p>如果对于所有满足&nbsp;<code>0 &lt;= i &lt; n</code>&nbsp;都有&nbsp;<code>num1[i] == nums2[i]</code>&nbsp;，那么我们称&nbsp;<code>nums1</code> <strong>等于</strong>&nbsp;<code>nums2</code>&nbsp;。</p>
+<p><code>nums1</code> is said to be <strong>equal</strong> to <code>nums2</code> if for all indices <code>i</code> such that <code>0 &lt;= i &lt; n</code>, <code>nums1[i] == nums2[i]</code>.</p>
 
-<p>请你返回使<em>&nbsp;</em><code>nums1</code><em> </em>等于<em>&nbsp;</em><code>nums2</code>&nbsp;的&nbsp;<strong>最少</strong>&nbsp;操作数。如果没办法让它们相等，请你返回&nbsp;<code>-1</code>&nbsp;。</p>
+<p>Return <em>the <strong>minimum</strong> number of operations required to make </em><code>nums1</code><em> equal to </em><code>nums2</code>. If it is impossible to make them equal, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<pre>
+<strong>Input:</strong> nums1 = [4,3,1,4], nums2 = [1,3,7,1], k = 3
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> In 2 operations, we can transform nums1 to nums2.
+1<sup>st</sup> operation: i = 2, j = 0. After applying the operation, nums1 = [1,3,4,4].
+2<sup>nd</sup> operation: i = 2, j = 3. After applying the operation, nums1 = [1,3,7,1].
+One can prove that it is impossible to make arrays equal in fewer operations.</pre>
 
-<pre><b>输入：</b>nums1 = [4,3,1,4], nums2 = [1,3,7,1], k = 3
-<b>输出：</b>2
-<b>解释：</b>我们可以通过 2 个操作将 nums1 变成 nums2 。
-第 1 个操作：i = 2 ，j = 0 。操作后得到 nums1 = [1,3,4,4] 。
-第 2 个操作：i = 2 ，j = 3 。操作后得到 nums1 = [1,3,7,1] 。
-无法用更少操作使两个数组相等。</pre>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>nums1 = [3,8,5,2], nums2 = [2,4,1,6], k = 1
-<b>输出：</b>-1
-<b>解释：</b>无法使两个数组相等。
+<pre>
+<strong>Input:</strong> nums1 = [3,8,5,2], nums2 = [2,4,1,6], k = 1
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> It can be proved that it is impossible to make the two arrays equal.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums1.length == nums2.length</code></li>
@@ -61,19 +58,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：一次遍历
+### Solution 1: Single Pass
 
-我们用变量 $x$ 记录加减次数的差值，用变量 $ans$ 记录操作次数。
+We use a variable $x$ to record the difference in the number of additions and subtractions, and a variable $ans$ to record the number of operations.
 
-遍历数组，对于每个位置 $i$，如果存在 $k=0$ 并且 $a_i \neq b_i$，则无法使两个数组相等，返回 $-1$。否则，如果 $k \neq 0$，则 $a_i - b_i$ 必须是 $k$ 的倍数，否则无法使两个数组相等，返回 $-1$。接下来，我们更新 $x$ 和 $ans$。
+We traverse the array, and for each position $i$, if $k=0$ and $a_i \neq b_i$, then it is impossible to make the two arrays equal, so we return $-1$. Otherwise, if $k \neq 0$, then $a_i - b_i$ must be a multiple of $k$, otherwise it is impossible to make the two arrays equal, so we return $-1$. Next, we update $x$ and $ans$.
 
-最后，如果 $x \neq 0$，则无法使两个数组相等，返回 $-1$。否则，返回 $\frac{ans}{2}$。
+Finally, if $x \neq 0$, then it is impossible to make the two arrays equal, so we return $-1$. Otherwise, we return $\frac{ans}{2}$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组长度。
+The time complexity is $O(n)$, and the space complexity is $O(1)$, where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

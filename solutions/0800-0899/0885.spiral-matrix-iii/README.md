@@ -1,50 +1,43 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0885.Spiral%20Matrix%20III/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 矩阵
-    - 模拟
+    - Array
+    - Matrix
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [885. 螺旋矩阵 III](https://leetcode.cn/problems/spiral-matrix-iii)
+# [885. Spiral Matrix III](https://leetcode.com/problems/spiral-matrix-iii)
 
-[English Version](/solution/0800-0899/0885.Spiral%20Matrix%20III/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在 <code>rows x cols</code> 的网格上，你从单元格 <code>(rStart, cStart)</code> 面朝东面开始。网格的西北角位于第一行第一列，网格的东南角位于最后一行最后一列。</p>
+<p>You start at the cell <code>(rStart, cStart)</code> of an <code>rows x cols</code> grid facing east. The northwest corner is at the first row and column in the grid, and the southeast corner is at the last row and column.</p>
 
-<p>你需要以顺时针按螺旋状行走，访问此网格中的每个位置。每当移动到网格的边界之外时，需要继续在网格之外行走（但稍后可能会返回到网格边界）。</p>
+<p>You will walk in a clockwise spiral shape to visit every position in this grid. Whenever you move outside the grid&#39;s boundary, we continue our walk outside the grid (but may return to the grid boundary later.). Eventually, we reach all <code>rows * cols</code> spaces of the grid.</p>
 
-<p>最终，我们到过网格的所有&nbsp;<code>rows x cols</code>&nbsp;个空间。</p>
-
-<p>按照访问顺序返回表示网格位置的坐标列表。</p>
+<p>Return <em>an array of coordinates representing the positions of the grid in the order you visited them</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0885.Spiral%20Matrix%20III/images/example_1.png" style="width: 174px; height: 99px;" />
 <pre>
-<strong>输入：</strong>rows = 1, cols = 4, rStart = 0, cStart = 0
-<strong>输出：</strong>[[0,0],[0,1],[0,2],[0,3]]
+<strong>Input:</strong> rows = 1, cols = 4, rStart = 0, cStart = 0
+<strong>Output:</strong> [[0,0],[0,1],[0,2],[0,3]]
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0885.Spiral%20Matrix%20III/images/example_2.png" style="width: 202px; height: 142px;" />
 <pre>
-<strong>输入：</strong>rows = 5, cols = 6, rStart = 1, cStart = 4
-<strong>输出：</strong>[[1,4],[1,5],[2,5],[2,4],[2,3],[1,3],[0,3],[0,4],[0,5],[3,5],[3,4],[3,3],[3,2],[2,2],[1,2],[0,2],[4,5],[4,4],[4,3],[4,2],[4,1],[3,1],[2,1],[1,1],[0,1],[4,0],[3,0],[2,0],[1,0],[0,0]]
+<strong>Input:</strong> rows = 5, cols = 6, rStart = 1, cStart = 4
+<strong>Output:</strong> [[1,4],[1,5],[2,5],[2,4],[2,3],[1,3],[0,3],[0,4],[0,5],[3,5],[3,4],[3,3],[3,2],[2,2],[1,2],[0,2],[4,5],[4,4],[4,3],[4,2],[4,1],[3,1],[2,1],[1,1],[0,1],[4,0],[3,0],[2,0],[1,0],[0,0]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= rows, cols &lt;= 100</code></li>
@@ -54,11 +47,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

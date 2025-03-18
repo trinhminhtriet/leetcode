@@ -1,55 +1,51 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1007.Minimum%20Domino%20Rotations%20For%20Equal%20Row/README.md
+difficulty: Medium
 rating: 1541
-source: 第 127 场周赛 Q3
+source: Weekly Contest 127 Q3
 tags:
-    - 贪心
-    - 数组
+    - Greedy
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [1007. 行相等的最少多米诺旋转](https://leetcode.cn/problems/minimum-domino-rotations-for-equal-row)
+# [1007. Minimum Domino Rotations For Equal Row](https://leetcode.com/problems/minimum-domino-rotations-for-equal-row)
 
-[English Version](/solution/1000-1099/1007.Minimum%20Domino%20Rotations%20For%20Equal%20Row/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在一排多米诺骨牌中，<code>tops[i]</code> 和 <code>bottoms[i]</code>&nbsp;分别代表第 <code>i</code> 个多米诺骨牌的上半部分和下半部分。（一个多米诺是两个从 1 到 6 的数字同列平铺形成的&nbsp;—— 该平铺的每一半上都有一个数字。）</p>
+<p>In a row of dominoes, <code>tops[i]</code> and <code>bottoms[i]</code> represent the top and bottom halves of the <code>i<sup>th</sup></code> domino. (A domino is a tile with two numbers from 1 to 6 - one on each half of the tile.)</p>
 
-<p>我们可以旋转第&nbsp;<code>i</code>&nbsp;张多米诺，使得 <code>tops[i]</code> 和 <code>bottoms[i]</code>&nbsp;的值交换。</p>
+<p>We may rotate the <code>i<sup>th</sup></code> domino, so that <code>tops[i]</code> and <code>bottoms[i]</code> swap values.</p>
 
-<p>返回能使 <code>tops</code> 中所有值或者 <code>bottoms</code> 中所有值都相同的最小旋转次数。</p>
+<p>Return the minimum number of rotations so that all the values in <code>tops</code> are the same, or all the values in <code>bottoms</code> are the same.</p>
 
-<p>如果无法做到，返回&nbsp;<code>-1</code>.</p>
+<p>If it cannot be done, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1000-1099/1007.Minimum%20Domino%20Rotations%20For%20Equal%20Row/images/domino.png" style="height: 300px; width: 421px;" />
 <pre>
-<strong>输入：</strong>tops = [2,1,2,4,2,2], bottoms = [5,2,6,2,3,2]
-<strong>输出：</strong>2
-<strong>解释：</strong> 
-图一表示：在我们旋转之前， tops 和 bottoms 给出的多米诺牌。 
-如果我们旋转第二个和第四个多米诺骨牌，我们可以使上面一行中的每个值都等于 2，如图二所示。 
+<strong>Input:</strong> tops = [2,1,2,4,2,2], bottoms = [5,2,6,2,3,2]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 
+The first figure represents the dominoes as given by tops and bottoms: before we do any rotations.
+If we rotate the second and fourth dominoes, we can make every value in the top row equal to 2, as indicated by the second figure.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>tops = [3,5,1,2,3], bottoms = [3,6,3,3,4]
-<strong>输出：</strong>-1
-<strong>解释：</strong> 在这种情况下，不可能旋转多米诺牌使一行的值相等。
+<strong>Input:</strong> tops = [3,5,1,2,3], bottoms = [3,6,3,3,4]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> 
+In this case, it is not possible to rotate the dominoes to make one row of values equal.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= tops.length &lt;= 2 * 10<sup>4</sup></code></li>
@@ -59,21 +55,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy
 
-根据题目描述，我们知道，要使得 $tops$ 中所有值或者 $bottoms$ 中所有值都相同，那么这个值必须是 $tops[0]$ 或者 $bottoms[0]$ 中的一个。
+According to the problem description, we know that in order to make all values in $tops$ or all values in $bottoms$ the same, the value must be one of $tops[0]$ or $bottoms[0]$.
 
-因此，我们设计一个函数 $f(x)$，表示将所有的值都变成 $x$ 的最小旋转次数，那么答案就是 $\min\{f(\textit{tops}[0]), f(\textit{bottoms}[0])\}$。
+Therefore, we design a function $f(x)$ to represent the minimum number of rotations required to make all values equal to $x$. Then the answer is $\min\{f(\textit{tops}[0]), f(\textit{bottoms}[0])\}$.
 
-函数 $f(x)$ 的计算方法如下：
+The calculation method of function $f(x)$ is as follows:
 
-我们用两个变量 $cnt1$ 和 $cnt2$ 统计 $tops$ 和 $bottoms$ 中等于 $x$ 的个数，用 $n$ 减去它们的最大值，就是将所有值都变成 $x$ 的最小旋转次数。注意，如果 $tops$ 和 $bottoms$ 中没有等于 $x$ 的值，那么 $f(x)$ 的值就是一个很大的数，我们用 $n + 1$ 表示这个数。
+We use two variables $cnt1$ and $cnt2$ to count the number of occurrences of $x$ in $tops$ and $bottoms$, respectively. We subtract the maximum value of $cnt1$ and $cnt2$ from $n$, which is the minimum number of rotations required to make all values equal to $x$. Note that if there are no values equal to $x$ in $tops$ and $bottoms$, the value of $f(x)$ is a very large number, which we represent as $n+1$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

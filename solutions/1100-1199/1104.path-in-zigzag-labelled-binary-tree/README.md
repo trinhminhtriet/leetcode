@@ -1,52 +1,47 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1104.Path%20In%20Zigzag%20Labelled%20Binary%20Tree/README.md
+difficulty: Medium
 rating: 1544
-source: 第 143 场周赛 Q2
+source: Weekly Contest 143 Q2
 tags:
-    - 树
-    - 数学
-    - 二叉树
+    - Tree
+    - Math
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [1104. 二叉树寻路](https://leetcode.cn/problems/path-in-zigzag-labelled-binary-tree)
+# [1104. Path In Zigzag Labelled Binary Tree](https://leetcode.com/problems/path-in-zigzag-labelled-binary-tree)
 
-[English Version](/solution/1100-1199/1104.Path%20In%20Zigzag%20Labelled%20Binary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在一棵无限的二叉树上，每个节点都有两个子节点，树中的节点 <strong>逐行</strong> 依次按&nbsp;&ldquo;之&rdquo; 字形进行标记。</p>
+<p>In an infinite binary tree where every node has two children, the nodes are labelled in row order.</p>
 
-<p>如下图所示，在奇数行（即，第一行、第三行、第五行&hellip;&hellip;）中，按从左到右的顺序进行标记；</p>
+<p>In the odd numbered rows (ie., the first, third, fifth,...), the labelling is left to right, while in the even numbered rows (second, fourth, sixth,...), the labelling is right to left.</p>
 
-<p>而偶数行（即，第二行、第四行、第六行&hellip;&hellip;）中，按从右到左的顺序进行标记。</p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1104.Path%20In%20Zigzag%20Labelled%20Binary%20Tree/images/tree.png" style="width: 300px; height: 138px;" /></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1104.Path%20In%20Zigzag%20Labelled%20Binary%20Tree/images/tree.png" style="height: 138px; width: 300px;"></p>
-
-<p>给你树上某一个节点的标号 <code>label</code>，请你返回从根节点到该标号为 <code>label</code> 节点的路径，该路径是由途经的节点标号所组成的。</p>
+<p>Given the <code>label</code> of a node in this tree, return the labels in the path from the root of the tree to the&nbsp;node with that <code>label</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>label = 14
-<strong>输出：</strong>[1,3,4,14]
+<pre>
+<strong>Input:</strong> label = 14
+<strong>Output:</strong> [1,3,4,14]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>label = 26
-<strong>输出：</strong>[1,2,6,10,26]
+<pre>
+<strong>Input:</strong> label = 26
+<strong>Output:</strong> [1,2,6,10,26]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= label &lt;= 10^6</code></li>
@@ -54,17 +49,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
+### Solution 1: Mathematics
 
-对于一棵完全二叉树，第 $i$ 行的节点个数为 $2^{i-1}$，第 $i$ 行的节点编号范围为 $[2^{i-1}, 2^i - 1]$。而题目中对于奇数行，按从左到右的顺序进行标记，对于偶数行，按从右到左的顺序进行标记。所以对于第 $i$ 行的节点 $label$，它的互补节点编号为 $2^{i-1} + 2^i - 1 - label$。所以节点 $label$ 的实际父节点编号为 $(2^{i-1} + 2^i - 1 - label) / 2$。我们可以通过不断地求互补节点编号和父节点编号，直到到达根节点，即可得到从根节点到节点 $label$ 的路径。
+For a complete binary tree, the number of nodes in the $i$th row is $2^{i-1}$, and the range of node labels in the $i$th row is $[2^{i-1}, 2^i - 1]$. In the problem, for odd-numbered rows, the nodes are labeled from left to right, while for even-numbered rows, the nodes are labeled from right to left. Therefore, for the node $label$ in the $i$th row, its complementary node label is $2^{i-1} + 2^i - 1 - label$. So the actual parent node label of node $label$ is $(2^{i-1} + 2^i - 1 - label) / 2$. We can find the path from the root node to node $label$ by continuously finding the complementary node label and the parent node label until we reach the root node.
 
-最后，我们需要将路径反转，因为题目要求路径是从根节点到节点 $label$ 的路径。
+Finally, we need to reverse the path, because the problem requires the path from the root node to node $label$.
 
-时间复杂度 $O(\log n)$，其中 $n$ 为节点 $label$ 的编号。忽略答案的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(\log n)$, where $n$ is the label of the node. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

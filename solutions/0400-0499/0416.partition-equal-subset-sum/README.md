@@ -1,71 +1,67 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0416.Partition%20Equal%20Subset%20Sum/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [416. 分割等和子集](https://leetcode.cn/problems/partition-equal-subset-sum)
+# [416. Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum)
 
-[English Version](/solution/0400-0499/0416.Partition%20Equal%20Subset%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <strong>只包含正整数 </strong>的 <strong>非空 </strong>数组 <code>nums</code> 。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。</p>
+<p>Given an integer array <code>nums</code>, return <code>true</code> <em>if you can partition the array into two subsets such that the sum of the elements in both subsets is equal or </em><code>false</code><em> otherwise</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,5,11,5]
-<strong>输出：</strong>true
-<strong>解释：</strong>数组可以分割成 [1, 5, 5] 和 [11] 。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3,5]
-<strong>输出：</strong>false
-<strong>解释：</strong>数组不能分割成两个元素和相等的子集。
+<strong>Input:</strong> nums = [1,5,11,5]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The array can be partitioned as [1, 5, 5] and [11].
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,2,3,5]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The array cannot be partitioned into equal sum subsets.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= nums.length <= 200</code></li>
-	<li><code>1 <= nums[i] <= 100</code></li>
+	<li><code>1 &lt;= nums.length &lt;= 200</code></li>
+	<li><code>1 &lt;= nums[i] &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们先计算出数组的总和 $s$，如果总和是奇数，那么一定不能分割成两个和相等的子集，直接返回 $false$。如果总和是偶数，我们记目标子集的和为 $m = \frac{s}{2}$，那么问题就转化成了：是否存在一个子集，使得其元素的和为 $m$。
+First, we calculate the total sum $s$ of the array. If the total sum is odd, it cannot be divided into two subsets with equal sums, so we directly return `false`. If the total sum is even, we set the target subset sum to $m = \frac{s}{2}$. The problem is then transformed into: does there exist a subset whose element sum is $m$?
 
-我们定义 $f[i][j]$ 表示前 $i$ 个数中选取若干个数，使得其元素的和恰好为 $j$。初始时 $f[0][0] = true$，其余 $f[i][j] = false$。答案为 $f[n][m]$。
+We define $f[i][j]$ to represent whether it is possible to select several numbers from the first $i$ numbers so that their sum is exactly $j$. Initially, $f[0][0] = true$ and the rest $f[i][j] = false$. The answer is $f[n][m]$.
 
-考虑 $f[i][j]$，如果我们选取了第 $i$ 个数 $x$，那么 $f[i][j] = f[i - 1][j - x]$；如果我们没有选取第 $i$ 个数 $x$，那么 $f[i][j] = f[i - 1][j]$。因此状态转移方程为：
+Considering $f[i][j]$, if we select the $i$-th number $x$, then $f[i][j] = f[i - 1][j - x]$. If we do not select the $i$-th number $x$, then $f[i][j] = f[i - 1][j]$. Therefore, the state transition equation is:
 
 $$
 f[i][j] = f[i - 1][j] \textit{ or } f[i - 1][j - x] \textit{ if } j \geq x
 $$
 
-最终答案为 $f[n][m]$。
+The final answer is $f[n][m]$.
 
-时间复杂度 $(m \times n)$，空间复杂度 $(m \times n)$。其中 $m$ 和 $n$ 分别为数组的总和的一半和数组的长度。
+The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are half of the total sum of the array and the length of the array, respectively.
 
 <!-- tabs:start -->
 
@@ -259,11 +255,11 @@ var canPartition = function (nums) {
 
 <!-- solution:start -->
 
-### 方法二：动态规划（空间优化）
+### Solution 2: Dynamic Programming (Space Optimization)
 
-我们注意到，方法一中 $f[i][j]$ 只与 $f[i - 1][\cdot]$ 有关，因此我们可以将二维数组压缩成一维数组。
+We notice that in Solution 1, $f[i][j]$ is only related to $f[i - 1][\cdot]$. Therefore, we can compress the two-dimensional array into a one-dimensional array.
 
-时间复杂度 $O(n \times m)$，空间复杂度 $O(m)$。其中 $n$ 是数组的长度，而 $m$ 是数组的总和的一半。
+The time complexity is $O(n \times m)$, and the space complexity is $O(m)$. Where $n$ is the length of the array, and $m$ is half of the total sum of the array.
 
 <!-- tabs:start -->
 

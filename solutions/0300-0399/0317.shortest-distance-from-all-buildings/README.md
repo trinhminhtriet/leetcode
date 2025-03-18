@@ -1,86 +1,79 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0317.Shortest%20Distance%20from%20All%20Buildings/README.md
+difficulty: Hard
 tags:
-    - 广度优先搜索
-    - 数组
-    - 矩阵
+    - Breadth-First Search
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [317. 离建筑物最近的距离 🔒](https://leetcode.cn/problems/shortest-distance-from-all-buildings)
+# [317. Shortest Distance from All Buildings 🔒](https://leetcode.com/problems/shortest-distance-from-all-buildings)
 
-[English Version](/solution/0300-0399/0317.Shortest%20Distance%20from%20All%20Buildings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>m × n</code> 的网格，值为 <code>0</code> 、 <code>1</code> 或 <code>2</code> ，其中:</p>
+<p>You are given an <code>m x n</code> grid <code>grid</code> of values <code>0</code>, <code>1</code>, or <code>2</code>, where:</p>
 
 <ul>
-	<li>每一个 <code>0</code> 代表一块你可以自由通过的 <strong>空地</strong>&nbsp;</li>
-	<li>每一个 <code>1</code> 代表一个你不能通过的 <strong>建筑</strong></li>
-	<li>每个 <code>2</code> 标记一个你不能通过的 <strong>障碍</strong>&nbsp;</li>
+	<li>each <code>0</code> marks <strong>an empty land</strong> that you can pass by freely,</li>
+	<li>each <code>1</code> marks <strong>a building</strong> that you cannot pass through, and</li>
+	<li>each <code>2</code> marks <strong>an obstacle</strong> that you cannot pass through.</li>
 </ul>
 
-<p>你想要在一块空地上建造一所房子，在 <strong>最短的总旅行距离</strong> 内到达所有的建筑。你只能上下左右移动。</p>
+<p>You want to build a house on an empty land that reaches all buildings in the <strong>shortest total travel</strong> distance. You can only move up, down, left, and right.</p>
 
-<p>返回到该房子的 <strong>最短旅行距离</strong> 。如果根据上述规则无法建造这样的房子，则返回 <code>-1</code> 。</p>
+<p>Return <em>the <strong>shortest travel distance</strong> for such a house</em>. If it is not possible to build such a house according to the above rules, return <code>-1</code>.</p>
 
-<p><strong>总旅行距离&nbsp;</strong>是朋友们家到聚会地点的距离之和。</p>
+<p>The <strong>total travel distance</strong> is the sum of the distances between the houses of the friends and the meeting point.</p>
 
-<p>使用 <strong>曼哈顿距离</strong>&nbsp;计算距离，其中距离 <code>(p1, p2) = |p2.x - p1.x | + | p2.y - p1.y |</code> 。</p>
+<p>The distance is calculated using <a href="http://en.wikipedia.org/wiki/Taxicab_geometry" target="_blank">Manhattan Distance</a>, where <code>distance(p1, p2) = |p2.x - p1.x| + |p2.y - p1.y|</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例&nbsp; 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0317.Shortest%20Distance%20from%20All%20Buildings/images/buildings-grid.jpg" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0317.Shortest%20Distance%20from%20All%20Buildings/images/buildings-grid.jpg" style="width: 413px; height: 253px;" />
 <pre>
-<strong>输入：</strong>grid = [[1,0,2,0,1],[0,0,0,0,0],[0,0,1,0,0]]
-<strong>输出：</strong>7 
-<strong>解析：</strong>给定<code>三个建筑物 (0,0)、</code><code>(0,4) 和</code> <code>(2,2) 以及一个</code>位于 <code>(0,2) 的障碍物。
-由于总距离之和 3+3+1=7 最优，所以位置</code> <code>(1,2)</code> 是符合要求的最优地点。
-故返回7。
+<strong>Input:</strong> grid = [[1,0,2,0,1],[0,0,0,0,0],[0,0,1,0,0]]
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> Given three buildings at (0,0), (0,4), (2,2), and an obstacle at (0,2).
+The point (1,2) is an ideal empty land to build a house, as the total travel distance of 3+3+1=7 is minimal.
+So return 7.
 </pre>
 
-<p><strong>示例&nbsp;2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> grid = [[1,0]]
-<strong>输出:</strong> 1
+<strong>Input:</strong> grid = [[1,0]]
+<strong>Output:</strong> 1
 </pre>
 
-<p><strong>示例 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入:</strong> grid = [[1]]
-<strong>输出:</strong> -1
+<strong>Input:</strong> grid = [[1]]
+<strong>Output:</strong> -1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 50</code></li>
-	<li><code>grid[i][j]</code>&nbsp;是&nbsp;<code>0</code>,&nbsp;<code>1</code>&nbsp;或&nbsp;<code>2</code></li>
-	<li><code>grid</code>&nbsp;中 <strong>至少</strong>&nbsp;有 <strong>一幢</strong> 建筑</li>
+	<li><code>grid[i][j]</code> is either <code>0</code>, <code>1</code>, or <code>2</code>.</li>
+	<li>There will be <strong>at least one</strong> building in the <code>grid</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

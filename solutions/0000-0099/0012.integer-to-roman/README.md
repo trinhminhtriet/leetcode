@@ -1,30 +1,27 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0012.Integer%20to%20Roman/README.md
+difficulty: Medium
 tags:
-    - 哈希表
-    - 数学
-    - 字符串
+    - Hash Table
+    - Math
+    - String
 ---
 
 <!-- problem:start -->
 
-# [12. 整数转罗马数字](https://leetcode.cn/problems/integer-to-roman)
+# [12. Integer to Roman](https://leetcode.com/problems/integer-to-roman)
 
-[English Version](/solution/0000-0099/0012.Integer%20to%20Roman/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>七个不同的符号代表罗马数字，其值如下：</p>
+<p>Seven different symbols represent Roman numerals with the following values:</p>
 
 <table>
 	<thead>
 		<tr>
-			<th>符号</th>
-			<th>值</th>
+			<th>Symbol</th>
+			<th>Value</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -59,44 +56,43 @@ tags:
 	</tbody>
 </table>
 
-<p>罗马数字是通过添加从最高到最低的小数位值的转换而形成的。将小数位值转换为罗马数字有以下规则：</p>
+<p>Roman numerals are formed by appending&nbsp;the conversions of&nbsp;decimal place values&nbsp;from highest to lowest. Converting a decimal place value into a Roman numeral has the following rules:</p>
 
 <ul>
-	<li>如果该值不是以 4 或 9 开头，请选择可以从输入中减去的最大值的符号，将该符号附加到结果，减去其值，然后将其余部分转换为罗马数字。</li>
-	<li>如果该值以 4 或 9 开头，使用 <strong>减法形式</strong>，表示从以下符号中减去一个符号，例如&nbsp;4 是 5 (<code>V</code>) 减 1 (<code>I</code>): <code>IV</code>&nbsp;，9 是 10 (<code>X</code>) 减&nbsp;1 (<code>I</code>)：<code>IX</code>。仅使用以下减法形式：4 (<code>IV</code>)，9 (<code>IX</code>)，40 (<code>XL</code>)，90 (<code>XC</code>)，400 (<code>CD</code>) 和&nbsp;900 (<code>CM</code>)。</li>
-	<li>只有 10 的次方（<code>I</code>, <code>X</code>, <code>C</code>, <code>M</code>）最多可以连续附加 3 次以代表 10 的倍数。你不能多次附加&nbsp;5&nbsp;(<code>V</code>)，50 (<code>L</code>) 或 500 (<code>D</code>)。如果需要将符号附加4次，请使用 <strong>减法形式</strong>。</li>
+	<li>If the value does not start with 4 or&nbsp;9, select the symbol of the maximal value that can be subtracted from the input, append that symbol to the result, subtract its value, and convert the remainder to a Roman numeral.</li>
+	<li>If the value starts with 4 or 9 use the&nbsp;<strong>subtractive form</strong>&nbsp;representing&nbsp;one symbol subtracted from the following symbol, for example,&nbsp;4 is 1 (<code>I</code>) less than 5 (<code>V</code>): <code>IV</code>&nbsp;and 9 is 1 (<code>I</code>) less than 10 (<code>X</code>): <code>IX</code>.&nbsp;Only the following subtractive forms are used: 4 (<code>IV</code>), 9 (<code>IX</code>),&nbsp;40 (<code>XL</code>), 90 (<code>XC</code>), 400 (<code>CD</code>) and 900 (<code>CM</code>).</li>
+	<li>Only powers of 10 (<code>I</code>, <code>X</code>, <code>C</code>, <code>M</code>) can be appended consecutively at most 3 times to represent multiples of 10. You cannot append 5&nbsp;(<code>V</code>), 50 (<code>L</code>), or 500 (<code>D</code>) multiple times. If you need to append a symbol&nbsp;4 times&nbsp;use the <strong>subtractive form</strong>.</li>
 </ul>
 
-<p>给定一个整数，将其转换为罗马数字。</p>
+<p>Given an integer, convert it to a Roman numeral.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">num = 3749</span></p>
+<p><strong>Input:</strong> <span class="example-io">num = 3749</span></p>
 
-<p><strong>输出：</strong>&nbsp;<span class="example-io">"MMMDCCXLIX"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;MMMDCCXLIX&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <pre>
-3000 = MMM 由于 1000 (M) + 1000 (M) + 1000 (M)
- 700 = DCC 由于 500 (D) + 100 (C) + 100 (C)
-  40 = XL 由于 50 (L) 减 10 (X)
-   9 = IX 由于 10 (X) 减 1 (I)
-注意：49 不是 50 (L) 减 1 (I) 因为转换是基于小数位
+3000 = MMM as 1000 (M) + 1000 (M) + 1000 (M)
+ 700 = DCC as 500 (D) + 100 (C) + 100 (C)
+  40 = XL as 10 (X) less of 50 (L)
+   9 = IX as 1 (I) less of 10 (X)
+Note: 49 is not 1 (I) less of 50 (L) because the conversion is based on decimal places
 </pre>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">num = 58</span></p>
+<p><strong>Input:</strong> <span class="example-io">num = 58</span></p>
 
-<p><strong>输出：</strong><span class="example-io">"LVIII"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;LVIII&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <pre>
 50 = L
@@ -104,14 +100,14 @@ tags:
 </pre>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">num = 1994</span></p>
+<p><strong>Input:</strong> <span class="example-io">num = 1994</span></p>
 
-<p><strong>输出：</strong><span class="example-io">"MCMXCIV"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;MCMXCIV&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <pre>
 1000 = M
@@ -122,8 +118,7 @@ tags:
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num &lt;= 3999</code></li>
@@ -131,15 +126,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy
 
-我们可以先将所有可能的符号 $cs$ 和对应的数值 $vs$ 列出来，然后从大到小枚举每个数值 $vs[i]$，每次尽可能多地使用该数值对应的符号 $cs[i]$，直到数字 $num$ 变为 $0$。
+We can first list all possible symbols $cs$ and their corresponding values $vs$, then enumerate each value $vs[i]$ from large to small. Each time, we use as many symbols $cs[i]$ corresponding to this value as possible, until the number $num$ becomes $0$.
 
-时间复杂度为 $O(m)$，空间复杂度为 $O(m)$。其中 $m$ 为符号的个数。
+The time complexity is $O(m)$, and the space complexity is $O(m)$. Here, $m$ is the number of symbols.
 
 <!-- tabs:start -->
 

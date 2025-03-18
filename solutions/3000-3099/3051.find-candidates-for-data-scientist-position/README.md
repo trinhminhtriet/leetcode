@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3051.Find%20Candidates%20for%20Data%20Scientist%20Position/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3051. 寻找数据科学家职位的候选人 🔒](https://leetcode.cn/problems/find-candidates-for-data-scientist-position)
+# [3051. Find Candidates for Data Scientist Position 🔒](https://leetcode.com/problems/find-candidates-for-data-scientist-position)
 
-[English Version](/solution/3000-3099/3051.Find%20Candidates%20for%20Data%20Scientist%20Position/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<font face="monospace"><code>Candidates</code></font></p>
+<p>Table: <font face="monospace"><code>Candidates</code></font></p>
 
 <pre>
 +--------------+---------+ 
@@ -25,23 +22,22 @@ tags:
 | candidate_id | int     | 
 | skill        | varchar |
 +--------------+---------+
-(candidate_id, skill) 是这张表的主键（有不同值的列）。
-每一行包括 candidate_id 和 skill。
+(candidate_id, skill) is the primary key (columns with unique values) for this table.
+Each row includes candidate_id and skill.
 </pre>
 
-<p>编写一个查询来找到最适合数据科学家职位的 <strong>候选人</strong>。应聘者必须精通 <strong>Python</strong>，<strong>Tableau </strong>和&nbsp;<strong>PostgreSQL</strong>。</p>
+<p>Write a query to find the <strong>candidates</strong> best suited for a Data Scientist position. The candidate must be proficient in <strong>Python</strong>, <strong>Tableau</strong>, and <strong>PostgreSQL</strong>.</p>
 
-<p>返回结果表，以<em>&nbsp;</em><code>candidate_id</code>&nbsp;<strong>升序</strong> 排序。</p>
+<p>Return <em>the result table ordered by </em><code>candidate_id</code> <em>in <strong>ascending order</strong></em>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong> 
-Candidates 表：
+<strong>Input:</strong> 
+Candidates table:
 +---------------+--------------+
 | candidate_id  | skill        | 
 +---------------+--------------+
@@ -58,29 +54,29 @@ Candidates 表：
 | 256           | Tableau      |
 | 102           | DataAnalysis |
 +---------------+--------------+
-<strong>输出：</strong> 
+<strong>Output:</strong> 
 +--------------+
 | candidate_id |  
 +--------------+
 | 123          |  
 | 147          | 
 +--------------+
-<strong>解释：</strong> 
-- 候选人 123 和 147 具备数据科学家职位必要的 Python，Tableau 和 PostgreSQL 技能。
-- 候选人 234 和 102 不具备该职位所需的任何技能。
-- 候选人 256 精通 Tableau 但没有掌握 Python 和 PostgreSQL。
-输出表以 candidate_id 升序排序。
+<strong>Explanation:</strong> 
+- Candidates 123 and 147 possess the necessary skills in Python, Tableau, and PostgreSQL for the data scientist position.
+- Candidates 234 and 102 do not possess any of the required skills for this position.
+- Candidate 256 has proficiency in Tableau but is missing skills in Python and PostgreSQL.
+The output table is sorted by candidate_id in ascending order.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：条件筛选 + 分组统计
+### Solution 1: Conditional Filtering + Grouping Statistics
 
-我们首先筛选出具备 `Python`, `Tableau`, `PostgreSQL` 这三个技能的候选人，然后按照 `candidate_id` 进行分组统计，统计每个候选人具备的技能数量，最后筛选出具备这三个技能的候选人，并且按照 `candidate_id` 进行升序排序。
+First, we filter out candidates who have the skills `Python`, `Tableau`, and `PostgreSQL`. Then, we group by `candidate_id` and count the number of skills each candidate has. Finally, we filter out candidates who have these three skills and sort them in ascending order by `candidate_id`.
 
 <!-- tabs:start -->
 

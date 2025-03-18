@@ -1,86 +1,82 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1201.Ugly%20Number%20III/README.md
+difficulty: Medium
 rating: 2039
-source: 第 155 场周赛 Q2
+source: Weekly Contest 155 Q2
 tags:
-    - 数学
-    - 二分查找
-    - 组合数学
-    - 数论
+    - Math
+    - Binary Search
+    - Combinatorics
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [1201. 丑数 III](https://leetcode.cn/problems/ugly-number-iii)
+# [1201. Ugly Number III](https://leetcode.com/problems/ugly-number-iii)
 
-[English Version](/solution/1200-1299/1201.Ugly%20Number%20III/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>丑数是可以被&nbsp;<code>a</code>&nbsp;<strong>或</strong>&nbsp;<code>b</code>&nbsp;<strong>或</strong> <code>c</code>&nbsp;整除的 <strong>正整数</strong> 。</p>
+<p>An <strong>ugly number</strong> is a positive integer that is divisible by <code>a</code>, <code>b</code>, or <code>c</code>.</p>
 
-<p>给你四个整数：<code>n</code> 、<code>a</code> 、<code>b</code> 、<code>c</code> ，请你设计一个算法来找出第&nbsp;<code>n</code>&nbsp;个丑数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 3, a = 2, b = 3, c = 5
-<strong>输出：</strong>4
-<strong>解释：</strong>丑数序列为 2, 3, 4, 5, 6, 8, 9, 10... 其中第 3 个是 4。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 4, a = 2, b = 3, c = 4
-<strong>输出：</strong>6
-<strong>解释：</strong>丑数序列为 2, 3, 4, 6, 8, 9, 10, 12... 其中第 4 个是 6。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 5, a = 2, b = 11, c = 13
-<strong>输出：</strong>10
-<strong>解释：</strong>丑数序列为 2, 4, 6, 8, 10, 11, 12, 13... 其中第 5 个是 10。
-</pre>
+<p>Given four integers <code>n</code>, <code>a</code>, <code>b</code>, and <code>c</code>, return the <code>n<sup>th</sup></code> <strong>ugly number</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 3, a = 2, b = 3, c = 5
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The ugly numbers are 2, 3, 4, 5, 6, 8, 9, 10... The 3<sup>rd</sup> is 4.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 4, a = 2, b = 3, c = 4
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The ugly numbers are 2, 3, 4, 6, 8, 9, 10, 12... The 4<sup>th</sup> is 6.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 5, a = 2, b = 11, c = 13
+<strong>Output:</strong> 10
+<strong>Explanation:</strong> The ugly numbers are 2, 4, 6, 8, 10, 11, 12, 13... The 5<sup>th</sup> is 10.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n, a, b, c &lt;= 10<sup>9</sup></code></li>
 	<li><code>1 &lt;= a * b * c &lt;= 10<sup>18</sup></code></li>
-	<li>本题结果在&nbsp;<code>[1,&nbsp;2 * 10<sup>9</sup>]</code>&nbsp;的范围内</li>
+	<li>It is guaranteed that the result will be in range <code>[1, 2 * 10<sup>9</sup>]</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找 + 容斥原理
+### Solution 1: Binary Search + Inclusion-Exclusion Principle
 
-我们可以将题目转换为：找到最小的正整数 $x$，使得小于等于 $x$ 的丑数个数恰好为 $n$ 个。
+We can transform the problem into: find the smallest positive integer $x$ such that the number of ugly numbers less than or equal to $x$ is exactly $n$.
 
-对于一个正整数 $x$，能被 $a$ 整除的数有 $\left\lfloor \frac{x}{a} \right\rfloor$ 个，能被 $b$ 整除的数有 $\left\lfloor \frac{x}{b} \right\rfloor$ 个，能被 $c$ 整除的数有 $\left\lfloor \frac{x}{c} \right\rfloor$ 个，能被 $a$ 和 $b$ 同时整除的数有 $\left\lfloor \frac{x}{lcm(a, b)} \right\rfloor$ 个，能被 $a$ 和 $c$ 同时整除的数有 $\left\lfloor \frac{x}{lcm(a, c)} \right\rfloor$ 个，能被 $b$ 和 $c$ 同时整除的数有 $\left\lfloor \frac{x}{lcm(b, c)} \right\rfloor$ 个，能被 $a$, $b$ 和 $c$ 同时整除的数有 $\left\lfloor \frac{x}{lcm(a, b, c)} \right\rfloor$ 个。根据容斥原理，小于等于 $x$ 的丑数个数为：
+For a positive integer $x$, there are $\left\lfloor \frac{x}{a} \right\rfloor$ numbers divisible by $a$, $\left\lfloor \frac{x}{b} \right\rfloor$ numbers divisible by $b$, $\left\lfloor \frac{x}{c} \right\rfloor$ numbers divisible by $c$, $\left\lfloor \frac{x}{lcm(a, b)} \right\rfloor$ numbers divisible by both $a$ and $b$, $\left\lfloor \frac{x}{lcm(a, c)} \right\rfloor$ numbers divisible by both $a$ and $c$, $\left\lfloor \frac{x}{lcm(b, c)} \right\rfloor$ numbers divisible by both $b$ and $c$, and $\left\lfloor \frac{x}{lcm(a, b, c)} \right\rfloor$ numbers divisible by $a$, $b$, and $c$ at the same time. According to the inclusion-exclusion principle, the number of ugly numbers less than or equal to $x$ is:
 
 $$
 \left\lfloor \frac{x}{a} \right\rfloor + \left\lfloor \frac{x}{b} \right\rfloor + \left\lfloor \frac{x}{c} \right\rfloor - \left\lfloor \frac{x}{lcm(a, b)} \right\rfloor - \left\lfloor \frac{x}{lcm(a, c)} \right\rfloor - \left\lfloor \frac{x}{lcm(b, c)} \right\rfloor + \left\lfloor \frac{x}{lcm(a, b, c)} \right\rfloor
 $$
 
-我们可以使用二分查找的方法找到最小的正整数 $x$，使得小于等于 $x$ 的丑数个数恰好为 $n$ 个。
+We can use binary search to find the smallest positive integer $x$ such that the number of ugly numbers less than or equal to $x$ is exactly $n$.
 
-定义二分查找的左边界为 $l=1$，右边界为 $r=2 \times 10^9$，其中 $2 \times 10^9$ 是题目给定的最大值。在二分查找的每一步中，我们找出中间数 $mid$，如果小于等于 $mid$ 的丑数个数大于等于 $n$，那么说明最小的正整数 $x$ 落在 $[l,mid]$ 区间内，否则落在 $[mid+1,r]$ 区间内。在二分查找的过程中，我们需要不断更新小于等于 $mid$ 的丑数个数，直到找到最小的正整数 $x$。
+Define the left boundary of binary search as $l=1$ and the right boundary as $r=2 \times 10^9$, where $2 \times 10^9$ is the maximum value given by the problem. In each step of binary search, we find the middle number $mid$. If the number of ugly numbers less than or equal to $mid$ is greater than or equal to $n$, it means that the smallest positive integer $x$ falls in the interval $[l,mid]$, otherwise it falls in the interval $[mid+1,r]$. During the binary search process, we need to continuously update the number of ugly numbers less than or equal to $mid$ until we find the smallest positive integer $x$.
 
-时间复杂度 $O(\log m)$，其中 $m = 2 \times 10^9$。空间复杂度 $O(1)$。
+The time complexity is $O(\log m)$, where $m = 2 \times 10^9$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

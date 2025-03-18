@@ -1,54 +1,49 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2393.Count%20Strictly%20Increasing%20Subarrays/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 数学
-    - 动态规划
+    - Array
+    - Math
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2393. 严格递增的子数组个数 🔒](https://leetcode.cn/problems/count-strictly-increasing-subarrays)
+# [2393. Count Strictly Increasing Subarrays 🔒](https://leetcode.com/problems/count-strictly-increasing-subarrays)
 
-[English Version](/solution/2300-2399/2393.Count%20Strictly%20Increasing%20Subarrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个由&nbsp;<strong>正整数&nbsp;</strong>组成的数组 <code>nums</code> 。</p>
+<p>You are given an array <code>nums</code> consisting of <strong>positive</strong> integers.</p>
 
-<p>返回&nbsp;<em><strong>严格递增&nbsp;</strong>顺序的 </em><code>nums</code><em>&nbsp;<strong>子数组&nbsp;</strong>的数目。</em></p>
+<p>Return <em>the number of <strong>subarrays</strong> of </em><code>nums</code><em> that are in <strong>strictly increasing</strong> order.</em></p>
 
-<p data-group="1-1"><strong>子数组&nbsp;</strong>是数组的一部分，且是&nbsp;<strong>连续 </strong>的。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1:</strong></p>
-
-<pre>
-<strong>输入:</strong> nums = [1,3,5,4,4,6]
-<strong>输出:</strong> 10
-<strong>解释:</strong> 严格递增的子数组如下:
-- 长度为 1 的子数组: [1], [3], [5], [4], [4], [6]。
-- 长度为 2 的子数组: [1,3], [3,5], [4,6]。
-- 长度为 3 的子数组: [1,3,5]。
-子数组的总数是 6 + 3 + 1 = 10。
-</pre>
-
-<p><strong class="example">示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> nums = [1,2,3,4,5]
-<strong>输出:</strong> 15
-<strong>解释:</strong> 每个子数组都严格递增。我们可以取 15 个子数组。
-</pre>
+<p>A <strong>subarray</strong> is a <strong>contiguous</strong> part of an array.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示:</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,3,5,4,4,6]
+<strong>Output:</strong> 10
+<strong>Explanation:</strong> The strictly increasing subarrays are the following:
+- Subarrays of length 1: [1], [3], [5], [4], [4], [6].
+- Subarrays of length 2: [1,3], [3,5], [4,6].
+- Subarrays of length 3: [1,3,5].
+The total number of subarrays is 6 + 3 + 1 = 10.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,2,3,4,5]
+<strong>Output:</strong> 15
+<strong>Explanation:</strong> Every subarray is strictly increasing. There are 15 possible subarrays that we can take.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -57,19 +52,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们可以枚举以每个元素结尾的严格递增子数组的个数，然后将它们累加起来即可。
+We can enumerate the number of strictly increasing subarrays ending at each element and then sum them up.
 
-我们用一个变量 $\textit{cnt}$ 来记录以当前元素结尾的严格递增子数组的个数，初始时 $\textit{cnt} = 1$。然后我们从第二个元素开始遍历数组，如果当前元素大于前一个元素，那么 $\textit{cnt}$ 就可以加 $1$，否则 $\textit{cnt}$ 重置为 $1$。此时，以当前元素结尾的严格递增子数组的个数就是 $\textit{cnt}$，我们将其累加到答案中即可。
+We use a variable $\textit{cnt}$ to record the number of strictly increasing subarrays ending at the current element, initially $\textit{cnt} = 1$. Then we traverse the array starting from the second element. If the current element is greater than the previous element, then $\textit{cnt}$ can be incremented by $1$. Otherwise, $\textit{cnt}$ is reset to $1$. At this point, the number of strictly increasing subarrays ending at the current element is $\textit{cnt}$, and we add it to the answer.
 
-遍历结束后，返回答案即可。
+After the traversal, return the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

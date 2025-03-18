@@ -1,67 +1,64 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2602.Minimum%20Operations%20to%20Make%20All%20Array%20Elements%20Equal/README.md
+difficulty: Medium
 rating: 1903
-source: 第 338 场周赛 Q3
+source: Weekly Contest 338 Q3
 tags:
-    - 数组
-    - 二分查找
-    - 前缀和
-    - 排序
+    - Array
+    - Binary Search
+    - Prefix Sum
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2602. 使数组元素全部相等的最少操作次数](https://leetcode.cn/problems/minimum-operations-to-make-all-array-elements-equal)
+# [2602. Minimum Operations to Make All Array Elements Equal](https://leetcode.com/problems/minimum-operations-to-make-all-array-elements-equal)
 
-[English Version](/solution/2600-2699/2602.Minimum%20Operations%20to%20Make%20All%20Array%20Elements%20Equal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数数组&nbsp;<code>nums</code>&nbsp;。</p>
+<p>You are given an array <code>nums</code> consisting of positive integers.</p>
 
-<p>同时给你一个长度为 <code>m</code>&nbsp;的整数数组&nbsp;<code>queries</code>&nbsp;。第 <code>i</code>&nbsp;个查询中，你需要将 <code>nums</code>&nbsp;中所有元素变成&nbsp;<code>queries[i]</code>&nbsp;。你可以执行以下操作&nbsp;<strong>任意</strong>&nbsp;次：</p>
+<p>You are also given an integer array <code>queries</code> of size <code>m</code>. For the <code>i<sup>th</sup></code> query, you want to make all of the elements of <code>nums</code> equal to<code> queries[i]</code>. You can perform the following operation on the array <strong>any</strong> number of times:</p>
 
 <ul>
-	<li>将数组里一个元素&nbsp;<strong>增大</strong>&nbsp;或者&nbsp;<strong>减小</strong>&nbsp;<code>1</code>&nbsp;。</li>
+	<li><strong>Increase</strong> or <strong>decrease</strong> an element of the array by <code>1</code>.</li>
 </ul>
 
-<p>请你返回一个长度为 <code>m</code>&nbsp;的数组<em>&nbsp;</em><code>answer</code>&nbsp;，其中<em>&nbsp;</em><code>answer[i]</code>是将&nbsp;<code>nums</code>&nbsp;中所有元素变成&nbsp;<code>queries[i]</code>&nbsp;的&nbsp;<strong>最少</strong>&nbsp;操作次数。</p>
+<p>Return <em>an array </em><code>answer</code><em> of size </em><code>m</code><em> where </em><code>answer[i]</code><em> is the <strong>minimum</strong> number of operations to make all elements of </em><code>nums</code><em> equal to </em><code>queries[i]</code>.</p>
 
-<p><strong>注意</strong>，每次查询后，数组变回最开始的值。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [3,1,6,8], queries = [1,5]
-<b>输出：</b>[14,10]
-<b>解释：</b>第一个查询，我们可以执行以下操作：
-- 将 nums[0] 减小 2 次，nums = [1,1,6,8] 。
-- 将 nums[2] 减小 5 次，nums = [1,1,1,8] 。
-- 将 nums[3] 减小 7 次，nums = [1,1,1,1] 。
-第一个查询的总操作次数为 2 + 5 + 7 = 14 。
-第二个查询，我们可以执行以下操作：
-- 将 nums[0] 增大 2 次，nums = [5,1,6,8] 。
-- 将 nums[1] 增大 4 次，nums = [5,5,6,8] 。
-- 将 nums[2] 减小 1 次，nums = [5,5,5,8] 。
-- 将 nums[3] 减小 3 次，nums = [5,5,5,5] 。
-第二个查询的总操作次数为 2 + 4 + 1 + 3 = 10 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>nums = [2,9,6,3], queries = [10]
-<b>输出：</b>[20]
-<b>解释：</b>我们可以将数组中所有元素都增大到 10 ，总操作次数为 8 + 1 + 4 + 7 = 20 。
-</pre>
+<p><strong>Note</strong> that after each query the array is reset to its original state.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [3,1,6,8], queries = [1,5]
+<strong>Output:</strong> [14,10]
+<strong>Explanation:</strong> For the first query we can do the following operations:
+- Decrease nums[0] 2 times, so that nums = [1,1,6,8].
+- Decrease nums[2] 5 times, so that nums = [1,1,1,8].
+- Decrease nums[3] 7 times, so that nums = [1,1,1,1].
+So the total number of operations for the first query is 2 + 5 + 7 = 14.
+For the second query we can do the following operations:
+- Increase nums[0] 2 times, so that nums = [5,1,6,8].
+- Increase nums[1] 4 times, so that nums = [5,5,6,8].
+- Decrease nums[2] 1 time, so that nums = [5,5,5,8].
+- Decrease nums[3] 3 times, so that nums = [5,5,5,5].
+So the total number of operations for the second query is 2 + 4 + 1 + 3 = 10.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,9,6,3], queries = [10]
+<strong>Output:</strong> [20]
+<strong>Explanation:</strong> We can increase each value in the array to 10. The total number of operations will be 8 + 1 + 4 + 7 = 20.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -72,23 +69,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 前缀和 + 二分查找
+### Solution 1: sort + prefix sum + binary search
 
-我们先将数组 $nums$ 进行排序，并计算出长度为 $n+1$ 的前缀和数组 $s$，其中 $s[i]$ 表示数组 $nums$ 中前 $i$ 个元素的和。
+First, we sort the array $nums$ and calculate the prefix sum array $s$ with a length of $n+1$, where $s[i]$ represents the sum of the first $i$ elements in the array $nums$.
 
-接下来，遍历每个查询 $queries[i]$，我们需要将所有大于 $queries[i]$ 的元素减小到 $queries[i]$，将所有小于 $queries[i]$ 的元素增大到 $queries[i]$。
+Then, we traverse each query $queries[i]$, we need to reduce all elements greater than $queries[i]$ to $queries[i]$, and increase all elements less than $queries[i]$ to $queries[i]$.
 
-我们可以通过二分查找找到数组 $nums$ 中第一个大于 $queries[i]$ 的元素的下标 $i$，则有 $n-i$ 个元素需要减小到 $queries[i]$，这些元素的和为 $s[n]-s[i]$，这些元素的和需要减去 $n-i$ 个 $queries[i]$，因此，这些元素减小到 $queries[i]$ 的总操作次数为 $s[n]-s[i]-(n-i)\times queries[i]$。
+We can use binary search to find the index $i$ of the first element in the array $nums$ that is greater than $queries[i]$. There are $n-i$ elements that need to be reduced to $queries[i]$, and the sum of these elements is $s[n]-s[i]$. These elements need to be reduced by $n-i$ $queries[i]$, so the total number of operations to reduce these elements to $queries[i]$ is $s[n]-s[i]-(n-i)\times queries[i]$.
 
-同理，我们可以找到数组 $nums$ 中第一个大于等于 $queries[i]$ 的元素的下标 $i$，则有 $i$ 个元素需要增大到 $queries[i]$，这些元素的和为 $s[i]$，因此，这些元素增大到 $queries[i]$ 的总操作次数为 $queries[i]\times i-s[i]$。
+Similarly, we can find the index $i$ of the first element in the array $nums$ that is greater than or equal to $queries[i]$. There are $i$ elements that need to be increased to $queries[i]$, and the sum of these elements is $s[i]$. Therefore, the total number of operations to increase these elements to $queries[i]$ is $queries[i]\times i-s[i]$.
 
-最后，将这两个总操作次数相加，即为将数组 $nums$ 中所有元素变成 $queries[i]$ 的最少操作次数，即 $ans[i]=s[n]-s[i]-(n-i)\times queries[i]+queries[i]\times i-s[i]$。
+Finally, add these two total operation counts together to get the minimum number of operations to change all elements in the array $nums$ to $queries[i]$, that is, $ans[i]=s[n]-s[i]-(n-i)\times queries[i]+queries[i]\times i-s[i]$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+Time complexity $O(n \times \log n)$, space complexity $O(n)$, where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

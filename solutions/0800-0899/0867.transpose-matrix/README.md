@@ -1,72 +1,67 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0867.Transpose%20Matrix/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 矩阵
-    - 模拟
+    - Array
+    - Matrix
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [867. 转置矩阵](https://leetcode.cn/problems/transpose-matrix)
+# [867. Transpose Matrix](https://leetcode.com/problems/transpose-matrix)
 
-[English Version](/solution/0800-0899/0867.Transpose%20Matrix/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二维整数数组 <code>matrix</code>， 返回 <code>matrix</code> 的 <strong>转置矩阵</strong> 。</p>
+<p>Given a 2D integer array <code>matrix</code>, return <em>the <strong>transpose</strong> of</em> <code>matrix</code>.</p>
 
-<p>矩阵的 <strong>转置</strong> 是指将矩阵的主对角线翻转，交换矩阵的行索引与列索引。</p>
+<p>The <strong>transpose</strong> of a matrix is the matrix flipped over its main diagonal, switching the matrix&#39;s row and column indices.</p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0867.Transpose%20Matrix/images/hint_transpose.png" style="width: 600px; height: 197px;" /></p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>matrix = [[1,2,3],[4,5,6],[7,8,9]]
-<strong>输出：</strong>[[1,4,7],[2,5,8],[3,6,9]]
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>matrix = [[1,2,3],[4,5,6]]
-<strong>输出：</strong>[[1,4],[2,5],[3,6]]
+<strong>Input:</strong> matrix = [[1,2,3],[4,5,6],[7,8,9]]
+<strong>Output:</strong> [[1,4,7],[2,5,8],[3,6,9]]
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> matrix = [[1,2,3],[4,5,6]]
+<strong>Output:</strong> [[1,4],[2,5],[3,6]]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == matrix.length</code></li>
 	<li><code>n == matrix[i].length</code></li>
-	<li><code>1 <= m, n <= 1000</code></li>
-	<li><code>1 <= m * n <= 10<sup>5</sup></code></li>
-	<li><code>-10<sup>9</sup> <= matrix[i][j] <= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= m, n &lt;= 1000</code></li>
+	<li><code>1 &lt;= m * n &lt;= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>9</sup> &lt;= matrix[i][j] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们记矩阵 $\textit{matrix}$ 的行数为 $m$，列数为 $n$。根据转置的定义，转置后的矩阵 $\textit{ans}$ 的行数为 $n$，列数为 $m$。
+Let $m$ be the number of rows and $n$ be the number of columns in the matrix $\textit{matrix}$. According to the definition of transpose, the transposed matrix $\textit{ans}$ will have $n$ rows and $m$ columns.
 
-对于 $\textit{ans}$ 中的任意位置 $(i,j)$，其对应于矩阵 $\textit{matrix}$ 中的位置 $(j,i)$。因此，我们遍历矩阵 $\textit{matrix}$ 中的每个元素，将其转置到 $\textit{ans}$ 中相应的位置。
+For any position $(i, j)$ in $\textit{ans}$, it corresponds to the position $(j, i)$ in the matrix $\textit{matrix}$. Therefore, we traverse each element in the matrix $\textit{matrix}$ and transpose it to the corresponding position in $\textit{ans}$.
 
-遍历结束后，返回 $\textit{ans}$ 即可。
+After the traversal, we return $\textit{ans}$.
 
-时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别是矩阵 $\textit{matrix}$ 的行数和列数。忽略答案的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(m \times n)$, where $m$ and $n$ are the number of rows and columns in the matrix $\textit{matrix}$, respectively. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

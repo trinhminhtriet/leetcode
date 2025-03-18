@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3214.Year%20on%20Year%20Growth%20Rate/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3214. 同比增长率 🔒](https://leetcode.cn/problems/year-on-year-growth-rate)
+# [3214. Year on Year Growth Rate 🔒](https://leetcode.com/problems/year-on-year-growth-rate)
 
-[English Version](/solution/3200-3299/3214.Year%20on%20Year%20Growth%20Rate/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>user_transactions</code></p>
+<p>Table: <code>user_transactions</code></p>
 
 <pre>
 +------------------+----------+
@@ -27,34 +24,33 @@ tags:
 | spend            | decimal  |
 | transaction_date | datetime |
 +------------------+----------+
-transaction_id 列唯一标识了表中的每一列。
-这张表的每一行含有交易 ID，产品 ID，总花费以及交易日期。
+The transaction_id column uniquely identifies each row in this table.
+Each row of this table contains the transaction ID, product ID, the spend amount, and the transaction date.
 </pre>
 
-<p>编写一个解决方案来计算 <strong>每个产品</strong> 总支出的 <strong>同比增长率</strong>。</p>
+<p>Write a solution to calculate the <strong>year-on-year growth rate</strong> for the total spend <strong>for each product</strong>.</p>
 
-<p>结果表应该包含以下列：</p>
+<p>The result table should include the following columns:</p>
 
 <ul>
-	<li><code>year</code>：交易的年份。</li>
-	<li><code>product_id</code>：产品的 ID。</li>
-	<li><code>curr_year_spend</code>：当年的总支出。</li>
-	<li><code>prev_year_spend</code>：上一年的总支出。</li>
-	<li><code>yoy_rate</code>：同比增速百分比，四舍五入至小数点后 2 位。</li>
+	<li><code>year</code>: The year of the transaction.</li>
+	<li><code>product_id</code>: The ID of the product.</li>
+	<li><code>curr_year_spend</code>: The total spend for the current year.</li>
+	<li><code>prev_year_spend</code>: The total spend for the previous year.</li>
+	<li><code>yoy_rate</code>: The year-on-year growth rate percentage, rounded to <code>2</code> decimal places.</li>
 </ul>
 
-<p>返回结果表以&nbsp;<code>product_id</code>，<code>year</code>&nbsp;<strong>升序</strong> 排序。</p>
+<p>Return <em>the result table ordered by</em>&nbsp;<code>product_id</code>,<code>year</code> <em>in <strong>ascending</strong> order</em>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p><code>user_transactions</code> 表：</p>
+<p><code>user_transactions</code> table:</p>
 
 <pre class="example-io">
 +----------------+------------+---------+---------------------+
@@ -67,7 +63,7 @@ transaction_id 列唯一标识了表中的每一列。
 +----------------+------------+---------+---------------------+
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +------+------------+----------------+----------------+----------+
@@ -80,55 +76,55 @@ transaction_id 列唯一标识了表中的每一列。
 +------+------------+----------------+----------------+----------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>对于产品 ID 123424:
+	<li>For product ID 123424:
 	<ul>
-		<li>在 2019：
+		<li>In 2019:
 		<ul>
-			<li>当年的支出是 1500.60</li>
-			<li>没有上一年支出的记录</li>
-			<li>同比增长率：NULL</li>
+			<li>Current year&#39;s spend is 1500.60</li>
+			<li>No previous year&#39;s spend recorded</li>
+			<li>YoY growth rate: NULL</li>
 		</ul>
 		</li>
-		<li>在 2020：
+		<li>In 2020:
 		<ul>
-			<li>当年的支出是 1000.20</li>
-			<li>上一年的支出是 1500.60</li>
-			<li>同比增长率：((1000.20 - 1500.60) / 1500.60) * 100 = -33.35%</li>
+			<li>Current year&#39;s spend is 1000.20</li>
+			<li>Previous year&#39;s spend is 1500.60</li>
+			<li>YoY growth rate: ((1000.20 - 1500.60) / 1500.60) * 100 = -33.35%</li>
 		</ul>
 		</li>
-		<li>在 2021：
+		<li>In 2021:
 		<ul>
-			<li>当年的支出是 1246.44</li>
-			<li>上一年的支出是 1000.20</li>
-			<li>同比增长率：((1246.44 - 1000.20) / 1000.20) * 100 = 24.62%</li>
+			<li>Current year&#39;s spend is 1246.44</li>
+			<li>Previous year&#39;s spend is 1000.20</li>
+			<li>YoY growth rate: ((1246.44 - 1000.20) / 1000.20) * 100 = 24.62%</li>
 		</ul>
 		</li>
-		<li>在 2022：
+		<li>In 2022:
 		<ul>
-			<li>当年的支出是 2145.32</li>
-			<li>上一年的支出是 1246.44</li>
-			<li>同比增长率：((2145.32 - 1246.44) / 1246.44) * 100 = 72.12%</li>
+			<li>Current year&#39;s spend is 2145.32</li>
+			<li>Previous year&#39;s spend is 1246.44</li>
+			<li>YoY growth rate: ((2145.32 - 1246.44) / 1246.44) * 100 = 72.12%</li>
 		</ul>
 		</li>
 	</ul>
 	</li>
 </ul>
 
-<p><strong>注意：</strong>输出表以&nbsp;<code>product_id</code> 和&nbsp;<code>year</code>&nbsp;升序排序。</p>
+<p><strong>Note:</strong> Output table is ordered by <code>product_id</code> and <code>year</code> in ascending order.</p>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组统计 + 左连接
+### Solution 1: Grouping Statistics + Left Join
 
-我们可以先按照 `product_id` 和 `year(transaction_date)` 进行分组统计，然后使用左连接将当前年份的统计结果与上一年份的统计结果进行关联，最后计算年同比增长率。
+We can first group by `product_id` and `year(transaction_date)` to perform the statistics, then use a left join to associate the statistics of the current year with those of the previous year, and finally calculate the year-on-year growth rate.
 
 <!-- tabs:start -->
 

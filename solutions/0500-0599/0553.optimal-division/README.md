@@ -1,81 +1,73 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0553.Optimal%20Division/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 数学
-    - 动态规划
+    - Array
+    - Math
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [553. 最优除法](https://leetcode.cn/problems/optimal-division)
+# [553. Optimal Division](https://leetcode.com/problems/optimal-division)
 
-[English Version](/solution/0500-0599/0553.Optimal%20Division/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一正整数数组<strong> </strong><code>nums</code><strong>，</strong><code>nums</code> 中的相邻整数将进行浮点除法。</p>
+<p>You are given an integer array <code>nums</code>. The adjacent integers in <code>nums</code> will perform the float division.</p>
 
 <ul>
-	<li>例如，<code>nums = [2,3,4]</code>，我们将求表达式的值&nbsp;<code>"2/3/4"</code>。</li>
+	<li>For example, for <code>nums = [2,3,4]</code>, we will evaluate the expression <code>&quot;2/3/4&quot;</code>.</li>
 </ul>
 
-<p>但是，你可以在任意位置添加任意数目的括号，来改变算数的优先级。你需要找出怎么添加括号，以便计算后的表达式的值为最大值。</p>
+<p>However, you can add any number of parenthesis at any position to change the priority of operations. You want to add these parentheses such the value of the expression after the evaluation is maximum.</p>
 
-<p>以字符串格式返回具有最大值的对应表达式。</p>
+<p>Return <em>the corresponding expression that has the maximum value in string format</em>.</p>
 
-<p><strong>注意：</strong>你的表达式不应该包含多余的括号。</p>
+<p><strong>Note:</strong> your expression should not contain redundant parenthesis.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> [1000,100,10,2]
-<strong>输出:</strong> "1000/(100/10/2)"
-<strong>解释: </strong>1000/(100/10/2) = 1000/((100/10)/2) = 200
-但是，以下加粗的括号 "1000/(<strong>(</strong>100/10<strong>)</strong>/2)" 是冗余的，
-因为他们并不影响操作的优先级，所以你需要返回 "1000/(100/10/2)"。
-
-其他用例:
+<strong>Input:</strong> nums = [1000,100,10,2]
+<strong>Output:</strong> &quot;1000/(100/10/2)&quot;
+<strong>Explanation:</strong> 1000/(100/10/2) = 1000/((100/10)/2) = 200
+However, the bold parenthesis in &quot;1000/(<strong>(</strong>100/10<strong>)</strong>/2)&quot; are redundant since they do not influence the operation priority.
+So you should return &quot;1000/(100/10/2)&quot;.
+Other cases:
 1000/(100/10)/2 = 50
 1000/(100/(10/2)) = 50
 1000/100/10/2 = 0.5
 1000/100/(10/2) = 2
 </pre>
 
-<p>&nbsp;</p>
-
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> nums = [2,3,4]
-<strong>输出:</strong> "2/(3/4)"
-<strong>解释:</strong> (2/(3/4)) = 8/3 = 2.667
-可以看出，在尝试了所有的可能性之后，我们无法得到一个结果大于 2.667 的表达式。
+<strong>Input:</strong> nums = [2,3,4]
+<strong>Output:</strong> &quot;2/(3/4)&quot;
+<strong>Explanation:</strong> (2/(3/4)) = 8/3 = 2.667
+It can be shown that after trying all possibilities, we cannot get an expression with evaluation greater than 2.667
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>说明:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10</code></li>
 	<li><code>2 &lt;= nums[i] &lt;= 1000</code></li>
-	<li>对于给定的输入只有一种最优除法。</li>
+	<li>There is only one optimal division for the given input.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,72 +1,56 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0046.Permutations/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 回溯
+    - Array
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [46. 全排列](https://leetcode.cn/problems/permutations)
+# [46. Permutations](https://leetcode.com/problems/permutations)
 
-[English Version](/solution/0000-0099/0046.Permutations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个不含重复数字的数组 <code>nums</code> ，返回其 <em>所有可能的全排列</em> 。你可以 <strong>按任意顺序</strong> 返回答案。</p>
+<p>Given an array <code>nums</code> of distinct integers, return all the possible <span data-keyword="permutation-array">permutations</span>. You can return the answer in <strong>any order</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,3]
-<strong>输出：</strong>[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> nums = [1,2,3]
+<strong>Output:</strong> [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> nums = [0,1]
+<strong>Output:</strong> [[0,1],[1,0]]
+</pre><p><strong class="example">Example 3:</strong></p>
+<pre><strong>Input:</strong> nums = [1]
+<strong>Output:</strong> [[1]]
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [0,1]
-<strong>输出：</strong>[[0,1],[1,0]]
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1]
-<strong>输出：</strong>[[1]]
-</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 6</code></li>
 	<li><code>-10 &lt;= nums[i] &lt;= 10</code></li>
-	<li><code>nums</code> 中的所有整数 <strong>互不相同</strong></li>
+	<li>All the integers of <code>nums</code> are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS（回溯）
+### Solution 1: DFS (Backtracking)
 
-我们设计一个函数 $dfs(i)$ 表示已经填完了前 $i$ 个位置，现在需要填第 $i+1$ 个位置。枚举所有可能的数，如果这个数没有被填过，就填入这个数，然后继续填下一个位置，直到填完所有的位置。
+We design a function $dfs(i)$ to represent that the first $i$ positions have been filled, and now we need to fill the $i+1$ position. We enumerate all possible numbers, if this number has not been filled, we fill in this number, and then continue to fill the next position, until all positions are filled.
 
-时间复杂度 $O(n \times n!)$，其中 $n$ 是数组的长度。一共有 $n!$ 个排列，每个排列需要 $O(n)$ 的时间来构造。
+The time complexity is $O(n \times n!)$, where $n$ is the length of the array. There are $n!$ permutations in total, and each permutation takes $O(n)$ time to construct.
 
-相似题目：
+Similar problems:
 
--   [47. 全排列 II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0047.Permutations%20II/README.md)
+-   [47. Permutations II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0047.Permutations%20II/README_EN.md)
 
 <!-- tabs:start -->
 

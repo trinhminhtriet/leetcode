@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1633.Percentage%20of%20Users%20Attended%20a%20Contest/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1633. 各赛事的用户注册率](https://leetcode.cn/problems/percentage-of-users-attended-a-contest)
+# [1633. Percentage of Users Attended a Contest](https://leetcode.com/problems/percentage-of-users-attended-a-contest)
 
-[English Version](/solution/1600-1699/1633.Percentage%20of%20Users%20Attended%20a%20Contest/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>用户表：&nbsp;<code>Users</code></p>
+<p>Table: <code>Users</code></p>
 
 <pre>
 +-------------+---------+
@@ -25,12 +22,13 @@ tags:
 | user_id     | int     |
 | user_name   | varchar |
 +-------------+---------+
-user_id 是该表的主键(具有唯一值的列)。
-该表中的每行包括用户 ID 和用户名。</pre>
+user_id is the primary key (column with unique values) for this table.
+Each row of this table contains the name and the id of a user.
+</pre>
 
 <p>&nbsp;</p>
 
-<p>注册表：&nbsp;<code>Register</code></p>
+<p>Table: <code>Register</code></p>
 
 <pre>
 +-------------+---------+
@@ -39,24 +37,24 @@ user_id 是该表的主键(具有唯一值的列)。
 | contest_id  | int     |
 | user_id     | int     |
 +-------------+---------+
-(contest_id, user_id) 是该表的主键(具有唯一值的列的组合)。
-该表中的每行包含用户的 ID 和他们注册的赛事。</pre>
+(contest_id, user_id) is the primary key (combination of columns with unique values) for this table.
+Each row of this table contains the id of a user and the contest they registered into.
+</pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案统计出各赛事的用户注册百分率，保留两位小数。</p>
+<p>Write a solution to find the percentage of the users registered in each contest rounded to <strong>two decimals</strong>.</p>
 
-<p>返回的结果表按&nbsp;<code>percentage</code>&nbsp;的&nbsp;<strong>降序&nbsp;</strong>排序，若相同则按&nbsp;<code>contest_id</code>&nbsp;的&nbsp;<strong>升序&nbsp;</strong>排序。</p>
+<p>Return the result table ordered by <code>percentage</code> in <strong>descending order</strong>. In case of a tie, order it by <code>contest_id</code> in <strong>ascending order</strong>.</p>
 
-<p>返回结果如下示例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<code><strong>输入：</strong>
-Users</code> 表：
+<strong>Input:</strong> 
+Users table:
 +---------+-----------+
 | user_id | user_name |
 +---------+-----------+
@@ -64,8 +62,7 @@ Users</code> 表：
 | 2       | Bob       |
 | 7       | Alex      |
 +---------+-----------+
-
-<code>Register</code> 表：
+Register table:
 +------------+---------+
 | contest_id | user_id |
 +------------+---------+
@@ -82,7 +79,7 @@ Users</code> 表：
 | 207        | 2       |
 | 210        | 7       |
 +------------+---------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +------------+------------+
 | contest_id | percentage |
 +------------+------------+
@@ -92,20 +89,21 @@ Users</code> 表：
 | 215        | 66.67      |
 | 207        | 33.33      |
 +------------+------------+
-<strong>解释：</strong>
-所有用户都注册了 208、209 和 210 赛事，因此这些赛事的注册率为 100% ，我们按 contest_id 的降序排序加入结果表中。
-Alice 和 Alex 注册了 215 赛事，注册率为 ((2/3) * 100) = 66.67%
-Bob 注册了 207 赛事，注册率为 ((1/3) * 100) = 33.33%</pre>
+<strong>Explanation:</strong> 
+All the users registered in contests 208, 209, and 210. The percentage is 100% and we sort them in the answer table by contest_id in ascending order.
+Alice and Alex registered in contest 215 and the percentage is ((2/3) * 100) = 66.67%
+Bob registered in contest 207 and the percentage is ((1/3) * 100) = 33.33%
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组统计 + 子查询
+### Solution 1: Grouping and Subquery
 
-我们可以将 `Register` 表按照 `contest_id` 分组，统计每个赛事的注册人数，每个赛事的注册人数除以总注册人数即为该赛事的注册率。
+We can group the `Register` table by `contest_id` and count the number of registrations for each contest. The registration rate of each contest is the number of registrations divided by the total number of registrations.
 
 <!-- tabs:start -->
 

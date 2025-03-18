@@ -1,72 +1,67 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0554.Brick%20Wall/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [554. 砖墙](https://leetcode.cn/problems/brick-wall)
+# [554. Brick Wall](https://leetcode.com/problems/brick-wall)
 
-[English Version](/solution/0500-0599/0554.Brick%20Wall/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你的面前有一堵矩形的、由 <code>n</code> 行砖块组成的砖墙。这些砖块高度相同（也就是一个单位高）但是宽度不同。每一行砖块的宽度之和相等。</p>
+<p>There is a rectangular brick wall in front of you with <code>n</code> rows of bricks. The <code>i<sup>th</sup></code> row has some number of bricks each of the same height (i.e., one unit) but they can be of different widths. The total width of each row is the same.</p>
 
-<p>你现在要画一条 <strong>自顶向下 </strong>的、穿过 <strong>最少 </strong>砖块的垂线。如果你画的线只是从砖块的边缘经过，就不算穿过这块砖。<strong>你不能沿着墙的两个垂直边缘之一画线，这样显然是没有穿过一块砖的。</strong></p>
+<p>Draw a vertical line from the top to the bottom and cross the least bricks. If your line goes through the edge of a brick, then the brick is not considered as crossed. You cannot draw a line just along one of the two vertical edges of the wall, in which case the line will obviously cross no bricks.</p>
 
-<p>给你一个二维数组 <code>wall</code> ，该数组包含这堵墙的相关信息。其中，<code>wall[i]</code> 是一个代表从左至右每块砖的宽度的数组。你需要找出怎样画才能使这条线 <strong>穿过的砖块数量最少</strong> ，并且返回 <strong>穿过的砖块数量</strong> 。</p>
+<p>Given the 2D array <code>wall</code> that contains the information about the wall, return <em>the minimum number of crossed bricks after drawing such a vertical line</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0554.Brick%20Wall/images/a.png" style="width: 400px; height: 384px;" />
 <pre>
-<strong>输入：</strong>wall = [[1,2,2,1],[3,1,2],[1,3,2],[2,4],[3,1,2],[1,3,1,1]]
-<strong>输出：</strong>2
+<strong>Input:</strong> wall = [[1,2,2,1],[3,1,2],[1,3,2],[2,4],[3,1,2],[1,3,1,1]]
+<strong>Output:</strong> 2
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>wall = [[1],[1],[1]]
-<strong>输出：</strong>3
+<strong>Input:</strong> wall = [[1],[1],[1]]
+<strong>Output:</strong> 3
 </pre>
 
-&nbsp;
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == wall.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= wall[i].length &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= sum(wall[i].length) &lt;= 2 * 10<sup>4</sup></code></li>
-	<li>对于每一行 <code>i</code> ，<code>sum(wall[i])</code> 是相同的</li>
+	<li><code>sum(wall[i])</code> is the same for each row <code>i</code>.</li>
 	<li><code>1 &lt;= wall[i][j] &lt;= 2<sup>31</sup> - 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 前缀和
+### Solution 1: Hash Table + Prefix Sum
 
-我们可以用一个哈希表 $\textit{cnt}$ 记录每一行除了最后一个砖块以外的前缀和，其中键为前缀和的值，值为该前缀和出现的次数。
+We can use a hash table $\textit{cnt}$ to record the prefix sum of each row except for the last brick. The key is the value of the prefix sum, and the value is the number of times the prefix sum appears.
 
-遍历每一行，对于当前行的每一个砖块，我们将其加到当前的前缀和上，然后更新 $\textit{cnt}$。
+Traverse each row, and for each brick in the current row, add it to the current prefix sum and update $\textit{cnt}$.
 
-最后我们遍历 $\textit{cnt}$，找出出现次数最多的前缀和，这就是穿过的砖块数量最少的情况。最后答案即为砖墙的行数减去穿过的砖块数量。
+Finally, we traverse $\textit{cnt}$ to find the prefix sum that appears the most times, which represents the situation where the least number of bricks are crossed. The final answer is the number of rows in the brick wall minus the number of bricks crossed.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(n)$。其中 $m$ 和 $n$ 分别是砖墙的行数和砖墙的砖块数。
+The time complexity is $O(m \times n)$, and the space complexity is $O(n)$. Here, $m$ and $n$ are the number of rows and the number of bricks in the brick wall, respectively.
 
 <!-- tabs:start -->
 

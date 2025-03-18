@@ -1,64 +1,60 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2952.Minimum%20Number%20of%20Coins%20to%20be%20Added/README.md
+difficulty: Medium
 rating: 1784
-source: 第 374 场周赛 Q2
+source: Weekly Contest 374 Q2
 tags:
-    - 贪心
-    - 数组
-    - 排序
+    - Greedy
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2952. 需要添加的硬币的最小数量](https://leetcode.cn/problems/minimum-number-of-coins-to-be-added)
+# [2952. Minimum Number of Coins to be Added](https://leetcode.com/problems/minimum-number-of-coins-to-be-added)
 
-[English Version](/solution/2900-2999/2952.Minimum%20Number%20of%20Coins%20to%20be%20Added/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0 </strong>开始的整数数组 <code>coins</code>，表示可用的硬币的面值，以及一个整数 <code>target</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>coins</code>, representing the values of the coins available, and an integer <code>target</code>.</p>
 
-<p>如果存在某个 <code>coins</code> 的子序列总和为 <code>x</code>，那么整数 <code>x</code> 就是一个 <strong>可取得的金额 </strong>。</p>
+<p>An integer <code>x</code> is <strong>obtainable</strong> if there exists a subsequence of <code>coins</code> that sums to <code>x</code>.</p>
 
-<p>返回需要添加到数组中的<strong> 任意面值 </strong>硬币的 <strong>最小数量 </strong>，使范围 <code>[1, target]</code> 内的每个整数都属于 <strong>可取得的金额</strong> 。</p>
+<p>Return <em>the<strong> minimum</strong> number of coins <strong>of any value</strong> that need to be added to the array so that every integer in the range</em> <code>[1, target]</code><em> is <strong>obtainable</strong></em>.</p>
 
-<p>数组的 <strong>子序列</strong> 是通过删除原始数组的一些（<strong>可能不删除</strong>）元素而形成的新的 <strong>非空</strong> 数组，删除过程不会改变剩余元素的相对位置。</p>
+<p>A <strong>subsequence</strong> of an array is a new <strong>non-empty</strong> array that is formed from the original array by deleting some (<strong>possibly none</strong>) of the elements without disturbing the relative positions of the remaining elements.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>coins = [1,4,10], target = 19
-<strong>输出：</strong>2
-<strong>解释：</strong>需要添加面值为 2 和 8 的硬币各一枚，得到硬币数组 [1,2,4,8,10] 。
-可以证明从 1 到 19 的所有整数都可由数组中的硬币组合得到，且需要添加到数组中的硬币数目最小为 2 。
+<strong>Input:</strong> coins = [1,4,10], target = 19
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> We need to add coins 2 and 8. The resulting array will be [1,2,4,8,10].
+It can be shown that all integers from 1 to 19 are obtainable from the resulting array, and that 2 is the minimum number of coins that need to be added to the array. 
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>coins = [1,4,10,5,7,19], target = 19
-<strong>输出：</strong>1
-<strong>解释：</strong>只需要添加一枚面值为 2 的硬币，得到硬币数组 [1,2,4,5,7,10,19] 。
-可以证明从 1 到 19 的所有整数都可由数组中的硬币组合得到，且需要添加到数组中的硬币数目最小为 1 。</pre>
+<strong>Input:</strong> coins = [1,4,10,5,7,19], target = 19
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> We only need to add the coin 2. The resulting array will be [1,2,4,5,7,10,19].
+It can be shown that all integers from 1 to 19 are obtainable from the resulting array, and that 1 is the minimum number of coins that need to be added to the array. 
+</pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>coins = [1,1,1], target = 20
-<strong>输出：</strong>3
-<strong>解释：</strong>
-需要添加面值为 4 、8 和 16 的硬币各一枚，得到硬币数组 [1,1,1,4,8,16] 。 
-可以证明从 1 到 20 的所有整数都可由数组中的硬币组合得到，且需要添加到数组中的硬币数目最小为 3 。</pre>
+<strong>Input:</strong> coins = [1,1,1], target = 20
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We need to add coins 4, 8, and 16. The resulting array will be [1,1,1,4,8,16].
+It can be shown that all integers from 1 to 20 are obtainable from the resulting array, and that 3 is the minimum number of coins that need to be added to the array.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= target &lt;= 10<sup>5</sup></code></li>
@@ -68,22 +64,22 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 构造
+### Solution 1: Greedy + Construction
 
-我们不妨假设当前需要构造的金额为 $s$，且我们已经构造出了 $[0,...,s-1]$ 内的所有金额。如果此时有一个新的硬币 $x$，我们把它加入到数组中，可以构造出 $[x, s+x-1]$ 内的所有金额。
+Suppose the current amount we need to construct is $s$, and we have already constructed all amounts in $[0,...,s-1]$. If there is a new coin $x$, we add it to the array, which can construct all amounts in $[x, s+x-1]$.
 
-接下来，分类讨论：
+Next, we discuss in two cases:
 
--   如果 $x \le s$，那么我们可以将上面两个区间合并，得到 $[0, s+x-1]$ 内的所有金额。
--   如果 $x \gt s$，那么我们就需要添加一个面值为 $s$ 的硬币，这样可以构造出 $[0, 2s-1]$ 内的所有金额。然后我们再考虑 $x$ 和 $s$ 的大小关系，继续分析。
+-   If $x \le s$, then we can merge the two intervals above to get all amounts in $[0, s+x-1]$.
+-   If $x \gt s$, then we need to add a coin with a face value of $s$, so that we can construct all amounts in $[0, 2s-1]$. Then we consider the size relationship between $x$ and $s$ and continue to analyze.
 
-因此，我们将数组 $coins$ 按照升序排序，然后从小到大遍历数组中的硬币。对于每个硬币 $x$，我们进行上述分类讨论，直到 $s > target$ 为止。
+Therefore, we sort the array $coins$ in ascending order, and then traverse the coins in the array from small to large. For each coin $x$, we discuss in the above two cases until $s > target$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

@@ -1,65 +1,60 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1837.Sum%20of%20Digits%20in%20Base%20K/README.md
+difficulty: Easy
 rating: 1282
-source: 第 238 场周赛 Q1
+source: Weekly Contest 238 Q1
 tags:
-    - 数学
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [1837. K 进制表示下的各位数字总和](https://leetcode.cn/problems/sum-of-digits-in-base-k)
+# [1837. Sum of Digits in Base K](https://leetcode.com/problems/sum-of-digits-in-base-k)
 
-[English Version](/solution/1800-1899/1837.Sum%20of%20Digits%20in%20Base%20K/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>n</code>（<code>10</code> 进制）和一个基数 <code>k</code> ，请你将 <code>n</code> 从 <code>10</code> 进制表示转换为 <code>k</code> 进制表示，计算并返回转换后各位数字的 <strong>总和</strong> 。</p>
+<p>Given an integer <code>n</code> (in base <code>10</code>) and a base <code>k</code>, return <em>the <strong>sum</strong> of the digits of </em><code>n</code><em> <strong>after</strong> converting </em><code>n</code><em> from base </em><code>10</code><em> to base </em><code>k</code>.</p>
 
-<p>转换后，各位数字应当视作是 <code>10</code> 进制数字，且它们的总和也应当按 <code>10</code> 进制表示返回。</p>
+<p>After converting, each digit should be interpreted as a base <code>10</code> number, and the sum should be returned in base <code>10</code>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 34, k = 6
-<strong>输出：</strong>9
-<strong>解释：</strong>34 (10 进制) 在 6 进制下表示为 54 。5 + 4 = 9 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 10, k = 10
-<strong>输出：</strong>1
-<strong>解释：</strong>n 本身就是 10 进制。 1 + 0 = 1 。
+<strong>Input:</strong> n = 34, k = 6
+<strong>Output:</strong> 9
+<strong>Explanation: </strong>34 (base 10) expressed in base 6 is 54. 5 + 4 = 9.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 10, k = 10
+<strong>Output:</strong> 1
+<strong>Explanation: </strong>n is already in base 10. 1 + 0 = 1.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= n <= 100</code></li>
-	<li><code>2 <= k <= 10</code></li>
+	<li><code>1 &lt;= n &lt;= 100</code></li>
+	<li><code>2 &lt;= k &lt;= 10</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
+### Solution 1: Mathematics
 
-我们将 $n$ 除 $k$ 取余，直至为 $0$，余数相加即可得到结果。
+We divide $n$ by $k$ and take the remainder until it is $0$. The sum of the remainders gives the result.
 
-时间复杂度 $O(\log_{k}n)$，空间复杂度 $O(1)$。
+The time complexity is $O(\log_{k}n)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

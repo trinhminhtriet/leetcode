@@ -1,76 +1,71 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2974.Minimum%20Number%20Game/README.md
+difficulty: Easy
 rating: 1184
-source: 第 377 场周赛 Q1
+source: Weekly Contest 377 Q1
 tags:
-    - 数组
-    - 排序
-    - 模拟
-    - 堆（优先队列）
+    - Array
+    - Sorting
+    - Simulation
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2974. 最小数字游戏](https://leetcode.cn/problems/minimum-number-game)
+# [2974. Minimum Number Game](https://leetcode.com/problems/minimum-number-game)
 
-[English Version](/solution/2900-2999/2974.Minimum%20Number%20Game/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有一个下标从 <strong>0</strong> 开始、长度为 <strong>偶数</strong> 的整数数组 <code>nums</code> ，同时还有一个空数组 <code>arr</code> 。Alice 和 Bob 决定玩一个游戏，游戏中每一轮 Alice 和 Bob 都会各自执行一次操作。游戏规则如下：</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of <strong>even</strong> length and there is also an empty array <code>arr</code>. Alice and Bob decided to play a game where in every round Alice and Bob will do one move. The rules of the game are as follows:</p>
 
 <ul>
-	<li>每一轮，Alice 先从 <code>nums</code> 中移除一个<strong> 最小</strong> 元素，然后 Bob 执行同样的操作。</li>
-	<li>接着，Bob 会将移除的元素添加到数组 <code>arr</code> 中，然后 Alice 也执行同样的操作。</li>
-	<li>游戏持续进行，直到 <code>nums</code> 变为空。</li>
+	<li>Every round, first Alice will remove the <strong>minimum</strong> element from <code>nums</code>, and then Bob does the same.</li>
+	<li>Now, first Bob will append the removed element in the array <code>arr</code>, and then Alice does the same.</li>
+	<li>The game continues until <code>nums</code> becomes empty.</li>
 </ul>
 
-<p>返回结果数组 <code>arr</code> 。</p>
+<p>Return <em>the resulting array </em><code>arr</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [5,4,2,3]
-<strong>输出：</strong>[3,2,5,4]
-<strong>解释：</strong>第一轮，Alice 先移除 2 ，然后 Bob 移除 3 。然后 Bob 先将 3 添加到 arr 中，接着 Alice 再将 2 添加到 arr 中。于是 arr = [3,2] 。
-第二轮开始时，nums = [5,4] 。Alice 先移除 4 ，然后 Bob 移除 5 。接着他们都将元素添加到 arr 中，arr 变为 [3,2,5,4] 。
+<strong>Input:</strong> nums = [5,4,2,3]
+<strong>Output:</strong> [3,2,5,4]
+<strong>Explanation:</strong> In round one, first Alice removes 2 and then Bob removes 3. Then in arr firstly Bob appends 3 and then Alice appends 2. So arr = [3,2].
+At the begining of round two, nums = [5,4]. Now, first Alice removes 4 and then Bob removes 5. Then both append in arr which becomes [3,2,5,4].
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2,5]
-<strong>输出：</strong>[5,2]
-<strong>解释：</strong>第一轮，Alice 先移除 2 ，然后 Bob 移除 5 。然后 Bob 先将 5 添加到 arr 中，接着 Alice 再将 2 添加到 arr 中。于是 arr = [5,2] 。
+<strong>Input:</strong> nums = [2,5]
+<strong>Output:</strong> [5,2]
+<strong>Explanation:</strong> In round one, first Alice removes 2 and then Bob removes 5. Then in arr firstly Bob appends and then Alice appends. So arr = [5,2].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
+	<li><code>2 &lt;= nums.length &lt;= 100</code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 100</code></li>
 	<li><code>nums.length % 2 == 0</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟 + 优先队列（小根堆）
+### Solution 1: Simulation + Priority Queue (Min Heap)
 
-我们可以将数组 $\textit{nums}$ 中的元素依次放入一个小根堆中，每次从小根堆中取出两个元素 $a$ 和 $b$，然后依次将 $b$ 和 $a$ 放入答案数组中，直到小根堆为空。
+We can put the elements of the array $\textit{nums}$ into a min heap one by one. Each time, we take out two elements $a$ and $b$ from the min heap, and then sequentially put $b$ and $a$ into the answer array until the min heap is empty.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 
@@ -215,11 +210,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：排序 + 交换
+### Solution 2: Sorting + Swapping
 
-我们可以将数组 $\textit{nums}$ 排序，然后遍历数组，每次交换相邻的两个元素，直到遍历结束，返回交换后的数组。
+We can sort the array $\textit{nums}$, and then iterate through the array, swapping adjacent elements each time until the iteration is complete, and return the swapped array.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

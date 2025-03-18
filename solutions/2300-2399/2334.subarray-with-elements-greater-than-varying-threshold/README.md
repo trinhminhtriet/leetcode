@@ -1,56 +1,53 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2334.Subarray%20With%20Elements%20Greater%20Than%20Varying%20Threshold/README.md
+difficulty: Hard
 rating: 2381
-source: 第 82 场双周赛 Q4
+source: Biweekly Contest 82 Q4
 tags:
-    - 栈
-    - 并查集
-    - 数组
-    - 单调栈
+    - Stack
+    - Union Find
+    - Array
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [2334. 元素值大于变化阈值的子数组](https://leetcode.cn/problems/subarray-with-elements-greater-than-varying-threshold)
+# [2334. Subarray With Elements Greater Than Varying Threshold](https://leetcode.com/problems/subarray-with-elements-greater-than-varying-threshold)
 
-[English Version](/solution/2300-2399/2334.Subarray%20With%20Elements%20Greater%20Than%20Varying%20Threshold/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>threshold</code>&nbsp;。</p>
+<p>You are given an integer array <code>nums</code> and an integer <code>threshold</code>.</p>
 
-<p>找到长度为 <code>k</code>&nbsp;的&nbsp;<code>nums</code>&nbsp;子数组，满足数组中&nbsp;<strong>每个</strong>&nbsp;元素都 <strong>大于</strong>&nbsp;<code>threshold / k</code>&nbsp;。</p>
+<p>Find any subarray of <code>nums</code> of length <code>k</code> such that <strong>every</strong> element in the subarray is <strong>greater</strong> than <code>threshold / k</code>.</p>
 
-<p>请你返回满足要求的 <strong>任意</strong>&nbsp;子数组的 <strong>大小</strong>&nbsp;。如果没有这样的子数组，返回&nbsp;<code>-1</code>&nbsp;。</p>
+<p>Return<em> the <strong>size</strong> of <strong>any</strong> such subarray</em>. If there is no such subarray, return <code>-1</code>.</p>
 
-<p><strong>子数组</strong> 是数组中一段连续非空的元素序列。</p>
+<p>A <strong>subarray</strong> is a contiguous non-empty sequence of elements within an array.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [1,3,4,3,1], threshold = 6
-<b>输出：</b>3
-<b>解释：</b>子数组 [3,4,3] 大小为 3 ，每个元素都大于 6 / 3 = 2 。
-注意这是唯一合法的子数组。
+<pre>
+<strong>Input:</strong> nums = [1,3,4,3,1], threshold = 6
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The subarray [3,4,3] has a size of 3, and every element is greater than 6 / 3 = 2.
+Note that this is the only valid subarray.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>nums = [6,5,6,5,8], threshold = 7
-<b>输出：</b>1
-<b>解释：</b>子数组 [8] 大小为 1 ，且 8 &gt; 7 / 1 = 7 。所以返回 1 。
-注意子数组 [6,5] 大小为 2 ，每个元素都大于 7 / 2 = 3.5 。
-类似的，子数组 [6,5,6] ，[6,5,6,5] ，[6,5,6,5,8] 都是符合条件的子数组。
-所以返回 2, 3, 4 和 5 都可以。</pre>
+<pre>
+<strong>Input:</strong> nums = [6,5,6,5,8], threshold = 7
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The subarray [8] has a size of 1, and 8 &gt; 7 / 1 = 7. So 1 is returned.
+Note that the subarray [6,5] has a size of 2, and every element is greater than 7 / 2 = 3.5. 
+Similarly, the subarrays [6,5,6], [6,5,6,5], [6,5,6,5,8] also satisfy the given conditions.
+Therefore, 2, 3, 4, or 5 may also be returned.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -59,27 +56,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：并查集
-
-考虑**从大到小遍历**数组 $nums$ 中的每个元素 $v$，用并查集来维护以 $v$ 作为子数组最小值的连通块。
-
-遍历过程中：
-
-$v$ 在数组 $nums$ 中的下标为 $i$，若下标 $i-1$ 对应的元素遍历过，可以将 $i-1$ 与 $i$ 进行合并，同理，若下标 $i+1$ 对应的元素也遍历过了，将 $i$ 与 $i+1$ 合并。合并过程中更新连通块的大小。
-
-$v$ 作为当前连通块的最小值，当前连通块的大小为 $size[find(i)]$，若 $v>\frac{\textit{threshold}}{size[find(i)]}$，说明找到了满足条件的子数组，返回 $true$。
-
-否则遍历结束，返回 $-1$。
-
-时间复杂度 $O(nlogn)$。
-
-相似题目：
-
--   [1562. 查找大小为 M 的最新分组](https://github.com/doocs/leetcode/blob/main/solution/1500-1599/1562.Find%20Latest%20Group%20of%20Size%20M/README.md)
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -273,15 +254,7 @@ func validSubarraySize(nums []int, threshold int) int {
 
 <!-- solution:start -->
 
-### 方法二：单调栈
-
-利用单调栈，得到以当前元素 $nums[i]$ 作为最小元素的左右边界 $left[i]$（左边第一个比 $nums[i]$ 小的元素的位置）, $right[i]$（右边第一个比 $nums[i]$ 小的元素的位置）。
-
-那么对于当前元素 $nums[i]$，有 $k=right[i]-left[i]-1$，若 $nums[i]>\frac{\textit{threshold}}{k}$，说明找到了满足条件的子数组，返回 $true$。
-
-否则遍历结束，返回 $-1$。
-
-时间复杂度 $O(n)$。
+### Solution 2
 
 <!-- tabs:start -->
 

@@ -1,70 +1,65 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2969.Minimum%20Number%20of%20Coins%20for%20Fruits%20II/README.md
+difficulty: Hard
 tags:
-    - 队列
-    - 数组
-    - 动态规划
-    - 单调队列
-    - 堆（优先队列）
+    - Queue
+    - Array
+    - Dynamic Programming
+    - Monotonic Queue
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2969. 购买水果需要的最少金币数 II 🔒](https://leetcode.cn/problems/minimum-number-of-coins-for-fruits-ii)
+# [2969. Minimum Number of Coins for Fruits II 🔒](https://leetcode.com/problems/minimum-number-of-coins-for-fruits-ii)
 
-[English Version](/solution/2900-2999/2969.Minimum%20Number%20of%20Coins%20for%20Fruits%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你在一个水果超市里，货架上摆满了玲琅满目的奇珍异果。</p>
+<p>You are at a fruit market with different types of exotic fruits on display.</p>
 
-<p>给你一个 <b>下标从 1 开始</b>&nbsp;的数组&nbsp;<code>prices</code>，其中&nbsp;<code>prices[i]</code>&nbsp;表示你购买第&nbsp;<code>i</code>&nbsp;个水果所需的硬币数量。</p>
+<p>You are given a <strong>1-indexed</strong> array <code>prices</code>, where <code>prices[i]</code> denotes the number of coins needed to purchase the <code>i<sup>th</sup></code> fruit.</p>
 
-<p>水果市场有以下优惠活动：</p>
+<p>The fruit market has the following offer:</p>
 
 <ul>
-	<li>如果你用&nbsp;<code>prices[i]</code>&nbsp;个硬币购买第 <code>i</code> 个水果， 那么接下来的 i 个水果你都可以免费获得。</li>
+	<li>If you purchase the <code>i<sup>th</sup></code> fruit at <code>prices[i]</code> coins, you can get the next <code>i</code> fruits for free.</li>
 </ul>
 
-<p><strong>请注意</strong>&nbsp;即使你 <strong>可以</strong> 免费获得第&nbsp;<code>j</code>&nbsp;个水果，你仍然可以用&nbsp;<code>prices[j]</code>&nbsp;个硬币来购买它，以获取新的优惠。</p>
+<p><strong>Note</strong> that even if you <strong>can</strong> take fruit <code>j</code> for free, you can still purchase it for <code>prices[j]</code> coins to receive a new offer.</p>
 
-<p>返回 <em>获得所有水果所需的 <strong>最小</strong> 硬币数量。</em></p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>prices = [3,1,2]
-<strong>输出：</strong>4
-<strong>解释：</strong>你可以按以下方式获取水果：
-- 用3个硬币购买第1个水果，并且可以免费获得第2个水果。
-- 用1个硬币购买第2个水果，并且可以免费获得第3个水果。
-- 免费获得第三个水果。
-请注意，即使你可以免费获得第2个水果，你还是购买了它，因为这是更优的选择。
-可以证明4是获取所有水果所需的最小硬币数量。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-输入：prices = [1,10,1,1]
-输出：2
-解释：你可以按以下方式获取水果：
-- 用1个硬币购买第1个水果，并且可以免费获得第2个水果。
-- 免费获得第2个水果。
-- 用1个硬币购买第3个水果，并且可以免费获得第4个水果。
-- 免费获得第4个水果。
-可以证明2是获取所有水果所需的最小硬币数量。
-</pre>
+<p>Return <em>the <strong>minimum</strong> number of coins needed to acquire all the fruits</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><b>提示：</b></p>
+<pre>
+<strong>Input:</strong> prices = [3,1,2]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> You can acquire the fruits as follows:
+- Purchase the 1<sup>st</sup> fruit with 3 coins, and you are allowed to take the 2<sup>nd</sup> fruit for free.
+- Purchase the 2<sup>nd</sup> fruit with 1 coin, and you are allowed to take the 3<sup>rd</sup> fruit for free.
+- Take the 3<sup>rd</sup> fruit for free.
+Note that even though you were allowed to take the 2<sup>nd</sup> fruit for free, you purchased it because it is more optimal.
+It can be proven that 4 is the minimum number of coins needed to acquire all the fruits.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> prices = [1,10,1,1]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> You can acquire the fruits as follows:
+- Purchase the 1<sup>st</sup> fruit with 1 coin, and you are allowed to take the 2<sup>nd</sup> fruit for free.
+- Take the 2<sup>nd</sup> fruit for free.
+- Purchase the 3<sup>rd</sup> fruit for 1 coin, and you are allowed to take the 4<sup>th</sup> fruit for free.
+- Take the 4<sup>t</sup><sup>h</sup> fruit for free.
+It can be proven that 2 is the minimum number of coins needed to acquire all the fruits.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= prices.length &lt;= 10<sup>5</sup></code></li>
@@ -73,25 +68,25 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i]$ 表示从第 $i$ 个水果开始购买所有水果所需要的最少金币数。那么答案就是 $f[1]$。
+We define $f[i]$ as the minimum number of coins needed to buy all fruits starting from the $i$th fruit. So the answer is $f[1]$.
 
-状态转移方程为 $f[i] = \min_{i + 1 \le j \le 2i + 1} f[j] + prices[i - 1]$。
+The state transition equation is $f[i] = \min_{i + 1 \le j \le 2i + 1} f[j] + prices[i - 1]$.
 
-在实现上，我们从后往前计算，并且可以直接在数组 $prices$ 上进行状态转移，这样可以节省空间。
+In implementation, we calculate from back to front, and we can directly perform state transition on the array $prices$, which can save space.
 
-以上做法的时间复杂度为 $O(n^2)$，由于本题 $n$ 的规模达到 $10^5$，因此会超时。
+The time complexity of the above method is $O(n^2)$. Since the scale of $n$ in this problem reaches $10^5$, it will time out.
 
-我们观察状态转移方程，可以发现，对于每个 $i$，我们需要求出 $f[i + 1], f[i + 2], \cdots, f[2i + 1]$ 的最小值，并且随着 $i$ 的减小，这些值的范围也在减小。这实际上是求一个单调收窄的滑动窗口的最小值，我们可以使用单调队列来优化。
+We observe the state transition equation and find that for each $i$, we need to find the minimum value of $f[i + 1], f[i + 2], \cdots, f[2i + 1]$, and as $i$ decreases, the range of these values is also decreasing. This is actually finding the minimum value of a monotonically narrowing sliding window, and we can use a monotonic queue to optimize.
 
-我们从后往前计算，维护一个单调递增的队列 $q$，队列中存储的是下标。如果 $q$ 的队首元素大于 $i \times 2 + 1$，说明 $i$ 之后的元素都不会被用到，所以我们将队首元素出队。如果 $i$ 不大于 $(n - 1) / 2$，那么我们可以将 $prices[q[0] - 1]$ 加到 $prices[i - 1]$ 上，然后将 $i$ 加入队尾。如果 $q$ 的队尾元素对应的水果价格大于等于 $prices[i - 1]$，那么我们将队尾元素出队，直到队尾元素对应的水果价格小于 $prices[i - 1]$ 或者队列为空，然后将 $i$ 加入队尾。
+We calculate from back to front, maintain a monotonically increasing queue $q$, and the queue stores the index. If the head element of $q$ is greater than $i \times 2 + 1$, it means that the elements after $i$ will not be used, so we dequeue the head element. If $i$ is not greater than $(n - 1) / 2$, then we can add $prices[q[0] - 1]$ to $prices[i - 1]$, and then add $i$ to the tail of the queue. If the price of the fruit corresponding to the tail element of $q$ is greater than or equal to $prices[i - 1]$, then we dequeue the tail element until the price of the fruit corresponding to the tail element is less than $prices[i - 1]$ or the queue is empty, and then add $i$ to the tail of the queue.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $prices$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $prices$.
 
 <!-- tabs:start -->
 

@@ -1,86 +1,67 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1312.Minimum%20Insertion%20Steps%20to%20Make%20a%20String%20Palindrome/README.md
+difficulty: Hard
 rating: 1786
-source: 第 170 场周赛 Q4
+source: Weekly Contest 170 Q4
 tags:
-    - 字符串
-    - 动态规划
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1312. 让字符串成为回文串的最少插入次数](https://leetcode.cn/problems/minimum-insertion-steps-to-make-a-string-palindrome)
+# [1312. Minimum Insertion Steps to Make a String Palindrome](https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome)
 
-[English Version](/solution/1300-1399/1312.Minimum%20Insertion%20Steps%20to%20Make%20a%20String%20Palindrome/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>s</code>&nbsp;，每一次操作你都可以在字符串的任意位置插入任意字符。</p>
+<p>Given a string <code>s</code>. In one step you can insert any character at any index of the string.</p>
 
-<p>请你返回让&nbsp;<code>s</code>&nbsp;成为回文串的&nbsp;<strong>最少操作次数</strong>&nbsp;。</p>
+<p>Return <em>the minimum number of steps</em> to make <code>s</code>&nbsp;palindrome.</p>
 
-<p>「回文串」是正读和反读都相同的字符串。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "zzazz"
-<strong>输出：</strong>0
-<strong>解释：</strong>字符串 "zzazz" 已经是回文串了，所以不需要做任何插入操作。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "mbadm"
-<strong>输出：</strong>2
-<strong>解释：</strong>字符串可变为 "mbdadbm" 或者 "mdbabdm" 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "leetcode"
-<strong>输出：</strong>5
-<strong>解释：</strong>插入 5 个字符后字符串变为 "leetcodocteel" 。
-</pre>
+<p>A&nbsp;<b>Palindrome String</b>&nbsp;is one that reads the same backward as well as forward.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;zzazz&quot;
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The string &quot;zzazz&quot; is already palindrome we do not need any insertions.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;mbadm&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> String can be &quot;mbdadbm&quot; or &quot;mdbabdm&quot;.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;leetcode&quot;
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> Inserting 5 characters the string becomes &quot;leetcodocteel&quot;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 500</code></li>
-	<li><code>s</code>&nbsp;中所有字符都是小写字母。</li>
+	<li><code>s</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
-
-我们设计一个函数 $dfs(i, j)$，表示将字符串 $s[i..j]$ 变成回文串所需要的最少操作次数。那么答案就是 $dfs(0, n - 1)$。
-
-函数 $dfs(i, j)$ 的计算过程如下：
-
-如果 $i \geq j$，此时无需插入任何字符，我们直接返回 $0$。
-
-否则，我们判断 $s[i]$ 与 $s[j]$ 是否相等，如果 $s[i]=s[j]$，那么我们只需要将 $s[i+1..j-1]$ 变成回文串，那么我们返回 $dfs(i + 1, j - 1)$。否则，我们可以在 $s[i]$ 的左侧或者 $s[j]$ 的右侧插入一个与另一侧相同的字符，那么 $dfs(i, j) = \min(dfs(i + 1, j), dfs(i, j - 1)) + 1$。
-
-为了避免重复计算，我们可以使用记忆化搜索，即使用哈希表或者数组来存储已经计算过的函数值。
-
-最后，我们返回 $dfs(0, n - 1)$ 即可。
-
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为字符串 $s$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -200,28 +181,7 @@ func minInsertions(s string) int {
 
 <!-- solution:start -->
 
-### 方法二：动态规划（区间 DP）
-
-我们定义 $f[i][j]$ 表示将字符串 $s[i..j]$ 变成回文串所需要的最少操作次数。初始时 $f[i][j]=0$，答案即为 $f[0][n-1]$。
-
-对于 $f[i][j]$，如果 $s[i]=s[j]$，那么我们只需要将 $s[i+1..j-1]$ 变成回文串，因此 $f[i][j]=f[i+1][j-1]$。否则，我们可以在 $s[i]$ 的左侧或者 $s[j]$ 的右侧插入一个与另一侧相同的字符，那么 $f[i][j]=\min(f[i+1][j],f[i][j-1])+1$。
-
-综上，我们可以得到状态转移方程：
-
-$$
-f[i][j]=\left\{\begin{array}{ll}f[i+1][j-1], & s[i]=s[j]\\ \min(f[i+1][j],f[i][j-1])+1, & s[i]\neq s[j]\end{array}\right.
-$$
-
-在枚举时，我们可以有两种枚举的方式：
-
-1. 从大到小枚举 $i$，从小到大枚举 $j$，这样可以保证在计算状态 $f[i][j]$ 时，状态 $f[i+1][j-1]$ 和 $f[i][j-1]$ 都已经计算过了；
-1. 从小到大枚举区间长度 $k$，然后枚举区间的左端点 $i$，那么可以得到右端点 $j=i+k-1$，这样也可以保证在计算较大区间 $f[i][j]$ 时，较小区间 $f[i+1][j]$ 和 $f[i][j-1]$ 都已经计算过了。
-
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为字符串 $s$ 的长度。
-
-相似题目：
-
--   [1039. 多边形三角剖分的最低得分](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1039.Minimum%20Score%20Triangulation%20of%20Polygon/README.md)
+### Solution 2
 
 <!-- tabs:start -->
 
@@ -313,7 +273,7 @@ func minInsertions(s string) int {
 
 <!-- solution:start -->
 
-### 方法三
+### Solution 3
 
 <!-- tabs:start -->
 

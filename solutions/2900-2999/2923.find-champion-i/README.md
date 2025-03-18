@@ -1,79 +1,74 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2923.Find%20Champion%20I/README.md
+difficulty: Easy
 rating: 1235
-source: 第 370 场周赛 Q1
+source: Weekly Contest 370 Q1
 tags:
-    - 数组
-    - 矩阵
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [2923. 找到冠军 I](https://leetcode.cn/problems/find-champion-i)
+# [2923. Find Champion I](https://leetcode.com/problems/find-champion-i)
 
-[English Version](/solution/2900-2999/2923.Find%20Champion%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一场比赛中共有 <code>n</code> 支队伍，按从 <code>0</code> 到&nbsp; <code>n - 1</code> 编号。</p>
+<p>There are <code>n</code> teams numbered from <code>0</code> to <code>n - 1</code> in a tournament.</p>
 
-<p>给你一个下标从 <strong>0</strong> 开始、大小为 <code>n * n</code> 的二维布尔矩阵 <code>grid</code> 。对于满足&nbsp;<code>0 &lt;= i, j &lt;= n - 1</code> 且 <code>i != j</code> 的所有 <code>i, j</code> ：如果 <code>grid[i][j] == 1</code>，那么 <code>i</code> 队比 <code>j</code> 队 <strong>强</strong> ；否则，<code>j</code> 队比 <code>i</code> 队 <strong>强</strong> 。</p>
+<p>Given a <strong>0-indexed</strong> 2D boolean matrix <code>grid</code> of size <code>n * n</code>. For all <code>i, j</code> that <code>0 &lt;= i, j &lt;= n - 1</code> and <code>i != j</code> team <code>i</code> is <strong>stronger</strong> than team <code>j</code> if <code>grid[i][j] == 1</code>, otherwise, team <code>j</code> is <strong>stronger</strong> than team <code>i</code>.</p>
 
-<p>在这场比赛中，如果不存在某支强于 <code>a</code> 队的队伍，则认为 <code>a</code> 队将会是 <strong>冠军</strong> 。</p>
+<p>Team <code>a</code> will be the <strong>champion</strong> of the tournament if there is no team <code>b</code> that is stronger than team <code>a</code>.</p>
 
-<p>返回这场比赛中将会成为冠军的队伍。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>grid = [[0,1],[0,0]]
-<strong>输出：</strong>0
-<strong>解释：</strong>比赛中有两支队伍。
-grid[0][1] == 1 表示 0 队比 1 队强。所以 0 队是冠军。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>grid = [[0,0,1],[1,0,1],[0,0,0]]
-<strong>输出：</strong>1
-<strong>解释：</strong>比赛中有三支队伍。
-grid[1][0] == 1 表示 1 队比 0 队强。
-grid[1][2] == 1 表示 1 队比 2 队强。
-所以 1 队是冠军。
-</pre>
+<p>Return <em>the team that will be the champion of the tournament.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> grid = [[0,1],[0,0]]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There are two teams in this tournament.
+grid[0][1] == 1 means that team 0 is stronger than team 1. So team 0 will be the champion.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> grid = [[0,0,1],[1,0,1],[0,0,0]]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> There are three teams in this tournament.
+grid[1][0] == 1 means that team 1 is stronger than team 0.
+grid[1][2] == 1 means that team 1 is stronger than team 2.
+So team 1 will be the champion.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>2 &lt;= n &lt;= 100</code></li>
-	<li><code>grid[i][j]</code> 的值为 <code>0</code> 或 <code>1</code><meta charset="UTF-8" /></li>
-	<li>对于所有&nbsp;<code>i</code>，<code> grid[i][i]</code>&nbsp;等于&nbsp;<code>0.</code></li>
-	<li>对于满足&nbsp;<code>i != j</code> 的所有 <code>i, j</code> ，<code>grid[i][j] != grid[j][i]</code> 均成立</li>
-	<li>生成的输入满足：如果 <code>a</code> 队比 <code>b</code> 队强，<code>b</code> 队比 <code>c</code> 队强，那么 <code>a</code> 队比 <code>c</code> 队强</li>
+	<li><code>grid[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
+	<li>For all <code>i grid[i][i]</code> is <code>0.</code></li>
+	<li>For all <code>i, j</code> that <code>i != j</code>, <code>grid[i][j] != grid[j][i]</code>.</li>
+	<li>The input is generated such that if team <code>a</code> is stronger than team <code>b</code> and team <code>b</code> is stronger than team <code>c</code>, then team <code>a</code> is stronger than team <code>c</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们可以枚举每一支队伍 $i$，如果 $i$ 队的每一场比赛都赢了，那么 $i$ 队就是冠军，直接返回 $i$ 即可。
+We can enumerate each team $i$. If team $i$ has won every match, then team $i$ is the champion, and we can directly return $i$.
 
-时间复杂度 $O(n^2)$，其中 $n$ 是队伍数量。空间复杂度 $O(1)$。
+The time complexity is $O(n^2)$, where $n$ is the number of teams. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

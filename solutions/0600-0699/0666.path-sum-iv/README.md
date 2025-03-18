@@ -1,79 +1,82 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0666.Path%20Sum%20IV/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 深度优先搜索
-    - 数组
-    - 哈希表
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Array
+    - Hash Table
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [666. 路径总和 IV 🔒](https://leetcode.cn/problems/path-sum-iv)
+# [666. Path Sum IV 🔒](https://leetcode.com/problems/path-sum-iv)
 
-[English Version](/solution/0600-0699/0666.Path%20Sum%20IV/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>对于一棵深度小于&nbsp;<code>5</code>&nbsp;的树，可以用一组三位十进制整数来表示。给定一个由三位数组成的&nbsp;<strong>递增</strong>&nbsp;的数组&nbsp;<code>nums</code>&nbsp;表示一棵深度小于&nbsp;<code>5</code>&nbsp;的二叉树，对于每个整数：</p>
+<p>If the depth of a tree is smaller than <code>5</code>, then this tree can be represented by an array of three-digit integers. You are given an <strong>ascending </strong>array <code>nums</code> consisting of three-digit integers representing a binary tree with a depth smaller than <code>5</code>, where for each integer:</p>
 
 <ul>
-	<li>百位上的数字表示这个节点的深度 <code>d</code>，<code>1 &lt;= d&nbsp;&lt;= 4</code>。</li>
-	<li>十位上的数字表示这个节点在当前层所在的位置 <code>p</code>， <code>1 &lt;= p&nbsp;&lt;= 8</code>。位置编号与一棵 <strong>满二叉树</strong> 的位置编号相同。</li>
-	<li>个位上的数字表示这个节点的权值 <code>v</code>，<code>0 &lt;= v&nbsp;&lt;= 9</code>。</li>
+	<li>The hundreds digit represents the depth <code>d</code> of this node, where <code>1 &lt;= d &lt;= 4</code>.</li>
+	<li>The tens digit represents the position <code>p</code> of this node within its level, where <code>1 &lt;= p &lt;= 8</code>, corresponding to its position in a <strong>full binary tree</strong>.</li>
+	<li>The units digit represents the value <code>v</code> of this node, where <code>0 &lt;= v &lt;= 9</code>.</li>
 </ul>
 
-<p>返回从&nbsp;<strong>根&nbsp;</strong>到所有 <strong>叶子结点</strong> 的 <strong>路径</strong> 之 <strong>和</strong>。</p>
+<p>Return the <strong>sum</strong> of <strong>all paths</strong> from the <strong>root</strong> towards the <strong>leaves</strong>.</p>
 
-<p><strong>保证&nbsp;</strong>给定的数组表示一个有效的连接二叉树。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0666.Path%20Sum%20IV/images/pathsum4-1-tree.jpg" /></p>
-
-<pre>
-<strong>输入:</strong> nums = [113, 215, 221]
-<strong>输出:</strong> 12
-<strong>解释:</strong> 列表所表示的树如上所示。
-路径和 = (3 + 5) + (3 + 1) = 12。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0666.Path%20Sum%20IV/images/pathsum4-2-tree.jpg" /></p>
-
-<pre>
-<strong>输入:</strong> nums = [113, 221]
-<strong>输出:</strong> 4
-<strong>解释:</strong> 列表所表示的树如上所示。
-路径和 = (3 + 1) = 4。
-</pre>
+<p>It is <strong>guaranteed</strong> that the given array represents a valid connected binary tree.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示:</strong></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0666.Path%20Sum%20IV/images/pathsum4-1-tree.jpg" style="width: 212px; height: 183px;" /></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [113,215,221]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">12</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The tree that the list represents is shown.<br />
+The path sum is (3 + 5) + (3 + 1) = 12.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0666.Path%20Sum%20IV/images/pathsum4-2-tree.jpg" style="width: 132px; height: 183px;" /></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [113,221]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The tree that the list represents is shown.&nbsp;<br />
+The path sum is (3 + 1) = 4.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 15</code></li>
 	<li><code>110 &lt;= nums[i] &lt;= 489</code></li>
-	<li><code>nums</code>&nbsp;表示深度小于&nbsp;<code>5</code> 的有效二叉树</li>
-	<li><code>nums</code>&nbsp;以升序排序。</li>
+	<li><code>nums</code> represents a valid binary tree with depth less than <code>5</code>.</li>
+	<li><code>nums</code> is sorted in ascending order.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

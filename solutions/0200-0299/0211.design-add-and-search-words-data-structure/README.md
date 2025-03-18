@@ -1,74 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0211.Design%20Add%20and%20Search%20Words%20Data%20Structure/README.md
+difficulty: Medium
 tags:
-    - 深度优先搜索
-    - 设计
-    - 字典树
-    - 字符串
+    - Depth-First Search
+    - Design
+    - Trie
+    - String
 ---
 
 <!-- problem:start -->
 
-# [211. 添加与搜索单词 - 数据结构设计](https://leetcode.cn/problems/design-add-and-search-words-data-structure)
+# [211. Design Add and Search Words Data Structure](https://leetcode.com/problems/design-add-and-search-words-data-structure)
 
-[English Version](/solution/0200-0299/0211.Design%20Add%20and%20Search%20Words%20Data%20Structure/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你设计一个数据结构，支持 添加新单词 和 查找字符串是否与任何先前添加的字符串匹配 。</p>
+<p>Design a data structure that supports adding new words and finding if a string matches any previously added string.</p>
 
-<p>实现词典类 <code>WordDictionary</code> ：</p>
+<p>Implement the <code>WordDictionary</code> class:</p>
 
 <ul>
-	<li><code>WordDictionary()</code> 初始化词典对象</li>
-	<li><code>void addWord(word)</code> 将 <code>word</code> 添加到数据结构中，之后可以对它进行匹配</li>
-	<li><code>bool search(word)</code> 如果数据结构中存在字符串与&nbsp;<code>word</code> 匹配，则返回 <code>true</code> ；否则，返回&nbsp; <code>false</code> 。<code>word</code> 中可能包含一些 <code>'.'</code> ，每个&nbsp;<code>.</code> 都可以表示任何一个字母。</li>
+	<li><code>WordDictionary()</code>&nbsp;Initializes the object.</li>
+	<li><code>void addWord(word)</code> Adds <code>word</code> to the data structure, it can be matched later.</li>
+	<li><code>bool search(word)</code>&nbsp;Returns <code>true</code> if there is any string in the data structure that matches <code>word</code>&nbsp;or <code>false</code> otherwise. <code>word</code> may contain dots <code>&#39;.&#39;</code> where dots can be matched with any letter.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["WordDictionary","addWord","addWord","addWord","search","search","search","search"]
-[[],["bad"],["dad"],["mad"],["pad"],["bad"],[".ad"],["b.."]]
-<strong>输出：</strong>
+<strong>Input</strong>
+[&quot;WordDictionary&quot;,&quot;addWord&quot;,&quot;addWord&quot;,&quot;addWord&quot;,&quot;search&quot;,&quot;search&quot;,&quot;search&quot;,&quot;search&quot;]
+[[],[&quot;bad&quot;],[&quot;dad&quot;],[&quot;mad&quot;],[&quot;pad&quot;],[&quot;bad&quot;],[&quot;.ad&quot;],[&quot;b..&quot;]]
+<strong>Output</strong>
 [null,null,null,null,false,true,true,true]
 
-<strong>解释：</strong>
+<strong>Explanation</strong>
 WordDictionary wordDictionary = new WordDictionary();
-wordDictionary.addWord("bad");
-wordDictionary.addWord("dad");
-wordDictionary.addWord("mad");
-wordDictionary.search("pad"); // 返回 False
-wordDictionary.search("bad"); // 返回 True
-wordDictionary.search(".ad"); // 返回 True
-wordDictionary.search("b.."); // 返回 True
+wordDictionary.addWord(&quot;bad&quot;);
+wordDictionary.addWord(&quot;dad&quot;);
+wordDictionary.addWord(&quot;mad&quot;);
+wordDictionary.search(&quot;pad&quot;); // return False
+wordDictionary.search(&quot;bad&quot;); // return True
+wordDictionary.search(&quot;.ad&quot;); // return True
+wordDictionary.search(&quot;b..&quot;); // return True
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= word.length &lt;= 25</code></li>
-	<li><code>addWord</code> 中的 <code>word</code> 由小写英文字母组成</li>
-	<li><code>search</code> 中的 <code>word</code> 由 '.' 或小写英文字母组成</li>
-	<li>最多调用 <code>10<sup>4</sup></code> 次 <code>addWord</code> 和 <code>search</code></li>
+	<li><code>word</code> in <code>addWord</code> consists of lowercase English letters.</li>
+	<li><code>word</code> in <code>search</code> consist of <code>&#39;.&#39;</code> or lowercase English letters.</li>
+	<li>There will be at most <code>2</code> dots in <code>word</code> for <code>search</code> queries.</li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>addWord</code> and <code>search</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

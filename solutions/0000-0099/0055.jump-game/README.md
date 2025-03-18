@@ -1,48 +1,43 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0055.Jump%20Game/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数组
-    - 动态规划
+    - Greedy
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [55. 跳跃游戏](https://leetcode.cn/problems/jump-game)
+# [55. Jump Game](https://leetcode.com/problems/jump-game)
 
-[English Version](/solution/0000-0099/0055.Jump%20Game/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个非负整数数组&nbsp;<code>nums</code> ，你最初位于数组的 <strong>第一个下标</strong> 。数组中的每个元素代表你在该位置可以跳跃的最大长度。</p>
+<p>You are given an integer array <code>nums</code>. You are initially positioned at the array&#39;s <strong>first index</strong>, and each element in the array represents your maximum jump length at that position.</p>
 
-<p>判断你是否能够到达最后一个下标，如果可以，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [2,3,1,1,4]
-<strong>输出：</strong>true
-<strong>解释：</strong>可以先跳 1 步，从下标 0 到达下标 1, 然后再从下标 1 跳 3 步到达最后一个下标。
-</pre>
-
-<p><strong>示例&nbsp;2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [3,2,1,0,4]
-<strong>输出：</strong>false
-<strong>解释：</strong>无论怎样，总会到达下标为 3 的位置。但该下标的最大跳跃长度是 0 ， 所以永远不可能到达最后一个下标。
-</pre>
+<p>Return <code>true</code><em> if you can reach the last index, or </em><code>false</code><em> otherwise</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [2,3,1,1,4]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Jump 1 step from index 0 to 1, then 3 steps to the last index.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [3,2,1,0,4]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> You will always arrive at index 3 no matter what. Its maximum jump length is 0, which makes it impossible to reach the last index.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
@@ -51,25 +46,25 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy
 
-我们用变量 $mx$ 维护当前能够到达的最远下标，初始时 $mx = 0$。
+We use a variable $mx$ to maintain the farthest index that can currently be reached, initially $mx = 0$.
 
-我们从左到右遍历数组，对于遍历到的每个位置 $i$，如果 $mx \lt i$，说明当前位置无法到达，直接返回 `false`。否则，我们可以通过跳跃从位置 $i$ 到达的最远位置为 $i+nums[i]$，我们用 $i+nums[i]$ 更新 $mx$ 的值，即 $mx = \max(mx, i + nums[i])$。
+We traverse the array from left to right. For each position $i$ we traverse, if $mx < i$, it means that the current position cannot be reached, so we directly return `false`. Otherwise, the farthest position that we can reach by jumping from position $i$ is $i+nums[i]$, we use $i+nums[i]$ to update the value of $mx$, that is, $mx = \max(mx, i + nums[i])$.
 
-遍历结束，直接返回 `true`。
+At the end of the traversal, we directly return `true`.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
-相似题目：
+Similar problems:
 
--   [45. 跳跃游戏 II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0045.Jump%20Game%20II/README.md)
--   [1024. 视频拼接](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1024.Video%20Stitching/README.md)
--   [1326. 灌溉花园的最少水龙头数目](https://github.com/doocs/leetcode/blob/main/solution/1300-1399/1326.Minimum%20Number%20of%20Taps%20to%20Open%20to%20Water%20a%20Garden/README.md)
+-   [45. Jump Game II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0045.Jump%20Game%20II/README_EN.md)
+-   [1024. Video Stitching](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1024.Video%20Stitching/README_EN.md)
+-   [1326. Minimum Number of Taps to Open to Water a Garden](https://github.com/doocs/leetcode/blob/main/solution/1300-1399/1326.Minimum%20Number%20of%20Taps%20to%20Open%20to%20Water%20a%20Garden/README_EN.md)
 
 <!-- tabs:start -->
 

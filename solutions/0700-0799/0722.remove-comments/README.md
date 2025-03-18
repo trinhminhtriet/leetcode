@@ -1,62 +1,58 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0722.Remove%20Comments/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 字符串
+    - Array
+    - String
 ---
 
 <!-- problem:start -->
 
-# [722. 删除注释](https://leetcode.cn/problems/remove-comments)
+# [722. Remove Comments](https://leetcode.com/problems/remove-comments)
 
-[English Version](/solution/0700-0799/0722.Remove%20Comments/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给一个 C++ 程序，删除程序中的注释。这个程序<code>source</code>是一个数组，其中<code>source[i]</code>表示第&nbsp;<code>i</code>&nbsp;行源码。&nbsp;这表示每行源码由 <code>'\n'</code>&nbsp;分隔。</p>
+<p>Given a C++ program, remove comments from it. The program source is an array of strings <code>source</code> where <code>source[i]</code> is the <code>i<sup>th</sup></code> line of the source code. This represents the result of splitting the original source code string by the newline character <code>&#39;\n&#39;</code>.</p>
 
-<p>在 C++ 中有两种注释风格，行内注释和块注释。</p>
-
-<ul>
-	<li>字符串<code>//</code> 表示行注释，表示<code>//</code>和其右侧的其余字符应该被忽略。</li>
-	<li>字符串<code>/*</code> 表示一个块注释，它表示直到下一个（非重叠）出现的<code>*/</code>之间的所有字符都应该被忽略。（阅读顺序为从左到右）非重叠是指，字符串<code>/*/</code>并没有结束块注释，因为注释的结尾与开头相重叠。</li>
-</ul>
-
-<p>第一个有效注释优先于其他注释。</p>
+<p>In C++, there are two types of comments, line comments, and block comments.</p>
 
 <ul>
-	<li>如果字符串<code>//</code>出现在块注释中会被忽略。</li>
-	<li>同样，如果字符串<code>/*</code>出现在行或块注释中也会被忽略。</li>
+	<li>The string <code>&quot;//&quot;</code> denotes a line comment, which represents that it and the rest of the characters to the right of it in the same line should be ignored.</li>
+	<li>The string <code>&quot;/*&quot;</code> denotes a block comment, which represents that all characters until the next (non-overlapping) occurrence of <code>&quot;*/&quot;</code> should be ignored. (Here, occurrences happen in reading order: line by line from left to right.) To be clear, the string <code>&quot;/*/&quot;</code> does not yet end the block comment, as the ending would be overlapping the beginning.</li>
 </ul>
 
-<p>如果一行在删除注释之后变为空字符串，那么<strong>不要</strong>输出该行。即，答案列表中的每个字符串都是非空的。</p>
-
-<p>样例中<strong>没有</strong>控制字符，单引号或双引号字符。</p>
+<p>The first effective comment takes precedence over others.</p>
 
 <ul>
-	<li>比如，<code>source = "string s = "/* Not a comment. */";"</code> 不会出现在测试样例里。</li>
+	<li>For example, if the string <code>&quot;//&quot;</code> occurs in a block comment, it is ignored.</li>
+	<li>Similarly, if the string <code>&quot;/*&quot;</code> occurs in a line or block comment, it is also ignored.</li>
 </ul>
 
-<p>此外，没有其他内容（如定义或宏）会干扰注释。</p>
+<p>If a certain line of code is empty after removing comments, you must not output that line: each string in the answer list will be non-empty.</p>
 
-<p>我们保证每一个块注释最终都会被闭合， 所以在行或块注释之外的<code>/*</code>总是开始新的注释。</p>
+<p>There will be no control characters, single quote, or double quote characters.</p>
 
-<p>最后，隐式换行符<strong>可以</strong>通过块注释删除。 有关详细信息，请参阅下面的示例。</p>
+<ul>
+	<li>For example, <code>source = &quot;string s = &quot;/* Not a comment. */&quot;;&quot;</code> will not be a test case.</li>
+</ul>
 
-<p>从源代码中删除注释后，需要以相同的格式返回源代码。</p>
+<p>Also, nothing else such as defines or macros will interfere with the comments.</p>
+
+<p>It is guaranteed that every open block comment will eventually be closed, so <code>&quot;/*&quot;</code> outside of a line or block comment always starts a new comment.</p>
+
+<p>Finally, implicit newline characters can be deleted by block comments. Please see the examples below for details.</p>
+
+<p>After removing the comments from the source code, return <em>the source code in the same format</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> source = ["/*Test program */", "int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}"]
-<strong>输出:</strong> ["int main()","{ ","  ","int a, b, c;","a = b + c;","}"]
-<strong>解释:</strong> 示例代码可以编排成这样:
+<strong>Input:</strong> source = [&quot;/*Test program */&quot;, &quot;int main()&quot;, &quot;{ &quot;, &quot;  // variable declaration &quot;, &quot;int a, b, c;&quot;, &quot;/* This is a test&quot;, &quot;   multiline  &quot;, &quot;   comment for &quot;, &quot;   testing */&quot;, &quot;a = b + c;&quot;, &quot;}&quot;]
+<strong>Output:</strong> [&quot;int main()&quot;,&quot;{ &quot;,&quot;  &quot;,&quot;int a, b, c;&quot;,&quot;a = b + c;&quot;,&quot;}&quot;]
+<strong>Explanation:</strong> The line by line code is visualized as below:
 /*Test program */
 int main()
 { 
@@ -68,55 +64,54 @@ int a, b, c;
    testing */
 a = b + c;
 }
-第 1 行和第 6-9 行的字符串 /* 表示块注释。第 4 行的字符串 // 表示行注释。
-编排后: 
+The string /* denotes a block comment, including line 1 and lines 6-9. The string // denotes line 4 as comments.
+The line by line output code is visualized as below:
 int main()
 { 
   
 int a, b, c;
 a = b + c;
-}</pre>
+}
+</pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> source = ["a/*comment", "line", "more_comment*/b"]
-<strong>输出:</strong> ["ab"]
-<strong>解释:</strong> 原始的 source 字符串是 "a/*comment<strong>\n</strong>line<strong>\n</strong>more_comment*/b", 其中我们用粗体显示了换行符。删除注释后，隐含的换行符被删除，留下字符串 "ab" 用换行符分隔成数组时就是 ["ab"].
+<strong>Input:</strong> source = [&quot;a/*comment&quot;, &quot;line&quot;, &quot;more_comment*/b&quot;]
+<strong>Output:</strong> [&quot;ab&quot;]
+<strong>Explanation:</strong> The original source string is &quot;a/*comment\nline\nmore_comment*/b&quot;, where we have bolded the newline characters.  After deletion, the implicit newline characters are deleted, leaving the string &quot;ab&quot;, which when delimited by newline characters becomes [&quot;ab&quot;].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= source.length &lt;= 100</code></li>
 	<li><code>0 &lt;= source[i].length &lt;= 80</code></li>
-	<li><code>source[i]</code>&nbsp;由可打印的 <strong>ASCII</strong> 字符组成。</li>
-	<li>每个块注释都会被闭合。</li>
-	<li>给定的源码中不会有单引号、双引号或其他控制字符。</li>
+	<li><code>source[i]</code> consists of printable <strong>ASCII</strong> characters.</li>
+	<li>Every open block comment is eventually closed.</li>
+	<li>There are no single-quote or&nbsp;double-quote in the input.</li>
 </ul>
-<span style="display:block"><span style="height:0px"><span style="position:absolute"><span style="top:0px"><span style="left:-9999px"><span style="opacity:0"><span style="overflow:hidden">&nbsp;</span></span></span></span></span></span>​​​​​​</span>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分情况讨论
+### Solution 1: Case Analysis
 
-我们用一个变量 来表示当前是否处于块注释中，初始时 $\textit{blockComment}$ 为 `false`；用一个变量 $t$ 来存储当前行的有效字符。
+We use a variable $\textit{blockComment}$ to indicate whether we are currently in a block comment. Initially, $\textit{blockComment}$ is `false`. We use a variable $t$ to store the valid characters of the current line.
 
-接下来，遍历每一行，分情况讨论：
+Next, we traverse each line and discuss the following cases:
 
-如果当前处于块注释中，那么如果当前字符和下一个字符是 `'*/'`，说明块注释结束，我们将 $\textit{blockComment}$ 置为 `false`，并且跳过这两个字符；否则，我们继续保持块注释状态，不做任何操作；
+If we are currently in a block comment, and the current character and the next character are `'*/'`, it means the block comment ends. We set $\textit{blockComment}$ to `false` and skip these two characters. Otherwise, we continue in the block comment state without doing anything.
 
-如果当前不处于块注释中，那么如果当前字符和下一个字符是 `'/*'`，说明块注释开始，我们将 $\textit{blockComment}$ 置为 `true`，并且跳过这两个字符；如果当前字符和下一个字符是 `'//'`，那么说明行注释开始，我们直接退出当前行的遍历；否则，说明当前字符是有效字符，我们将其加入 $t$ 中；
+If we are not currently in a block comment, and the current character and the next character are `'/*'`, it means a block comment starts. We set $\textit{blockComment}$ to `true` and skip these two characters. If the current character and the next character are `'//'`, it means a line comment starts, and we exit the current line traversal. Otherwise, the current character is a valid character, and we add it to $t$.
 
-遍历完当前行后，如果 $\textit{blockComment}$ 为 `false`，并且 $t$ 不为空，说明当前行是有效行，我们将其加入答案数组中，并且清空 $t$。继续遍历下一行。
+After traversing the current line, if $\textit{blockComment}$ is `false` and $t$ is not empty, it means the current line is valid. We add it to the answer array and clear $t$. Continue to traverse the next line.
 
-时间复杂度 $O(L)$，空间复杂度 $O(L)$，其中 $L$ 是源代码的总长度。
+The time complexity is $O(L)$, and the space complexity is $O(L)$, where $L$ is the total length of the source code.
 
 <!-- tabs:start -->
 

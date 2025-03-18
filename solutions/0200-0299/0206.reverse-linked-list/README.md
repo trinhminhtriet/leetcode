@@ -1,75 +1,61 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0206.Reverse%20Linked%20List/README.md
+difficulty: Easy
 tags:
-    - 递归
-    - 链表
+    - Recursion
+    - Linked List
 ---
 
 <!-- problem:start -->
 
-# [206. 反转链表](https://leetcode.cn/problems/reverse-linked-list)
+# [206. Reverse Linked List](https://leetcode.com/problems/reverse-linked-list)
 
-[English Version](/solution/0200-0299/0206.Reverse%20Linked%20List/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-给你单链表的头节点 <code>head</code> ，请你反转链表，并返回反转后的链表。
+<p>Given the <code>head</code> of a singly linked list, reverse the list, and return <em>the reversed list</em>.</p>
 
-<div class="original__bRMd">
-<div>
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0206.Reverse%20Linked%20List/images/rev1ex1.jpg" style="width: 542px; height: 222px;" />
 <pre>
-<strong>输入：</strong>head = [1,2,3,4,5]
-<strong>输出：</strong>[5,4,3,2,1]
+<strong>Input:</strong> head = [1,2,3,4,5]
+<strong>Output:</strong> [5,4,3,2,1]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0206.Reverse%20Linked%20List/images/rev1ex2.jpg" style="width: 182px; height: 222px;" />
 <pre>
-<strong>输入：</strong>head = [1,2]
-<strong>输出：</strong>[2,1]
+<strong>Input:</strong> head = [1,2]
+<strong>Output:</strong> [2,1]
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>head = []
-<strong>输出：</strong>[]
+<strong>Input:</strong> head = []
+<strong>Output:</strong> []
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>链表中节点的数目范围是 <code>[0, 5000]</code></li>
-	<li><code>-5000 <= Node.val <= 5000</code></li>
+	<li>The number of nodes in the list is the range <code>[0, 5000]</code>.</li>
+	<li><code>-5000 &lt;= Node.val &lt;= 5000</code></li>
 </ul>
 
-<p> </p>
-
-<p><strong>进阶：</strong>链表可以选用迭代或递归方式完成反转。你能否用两种方法解决这道题？</p>
-</div>
-</div>
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> A linked list can be reversed either iteratively or recursively. Could you implement both?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：头插法
-
-创建虚拟头节点 $dummy$，遍历链表，将每个节点依次插入 $dummy$ 的下一个节点。遍历结束，返回 $dummy.next$。
-
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为链表的长度。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -298,11 +284,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二：递归
-
-递归反转链表的第二个节点到尾部的所有节点，然后 $head$ 插在反转后的链表的尾部。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为链表的长度。
+### Solution 2
 
 <!-- tabs:start -->
 

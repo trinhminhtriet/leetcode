@@ -1,69 +1,64 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3222.Find%20the%20Winning%20Player%20in%20Coin%20Game/README.md
+difficulty: Easy
 rating: 1269
-source: 第 135 场双周赛 Q1
+source: Biweekly Contest 135 Q1
 tags:
-    - 数学
-    - 博弈
-    - 模拟
+    - Math
+    - Game Theory
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [3222. 求出硬币游戏的赢家](https://leetcode.cn/problems/find-the-winning-player-in-coin-game)
+# [3222. Find the Winning Player in Coin Game](https://leetcode.com/problems/find-the-winning-player-in-coin-game)
 
-[English Version](/solution/3200-3299/3222.Find%20the%20Winning%20Player%20in%20Coin%20Game/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个 <strong>正</strong>&nbsp;整数&nbsp;<code>x</code>&nbsp;和&nbsp;<code>y</code>&nbsp;，分别表示价值为 75 和 10 的硬币的数目。</p>
+<p>You are given two <strong>positive</strong> integers <code>x</code> and <code>y</code>, denoting the number of coins with values 75 and 10 <em>respectively</em>.</p>
 
-<p>Alice 和 Bob 正在玩一个游戏。每一轮中，Alice&nbsp;先进行操作，Bob 后操作。每次操作中，玩家需要拿走价值 <b>总和</b>&nbsp;为 115 的硬币。如果一名玩家无法执行此操作，那么这名玩家 <strong>输掉</strong>&nbsp;游戏。</p>
+<p>Alice and Bob are playing a game. Each turn, starting with <strong>Alice</strong>, the player must pick up coins with a <strong>total</strong> value 115. If the player is unable to do so, they <strong>lose</strong> the game.</p>
 
-<p>两名玩家都采取 <strong>最优</strong>&nbsp;策略，请你返回游戏的赢家。</p>
+<p>Return the <em>name</em> of the player who wins the game if both players play <strong>optimally</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>x = 2, y = 7</span></p>
+<p><strong>Input:</strong> <span class="example-io">x = 2, y = 7</span></p>
 
-<p><span class="example-io"><b>输出：</b>"Alice"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;Alice&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>游戏一次操作后结束：</p>
+<p>The game ends in a single turn:</p>
 
 <ul>
-	<li>Alice 拿走 1 枚价值为 75 的硬币和 4 枚价值为 10 的硬币。</li>
+	<li>Alice picks 1 coin with a value of 75 and 4 coins with a value of 10.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>x = 4, y = 11</span></p>
+<p><strong>Input:</strong> <span class="example-io">x = 4, y = 11</span></p>
 
-<p><span class="example-io"><b>输出：</b>"Bob"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;Bob&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>游戏 2 次操作后结束：</p>
+<p>The game ends in 2 turns:</p>
 
 <ul>
-	<li>Alice 拿走&nbsp;1 枚价值为 75 的硬币和 4 枚价值为 10 的硬币。</li>
-	<li>Bob 拿走&nbsp;1 枚价值为 75 的硬币和 4 枚价值为 10 的硬币。</li>
+	<li>Alice picks 1 coin with a value of 75 and 4 coins with a value of 10.</li>
+	<li>Bob picks 1 coin with a value of 75 and 4 coins with a value of 10.</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= x, y &lt;= 100</code></li>
@@ -71,17 +66,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
+### Solution 1: Mathematics
 
-由于每一轮的操作，会消耗 $2$ 枚价值为 $75$ 的硬币和 $8$ 枚价值为 $10$ 的硬币，因此，我们可以计算得到操作的轮数 $k = \min(x / 2, y / 8)$，然后更新 $x$ 和 $y$ 的值，此时 $x$ 和 $y$ 就是经过 $k$ 轮操作后剩余的硬币数目。
+Since each round of operation consumes $2$ coins valued at $75$ and $8$ coins valued at $10$, we can calculate the number of rounds $k = \min(x / 2, y / 8)$, and then update the values of $x$ and $y$, where $x$ and $y$ are the remaining number of coins after $k$ rounds of operations.
 
-如果 $x > 0$ 且 $y \geq 4$，那么 Alice 还可以继续操作，此时 Bob 就输了，返回 "Alice"；否则，返回 "Bob"。
+If $x > 0$ and $y \geq 4$, then Alice can continue the operation, and Bob loses, return "Alice"; otherwise, return "Bob".
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+The time complexity is $O(1)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

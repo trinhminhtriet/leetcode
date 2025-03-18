@@ -1,149 +1,102 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1728.Cat%20and%20Mouse%20II/README.md
+difficulty: Hard
 rating: 2849
-source: 第 224 场周赛 Q4
+source: Weekly Contest 224 Q4
 tags:
-    - 图
-    - 拓扑排序
-    - 记忆化搜索
-    - 数组
-    - 数学
-    - 动态规划
-    - 博弈
-    - 矩阵
+    - Graph
+    - Topological Sort
+    - Memoization
+    - Array
+    - Math
+    - Dynamic Programming
+    - Game Theory
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [1728. 猫和老鼠 II](https://leetcode.cn/problems/cat-and-mouse-ii)
+# [1728. Cat and Mouse II](https://leetcode.com/problems/cat-and-mouse-ii)
 
-[English Version](/solution/1700-1799/1728.Cat%20and%20Mouse%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一只猫和一只老鼠在玩一个叫做猫和老鼠的游戏。</p>
+<p>A game is played by a cat and a mouse named Cat and Mouse.</p>
 
-<p>它们所处的环境设定是一个 <code>rows x cols</code> 的方格 <code>grid</code> ，其中每个格子可能是一堵墙、一块地板、一位玩家（猫或者老鼠）或者食物。</p>
-
-<ul>
-	<li>玩家由字符 <code>'C'</code> （代表猫）和 <code>'M'</code> （代表老鼠）表示。</li>
-	<li>地板由字符 <code>'.'</code> 表示，玩家可以通过这个格子。</li>
-	<li>墙用字符 <code>'#'</code> 表示，玩家不能通过这个格子。</li>
-	<li>食物用字符 <code>'F'</code> 表示，玩家可以通过这个格子。</li>
-	<li>字符 <code>'C'</code> ， <code>'M'</code> 和 <code>'F'</code> 在 <code>grid</code> 中都只会出现一次。</li>
-</ul>
-
-<p>猫和老鼠按照如下规则移动：</p>
+<p>The environment is represented by a <code>grid</code> of size <code>rows x cols</code>, where each element is a wall, floor, player (Cat, Mouse), or food.</p>
 
 <ul>
-	<li>老鼠 <strong>先移动</strong> ，然后两名玩家轮流移动。</li>
-	<li>每一次操作时，猫和老鼠可以跳到上下左右四个方向之一的格子，他们不能跳过墙也不能跳出 <code>grid</code> 。</li>
-	<li><code>catJump</code> 和 <code>mouseJump</code> 是猫和老鼠分别跳一次能到达的最远距离，它们也可以跳小于最大距离的长度。</li>
-	<li>它们可以停留在原地。</li>
-	<li>老鼠可以跳跃过猫的位置。</li>
+	<li>Players are represented by the characters <code>&#39;C&#39;</code>(Cat)<code>,&#39;M&#39;</code>(Mouse).</li>
+	<li>Floors are represented by the character <code>&#39;.&#39;</code> and can be walked on.</li>
+	<li>Walls are represented by the character <code>&#39;#&#39;</code> and cannot be walked on.</li>
+	<li>Food is represented by the character <code>&#39;F&#39;</code> and can be walked on.</li>
+	<li>There is only one of each character <code>&#39;C&#39;</code>, <code>&#39;M&#39;</code>, and <code>&#39;F&#39;</code> in <code>grid</code>.</li>
 </ul>
 
-<p>游戏有 4 种方式会结束：</p>
+<p>Mouse and Cat play according to the following rules:</p>
 
 <ul>
-	<li>如果猫跟老鼠处在相同的位置，那么猫获胜。</li>
-	<li>如果猫先到达食物，那么猫获胜。</li>
-	<li>如果老鼠先到达食物，那么老鼠获胜。</li>
-	<li>如果老鼠不能在 1000 次操作以内到达食物，那么猫获胜。</li>
+	<li>Mouse <strong>moves first</strong>, then they take turns to move.</li>
+	<li>During each turn, Cat and Mouse can jump in one of the four directions (left, right, up, down). They cannot jump over the wall nor outside of the <code>grid</code>.</li>
+	<li><code>catJump, mouseJump</code> are the maximum lengths Cat and Mouse can jump at a time, respectively. Cat and Mouse can jump less than the maximum length.</li>
+	<li>Staying in the same position is allowed.</li>
+	<li>Mouse can jump over Cat.</li>
 </ul>
 
-<p>给你 <code>rows x cols</code> 的矩阵 <code>grid</code> 和两个整数 <code>catJump</code> 和 <code>mouseJump</code> ，双方都采取最优策略，如果老鼠获胜，那么请你返回 <code>true</code> ，否则返回 <code>false</code> 。</p>
+<p>The game can end in 4 ways:</p>
 
-<p> </p>
+<ul>
+	<li>If Cat occupies the same position as Mouse, Cat wins.</li>
+	<li>If Cat reaches the food first, Cat wins.</li>
+	<li>If Mouse reaches the food first, Mouse wins.</li>
+	<li>If Mouse cannot get to the food within 1000 turns, Cat wins.</li>
+</ul>
 
-<p><strong>示例 1：</strong></p>
+<p>Given a <code>rows x cols</code> matrix <code>grid</code> and two integers <code>catJump</code> and <code>mouseJump</code>, return <code>true</code><em> if Mouse can win the game if both Cat and Mouse play optimally, otherwise return </em><code>false</code>.</p>
 
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1728.Cat%20and%20Mouse%20II/images/sample_111_1955.png" style="width: 580px; height: 239px;" /></strong></p>
-
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1728.Cat%20and%20Mouse%20II/images/sample_111_1955.png" style="width: 580px; height: 239px;" />
 <pre>
-<b>输入：</b>grid = ["####F","#C...","M...."], catJump = 1, mouseJump = 2
-<b>输出：</b>true
-<b>解释：</b>猫无法抓到老鼠，也没法比老鼠先到达食物。
+<strong>Input:</strong> grid = [&quot;####F&quot;,&quot;#C...&quot;,&quot;M....&quot;], catJump = 1, mouseJump = 2
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Cat cannot catch Mouse on its turn nor can it get the food before Mouse.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1728.Cat%20and%20Mouse%20II/images/sample_2_1955.png" style="width: 580px; height: 175px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1728.Cat%20and%20Mouse%20II/images/sample_2_1955.png" style="width: 580px; height: 175px;" />
 <pre>
-<b>输入：</b>grid = ["M.C...F"], catJump = 1, mouseJump = 4
-<b>输出：</b>true
+<strong>Input:</strong> grid = [&quot;M.C...F&quot;], catJump = 1, mouseJump = 4
+<strong>Output:</strong> true
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>grid = ["M.C...F"], catJump = 1, mouseJump = 3
-<b>输出：</b>false
+<strong>Input:</strong> grid = [&quot;M.C...F&quot;], catJump = 1, mouseJump = 3
+<strong>Output:</strong> false
 </pre>
 
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<b>输入：</b>grid = ["C...#","...#F","....#","M...."], catJump = 2, mouseJump = 5
-<b>输出：</b>false
-</pre>
-
-<p><strong>示例 5：</strong></p>
-
-<pre>
-<b>输入：</b>grid = [".M...","..#..","#..#.","C#.#.","...#F"], catJump = 3, mouseJump = 1
-<b>输出：</b>true
-</pre>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>rows == grid.length</code></li>
 	<li><code>cols = grid[i].length</code></li>
-	<li><code>1 <= rows, cols <= 8</code></li>
-	<li><code>grid[i][j]</code> 只包含字符 <code>'C'</code> ，<code>'M'</code> ，<code>'F'</code> ，<code>'.'</code> 和 <code>'#'</code> 。</li>
-	<li><code>grid</code> 中只包含一个 <code>'C'</code> ，<code>'M'</code> 和 <code>'F'</code> 。</li>
-	<li><code>1 <= catJump, mouseJump <= 8</code></li>
+	<li><code>1 &lt;= rows, cols &lt;= 8</code></li>
+	<li><code>grid[i][j]</code> consist only of characters <code>&#39;C&#39;</code>, <code>&#39;M&#39;</code>, <code>&#39;F&#39;</code>, <code>&#39;.&#39;</code>, and <code>&#39;#&#39;</code>.</li>
+	<li>There is only one of each character <code>&#39;C&#39;</code>, <code>&#39;M&#39;</code>, and <code>&#39;F&#39;</code> in <code>grid</code>.</li>
+	<li><code>1 &lt;= catJump, mouseJump &lt;= 8</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：拓扑排序
-
-根据题目描述，游戏中的状态由老鼠的位置、猫的位置和移动方决定。当状态为以下情况，可以直接确定胜负：
-
--   当猫和老鼠的位置相同时，猫获胜，这是猫的必胜状态，老鼠的必败状态。
--   当猫先到达食物时，猫获胜，这是猫的必胜状态，老鼠的必败状态。
--   当老鼠先到达食物时，老鼠获胜，这是老鼠的必胜状态，猫的必败状态。
-
-为了得到初始状态的游戏结果，需要从边界状态开始遍历所有的状态。每个状态包含老鼠的位置、猫的位置和移动方，根据当前状态可以得到上一轮的所有可能状态，上一轮状态的移动方和当前状态的移动方相反，上一轮状态的移动方在上一轮状态的位置和当前状态的位置不同。
-
-我们用元组 $(m, c, t)$ 表示本轮的状态，用 $(pm, pc, pt)$ 表示上一轮可能的状态，那么上一轮的所有可能状态有：
-
--   如果本轮的移动方是老鼠，那么上一轮的移动方是猫，上一轮的老鼠位置是本轮老鼠位置，上一轮的猫位置是本轮猫位置的所有邻接点。
--   如果本轮的移动方是猫，那么上一轮的移动方是老鼠，上一轮的猫位置是本轮猫位置，上一轮的老鼠位置是本轮老鼠位置的所有邻接点。
-
-初始时，除了边界状态以外，其他所有状态的结果都是未知的。我们从边界状态开始，对于每个状态，得到上一轮的所有可能状态并更新结果，更新的逻辑如下：
-
-1. 如果上一轮的移动方与本轮的获胜方相同，那么上一轮的移动方可以到达当前状态并获胜，直接更新上一轮的状态为本轮的获胜方。
-1. 如果上一轮的移动方与本轮的获胜方不同，且上一轮的移动方可以到达的所有状态都是上一轮的移动方的必败状态，那么我们将上一轮的状态更新为本轮的获胜方。
-
-对于第 $2$ 个更新逻辑，我们需要记录每个状态的度。初始时，每个状态的度表示该状态的移动方可以移动到的结点数，即移动方所在节点的相邻结点数，如果移动方是猫且所在结点与洞相邻则需要将该状态的度减 $1$。
-
-当所有状态的结果都更新完毕时，初始状态的结果即为最终结果。
-
-时间复杂度 $O(m^2 \times n^2 \times (m + n)$，空间复杂度 $O(m^2 \times n^2)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
+### Solution 1
 
 <!-- tabs:start -->
 

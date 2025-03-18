@@ -1,64 +1,60 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2793.Status%20of%20Flight%20Tickets/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2793. 航班机票状态 🔒](https://leetcode.cn/problems/status-of-flight-tickets)
+# [2793. Status of Flight Tickets 🔒](https://leetcode.com/problems/status-of-flight-tickets)
 
-[English Version](/solution/2700-2799/2793.Status%20of%20Flight%20Tickets/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：&nbsp;<code><font face="monospace">Flights</font></code></p>
+<p>Table: <code><font face="monospace">Flights</font></code></p>
 
 <pre>
 +-------------+------+
-| 列名        | 类型 |
+| Column Name | Type |
 +-------------+------+
 | flight_id   | int  |
 | capacity    | int  |
 +-------------+------+
-flight_id 列包含不同的值。
-每行包含航班 id 和座位容量。
+<code>flight_id</code> column contains distinct values.
+Each row of this table contains flight id and capacity.
 </pre>
 
-<p>表：<code>Passengers</code></p>
+<p>Table: <code>Passengers</code></p>
 
 <pre>
 +--------------+----------+
-| 列名         | 类型 |
+| Column Name  | Type     |
 +--------------+----------+
 | passenger_id | int      |
 | flight_id    | int      |
 | booking_time | datetime |
 +--------------+----------+
-passenger_id 包含不同的值。
-booking_time 包含不同的值。
-每行包含乘客 id、预订时间和所预订的航班 id。
+passenger_id column contains distinct values.
+booking_time column contains distinct values.
+Each row of this table contains passenger id, booking time, and their flight id.
 </pre>
 
-<p>乘客提前预订航班机票。如果乘客预订了一张航班机票，并且航班上还有空座位，则乘客的机票将 <strong>得到确认</strong> 。然而，如果航班已经满员，乘客将被列入 <strong>等候名单</strong> 。</p>
+<p>Passengers book tickets for flights in advance. If a passenger books a ticket for a flight and there are still empty seats available on the flight, the passenger&#39;s ticket will be <strong>confirmed</strong>. However, the passenger will be on a <strong>waitlist</strong> if the flight is already at full capacity.</p>
 
-<p>编写解决方案来确定每个乘客航班机票的当前状态。</p>
+<p>Write a solution to determine the current status of flight tickets for each passenger.</p>
 
-<p>按 <code>passenger_id</code> <strong>升序排序&nbsp;</strong>返回结果表。</p>
+<p>Return the result table ordered by <code>passenger_id</code> <em>in <strong>ascending order</strong>.</em></p>
 
-<p>查询结果的格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>
-Flights 表:
+<strong>Input:</strong> 
+Flights table:
 +-----------+----------+
 | flight_id | capacity |
 +-----------+----------+
@@ -66,7 +62,7 @@ Flights 表:
 | 2         | 2        |
 | 3         | 1        |
 +-----------+----------+
-Passengers 表:
+Passengers table:
 +--------------+-----------+---------------------+
 | passenger_id | flight_id | booking_time        |
 +--------------+-----------+---------------------+
@@ -78,7 +74,7 @@ Passengers 表:
 | 106          | 3         | 2023-07-08 11:10:00 |
 | 107          | 3         | 2023-07-08 09:10:00 |
 +--------------+-----------+---------------------+
-<b>输出：</b>
+<strong>Output:</strong> 
 +--------------+-----------+
 | passenger_id | Status    |
 +--------------+-----------+
@@ -90,20 +86,19 @@ Passengers 表:
 | 106          | Waitlist  | 
 | 107          | Confirmed | 
 +--------------+-----------+
-<b>解释：</b>
-- 航班 1 的容量为 2 位乘客。乘客 101 和乘客 103 是最先预订机票的，已经确认他们的预订。然而，乘客 102 是第三位预订该航班的乘客，这意味着没有更多的可用座位。乘客 102 现在被列入等候名单。
-- 航班 2 的容量为 2 位乘客，已经有两位乘客预订了机票，乘客 104 和乘客 105。由于预订机票的乘客数与可用座位数相符，这两个预订都得到了确认。
-- 航班 3 的容量为 1 位乘客，乘客 107 先预订并获得了唯一的可用座位，确认了他们的预订。预订时间在乘客 107 之后的乘客 106 被列入等候名单。</pre>
+<strong>Explanation:</strong> 
+- Flight 1 has a capacity of 2 passengers. Passenger 101 and Passenger 103 were the first to book tickets, securing the available seats. Therefore, their bookings are confirmed. However, Passenger 102 was the third person to book a ticket for this flight, which means there are no more available seats. Passenger 102 is now placed on the waitlist, 
+- Flight 2 has a capacity of 2 passengers, Flight 2 has exactly two passengers who booked tickets,  Passenger 104 and Passenger 105. Since the number of passengers who booked tickets matches the available seats, both bookings are confirmed.
+- Flight 3 has a capacity of 1 passenger. Passenger 107 booked earlier and secured the only available seat, confirming their booking. Passenger 106, who booked after Passenger 107, is on the waitlist.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：Rank() 窗口函数
-
-注意，如果多个人在同一时间预定了同一个航班，只要有空位，就都可以确认预定。
+### Solution 1
 
 <!-- tabs:start -->
 

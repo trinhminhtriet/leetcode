@@ -1,81 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0114.Flatten%20Binary%20Tree%20to%20Linked%20List/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 树
-    - 深度优先搜索
-    - 链表
-    - 二叉树
+    - Stack
+    - Tree
+    - Depth-First Search
+    - Linked List
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [114. 二叉树展开为链表](https://leetcode.cn/problems/flatten-binary-tree-to-linked-list)
+# [114. Flatten Binary Tree to Linked List](https://leetcode.com/problems/flatten-binary-tree-to-linked-list)
 
-[English Version](/solution/0100-0199/0114.Flatten%20Binary%20Tree%20to%20Linked%20List/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你二叉树的根结点 <code>root</code> ，请你将它展开为一个单链表：</p>
+<p>Given the <code>root</code> of a binary tree, flatten the tree into a &quot;linked list&quot;:</p>
 
 <ul>
-	<li>展开后的单链表应该同样使用 <code>TreeNode</code> ，其中 <code>right</code> 子指针指向链表中下一个结点，而左子指针始终为 <code>null</code> 。</li>
-	<li>展开后的单链表应该与二叉树 <a href="https://baike.baidu.com/item/%E5%85%88%E5%BA%8F%E9%81%8D%E5%8E%86/6442839?fr=aladdin" target="_blank"><strong>先序遍历</strong></a> 顺序相同。</li>
+	<li>The &quot;linked list&quot; should use the same <code>TreeNode</code> class where the <code>right</code> child pointer points to the next node in the list and the <code>left</code> child pointer is always <code>null</code>.</li>
+	<li>The &quot;linked list&quot; should be in the same order as a <a href="https://en.wikipedia.org/wiki/Tree_traversal#Pre-order,_NLR" target="_blank"><strong>pre-order</strong><strong> traversal</strong></a> of the binary tree.</li>
 </ul>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0114.Flatten%20Binary%20Tree%20to%20Linked%20List/images/flaten.jpg" style="width: 500px; height: 226px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,5,3,4,null,6]
-<strong>输出：</strong>[1,null,2,null,3,null,4,null,5,null,6]
+<strong>Input:</strong> root = [1,2,5,3,4,null,6]
+<strong>Output:</strong> [1,null,2,null,3,null,4,null,5,null,6]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>root = []
-<strong>输出：</strong>[]
+<strong>Input:</strong> root = []
+<strong>Output:</strong> []
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>root = [0]
-<strong>输出：</strong>[0]
+<strong>Input:</strong> root = [0]
+<strong>Output:</strong> [0]
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中结点数在范围 <code>[0, 2000]</code> 内</li>
-	<li><code>-100 <= Node.val <= 100</code></li>
+	<li>The number of nodes in the tree is in the range <code>[0, 2000]</code>.</li>
+	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 
-<p> </p>
-
-<p><strong>进阶：</strong>你可以使用原地算法（<code>O(1)</code> 额外空间）展开这棵树吗？</p>
+<p>&nbsp;</p>
+<strong>Follow up:</strong> Can you flatten the tree in-place (with <code>O(1)</code> extra space)?
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：寻找前驱节点
+### Solution 1: Find Predecessor Node
 
-先序遍历的访问顺序是“根、左子树、右子树”，左子树最后一个节点访问完后，接着会访问根节点的右子树节点。
+The visit order of preorder traversal is "root, left subtree, right subtree". After the last node of the left subtree is visited, the right subtree node of the root node will be visited next.
 
-因此，对于当前节点，如果其左子节点不为空，我们找到左子树的最右节点，作为前驱节点，然后将当前节点的右子节点赋给前驱节点的右子节点。然后将当前节点的左子节点赋给当前节点的右子节点，并将当前节点的左子节点置为空。然后将当前节点的右子节点作为下一个节点，继续处理，直至所有节点处理完毕。
+Therefore, for the current node, if its left child node is not null, we find the rightmost node of the left subtree as the predecessor node, and then assign the right child node of the current node to the right child node of the predecessor node. Then assign the left child node of the current node to the right child node of the current node, and set the left child node of the current node to null. Then take the right child node of the current node as the next node and continue processing until all nodes are processed.
 
-时间复杂度 $O(n)$，其中 $n$ 是树中节点的个数。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the number of nodes in the tree. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -335,7 +329,7 @@ var flatten = function (root) {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

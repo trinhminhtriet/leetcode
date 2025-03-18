@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2995.Viewers%20Turned%20Streamers/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2995. 观众变主播 🔒](https://leetcode.cn/problems/viewers-turned-streamers)
+# [2995. Viewers Turned Streamers 🔒](https://leetcode.com/problems/viewers-turned-streamers)
 
-[English Version](/solution/2900-2999/2995.Viewers%20Turned%20Streamers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：&nbsp;<code>Sessions</code></p>
+<p>Table: <code>Sessions</code></p>
 
 <pre>
 +---------------+----------+
@@ -28,23 +25,22 @@ tags:
 | session_id    | int      |
 | session_type  | enum     |
 +---------------+----------+
-session_id 是这张表具有唯一值的列。
-session_type 是一个 ENUM (枚举) 类型，包含(Viewer, Streamer)两个类别。
-这张表包含 user id, session start, session end, session id 和 session type。
+session_id is column of unique values for this table.
+session_type is an ENUM (category) type of (Viewer, Streamer).
+This table contains user id, session start, session end, session id and session type.
 </pre>
 
-<p>编写一个解决方案，找到 <strong>首次会话</strong> 为 <strong>观众身份</strong> 的用户，其 <strong>主播会话</strong> 数量。</p>
+<p>Write a solution to find the number of <strong>streaming</strong> sessions for users whose <strong>first session </strong>was as a <strong>viewer</strong>.</p>
 
-<p>按照会话数量和 <code>user_id</code> <strong>降序</strong> 排序返回结果表。</p>
+<p>Return <em>the result table ordered by count of streaming sessions, </em> <code>user_id</code><em> in <strong>descending</strong> order.</em></p>
 
-<p>结果格式如下例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1：</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>
+<strong>Input:</strong> 
 Sessions table:
 +---------+---------------------+---------------------+------------+--------------+
 | user_id | session_start       | session_end         | session_id | session_type | 
@@ -57,29 +53,29 @@ Sessions table:
 | 104     | 2023-11-27 03:10:49 | 2023-11-27 03:30:49 | 797        | Viewer       | 
 | 103     | 2023-11-27 03:10:49 | 2023-11-27 03:30:49 | 798        | Streamer     |  
 +---------+---------------------+---------------------+------------+--------------+
-<b>输出：</b>
+<strong>Output:</strong> 
 +---------+----------------+
 | user_id | sessions_count | 
 +---------+----------------+
 | 101     | 2              | 
 +---------+----------------+
-<b>解释</b>
-- user_id 101，在 2023-11-06 13:53:42 以观众身份开始了他们的初始会话，随后进行了两次主播会话，所以计数为 2。
-- user_id 102，尽管有两个会话，但初始会话是作为主播，因此将排除此用户。
-- user_id 103 只参与了一次会话，即作为主播，因此不会考虑在内。
-- User_id 104 以观众身份开始了他们的第一次会话，但没有后续会话，因此不会包括在最终计数中。
-输出表按照会话数量和 user_id 降序排序。
+<strong>Explanation</strong>
+- user_id 101, initiated their initial session as a viewer on 2023-11-06 at 13:53:42, followed by two subsequent sessions as a Streamer, the count will be 2.
+- user_id 102, although there are two sessions, the initial session was as a Streamer, so this user will be excluded.
+- user_id 103 participated in only one session, which was as a Streamer, hence, it won&#39;t be considered.
+- User_id 104 commenced their first session as a viewer but didn&#39;t have any subsequent sessions, therefore, they won&#39;t be included in the final count. 
+Output table is ordered by sessions count and user_id in descending order.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：窗口函数 + 等值连接
+### Solution 1: Window Function + Equi-Join
 
-我们可以用窗口函数 `RANK()` 按照 `user_id` 维度，对每个会话进行排名，记录在表 `T` 中，然后再将 `T` 与 `Sessions` 表按照 `user_id` 进行等值连接，并且筛选出 `T` 中排名为 1 的记录，并且 `session_type` 为 `Viewer`，`Sessions` 表中 `session_type` 为 `Streamer` 的记录，最后按照 `user_id` 进行分组求和即可。
+We can use the window function `RANK()` to rank each session by `user_id` dimension, and record it in table `T`. Then, we equi-join `T` and the `Sessions` table by `user_id`, and filter out the records in `T` where the rank is 1, and `session_type` is `Viewer`, and `session_type` in the `Sessions` table is `Streamer`. Finally, we group by `user_id` and sum up.
 
 <!-- tabs:start -->
 

@@ -1,84 +1,79 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2902.Count%20of%20Sub-Multisets%20With%20Bounded%20Sum/README.md
+difficulty: Hard
 rating: 2758
-source: 第 115 场双周赛 Q4
+source: Biweekly Contest 115 Q4
 tags:
-    - 数组
-    - 哈希表
-    - 动态规划
-    - 滑动窗口
+    - Array
+    - Hash Table
+    - Dynamic Programming
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [2902. 和带限制的子多重集合的数目](https://leetcode.cn/problems/count-of-sub-multisets-with-bounded-sum)
+# [2902. Count of Sub-Multisets With Bounded Sum](https://leetcode.com/problems/count-of-sub-multisets-with-bounded-sum)
 
-[English Version](/solution/2900-2999/2902.Count%20of%20Sub-Multisets%20With%20Bounded%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的非负整数数组&nbsp;<code>nums</code>&nbsp;和两个整数&nbsp;<code>l</code> 和&nbsp;<code>r</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> array <code>nums</code> of non-negative integers, and two integers <code>l</code> and <code>r</code>.</p>
 
-<p>请你返回&nbsp;<code>nums</code>&nbsp;中子多重集合的和在闭区间&nbsp;<code>[l, r]</code>&nbsp;之间的 <strong>子多重集合的数目</strong> 。</p>
+<p>Return <em>the <strong>count of sub-multisets</strong> within</em> <code>nums</code> <em>where the sum of elements in each subset falls within the inclusive range of</em> <code>[l, r]</code>.</p>
 
-<p>由于答案可能很大，请你将答案对&nbsp;<code>10<sup>9 </sup>+ 7</code>&nbsp;取余后返回。</p>
+<p>Since the answer may be large, return it modulo <code>10<sup>9 </sup>+ 7</code>.</p>
 
-<p><strong>子多重集合</strong> 指的是从数组中选出一些元素构成的 <strong>无序</strong>&nbsp;集合，每个元素 <code>x</code>&nbsp;出现的次数可以是&nbsp;<code>0, 1, ..., occ[x]</code>&nbsp;次，其中&nbsp;<code>occ[x]</code>&nbsp;是元素&nbsp;<code>x</code>&nbsp;在数组中的出现次数。</p>
+<p>A <strong>sub-multiset</strong> is an <strong>unordered</strong> collection of elements of the array in which a given value <code>x</code> can occur <code>0, 1, ..., occ[x]</code> times, where <code>occ[x]</code> is the number of occurrences of <code>x</code> in the array.</p>
 
-<p><b>注意：</b></p>
+<p><strong>Note</strong> that:</p>
 
 <ul>
-	<li>如果两个子多重集合中的元素排序后一模一样，那么它们两个是相同的&nbsp;<strong>子多重集合</strong>&nbsp;。</li>
-	<li><strong>空</strong>&nbsp;集合的和是 <code>0</code>&nbsp;。</li>
+	<li>Two <strong>sub-multisets</strong> are the same if sorting both sub-multisets results in identical multisets.</li>
+	<li>The sum of an <strong>empty</strong> multiset is <code>0</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong>Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,2,2,3], l = 6, r = 6
-<b>输出：</b>1
-<b>解释：</b>唯一和为 6 的子集合是 {1, 2, 3} 。
+<strong>Input:</strong> nums = [1,2,2,3], l = 6, r = 6
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The only subset of nums that has a sum of 6 is {1, 2, 3}.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong>Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [2,1,4,2,7], l = 1, r = 5
-<b>输出：</b>7
-<b>解释：</b>和在闭区间 [1, 5] 之间的子多重集合为 {1} ，{2} ，{4} ，{2, 2} ，{1, 2} ，{1, 4} 和 {1, 2, 2} 。
+<strong>Input:</strong> nums = [2,1,4,2,7], l = 1, r = 5
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> The subsets of nums that have a sum within the range [1, 5] are {1}, {2}, {4}, {2, 2}, {1, 2}, {1, 4}, and {1, 2, 2}.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong>Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,2,1,3,5,2], l = 3, r = 5
-<b>输出：</b>9
-<b>解释：</b>和在闭区间 [3, 5] 之间的子多重集合为 {3} ，{5} ，{1, 2} ，{1, 3} ，{2, 2} ，{2, 3} ，{1, 1, 2} ，{1, 1, 3} 和 {1, 2, 2} 。</pre>
+<strong>Input:</strong> nums = [1,2,1,3,5,2], l = 3, r = 5
+<strong>Output:</strong> 9
+<strong>Explanation:</strong> The subsets of nums that have a sum within the range [3, 5] are {3}, {5}, {1, 2}, {1, 3}, {2, 2}, {2, 3}, {1, 1, 2}, {1, 1, 3}, and {1, 2, 2}.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 2 * 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= nums[i] &lt;= 2 * 10<sup>4</sup></code></li>
-	<li><code>nums</code> 的和不超过&nbsp;<code>2 * 10<sup>4</sup></code> 。</li>
+	<li>Sum of <code>nums</code> does not exceed <code>2 * 10<sup>4</sup></code>.</li>
 	<li><code>0 &lt;= l &lt;= r &lt;= 2 * 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

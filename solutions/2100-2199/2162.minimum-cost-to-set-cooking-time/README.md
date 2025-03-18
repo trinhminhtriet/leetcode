@@ -1,82 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2162.Minimum%20Cost%20to%20Set%20Cooking%20Time/README.md
+difficulty: Medium
 rating: 1851
-source: 第 71 场双周赛 Q3
+source: Biweekly Contest 71 Q3
 tags:
-    - 数学
-    - 枚举
+    - Math
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [2162. 设置时间的最少代价](https://leetcode.cn/problems/minimum-cost-to-set-cooking-time)
+# [2162. Minimum Cost to Set Cooking Time](https://leetcode.com/problems/minimum-cost-to-set-cooking-time)
 
-[English Version](/solution/2100-2199/2162.Minimum%20Cost%20to%20Set%20Cooking%20Time/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>常见的微波炉可以设置加热时间，且加热时间满足以下条件：</p>
+<p>A generic microwave supports cooking times for:</p>
 
 <ul>
-	<li>至少为 <code>1</code>&nbsp;秒钟。</li>
-	<li>至多为&nbsp;<code>99</code>&nbsp;分&nbsp;<code>99</code>&nbsp;秒。</li>
+	<li>at least <code>1</code> second.</li>
+	<li>at most <code>99</code> minutes and <code>99</code> seconds.</li>
 </ul>
 
-<p>你可以 <strong>最多</strong>&nbsp;输入&nbsp;<strong>4 个数字</strong>&nbsp;来设置加热时间。如果你输入的位数不足 4 位，微波炉会自动加 <strong>前缀</strong>&nbsp;<strong>0</strong>&nbsp;来补足 4 位。微波炉会将设置好的四位数中，<strong>前</strong>&nbsp;两位当作分钟数，<strong>后</strong>&nbsp;两位当作秒数。它们所表示的总时间就是加热时间。比方说：</p>
+<p>To set the cooking time, you push <strong>at most four digits</strong>. The microwave normalizes what you push as four digits by <strong>prepending zeroes</strong>. It interprets the <strong>first</strong> two digits as the minutes and the <strong>last</strong> two digits as the seconds. It then <strong>adds</strong> them up as the cooking time. For example,</p>
 
 <ul>
-	<li>你输入&nbsp;<code>9</code> <code>5</code> <code>4</code>&nbsp;（三个数字），被自动补足为&nbsp;<code>0954</code>&nbsp;，并表示&nbsp;<code>9</code>&nbsp;分&nbsp;<code>54</code>&nbsp;秒。</li>
-	<li>你输入&nbsp;<code>0</code> <code>0</code> <code>0</code> <code>8</code>&nbsp;（四个数字），表示&nbsp;<code>0</code>&nbsp;分&nbsp;<code>8</code>&nbsp;秒。</li>
-	<li>你输入&nbsp;<code>8</code> <code>0</code> <code>9</code> <code>0</code>&nbsp;，表示&nbsp;<code>80</code>&nbsp;分&nbsp;<code>90</code>&nbsp;秒。</li>
-	<li>你输入&nbsp;<code>8</code> <code>1</code> <code>3</code> <code>0</code>&nbsp;，表示&nbsp;<code>81</code>&nbsp;分&nbsp;<code>30</code>&nbsp;秒。</li>
+	<li>You push <code>9</code> <code>5</code> <code>4</code> (three digits). It is normalized as <code>0954</code> and interpreted as <code>9</code> minutes and <code>54</code> seconds.</li>
+	<li>You push <code>0</code> <code>0</code> <code>0</code> <code>8</code> (four digits). It is interpreted as <code>0</code> minutes and <code>8</code> seconds.</li>
+	<li>You push <code>8</code> <code>0</code> <code>9</code> <code>0</code>. It is interpreted as <code>80</code> minutes and <code>90</code> seconds.</li>
+	<li>You push <code>8</code> <code>1</code> <code>3</code> <code>0</code>. It is interpreted as <code>81</code> minutes and <code>30</code> seconds.</li>
 </ul>
 
-<p>给你整数&nbsp;<code>startAt</code>&nbsp;，<code>moveCost</code>&nbsp;，<code>pushCost</code>&nbsp;和&nbsp;<code>targetSeconds</code>&nbsp;。<strong>一开始</strong>，你的手指在数字&nbsp;<code>startAt</code>&nbsp;处。将手指移到<strong>&nbsp;任何其他数字</strong>&nbsp;，需要花费&nbsp;<code>moveCost</code>&nbsp;的单位代价。<strong>每</strong>&nbsp;输入你手指所在位置的数字一次，需要花费&nbsp;<code>pushCost</code>&nbsp;的单位代价。</p>
+<p>You are given integers <code>startAt</code>, <code>moveCost</code>, <code>pushCost</code>, and <code>targetSeconds</code>. <strong>Initially</strong>, your finger is on the digit <code>startAt</code>. Moving the finger above <strong>any specific digit</strong> costs <code>moveCost</code> units of fatigue. Pushing the digit below the finger <strong>once</strong> costs <code>pushCost</code> units of fatigue.</p>
 
-<p>要设置&nbsp;<code>targetSeconds</code>&nbsp;秒的加热时间，可能会有多种设置方法。你想要知道这些方法中，总代价最小为多少。</p>
+<p>There can be multiple ways to set the microwave to cook for <code>targetSeconds</code> seconds but you are interested in the way with the minimum cost.</p>
 
-<p>请你能返回设置&nbsp;<code>targetSeconds</code>&nbsp;秒钟加热时间需要花费的最少代价。</p>
+<p>Return <em>the <strong>minimum cost</strong> to set</em> <code>targetSeconds</code> <em>seconds of cooking time</em>.</p>
 
-<p>请记住，虽然微波炉的秒数最多可以设置到 <code>99</code>&nbsp;秒，但一分钟等于&nbsp;<code>60</code>&nbsp;秒。</p>
+<p>Remember that one minute consists of <code>60</code> seconds.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2162.Minimum%20Cost%20to%20Set%20Cooking%20Time/images/1.png" style="width: 506px; height: 210px;"></p>
-
-<pre><b>输入：</b>startAt = 1, moveCost = 2, pushCost = 1, targetSeconds = 600
-<b>输出：</b>6
-<b>解释：</b>以下为设置加热时间的所有方法。
-- 1 0 0 0 ，表示 10 分 0 秒。
-&nbsp; 手指一开始就在数字 1 处，输入 1 （代价为 1），移到 0 处（代价为 2），输入 0（代价为 1），输入 0（代价为 1），输入 0（代价为 1）。
-&nbsp; 总代价为：1 + 2 + 1 + 1 + 1 = 6 。这是所有方案中的最小代价。
-- 0 9 6 0，表示 9 分 60 秒。它也表示 600 秒。
-&nbsp; 手指移到 0 处（代价为 2），输入 0 （代价为 1），移到 9 处（代价为 2），输入 9（代价为 1），移到 6 处（代价为 2），输入 6（代价为 1），移到 0 处（代价为 2），输入 0（代价为 1）。
-&nbsp; 总代价为：2 + 1 + 2 + 1 + 2 + 1 + 2 + 1 = 12 。
-- 9 6 0，微波炉自动补全为 0960 ，表示 9 分 60 秒。
-&nbsp; 手指移到 9 处（代价为 2），输入 9 （代价为 1），移到 6 处（代价为 2），输入 6（代价为 1），移到 0 处（代价为 2），输入 0（代价为 1）。
-&nbsp; 总代价为：2 + 1 + 2 + 1 + 2 + 1 = 9 。
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2162.Minimum%20Cost%20to%20Set%20Cooking%20Time/images/1.png" style="width: 506px; height: 210px;" />
+<pre>
+<strong>Input:</strong> startAt = 1, moveCost = 2, pushCost = 1, targetSeconds = 600
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The following are the possible ways to set the cooking time.
+- 1 0 0 0, interpreted as 10 minutes and 0 seconds.
+&nbsp; The finger is already on digit 1, pushes 1 (with cost 1), moves to 0 (with cost 2), pushes 0 (with cost 1), pushes 0 (with cost 1), and pushes 0 (with cost 1).
+&nbsp; The cost is: 1 + 2 + 1 + 1 + 1 = 6. This is the minimum cost.
+- 0 9 6 0, interpreted as 9 minutes and 60 seconds. That is also 600 seconds.
+&nbsp; The finger moves to 0 (with cost 2), pushes 0 (with cost 1), moves to 9 (with cost 2), pushes 9 (with cost 1), moves to 6 (with cost 2), pushes 6 (with cost 1), moves to 0 (with cost 2), and pushes 0 (with cost 1).
+&nbsp; The cost is: 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1 = 12.
+- 9 6 0, normalized as 0960 and interpreted as 9 minutes and 60 seconds.
+&nbsp; The finger moves to 9 (with cost 2), pushes 9 (with cost 1), moves to 6 (with cost 2), pushes 6 (with cost 1), moves to 0 (with cost 2), and pushes 0 (with cost 1).
+&nbsp; The cost is: 2 + 1 + 2 + 1 + 2 + 1 = 9.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2162.Minimum%20Cost%20to%20Set%20Cooking%20Time/images/2.png" style="width: 505px; height: 73px;"></p>
-
-<pre><b>输入：</b>startAt = 0, moveCost = 1, pushCost = 2, targetSeconds = 76
-<b>输出：</b>6
-<b>解释：</b>最优方案为输入两个数字 7 6，表示 76 秒。
-手指移到 7 处（代价为 1），输入 7 （代价为 2），移到 6 处（代价为 1），输入 6（代价为 2）。总代价为：1 + 2 + 1 + 2 = 6
-其他可行方案为 0076 ，076 ，0116 和 116 ，但是它们的代价都比 6 大。
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2162.Minimum%20Cost%20to%20Set%20Cooking%20Time/images/2.png" style="width: 505px; height: 73px;" />
+<pre>
+<strong>Input:</strong> startAt = 0, moveCost = 1, pushCost = 2, targetSeconds = 76
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The optimal way is to push two digits: 7 6, interpreted as 76 seconds.
+The finger moves to 7 (with cost 1), pushes 7 (with cost 2), moves to 6 (with cost 1), and pushes 6 (with cost 2). The total cost is: 1 + 2 + 1 + 2 = 6
+Note other possible ways are 0076, 076, 0116, and 116, but none of them produces the minimum cost.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= startAt &lt;= 9</code></li>
@@ -86,11 +79,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

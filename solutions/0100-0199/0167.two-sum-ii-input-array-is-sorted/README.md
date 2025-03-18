@@ -1,77 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0167.Two%20Sum%20II%20-%20Input%20Array%20Is%20Sorted/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 双指针
-    - 二分查找
+    - Array
+    - Two Pointers
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [167. 两数之和 II - 输入有序数组](https://leetcode.cn/problems/two-sum-ii-input-array-is-sorted)
+# [167. Two Sum II - Input Array Is Sorted](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted)
 
-[English Version](/solution/0100-0199/0167.Two%20Sum%20II%20-%20Input%20Array%20Is%20Sorted/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>1</strong> 开始的整数数组&nbsp;<code>numbers</code> ，该数组已按<strong><em> </em>非递减顺序排列&nbsp; </strong>，请你从数组中找出满足相加之和等于目标数&nbsp;<code>target</code> 的两个数。如果设这两个数分别是 <code>numbers[index<sub>1</sub>]</code> 和 <code>numbers[index<sub>2</sub>]</code> ，则 <code>1 &lt;= index<sub>1</sub> &lt; index<sub>2</sub> &lt;= numbers.length</code> 。</p>
+<p>Given a <strong>1-indexed</strong> array of integers <code>numbers</code> that is already <strong><em>sorted in non-decreasing order</em></strong>, find two numbers such that they add up to a specific <code>target</code> number. Let these two numbers be <code>numbers[index<sub>1</sub>]</code> and <code>numbers[index<sub>2</sub>]</code> where <code>1 &lt;= index<sub>1</sub> &lt; index<sub>2</sub> &lt;= numbers.length</code>.</p>
 
-<p>以长度为 2 的整数数组 <code>[index<sub>1</sub>, index<sub>2</sub>]</code> 的形式返回这两个整数的下标 <code>index<sub>1</sub></code><em> </em>和<em> </em><code>index<sub>2</sub></code>。</p>
+<p>Return<em> the indices of the two numbers, </em><code>index<sub>1</sub></code><em> and </em><code>index<sub>2</sub></code><em>, <strong>added by one</strong> as an integer array </em><code>[index<sub>1</sub>, index<sub>2</sub>]</code><em> of length 2.</em></p>
 
-<p>你可以假设每个输入 <strong>只对应唯一的答案</strong> ，而且你 <strong>不可以</strong> 重复使用相同的元素。</p>
+<p>The tests are generated such that there is <strong>exactly one solution</strong>. You <strong>may not</strong> use the same element twice.</p>
 
-<p>你所设计的解决方案必须只使用常量级的额外空间。</p>
-&nbsp;
+<p>Your solution must use only constant extra space.</p>
 
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>numbers = [<strong><em>2</em></strong>,<strong><em>7</em></strong>,11,15], target = 9
-<strong>输出：</strong>[1,2]
-<strong>解释：</strong>2 与 7 之和等于目标数 9 。因此 index<sub>1</sub> = 1, index<sub>2</sub> = 2 。返回 [1, 2] 。</pre>
-
-<p><strong class="example">示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>numbers = [<strong><em>2</em></strong>,3,<strong><em>4</em></strong>], target = 6
-<strong>输出：</strong>[1,3]
-<strong>解释：</strong>2 与 4 之和等于目标数 6 。因此 index<sub>1</sub> = 1, index<sub>2</sub> = 3 。返回 [1, 3] 。</pre>
+<strong>Input:</strong> numbers = [<u>2</u>,<u>7</u>,11,15], target = 9
+<strong>Output:</strong> [1,2]
+<strong>Explanation:</strong> The sum of 2 and 7 is 9. Therefore, index<sub>1</sub> = 1, index<sub>2</sub> = 2. We return [1, 2].
+</pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>numbers = [<strong><em>-1</em></strong>,<strong><em>0</em></strong>], target = -1
-<strong>输出：</strong>[1,2]
-<strong>解释：</strong>-1 与 0 之和等于目标数 -1 。因此 index<sub>1</sub> = 1, index<sub>2</sub> = 2 。返回 [1, 2] 。
+<strong>Input:</strong> numbers = [<u>2</u>,3,<u>4</u>], target = 6
+<strong>Output:</strong> [1,3]
+<strong>Explanation:</strong> The sum of 2 and 4 is 6. Therefore index<sub>1</sub> = 1, index<sub>2</sub> = 3. We return [1, 3].
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> numbers = [<u>-1</u>,<u>0</u>], target = -1
+<strong>Output:</strong> [1,2]
+<strong>Explanation:</strong> The sum of -1 and 0 is -1. Therefore index<sub>1</sub> = 1, index<sub>2</sub> = 2. We return [1, 2].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= numbers.length &lt;= 3 * 10<sup>4</sup></code></li>
 	<li><code>-1000 &lt;= numbers[i] &lt;= 1000</code></li>
-	<li><code>numbers</code> 按 <strong>非递减顺序</strong> 排列</li>
+	<li><code>numbers</code> is sorted in <strong>non-decreasing order</strong>.</li>
 	<li><code>-1000 &lt;= target &lt;= 1000</code></li>
-	<li><strong>仅存在一个有效答案</strong></li>
+	<li>The tests are generated such that there is <strong>exactly one solution</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-我们注意到数组按照非递减顺序排列，因此对于每个 $numbers[i]$，可以通过二分查找的方式找到 $target - numbers[i]$ 的位置，如果存在，那么返回 $[i + 1, j + 1]$ 即可。
+Note that the array is sorted in non-decreasing order, so for each `numbers[i]`, we can find the position of `target - numbers[i]` by binary search, and return $[i + 1, j + 1]$ if it exists.
 
-时间复杂度 $O(n \times \log n)$，其中 $n$ 为数组 $numbers$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n \times \log n)$, where $n$ is the length of the array `numbers`. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -230,11 +228,11 @@ var twoSum = function (numbers, target) {
 
 <!-- solution:start -->
 
-### 方法二：双指针
+### Solution 2: Two Pointers
 
-我们定义两个指针 $i$ 和 $j$，分别指向数组的第一个元素和最后一个元素。每次计算 $numbers[i] + numbers[j]$，如果和等于目标值，那么返回 $[i + 1, j + 1]$ 即可。如果和小于目标值，那么将 $i$ 右移一位，如果和大于目标值，那么将 $j$ 左移一位。
+We define two pointers $i$ and $j$, which point to the first element and the last element of the array respectively. Each time we calculate $numbers[i] + numbers[j]$. If the sum is equal to the target value, return $[i + 1, j + 1]$ directly. If the sum is less than the target value, move $i$ to the right by one position, and if the sum is greater than the target value, move $j$ to the left by one position.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 $numbers$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array `numbers`. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

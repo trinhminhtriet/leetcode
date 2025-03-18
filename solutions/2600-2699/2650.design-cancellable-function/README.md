@@ -1,96 +1,92 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2650.Design%20Cancellable%20Function/README.md
+difficulty: Hard
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2650. 设计可取消函数](https://leetcode.cn/problems/design-cancellable-function)
+# [2650. Design Cancellable Function](https://leetcode.com/problems/design-cancellable-function)
 
-[English Version](/solution/2600-2699/2650.Design%20Cancellable%20Function/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有时候你会有一个长时间运行的任务，并且你可能希望在它完成之前取消它。为了实现这个目标，请你编写一个名为 <code>cancellable</code> 的函数，它接收一个生成器对象，并返回一个包含两个值的数组：一个 <strong>取消函数</strong> 和一个 <strong>promise</strong> 对象。</p>
+<p>Sometimes you have a long running task, and you may wish to cancel it before it completes. To help with this goal, write a function&nbsp;<code>cancellable</code> that accepts a generator object and returns an array of two values: a <strong>cancel function</strong> and a <strong>promise</strong>.</p>
 
-<p>你可以假设生成器函数只会生成 promise 对象。你的函数负责将 promise 对象解析的值传回生成器。如果 promise 被拒绝，你的函数应将该错误抛回给生成器。</p>
+<p>You may assume the generator function will only&nbsp;yield promises. It is your function&#39;s responsibility to pass the values resolved by the promise back to the generator. If the promise rejects, your function should throw that&nbsp;error back to the generator.</p>
 
-<p>如果在生成器完成之前调用了取消回调函数，则你的函数应该将错误抛回给生成器。该错误应该是字符串 <code>"Cancelled"</code>（而不是一个 <code>Error</code> 对象）。如果错误被捕获，则返回的 promise 应该解析为下一个生成或返回的值。否则，promise 应该被拒绝并抛出该错误。不应执行任何其他代码。</p>
+<p>If the cancel callback is called before the generator is done, your function should throw an error back to the generator. That error should be the string&nbsp;<code>&quot;Cancelled&quot;</code>&nbsp;(Not an <code>Error</code>&nbsp;object). If the error was caught, the returned&nbsp;promise should resolve with the next value that was yielded or returned. Otherwise, the promise should reject with the thrown error. No more code should be executed.</p>
 
-<p>当生成器完成时，您的函数返回的 promise 应该解析为生成器返回的值。但是，如果生成器抛出错误，则返回的 promise 应该拒绝并抛出该错误。</p>
+<p>When the generator is done, the promise your function returned should resolve the value the generator returned. If, however, the generator throws an error, the returned promise should reject with the error.</p>
 
-<p>下面的示例展示了你的代码会如何被使用：</p>
+<p>An example of how your code would be used:</p>
 
 <pre>
 function* tasks() {
   const val = yield new Promise(resolve =&gt; resolve(2 + 2));
   yield new Promise(resolve =&gt; setTimeout(resolve, 100));
-  return val + 1; // calculation shouldn't be done.
+  return val + 1; // calculation shouldn&#39;t be done.
 }
 const [cancel, promise] = cancellable(tasks());
 setTimeout(cancel, 50);
-promise.catch(console.log); // logs "Cancelled" at t=50ms
+promise.catch(console.log); // logs &quot;Cancelled&quot; at t=50ms
 </pre>
 
-<p>相反，如果 <code>cancel()</code> 没有被调用或者在 <code>t=100ms</code> 之后才被调用，那么 promise 应被解析为 <code>5</code> 。</p>
+<p>If&nbsp;instead&nbsp;<code>cancel()</code> was not called or was called after <code>t=100ms</code>, the promise would&nbsp;have resolved&nbsp;<code>5</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 generatorFunction = function*() { 
 &nbsp; return 42; 
 }
 cancelledAt = 100
-<strong>输出：</strong>{"resolved": 42}
-<strong>解释：</strong>
+<strong>Output:</strong> {&quot;resolved&quot;: 42}
+<strong>Explanation:</strong>
 const generator = generatorFunction();
 const [cancel, promise] = cancellable(generator);
 setTimeout(cancel, 100);
-promise.then(console.log); // 在 t=0ms 解析为 42
+promise.then(console.log); // resolves 42 at t=0ms
 
-该生成器立即生成 42 并完成。因此，返回的 promise 立即解析为 42。请注意，取消已经完成的生成器没有任何作用。
+The generator immediately yields 42 and finishes. Because of that, the returned promise immediately resolves 42. Note that cancelling a finished generator does nothing.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong>
 generatorFunction = function*() { 
-&nbsp; const msg = yield new Promise(res =&gt; res("Hello")); 
+&nbsp; const msg = yield new Promise(res =&gt; res(&quot;Hello&quot;)); 
 &nbsp; throw `Error: ${msg}`; 
 }
 cancelledAt = null
-<strong>输出：</strong>{"rejected": "Error: Hello"}
-<strong>解释：</strong>
-一个 Promise 被生成。该函数通过等待 promise 解析并将解析后的值传回生成器来处理它。然后抛出一个错误，这会导致 promise 被同样抛出的错误拒绝。
+<strong>Output:</strong> {&quot;rejected&quot;: &quot;Error: Hello&quot;}
+<strong>Explanation:</strong>
+A promise is yielded. The function handles this by waiting for it to resolve and then passes the resolved value back to the generator. Then an error is thrown which has the effect of causing the promise to reject with the same thrown error.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 generatorFunction = function*() { 
 &nbsp; yield new Promise(res =&gt; setTimeout(res, 200)); 
-&nbsp; return "Success"; 
+&nbsp; return &quot;Success&quot;; 
 }
 cancelledAt = 100
-<strong>输出：</strong>{"rejected": "Cancelled"}
-<strong>解释：</strong>
-当函数等待被生成的 promise 解析时，cancel() 被调用。这会导致一个错误消息被发送回生成器。由于这个错误没有被捕获，返回的 promise 会因为这个错误而被拒绝。
+<strong>Output:</strong> {&quot;rejected&quot;: &quot;Cancelled&quot;}
+<strong>Explanation:</strong>
+While the function is waiting for the yielded promise to resolve, cancel() is called. This causes an error message to be sent back to the generator. Since this error is uncaught, the returned promise rejected with this error.
 </pre>
 
-<p><strong>示例 4：</strong></p>
+<p><strong class="example">Example 4:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong>
 generatorFunction = function*() { 
 &nbsp; let result = 0; 
 &nbsp; yield new Promise(res =&gt; setTimeout(res, 100));
@@ -100,15 +96,15 @@ generatorFunction = function*() {
 &nbsp; return result;
 }
 cancelledAt = null
-<strong>输出：</strong>{"resolved": 2}
-<strong>解释：</strong>
-生成器生成了 4 个 promise 。其中两个 promise 的值被添加到结果中。200ms 后，生成器以值 2 完成，该值被返回的 promise 解析。
+<strong>Output:</strong> {&quot;resolved&quot;: 2}
+<strong>Explanation:</strong>
+4 promises are yielded. Two of those promises have their values added to the result. After 200ms, the generator finishes with a value of 2, and that value is resolved by the returned promise.
 </pre>
 
-<p><strong>示例 5：</strong></p>
+<p><strong class="example">Example 5:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 generatorFunction = function*() { 
 &nbsp; let result = 0; 
 &nbsp; try { 
@@ -122,18 +118,18 @@ generatorFunction = function*() {
 &nbsp; return result; 
 }
 cancelledAt = 150
-<strong>输出：</strong>{"resolved": 1}
-<strong>解释：</strong>
-前两个生成的 promise 解析并导致结果递增。然而，在 t=150ms 时，生成器被取消了。发送给生成器的错误被捕获，结果被返回并最终由返回的 promise 解析。
+<strong>Output:</strong> {&quot;resolved&quot;: 1}
+<strong>Explanation:</strong>
+The first two yielded promises resolve and cause the result to increment. However, at t=150ms, the generator is cancelled. The error sent to the generator is caught and the result is returned and finally resolved by the returned promise.
 </pre>
 
-<p><strong>示例 6：</strong></p>
+<p><strong class="example">Example 6:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 generatorFunction = function*() { 
 &nbsp; try { 
-&nbsp;   yield new Promise((resolve, reject) =&gt; reject("Promise Rejected")); 
+&nbsp;   yield new Promise((resolve, reject) =&gt; reject(&quot;Promise Rejected&quot;)); 
 &nbsp; } catch(e) { 
 &nbsp;   let a = yield new Promise(resolve =&gt; resolve(2));
     let b = yield new Promise(resolve =&gt; resolve(2)); 
@@ -141,26 +137,25 @@ generatorFunction = function*() {
 &nbsp; }; 
 }
 cancelledAt = null
-<strong>输出：</strong>{"resolved": 4}
-<strong>解释：</strong>
-第一个生成的 promise 立即被拒绝。该错误被捕获。因为生成器没有被取消，执行继续像往常一样。最终解析为 2 + 2 = 4。</pre>
+<strong>Output:</strong> {&quot;resolved&quot;: 4}
+<strong>Explanation:</strong>
+The first yielded promise immediately rejects. This error is caught. Because the generator hasn&#39;t been cancelled, execution continues as usual. It ends up resolving 2 + 2 = 4.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>cancelledAt == null or 0 &lt;= cancelledAt &lt;= 1000</code></li>
-	<li><code>generatorFunction</code> 返回一个生成器对象</li>
+	<li><code>generatorFunction</code> returns a generator object</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

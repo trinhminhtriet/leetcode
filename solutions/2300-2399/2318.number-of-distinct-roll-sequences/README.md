@@ -1,61 +1,56 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2318.Number%20of%20Distinct%20Roll%20Sequences/README.md
+difficulty: Hard
 rating: 2090
-source: 第 81 场双周赛 Q4
+source: Biweekly Contest 81 Q4
 tags:
-    - 记忆化搜索
-    - 动态规划
+    - Memoization
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2318. 不同骰子序列的数目](https://leetcode.cn/problems/number-of-distinct-roll-sequences)
+# [2318. Number of Distinct Roll Sequences](https://leetcode.com/problems/number-of-distinct-roll-sequences)
 
-[English Version](/solution/2300-2399/2318.Number%20of%20Distinct%20Roll%20Sequences/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>n</code>&nbsp;。你需要掷一个 6 面的骰子&nbsp;<code>n</code>&nbsp;次。请你在满足以下要求的前提下，求出 <strong>不同</strong>&nbsp;骰子序列的数目：</p>
+<p>You are given an integer <code>n</code>. You roll a fair 6-sided dice <code>n</code> times. Determine the total number of <strong>distinct</strong> sequences of rolls possible such that the following conditions are satisfied:</p>
 
 <ol>
-	<li>序列中任意 <strong>相邻</strong>&nbsp;数字的 <strong>最大公约数</strong>&nbsp;为 <code>1</code>&nbsp;。</li>
-	<li>序列中 <strong>相等</strong>&nbsp;的值之间，至少有 <code>2</code>&nbsp;个其他值的数字。正式地，如果第&nbsp;<code>i</code>&nbsp;次掷骰子的值 <strong>等于</strong>&nbsp;第&nbsp;<code>j</code>&nbsp;次的值，那么&nbsp;<code>abs(i - j) &gt; 2</code>&nbsp;。</li>
+	<li>The <strong>greatest common divisor</strong> of any <strong>adjacent</strong> values in the sequence is equal to <code>1</code>.</li>
+	<li>There is <strong>at least</strong> a gap of <code>2</code> rolls between <strong>equal</strong> valued rolls. More formally, if the value of the <code>i<sup>th</sup></code> roll is <strong>equal</strong> to the value of the <code>j<sup>th</sup></code> roll, then <code>abs(i - j) &gt; 2</code>.</li>
 </ol>
 
-<p>请你返回不同序列的 <strong>总数目</strong>&nbsp;。由于答案可能很大，请你将答案对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
+<p>Return <em>the<strong> total number</strong> of distinct sequences possible</em>. Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
-<p>如果两个序列中至少有一个元素不同，那么它们被视为不同的序列。</p>
+<p>Two sequences are considered distinct if at least one element is different.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>n = 4
-<b>输出：</b>184
-<b>解释：</b>一些可行的序列为 (1, 2, 3, 4) ，(6, 1, 2, 3) ，(1, 2, 3, 1) 等等。
-一些不可行的序列为 (1, 2, 1, 3) ，(1, 2, 3, 6) 。
-(1, 2, 1, 3) 是不可行的，因为第一个和第三个骰子值相等且 abs(1 - 3) = 2 （下标从 1 开始表示）。
-(1, 2, 3, 6) i是不可行的，因为 3 和 6 的最大公约数是 3 。
-总共有 184 个不同的可行序列，所以我们返回 184 。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>n = 2
-<b>输出：</b>22
-<b>解释：</b>一些可行的序列为 (1, 2) ，(2, 1) ，(3, 2) 。
-一些不可行的序列为 (3, 6) ，(2, 4) ，因为最大公约数不为 1 。
-总共有 22 个不同的可行序列，所以我们返回 22 。
+<strong>Input:</strong> n = 4
+<strong>Output:</strong> 184
+<strong>Explanation:</strong> Some of the possible sequences are (1, 2, 3, 4), (6, 1, 2, 3), (1, 2, 3, 1), etc.
+Some invalid sequences are (1, 2, 1, 3), (1, 2, 3, 6).
+(1, 2, 1, 3) is invalid since the first and third roll have an equal value and abs(1 - 3) = 2 (i and j are 1-indexed).
+(1, 2, 3, 6) is invalid since the greatest common divisor of 3 and 6 = 3.
+There are a total of 184 distinct sequences possible, so we return 184.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> 22
+<strong>Explanation:</strong> Some of the possible sequences are (1, 2), (2, 1), (3, 2).
+Some invalid sequences are (3, 6), (2, 4) since the greatest common divisor is not equal to 1.
+There are a total of 22 distinct sequences possible, so we return 22.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
@@ -63,15 +58,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
-
-三维 DP。
-
-设 $dp[k][i][j]$ 表示序列长度为 $k$，且序列的最后两个数字分别为 $i$, $j$ 的所有满足要求的不同序列的数量。
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,109 +1,100 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3193.Count%20the%20Number%20of%20Inversions/README.md
+difficulty: Hard
 rating: 2266
-source: 第 133 场双周赛 Q4
+source: Biweekly Contest 133 Q4
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3193. 统计逆序对的数目](https://leetcode.cn/problems/count-the-number-of-inversions)
+# [3193. Count the Number of Inversions](https://leetcode.com/problems/count-the-number-of-inversions)
 
-[English Version](/solution/3100-3199/3193.Count%20the%20Number%20of%20Inversions/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>n</code>&nbsp;和一个二维数组&nbsp;<code>requirements</code>&nbsp;，其中&nbsp;<code>requirements[i] = [end<sub>i</sub>, cnt<sub>i</sub>]</code> <span class="text-only" data-eleid="10" style="white-space: pre;">表示这个要求中的末尾下标和 <strong>逆序对</strong> 的数目。</span></p>
+<p>You are given an integer <code>n</code> and a 2D array <code>requirements</code>, where <code>requirements[i] = [end<sub>i</sub>, cnt<sub>i</sub>]</code> represents the end index and the <strong>inversion</strong> count of each requirement.</p>
 
-<p>整数数组 <code>nums</code>&nbsp;中一个下标对&nbsp;<code>(i, j)</code>&nbsp;如果满足以下条件，那么它们被称为一个 <strong>逆序对</strong>&nbsp;：</p>
+<p>A pair of indices <code>(i, j)</code> from an integer array <code>nums</code> is called an <strong>inversion</strong> if:</p>
 
 <ul>
-	<li><code>i &lt; j</code>&nbsp;且&nbsp;<code>nums[i] &gt; nums[j]</code></li>
+	<li><code>i &lt; j</code> and <code>nums[i] &gt; nums[j]</code></li>
 </ul>
 
-<p>请你返回&nbsp;<code>[0, 1, 2, ..., n - 1]</code>&nbsp;的&nbsp;<span data-keyword="permutation">排列</span> <code>perm</code>&nbsp;的数目，满足对 <strong>所有</strong>&nbsp;的&nbsp;<code>requirements[i]</code>&nbsp;都满足&nbsp;<code>perm[0..end<sub>i</sub>]</code>&nbsp;中恰好有&nbsp;<code>cnt<sub>i</sub></code>&nbsp;个逆序对。</p>
+<p>Return the number of <span data-keyword="permutation">permutations</span> <code>perm</code> of <code>[0, 1, 2, ..., n - 1]</code> such that for <strong>all</strong> <code>requirements[i]</code>, <code>perm[0..end<sub>i</sub>]</code> has exactly <code>cnt<sub>i</sub></code> inversions.</p>
 
-<p>由于答案可能会很大，将它对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
+<p>Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>n = 3, requirements = [[2,2],[0,0]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 3, requirements = [[2,2],[0,0]]</span></p>
 
-<p><span class="example-io"><b>输出：</b>2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>两个排列为：</p>
+<p>The two permutations are:</p>
 
 <ul>
 	<li><code>[2, 0, 1]</code>
 
     <ul>
-    	<li>前缀&nbsp;<code>[2, 0, 1]</code>&nbsp;的逆序对为&nbsp;<code>(0, 1)</code> 和&nbsp;<code>(0, 2)</code>&nbsp;。</li>
-    	<li>前缀&nbsp;<code>[2]</code>&nbsp;的逆序对数目为 0 个。</li>
+    	<li>Prefix <code>[2, 0, 1]</code> has inversions <code>(0, 1)</code> and <code>(0, 2)</code>.</li>
+    	<li>Prefix <code>[2]</code> has 0 inversions.</li>
     </ul>
     </li>
     <li><code>[1, 2, 0]</code>
     <ul>
-    	<li>前缀&nbsp;<code>[1, 2, 0]</code>&nbsp;的逆序对为&nbsp;<code>(0, 2)</code> 和&nbsp;<code>(1, 2)</code>&nbsp;。</li>
-    	<li>前缀&nbsp;<code>[1]</code>&nbsp;的逆序对数目为 0 个。</li>
+    	<li>Prefix <code>[1, 2, 0]</code> has inversions <code>(0, 2)</code> and <code>(1, 2)</code>.</li>
+    	<li>Prefix <code>[1]</code> has 0 inversions.</li>
     </ul>
     </li>
 
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>n = 3, requirements = [[2,2],[1,1],[0,0]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 3, requirements = [[2,2],[1,1],[0,0]]</span></p>
 
-<p><b>输出：</b>1</p>
+<p><strong>Output:</strong> 1</p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>唯一满足要求的排列是&nbsp;<code>[2, 0, 1]</code>&nbsp;：</p>
+<p>The only satisfying permutation is <code>[2, 0, 1]</code>:</p>
 
 <ul>
-	<li>前缀&nbsp;<code>[2, 0, 1]</code>&nbsp;的逆序对为&nbsp;<code>(0, 1)</code> 和&nbsp;<code>(0, 2)</code>&nbsp;。</li>
-	<li>前缀&nbsp;<code>[2, 0]</code>&nbsp;的逆序对为&nbsp;<code>(0, 1)</code>&nbsp;。</li>
-	<li>前缀&nbsp;<code>[2]</code>&nbsp;的逆序对数目为 0 。</li>
+	<li>Prefix <code>[2, 0, 1]</code> has inversions <code>(0, 1)</code> and <code>(0, 2)</code>.</li>
+	<li>Prefix <code>[2, 0]</code> has an inversion <code>(0, 1)</code>.</li>
+	<li>Prefix <code>[2]</code> has 0 inversions.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>n = 2, requirements = [[0,0],[1,0]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 2, requirements = [[0,0],[1,0]]</span></p>
 
-<p><span class="example-io"><b>输出：</b>1</span></p>
+<p><strong>Output:</strong> <span class="example-io">1</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>唯一满足要求的排列为&nbsp;<code>[0, 1]</code>&nbsp;：</p>
+<p>The only satisfying permutation is <code>[0, 1]</code>:</p>
 
 <ul>
-	<li>前缀&nbsp;<code>[0]</code>&nbsp;的逆序对数目为 0 。</li>
-	<li>前缀&nbsp;<code>[0, 1]</code>&nbsp;的逆序对为&nbsp;<code>(0, 1)</code>&nbsp;。</li>
+	<li>Prefix <code>[0]</code> has 0 inversions.</li>
+	<li>Prefix <code>[0, 1]</code> has an inversion <code>(0, 1)</code>.</li>
 </ul>
-</div>
-
-<div id="gtx-trans" style="position: absolute; left: 198px; top: 756px;">
-<div class="gtx-trans-icon">&nbsp;</div>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 300</code></li>
@@ -111,27 +102,27 @@ tags:
 	<li><code>requirements[i] = [end<sub>i</sub>, cnt<sub>i</sub>]</code></li>
 	<li><code>0 &lt;= end<sub>i</sub> &lt;= n - 1</code></li>
 	<li><code>0 &lt;= cnt<sub>i</sub> &lt;= 400</code></li>
-	<li>输入保证至少有一个&nbsp;<code>i</code>&nbsp;满足&nbsp;<code>end<sub>i</sub> == n - 1</code>&nbsp;。</li>
-	<li>输入保证所有的&nbsp;<code>end<sub>i</sub></code>&nbsp;互不相同。</li>
+	<li>The input is generated such that there is at least one <code>i</code> such that <code>end<sub>i</sub> == n - 1</code>.</li>
+	<li>The input is generated such that all <code>end<sub>i</sub></code> are unique.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][j]$ 表示 $[0..i]$ 的排列中，逆序对数量为 $j$ 的排列数。考虑下标为 $i$ 的数 $a_i$ 与前面 $i$ 个数的大小关系。如果 $a_i$ 比前面 $k$ 个数小，那么前面的 $k$ 个数与 $a_i$ 都构成了逆序对，逆序对数量为 $k$。因此，我们可以得到状态转移方程：
+We define $f[i][j]$ as the number of permutations of $[0..i]$ with $j$ inversions. Consider the relationship between the number $a_i$ at index $i$ and the previous $i$ numbers. If $a_i$ is smaller than $k$ of the previous numbers, then each of these $k$ numbers forms an inversion pair with $a_i$, contributing to $k$ inversions. Therefore, we can derive the state transition equation:
 
 $$
 f[i][j] = \sum_{k=0}^{\min(i, j)} f[i-1][j-k]
 $$
 
-由于题目要求 $[0..\textit{end}_i]$ 的逆序对数量为 $\textit{cnt}_i$，因此，当我们计算 $i = \textit{end}_i$ 时，我们只需要计算 $f[i][\textit{cnt}_i]$ 即可。其余的 $f[i][..]$ 都为 $0$。
+Since the problem requires the number of inversions in $[0..\textit{end}_i]$ to be $\textit{cnt}_i$, when we calculate for $i = \textit{end}_i$, we only need to compute $f[i][\textit{cnt}_i]$. The rest of $f[i][..]$ will be $0$.
 
-时间复杂度 $O(n \times m \times \min(n, m))$，空间复杂度 $O(n \times m)$。其中 $m$ 是逆序对数量的最大值。本题中 $m \le 400$。
+The time complexity is $O(n \times m \times \min(n, m))$, and the space complexity is $O(n \times m)$. Here, $m$ is the maximum number of inversions, and in this problem, $m \le 400$.
 
 <!-- tabs:start -->
 

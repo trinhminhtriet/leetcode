@@ -1,65 +1,61 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0014.Longest%20Common%20Prefix/README.md
+difficulty: Easy
 tags:
-    - 字典树
-    - 字符串
+    - Trie
+    - String
 ---
 
 <!-- problem:start -->
 
-# [14. 最长公共前缀](https://leetcode.cn/problems/longest-common-prefix)
+# [14. Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix)
 
-[English Version](/solution/0000-0099/0014.Longest%20Common%20Prefix/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>编写一个函数来查找字符串数组中的最长公共前缀。</p>
+<p>Write a function to find the longest common prefix string amongst an array of strings.</p>
 
-<p>如果不存在公共前缀，返回空字符串&nbsp;<code>""</code>。</p>
+<p>If there is no common prefix, return an empty string <code>&quot;&quot;</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>strs = ["flower","flow","flight"]
-<strong>输出：</strong>"fl"
+<strong>Input:</strong> strs = [&quot;flower&quot;,&quot;flow&quot;,&quot;flight&quot;]
+<strong>Output:</strong> &quot;fl&quot;
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>strs = ["dog","racecar","car"]
-<strong>输出：</strong>""
-<strong>解释：</strong>输入不存在公共前缀。</pre>
+<strong>Input:</strong> strs = [&quot;dog&quot;,&quot;racecar&quot;,&quot;car&quot;]
+<strong>Output:</strong> &quot;&quot;
+<strong>Explanation:</strong> There is no common prefix among the input strings.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= strs.length &lt;= 200</code></li>
 	<li><code>0 &lt;= strs[i].length &lt;= 200</code></li>
-	<li><code>strs[i]</code>&nbsp;如果非空，则仅由小写英文字母组成</li>
+	<li><code>strs[i]</code> consists of only lowercase English letters if it is non-empty.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：字符比较
+### Solution 1: Character Comparison
 
-我们以第一个字符串 $strs[0]$ 为基准，依次比较后面的字符串的第 $i$ 个字符是否与 $strs[0]$ 的第 $i$ 个字符相同，如果相同则继续比较下一个字符，否则返回 $strs[0]$ 的前 $i$ 个字符。
+We use the first string $strs[0]$ as a benchmark, and compare whether the $i$-th character of the subsequent strings is the same as the $i$-th character of $strs[0]$. If they are the same, we continue to compare the next character. Otherwise, we return the first $i$ characters of $strs[0]$.
 
-遍历结束，说明所有字符串的前 $i$ 个字符都相同，返回 $strs[0]$ 即可。
+If the traversal ends, it means that the first $i$ characters of all strings are the same, and we return $strs[0]$.
 
-时间复杂度 $(n \times m)$，其中 $n$ 和 $m$ 分别为字符串数组的长度以及字符串的最小长度。空间复杂度 $O(1)$。
+The time complexity is $O(n \times m)$, where $n$ and $m$ are the length of the string array and the minimum length of the strings, respectively. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

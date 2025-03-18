@@ -1,64 +1,59 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2571.Minimum%20Operations%20to%20Reduce%20an%20Integer%20to%200/README.md
+difficulty: Medium
 rating: 1649
-source: 第 333 场周赛 Q2
+source: Weekly Contest 333 Q2
 tags:
-    - 贪心
-    - 位运算
-    - 动态规划
+    - Greedy
+    - Bit Manipulation
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2571. 将整数减少到零需要的最少操作数](https://leetcode.cn/problems/minimum-operations-to-reduce-an-integer-to-0)
+# [2571. Minimum Operations to Reduce an Integer to 0](https://leetcode.com/problems/minimum-operations-to-reduce-an-integer-to-0)
 
-[English Version](/solution/2500-2599/2571.Minimum%20Operations%20to%20Reduce%20an%20Integer%20to%200/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数 <code>n</code> ，你可以执行下述操作 <strong>任意</strong> 次：</p>
+<p>You are given a positive integer <code>n</code>, you can do the following operation <strong>any</strong> number of times:</p>
 
 <ul>
-	<li><code>n</code> 加上或减去 <code>2</code> 的某个 <strong>幂</strong></li>
+	<li>Add or subtract a <strong>power</strong> of <code>2</code> from <code>n</code>.</li>
 </ul>
 
-<p>返回使 <code>n</code> 等于 <code>0</code> 需要执行的 <strong>最少</strong> 操作数。</p>
+<p>Return <em>the <strong>minimum</strong> number of operations to make </em><code>n</code><em> equal to </em><code>0</code>.</p>
 
-<p>如果 <code>x == 2<sup>i</sup></code> 且其中 <code>i &gt;= 0</code> ，则数字 <code>x</code> 是 <code>2</code> 的幂。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 39
-<strong>输出：</strong>3
-<strong>解释：</strong>我们可以执行下述操作：
-- n 加上 2<sup>0</sup> = 1 ，得到 n = 40 。
-- n 减去 2<sup>3</sup> = 8 ，得到 n = 32 。
-- n 减去 2<sup>5</sup> = 32 ，得到 n = 0 。
-可以证明使 n 等于 0 需要执行的最少操作数是 3 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 54
-<strong>输出：</strong>3
-<strong>解释：</strong>我们可以执行下述操作：
-- n 加上 2<sup>1</sup> = 2 ，得到 n = 56 。
-- n 加上 2<sup>3</sup> = 8 ，得到 n = 64 。
-- n 减去 2<sup>6</sup> = 64 ，得到 n = 0 。
-使 n 等于 0 需要执行的最少操作数是 3 。 
-</pre>
+<p>A number <code>x</code> is power of <code>2</code> if <code>x == 2<sup>i</sup></code>&nbsp;where <code>i &gt;= 0</code><em>.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 39
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We can do the following operations:
+- Add 2<sup>0</sup> = 1 to n, so now n = 40.
+- Subtract 2<sup>3</sup> = 8 from n, so now n = 32.
+- Subtract 2<sup>5</sup> = 32 from n, so now n = 0.
+It can be shown that 3 is the minimum number of operations we need to make n equal to 0.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 54
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We can do the following operations:
+- Add 2<sup>1</sup> = 2 to n, so now n = 56.
+- Add 2<sup>3</sup> = 8 to n, so now n = 64.
+- Subtract 2<sup>6</sup> = 64 from n, so now n = 0.
+So the minimum number of operations is 3.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
@@ -66,20 +61,20 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 位运算
+### Solution 1: Greedy + Bitwise Operation
 
-我们将整数 $n$ 转换为二进制，从最低位开始：
+We convert the integer $n$ to binary, starting from the lowest bit:
 
--   如果当前位为 $1$，我们就累加当前连续的 $1$ 的个数；
--   如果当前位为 $0$，我们就判断当前连续的 $1$ 的个数是否超过 $0$。如果是，判断当前连续的 $1$ 的个数是否为 $1$，如果是，说明我们通过一次操作可以消除 $1$；如果大于 $1$，说明我们通过一次操作，可以把连续的 $1$ 的个数减少到 $1$。
+-   If the current bit is 1, we accumulate the current number of consecutive 1s;
+-   If the current bit is 0, we check whether the current number of consecutive 1s is greater than 0. If it is, we check whether the current number of consecutive 1s is 1. If it is, it means that we can eliminate 1 through one operation; if it is greater than 1, it means that we can reduce the number of consecutive 1s to 1 through one operation.
 
-最后，我们还需要判断当前连续的 $1$ 的个数是否为 $1$，如果是，说明我们通过一次操作可以消除 $1$；如果大于 $1$，我们通过两次操作，可以把连续的 $1$ 的消除。
+Finally, we also need to check whether the current number of consecutive 1s is 1. If it is, it means that we can eliminate 1 through one operation; if it is greater than 1, we can eliminate the consecutive 1s through two operations.
 
-时间复杂度 $O(\log n)$，空间复杂度 $O(1)$。其中 $n$ 为题目给定的整数。
+The time complexity is $O(\log n)$, and the space complexity is $O(1)$. Here, $n$ is the given integer in the problem.
 
 <!-- tabs:start -->
 

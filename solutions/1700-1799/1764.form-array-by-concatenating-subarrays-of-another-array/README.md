@@ -1,88 +1,77 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1764.Form%20Array%20by%20Concatenating%20Subarrays%20of%20Another%20Array/README.md
+difficulty: Medium
 rating: 1588
-source: 第 46 场双周赛 Q2
+source: Biweekly Contest 46 Q2
 tags:
-    - 贪心
-    - 数组
-    - 双指针
-    - 字符串匹配
+    - Greedy
+    - Array
+    - Two Pointers
+    - String Matching
 ---
 
 <!-- problem:start -->
 
-# [1764. 通过连接另一个数组的子数组得到一个数组](https://leetcode.cn/problems/form-array-by-concatenating-subarrays-of-another-array)
+# [1764. Form Array by Concatenating Subarrays of Another Array](https://leetcode.com/problems/form-array-by-concatenating-subarrays-of-another-array)
 
-[English Version](/solution/1700-1799/1764.Form%20Array%20by%20Concatenating%20Subarrays%20of%20Another%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code> 的二维整数数组 <code>groups</code> ，同时给你一个整数数组 <code>nums</code> 。</p>
+<p>You are given a 2D integer array <code>groups</code> of length <code>n</code>. You are also given an integer array <code>nums</code>.</p>
 
-<p>你是否可以从 <code>nums</code> 中选出 <code>n</code> 个 <strong>不相交</strong> 的子数组，使得第 <code>i</code> 个子数组与 <code>groups[i]</code> （下标从 <strong>0</strong> 开始）完全相同，且如果 <code>i > 0</code> ，那么第 <code>(i-1)</code> 个子数组在 <code>nums</code> 中出现的位置在第 <code>i</code> 个子数组前面。（也就是说，这些子数组在 <code>nums</code> 中出现的顺序需要与 <code>groups</code> 顺序相同）</p>
+<p>You are asked if you can choose <code>n</code> <strong>disjoint </strong>subarrays from the array <code>nums</code> such that the <code>i<sup>th</sup></code> subarray is equal to <code>groups[i]</code> (<b>0-indexed</b>), and if <code>i &gt; 0</code>, the <code>(i-1)<sup>th</sup></code> subarray appears <strong>before</strong> the <code>i<sup>th</sup></code> subarray in <code>nums</code> (i.e. the subarrays must be in the same order as <code>groups</code>).</p>
 
-<p>如果你可以找出这样的 <code>n</code> 个子数组，请你返回 <code>true</code> ，否则返回 <code>false</code> 。</p>
+<p>Return <code>true</code> <em>if you can do this task, and</em> <code>false</code> <em>otherwise</em>.</p>
 
-<p>如果不存在下标为 <code>k</code> 的元素 <code>nums[k]</code> 属于不止一个子数组，就称这些子数组是 <strong>不相交</strong> 的。子数组指的是原数组中连续元素组成的一个序列。</p>
+<p>Note that the subarrays are <strong>disjoint</strong> if and only if there is no index <code>k</code> such that <code>nums[k]</code> belongs to more than one subarray. A subarray is a contiguous sequence of elements within an array.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>groups = [[1,-1,-1],[3,-2,0]], nums = [1,-1,0,1,-1,-1,3,-2,0]
-<b>输出：</b>true
-<b>解释：</b>你可以分别在 nums 中选出第 0 个子数组 [1,-1,0,<strong>1,</strong><strong>-1,</strong><strong>-1</strong>,3,-2,0] 和第 1 个子数组 [1,-1,0,1,-1,-1,<strong>3,</strong><strong>-2,0</strong>] 。
-这两个子数组是不相交的，因为它们没有任何共同的元素。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>groups = [[10,-2],[1,2,3,4]], nums = [1,2,3,4,10,-2]
-<b>输出：</b>false
-<strong>解释：</strong>选择子数组 [<strong>1,2,3,4</strong>,10,-2] 和 [1,2,3,4,<strong>10,-2</strong>] 是不正确的，因为它们出现的顺序与 groups 中顺序不同。
-[10,-2] 必须出现在 [1,2,3,4] 之前。
+<strong>Input:</strong> groups = [[1,-1,-1],[3,-2,0]], nums = [1,-1,0,1,-1,-1,3,-2,0]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> You can choose the 0<sup>th</sup> subarray as [1,-1,0,<u><strong>1,-1,-1</strong></u>,3,-2,0] and the 1<sup>st</sup> one as [1,-1,0,1,-1,-1,<u><strong>3,-2,0</strong></u>].
+These subarrays are disjoint as they share no common nums[k] element.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>groups = [[1,2,3],[3,4]], nums = [7,7,1,2,3,4,7,7]
-<b>输出：</b>false
-<strong>解释：</strong>选择子数组 [7,7,<strong>1,2,3</strong>,4,7,7] 和 [7,7,1,2,<strong>3,4</strong>,7,7] 是不正确的，因为它们不是不相交子数组。
-它们有一个共同的元素 nums[4] （下标从 0 开始）。
+<strong>Input:</strong> groups = [[10,-2],[1,2,3,4]], nums = [1,2,3,4,10,-2]
+<strong>Output:</strong> false
+<strong>Explanation: </strong>Note that choosing the subarrays [<u><strong>1,2,3,4</strong></u>,10,-2] and [1,2,3,4,<u><strong>10,-2</strong></u>] is incorrect because they are not in the same order as in groups.
+[10,-2] must come before [1,2,3,4].
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> groups = [[1,2,3],[3,4]], nums = [7,7,1,2,3,4,7,7]
+<strong>Output:</strong> false
+<strong>Explanation: </strong>Note that choosing the subarrays [7,7,<u><strong>1,2,3</strong></u>,4,7,7] and [7,7,1,2,<u><strong>3,4</strong></u>,7,7] is invalid because they are not disjoint.
+They share a common elements nums[4] (0-indexed).
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>groups.length == n</code></li>
-	<li><code>1 <= n <= 10<sup>3</sup></code></li>
-	<li><code>1 <= groups[i].length, sum(groups[i].length) <= 10<sup><span style="">3</span></sup></code></li>
-	<li><code>1 <= nums.length <= 10<sup>3</sup></code></li>
-	<li><code>-10<sup>7</sup> <= groups[i][j], nums[k] <= 10<sup>7</sup></code></li>
+	<li><code>1 &lt;= n &lt;= 10<sup>3</sup></code></li>
+	<li><code>1 &lt;= groups[i].length, sum(groups[i].length) &lt;= 10<sup><span style="font-size: 10.8333px;">3</span></sup></code></li>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>3</sup></code></li>
+	<li><code>-10<sup>7</sup> &lt;= groups[i][j], nums[k] &lt;= 10<sup>7</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心枚举
-
-我们贪心地枚举 `nums` 中每一个数 $nums[j]$ 作为子数组的开始，判断其是否与当前 $groups[i]$ 匹配，是则将指针 $i$ 往后移一位，将指针 $j$ 往后移动 $groups[i].length$ 位，否则将指针 $j$ 往后移动一位。
-
-如果 $i$ 走到了 $groups.length$，说明所有的子数组都匹配上了，返回 `true`，否则返回 `false`。
-
-时间复杂度 $O(n \times m)$，空间复杂度 $O(1)$。其中 $n$ 和 $m$ 分别为 `groups` 和 `nums` 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

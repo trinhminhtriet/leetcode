@@ -1,62 +1,57 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2594.Minimum%20Time%20to%20Repair%20Cars/README.md
+difficulty: Medium
 rating: 1915
-source: 第 100 场双周赛 Q4
+source: Biweekly Contest 100 Q4
 tags:
-    - 数组
-    - 二分查找
+    - Array
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [2594. 修车的最少时间](https://leetcode.cn/problems/minimum-time-to-repair-cars)
+# [2594. Minimum Time to Repair Cars](https://leetcode.com/problems/minimum-time-to-repair-cars)
 
-[English Version](/solution/2500-2599/2594.Minimum%20Time%20to%20Repair%20Cars/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>ranks</code>&nbsp;，表示一些机械工的 <strong>能力值</strong>&nbsp;。<code>ranks<sub>i</sub></code> 是第 <code>i</code> 位机械工的能力值。能力值为&nbsp;<code>r</code>&nbsp;的机械工可以在&nbsp;<code>r * n<sup>2</sup></code>&nbsp;分钟内修好&nbsp;<code>n</code>&nbsp;辆车。</p>
+<p>You are given an integer array <code>ranks</code> representing the <strong>ranks</strong> of some mechanics. <font face="monospace">ranks<sub>i</sub></font> is the rank of the <font face="monospace">i<sup>th</sup></font> mechanic<font face="monospace">.</font> A mechanic with a rank <code>r</code> can repair <font face="monospace">n</font> cars in <code>r * n<sup>2</sup></code> minutes.</p>
 
-<p>同时给你一个整数&nbsp;<code>cars</code>&nbsp;，表示总共需要修理的汽车数目。</p>
+<p>You are also given an integer <code>cars</code> representing the total number of cars waiting in the garage to be repaired.</p>
 
-<p>请你返回修理所有汽车&nbsp;<strong>最少</strong>&nbsp;需要多少时间。</p>
+<p>Return <em>the <strong>minimum</strong> time taken to repair all the cars.</em></p>
 
-<p><strong>注意：</strong>所有机械工可以同时修理汽车。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>ranks = [4,2,3,1], cars = 10
-<b>输出：</b>16
-<b>解释：</b>
-- 第一位机械工修 2 辆车，需要 4 * 2 * 2 = 16 分钟。
-- 第二位机械工修 2 辆车，需要 2 * 2 * 2 = 8 分钟。
-- 第三位机械工修 2 辆车，需要 3 * 2 * 2 = 12 分钟。
-- 第四位机械工修 4 辆车，需要 1 * 4 * 4 = 16 分钟。
-16 分钟是修理完所有车需要的最少时间。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>ranks = [5,1,8], cars = 6
-<b>输出：</b>16
-<b>解释：</b>
-- 第一位机械工修 1 辆车，需要 5 * 1 * 1 = 5 分钟。
-- 第二位机械工修 4 辆车，需要 1 * 4 * 4 = 16 分钟。
-- 第三位机械工修 1 辆车，需要 8 * 1 * 1 = 8 分钟。
-16 分钟时修理完所有车需要的最少时间。
-</pre>
+<p><strong>Note:</strong> All the mechanics can repair the cars simultaneously.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> ranks = [4,2,3,1], cars = 10
+<strong>Output:</strong> 16
+<strong>Explanation:</strong> 
+- The first mechanic will repair two cars. The time required is 4 * 2 * 2 = 16 minutes.
+- The second mechanic will repair two cars. The time required is 2 * 2 * 2 = 8 minutes.
+- The third mechanic will repair two cars. The time required is 3 * 2 * 2 = 12 minutes.
+- The fourth mechanic will repair four cars. The time required is 1 * 4 * 4 = 16 minutes.
+It can be proved that the cars cannot be repaired in less than 16 minutes.​​​​​
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> ranks = [5,1,8], cars = 6
+<strong>Output:</strong> 16
+<strong>Explanation:</strong> 
+- The first mechanic will repair one car. The time required is 5 * 1 * 1 = 5 minutes.
+- The second mechanic will repair four cars. The time required is 1 * 4 * 4 = 16 minutes.
+- The third mechanic will repair one car. The time required is 8 * 1 * 1 = 8 minutes.
+It can be proved that the cars cannot be repaired in less than 16 minutes.​​​​​
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= ranks.length &lt;= 10<sup>5</sup></code></li>
@@ -66,19 +61,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-我们注意到，修车时间越长，修理的汽车数目也越多。因此，我们可以将修车时间作为二分查找的目标，二分查找修车时间的最小值。
+We notice that the longer the repair time, the more cars are repaired. Therefore, we can use the repair time as the target of binary search, and binary search for the minimum repair time.
 
-我们定义二分查找的左右边界分别为 $left=0$, $right=ranks[0] \times cars \times cars$。接下来二分枚举修车时间 $mid$，每个机械工可以修理的汽车数目为 $\lfloor \sqrt{\frac{mid}{r}} \rfloor$，其中 $\lfloor x \rfloor$ 表示向下取整。如果修理的汽车数目大于等于 $cars$，则说明修车时间 $mid$ 可行，我们将右边界缩小至 $mid$，否则将左边界增大至 $mid+1$。
+We define the left and right boundaries of the binary search as $left=0$, $right=ranks[0] \times cars \times cars$. Next, we binary search for the repair time $mid$, and the number of cars each mechanic can repair is $\lfloor \sqrt{\frac{mid}{r}} \rfloor$, where $\lfloor x \rfloor$ represents rounding down. If the number of cars repaired is greater than or equal to $cars$, it means that the repair time $mid$ is feasible, we reduce the right boundary to $mid$, otherwise we increase the left boundary to $mid+1$.
 
-最终，我们返回左边界即可。
+Finally, we return the left boundary.
 
-时间复杂度 $(n \times \log M)$，空间复杂度 $O(1)$。其中 $n$ 为机械工的数量，而 $M$ 为二分查找的上界。
+The time complexity is $O(n \times \log M)$, and the space complexity is $O(1)$. Here, $n$ is the number of mechanics, and $M$ is the upper bound of the binary search.
 
 <!-- tabs:start -->
 

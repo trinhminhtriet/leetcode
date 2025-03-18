@@ -1,67 +1,58 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2583.Kth%20Largest%20Sum%20in%20a%20Binary%20Tree/README.md
+difficulty: Medium
 rating: 1374
-source: 第 335 场周赛 Q2
+source: Weekly Contest 335 Q2
 tags:
-    - 树
-    - 广度优先搜索
-    - 二叉树
-    - 排序
+    - Tree
+    - Breadth-First Search
+    - Binary Tree
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2583. 二叉树中的第 K 大层和](https://leetcode.cn/problems/kth-largest-sum-in-a-binary-tree)
+# [2583. Kth Largest Sum in a Binary Tree](https://leetcode.com/problems/kth-largest-sum-in-a-binary-tree)
 
-[English Version](/solution/2500-2599/2583.Kth%20Largest%20Sum%20in%20a%20Binary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一棵二叉树的根节点 <code>root</code> 和一个正整数 <code>k</code> 。</p>
+<p>You are given the <code>root</code> of a binary tree and a positive integer <code>k</code>.</p>
 
-<p>树中的 <strong>层和</strong> 是指 <strong>同一层</strong> 上节点值的总和。</p>
+<p>The <strong>level sum</strong> in the tree is the sum of the values of the nodes that are on the <strong>same</strong> level.</p>
 
-<p>返回树中第 <code>k</code> 大的层和（不一定不同）。如果树少于 <code>k</code> 层，则返回 <code>-1</code> 。</p>
+<p>Return<em> the </em><code>k<sup>th</sup></code><em> <strong>largest</strong> level sum in the tree (not necessarily distinct)</em>. If there are fewer than <code>k</code> levels in the tree, return <code>-1</code>.</p>
 
-<p><strong>注意</strong>，如果两个节点与根节点的距离相同，则认为它们在同一层。</p>
+<p><strong>Note</strong> that two nodes are on the same level if they have the same distance from the root.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2583.Kth%20Largest%20Sum%20in%20a%20Binary%20Tree/images/binaryytreeedrawio-2.png" style="width: 301px; height: 284px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2583.Kth%20Largest%20Sum%20in%20a%20Binary%20Tree/images/binaryytreeedrawio-2.png" style="width: 301px; height: 284px;" />
 <pre>
-<strong>输入：</strong>root = [5,8,9,2,1,3,7,4,6], k = 2
-<strong>输出：</strong>13
-<strong>解释：</strong>树中每一层的层和分别是：
-- Level 1: 5
-- Level 2: 8 + 9 = 17
-- Level 3: 2 + 1 + 3 + 7 = 13
-- Level 4: 4 + 6 = 10
-第 2 大的层和等于 13 。
+<strong>Input:</strong> root = [5,8,9,2,1,3,7,4,6], k = 2
+<strong>Output:</strong> 13
+<strong>Explanation:</strong> The level sums are the following:
+- Level 1: 5.
+- Level 2: 8 + 9 = 17.
+- Level 3: 2 + 1 + 3 + 7 = 13.
+- Level 4: 4 + 6 = 10.
+The 2<sup>nd</sup> largest level sum is 13.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2583.Kth%20Largest%20Sum%20in%20a%20Binary%20Tree/images/treedrawio-3.png" style="width: 181px; height: 181px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2583.Kth%20Largest%20Sum%20in%20a%20Binary%20Tree/images/treedrawio-3.png" style="width: 181px; height: 181px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,null,3], k = 1
-<strong>输出：</strong>3
-<strong>解释：</strong>最大的层和是 3 。
+<strong>Input:</strong> root = [1,2,null,3], k = 1
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The largest level sum is 3.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中的节点数为 <code>n</code></li>
+	<li>The number of nodes in the tree is <code>n</code>.</li>
 	<li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= Node.val &lt;= 10<sup>6</sup></code></li>
 	<li><code>1 &lt;= k &lt;= n</code></li>
@@ -69,15 +60,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS + 排序
+### Solution 1: BFS + Sorting
 
-我们可以使用 BFS 遍历二叉树，同时记录每一层的节点和，然后对节点和数组进行排序，最后返回第 $k$ 大的节点和即可。注意，如果二叉树的层数小于 $k$，则返回 $-1$。
+We can use BFS to traverse the binary tree, while recording the sum of nodes at each level, then sort the array of node sums, and finally return the $k$th largest node sum. Note that if the number of levels in the binary tree is less than $k$, then return $-1$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树的节点数。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 
@@ -281,11 +272,11 @@ function kthLargestLevelSum(root: TreeNode | null, k: number): number {
 
 <!-- solution:start -->
 
-### 方法二：DFS + 排序
+### Solution 2: DFS + Sorting
 
-我们也可以使用 DFS 遍历二叉树，同时记录每一层的节点和，然后对节点和数组进行排序，最后返回第 $k$ 大的节点和即可。注意，如果二叉树的层数小于 $k$，则返回 $-1$。
+We can also use DFS to traverse the binary tree, while recording the sum of nodes at each level, then sort the array of node sums, and finally return the $k$th largest node sum. Note that if the number of levels in the binary tree is less than $k$, then return $-1$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树的节点数。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 

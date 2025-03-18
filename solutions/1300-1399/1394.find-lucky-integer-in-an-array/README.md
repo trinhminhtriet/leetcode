@@ -1,72 +1,53 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1394.Find%20Lucky%20Integer%20in%20an%20Array/README.md
+difficulty: Easy
 rating: 1118
-source: 第 182 场周赛 Q1
+source: Weekly Contest 182 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 计数
+    - Array
+    - Hash Table
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [1394. 找出数组中的幸运数](https://leetcode.cn/problems/find-lucky-integer-in-an-array)
+# [1394. Find Lucky Integer in an Array](https://leetcode.com/problems/find-lucky-integer-in-an-array)
 
-[English Version](/solution/1300-1399/1394.Find%20Lucky%20Integer%20in%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在整数数组中，如果一个整数的出现频次和它的数值大小相等，我们就称这个整数为「幸运数」。</p>
+<p>Given an array of integers <code>arr</code>, a <strong>lucky integer</strong> is an integer that has a frequency in the array equal to its value.</p>
 
-<p>给你一个整数数组 <code>arr</code>，请你从中找出并返回一个幸运数。</p>
-
-<ul>
-	<li>如果数组中存在多个幸运数，只需返回 <strong>最大</strong> 的那个。</li>
-	<li>如果数组中不含幸运数，则返回 <strong>-1 </strong>。</li>
-</ul>
+<p>Return <em>the largest <strong>lucky integer</strong> in the array</em>. If there is no <strong>lucky integer</strong> return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>arr = [2,2,3,4]
-<strong>输出：</strong>2
-<strong>解释：</strong>数组中唯一的幸运数是 2 ，因为数值 2 的出现频次也是 2 。
+<pre>
+<strong>Input:</strong> arr = [2,2,3,4]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The only lucky number in the array is 2 because frequency[2] == 2.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>arr = [1,2,2,3,3,3]
-<strong>输出：</strong>3
-<strong>解释：</strong>1、2 以及 3 都是幸运数，只需要返回其中最大的 3 。
+<pre>
+<strong>Input:</strong> arr = [1,2,2,3,3,3]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 1, 2 and 3 are all lucky numbers, return the largest of them.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>arr = [2,2,2,3,3]
-<strong>输出：</strong>-1
-<strong>解释：</strong>数组中不存在幸运数。
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><strong>输入：</strong>arr = [5]
-<strong>输出：</strong>-1
-</pre>
-
-<p><strong>示例 5：</strong></p>
-
-<pre><strong>输入：</strong>arr = [7,7,7,7,7,7,7]
-<strong>输出：</strong>7
+<pre>
+<strong>Input:</strong> arr = [2,2,2,3,3]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> There are no lucky numbers in the array.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 500</code></li>
@@ -75,15 +56,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们可以用哈希表或数组 $cnt$ 统计 $arr$ 中每个数字出现的次数，然后遍历 $cnt$，找到满足 $cnt[x] = x$ 的最大的 $x$ 即可。如果没有这样的 $x$，则返回 $-1$。
+We can use a hash table or array $cnt$ to count the occurrences of each number in $arr$, then traverse $cnt$ to find the largest $x$ that satisfies $cnt[x] = x$. If there is no such $x$, return $-1$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为 $arr$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of $arr$.
 
 <!-- tabs:start -->
 

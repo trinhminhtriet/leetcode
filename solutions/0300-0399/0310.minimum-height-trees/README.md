@@ -1,78 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0310.Minimum%20Height%20Trees/README.md
+difficulty: Medium
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 图
-    - 拓扑排序
+    - Depth-First Search
+    - Breadth-First Search
+    - Graph
+    - Topological Sort
 ---
 
 <!-- problem:start -->
 
-# [310. 最小高度树](https://leetcode.cn/problems/minimum-height-trees)
+# [310. Minimum Height Trees](https://leetcode.com/problems/minimum-height-trees)
 
-[English Version](/solution/0300-0399/0310.Minimum%20Height%20Trees/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>树是一个无向图，其中任何两个顶点只通过一条路径连接。 换句话说，任何一个没有简单环路的连通图都是一棵树。</p>
+<p>A tree is an undirected graph in which any two vertices are connected by&nbsp;<i>exactly</i>&nbsp;one path. In other words, any connected graph without simple cycles is a tree.</p>
 
-<p>给你一棵包含&nbsp;<code>n</code>&nbsp;个节点的树，标记为&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code> 。给定数字&nbsp;<code>n</code>&nbsp;和一个有 <code>n - 1</code> 条无向边的 <code>edges</code>&nbsp;列表（每一个边都是一对标签），其中 <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> 表示树中节点 <code>a<sub>i</sub></code> 和 <code>b<sub>i</sub></code> 之间存在一条无向边。</p>
+<p>Given a tree of <code>n</code> nodes&nbsp;labelled from <code>0</code> to <code>n - 1</code>, and an array of&nbsp;<code>n - 1</code>&nbsp;<code>edges</code> where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an undirected edge between the two nodes&nbsp;<code>a<sub>i</sub></code> and&nbsp;<code>b<sub>i</sub></code> in the tree,&nbsp;you can choose any node of the tree as the root. When you select a node <code>x</code> as the root, the result tree has height <code>h</code>. Among all possible rooted trees, those with minimum height (i.e. <code>min(h)</code>)&nbsp; are called <strong>minimum height trees</strong> (MHTs).</p>
 
-<p>可选择树中任何一个节点作为根。当选择节点 <code>x</code> 作为根节点时，设结果树的高度为 <code>h</code> 。在所有可能的树中，具有最小高度的树（即，<code>min(h)</code>）被称为 <strong>最小高度树</strong> 。</p>
+<p>Return <em>a list of all <strong>MHTs&#39;</strong> root labels</em>.&nbsp;You can return the answer in <strong>any order</strong>.</p>
 
-<p>请你找到所有的 <strong>最小高度树</strong> 并按 <strong>任意顺序</strong> 返回它们的根节点标签列表。</p>
-树的 <strong>高度</strong> 是指根节点和叶子节点之间最长向下路径上边的数量。
+<p>The <strong>height</strong> of a rooted tree is the number of edges on the longest downward path between the root and a leaf.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0310.Minimum%20Height%20Trees/images/e1.jpg" style="height: 213px; width: 800px;" />
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0310.Minimum%20Height%20Trees/images/e1.jpg" style="width: 800px; height: 213px;" />
 <pre>
-<strong>输入：</strong>n = 4, edges = [[1,0],[1,2],[1,3]]
-<strong>输出：</strong>[1]
-<strong>解释：</strong>如图所示，当根是标签为 1 的节点时，树的高度是 1 ，这是唯一的最小高度树。</pre>
+<strong>Input:</strong> n = 4, edges = [[1,0],[1,2],[1,3]]
+<strong>Output:</strong> [1]
+<strong>Explanation:</strong> As shown, the height of the tree is 1 when the root is the node with label 1 which is the only MHT.
+</pre>
 
-<p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0310.Minimum%20Height%20Trees/images/e2.jpg" style="height: 321px; width: 800px;" />
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0310.Minimum%20Height%20Trees/images/e2.jpg" style="width: 800px; height: 321px;" />
 <pre>
-<strong>输入：</strong>n = 6, edges = [[3,0],[3,1],[3,2],[3,4],[5,4]]
-<strong>输出：</strong>[3,4]
+<strong>Input:</strong> n = 6, edges = [[3,0],[3,1],[3,2],[3,4],[5,4]]
+<strong>Output:</strong> [3,4]
 </pre>
 
 <p>&nbsp;</p>
-
-<ul>
-</ul>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 2 * 10<sup>4</sup></code></li>
 	<li><code>edges.length == n - 1</code></li>
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt; n</code></li>
 	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
-	<li>所有 <code>(a<sub>i</sub>, b<sub>i</sub>)</code> 互不相同</li>
-	<li>给定的输入 <strong>保证</strong> 是一棵树，并且 <strong>不会有重复的边</strong></li>
+	<li>All the pairs <code>(a<sub>i</sub>, b<sub>i</sub>)</code> are distinct.</li>
+	<li>The given input is <strong>guaranteed</strong> to be a tree and there will be <strong>no repeated</strong> edges.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：拓扑排序
+### Solution 1: Topological Sorting
 
-如果这棵树只有一个节点，那么这个节点就是最小高度树的根节点，直接返回这个节点即可。
+If the tree only has one node, then this node is the root of the minimum height tree. We can directly return this node.
 
-如果这棵树有多个节点，那么一定存在叶子节点。叶子节点是只有一个相邻节点的节点。我们可以利用拓扑排序，从外向内剥离叶子节点，当我们到达最后一层的时候，剩下的节点就是最小高度树的根节点。
+If the tree has multiple nodes, there must be leaf nodes. A leaf node is a node that only has one adjacent node. We can use topological sorting to peel off the leaf nodes from the outside to the inside. When we reach the last layer, the remaining nodes are the root nodes of the minimum height tree.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为节点数。
+The time complexity is $O(n)$ and the space complexity is $O(n)$, where $n$ is the number of nodes.
 
 <!-- tabs:start -->
 

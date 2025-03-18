@@ -1,86 +1,81 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1690.Stone%20Game%20VII/README.md
+difficulty: Medium
 rating: 1951
-source: 第 219 场周赛 Q3
+source: Weekly Contest 219 Q3
 tags:
-    - 数组
-    - 数学
-    - 动态规划
-    - 博弈
+    - Array
+    - Math
+    - Dynamic Programming
+    - Game Theory
 ---
 
 <!-- problem:start -->
 
-# [1690. 石子游戏 VII](https://leetcode.cn/problems/stone-game-vii)
+# [1690. Stone Game VII](https://leetcode.com/problems/stone-game-vii)
 
-[English Version](/solution/1600-1699/1690.Stone%20Game%20VII/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>石子游戏中，爱丽丝和鲍勃轮流进行自己的回合，<strong>爱丽丝先开始</strong> 。</p>
+<p>Alice and Bob take turns playing a game, with <strong>Alice starting first</strong>.</p>
 
-<p>有 <code>n</code> 块石子排成一排。每个玩家的回合中，可以从行中 <strong>移除</strong> 最左边的石头或最右边的石头，并获得与该行中剩余石头值之 <strong>和</strong> 相等的得分。当没有石头可移除时，得分较高者获胜。</p>
+<p>There are <code>n</code> stones arranged in a row. On each player&#39;s turn, they can <strong>remove</strong> either the leftmost stone or the rightmost stone from the row and receive points equal to the <strong>sum</strong> of the remaining stones&#39; values in the row. The winner is the one with the higher score when there are no stones left to remove.</p>
 
-<p>鲍勃发现他总是输掉游戏（可怜的鲍勃，他总是输），所以他决定尽力 <strong>减小得分的差值</strong> 。爱丽丝的目标是最大限度地 <strong>扩大得分的差值</strong> 。</p>
+<p>Bob found that he will always lose this game (poor Bob, he always loses), so he decided to <strong>minimize the score&#39;s difference</strong>. Alice&#39;s goal is to <strong>maximize the difference</strong> in the score.</p>
 
-<p>给你一个整数数组 <code>stones</code> ，其中 <code>stones[i]</code> 表示 <strong>从左边开始</strong> 的第 <code>i</code> 个石头的值，如果爱丽丝和鲍勃都 <strong>发挥出最佳水平</strong> ，请返回他们 <strong>得分的差值</strong> 。</p>
+<p>Given an array of integers <code>stones</code> where <code>stones[i]</code> represents the value of the <code>i<sup>th</sup></code> stone <strong>from the left</strong>, return <em>the <strong>difference</strong> in Alice and Bob&#39;s score if they both play <strong>optimally</strong>.</em></p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>stones = [5,3,1,4,2]
-<strong>输出：</strong>6
-<strong>解释：</strong>
-- 爱丽丝移除 2 ，得分 5 + 3 + 1 + 4 = 13 。游戏情况：爱丽丝 = 13 ，鲍勃 = 0 ，石子 = [5,3,1,4] 。
-- 鲍勃移除 5 ，得分 3 + 1 + 4 = 8 。游戏情况：爱丽丝 = 13 ，鲍勃 = 8 ，石子 = [3,1,4] 。
-- 爱丽丝移除 3 ，得分 1 + 4 = 5 。游戏情况：爱丽丝 = 18 ，鲍勃 = 8 ，石子 = [1,4] 。
-- 鲍勃移除 1 ，得分 4 。游戏情况：爱丽丝 = 18 ，鲍勃 = 12 ，石子 = [4] 。
-- 爱丽丝移除 4 ，得分 0 。游戏情况：爱丽丝 = 18 ，鲍勃 = 12 ，石子 = [] 。
-得分的差值 18 - 12 = 6 。
+<strong>Input:</strong> stones = [5,3,1,4,2]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> 
+- Alice removes 2 and gets 5 + 3 + 1 + 4 = 13 points. Alice = 13, Bob = 0, stones = [5,3,1,4].
+- Bob removes 5 and gets 3 + 1 + 4 = 8 points. Alice = 13, Bob = 8, stones = [3,1,4].
+- Alice removes 3 and gets 1 + 4 = 5 points. Alice = 18, Bob = 8, stones = [1,4].
+- Bob removes 1 and gets 4 points. Alice = 18, Bob = 12, stones = [4].
+- Alice removes 4 and gets 0 points. Alice = 18, Bob = 12, stones = [].
+The score difference is 18 - 12 = 6.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>stones = [7,90,5,1,100,10,10,2]
-<strong>输出：</strong>122</pre>
+<strong>Input:</strong> stones = [7,90,5,1,100,10,10,2]
+<strong>Output:</strong> 122</pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == stones.length</code></li>
-	<li><code>2 <= n <= 1000</code></li>
-	<li><code>1 <= stones[i] <= 1000</code></li>
+	<li><code>2 &lt;= n &lt;= 1000</code></li>
+	<li><code>1 &lt;= stones[i] &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memorization Search
 
-我们先预处理出前缀和数组 $s$，其中 $s[i]$ 表示前 $i$ 个石头的总和。
+First, we preprocess to get the prefix sum array $s$, where $s[i]$ represents the total sum of the first $i$ stones.
 
-接下来，设计一个函数 $dfs(i, j)$，表示当剩下的石子为 $stones[i], stones[i + 1], \dots, stones[j]$ 时，先手与后手的得分差值。那么答案即为 $dfs(0, n - 1)$。
+Next, we design a function $dfs(i, j)$, which represents the score difference between the first and second players when the remaining stones are $stones[i], stones[i + 1], \dots, stones[j]$. The answer is $dfs(0, n - 1)$.
 
-函数 $dfs(i, j)$ 的计算过程如下：
+The calculation process of the function $dfs(i, j)$ is as follows:
 
--   如果 $i \gt j$，说明当前没有石子，返回 $0$；
--   否则，先手有两种选择，分别是移除 $stones[i]$ 或 $stones[j]$，然后计算得分差值，即 $a = s[j + 1] - s[i + 1] - dfs(i + 1, j)$ 和 $b = s[j] - s[i] - dfs(i, j - 1)$，我们取两者中的较大值作为 $dfs(i, j)$ 的返回值。
+-   If $i > j$, it means there are no stones currently, so return $0$;
+-   Otherwise, the first player has two choices, which are to remove $stones[i]$ or $stones[j]$, and then calculate the score difference, i.e., $a = s[j + 1] - s[i + 1] - dfs(i + 1, j)$ and $b = s[j] - s[i] - dfs(i, j - 1)$. We take the larger of the two as the return value of $dfs(i, j)$.
 
-过程中，我们使用记忆化搜索，即使用数组 $f$ 记录函数 $dfs(i, j)$ 的返回值，避免重复计算。
+During the process, we use memorization search, i.e., use an array $f$ to record the return value of the function $dfs(i, j)$, to avoid repeated calculations.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为石子的数量。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the number of stones.
 
 <!-- tabs:start -->
 
@@ -223,21 +218,21 @@ function stoneGameVII(stones: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二：动态规划
+### Solution 2: Dynamic Programming
 
-我们可以将方法一中的记忆化搜索转换为动态规划，定义 $f[i][j]$ 表示当剩下的石子为 $stones[i], stones[i + 1], \dots, stones[j]$ 时，先手与后手的得分差值。那么答案即为 $f[0][n - 1]$。
+We can convert the memoization search in Solution 1 into dynamic programming. We define $f[i][j]$ as the score difference between the first and second players when the remaining stones are $stones[i], stones[i + 1], \dots, stones[j]$. Therefore, the answer is $f[0][n - 1]$.
 
-状态转移方程如下：
+The state transition equation is as follows:
 
 $$
 f[i][j] = \max(s[j + 1] - s[i + 1] - f[i + 1][j], s[j] - s[i] - f[i][j - 1])
 $$
 
-在计算 $f[i][j]$ 时，我们需要保证 $f[i + 1][j]$ 和 $f[i][j - 1]$ 已经被计算出来，因此我们需要按照从大到小的顺序枚举 $i$，从小到大的顺序枚举 $j$。
+When calculating $f[i][j]$, we need to ensure that $f[i + 1][j]$ and $f[i][j - 1]$ have been calculated. Therefore, we need to enumerate $i$ in descending order and $j$ in ascending order.
 
-最后，答案即为 $f[0][n - 1]$。
+Finally, the answer is $f[0][n - 1]$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为石子的数量。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the number of stones.
 
 <!-- tabs:start -->
 

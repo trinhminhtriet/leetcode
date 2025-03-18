@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1841.League%20Statistics/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1841. 联赛信息统计 🔒](https://leetcode.cn/problems/league-statistics)
+# [1841. League Statistics 🔒](https://leetcode.com/problems/league-statistics)
 
-[English Version](/solution/1800-1899/1841.League%20Statistics/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Teams</code></p>
+<p>Table: <code>Teams</code></p>
 
 <pre>
 +----------------+---------+
@@ -25,13 +22,13 @@ tags:
 | team_id        | int     |
 | team_name      | varchar |
 +----------------+---------+
-team_id 是该表主键.
-每一行都包含了一个参加联赛的队伍信息.
+team_id is the column with unique values for this table.
+Each row contains information about one team in the league.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>表: <code>Matches</code></p>
+<p>Table: <code>Matches</code></p>
 
 <pre>
 +-----------------+---------+
@@ -42,39 +39,38 @@ team_id 是该表主键.
 | home_team_goals | int     |
 | away_team_goals | int     |
 +-----------------+---------+
-(home_team_id, away_team_id) 是该表主键.
-每一行包含了一次比赛信息.
-home_team_goals 代表主场队得球数.
-away_team_goals 代表客场队得球数.
-获得球数较多的队伍为胜者队伍.
+(home_team_id, away_team_id) is the primary key (combination of columns with unique values) for this table.
+Each row contains information about one match.
+home_team_goals is the number of goals scored by the home team.
+away_team_goals is the number of goals scored by the away team.
+The winner of the match is the team with the higher number of goals.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>写一段SQL，用来报告联赛信息. 统计数据应使用已进行的比赛来构建，其中 <strong>获胜</strong> 球队获得 <strong>三分</strong> ，而失败球队获得<strong> 零分</strong>&nbsp;。如果 <strong>打平 </strong>，两支球队都得&nbsp;<strong>一分&nbsp;</strong>。</p>
+<p>Write a solution to report the statistics of the league. The statistics should be built using the played matches where the <strong>winning</strong> team gets <strong>three points</strong> and the <strong>losing</strong> team gets <strong>no points</strong>. If a match ends with a <strong>draw</strong>, both teams get <strong>one point</strong>.</p>
 
-<p>result 表的每行应包含以下信息:</p>
+<p>Each row of the result table should contain:</p>
 
 <ul>
-	<li><code>team_name</code> - <code>Teams</code> 表中的队伍名字</li>
-	<li><code>matches_played</code> - 主场与客场球队进行的比赛次数.</li>
-	<li><code>points</code> - 球队获得的总分数.</li>
-	<li><code>goal_for</code> - 球队在所有比赛中获取的总进球数</li>
-	<li><code>goal_against</code> - 球队在所有比赛中，他的对手球队的所有进球数</li>
-	<li><code>goal_diff</code> - <code>goal_for - goal_against</code>.</li>
+	<li><code>team_name</code> - The name of the team in the <code>Teams</code> table.</li>
+	<li><code>matches_played</code> - The number of matches played as either a home or away team.</li>
+	<li><code>points</code> - The total points the team has so far.</li>
+	<li><code>goal_for</code> - The total number of goals scored by the team across all matches.</li>
+	<li><code>goal_against</code> - The total number of goals scored by opponent teams against this team across all matches.</li>
+	<li><code>goal_diff</code> - The result of <code>goal_for - goal_against</code>.</li>
 </ul>
 
-<p>按 <code>points</code> <strong>降序</strong> 返回结果表。 如果两队或多队得分相同，则按 <code>goal_diff</code> <strong>降序</strong> 排列。 如果仍然存在平局，则以&nbsp;<code>team_name</code> <strong>按字典顺序</strong> 排列它们。</p>
+<p>Return the result table ordered by <code>points</code> <strong>in descending order</strong>. If two or more teams have the same <code>points</code>, order them by <code>goal_diff</code> <strong>in descending order</strong>. If there is still a tie, order them by <code>team_name</code> in <strong>lexicographical order</strong>.</p>
 
-<p>查询的结果格式如下例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Teams 表:
+<strong>Input:</strong> 
+Teams table:
 +---------+-----------+
 | team_id | team_name |
 +---------+-----------+
@@ -82,7 +78,7 @@ Teams 表:
 | 4       | Dortmund  |
 | 6       | Arsenal   |
 +---------+-----------+
-Matches 表:
+Matches table:
 +--------------+--------------+-----------------+-----------------+
 | home_team_id | away_team_id | home_team_goals | away_team_goals |
 +--------------+--------------+-----------------+-----------------+
@@ -91,7 +87,7 @@ Matches 表:
 | 4            | 1            | 5               | 2               |
 | 6            | 1            | 0               | 0               |
 +--------------+--------------+-----------------+-----------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-----------+----------------+--------+----------+--------------+-----------+
 | team_name | matches_played | points | goal_for | goal_against | goal_diff |
 +-----------+----------------+--------+----------+--------------+-----------+
@@ -99,19 +95,20 @@ Matches 表:
 | Arsenal   | 2              | 2      | 3        | 3            | 0         |
 | Ajax      | 4              | 2      | 5        | 9            | -4        |
 +-----------+----------------+--------+----------+--------------+-----------+
-<strong>解释：</strong>
-Ajax (team_id=1) 有4场比赛: 2败2平. 总分数 = 0 + 0 + 1 + 1 = 2.
-Dortmund (team_id=4) 有2场比赛: 2胜. 总分数 = 3 + 3 = 6.
-Arsenal (team_id=6) 有2场比赛: 2平. 总分数 = 1 + 1 = 2.
-Dortmund 是积分榜上的第一支球队. Ajax和Arsenal 有同样的分数, 但Arsenal的goal_diff高于Ajax, 所以Arsenal在表中的顺序在Ajaxzhi'qian.</pre>
+<strong>Explanation:</strong> 
+Ajax (team_id=1) played 4 matches: 2 losses and 2 draws. Total points = 0 + 0 + 1 + 1 = 2.
+Dortmund (team_id=4) played 2 matches: 2 wins. Total points = 3 + 3 = 6.
+Arsenal (team_id=6) played 2 matches: 2 draws. Total points = 1 + 1 = 2.
+Dortmund is the first team in the table. Ajax and Arsenal have the same points, but since Arsenal has a higher goal_diff than Ajax, Arsenal comes before Ajax in the table.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

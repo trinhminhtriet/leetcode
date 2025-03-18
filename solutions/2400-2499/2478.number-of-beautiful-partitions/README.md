@@ -1,106 +1,101 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2478.Number%20of%20Beautiful%20Partitions/README.md
+difficulty: Hard
 rating: 2344
-source: 第 320 场周赛 Q4
+source: Weekly Contest 320 Q4
 tags:
-    - 字符串
-    - 动态规划
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2478. 完美分割的方案数](https://leetcode.cn/problems/number-of-beautiful-partitions)
+# [2478. Number of Beautiful Partitions](https://leetcode.com/problems/number-of-beautiful-partitions)
 
-[English Version](/solution/2400-2499/2478.Number%20of%20Beautiful%20Partitions/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>s</code>&nbsp;，每个字符是数字&nbsp;<code>'1'</code>&nbsp;到&nbsp;<code>'9'</code>&nbsp;，再给你两个整数&nbsp;<code>k</code> 和&nbsp;<code>minLength</code>&nbsp;。</p>
+<p>You are given a string <code>s</code> that consists of the digits <code>&#39;1&#39;</code> to <code>&#39;9&#39;</code> and two integers <code>k</code> and <code>minLength</code>.</p>
 
-<p>如果对 <code>s</code>&nbsp;的分割满足以下条件，那么我们认为它是一个 <strong>完美</strong>&nbsp;分割：</p>
+<p>A partition of <code>s</code> is called <strong>beautiful</strong> if:</p>
 
 <ul>
-	<li><code>s</code>&nbsp;被分成 <code>k</code>&nbsp;段互不相交的子字符串。</li>
-	<li>每个子字符串长度都 <strong>至少</strong>&nbsp;为&nbsp;<code>minLength</code>&nbsp;。</li>
-	<li>每个子字符串的第一个字符都是一个 <b>质数</b> 数字，最后一个字符都是一个 <strong>非质数</strong>&nbsp;数字。质数数字为&nbsp;<code>'2'</code>&nbsp;，<code>'3'</code>&nbsp;，<code>'5'</code>&nbsp;和&nbsp;<code>'7'</code>&nbsp;，剩下的都是非质数数字。</li>
+	<li><code>s</code> is partitioned into <code>k</code> non-intersecting substrings.</li>
+	<li>Each substring has a length of <strong>at least</strong> <code>minLength</code>.</li>
+	<li>Each substring starts with a <strong>prime</strong> digit and ends with a <strong>non-prime</strong> digit. Prime digits are <code>&#39;2&#39;</code>, <code>&#39;3&#39;</code>, <code>&#39;5&#39;</code>, and <code>&#39;7&#39;</code>, and the rest of the digits are non-prime.</li>
 </ul>
 
-<p>请你返回 <code>s</code>&nbsp;的 <strong>完美</strong>&nbsp;分割数目。由于答案可能很大，请返回答案对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后的结果。</p>
+<p>Return<em> the number of <strong>beautiful</strong> partitions of </em><code>s</code>. Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
-<p>一个 <strong>子字符串</strong>&nbsp;是字符串中一段连续字符串序列。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>s = "23542185131", k = 3, minLength = 2
-<b>输出：</b>3
-<b>解释：</b>存在 3 种完美分割方案：
-"2354 | 218 | 5131"
-"2354 | 21851 | 31"
-"2354218 | 51 | 31"
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>s = "23542185131", k = 3, minLength = 3
-<b>输出：</b>1
-<b>解释：</b>存在一种完美分割方案："2354 | 218 | 5131" 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>s = "3312958", k = 3, minLength = 1
-<b>输出：</b>1
-<b>解释：</b>存在一种完美分割方案："331 | 29 | 58" 。
-</pre>
+<p>A <strong>substring</strong> is a contiguous sequence of characters within a string.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;23542185131&quot;, k = 3, minLength = 2
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> There exists three ways to create a beautiful partition:
+&quot;2354 | 218 | 5131&quot;
+&quot;2354 | 21851 | 31&quot;
+&quot;2354218 | 51 | 31&quot;
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;23542185131&quot;, k = 3, minLength = 3
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> There exists one way to create a beautiful partition: &quot;2354 | 218 | 5131&quot;.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;3312958&quot;, k = 3, minLength = 1
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> There exists one way to create a beautiful partition: &quot;331 | 29 | 58&quot;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k, minLength &lt;= s.length &lt;= 1000</code></li>
-	<li><code>s</code>&nbsp;每个字符都为数字&nbsp;<code>'1'</code>&nbsp;到&nbsp;<code>'9'</code> 之一。</li>
+	<li><code>s</code> consists of the digits <code>&#39;1&#39;</code> to <code>&#39;9&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][j]$ 表示前 $i$ 个字符分割成 $j$ 段的方案数。初始化 $f[0][0] = 1$，其余 $f[i][j] = 0$。
+We define $f[i][j]$ as the number of schemes for dividing the first $i$ characters into $j$ sections. Initialize $f[0][0] = 1$, and the rest $f[i][j] = 0$.
 
-首先，我们需要判断第 $i$ 个字符是否能成为第 $j$ 段的最后一个字符，它需要同时满足以下条件：
+First, we need to determine whether the $i$th character can be the last character of the $j$th section, it needs to meet the following conditions simultaneously:
 
-1. 第 $i$ 个字符是一个非质数；
-1. 第 $i+1$ 个字符是一个质数，或者第 $i$ 个字符是整个字符串的最后一个字符。
+1. The $i$th character is a non-prime number;
+1. The $i+1$th character is a prime number, or the $i$th character is the last character of the entire string.
 
-如果第 $i$ 个字符不能成为第 $j$ 段的最后一个字符，那么 $f[i][j]=0$。否则有：
+If the $i$th character cannot be the last character of the $j$th section, then $f[i][j]=0$. Otherwise, we have:
 
 $$
 f[i][j]=\sum_{t=0}^{i-minLength}f[t][j-1]
 $$
 
-也就是说，我们要枚举上一段的结尾是哪个字符。这里我们用前缀和数组 $g[i][j] = \sum_{t=0}^{i}f[t][j]$ 来优化枚举的时间复杂度。
+That is to say, we need to enumerate which character is the end of the previous section. Here we use the prefix sum array $g[i][j] = \sum_{t=0}^{i}f[t][j]$ to optimize the time complexity of enumeration.
 
-那么有：
+Then we have:
 
 $$
 f[i][j]=g[i-minLength][j-1]
 $$
 
-时间复杂度 $O(n \times k)$，空间复杂度 $O(n \times k)$。其中 $n$ 和 $k$ 分别是字符串 $s$ 的长度和分割的段数。
+The time complexity is $O(n \times k)$, and the space complexity is $O(n \times k)$. Where $n$ and $k$ are the length of the string $s$ and the number of sections to be divided, respectively.
 
 <!-- tabs:start -->
 

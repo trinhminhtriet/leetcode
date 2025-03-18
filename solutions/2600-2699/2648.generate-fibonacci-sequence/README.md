@@ -1,35 +1,31 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2648.Generate%20Fibonacci%20Sequence/README.md
+difficulty: Easy
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2648. 生成斐波那契数列](https://leetcode.cn/problems/generate-fibonacci-sequence)
+# [2648. Generate Fibonacci Sequence](https://leetcode.com/problems/generate-fibonacci-sequence)
 
-[English Version](/solution/2600-2699/2648.Generate%20Fibonacci%20Sequence/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你编写一个生成器函数，并返回一个可以生成 <strong>斐波那契数列</strong> 的生成器对象。</p>
+<p>Write a generator function that returns a generator object which yields the&nbsp;<strong>fibonacci sequence</strong>.</p>
 
-<p><strong>斐波那契数列</strong> 的递推公式为 <code>X<sub>n</sub>&nbsp;= X<sub>n-1</sub>&nbsp;+ X<sub>n-2</sub></code> 。</p>
+<p>The&nbsp;<strong>fibonacci sequence</strong>&nbsp;is defined by the relation <code>X<sub>n</sub>&nbsp;= X<sub>n-1</sub>&nbsp;+ X<sub>n-2</sub></code>.</p>
 
-<p>这个数列的前几个数字是 <code>0, 1, 1, 2, 3, 5, 8, 13</code>&nbsp;。</p>
+<p>The first few numbers&nbsp;of the series are <code>0, 1, 1, 2, 3, 5, 8, 13</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>callCount = 5
-<b>输出：</b>[0,1,1,2,3]
-<strong>解释：</strong>
+<strong>Input:</strong> callCount = 5
+<strong>Output:</strong> [0,1,1,2,3]
+<strong>Explanation:</strong>
 const gen = fibGenerator();
 gen.next().value; // 0
 gen.next().value; // 1
@@ -38,17 +34,16 @@ gen.next().value; // 2
 gen.next().value; // 3
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>callCount = 0
-<strong>输出：</strong>[]
-<b>解释：</b>gen.next() 永远不会被调用，所以什么也不会输出
+<strong>Input:</strong> callCount = 0
+<strong>Output:</strong> []
+<strong>Explanation:</strong> gen.next() is never called so nothing is outputted
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= callCount &lt;= 50</code></li>
@@ -56,11 +51,11 @@ gen.next().value; // 3
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

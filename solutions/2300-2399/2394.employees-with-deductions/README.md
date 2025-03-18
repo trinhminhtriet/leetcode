@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2394.Employees%20With%20Deductions/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2394. 开除员工 🔒](https://leetcode.cn/problems/employees-with-deductions)
+# [2394. Employees With Deductions 🔒](https://leetcode.com/problems/employees-with-deductions)
 
-[English Version](/solution/2300-2399/2394.Employees%20With%20Deductions/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Employees</code></p>
+<p>Table: <code>Employees</code></p>
 
 <pre>
 +--------------+------+
@@ -25,13 +22,13 @@ tags:
 | employee_id  | int  |
 | needed_hours | int  |
 +--------------+------+
-employee_id 是该表具有的唯一值的列。
-每一行都包含员工的 id 和他们获得工资所需的最低工作时数。
+employee_id is column with unique values for this table.
+Each row contains the id of an employee and the minimum number of hours needed for them to work to get their salary.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>表: <code>Logs</code></p>
+<p>Table: <code>Logs</code></p>
 
 <pre>
 +-------------+----------+
@@ -41,32 +38,31 @@ employee_id 是该表具有的唯一值的列。
 | in_time     | datetime |
 | out_time    | datetime |
 +-------------+----------+
-(employee_id, in_time, out_time) 是该表的主键（具有唯一值的列的组合）。
-该表的每一行都显示了员工的时间戳。in_time 是员工开始工作的时间，out_time 是员工结束工作的时间。
-所有时间都在 2022 年 10 月。out_time 可以是 in_time 之后的一天，这意味着该员工在午夜之后工作。
+(employee_id, in_time, out_time) is the primary key (combination of columns with unique values) for this table.
+Each row of this table shows the time stamps for an employee. in_time is the time the employee started to work, and out_time is the time the employee ended work.
+All the times are in October 2022. out_time can be one day after in_time which means the employee worked after the midnight.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>在公司里，每个员工每个月必须工作一定的小时数。员工在工作段中工作。员工工作的小时数可以通过员工在所有工作段中工作的分钟数的总和来计算。每个工作段的分钟数是向上取整的。</p>
+<p>In a company, each employee must work a certain number of hours every month. Employees work in sessions. The number of hours an employee worked can be calculated from the sum of the number of minutes the employee worked in all of their sessions. The number of minutes in each session is rounded up.</p>
 
 <ul>
-	<li>例如，如果员工在一个时间段中工作了 <code>51</code> 分 <code>2</code> 秒，我们就认为它是 <code>52</code> 分钟。</li>
+	<li>For example, if the employee worked for <code>51</code> minutes and <code>2</code> seconds in a session, we consider it <code>52</code> minutes.</li>
 </ul>
 
-<p>编写解决方案来报告将被开除的员工的 id。换句话说，报告没有工作所需时间的员工的 id。</p>
+<p>Write a solution to report the IDs of the employees that will be deducted. In other words, report the IDs of the employees that did not work the needed hours.</p>
 
-<p data-group="1-1">以 <strong>任意顺序</strong> 返回结果表。</p>
+<p>Return the result table <strong>in any order</strong>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
-Employees 表:
+<strong>Input:</strong> 
+Employees table:
 +-------------+--------------+
 | employee_id | needed_hours |
 +-------------+--------------+
@@ -74,7 +70,7 @@ Employees 表:
 | 2           | 12           |
 | 3           | 2            |
 +-------------+--------------+
-Logs 表:
+Logs table:
 +-------------+---------------------+---------------------+
 | employee_id | in_time             | out_time            |
 +-------------+---------------------+---------------------+
@@ -83,36 +79,36 @@ Logs 表:
 | 1           | 2022-10-12 23:00:00 | 2022-10-13 03:00:01 |
 | 2           | 2022-10-29 12:00:00 | 2022-10-29 23:58:58 |
 +-------------+---------------------+---------------------+
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +-------------+
 | employee_id |
 +-------------+
 | 2           |
 | 3           |
 +-------------+
-<strong>解释:</strong> 
-员工 1:
- - 参加了三个工作段:
-    - 在 2022-10-01, 他工作了 8 个小时。
-    - 在 2022-10-06, 他工作了 8 小时 4 分钟。
-    - 在 2022-10-12, 他工作了 4 小时 1 分钟。请注意，他一直工作到午夜。
- - 员工 1 在各个时段总共工作了 20 小时5分钟，不被开除。
-员工 2:
- - 参加了一个工作段:
-    - 在 2022-10-29, 他工作了 11 小时 59 分钟。
- - 员工 2 没有工作足够的时长，将被开除。
-员工 3:
- - 没有任何工作段。
- - 员工 3 没有工作足够的时长，将被开除。
+<strong>Explanation:</strong> 
+Employee 1:
+ - Worked for three sessions:
+    - On 2022-10-01, they worked for 8 hours.
+    - On 2022-10-06, they worked for 8 hours and 4 minutes.
+    - On 2022-10-12, they worked for 4 hours and 1 minute. Note that they worked through midnight.
+ - Employee 1 worked a total of 20 hours and 5 minutes across sessions and will not be deducted.
+Employee 2:
+ - Worked for one session:
+    - On 2022-10-29, they worked for 11 hours and 59 minutes.
+ - Employee 2 did not work their hours and will be deducted.
+Employee 3:
+ - Did not work any session.
+ - Employee 3 did not work their hours and will be deducted.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

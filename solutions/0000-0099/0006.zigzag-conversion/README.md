@@ -1,88 +1,83 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0006.Zigzag%20Conversion/README.md
+difficulty: Medium
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [6. Z 字形变换](https://leetcode.cn/problems/zigzag-conversion)
+# [6. Zigzag Conversion](https://leetcode.com/problems/zigzag-conversion)
 
-[English Version](/solution/0000-0099/0006.Zigzag%20Conversion/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>将一个给定字符串 <code>s</code> 根据给定的行数 <code>numRows</code> ，以从上往下、从左到右进行 Z 字形排列。</p>
-
-<p>比如输入字符串为 <code>"PAYPALISHIRING"</code> 行数为 <code>3</code> 时，排列如下：</p>
+<p>The string <code>&quot;PAYPALISHIRING&quot;</code> is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)</p>
 
 <pre>
 P   A   H   N
 A P L S I I G
-Y   I   R</pre>
-
-<p>之后，你的输出需要从左往右逐行读取，产生出一个新的字符串，比如：<code>"PAHNAPLSIIGYIR"</code>。</p>
-
-<p>请你实现这个将字符串进行指定行数变换的函数：</p>
-
-<pre>
-string convert(string s, int numRows);</pre>
-
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "PAYPALISHIRING", numRows = 3
-<strong>输出：</strong>"PAHNAPLSIIGYIR"
+Y   I   R
 </pre>
 
-<strong>示例 2：</strong>
+<p>And then read line by line: <code>&quot;PAHNAPLSIIGYIR&quot;</code></p>
+
+<p>Write the code that will take a string and make this conversion given a number of rows:</p>
 
 <pre>
-<strong>输入：</strong>s = "PAYPALISHIRING", numRows = 4
-<strong>输出：</strong>"PINALSIGYAHRPI"
-<strong>解释：</strong>
+string convert(string s, int numRows);
+</pre>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;PAYPALISHIRING&quot;, numRows = 3
+<strong>Output:</strong> &quot;PAHNAPLSIIGYIR&quot;
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;PAYPALISHIRING&quot;, numRows = 4
+<strong>Output:</strong> &quot;PINALSIGYAHRPI&quot;
+<strong>Explanation:</strong>
 P     I    N
 A   L S  I G
 Y A   H R
 P     I
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "A", numRows = 1
-<strong>输出：</strong>"A"
+<strong>Input:</strong> s = &quot;A&quot;, numRows = 1
+<strong>Output:</strong> &quot;A&quot;
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= s.length <= 1000</code></li>
-	<li><code>s</code> 由英文字母（小写和大写）、<code>','</code> 和 <code>'.'</code> 组成</li>
-	<li><code>1 <= numRows <= 1000</code></li>
+	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
+	<li><code>s</code> consists of English letters (lower-case and upper-case), <code>&#39;,&#39;</code> and <code>&#39;.&#39;</code>.</li>
+	<li><code>1 &lt;= numRows &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们用一个二维数组 $g$ 来模拟 $Z$ 字形排列的过程，其中 $g[i][j]$ 表示第 $i$ 行第 $j$ 列的字符。初始时 $i=0$，另外我们定义一个方向变量 $k$，初始时 $k=-1$，表示向上走。
+We use a two-dimensional array $g$ to simulate the process of the $Z$-shape arrangement, where $g[i][j]$ represents the character at the $i$-th row and the $j$-th column. Initially, $i=0$, and we define a direction variable $k$, initially $k=-1$, indicating moving upwards.
 
-我们从左到右遍历字符串 $s$，每次遍历到一个字符 $c$，将其追加到 $g[i]$ 中，如果此时 $i=0$ 或者 $i=numRows-1$，说明当前字符位于 $Z$ 字形排列的拐点，我们将 $k$ 的值反转，即 $k=-k$。接下来，我们将 $i$ 的值更新为 $i+k$，即向上或向下移动一行。继续遍历下一个字符，直到遍历完字符串 $s$，我们返回 $g$ 中所有行拼接后的字符串即可。
+We traverse the string $s$ from left to right. Each time we traverse to a character $c$, we append it to $g[i]$. If $i=0$ or $i=numRows-1$ at this time, it means that the current character is at the turning point of the $Z$-shape arrangement, and we reverse the value of $k$, i.e., $k=-k$. Next, we update the value of $i$ to $i+k$, i.e., move up or down one row. Continue to traverse the next character until we have traversed the string $s$, and we return the string concatenated by all rows in $g$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 
@@ -288,7 +283,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

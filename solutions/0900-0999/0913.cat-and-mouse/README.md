@@ -1,110 +1,106 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0913.Cat%20and%20Mouse/README.md
+difficulty: Hard
 tags:
-    - 图
-    - 拓扑排序
-    - 记忆化搜索
-    - 数学
-    - 动态规划
-    - 博弈
+    - Graph
+    - Topological Sort
+    - Memoization
+    - Math
+    - Dynamic Programming
+    - Game Theory
 ---
 
 <!-- problem:start -->
 
-# [913. 猫和老鼠](https://leetcode.cn/problems/cat-and-mouse)
+# [913. Cat and Mouse](https://leetcode.com/problems/cat-and-mouse)
 
-[English Version](/solution/0900-0999/0913.Cat%20and%20Mouse/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>两位玩家分别扮演猫和老鼠，在一张 <strong>无向</strong> 图上进行游戏，两人轮流行动。</p>
+<p>A game on an <strong>undirected</strong> graph is played by two players, Mouse and Cat, who alternate turns.</p>
 
-<p>图的形式是：<code>graph[a]</code> 是一个列表，由满足&nbsp;<code>ab</code> 是图中的一条边的所有节点 <code>b</code> 组成。</p>
+<p>The graph is given as follows: <code>graph[a]</code> is a list of all nodes <code>b</code> such that <code>ab</code> is an edge of the graph.</p>
 
-<p>老鼠从节点 <code>1</code> 开始，第一个出发；猫从节点 <code>2</code> 开始，第二个出发。在节点 <code>0</code> 处有一个洞。</p>
+<p>The mouse starts at node <code>1</code> and goes first, the cat starts at node <code>2</code> and goes second, and there is a hole at node <code>0</code>.</p>
 
-<p>在每个玩家的行动中，他们 <strong>必须</strong> 沿着图中与所在当前位置连通的一条边移动。例如，如果老鼠在节点 <code>1</code> ，那么它必须移动到 <code>graph[1]</code> 中的任一节点。</p>
+<p>During each player&#39;s turn, they <strong>must</strong> travel along one&nbsp;edge of the graph that meets where they are.&nbsp; For example, if the Mouse is at node 1, it <strong>must</strong> travel to any node in <code>graph[1]</code>.</p>
 
-<p>此外，猫无法移动到洞中（节点 <code>0</code>）。</p>
+<p>Additionally, it is not allowed for the Cat to travel to the Hole (node <code>0</code>).</p>
 
-<p>然后，游戏在出现以下三种情形之一时结束：</p>
-
-<ul>
-	<li>如果猫和老鼠出现在同一个节点，猫获胜。</li>
-	<li>如果老鼠到达洞中，老鼠获胜。</li>
-	<li>如果某一位置重复出现（即，玩家的位置和移动顺序都与上一次行动相同），游戏平局。</li>
-</ul>
-
-<p>给你一张图 <code>graph</code> ，并假设两位玩家都都以最佳状态参与游戏：</p>
+<p>Then, the game can end in three&nbsp;ways:</p>
 
 <ul>
-	<li>如果老鼠获胜，则返回&nbsp;<code>1</code>；</li>
-	<li>如果猫获胜，则返回 <code>2</code>；</li>
-	<li>如果平局，则返回 <code>0</code> 。</li>
+	<li>If ever the Cat occupies the same node as the Mouse, the Cat wins.</li>
+	<li>If ever the Mouse reaches the Hole, the Mouse wins.</li>
+	<li>If ever a position is repeated (i.e., the players are in the same position as a previous turn, and&nbsp;it is the same player&#39;s turn to move), the game is a draw.</li>
 </ul>
-&nbsp;
 
-<p><strong class="example">示例 1：</strong></p>
+<p>Given a <code>graph</code>, and assuming both players play optimally, return</p>
+
+<ul>
+	<li><code>1</code>&nbsp;if the mouse wins the game,</li>
+	<li><code>2</code>&nbsp;if the cat wins the game, or</li>
+	<li><code>0</code>&nbsp;if the game is a draw.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0913.Cat%20and%20Mouse/images/cat1.jpg" style="width: 300px; height: 300px;" />
 <pre>
-<strong>输入：</strong>graph = [[2,5],[3],[0,4,5],[1,4,5],[2,3],[0,2,3]]
-<strong>输出：</strong>0
+<strong>Input:</strong> graph = [[2,5],[3],[0,4,5],[1,4,5],[2,3],[0,2,3]]
+<strong>Output:</strong> 0
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0913.Cat%20and%20Mouse/images/cat2.jpg" style="width: 200px; height: 200px;" />
 <pre>
-<strong>输入：</strong>graph = [[1,3],[0],[3],[0,2]]
-<strong>输出：</strong>1
+<strong>Input:</strong> graph = [[1,3],[0],[3],[0,2]]
+<strong>Output:</strong> 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= graph.length &lt;= 50</code></li>
 	<li><code>1&nbsp;&lt;= graph[i].length &lt; graph.length</code></li>
 	<li><code>0 &lt;= graph[i][j] &lt; graph.length</code></li>
 	<li><code>graph[i][j] != i</code></li>
-	<li><code>graph[i]</code> 互不相同</li>
-	<li>猫和老鼠在游戏中总是可以移动</li>
+	<li><code>graph[i]</code> is unique.</li>
+	<li>The mouse and the cat can always move.&nbsp;</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：拓扑排序
+### Solution 1: Topological Sorting
 
-根据题目描述，游戏中的状态由老鼠的位置、猫的位置和移动方决定。当状态为以下情况，可以直接确定胜负：
+According to the problem description, the state of the game is determined by the position of the mouse, the position of the cat, and the player who is moving. The outcome can be directly determined in the following situations:
 
--   当猫和老鼠的位置相同时，猫获胜，这是猫的必胜状态，老鼠的必败状态。
--   当老鼠位于洞时，老鼠获胜，这是老鼠的必胜状态，猫的必败状态。
+-   When the positions of the cat and the mouse are the same, the cat wins. This is a winning state for the cat and a losing state for the mouse.
+-   When the mouse is at the hole, the mouse wins. This is a winning state for the mouse and a losing state for the cat.
 
-为了得到初始状态的游戏结果，需要从边界状态开始遍历所有的状态。每个状态包含老鼠的位置、猫的位置和移动方，根据当前状态可以得到上一轮的所有可能状态，上一轮状态的移动方和当前状态的移动方相反，上一轮状态的移动方在上一轮状态的位置和当前状态的位置不同。
+To determine the result of the initial state, we need to traverse all states starting from the boundary states. Each state includes the position of the mouse, the position of the cat, and the player who is moving. Based on the current state, we can determine all possible states from the previous round. The player who moved in the previous round is the opposite of the player who is moving in the current state, and the positions of the players in the previous round are different from their positions in the current state.
 
-我们用元组 $(m, c, t)$ 表示本轮的状态，用 $(pm, pc, pt)$ 表示上一轮可能的状态，那么上一轮的所有可能状态有：
+We use the tuple $(m, c, t)$ to represent the current state and $(pm, pc, pt)$ to represent a possible state from the previous round. The possible states from the previous round are:
 
--   如果本轮的移动方是老鼠，那么上一轮的移动方是猫，上一轮的老鼠位置是本轮老鼠位置，上一轮的猫位置是本轮猫位置的所有邻接点。
--   如果本轮的移动方是猫，那么上一轮的移动方是老鼠，上一轮的猫位置是本轮猫位置，上一轮的老鼠位置是本轮老鼠位置的所有邻接点。
+-   If the player moving in the current round is the mouse, then the player moving in the previous round is the cat. The position of the mouse in the previous round is the same as the current position of the mouse, and the position of the cat in the previous round is any adjacent node of the current position of the cat.
+-   If the player moving in the current round is the cat, then the player moving in the previous round is the mouse. The position of the cat in the previous round is the same as the current position of the cat, and the position of the mouse in the previous round is any adjacent node of the current position of the mouse.
 
-初始时，除了边界状态以外，其他所有状态的结果都是未知的。我们从边界状态开始，对于每个状态，得到上一轮的所有可能状态并更新结果，更新的逻辑如下：
+Initially, all states except the boundary states are unknown. Starting from the boundary states, for each state, we determine all possible states from the previous round and update the results. The update logic is as follows:
 
-1. 如果上一轮的移动方与本轮的获胜方相同，那么上一轮的移动方可以到达当前状态并获胜，直接更新上一轮的状态为本轮的获胜方。
-1. 如果上一轮的移动方与本轮的获胜方不同，且上一轮的移动方可以到达的所有状态都是上一轮的移动方的必败状态，那么我们将上一轮的状态更新为本轮的获胜方。
+1. If the player moving in the previous round is the same as the winner in the current round, then the player moving in the previous round can reach the current state and win. We directly update the state of the previous round to the winner of the current round.
+2. If the player moving in the previous round is different from the winner in the current round, and all states that the player moving in the previous round can reach are losing states for that player, then we update the state of the previous round to the winner of the current round.
 
-对于第 $2$ 个更新逻辑，我们需要记录每个状态的度。初始时，每个状态的度表示该状态的移动方可以移动到的结点数，即移动方所在节点的相邻结点数，如果移动方是猫且所在结点与洞相邻则需要将该状态的度减 $1$。
+For the second update logic, we need to record the degree of each state. Initially, the degree of each state represents the number of nodes the player moving in that state can move to, which is the number of adjacent nodes of the node where the player is located. If the player is the cat and the node is adjacent to the hole, the degree of that state is reduced by $1$.
 
-当所有状态的结果都更新完毕时，初始状态的结果即为最终结果。
+When all states have been updated, the result of the initial state is the final result.
 
-时间复杂度 $O(n^3)$，空间复杂度 $O(n^2)$。其中 $n$ 是图中的结点数。
+The time complexity is $O(n^3)$, and the space complexity is $O(n^2)$. Here, $n$ is the number of nodes in the graph.
 
 <!-- tabs:start -->
 

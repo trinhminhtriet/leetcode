@@ -1,70 +1,55 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0668.Kth%20Smallest%20Number%20in%20Multiplication%20Table/README.md
+difficulty: Hard
 tags:
-    - 数学
-    - 二分查找
+    - Math
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [668. 乘法表中第k小的数](https://leetcode.cn/problems/kth-smallest-number-in-multiplication-table)
+# [668. Kth Smallest Number in Multiplication Table](https://leetcode.com/problems/kth-smallest-number-in-multiplication-table)
 
-[English Version](/solution/0600-0699/0668.Kth%20Smallest%20Number%20in%20Multiplication%20Table/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>几乎每一个人都用&nbsp;<a href="https://baike.baidu.com/item/%E4%B9%98%E6%B3%95%E8%A1%A8">乘法表</a>。但是你能在乘法表中快速找到第 <code>k</code> 小的数字吗？</p>
+<p>Nearly everyone has used the <a href="https://en.wikipedia.org/wiki/Multiplication_table" target="_blank">Multiplication Table</a>. The multiplication table of size <code>m x n</code> is an integer matrix <code>mat</code> where <code>mat[i][j] == i * j</code> (<strong>1-indexed</strong>).</p>
 
-<p>乘法表是大小为 <code>m x n</code> 的一个整数矩阵，其中&nbsp;<code>mat[i][j] == i * j</code>（下标从 <strong>1</strong> 开始）。</p>
+<p>Given three integers <code>m</code>, <code>n</code>, and <code>k</code>, return <em>the </em><code>k<sup>th</sup></code><em> smallest element in the </em><code>m x n</code><em> multiplication table</em>.</p>
 
-<p>给你三个整数 <code>m</code>、<code>n</code> 和 <code>k</code>，请你在大小为&nbsp;<code>m x n</code> 的乘法表中，找出并返回第 <code>k</code>&nbsp;小的数字。</p>
-
-<div class="original__bRMd">
-<div>
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0668.Kth%20Smallest%20Number%20in%20Multiplication%20Table/images/multtable1-grid.jpg" style="width: 500px; height: 254px;" />
 <pre>
-<strong>输入：</strong>m = 3, n = 3, k = 5
-<strong>输出：</strong>3
-<strong>解释：</strong>第 5 小的数字是 3 。
+<strong>Input:</strong> m = 3, n = 3, k = 5
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The 5<sup>th</sup> smallest number is 3.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0668.Kth%20Smallest%20Number%20in%20Multiplication%20Table/images/multtable2-grid.jpg" style="width: 493px; height: 293px;" />
 <pre>
-<strong>输入：</strong>m = 2, n = 3, k = 6
-<strong>输出：</strong>6
-<strong>解释：</strong>第 6 小的数字是 6 。
+<strong>Input:</strong> m = 2, n = 3, k = 6
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The 6<sup>th</sup> smallest number is 6.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= m, n &lt;= 3 * 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= k &lt;= m * n</code></li>
 </ul>
-</div>
-</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
-
-题目可以转换为，求有多少个数不超过 x。对于每一行 i，所有数都是 i 的倍数，不超过 x 的个数有 `x / i` 个。
-
-二分枚举 x，累加每一行不超过 x 的个数，得到 cnt。找到 `cnt >= k` 的最小 x。
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,50 +1,43 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1128.Number%20of%20Equivalent%20Domino%20Pairs/README.md
+difficulty: Easy
 rating: 1332
-source: 第 146 场周赛 Q1
+source: Weekly Contest 146 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 计数
+    - Array
+    - Hash Table
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [1128. 等价多米诺骨牌对的数量](https://leetcode.cn/problems/number-of-equivalent-domino-pairs)
+# [1128. Number of Equivalent Domino Pairs](https://leetcode.com/problems/number-of-equivalent-domino-pairs)
 
-[English Version](/solution/1100-1199/1128.Number%20of%20Equivalent%20Domino%20Pairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一组多米诺骨牌 <code>dominoes</code> 。</p>
+<p>Given a list of <code>dominoes</code>, <code>dominoes[i] = [a, b]</code> is <strong>equivalent to</strong> <code>dominoes[j] = [c, d]</code> if and only if either (<code>a == c</code> and <code>b == d</code>), or (<code>a == d</code> and <code>b == c</code>) - that is, one domino can be rotated to be equal to another domino.</p>
 
-<p>形式上，<code>dominoes[i] = [a, b]</code> 与 <code>dominoes[j] = [c, d]</code> <strong>等价</strong> 当且仅当 (<code>a == c</code> 且 <code>b == d</code>) 或者 (<code>a == d</code> 且 <code>b == c</code>) 。即一张骨牌可以通过旋转 <code>0</code>&nbsp;度或 <code>180</code> 度得到另一张多米诺骨牌。</p>
-
-<p>在&nbsp;<code>0 &lt;= i &lt; j &lt; dominoes.length</code>&nbsp;的前提下，找出满足&nbsp;<code>dominoes[i]</code> 和&nbsp;<code>dominoes[j]</code>&nbsp;等价的骨牌对 <code>(i, j)</code> 的数量。</p>
+<p>Return <em>the number of pairs </em><code>(i, j)</code><em> for which </em><code>0 &lt;= i &lt; j &lt; dominoes.length</code><em>, and </em><code>dominoes[i]</code><em> is <strong>equivalent to</strong> </em><code>dominoes[j]</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>dominoes = [[1,2],[2,1],[3,4],[5,6]]
-<strong>输出：</strong>1
+<strong>Input:</strong> dominoes = [[1,2],[2,1],[3,4],[5,6]]
+<strong>Output:</strong> 1
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>dominoes = [[1,2],[1,2],[1,1],[1,2],[2,2]]
-<strong>输出：</strong>3
+<strong>Input:</strong> dominoes = [[1,2],[1,2],[1,1],[1,2],[2,2]]
+<strong>Output:</strong> 3
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= dominoes.length &lt;= 4 * 10<sup>4</sup></code></li>
@@ -54,17 +47,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们可以将每个多米诺骨牌的两个数字按照大小顺序拼接成一个两位数，这样就可以将等价的多米诺骨牌拼接成相同的两位数。例如，`[1, 2]` 和 `[2, 1]` 拼接成的两位数都是 `12`，`[3, 4]` 和 `[4, 3]` 拼接成的两位数都是 `34`。
+We can concatenate the two numbers of each domino in order of size to form a two-digit number, so that equivalent dominoes can be concatenated into the same two-digit number. For example, both `[1, 2]` and `[2, 1]` are concatenated into the two-digit number `12`, and both `[3, 4]` and `[4, 3]` are concatenated into the two-digit number `34`.
 
-然后我们遍历所有的多米诺骨牌，用一个长度为 $100$ 的数组 $cnt$ 记录每个两位数出现的次数。对于每个多米诺骨牌，我们拼接成的两位数为 $x$，那么答案就会增加 $cnt[x]$，接着我们将 $cnt[x]$ 的值加 $1$。继续遍历下一个多米诺骨牌，就可以统计出所有等价的多米诺骨牌对的数量。
+Then we traverse all the dominoes, using an array $cnt$ of length $100$ to record the number of occurrences of each two-digit number. For each domino, the two-digit number we concatenate is $x$, then the answer will increase by $cnt[x]$, and then we add $1$ to the value of $cnt[x]$. Continue to traverse the next domino, and we can count the number of all equivalent domino pairs.
 
-时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 是多米诺骨牌的数量，而 $C$ 是多米诺骨牌中拼接成的两位数的最大数量，即 $100$。
+The time complexity is $O(n)$, and the space complexity is $O(C)$. Here, $n$ is the number of dominoes, and $C$ is the maximum number of two-digit numbers concatenated in the dominoes, which is $100$.
 
 <!-- tabs:start -->
 

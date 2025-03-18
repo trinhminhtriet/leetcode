@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3198.Find%20Cities%20in%20Each%20State/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3198. 查找每个州的城市 🔒](https://leetcode.cn/problems/find-cities-in-each-state)
+# [3198. Find Cities in Each State 🔒](https://leetcode.com/problems/find-cities-in-each-state)
 
-[English Version](/solution/3100-3199/3198.Find%20Cities%20in%20Each%20State/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>cities</code></p>
+<p>Table: <code>cities</code></p>
 
 <pre>
 +-------------+---------+
@@ -25,24 +22,23 @@ tags:
 | state       | varchar |
 | city        | varchar |
 +-------------+---------+
-(state, city) 是这张表的主键（有不同值的列的组合）。
-这张表的每一行包含州名和其中的城市名。
+(state, city) is the primary key (combination of columns with unique values) for this table.
+Each row of this table contains the state name and the city name within that state.
 </pre>
 
-<p>编写一个解决方案来 <strong>查找每个州的所有城市</strong>，并将它们组合成 <strong>一个逗号分隔</strong> 的字符串。</p>
+<p>Write a solution to find <strong>all the cities in each state</strong> and combine them into a <strong>single comma-separated</strong> string.</p>
 
-<p>返回结果表以&nbsp;<code>state</code> <strong>升序&nbsp;</strong>排序。</p>
+<p>Return <em>the result table ordered by</em> <code>state</code>&nbsp;<em>and</em> <code>city</code>&nbsp;<em>in <strong>ascending</strong> order</em>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p>cities 表：</p>
+<p>cities table:</p>
 
 <pre class="example-io">
 +-------------+---------------+
@@ -60,7 +56,7 @@ tags:
 +-------------+---------------+
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +-------------+---------------------------------------+
@@ -72,26 +68,26 @@ tags:
 +-------------+---------------------------------------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li><strong>California：</strong>所有城市 ("Los Angeles", "San Diego", "San Francisco") 以逗号分隔的字符串列出。</li>
-	<li><strong>New York：</strong>所有城市 ("Buffalo", "New York City", "Rochester") 以逗号分隔的字符串列出。</li>
-	<li><strong>Texas：</strong>所有城市 ("Austin", "Dallas", "Houston") 以逗号分隔的字符串列出。</li>
+	<li><strong>California:</strong> All cities (&quot;Los Angeles&quot;, &quot;San Diego&quot;, &quot;San Francisco&quot;) are listed in a comma-separated string.</li>
+	<li><strong>New York:</strong> All cities (&quot;Buffalo&quot;, &quot;New York City&quot;, &quot;Rochester&quot;) are listed in a comma-separated string.</li>
+	<li><strong>Texas:</strong> All cities (&quot;Austin&quot;, &quot;Dallas&quot;, &quot;Houston&quot;) are listed in a comma-separated string.</li>
 </ul>
 
-<p><b>注意：</b>输出表以州名升序排序。</p>
+<p><strong>Note:</strong> The output table is ordered by the state name in ascending order.</p>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组聚合
+### Solution 1: Grouping and Aggregation
 
-我们可以先按照 `state` 字段进行分组，然后对每个分组内的 `city` 字段进行排序，最后使用 `GROUP_CONCAT` 函数将排序后的城市名连接成一个逗号分隔的字符串。
+We can first group by the `state` field, then sort the `city` field within each group, and finally use the `GROUP_CONCAT` function to concatenate the sorted city names into a comma-separated string.
 
 <!-- tabs:start -->
 

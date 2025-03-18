@@ -1,62 +1,57 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0699.Falling%20Squares/README.md
+difficulty: Hard
 tags:
-    - 线段树
-    - 数组
-    - 有序集合
+    - Segment Tree
+    - Array
+    - Ordered Set
 ---
 
 <!-- problem:start -->
 
-# [699. 掉落的方块](https://leetcode.cn/problems/falling-squares)
+# [699. Falling Squares](https://leetcode.com/problems/falling-squares)
 
-[English Version](/solution/0600-0699/0699.Falling%20Squares/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在二维平面上的 x 轴上，放置着一些方块。</p>
+<p>There are several squares being dropped onto the X-axis of a 2D plane.</p>
 
-<p>给你一个二维整数数组 <code>positions</code> ，其中 <code>positions[i] = [left<sub>i</sub>, sideLength<sub>i</sub>]</code> 表示：第 <code>i</code> 个方块边长为 <code>sideLength<sub>i</sub></code> ，其左侧边与 x 轴上坐标点&nbsp;<code>left<sub>i</sub></code> 对齐。</p>
+<p>You are given a 2D integer array <code>positions</code> where <code>positions[i] = [left<sub>i</sub>, sideLength<sub>i</sub>]</code> represents the <code>i<sup>th</sup></code> square with a side length of <code>sideLength<sub>i</sub></code> that is dropped with its left edge aligned with X-coordinate <code>left<sub>i</sub></code>.</p>
 
-<p>每个方块都从一个比目前所有的落地方块更高的高度掉落而下。方块沿 y 轴负方向下落，直到着陆到 <strong>另一个正方形的顶边</strong> 或者是 <strong>x 轴上</strong> 。一个方块仅仅是擦过另一个方块的左侧边或右侧边不算着陆。一旦着陆，它就会固定在原地，无法移动。</p>
+<p>Each square is dropped one at a time from a height above any landed squares. It then falls downward (negative Y direction) until it either lands <strong>on the top side of another square</strong> or <strong>on the X-axis</strong>. A square brushing the left/right side of another square does not count as landing on it. Once it lands, it freezes in place and cannot be moved.</p>
 
-<p>在每个方块掉落后，你必须记录目前所有已经落稳的 <strong>方块堆叠的最高高度</strong> 。</p>
+<p>After each square is dropped, you must record the <strong>height of the current tallest stack of squares</strong>.</p>
 
-<p>返回一个整数数组 <code>ans</code> ，其中 <code>ans[i]</code> 表示在第 <code>i</code> 块方块掉落后堆叠的最高高度。</p>
+<p>Return <em>an integer array </em><code>ans</code><em> where </em><code>ans[i]</code><em> represents the height described above after dropping the </em><code>i<sup>th</sup></code><em> square</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0699.Falling%20Squares/images/fallingsq1-plane.jpg" style="width: 500px; height: 505px;" />
 <pre>
-<strong>输入：</strong>positions = [[1,2],[2,3],[6,1]]
-<strong>输出：</strong>[2,5,5]
-<strong>解释：</strong>
-第 1 个方块掉落后，最高的堆叠由方块 1 组成，堆叠的最高高度为 2 。
-第 2 个方块掉落后，最高的堆叠由方块 1 和 2 组成，堆叠的最高高度为 5 。
-第 3 个方块掉落后，最高的堆叠仍然由方块 1 和 2 组成，堆叠的最高高度为 5 。
-因此，返回 [2, 5, 5] 作为答案。
+<strong>Input:</strong> positions = [[1,2],[2,3],[6,1]]
+<strong>Output:</strong> [2,5,5]
+<strong>Explanation:</strong>
+After the first drop, the tallest stack is square 1 with a height of 2.
+After the second drop, the tallest stack is squares 1 and 2 with a height of 5.
+After the third drop, the tallest stack is still squares 1 and 2 with a height of 5.
+Thus, we return an answer of [2, 5, 5].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>positions = [[100,100],[200,100]]
-<strong>输出：</strong>[100,100]
-<strong>解释：</strong>
-第 1 个方块掉落后，最高的堆叠由方块 1 组成，堆叠的最高高度为 100 。
-第 2 个方块掉落后，最高的堆叠可以由方块 1 组成也可以由方块 2 组成，堆叠的最高高度为 100 。
-因此，返回 [100, 100] 作为答案。
-注意，方块 2 擦过方块 1 的右侧边，但不会算作在方块 1 上着陆。
+<strong>Input:</strong> positions = [[100,100],[200,100]]
+<strong>Output:</strong> [100,100]
+<strong>Explanation:</strong>
+After the first drop, the tallest stack is square 1 with a height of 100.
+After the second drop, the tallest stack is either square 1 or square 2, both with heights of 100.
+Thus, we return an answer of [100, 100].
+Note that square 2 only brushes the right side of square 1, which does not count as landing on it.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= positions.length &lt;= 1000</code></li>
@@ -66,29 +61,29 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：线段树
+### Solution 1: Segment Tree
 
-根据题目描述，我们需要维护一个区间集合，支持区间的修改和查询操作。这种情况下，我们可以使用线段树来解决。
+According to the problem description, we need to maintain a set of intervals that support modification and query operations. In this case, we can use a segment tree to solve the problem.
 
-线段树将整个区间分割为多个不连续的子区间，子区间的数量不超过 $\log(width)$，其中 $width$ 是区间的长度。更新某个元素的值，只需要更新 $\log(width)$ 个区间，并且这些区间都包含在一个包含该元素的大区间内。区间修改时，需要使用**懒标记**保证效率。
+A segment tree divides the entire interval into multiple non-contiguous sub-intervals, with the number of sub-intervals not exceeding $\log(width)$, where $width$ is the length of the interval. To update the value of an element, we only need to update $\log(width)$ intervals, and these intervals are all contained within a larger interval that includes the element. When modifying intervals, we need to use **lazy propagation** to ensure efficiency.
 
--   线段树的每个节点代表一个区间；
--   线段树具有唯一的根节点，代表的区间是整个统计范围，如 $[1, n]$；
--   线段树的每个叶子节点代表一个长度为 1 的元区间 $[x, x]$；
--   对于每个内部节点 $[l, r]$，它的左儿子是 $[l, mid]$，右儿子是 $[mid + 1, r]$, 其中 $\textit{mid} = \frac{l + r}{2}$；
+-   Each node of the segment tree represents an interval;
+-   The segment tree has a unique root node representing the entire statistical range, such as $[1, n]$;
+-   Each leaf node of the segment tree represents a primitive interval of length 1, $[x, x]$;
+-   For each internal node $[l, r]$, its left child is $[l, \textit{mid}]$, and its right child is $[\textit{mid} + 1, r]$, where $\textit{mid} = \frac{l + r}{2}$;
 
-对于本题，线段树节点维护的信息有：
+For this problem, the information maintained by the segment tree nodes includes:
 
-1. 区间中方块的最大高度 $v$
-1. 懒标记 $add$
+1. The maximum height $v$ of the blocks in the interval
+2. Lazy propagation marker $add$
 
-另外，由于数轴范围很大，达到 $10^8$，因此我们采用动态开点。
+Additionally, since the range of the number line is very large, up to $10^8$, we use dynamic node creation.
 
-时间复杂度方面，每次查询和修改的时间复杂度为 $O(\log n)$，总时间复杂度为 $O(n \log n)$。空间复杂度为 $O(n)$。
+In terms of time complexity, each query and modification has a time complexity of $O(\log n)$, and the total time complexity is $O(n \log n)$. The space complexity is $O(n)$.
 
 <!-- tabs:start -->
 

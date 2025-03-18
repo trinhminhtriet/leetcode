@@ -1,106 +1,86 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1687.Delivering%20Boxes%20from%20Storage%20to%20Ports/README.md
+difficulty: Hard
 rating: 2610
-source: 第 41 场双周赛 Q4
+source: Biweekly Contest 41 Q4
 tags:
-    - 线段树
-    - 队列
-    - 数组
-    - 动态规划
-    - 前缀和
-    - 单调队列
-    - 堆（优先队列）
+    - Segment Tree
+    - Queue
+    - Array
+    - Dynamic Programming
+    - Prefix Sum
+    - Monotonic Queue
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1687. 从仓库到码头运输箱子](https://leetcode.cn/problems/delivering-boxes-from-storage-to-ports)
+# [1687. Delivering Boxes from Storage to Ports](https://leetcode.com/problems/delivering-boxes-from-storage-to-ports)
 
-[English Version](/solution/1600-1699/1687.Delivering%20Boxes%20from%20Storage%20to%20Ports/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有一辆货运卡车，你需要用这一辆车把一些箱子从仓库运送到码头。这辆卡车每次运输有&nbsp;<strong>箱子数目的限制</strong>&nbsp;和 <strong>总重量的限制</strong>&nbsp;。</p>
+<p>You have the task of delivering some boxes from storage to their ports using only one ship. However, this ship has a <strong>limit</strong> on the <strong>number of boxes</strong> and the <strong>total weight</strong> that it can carry.</p>
 
-<p>给你一个箱子数组&nbsp;<code>boxes</code>&nbsp;和三个整数 <code>portsCount</code>, <code>maxBoxes</code>&nbsp;和&nbsp;<code>maxWeight</code>&nbsp;，其中&nbsp;<code>boxes[i] = [ports<sub>​​i</sub>​, weight<sub>i</sub>]</code>&nbsp;。</p>
-
-<ul>
-	<li><code>ports<sub>​​i</sub></code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;个箱子需要送达的码头，&nbsp;<code>weights<sub>i</sub></code>&nbsp;是第&nbsp;<code>i</code>&nbsp;个箱子的重量。</li>
-	<li><code>portsCount</code>&nbsp;是码头的数目。</li>
-	<li><code>maxBoxes</code> 和&nbsp;<code>maxWeight</code>&nbsp;分别是卡车每趟运输箱子数目和重量的限制。</li>
-</ul>
-
-<p>箱子需要按照 <strong>数组顺序</strong>&nbsp;运输，同时每次运输需要遵循以下步骤：</p>
+<p>You are given an array <code>boxes</code>, where <code>boxes[i] = [ports<sub>​​i</sub>​, weight<sub>i</sub>]</code>, and three integers <code>portsCount</code>, <code>maxBoxes</code>, and <code>maxWeight</code>.</p>
 
 <ul>
-	<li>卡车从&nbsp;<code>boxes</code>&nbsp;队列中按顺序取出若干个箱子，但不能违反&nbsp;<code>maxBoxes</code> 和&nbsp;<code>maxWeight</code>&nbsp;限制。</li>
-	<li>对于在卡车上的箱子，我们需要 <strong>按顺序</strong>&nbsp;处理它们，卡车会通过 <strong>一趟行程</strong>&nbsp;将最前面的箱子送到目的地码头并卸货。如果卡车已经在对应的码头，那么不需要 <strong>额外行程</strong>&nbsp;，箱子也会立马被卸货。</li>
-	<li>卡车上所有箱子都被卸货后，卡车需要 <strong>一趟行程</strong>&nbsp;回到仓库，从箱子队列里再取出一些箱子。</li>
+	<li><code>ports<sub>​​i</sub></code> is the port where you need to deliver the <code>i<sup>th</sup></code> box and <code>weights<sub>i</sub></code> is the weight of the <code>i<sup>th</sup></code> box.</li>
+	<li><code>portsCount</code> is the number of ports.</li>
+	<li><code>maxBoxes</code> and <code>maxWeight</code> are the respective box and weight limits of the ship.</li>
 </ul>
 
-<p>卡车在将所有箱子运输并卸货后，最后必须回到仓库。</p>
+<p>The boxes need to be delivered <strong>in the order they are given</strong>. The ship will follow these steps:</p>
 
-<p>请你返回将所有箱子送到相应码头的&nbsp;<b>最少行程</b>&nbsp;次数。</p>
+<ul>
+	<li>The ship will take some number of boxes from the <code>boxes</code> queue, not violating the <code>maxBoxes</code> and <code>maxWeight</code> constraints.</li>
+	<li>For each loaded box <strong>in order</strong>, the ship will make a <strong>trip</strong> to the port the box needs to be delivered to and deliver it. If the ship is already at the correct port, no <strong>trip</strong> is needed, and the box can immediately be delivered.</li>
+	<li>The ship then makes a return <strong>trip</strong> to storage to take more boxes from the queue.</li>
+</ul>
+
+<p>The ship must end at storage after all the boxes have been delivered.</p>
+
+<p>Return <em>the <strong>minimum</strong> number of <strong>trips</strong> the ship needs to make to deliver all boxes to their respective ports.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>boxes = [[1,1],[2,1],[1,1]], portsCount = 2, maxBoxes = 3, maxWeight = 3
-<b>输出：</b>4
-<b>解释：</b>最优策略如下：
-- 卡车将所有箱子装上车，到达码头 1 ，然后去码头 2 ，然后再回到码头 1 ，最后回到仓库，总共需要 4 趟行程。
-所以总行程数为 4 。
-注意到第一个和第三个箱子不能同时被卸货，因为箱子需要按顺序处理（也就是第二个箱子需要先被送到码头 2 ，然后才能处理第三个箱子）。
+<strong>Input:</strong> boxes = [[1,1],[2,1],[1,1]], portsCount = 2, maxBoxes = 3, maxWeight = 3
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The optimal strategy is as follows: 
+- The ship takes all the boxes in the queue, goes to port 1, then port 2, then port 1 again, then returns to storage. 4 trips.
+So the total number of trips is 4.
+Note that the first and third boxes cannot be delivered together because the boxes need to be delivered in order (i.e. the second box needs to be delivered at port 2 before the third box).
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>boxes = [[1,2],[3,3],[3,1],[3,1],[2,4]], portsCount = 3, maxBoxes = 3, maxWeight = 6
-<b>输出：</b>6
-<b>解释：</b>最优策略如下：
-- 卡车首先运输第一个箱子，到达码头 1 ，然后回到仓库，总共 2 趟行程。
-- 卡车运输第二、第三、第四个箱子，到达码头 3 ，然后回到仓库，总共 2 趟行程。
-- 卡车运输第五个箱子，到达码头 2 ，回到仓库，总共 2 趟行程。
-总行程数为 2 + 2 + 2 = 6 。
+<strong>Input:</strong> boxes = [[1,2],[3,3],[3,1],[3,1],[2,4]], portsCount = 3, maxBoxes = 3, maxWeight = 6
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The optimal strategy is as follows: 
+- The ship takes the first box, goes to port 1, then returns to storage. 2 trips.
+- The ship takes the second, third and fourth boxes, goes to port 3, then returns to storage. 2 trips.
+- The ship takes the fifth box, goes to port 2, then returns to storage. 2 trips.
+So the total number of trips is 2 + 2 + 2 = 6.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>boxes = [[1,4],[1,2],[2,1],[2,1],[3,2],[3,4]], portsCount = 3, maxBoxes = 6, maxWeight = 7
-<b>输出：</b>6
-<b>解释：</b>最优策略如下：
-- 卡车运输第一和第二个箱子，到达码头 1 ，然后回到仓库，总共 2 趟行程。
-- 卡车运输第三和第四个箱子，到达码头 2 ，然后回到仓库，总共 2 趟行程。
-- 卡车运输第五和第六个箱子，到达码头 3 ，然后回到仓库，总共 2 趟行程。
-总行程数为 2 + 2 + 2 = 6 。
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<b>输入：</b>boxes = [[2,4],[2,5],[3,1],[3,2],[3,7],[3,1],[4,4],[1,3],[5,2]], portsCount = 5, maxBoxes = 5, maxWeight = 7
-<b>输出：</b>14
-<b>解释：</b>最优策略如下：
-- 卡车运输第一个箱子，到达码头 2 ，然后回到仓库，总共 2 趟行程。
-- 卡车运输第二个箱子，到达码头 2 ，然后回到仓库，总共 2 趟行程。
-- 卡车运输第三和第四个箱子，到达码头 3 ，然后回到仓库，总共 2 趟行程。
-- 卡车运输第五个箱子，到达码头 3 ，然后回到仓库，总共 2 趟行程。
-- 卡车运输第六和第七个箱子，到达码头 3 ，然后去码头 4 ，然后回到仓库，总共 3 趟行程。
-- 卡车运输第八和第九个箱子，到达码头 1 ，然后去码头 5 ，然后回到仓库，总共 3 趟行程。
-总行程数为 2 + 2 + 2 + 2 + 3 + 3 = 14 。
+<strong>Input:</strong> boxes = [[1,4],[1,2],[2,1],[2,1],[3,2],[3,4]], portsCount = 3, maxBoxes = 6, maxWeight = 7
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The optimal strategy is as follows:
+- The ship takes the first and second boxes, goes to port 1, then returns to storage. 2 trips.
+- The ship takes the third and fourth boxes, goes to port 2, then returns to storage. 2 trips.
+- The ship takes the fifth and sixth boxes, goes to port 3, then returns to storage. 2 trips.
+So the total number of trips is 2 + 2 + 2 = 6.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= boxes.length &lt;= 10<sup>5</sup></code></li>
@@ -111,39 +91,35 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划 + 单调队列优化
+### Solution 1: Dynamic Programming + Monotonic Queue Optimization
 
-我们定义 $f[i]$ 表示把前 $i$ 个箱子从仓库运送到相应码头的最少行程数，那么答案就是 $f[n]$。
+We define $f[i]$ as the minimum number of trips required to transport the first $i$ boxes from the warehouse to the corresponding docks, so the answer is $f[n]$.
 
-箱子需要按数组顺序运输，每一次运输，卡车会按顺序取出连续的几个箱子，然后依次送往对应的码头，全部送达之后，又回到了仓库。
+The boxes need to be transported in the order of the array. Each time, the truck will take out several consecutive boxes in order, then deliver them to the corresponding docks one by one. After all are delivered, it returns to the warehouse.
 
-因此，我们可以枚举上一次运输的最后一个箱子的编号 $j$，那么 $f[i]$ 就可以从 $f[j]$ 转移而来，转移的时候，我们需要考虑以下几个问题：
+Therefore, we can enumerate the index $j$ of the last box transported in the last trip. Then $f[i]$ can be transferred from $f[j]$. During the transfer, we need to consider the following issues:
 
--   从 $f[j]$ 转移过来的时候，卡车上的箱子数量不能超过 $maxBoxes$
--   从 $f[j]$ 转移过来的时候，卡车上的箱子总重量不能超过 $maxWeight$
+-   When transferring from $f[j]$, the number of boxes on the truck cannot exceed $maxBoxes$
+-   When transferring from $f[j]$, the total weight of the boxes on the truck cannot exceed $maxWeight$
 
-状态转移方程为：
+The state transition equation is:
 
 $$
 f[i] = \min_{j \in [i - maxBoxes, i - 1]} \left(f[j] + \sum_{k = j + 1}^i \textit{cost}(k)\right)
 $$
 
-其中 $\sum_{k = j + 1}^i \textit{cost}(k)$ 表示通过一次运输，把 $[j+1,..i]$ 这些箱子送往对应的码头所需要的行程数。这部分行程数可以通过前缀和快速计算出来。
+Where $\sum_{k = j + 1}^i \textit{cost}(k)$ represents the number of trips required to deliver the boxes in $[j+1,..i]$ to their corresponding docks in one trip. This part of the trip count can be quickly calculated using prefix sums.
 
-简单举个例子，假设我们取出了 $1, 2, 3$ 这三个箱子，需要送往 $4, 4, 5$ 这三个码头，那么我们首先要从仓库到 $4$ 号码头，然后再从 $4$ 号码头到 $5$ 号码头，最后再从 $5$ 号码头回到仓库。可以发现，从仓库到码头，以及从码头到仓库，需要花费 $2$ 趟行程，而从码头到码头的行程数，取决于相邻两个码头是否相同，如果不相同，那么行程数会增加 $1$，否则不变。因此，我们可以通过前缀和，计算出码头之间的行程数，再加上首尾两趟行程，就能把 $[j+1,..i]$ 这些箱子送往对应的码头所需要的行程数计算出来。
+For example, suppose we take out boxes $1, 2, 3$ and need to deliver them to docks $4, 4, 5$. We first go from the warehouse to dock $4$, then from dock $4$ to dock $5$, and finally from dock $5$ back to the warehouse. It can be seen that it takes $2$ trips to go from the warehouse to the dock and from the dock back to the warehouse. The number of trips from dock to dock depends on whether the two adjacent docks are the same. If they are not the same, the number of trips will increase by $1$, otherwise it remains the same. Therefore, we can calculate the number of trips between docks using prefix sums, and add two trips for the start and end, to calculate the number of trips required to deliver the boxes in $[j+1,..i]$ to their corresponding docks.
 
-代码实现如下：
-
-<!-- tabs:start -->
-
-#### Python3
+The code implementation is as follows:
 
 ```python
-# 33/39 个通过测试用例，超出时间限制
+# 33/39
 class Solution:
     def boxDelivering(
         self, boxes: List[List[int]], portsCount: int, maxBoxes: int, maxWeight: int
@@ -161,10 +137,8 @@ class Solution:
         return f[n]
 ```
 
-#### Java
-
 ```java
-// 35/39 个通过测试用例，超出时间限制
+// 35/39
 class Solution {
     public int boxDelivering(int[][] boxes, int portsCount, int maxBoxes, int maxWeight) {
         int n = boxes.length;
@@ -192,10 +166,8 @@ class Solution {
 }
 ```
 
-#### C++
-
 ```cpp
-// 35/39 个通过测试用例，超出时间限制
+// 35/39
 class Solution {
 public:
     int boxDelivering(vector<vector<int>>& boxes, int portsCount, int maxBoxes, int maxWeight) {
@@ -223,10 +195,8 @@ public:
 };
 ```
 
-#### Go
-
 ```go
-// 35/39 个通过测试用例，超出时间限制
+// 35/39
 func boxDelivering(boxes [][]int, portsCount int, maxBoxes int, maxWeight int) int {
 	n := len(boxes)
 	ws := make([]int, n+1)
@@ -255,17 +225,15 @@ func boxDelivering(boxes [][]int, portsCount int, maxBoxes int, maxWeight int) i
 }
 ```
 
-<!-- tabs:end -->
-
-本题数据规模达到 $10^5$，而以上代码的时间复杂度为 $O(n^2)$，会超出时间限制。我们仔细观察：
+The data scale of this problem reaches $10^5$, and the time complexity of the above code is $O(n^2)$, which will exceed the time limit. If we observe carefully:
 
 $$
 f[i] = \min(f[i], f[j] + cs[i - 1] - cs[j] + 2)
 $$
 
-实际上我们是要在 $[i-maxBoxes,..i-1]$ 这个窗口内找到一个 $j$，使得 $f[j] - cs[j]$ 的值最小，求滑动窗口的最小值，一种常用的做法是使用单调队列，可以在 $O(1)$ 时间内获取到满足条件的最小值。
+In fact, we are looking for a $j$ in the window $[i-maxBoxes,..i-1]$ that minimizes the value of $f[j] - cs[j]$. To find the minimum value in a sliding window, a common method is to use a monotonic queue, which can get the minimum value that meets the condition in $O(1)$ time.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是题目中箱子的数量。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of boxes in the problem.
 
 <!-- tabs:start -->
 

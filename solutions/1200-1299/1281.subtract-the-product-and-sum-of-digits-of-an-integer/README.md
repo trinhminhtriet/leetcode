@@ -1,50 +1,47 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1281.Subtract%20the%20Product%20and%20Sum%20of%20Digits%20of%20an%20Integer/README.md
+difficulty: Easy
 rating: 1141
-source: 第 166 场周赛 Q1
+source: Weekly Contest 166 Q1
 tags:
-    - 数学
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [1281. 整数的各位积和之差](https://leetcode.cn/problems/subtract-the-product-and-sum-of-digits-of-an-integer)
+# [1281. Subtract the Product and Sum of Digits of an Integer](https://leetcode.com/problems/subtract-the-product-and-sum-of-digits-of-an-integer)
 
-[English Version](/solution/1200-1299/1281.Subtract%20the%20Product%20and%20Sum%20of%20Digits%20of%20an%20Integer/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>n</code>，请你帮忙计算并返回该整数「各位数字之积」与「各位数字之和」的差。</p>
+Given an integer number <code>n</code>, return the difference between the product of its digits and the sum of its digits.
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>n = 234
-<strong>输出：</strong>15 
-<strong>解释：</strong>
-各位数之积 = 2 * 3 * 4 = 24 
-各位数之和 = 2 + 3 + 4 = 9 
-结果 = 24 - 9 = 15
+<pre>
+<strong>Input:</strong> n = 234
+<strong>Output:</strong> 15 
+<b>Explanation:</b> 
+Product of digits = 2 * 3 * 4 = 24 
+Sum of digits = 2 + 3 + 4 = 9 
+Result = 24 - 9 = 15
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>n = 4421
-<strong>输出：</strong>21
-<strong>解释： 
-</strong>各位数之积 = 4 * 4 * 2 * 1 = 32 
-各位数之和 = 4 + 4 + 2 + 1 = 11 
-结果 = 32 - 11 = 21
+<pre>
+<strong>Input:</strong> n = 4421
+<strong>Output:</strong> 21
+<b>Explanation: 
+</b>Product of digits = 4 * 4 * 2 * 1 = 32 
+Sum of digits = 4 + 4 + 2 + 1 = 11 
+Result = 32 - 11 = 21
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10^5</code></li>
@@ -52,19 +49,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们用两个变量 $x$ 和 $y$ 分别记录各位数之积、各位数之和，初始时 $x=1,y=0$。
+We use two variables $x$ and $y$ to record the product of the digits and the sum of the digits respectively. At the beginning, $x=1,y=0$.
 
-当 $n \gt 0$ 时，每次将 $n$ 对 $10$ 取模得到当前位的数字 $v$，并将 $n$ 除以 $10$ 后继续进行下一次循环。在每次循环中，我们更新 $x = x \times v$, $y = y + v$。
+When $n \gt 0$, each time we take the $mod$ of $n$ by $10$ to get the current digit $v$, and continue the next loop by dividing $n$ by $10$. In each loop, we update $x = x \times v$, $y = y + v$.
 
-最终，我们返回 $x - y$ 即可。
+Finally, we return $x - y$.
 
-时间复杂度 $O(\log n)$，其中 $n$ 是题目给定的整数。空间复杂度 $O(1)$。
+The time complexity is $O(\log n)$, where $n$ is the given integer. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

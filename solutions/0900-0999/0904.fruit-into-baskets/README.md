@@ -1,74 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0904.Fruit%20Into%20Baskets/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
-    - 滑动窗口
+    - Array
+    - Hash Table
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [904. 水果成篮](https://leetcode.cn/problems/fruit-into-baskets)
+# [904. Fruit Into Baskets](https://leetcode.com/problems/fruit-into-baskets)
 
-[English Version](/solution/0900-0999/0904.Fruit%20Into%20Baskets/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你正在探访一家农场，农场从左到右种植了一排果树。这些树用一个整数数组 <code>fruits</code> 表示，其中 <code>fruits[i]</code> 是第 <code>i</code> 棵树上的水果 <strong>种类</strong> 。</p>
+<p>You are visiting a farm that has a single row of fruit trees arranged from left to right. The trees are represented by an integer array <code>fruits</code> where <code>fruits[i]</code> is the <strong>type</strong> of fruit the <code>i<sup>th</sup></code> tree produces.</p>
 
-<p>你想要尽可能多地收集水果。然而，农场的主人设定了一些严格的规矩，你必须按照要求采摘水果：</p>
+<p>You want to collect as much fruit as possible. However, the owner has some strict rules that you must follow:</p>
 
 <ul>
-	<li>你只有 <strong>两个</strong> 篮子，并且每个篮子只能装 <strong>单一类型</strong> 的水果。每个篮子能够装的水果总量没有限制。</li>
-	<li>你可以选择任意一棵树开始采摘，你必须从 <strong>每棵</strong> 树（包括开始采摘的树）上 <strong>恰好摘一个水果</strong> 。采摘的水果应当符合篮子中的水果类型。每采摘一次，你将会向右移动到下一棵树，并继续采摘。</li>
-	<li>一旦你走到某棵树前，但水果不符合篮子的水果类型，那么就必须停止采摘。</li>
+	<li>You only have <strong>two</strong> baskets, and each basket can only hold a <strong>single type</strong> of fruit. There is no limit on the amount of fruit each basket can hold.</li>
+	<li>Starting from any tree of your choice, you must pick <strong>exactly one fruit</strong> from <strong>every</strong> tree (including the start tree) while moving to the right. The picked fruits must fit in one of your baskets.</li>
+	<li>Once you reach a tree with fruit that cannot fit in your baskets, you must stop.</li>
 </ul>
 
-<p>给你一个整数数组 <code>fruits</code> ，返回你可以收集的水果的 <strong>最大</strong> 数目。</p>
+<p>Given the integer array <code>fruits</code>, return <em>the <strong>maximum</strong> number of fruits you can pick</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>fruits = [<em><strong>1,2,1</strong></em>]
-<strong>输出：</strong>3
-<strong>解释：</strong>可以采摘全部 3 棵树。
+<strong>Input:</strong> fruits = [<u>1,2,1</u>]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We can pick from all 3 trees.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>fruits = [0,<em><strong>1,2,2</strong></em>]
-<strong>输出：</strong>3
-<strong>解释：</strong>可以采摘 [1,2,2] 这三棵树。
-如果从第一棵树开始采摘，则只能采摘 [0,1] 这两棵树。
+<strong>Input:</strong> fruits = [0,<u>1,2,2</u>]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We can pick from trees [1,2,2].
+If we had started at the first tree, we would only pick from trees [0,1].
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>fruits = [1,<em><strong>2,3,2,2</strong></em>]
-<strong>输出：</strong>4
-<strong>解释：</strong>可以采摘 [2,3,2,2] 这四棵树。
-如果从第一棵树开始采摘，则只能采摘 [1,2] 这两棵树。
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>fruits = [3,3,3,<em><strong>1,2,1,1,2</strong></em>,3,3,4]
-<strong>输出：</strong>5
-<strong>解释：</strong>可以采摘 [1,2,1,1,2] 这五棵树。
+<strong>Input:</strong> fruits = [1,<u>2,3,2,2</u>]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> We can pick from trees [2,3,2,2].
+If we had started at the first tree, we would only pick from trees [1,2].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= fruits.length &lt;= 10<sup>5</sup></code></li>
@@ -77,17 +64,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 滑动窗口
+### Solution 1: Hash Table + Sliding Window
 
-我们用哈希表 $cnt$ 维护当前窗口内的水果种类以及对应的数量，用双指针 $j$ 和 $i$ 维护窗口的左右边界。
+We use a hash table $cnt$ to maintain the types and corresponding quantities of fruits in the current window, and use two pointers $j$ and $i$ to maintain the left and right boundaries of the window.
 
-遍历数组 `fruits`，将当前水果 $x$ 加入窗口，即 $cnt[x]++$，然后判断当前窗口内的水果种类是否超过了 $2$ 种，如果超过了 $2$ 种，就需要将窗口的左边界 $j$ 右移，直到窗口内的水果种类不超过 $2$ 种为止。然后更新答案，即 $ans = \max(ans, i - j + 1)$。
+We traverse the `fruits` array, add the current fruit $x$ to the window, i.e., $cnt[x]++$, then judge whether the types of fruits in the current window exceed $2$. If it exceeds $2$, we need to move the left boundary $j$ of the window to the right until the types of fruits in the window do not exceed $2$. Then we update the answer, i.e., $ans = \max(ans, i - j + 1)$.
 
-遍历结束后，即可得到最终的答案。
+After the traversal ends, we can get the final answer.
 
 ```
 1 2 3 2 2 1 4
@@ -105,7 +92,7 @@ j   i
   j     i
 ```
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 `fruits` 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the `fruits` array.
 
 <!-- tabs:start -->
 
@@ -254,13 +241,13 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：滑动窗口优化
+### Solution 2: Sliding Window Optimization
 
-在方法一中，我们发现，窗口大小会时而变大，时而变小，这就需要我们每一次更新答案。
+In Solution 1, we find that the window size sometimes increases and sometimes decreases, which requires us to update the answer each time.
 
-但本题实际上求的是水果的最大数目，也就是“最大”的窗口，我们没有必要缩小窗口，只需要让窗口单调增大。于是代码就少了每次更新答案的操作，只需要在遍历结束后将此时的窗口大小作为答案返回即可。
+But what this problem actually asks for is the maximum number of fruits, that is, the "largest" window. We don't need to shrink the window, we just need to let the window monotonically increase. So the code omits the operation of updating the answer each time, and only needs to return the size of the window as the answer after the traversal ends.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 `fruits` 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the `fruits` array.
 
 <!-- tabs:start -->
 

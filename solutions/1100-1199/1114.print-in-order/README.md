@@ -1,93 +1,75 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1114.Print%20in%20Order/README.md
+difficulty: Easy
 tags:
-    - 多线程
+    - Concurrency
 ---
 
 <!-- problem:start -->
 
-# [1114. 按序打印](https://leetcode.cn/problems/print-in-order)
+# [1114. Print in Order](https://leetcode.com/problems/print-in-order)
 
-[English Version](/solution/1100-1199/1114.Print%20in%20Order/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个类：</p>
+<p>Suppose we have a class:</p>
 
 <pre>
 public class Foo {
-&nbsp; public void first() { print("first"); }
-&nbsp; public void second() { print("second"); }
-&nbsp; public void third() { print("third"); }
-}</pre>
-
-<p>三个不同的线程 A、B、C 将会共用一个&nbsp;<code>Foo</code>&nbsp;实例。</p>
-
-<ul>
-	<li>线程 A 将会调用 <code>first()</code> 方法</li>
-	<li>线程 B 将会调用&nbsp;<code>second()</code> 方法</li>
-	<li>线程 C 将会调用 <code>third()</code> 方法</li>
-</ul>
-
-<p>请设计修改程序，以确保 <code>second()</code> 方法在 <code>first()</code> 方法之后被执行，<code>third()</code> 方法在 <code>second()</code> 方法之后被执行。</p>
-
-<p><strong>提示：</strong></p>
-
-<ul>
-	<li>尽管输入中的数字似乎暗示了顺序，但是我们并不保证线程在操作系统中的调度顺序。</li>
-	<li>你看到的输入格式主要是为了确保测试的全面性。</li>
-</ul>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,3]
-<strong>输出：</strong>"firstsecondthird"
-<strong>解释：</strong>
-有三个线程会被异步启动。输入 [1,2,3] 表示线程 A 将会调用 first() 方法，线程 B 将会调用 second() 方法，线程 C 将会调用 third() 方法。正确的输出是 "firstsecondthird"。
+  public void first() { print(&quot;first&quot;); }
+  public void second() { print(&quot;second&quot;); }
+  public void third() { print(&quot;third&quot;); }
+}
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p>The same instance of <code>Foo</code> will be passed to three different threads. Thread A will call <code>first()</code>, thread B will call <code>second()</code>, and thread C will call <code>third()</code>. Design a mechanism and modify the program to ensure that <code>second()</code> is executed after <code>first()</code>, and <code>third()</code> is executed after <code>second()</code>.</p>
 
-<pre>
-<strong>输入：</strong>nums = [1,3,2]
-<strong>输出：</strong>"firstsecondthird"
-<strong>解释：</strong>
-输入 [1,3,2] 表示线程 A 将会调用 first() 方法，线程 B 将会调用 third() 方法，线程 C 将会调用 second() 方法。正确的输出是 "firstsecondthird"。</pre>
+<p><strong>Note:</strong></p>
+
+<p>We do not know how the threads will be scheduled in the operating system, even though the numbers in the input seem to imply the ordering. The input format you see is mainly to ensure our tests&#39; comprehensiveness.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,2,3]
+<strong>Output:</strong> &quot;firstsecondthird&quot;
+<strong>Explanation:</strong> There are three threads being fired asynchronously. The input [1,2,3] means thread A calls first(), thread B calls second(), and thread C calls third(). &quot;firstsecondthird&quot; is the correct output.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,3,2]
+<strong>Output:</strong> &quot;firstsecondthird&quot;
+<strong>Explanation:</strong> The input [1,3,2] means thread A calls first(), thread B calls third(), and thread C calls second(). &quot;firstsecondthird&quot; is the correct output.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-</ul>
-<strong>提示：</strong>
-
-<ul>
-	<li><code>nums</code> 是 <code>[1, 2, 3]</code> 的一组排列</li>
+	<li><code>nums</code> is a permutation of <code>[1, 2, 3]</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：多线程 + 锁或信号量
+### Solution 1: Multithreading + Lock or Semaphore
 
-我们可以用三个信号量 $a$, $b$, $c$ 来控制三个线程的执行顺序，初始时 $a$ 信号量的计数为 $1$，$b$ 和 $c$ 的计数为 $0$。
+We can use three semaphores $a$, $b$, and $c$ to control the execution order of the three threads. Initially, the count of semaphore $a$ is $1$, and the counts of $b$ and $c$ are $0$.
 
-线程 $A$ 在执行 `first()` 方法时，首先需要获取 $a$ 信号量，获取成功后执行 `first()` 方法，然后释放 $b$ 信号量，这样线程 $B$ 就可以获取 $b$ 信号量并执行 `second()` 方法。
+When thread $A$ executes the `first()` method, it first needs to acquire semaphore $a$. After acquiring successfully, it executes the `first()` method, and then releases semaphore $b$. This allows thread $B$ to acquire semaphore $b$ and execute the `second()` method.
 
-线程 $B$ 在执行 `second()` 方法时，首先需要获取 $b$ 信号量，获取成功后执行 `second()` 方法，然后释放 $c$ 信号量，这样线程 $C$ 就可以获取 $c$ 信号量并执行 `third()` 方法。
+When thread $B$ executes the `second()` method, it first needs to acquire semaphore $b$. After acquiring successfully, it executes the `second()` method, and then releases semaphore $c$. This allows thread $C$ to acquire semaphore $c$ and execute the `third()` method.
 
-线程 $C$ 在执行 `third()` 方法时，首先需要获取 $c$ 信号量，获取成功后执行 `third()` 方法，然后释放 $a$ 信号量，这样线程 $A$ 就可以获取 $a$ 信号量并执行 `first()` 方法。
+When thread $C$ executes the `third()` method, it first needs to acquire semaphore $c$. After acquiring successfully, it executes the `third()` method, and then releases semaphore $a$. This allows thread $A$ to acquire semaphore $a$ and execute the `first()` method.
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+The time complexity is $O(1)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -186,7 +168,7 @@ public:
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

@@ -1,93 +1,88 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1930.Unique%20Length-3%20Palindromic%20Subsequences/README.md
+difficulty: Medium
 rating: 1533
-source: 第 249 场周赛 Q2
+source: Weekly Contest 249 Q2
 tags:
-    - 位运算
-    - 哈希表
-    - 字符串
-    - 前缀和
+    - Bit Manipulation
+    - Hash Table
+    - String
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [1930. 长度为 3 的不同回文子序列](https://leetcode.cn/problems/unique-length-3-palindromic-subsequences)
+# [1930. Unique Length-3 Palindromic Subsequences](https://leetcode.com/problems/unique-length-3-palindromic-subsequences)
 
-[English Version](/solution/1900-1999/1930.Unique%20Length-3%20Palindromic%20Subsequences/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> ，返回 <code>s</code> 中 <strong>长度为 3 </strong>的<strong>不同回文子序列</strong> 的个数。</p>
+<p>Given a string <code>s</code>, return <em>the number of <strong>unique palindromes of length three</strong> that are a <strong>subsequence</strong> of </em><code>s</code>.</p>
 
-<p>即便存在多种方法来构建相同的子序列，但相同的子序列只计数一次。</p>
+<p>Note that even if there are multiple ways to obtain the same subsequence, it is still only counted <strong>once</strong>.</p>
 
-<p><strong>回文</strong> 是正着读和反着读一样的字符串。</p>
+<p>A <strong>palindrome</strong> is a string that reads the same forwards and backwards.</p>
 
-<p><strong>子序列</strong> 是由原字符串删除其中部分字符（也可以不删除）且不改变剩余字符之间相对顺序形成的一个新字符串。</p>
+<p>A <strong>subsequence</strong> of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.</p>
 
 <ul>
-	<li>例如，<code>"ace"</code> 是 <code>"<strong><em>a</em></strong>b<strong><em>c</em></strong>d<strong><em>e</em></strong>"</code> 的一个子序列。</li>
+	<li>For example, <code>&quot;ace&quot;</code> is a subsequence of <code>&quot;<u>a</u>b<u>c</u>d<u>e</u>&quot;</code>.</li>
 </ul>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "aabca"
-<strong>输出：</strong>3
-<strong>解释：</strong>长度为 3 的 3 个回文子序列分别是：
-- "aba" ("<strong><em>a</em></strong>a<strong><em>b</em></strong>c<strong><em>a</em></strong>" 的子序列)
-- "aaa" ("<strong><em>aa</em></strong>bc<strong><em>a</em></strong>" 的子序列)
-- "aca" ("<strong><em>a</em></strong>ab<strong><em>ca</em></strong>" 的子序列)
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "adc"
-<strong>输出：</strong>0
-<strong>解释：</strong>"adc" 不存在长度为 3 的回文子序列。
+<strong>Input:</strong> s = &quot;aabca&quot;
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The 3 palindromic subsequences of length 3 are:
+- &quot;aba&quot; (subsequence of &quot;<u>a</u>a<u>b</u>c<u>a</u>&quot;)
+- &quot;aaa&quot; (subsequence of &quot;<u>aa</u>bc<u>a</u>&quot;)
+- &quot;aca&quot; (subsequence of &quot;<u>a</u>ab<u>ca</u>&quot;)
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "bbcbaba"
-<strong>输出：</strong>4
-<strong>解释：</strong>长度为 3 的 4 个回文子序列分别是：
-- "bbb" ("<strong><em>bb</em></strong>c<strong><em>b</em></strong>aba" 的子序列)
-- "bcb" ("<strong><em>b</em></strong>b<strong><em>cb</em></strong>aba" 的子序列)
-- "bab" ("<strong><em>b</em></strong>bcb<strong><em>ab</em></strong>a" 的子序列)
-- "aba" ("bbcb<strong><em>aba</em></strong>" 的子序列)
+<strong>Input:</strong> s = &quot;adc&quot;
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There are no palindromic subsequences of length 3 in &quot;adc&quot;.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;bbcbaba&quot;
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The 4 palindromic subsequences of length 3 are:
+- &quot;bbb&quot; (subsequence of &quot;<u>bb</u>c<u>b</u>aba&quot;)
+- &quot;bcb&quot; (subsequence of &quot;<u>b</u>b<u>cb</u>aba&quot;)
+- &quot;bab&quot; (subsequence of &quot;<u>b</u>bcb<u>ab</u>a&quot;)
+- &quot;aba&quot; (subsequence of &quot;bbcb<u>aba</u>&quot;)
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>3 <= s.length <= 10<sup>5</sup></code></li>
-	<li><code>s</code> 仅由小写英文字母组成</li>
+	<li><code>3 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>s</code> consists of only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举两端字符 + 哈希表
+### Solution 1: Enumerate Both End Characters + Hash Table
 
-由于字符串中只包含小写字母，因此我们可以直接枚举所有的两端字符。对于每一对两端字符 $c$，我们找出它们在字符串中第一次和最后一次出现的位置 $l$ 和 $r$，如果 $r - l > 1$，说明找到了满足条件的回文序列，我们将 $[l+1,..r-1]$ 之间的字符去重后统计个数，即为以 $c$ 为两端字符的回文序列个数，加入答案中。
+Since the string contains only lowercase letters, we can directly enumerate all pairs of end characters. For each pair of end characters $c$, we find their first and last occurrence positions $l$ and $r$ in the string. If $r - l > 1$, it means we have found a palindromic subsequence that meets the conditions. We then count the number of unique characters between $[l+1,..r-1]$, which gives the number of palindromic subsequences with $c$ as the end characters, and add it to the answer.
 
-枚举结束后，即可得到答案。
+After enumerating all pairs, we get the answer.
 
-时间复杂度 $O(n \times |\Sigma|)$，其中 $n$ 为字符串长度，而 $\Sigma$ 为字符集大小，本题中 $|\Sigma| = 26$。空间复杂度 $O(|\Sigma|)$ 或 $O(1)$。
+The time complexity is $O(n \times |\Sigma|)$, where $n$ is the length of the string and $\Sigma$ is the size of the character set. In this problem, $|\Sigma| = 26$. The space complexity is $O(|\Sigma|)$ or $O(1)$.
 
 <!-- tabs:start -->
 

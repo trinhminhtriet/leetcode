@@ -1,57 +1,50 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2218.Maximum%20Value%20of%20K%20Coins%20From%20Piles/README.md
+difficulty: Hard
 rating: 2157
-source: 第 286 场周赛 Q4
+source: Weekly Contest 286 Q4
 tags:
-    - 数组
-    - 动态规划
-    - 前缀和
+    - Array
+    - Dynamic Programming
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [2218. 从栈中取出 K 个硬币的最大面值和](https://leetcode.cn/problems/maximum-value-of-k-coins-from-piles)
+# [2218. Maximum Value of K Coins From Piles](https://leetcode.com/problems/maximum-value-of-k-coins-from-piles)
 
-[English Version](/solution/2200-2299/2218.Maximum%20Value%20of%20K%20Coins%20From%20Piles/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一张桌子上总共有 <code>n</code>&nbsp;个硬币 <b>栈</b>&nbsp;。每个栈有 <strong>正整数</strong>&nbsp;个带面值的硬币。</p>
+<p>There are <code>n</code> <strong>piles</strong> of coins on a table. Each pile consists of a <strong>positive number</strong> of coins of assorted denominations.</p>
 
-<p>每一次操作中，你可以从任意一个栈的 <strong>顶部</strong>&nbsp;取出 1 个硬币，从栈中移除它，并放入你的钱包里。</p>
+<p>In one move, you can choose any coin on <strong>top</strong> of any pile, remove it, and add it to your wallet.</p>
 
-<p>给你一个列表&nbsp;<code>piles</code>&nbsp;，其中&nbsp;<code>piles[i]</code>&nbsp;是一个整数数组，分别表示第 <code>i</code>&nbsp;个栈里 <strong>从顶到底</strong>&nbsp;的硬币面值。同时给你一个正整数&nbsp;<code>k</code>&nbsp;，请你返回在&nbsp;<strong>恰好</strong>&nbsp;进行&nbsp;<code>k</code>&nbsp;次操作的前提下，你钱包里硬币面值之和&nbsp;<strong>最大为多少</strong>&nbsp;。</p>
+<p>Given a list <code>piles</code>, where <code>piles[i]</code> is a list of integers denoting the composition of the <code>i<sup>th</sup></code> pile from <strong>top to bottom</strong>, and a positive integer <code>k</code>, return <em>the <strong>maximum total value</strong> of coins you can have in your wallet if you choose <strong>exactly</strong></em> <code>k</code> <em>coins optimally</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2218.Maximum%20Value%20of%20K%20Coins%20From%20Piles/images/e1.png" style="width: 600px; height: 243px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2218.Maximum%20Value%20of%20K%20Coins%20From%20Piles/images/e1.png" style="width: 600px; height: 243px;" />
 <pre>
-<b>输入：</b>piles = [[1,100,3],[7,8,9]], k = 2
-<b>输出：</b>101
-<strong>解释：</strong>
-上图展示了几种选择 k 个硬币的不同方法。
-我们可以得到的最大面值为 101 。
+<strong>Input:</strong> piles = [[1,100,3],[7,8,9]], k = 2
+<strong>Output:</strong> 101
+<strong>Explanation:</strong>
+The above diagram shows the different ways we can choose k coins.
+The maximum total we can obtain is 101.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>piles = [[100],[100],[100],[100],[100],[100],[1,1,1,1,1,1,700]], k = 7
-<b>输出：</b>706
-<strong>解释：
-</strong>如果我们所有硬币都从最后一个栈中取，可以得到最大面值和。
+<strong>Input:</strong> piles = [[100],[100],[100],[100],[100],[100],[1,1,1,1,1,1,700]], k = 7
+<strong>Output:</strong> 706
+<strong>Explanation:
+</strong>The maximum total can be obtained if we choose all coins from the last pile.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == piles.length</code></li>
@@ -62,25 +55,25 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划（分组背包）
+### Solution 1: Dynamic Programming (Grouped Knapsack)
 
-我们定义 $f[i][j]$ 表示从前 $i$ 组中取出 $j$ 个硬币的最大面值和，那么答案为 $f[n][k]$，其中 $n$ 为栈的数量。
+We define $f[i][j]$ as the maximum value sum of taking $j$ coins from the first $i$ piles. The answer is $f[n][k]$, where $n$ is the number of piles.
 
-对于第 $i$ 组，我们可以选择取前 $0$, $1$, $2$, $\cdots$, $k$ 个硬币。我们可以通过前缀和数组 $s$ 来快速计算出取前 $h$ 个硬币的面值和。
+For the $i$-th pile, we can choose to take the first $0$, $1$, $2$, $\cdots$, $k$ coins. We can use a prefix sum array $s$ to quickly calculate the value sum of taking the first $h$ coins.
 
-状态转移方程为：
+The state transition equation is:
 
 $$
 f[i][j] = \max(f[i][j], f[i - 1][j - h] + s[h])
 $$
 
-其中 $0 \leq h \leq j$，而 $s[h]$ 表示第 $i$ 组中取前 $h$ 个硬币的面值和。
+where $0 \leq h \leq j$, and $s[h]$ represents the value sum of taking the first $h$ coins from the $i$-th pile.
 
-时间复杂度 $O(k \times L)$，空间复杂度 $O(n \times k)$。其中 $L$ 为所有硬币的数量，而 $n$ 为栈的数量。
+The time complexity is $O(k \times L)$, and the space complexity is $O(n \times k)$. Here, $L$ is the total number of coins, and $n$ is the number of piles.
 
 <!-- tabs:start -->
 
@@ -208,11 +201,11 @@ function maxValueOfCoins(piles: number[][], k: number): number {
 
 <!-- solution:start -->
 
-### 方法二：动态规划（空间优化）
+### Solution 2: Dynamic Programming (Space Optimization)
 
-我们可以发现，对于第 $i$ 组，我们只需要用到 $f[i - 1][j]$ 和 $f[i][j - h]$，因此我们可以将二维数组优化为一维数组。
+We can observe that for the $i$-th pile, we only need to use $f[i - 1][j]$ and $f[i][j - h]$, so we can optimize the two-dimensional array to a one-dimensional array.
 
-时间复杂度 $O(k \times L)$，空间复杂度 $O(k)$。
+The time complexity is $O(k \times L)$, and the space complexity is $O(k)$.
 
 <!-- tabs:start -->
 

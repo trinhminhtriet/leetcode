@@ -1,66 +1,61 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1745.Palindrome%20Partitioning%20IV/README.md
+difficulty: Hard
 rating: 1924
-source: 第 226 场周赛 Q4
+source: Weekly Contest 226 Q4
 tags:
-    - 字符串
-    - 动态规划
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1745. 分割回文串 IV](https://leetcode.cn/problems/palindrome-partitioning-iv)
+# [1745. Palindrome Partitioning IV](https://leetcode.com/problems/palindrome-partitioning-iv)
 
-[English Version](/solution/1700-1799/1745.Palindrome%20Partitioning%20IV/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> ，如果可以将它分割成三个 <strong>非空</strong> 回文子字符串，那么返回 <code>true</code> ，否则返回 <code>false</code> 。</p>
+<p>Given a string <code>s</code>, return <code>true</code> <em>if it is possible to split the string</em> <code>s</code> <em>into three <strong>non-empty</strong> palindromic substrings. Otherwise, return </em><code>false</code>.​​​​​</p>
 
-<p>当一个字符串正着读和反着读是一模一样的，就称其为 <strong>回文字符串</strong> 。</p>
+<p>A string is said to be palindrome if it the same string when reversed.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>s = "abcbdd"
-<b>输出：</b>true
-<strong>解释：</strong>"abcbdd" = "a" + "bcb" + "dd"，三个子字符串都是回文的。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>s = "bcbddxy"
-<b>输出：</b>false
-<strong>解释：</strong>s 没办法被分割成 3 个回文子字符串。
+<strong>Input:</strong> s = &quot;abcbdd&quot;
+<strong>Output:</strong> true
+<strong>Explanation: </strong>&quot;abcbdd&quot; = &quot;a&quot; + &quot;bcb&quot; + &quot;dd&quot;, and all three substrings are palindromes.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;bcbddxy&quot;
+<strong>Output:</strong> false
+<strong>Explanation: </strong>s cannot be split into 3 palindromes.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>3 <= s.length <= 2000</code></li>
-	<li><code>s</code>​​​​​​ 只包含小写英文字母。</li>
+	<li><code>3 &lt;= s.length &lt;= 2000</code></li>
+	<li><code>s</code>​​​​​​ consists only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][j]$ 表示字符串 $s$ 的第 $i$ 个字符到第 $j$ 个字符是否为回文串，初始时 $f[i][j] = \textit{true}$。
+We define $f[i][j]$ to indicate whether the substring of $s$ from the $i$-th character to the $j$-th character is a palindrome, initially $f[i][j] = \textit{true}$.
 
-然后我们可以通过以下的状态转移方程来计算 $f[i][j]$：
+Then we can calculate $f[i][j]$ using the following state transition equation:
 
 $$
 f[i][j] = \begin{cases}
@@ -69,13 +64,13 @@ f[i][j] = \begin{cases}
 \end{cases}
 $$
 
-由于 $f[i][j]$ 依赖于 $f[i + 1][j - 1]$，因此，我们需要从大到小的顺序枚举 $i$，从小到大的顺序枚举 $j$，这样才能保证当计算 $f[i][j]$ 时 $f[i + 1][j - 1]$ 已经被计算过。
+Since $f[i][j]$ depends on $f[i + 1][j - 1]$, we need to enumerate $i$ from large to small and $j$ from small to large, so that when calculating $f[i][j]$, $f[i + 1][j - 1]$ has already been calculated.
 
-接下来，我们枚举第一个子串的右端点 $i$，第二个子串的右端点 $j$，那么第三个子串的左端点可以枚举的范围为 $[j + 1, n - 1]$，其中 $n$ 是字符串 $s$ 的长度。如果第一个子串 $s[0..i]$、第二个子串 $s[i+1..j]$ 和第三个子串 $s[j+1..n-1]$ 都是回文串，那么我们就找到了一种可行的分割方案，返回 $\textit{true}$。
+Next, we enumerate the right endpoint $i$ of the first substring and the right endpoint $j$ of the second substring. The left endpoint of the third substring can be enumerated in the range $[j + 1, n - 1]$, where $n$ is the length of the string $s$. If the first substring $s[0..i]$, the second substring $s[i+1..j]$, and the third substring $s[j+1..n-1]$ are all palindromes, then we have found a feasible partitioning scheme and return $\textit{true}$.
 
-枚举完所有的分割方案后，如果没有找到符合要求的分割方案，那么返回 $\textit{false}$。
+After enumerating all partitioning schemes, if no valid partitioning scheme is found, return $\textit{false}$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是字符串 $s$ 的长度。
+Time complexity is $O(n^2)$, and space complexity is $O(n^2)$. Where $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

@@ -1,71 +1,64 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3370.Smallest%20Number%20With%20All%20Set%20Bits/README.md
+difficulty: Easy
 rating: 1198
-source: 第 426 场周赛 Q1
+source: Weekly Contest 426 Q1
 tags:
-    - 位运算
-    - 数学
+    - Bit Manipulation
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [3370. 仅含置位位的最小整数](https://leetcode.cn/problems/smallest-number-with-all-set-bits)
+# [3370. Smallest Number With All Set Bits](https://leetcode.com/problems/smallest-number-with-all-set-bits)
 
-[English Version](/solution/3300-3399/3370.Smallest%20Number%20With%20All%20Set%20Bits/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数 <code>n</code>。</p>
+<p>You are given a <em>positive</em> number <code>n</code>.</p>
 
-<p>返回&nbsp;<strong>大于等于</strong> <code>n</code>&nbsp;且二进制表示仅包含&nbsp;<strong>置位&nbsp;</strong>位的&nbsp;<strong>最小&nbsp;</strong>整数 <code>x</code>&nbsp;。</p>
-
-<p><strong>置位&nbsp;</strong>位指的是二进制表示中值为 <code>1</code> 的位。</p>
+<p>Return the <strong>smallest</strong> number <code>x</code> <strong>greater than</strong> or <strong>equal to</strong> <code>n</code>, such that the binary representation of <code>x</code> contains only <span data-keyword="set-bit">set bits</span></p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">n = 5</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 5</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">7</span></p>
+<p><strong>Output:</strong> <span class="example-io">7</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>7 的二进制表示是 <code>"111"</code>。</p>
+<p>The binary representation of 7 is <code>&quot;111&quot;</code>.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">n = 10</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 10</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">15</span></p>
+<p><strong>Output:</strong> <span class="example-io">15</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>15 的二进制表示是 <code>"1111"</code>。</p>
+<p>The binary representation of 15 is <code>&quot;1111&quot;</code>.</p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">n = 3</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 3</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">3</span></p>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>3 的二进制表示是 <code>"11"</code>。</p>
+<p>The binary representation of 3 is <code>&quot;11&quot;</code>.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
@@ -73,15 +66,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算
+### Solution 1: Bit Manipulation
 
-我们从 $x = 1$ 开始，不断将 $x$ 左移，直到 $x - 1 \geq n$，此时 $x - 1$ 就是我们要找的答案。
+We start with $x = 1$ and continuously left shift $x$ until $x - 1 \geq n$. At this point, $x - 1$ is the answer we are looking for.
 
-时间复杂度 $O(\log n)$，空间复杂度 $O(1)$。
+The time complexity is $O(\log n)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,109 +1,100 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2623.Memoize/README.md
+difficulty: Medium
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2623. 记忆函数](https://leetcode.cn/problems/memoize)
+# [2623. Memoize](https://leetcode.com/problems/memoize)
 
-[English Version](/solution/2600-2699/2623.Memoize/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你编写一个函数 <code>fn</code>，它接收另一个函数作为输入，并返回该函数的 <strong>记忆化</strong> 后的结果。</p>
+<p>Given a function <code>fn</code>, return a&nbsp;<strong>memoized</strong>&nbsp;version of that function.</p>
 
-<p><strong>记忆函数</strong> 是一个对于相同的输入永远不会被调用两次的函数。相反，它将返回一个缓存值。</p>
+<p>A&nbsp;<strong>memoized&nbsp;</strong>function is a function that will never be called twice with&nbsp;the same inputs. Instead it will return&nbsp;a cached value.</p>
 
-<p>你可以假设有 <strong>3</strong> 个可能的输入函数：<code>sum</code> 、<code>fib</code> 和 <code>factorial</code> 。</p>
+<p>You can assume there are&nbsp;<strong>3&nbsp;</strong>possible input functions:&nbsp;<code>sum</code><strong>, </strong><code>fib</code><strong>,&nbsp;</strong>and&nbsp;<code>factorial</code><strong>.</strong></p>
 
 <ul>
-	<li>&nbsp;<code>sum</code> 接收两个整型参数 <code>a</code> 和 <code>b</code> ，并返回 <code>a + b</code> 。假设如果参数 <code>(b, a)</code> 已经缓存了值，其中 <code>a != b</code>，它不能用于参数 <code>(a, b)</code>。例如，如果参数是 <code>(3, 2)</code> 和 <code>(2, 3)</code>，则应进行两个单独的调用。</li>
-	<li>&nbsp;<code>fib</code> 接收一个整型参数&nbsp;<code>n</code> ，如果 <code>n &lt;= 1</code> 则返回 <code>1</code>，否则返回 <code>fib (n - 1) + fib (n - 2)</code>。</li>
-	<li>&nbsp;<code>factorial</code> 接收一个整型参数 <code>n</code> ，如果 <code>n &lt;= 1</code> 则返回&nbsp;&nbsp;<code>1</code>&nbsp;，否则返回 <code>factorial(n - 1) * n</code> 。</li>
+	<li><code>sum</code><strong>&nbsp;</strong>accepts two integers&nbsp;<code>a</code> and <code>b</code> and returns <code>a + b</code>.&nbsp;Assume that if a value has already been cached for the arguments <code>(b, a)</code> where <code>a != b</code>, it cannot be used for the arguments <code>(a, b)</code>. For example, if the arguments are <code>(3, 2)</code> and <code>(2, 3)</code>, two separate calls should be made.</li>
+	<li><code>fib</code><strong>&nbsp;</strong>accepts a&nbsp;single integer&nbsp;<code>n</code> and&nbsp;returns&nbsp;<code>1</code> if <font face="monospace"><code>n &lt;= 1</code> </font>or<font face="monospace">&nbsp;<code>fib(n - 1) + fib(n - 2)</code>&nbsp;</font>otherwise.</li>
+	<li><code>factorial</code>&nbsp;accepts a single integer&nbsp;<code>n</code> and returns <code>1</code>&nbsp;if&nbsp;<code>n &lt;= 1</code>&nbsp;or&nbsp;<code>factorial(n - 1) * n</code>&nbsp;otherwise.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-fnName = "sum"
-actions = ["call","call","getCallCount","call","getCallCount"]
+<strong>Input:</strong>
+fnName = &quot;sum&quot;
+actions = [&quot;call&quot;,&quot;call&quot;,&quot;getCallCount&quot;,&quot;call&quot;,&quot;getCallCount&quot;]
 values = [[2,2],[2,2],[],[1,2],[]]
-<strong>输出：</strong>[4,4,1,3,2]
-<strong>解释：</strong>
+<strong>Output:</strong> [4,4,1,3,2]
+<strong>Explanation:</strong>
 const sum = (a, b) =&gt; a + b;
 const memoizedSum = memoize(sum);
-memoizedSum (2, 2);// "call" - 返回 4。sum() 被调用，因为之前没有使用参数 (2, 2) 调用过。
-memoizedSum (2, 2);// "call" - 返回 4。没有调用 sum()，因为前面有相同的输入。
-// "getCallCount" - 总调用数： 1
-memoizedSum(1, 2);// "call" - 返回 3。sum() 被调用，因为之前没有使用参数 (1, 2) 调用过。
-// "getCallCount" - 总调用数： 2
+memoizedSum(2, 2); // &quot;call&quot; - returns 4. sum() was called as (2, 2) was not seen before.
+memoizedSum(2, 2); // &quot;call&quot; - returns 4. However sum() was not called because the same inputs were seen before.
+// &quot;getCallCount&quot; - total call count: 1
+memoizedSum(1, 2); // &quot;call&quot; - returns 3. sum() was called as (1, 2) was not seen before.
+// &quot;getCallCount&quot; - total call count: 2
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：
-</strong>fnName = "factorial"
-actions = ["call","call","call","getCallCount","call","getCallCount"]
+<strong>Input:
+</strong>fnName = &quot;factorial&quot;
+actions = [&quot;call&quot;,&quot;call&quot;,&quot;call&quot;,&quot;getCallCount&quot;,&quot;call&quot;,&quot;getCallCount&quot;]
 values = [[2],[3],[2],[],[3],[]]
-<strong>输出：</strong>[2,6,2,2,6,2]
-<strong>解释：</strong>
+<strong>Output:</strong> [2,6,2,2,6,2]
+<strong>Explanation:</strong>
 const factorial = (n) =&gt; (n &lt;= 1) ? 1 : (n * factorial(n - 1));
 const memoFactorial = memoize(factorial);
-memoFactorial(2); // "call" - 返回 2。
-memoFactorial(3); // "call" - 返回 6。
-memoFactorial(2); // "call" - 返回 2。 没有调用 factorial()，因为前面有相同的输入。
-// "getCallCount" -  总调用数：2
-memoFactorial(3); // "call" - 返回 6。 没有调用 factorial()，因为前面有相同的输入。
-// "getCallCount" -  总调用数：2
+memoFactorial(2); // &quot;call&quot; - returns 2.
+memoFactorial(3); // &quot;call&quot; - returns 6.
+memoFactorial(2); // &quot;call&quot; - returns 2. However factorial was not called because 2 was seen before.
+// &quot;getCallCount&quot; - total call count: 2
+memoFactorial(3); // &quot;call&quot; - returns 6. However factorial was not called because 3 was seen before.
+// &quot;getCallCount&quot; - total call count: 2
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：
-</strong>fnName = "fib"
-actions = ["call","getCallCount"]
+<strong>Input:
+</strong>fnName = &quot;fib&quot;
+actions = [&quot;call&quot;,&quot;getCallCount&quot;]
 values = [[5],[]]
-<strong>输出：</strong>[8,1]
-<strong>解释：
-</strong>fib(5) = 8 // "call"
-// "getCallCount" -&nbsp;总调用数：1
+<strong>Output:</strong> [8,1]
+<strong>Explanation:
+</strong>fib(5) = 8 // &quot;call&quot;
+// &quot;getCallCount&quot; - total call count: 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= a, b &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= n &lt;= 10</code></li>
 	<li><code>1 &lt;= actions.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>actions.length === values.length</code></li>
-	<li><code>actions[i]</code> 为&nbsp;"call" 和 "getCallCount" 中的一个</li>
-	<li><code>fnName</code> 为 "sum", "factorial" 和 "fib" 中的一个</li>
+	<li><code>actions[i]</code> is one of &quot;call&quot; and &quot;getCallCount&quot;</li>
+	<li><code>fnName</code> is one of &quot;sum&quot;, &quot;factorial&quot; and&nbsp;&quot;fib&quot;</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
-
-我们可以使用哈希表来存储函数的参数和返回值，当再次调用函数时，如果参数已经存在于哈希表中，则直接返回哈希表中的值，否则调用函数并将返回值存入哈希表中。
-
-时间复杂度 $O(1)$，空间复杂度 $O(n)$。其中 $n$ 为函数的参数个数。
+### Solution 1
 
 <!-- tabs:start -->
 

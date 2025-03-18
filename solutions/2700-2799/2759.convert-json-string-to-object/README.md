@@ -1,64 +1,59 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2759.Convert%20JSON%20String%20to%20Object/README.md
+difficulty: Hard
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2759. 将 JSON 字符串转换为对象 🔒](https://leetcode.cn/problems/convert-json-string-to-object)
+# [2759. Convert JSON String to Object 🔒](https://leetcode.com/problems/convert-json-string-to-object)
 
-[English Version](/solution/2700-2799/2759.Convert%20JSON%20String%20to%20Object/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个字符串 <code>str</code> ，返回 JSON 解析后的 <code>parsedStr</code> 。你可以假设 <code>str</code> 是一个有效的 JSON 字符串，因此它只包含字符串、数字、数组、对象、布尔值和 null。<code>str</code> 不会包含不可见字符和转义字符。</p>
+<p>Given a string <code>str</code>, return parsed JSON&nbsp;<code>parsedStr</code>.&nbsp;You may assume the <code>str</code>&nbsp;is a valid JSON string hence it only includes strings, numbers, arrays, objects, booleans, and null. <code>str</code>&nbsp;will not include invisible characters and escape characters.&nbsp;</p>
 
-<p>请在不使用内置的 <code>JSON.parse</code> 方法的情况下解决此问题。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>str = '{"a":2,"b":[1,2,3]}'
-<b>输出：</b>{"a":2,"b":[1,2,3]}
-<b>解释：</b>返回由 JSON 字符串表示的对象。</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>str = 'true'
-<b>输出：</b>true
-<b>解释：</b>原始类型是有效的 JSON。</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>str = '[1,5,"false",{"a":2}]'
-<b>输出：</b>[1,5,"false",{"a":2}]
-<b>解释：</b>返回由 JSON 字符串表示的数组。</pre>
+<p>Please solve it without using the built-in&nbsp;<code>JSON.parse</code>&nbsp;method.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> str = &#39;{&quot;a&quot;:2,&quot;b&quot;:[1,2,3]}&#39;
+<strong>Output:</strong> {&quot;a&quot;:2,&quot;b&quot;:[1,2,3]}
+<strong>Explanation:</strong>&nbsp;Returns the object represented by the JSON string.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> str = &#39;true&#39;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Primitive types are valid JSON.</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> str = &#39;[1,5,&quot;false&quot;,{&quot;a&quot;:2}]&#39;
+<strong>Output:</strong> [1,5,&quot;false&quot;,{&quot;a&quot;:2}]
+<strong>Explanation:</strong> Returns the array represented by the JSON string.</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>str</code> 是一个有效的 JSON 字符串</li>
+	<li><code>str</code> is a valid JSON string</li>
 	<li><code>1 &lt;= str.length &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

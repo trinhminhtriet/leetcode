@@ -1,93 +1,88 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1681.Minimum%20Incompatibility/README.md
+difficulty: Hard
 rating: 2389
-source: 第 218 场周赛 Q4
+source: Weekly Contest 218 Q4
 tags:
-    - 位运算
-    - 数组
-    - 动态规划
-    - 状态压缩
+    - Bit Manipulation
+    - Array
+    - Dynamic Programming
+    - Bitmask
 ---
 
 <!-- problem:start -->
 
-# [1681. 最小不兼容性](https://leetcode.cn/problems/minimum-incompatibility)
+# [1681. Minimum Incompatibility](https://leetcode.com/problems/minimum-incompatibility)
 
-[English Version](/solution/1600-1699/1681.Minimum%20Incompatibility/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code>​​​ 和一个整数 <code>k</code> 。你需要将这个数组划分到 <code>k</code> 个相同大小的子集中，使得同一个子集里面没有两个相同的元素。</p>
+<p>You are given an integer array <code>nums</code>​​​ and an integer <code>k</code>. You are asked to distribute this array into <code>k</code> subsets of <strong>equal size</strong> such that there are no two equal elements in the same subset.</p>
 
-<p>一个子集的 <strong>不兼容性</strong> 是该子集里面最大值和最小值的差。</p>
+<p>A subset&#39;s <strong>incompatibility</strong> is the difference between the maximum and minimum elements in that array.</p>
 
-<p>请你返回将数组分成 <code>k</code> 个子集后，各子集 <strong>不兼容性 </strong>的<strong> 和</strong> 的 <strong>最小值</strong> ，如果无法分成分成 <code>k</code> 个子集，返回 <code>-1</code> 。</p>
+<p>Return <em>the <strong>minimum possible sum of incompatibilities</strong> of the </em><code>k</code> <em>subsets after distributing the array optimally, or return </em><code>-1</code><em> if it is not possible.</em></p>
 
-<p>子集的定义是数组中一些数字的集合，对数字顺序没有要求。</p>
+<p>A subset is a group integers that appear in the array with no particular order.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [1,2,1,4], k = 2
-<b>输出：</b>4
-<b>解释：</b>最优的分配是 [1,2] 和 [1,4] 。
-不兼容性和为 (2-1) + (4-1) = 4 。
-注意到 [1,1] 和 [2,4] 可以得到更小的和，但是第一个集合有 2 个相同的元素，所以不可行。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [6,3,8,1,3,1,2,2], k = 4
-<b>输出：</b>6
-<b>解释：</b>最优的子集分配为 [1,2]，[2,3]，[6,8] 和 [1,3] 。
-不兼容性和为 (2-1) + (3-2) + (8-6) + (3-1) = 6 。
+<strong>Input:</strong> nums = [1,2,1,4], k = 2
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The optimal distribution of subsets is [1,2] and [1,4].
+The incompatibility is (2-1) + (4-1) = 4.
+Note that [1,1] and [2,4] would result in a smaller sum, but the first subset contains 2 equal elements.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [6,3,8,1,3,1,2,2], k = 4
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The optimal distribution of subsets is [1,2], [2,3], [6,8], and [1,3].
+The incompatibility is (2-1) + (3-2) + (8-6) + (3-1) = 6.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [5,3,3,6,3,3], k = 3
-<b>输出：</b>-1
-<b>解释：</b>没办法将这些数字分配到 3 个子集且满足每个子集里没有相同数字。
+<strong>Input:</strong> nums = [5,3,3,6,3,3], k = 3
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> It is impossible to distribute nums into 3 subsets where no two elements are equal in the same subset.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= k <= nums.length <= 16</code></li>
-	<li><code>nums.length</code> 能被 <code>k</code> 整除。</li>
-	<li><code>1 <= nums[i] <= nums.length</code></li>
+	<li><code>1 &lt;= k &lt;= nums.length &lt;= 16</code></li>
+	<li><code>nums.length</code> is divisible by <code>k</code></li>
+	<li><code>1 &lt;= nums[i] &lt;= nums.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：预处理 + 状态压缩 + 动态规划
+### Solution 1: Preprocessing + State Compression + Dynamic Programming
 
-不妨设划分后每个子集的大小为 $m$，那么 $m=\frac{n}{k}$，其中 $n$ 是数组的长度。
+Let's assume that the size of each subset after partitioning is $m$, so $m=\frac{n}{k}$, where $n$ is the length of the array.
 
-我们可以枚举所有的子集 $i$，其中 $i \in [0, 2^n)$，如果子集 $i$ 的二进制表示中有 $m$ 个 $1$，并且子集 $i$ 中的元素没有重复，那么我们就可以计算出子集 $i$ 的不兼容性，记为 $g[i]$，即 $g[i]=\max_{j \in i} \{nums[j]\} - \min_{j \in i} \{nums[j]\}$。
+We can enumerate all subsets $i$, where $i \in [0, 2^n)$, if the binary representation of subset $i$ has $m$ ones, and the elements in subset $i$ are not repeated, then we can calculate the incompatibility of subset $i$, denoted as $g[i]$, i.e., $g[i]=\max_{j \in i} \{nums[j]\} - \min_{j \in i} \{nums[j]\}$.
 
-接下来，我们可以使用动态规划来求解。
+Next, we can use dynamic programming to solve.
 
-我们定义 $f[i]$ 表示当前已经划分的子集状态为 $i$ 时，子集的不兼容性和的最小值。初始时 $f[0]=0$，表示没有任何元素被划分到子集中，其余 $f[i]=+\infty$。
+We define $f[i]$ as the minimum sum of incompatibilities when the current partitioned subset state is $i$. Initially, $f[0]=0$, which means no elements are partitioned into the subset, and the rest $f[i]=+\infty$.
 
-对于状态 $i$，我们找出所有未被划分且不重复的元素，用一个状态 $mask$ 表示，如果状态 $mask$ 中的元素个数大于等于 $m$，那么我们就枚举 $mask$ 的所有子集 $j$，并且满足 $j \subset mask$，那么 $f[i \cup j]=\min \{f[i \cup j], f[i]+g[j]\}$。
+For state $i$, we find all undivided and non-repeated elements, represented by a state $mask$. If the number of elements in state $mask$ is greater than or equal to $m$, then we enumerate all subsets $j$ of $mask$, and satisfy $j \subset mask$, then $f[i \cup j]=\min \{f[i \cup j], f[i]+g[j]\}$.
 
-最后，如果 $f[2^n-1]=+\infty$，那么说明无法划分成 $k$ 个子集，返回 $-1$，否则返回 $f[2^n-1]$。
+Finally, if $f[2^n-1]=+\infty$, it means that it cannot be partitioned into $k$ subsets, return $-1$, otherwise return $f[2^n-1]$.
 
-时间复杂度 $O(3^n)$，空间复杂度 $O(2^n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(3^n)$, and the space complexity is $O(2^n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

@@ -1,78 +1,73 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2472.Maximum%20Number%20of%20Non-overlapping%20Palindrome%20Substrings/README.md
+difficulty: Hard
 rating: 2013
-source: 第 319 场周赛 Q4
+source: Weekly Contest 319 Q4
 tags:
-    - 贪心
-    - 双指针
-    - 字符串
-    - 动态规划
+    - Greedy
+    - Two Pointers
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2472. 不重叠回文子字符串的最大数目](https://leetcode.cn/problems/maximum-number-of-non-overlapping-palindrome-substrings)
+# [2472. Maximum Number of Non-overlapping Palindrome Substrings](https://leetcode.com/problems/maximum-number-of-non-overlapping-palindrome-substrings)
 
-[English Version](/solution/2400-2499/2472.Maximum%20Number%20of%20Non-overlapping%20Palindrome%20Substrings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> 和一个 <strong>正</strong> 整数 <code>k</code> 。</p>
+<p>You are given a string <code>s</code> and a <strong>positive</strong> integer <code>k</code>.</p>
 
-<p>从字符串 <code>s</code> 中选出一组满足下述条件且 <strong>不重叠</strong> 的子字符串：</p>
+<p>Select a set of <strong>non-overlapping</strong> substrings from the string <code>s</code> that satisfy the following conditions:</p>
 
 <ul>
-	<li>每个子字符串的长度 <strong>至少</strong> 为 <code>k</code> 。</li>
-	<li>每个子字符串是一个 <strong>回文串</strong> 。</li>
+	<li>The <strong>length</strong> of each substring is <strong>at least</strong> <code>k</code>.</li>
+	<li>Each substring is a <strong>palindrome</strong>.</li>
 </ul>
 
-<p>返回最优方案中能选择的子字符串的 <strong>最大</strong> 数目。</p>
+<p>Return <em>the <strong>maximum</strong> number of substrings in an optimal selection</em>.</p>
 
-<p><strong>子字符串</strong> 是字符串中一个连续的字符序列。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1 ：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "abaccdbbd", k = 3
-<strong>输出：</strong>2
-<strong>解释：</strong>可以选择 s = "<em><strong>aba</strong></em>cc<em><strong>dbbd</strong></em>" 中斜体加粗的子字符串。"aba" 和 "dbbd" 都是回文，且长度至少为 k = 3 。
-可以证明，无法选出两个以上的有效子字符串。
-</pre>
-
-<p><strong>示例 2 ：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "adbcda", k = 2
-<strong>输出：</strong>0
-<strong>解释：</strong>字符串中不存在长度至少为 2 的回文子字符串。
-</pre>
+<p>A <strong>substring</strong> is a contiguous sequence of characters within a string.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;abaccdbbd&quot;, k = 3
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> We can select the substrings underlined in s = &quot;<u><strong>aba</strong></u>cc<u><strong>dbbd</strong></u>&quot;. Both &quot;aba&quot; and &quot;dbbd&quot; are palindromes and have a length of at least k = 3.
+It can be shown that we cannot find a selection with more than two valid substrings.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;adbcda&quot;, k = 2
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There is no palindrome substring of length at least 2 in the string.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= s.length &lt;= 2000</code></li>
-	<li><code>s</code> 仅由小写英文字母组成</li>
+	<li><code>s</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：预处理 + 记忆化搜索
+### Solution 1: Preprocessing + Memoization Search
 
-预处理字符串 $s$，得到 $dp[i][j]$ 表示字符串 $s[i,..j]$ 是否为回文串。
+First, preprocess the string $s$ to get $dp[i][j]$, which represents whether the substring $s[i,..j]$ is a palindrome.
 
-然后定义函数 $dfs(i)$ 表示从字符串 $s[i,..]$ 中选出最多的不重叠回文子串的个数，即：
+Then, define a function $dfs(i)$ to represent the maximum number of non-overlapping palindrome substrings that can be selected from the substring $s[i,..]$, i.e.,
 
 $$
 \begin{aligned}
@@ -83,7 +78,7 @@ dfs(i) &= \begin{cases}
 \end{aligned}
 $$
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为字符串 $s$ 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

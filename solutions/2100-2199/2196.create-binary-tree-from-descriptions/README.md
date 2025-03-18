@@ -1,89 +1,81 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2196.Create%20Binary%20Tree%20From%20Descriptions/README.md
+difficulty: Medium
 rating: 1643
-source: 第 283 场周赛 Q3
+source: Weekly Contest 283 Q3
 tags:
-    - 树
-    - 数组
-    - 哈希表
-    - 二叉树
+    - Tree
+    - Array
+    - Hash Table
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [2196. 根据描述创建二叉树](https://leetcode.cn/problems/create-binary-tree-from-descriptions)
+# [2196. Create Binary Tree From Descriptions](https://leetcode.com/problems/create-binary-tree-from-descriptions)
 
-[English Version](/solution/2100-2199/2196.Create%20Binary%20Tree%20From%20Descriptions/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二维整数数组 <code>descriptions</code> ，其中 <code>descriptions[i] = [parent<sub>i</sub>, child<sub>i</sub>, isLeft<sub>i</sub>]</code> 表示 <code>parent<sub>i</sub></code> 是 <code>child<sub>i</sub></code> 在 <strong>二叉树</strong> 中的 <strong>父节点</strong>，二叉树中各节点的值 <strong>互不相同</strong> 。此外：</p>
+<p>You are given a 2D integer array <code>descriptions</code> where <code>descriptions[i] = [parent<sub>i</sub>, child<sub>i</sub>, isLeft<sub>i</sub>]</code> indicates that <code>parent<sub>i</sub></code> is the <strong>parent</strong> of <code>child<sub>i</sub></code> in a <strong>binary</strong> tree of <strong>unique</strong> values. Furthermore,</p>
 
 <ul>
-	<li>如果 <code>isLeft<sub>i</sub> == 1</code> ，那么 <code>child<sub>i</sub></code> 就是 <code>parent<sub>i</sub></code> 的左子节点。</li>
-	<li>如果 <code>isLeft<sub>i</sub> == 0</code> ，那么 <code>child<sub>i</sub></code> 就是 <code>parent<sub>i</sub></code> 的右子节点。</li>
+	<li>If <code>isLeft<sub>i</sub> == 1</code>, then <code>child<sub>i</sub></code> is the left child of <code>parent<sub>i</sub></code>.</li>
+	<li>If <code>isLeft<sub>i</sub> == 0</code>, then <code>child<sub>i</sub></code> is the right child of <code>parent<sub>i</sub></code>.</li>
 </ul>
 
-<p>请你根据 <code>descriptions</code> 的描述来构造二叉树并返回其 <strong>根节点</strong> 。</p>
+<p>Construct the binary tree described by <code>descriptions</code> and return <em>its <strong>root</strong></em>.</p>
 
-<p>测试用例会保证可以构造出 <strong>有效</strong> 的二叉树。</p>
+<p>The test cases will be generated such that the binary tree is <strong>valid</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2196.Create%20Binary%20Tree%20From%20Descriptions/images/example1drawio.png" style="width: 300px; height: 236px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2196.Create%20Binary%20Tree%20From%20Descriptions/images/example1drawio.png" style="width: 300px; height: 236px;" />
 <pre>
-<strong>输入：</strong>descriptions = [[20,15,1],[20,17,0],[50,20,1],[50,80,0],[80,19,1]]
-<strong>输出：</strong>[50,20,80,15,17,19]
-<strong>解释：</strong>根节点是值为 50 的节点，因为它没有父节点。
-结果二叉树如上图所示。
+<strong>Input:</strong> descriptions = [[20,15,1],[20,17,0],[50,20,1],[50,80,0],[80,19,1]]
+<strong>Output:</strong> [50,20,80,15,17,19]
+<strong>Explanation:</strong> The root node is the node with value 50 since it has no parent.
+The resulting binary tree is shown in the diagram.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2196.Create%20Binary%20Tree%20From%20Descriptions/images/example2drawio.png" style="width: 131px; height: 300px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2196.Create%20Binary%20Tree%20From%20Descriptions/images/example2drawio.png" style="width: 131px; height: 300px;" />
 <pre>
-<strong>输入：</strong>descriptions = [[1,2,1],[2,3,0],[3,4,1]]
-<strong>输出：</strong>[1,2,null,null,3,4]
-<strong>解释：</strong>根节点是值为 1 的节点，因为它没有父节点。 
-结果二叉树如上图所示。 </pre>
+<strong>Input:</strong> descriptions = [[1,2,1],[2,3,0],[3,4,1]]
+<strong>Output:</strong> [1,2,null,null,3,4]
+<strong>Explanation:</strong> The root node is the node with value 1 since it has no parent.
+The resulting binary tree is shown in the diagram.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= descriptions.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>descriptions[i].length == 3</code></li>
 	<li><code>1 &lt;= parent<sub>i</sub>, child<sub>i</sub> &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= isLeft<sub>i</sub> &lt;= 1</code></li>
-	<li><code>descriptions</code> 所描述的二叉树是一棵有效二叉树</li>
+	<li>The binary tree described by <code>descriptions</code> is valid.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们可以用一个哈希表 $\textit{nodes}$ 来存储所有节点，其中键为节点的值，值为节点本身，用一个集合 $\textit{children}$ 来存储所有的子节点。
+We can use a hash table $\textit{nodes}$ to store all nodes, where the keys are the values of the nodes, and the values are the nodes themselves. Additionally, we use a set $\textit{children}$ to store all child nodes.
 
-遍历 $\textit{descriptions}$，对于每个描述 $[\textit{parent}, \textit{child}, \textit{isLeft}]$，如果 $\textit{parent}$ 不在 $\textit{nodes}$ 中，我们就将 $\textit{parent}$ 加入 $\textit{nodes}$，并初始化一个值为 $\textit{parent}$ 的节点。如果 $\textit{child}$ 不在 $\textit{nodes}$ 中，我们就将 $\textit{child}$ 加入 $\textit{nodes}$，并初始化一个值为 $\textit{child}$ 的节点。然后我们将 $\textit{child}$ 加入 $\textit{children}$。
+We iterate through the $\textit{descriptions}$, and for each description $[\textit{parent}, \textit{child}, \textit{isLeft}]$, if $\textit{parent}$ is not in $\textit{nodes}$, we add $\textit{parent}$ to $\textit{nodes}$ and initialize a node with the value $\textit{parent}$. If $\textit{child}$ is not in $\textit{nodes}$, we add $\textit{child}$ to $\textit{nodes}$ and initialize a node with the value $\textit{child}$. Then, we add $\textit{child}$ to $\textit{children}$.
 
-如果 $\textit{isLeft}$ 为真，我们就将 $\textit{child}$ 作为 $\textit{parent}$ 的左子节点，否则我们就将 $\textit{child}$ 作为 $\textit{parent}$ 的右子节点。
+If $\textit{isLeft}$ is true, we set $\textit{child}$ as the left child of $\textit{parent}$; otherwise, we set $\textit{child}$ as the right child of $\textit{parent}$.
 
-最后，我们遍历 $\textit{nodes}$，如果某个节点的值不在 $\textit{children}$ 中，那么这个节点就是根节点，我们返回这个节点。
+Finally, we iterate through $\textit{nodes}$, and if a node's value is not in $\textit{children}$, then this node is the root node, and we return this node.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是 $\textit{descriptions}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of $\textit{descriptions}$.
 
 <!-- tabs:start -->
 

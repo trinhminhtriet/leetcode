@@ -1,85 +1,77 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0919.Complete%20Binary%20Tree%20Inserter/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 广度优先搜索
-    - 设计
-    - 二叉树
+    - Tree
+    - Breadth-First Search
+    - Design
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [919. 完全二叉树插入器](https://leetcode.cn/problems/complete-binary-tree-inserter)
+# [919. Complete Binary Tree Inserter](https://leetcode.com/problems/complete-binary-tree-inserter)
 
-[English Version](/solution/0900-0999/0919.Complete%20Binary%20Tree%20Inserter/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong>完全二叉树</strong> 是每一层（除最后一层外）都是完全填充（即，节点数达到最大）的，并且所有的节点都尽可能地集中在左侧。</p>
+<p>A <strong>complete binary tree</strong> is a binary tree in which every level, except possibly the last, is completely filled, and all nodes are as far left as possible.</p>
 
-<p>设计一种算法，将一个新节点插入到一棵完全二叉树中，并在插入后保持其完整。</p>
+<p>Design an algorithm to insert a new node to a complete binary tree keeping it complete after the insertion.</p>
 
-<p>实现 <code>CBTInserter</code> 类:</p>
+<p>Implement the <code>CBTInserter</code> class:</p>
 
 <ul>
-	<li><code>CBTInserter(TreeNode root)</code>&nbsp;使用头节点为&nbsp;<code>root</code>&nbsp;的给定树初始化该数据结构；</li>
-	<li><code>CBTInserter.insert(int v)</code>&nbsp; 向树中插入一个值为&nbsp;<code>Node.val == val</code>的新节点&nbsp;<code>TreeNode</code>。使树保持完全二叉树的状态，<strong>并返回插入节点</strong>&nbsp;<code>TreeNode</code>&nbsp;<strong>的父节点的值</strong>；</li>
-	<li><code>CBTInserter.get_root()</code> 将返回树的头节点。</li>
+	<li><code>CBTInserter(TreeNode root)</code> Initializes the data structure with the <code>root</code> of the complete binary tree.</li>
+	<li><code>int insert(int v)</code> Inserts a <code>TreeNode</code> into the tree with value <code>Node.val == val</code> so that the tree remains complete, and returns the value of the parent of the inserted <code>TreeNode</code>.</li>
+	<li><code>TreeNode get_root()</code> Returns the root node of the tree.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<ol>
-</ol>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0919.Complete%20Binary%20Tree%20Inserter/images/lc-treeinsert.jpg" style="height: 143px; width: 500px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0919.Complete%20Binary%20Tree%20Inserter/images/lc-treeinsert.jpg" style="width: 500px; height: 143px;" />
 <pre>
-<strong>输入</strong>
-["CBTInserter", "insert", "insert", "get_root"]
+<strong>Input</strong>
+[&quot;CBTInserter&quot;, &quot;insert&quot;, &quot;insert&quot;, &quot;get_root&quot;]
 [[[1, 2]], [3], [4], []]
-<strong>输出</strong>
+<strong>Output</strong>
 [null, 1, 2, [1, 2, 3, 4]]
 
-<strong>解释</strong>
+<strong>Explanation</strong>
 CBTInserter cBTInserter = new CBTInserter([1, 2]);
-cBTInserter.insert(3);  // 返回 1
-cBTInserter.insert(4);  // 返回 2
-cBTInserter.get_root(); // 返回 [1, 2, 3, 4]</pre>
+cBTInserter.insert(3); // return 1
+cBTInserter.insert(4); // return 2
+cBTInserter.get_root(); // return [1, 2, 3, 4]
+
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点数量范围为&nbsp;<code>[1, 1000]</code>&nbsp;</li>
+	<li>The number of nodes in the tree will be in the range <code>[1, 1000]</code>.</li>
 	<li><code>0 &lt;= Node.val &lt;= 5000</code></li>
-	<li><code>root</code>&nbsp;是完全二叉树</li>
-	<li><code>0 &lt;= val &lt;= 5000</code>&nbsp;</li>
-	<li>每个测试用例最多调用&nbsp;<code>insert</code>&nbsp;和&nbsp;<code>get_root</code>&nbsp;操作&nbsp;<code>10<sup>4</sup></code>&nbsp;次</li>
+	<li><code>root</code> is a complete binary tree.</li>
+	<li><code>0 &lt;= val &lt;= 5000</code></li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>insert</code> and <code>get_root</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
+### Solution 1: BFS
 
-我们可以使用一个数组 $tree$ 来存储完全二叉树的所有节点。在初始化时，我们使用一个队列 $q$ 来层序遍历给定的树，并将所有节点存储到数组 $tree$ 中。
+We can use an array $tree$ to store all nodes of the complete binary tree. During initialization, we use a queue $q$ to perform level-order traversal of the given tree and store all nodes into the array $tree$.
 
-在插入节点时，我们可以通过数组 $tree$ 来找到新节点的父节点 $p$。然后我们创建一个新节点 $node$，将其插入到数组 $tree$ 中，并将 $node$ 作为 $p$ 的左子节点或右子节点。最后返回 $p$ 的值。
+When inserting a node, we can find the parent node $p$ of the new node through the array $tree$. Then we create a new node $node$, insert it into the array $tree$, and make $node$ as the left child or right child of $p$. Finally, we return the value of $p$.
 
-在获取根节点时，我们直接返回数组 $tree$ 的第一个元素。
+When getting the root node, we directly return the first element of the array $tree$.
 
-时间复杂度方面，初始化时需要 $O(n)$ 的时间，插入节点和获取根节点的时间复杂度均为 $O(1)$。空间复杂度为 $O(n)$。其中 $n$ 为树中节点的数量。
+In terms of time complexity, it takes $O(n)$ time for initialization, and the time complexity for inserting a node and getting the root node are both $O(1)$. The space complexity is $O(n)$, where $n$ is the number of nodes in the tree.
 
 <!-- tabs:start -->
 

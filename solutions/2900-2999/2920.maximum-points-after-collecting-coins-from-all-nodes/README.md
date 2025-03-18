@@ -1,69 +1,64 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2920.Maximum%20Points%20After%20Collecting%20Coins%20From%20All%20Nodes/README.md
+difficulty: Hard
 rating: 2350
-source: 第 369 场周赛 Q4
+source: Weekly Contest 369 Q4
 tags:
-    - 位运算
-    - 树
-    - 深度优先搜索
-    - 记忆化搜索
-    - 数组
-    - 动态规划
+    - Bit Manipulation
+    - Tree
+    - Depth-First Search
+    - Memoization
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2920. 收集所有金币可获得的最大积分](https://leetcode.cn/problems/maximum-points-after-collecting-coins-from-all-nodes)
+# [2920. Maximum Points After Collecting Coins From All Nodes](https://leetcode.com/problems/maximum-points-after-collecting-coins-from-all-nodes)
 
-[English Version](/solution/2900-2999/2920.Maximum%20Points%20After%20Collecting%20Coins%20From%20All%20Nodes/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有一棵由 <code>n</code> 个节点组成的无向树，以&nbsp;<code>0</code>&nbsp; 为根节点，节点编号从 <code>0</code> 到 <code>n - 1</code> 。给你一个长度为 <code>n - 1</code> 的二维 <strong>整数</strong> 数组 <code>edges</code> ，其中 <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> 表示在树上的节点 <code>a<sub>i</sub></code> 和 <code>b<sub>i</sub></code> 之间存在一条边。另给你一个下标从 <strong>0</strong> 开始、长度为 <code>n</code> 的数组 <code>coins</code> 和一个整数 <code>k</code> ，其中 <code>coins[i]</code> 表示节点 <code>i</code> 处的金币数量。</p>
+<p>There exists an undirected tree rooted at node <code>0</code> with <code>n</code> nodes labeled from <code>0</code> to <code>n - 1</code>. You are given a 2D <strong>integer</strong> array <code>edges</code> of length <code>n - 1</code>, where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the tree. You are also given a <strong>0-indexed</strong> array <code>coins</code> of size <code>n</code> where <code>coins[i]</code> indicates the number of coins in the vertex <code>i</code>, and an integer <code>k</code>.</p>
 
-<p>从根节点开始，你必须收集所有金币。要想收集节点上的金币，必须先收集该节点的祖先节点上的金币。</p>
+<p>Starting from the root, you have to collect all the coins such that the coins at a node can only be collected if the coins of its ancestors have been already collected.</p>
 
-<p>节点 <code>i</code> 上的金币可以用下述方法之一进行收集：</p>
+<p>Coins at <code>node<sub>i</sub></code> can be collected in one of the following ways:</p>
 
 <ul>
-	<li>收集所有金币，得到共计 <code>coins[i] - k</code> 点积分。如果 <code>coins[i] - k</code> 是负数，你将会失去 <code>abs(coins[i] - k)</code> 点积分。</li>
-	<li>收集所有金币，得到共计 <code>floor(coins[i] / 2)</code> 点积分。如果采用这种方法，节点 <code>i</code> 子树中所有节点 <code>j</code> 的金币数 <code>coins[j]</code> 将会减少至 <code>floor(coins[j] / 2)</code> 。</li>
+	<li>Collect all the coins, but you will get <code>coins[i] - k</code> points. If <code>coins[i] - k</code> is negative then you will lose <code>abs(coins[i] - k)</code> points.</li>
+	<li>Collect all the coins, but you will get <code>floor(coins[i] / 2)</code> points. If this way is used, then for all the <code>node<sub>j</sub></code> present in the subtree of <code>node<sub>i</sub></code>, <code>coins[j]</code> will get reduced to <code>floor(coins[j] / 2)</code>.</li>
 </ul>
 
-<p>返回收集 <strong>所有</strong> 树节点的金币之后可以获得的最大积分。</p>
+<p>Return <em>the <strong>maximum points</strong> you can get after collecting the coins from <strong>all</strong> the tree nodes.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2920.Maximum%20Points%20After%20Collecting%20Coins%20From%20All%20Nodes/images/ex1-copy.png" style="width: 60px; height: 316px; padding: 10px; background: rgb(255, 255, 255); border-radius: 0.5rem;" />
 <pre>
-<strong>输入：</strong>edges = [[0,1],[1,2],[2,3]], coins = [10,10,3,3], k = 5
-<strong>输出：</strong>11                        
-<strong>解释：</strong>
-使用第一种方法收集节点 0 上的所有金币。总积分 = 10 - 5 = 5 。
-使用第一种方法收集节点 1 上的所有金币。总积分 = 5 + (10 - 5) = 10 。
-使用第二种方法收集节点 2 上的所有金币。所以节点 3 上的金币将会变为 floor(3 / 2) = 1 ，总积分 = 10 + floor(3 / 2) = 11 。
-使用第二种方法收集节点 3 上的所有金币。总积分 =  11 + floor(1 / 2) = 11.
-可以证明收集所有节点上的金币能获得的最大积分是 11 。 
+<strong>Input:</strong> edges = [[0,1],[1,2],[2,3]], coins = [10,10,3,3], k = 5
+<strong>Output:</strong> 11                        
+<strong>Explanation:</strong> 
+Collect all the coins from node 0 using the first way. Total points = 10 - 5 = 5.
+Collect all the coins from node 1 using the first way. Total points = 5 + (10 - 5) = 10.
+Collect all the coins from node 2 using the second way so coins left at node 3 will be floor(3 / 2) = 1. Total points = 10 + floor(3 / 2) = 11.
+Collect all the coins from node 3 using the second way. Total points = 11 + floor(1 / 2) = 11.
+It can be shown that the maximum points we can get after collecting coins from all the nodes is 11. 
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <strong class="example"> <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2920.Maximum%20Points%20After%20Collecting%20Coins%20From%20All%20Nodes/images/ex2.png" style="width: 140px; height: 147px; padding: 10px; background: #fff; border-radius: .5rem;" /></strong>
 
 <pre>
-<strong>输入：</strong>edges = [[0,1],[0,2]], coins = [8,4,4], k = 0
-<strong>输出：</strong>16
-<strong>解释：</strong>
-使用第一种方法收集所有节点上的金币，因此，总积分 = (8 - 0) + (4 - 0) + (4 - 0) = 16 。
+<strong>Input:</strong> edges = [[0,1],[0,2]], coins = [8,4,4], k = 0
+<strong>Output:</strong> 16
+<strong>Explanation:</strong> 
+Coins will be collected from all the nodes using the first way. Therefore, total points = (8 - 0) + (4 - 0) + (4 - 0) = 16.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == coins.length</code></li>
@@ -76,26 +71,27 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们先根据题目给定的边构建图 $g$，其中 $g[i]$ 表示节点 $i$ 的所有邻接节点。然后我们可以使用记忆化搜索的方法求解本题。
+First, we construct a graph $g$ based on the edges given in the problem, where $g[i]$ represents all adjacent nodes of node $i$. Then we can use the method of memoization search to solve this problem.
 
-我们设计一个函数 $dfs(i, fa, j)$，表示当前节点为 $i$，父节点为 $fa$，当前节点的金币数需要右移 $j$ 位，所能获得的最大积分。
+We design a function $dfs(i, fa, j)$, which represents that the current node is $i$, the parent node is $fa$, the number of gold coins of the current node needs to be shifted to the right by $j$ bits, and the maximum score that can be obtained.
 
-函数 $dfs(i, fa, j)$ 的执行过程如下：
+The execution process of the function $dfs(i, fa, j)$ is as follows:
 
-如果我们使用第一种方法收集当前节点的金币，那么当前节点的积分为 $(coins[i] >> j) - k$，然后我们遍历当前节点的所有邻接节点 $c$，如果 $c$ 不等于 $fa$，那么我们将 $dfs(c, i, j)$ 的结果累加到当前节点的积分中。
+If we use the first method to collect the gold coins of the current node, then the score of the current node is $(coins[i] >> j) - k$. Then we traverse all the adjacent nodes $c$ of the current node. If $c$ is not equal to $fa$, then we add the result of $dfs(c, i, j)$ to the score of the current node.
 
-如果我们使用第二种方法收集当前节点的金币，那么当前节点的积分为 $coins[i] >> (j + 1)$，然后我们遍历当前节点的所有邻接节点 $c$，如果 $c$ 不等于 $fa$，那么我们将 $dfs(c, i, j + 1)$ 的结果累加到当前节点的积分中。注意，由于题目中给定的 $coins[i]$ 最大值为 $10^4$，因此我们最多只能右移 $14$ 位，就使得 $coins[i] >> (j + 1)$ 的值为 $0$。
+If we use the second method to collect the gold coins of the current node, then the score of the current node is $coins[i] >> (j + 1)$. Then we traverse all the adjacent nodes $c$ of the current node. If $c$ is not equal to $fa$, then we add the result of $dfs(c, i, j + 1)$ to the score of the current node. Note that since the maximum value of $coins[i]$ given in the problem is $10^4$, we can only shift to the right by at most $14$ bits, so that the value of $coins[i] >> (j + 1)$ is $0$.
 
-最后，我们返回当前节点使用两种方法中能获得的最大积分。
+Finally, we return the maximum score that can be obtained by using the two methods at the current node.
 
-为了避免重复计算，我们使用记忆化搜索的方法，将 $dfs(i, fa, j)$ 的结果存储到 $f[i][j]$ 中，其中 $f[i][j]$ 表示当前节点为 $i$，父节点为 $fa$，当前节点的金币数需要右移 $j$ 位，所能获得的最大
-时间复杂度 $O(n \times \log M)$，空间复杂度 $O(n \times \log M)$。其中 $M$ 表示 $coins[i]$ 的最大值。
+In order to avoid repeated calculations, we use the method of memoization search and store the result of $dfs(i, fa, j)$ in $f[i][j]$, where $f[i][j]$ represents that the current node is $i$, the parent node is $fa$, the number of gold coins of the current node needs to be shifted to the right by $j$ bits, and the maximum score that can be obtained.
+
+The time complexity is $O(n \times \log M)$, and the space complexity is $O(n \times \log M)$. Where $M$ represents the maximum value of $coins[i]$.
 
 <!-- tabs:start -->
 

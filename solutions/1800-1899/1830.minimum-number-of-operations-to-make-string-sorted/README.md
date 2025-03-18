@@ -1,100 +1,86 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1830.Minimum%20Number%20of%20Operations%20to%20Make%20String%20Sorted/README.md
+difficulty: Hard
 rating: 2620
-source: 第 50 场双周赛 Q4
+source: Biweekly Contest 50 Q4
 tags:
-    - 数学
-    - 字符串
-    - 组合数学
+    - Math
+    - String
+    - Combinatorics
 ---
 
 <!-- problem:start -->
 
-# [1830. 使字符串有序的最少操作次数](https://leetcode.cn/problems/minimum-number-of-operations-to-make-string-sorted)
+# [1830. Minimum Number of Operations to Make String Sorted](https://leetcode.com/problems/minimum-number-of-operations-to-make-string-sorted)
 
-[English Version](/solution/1800-1899/1830.Minimum%20Number%20of%20Operations%20to%20Make%20String%20Sorted/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> （<strong>下标从 0 开始</strong>）。你需要对 <code>s</code> 执行以下操作直到它变为一个有序字符串：</p>
+<p>You are given a string <code>s</code> (<strong>0-indexed</strong>)​​​​​​. You are asked to perform the following operation on <code>s</code>​​​​​​ until you get a sorted string:</p>
 
 <ol>
-	<li>找到 <strong>最大下标</strong> <code>i</code> ，使得 <code>1 &lt;= i &lt; s.length</code> 且 <code>s[i] &lt; s[i - 1]</code> 。</li>
-	<li>找到 <strong>最大下标</strong> <code>j</code> ，使得 <code>i &lt;= j &lt; s.length</code> 且对于所有在闭区间 <code>[i, j]</code> 之间的 <code>k</code> 都有 <code>s[k] &lt; s[i - 1]</code> 。</li>
-	<li>交换下标为 <code>i - 1</code>​​​​ 和 <code>j</code>​​​​ 处的两个字符。</li>
-	<li>将下标 <code>i</code> 开始的字符串后缀反转。</li>
+	<li>Find <strong>the largest index</strong> <code>i</code> such that <code>1 &lt;= i &lt; s.length</code> and <code>s[i] &lt; s[i - 1]</code>.</li>
+	<li>Find <strong>the largest index</strong> <code>j</code> such that <code>i &lt;= j &lt; s.length</code> and <code>s[k] &lt; s[i - 1]</code> for all the possible values of <code>k</code> in the range <code>[i, j]</code> inclusive.</li>
+	<li>Swap the two characters at indices <code>i - 1</code>​​​​ and <code>j</code>​​​​​.</li>
+	<li>Reverse the suffix starting at index <code>i</code>​​​​​​.</li>
 </ol>
 
-<p>请你返回将字符串变成有序的最少操作次数。由于答案可能会很大，请返回它对 <code>10<sup>9</sup> + 7</code> <strong>取余</strong> 的结果。</p>
+<p>Return <em>the number of operations needed to make the string sorted.</em> Since the answer can be too large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>s = "cba"
-<b>输出：</b>5
-<b>解释：</b>模拟过程如下所示：
-操作 1：i=2，j=2。交换 s[1] 和 s[2] 得到 s="cab" ，然后反转下标从 2 开始的后缀字符串，得到 s="cab" 。
-操作 2：i=1，j=2。交换 s[0] 和 s[2] 得到 s="bac" ，然后反转下标从 1 开始的后缀字符串，得到 s="bca" 。
-操作 3：i=2，j=2。交换 s[1] 和 s[2] 得到 s="bac" ，然后反转下标从 2 开始的后缀字符串，得到 s="bac" 。
-操作 4：i=1，j=1。交换 s[0] 和 s[1] 得到 s="abc" ，然后反转下标从 1 开始的后缀字符串，得到 s="acb" 。
-操作 5：i=2，j=2。交换 s[1] 和 s[2] 得到 s="abc" ，然后反转下标从 2 开始的后缀字符串，得到 s="abc" 。
+<pre>
+<strong>Input:</strong> s = &quot;cba&quot;
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The simulation goes as follows:
+Operation 1: i=2, j=2. Swap s[1] and s[2] to get s=&quot;cab&quot;, then reverse the suffix starting at 2. Now, s=&quot;cab&quot;.
+Operation 2: i=1, j=2. Swap s[0] and s[2] to get s=&quot;bac&quot;, then reverse the suffix starting at 1. Now, s=&quot;bca&quot;.
+Operation 3: i=2, j=2. Swap s[1] and s[2] to get s=&quot;bac&quot;, then reverse the suffix starting at 2. Now, s=&quot;bac&quot;.
+Operation 4: i=1, j=1. Swap s[0] and s[1] to get s=&quot;abc&quot;, then reverse the suffix starting at 1. Now, s=&quot;acb&quot;.
+Operation 5: i=2, j=2. Swap s[1] and s[2] to get s=&quot;abc&quot;, then reverse the suffix starting at 2. Now, s=&quot;abc&quot;.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>s = "aabaa"
-<b>输出：</b>2
-<b>解释：</b>模拟过程如下所示：
-操作 1：i=3，j=4。交换 s[2] 和 s[4] 得到 s="aaaab" ，然后反转下标从 3 开始的后缀字符串，得到 s="aaaba" 。
-操作 2：i=4，j=4。交换 s[3] 和 s[4] 得到 s="aaaab" ，然后反转下标从 4 开始的后缀字符串，得到 s="aaaab" 。
+<pre>
+<strong>Input:</strong> s = &quot;aabaa&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The simulation goes as follows:
+Operation 1: i=3, j=4. Swap s[2] and s[4] to get s=&quot;aaaab&quot;, then reverse the substring starting at 3. Now, s=&quot;aaaba&quot;.
+Operation 2: i=4, j=4. Swap s[3] and s[4] to get s=&quot;aaaab&quot;, then reverse the substring starting at 4. Now, s=&quot;aaaab&quot;.
 </pre>
 
-<p><strong>示例 3：</strong></p>
-
-<pre><b>输入：</b>s = "cdbea"
-<b>输出：</b>63</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><b>输入：</b>s = "leetcodeleetcodeleetcode"
-<b>输出：</b>982157772
-</pre>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 3000</code></li>
-	<li><code>s</code>​ 只包含小写英文字母。</li>
+	<li><code>s</code>​​​​​​ consists only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数 + 排列组合 + 预处理
+### Solution 1: Counting + Permutation and Combination + Preprocessing
 
-题目中的操作实际上是求当前排列的上一个字典序排列，因此，我们只需要求出比当前排列小的排列的数量，就是答案。
+The operation in the problem is actually to find the previous permutation in lexicographical order of the current permutation. Therefore, we only need to find the number of permutations smaller than the current permutation, which is the answer.
 
-这里我们需要考虑一个问题，给定每一种字母的频率，我们可以构造出多少种不同的排列？
+Here we need to consider a problem: given the frequency of each letter, how many different permutations can we construct?
 
-假设总共有 $n$ 个字母，其中字母 $a$ 有 $n_1$ 个，字母 $b$ 有 $n_2$ 个，字母 $c$ 有 $n_3$ 个，那么我们可以构造出 $\frac{n!}{n_1! \times n_2! \times n_3!}$ 种不同的排列。其中 $n=n_1+n_2+n_3$。
+Suppose there are a total of $n$ letters, among which there are $n_1$ letters $a$, $n_2$ letters $b$, and $n_3$ letters $c$. Then we can construct $\frac{n!}{n_1! \times n_2! \times n_3!}$ different permutations. Where $n=n_1+n_2+n_3$.
 
-我们可以通过预处理的方式，预先计算出所有的阶乘 $f$ 和阶乘的逆元 $g$。其中阶乘的逆元可以通过费马小定理求得。
+We can pre-calculate all factorials $f$ and the inverse of the factorials $g$ through preprocessing. The inverse of the factorial can be obtained through Fermat's little theorem.
 
-接下来，我们从左到右遍历字符串 $s$，对于每一个位置 $i$，我们需要求出当前总共有多少个比 $s[i]$ 小的字母，记为 $m$。那么，我们可以构造出 $m \times \frac{(n - i - 1)!}{n_1! \times n_2! \cdots \times n_k!}$ 种不同的排列，其中 $k$ 为字母的种类数，累加到答案中。接下来，我们将 $s[i]$ 的频率减一，继续遍历下一个位置。
+Next, we traverse the string $s$ from left to right. For each position $i$, we need to find out how many letters are smaller than $s[i]$, denoted as $m$. Then, we can construct $m \times \frac{(n - i - 1)!}{n_1! \times n_2! \cdots \times n_k!}$ different permutations, where $k$ is the number of types of letters, and add them to the answer. Next, we reduce the frequency of $s[i]$ by one and continue to traverse the next position.
 
-遍历完整个字符串后，即可得到答案。注意答案的取模操作。
+After traversing the entire string, we can get the answer. Note the modulo operation of the answer.
 
-时间复杂度 $O(n \times k)$，空间复杂度 $O(n)$。其中 $n$ 和 $k$ 分别为字符串的长度和字母的种类数。
+The time complexity is $O(n \times k)$, and the space complexity is $O(n)$. Where $n$ and $k$ are the length of the string and the number of types of letters, respectively.
 
 <!-- tabs:start -->
 

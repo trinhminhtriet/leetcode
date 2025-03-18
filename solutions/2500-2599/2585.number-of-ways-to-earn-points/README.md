@@ -1,71 +1,72 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2585.Number%20of%20Ways%20to%20Earn%20Points/README.md
+difficulty: Hard
 rating: 1909
-source: 第 335 场周赛 Q4
+source: Weekly Contest 335 Q4
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2585. 获得分数的方法数](https://leetcode.cn/problems/number-of-ways-to-earn-points)
+# [2585. Number of Ways to Earn Points](https://leetcode.com/problems/number-of-ways-to-earn-points)
 
-[English Version](/solution/2500-2599/2585.Number%20of%20Ways%20to%20Earn%20Points/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>考试中有 <code>n</code> 种类型的题目。给你一个整数 <code>target</code> 和一个下标从 <strong>0</strong> 开始的二维整数数组 <code>types</code> ，其中 <code>types[i] = [count<sub>i</sub>, marks<sub>i</sub>] </code>表示第 <code>i</code> 种类型的题目有 <code>count<sub>i</sub></code> 道，每道题目对应 <code>marks<sub>i</sub></code> 分。</p>
-
-<p>返回你在考试中恰好得到 <code>target</code> 分的方法数。由于答案可能很大，结果需要对 <code>10<sup>9</sup> +7</code> 取余。</p>
-
-<p><strong>注意</strong>，同类型题目无法区分。</p>
+<p>There is a test that has <code>n</code> types of questions. You are given an integer <code>target</code> and a <strong>0-indexed</strong> 2D integer array <code>types</code> where <code>types[i] = [count<sub>i</sub>, marks<sub>i</sub>]</code> indicates that there are <code>count<sub>i</sub></code> questions of the <code>i<sup>th</sup></code> type, and each one of them is worth <code>marks<sub>i</sub></code> points.</p>
 
 <ul>
-	<li>比如说，如果有 <code>3</code> 道同类型题目，那么解答第 <code>1</code> 和第 <code>2</code> 道题目与解答第 <code>1</code> 和第 <code>3</code> 道题目或者第 <code>2</code> 和第 <code>3</code> 道题目是相同的。</li>
+</ul>
+
+<p>Return <em>the number of ways you can earn <strong>exactly</strong> </em><code>target</code><em> points in the exam</em>. Since the answer may be too large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
+
+<p><strong>Note</strong> that questions of the same type are indistinguishable.</p>
+
+<ul>
+	<li>For example, if there are <code>3</code> questions of the same type, then solving the <code>1<sup>st</sup></code> and <code>2<sup>nd</sup></code> questions is the same as solving the <code>1<sup>st</sup></code> and <code>3<sup>rd</sup></code> questions, or the <code>2<sup>nd</sup></code> and <code>3<sup>rd</sup></code> questions.</li>
 </ul>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>target = 6, types = [[6,1],[3,2],[2,3]]
-<strong>输出：</strong>7
-<strong>解释：</strong>要获得 6 分，你可以选择以下七种方法之一：
-- 解决 6 道第 0 种类型的题目：1 + 1 + 1 + 1 + 1 + 1 = 6
-- 解决 4 道第 0 种类型的题目和 1 道第 1 种类型的题目：1 + 1 + 1 + 1 + 2 = 6
-- 解决 2 道第 0 种类型的题目和 2 道第 1 种类型的题目：1 + 1 + 2 + 2 = 6
-- 解决 3 道第 0 种类型的题目和 1 道第 2 种类型的题目：1 + 1 + 1 + 3 = 6
-- 解决 1 道第 0 种类型的题目、1 道第 1 种类型的题目和 1 道第 2 种类型的题目：1 + 2 + 3 = 6
-- 解决 3 道第 1 种类型的题目：2 + 2 + 2 = 6
-- 解决 2 道第 2 种类型的题目：3 + 3 = 6
+<pre>
+<strong>Input:</strong> target = 6, types = [[6,1],[3,2],[2,3]]
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> You can earn 6 points in one of the seven ways:
+- Solve 6 questions of the 0<sup>th</sup> type: 1 + 1 + 1 + 1 + 1 + 1 = 6
+- Solve 4 questions of the 0<sup>th</sup> type and 1 question of the 1<sup>st</sup> type: 1 + 1 + 1 + 1 + 2 = 6
+- Solve 2 questions of the 0<sup>th</sup> type and 2 questions of the 1<sup>st</sup> type: 1 + 1 + 2 + 2 = 6
+- Solve 3 questions of the 0<sup>th</sup> type and 1 question of the 2<sup>nd</sup> type: 1 + 1 + 1 + 3 = 6
+- Solve 1 question of the 0<sup>th</sup> type, 1 question of the 1<sup>st</sup> type and 1 question of the 2<sup>nd</sup> type: 1 + 2 + 3 = 6
+- Solve 3 questions of the 1<sup>st</sup> type: 2 + 2 + 2 = 6
+- Solve 2 questions of the 2<sup>nd</sup> type: 3 + 3 = 6
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>target = 5, types = [[50,1],[50,2],[50,5]]
-<strong>输出：</strong>4
-<strong>解释：</strong>要获得 5 分，你可以选择以下四种方法之一：
-- 解决 5 道第 0 种类型的题目：1 + 1 + 1 + 1 + 1 = 5
-- 解决 3 道第 0 种类型的题目和 1 道第 1 种类型的题目：1 + 1 + 1 + 2 = 5
-- 解决 1 道第 0 种类型的题目和 2 道第 1 种类型的题目：1 + 2 + 2 = 5
-- 解决 1 道第 2 种类型的题目：5
+<pre>
+<strong>Input:</strong> target = 5, types = [[50,1],[50,2],[50,5]]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> You can earn 5 points in one of the four ways:
+- Solve 5 questions of the 0<sup>th</sup> type: 1 + 1 + 1 + 1 + 1 = 5
+- Solve 3 questions of the 0<sup>th</sup> type and 1 question of the 1<sup>st</sup> type: 1 + 1 + 1 + 2 = 5
+- Solve 1 questions of the 0<sup>th</sup> type and 2 questions of the 1<sup>st</sup> type: 1 + 2 + 2 = 5
+- Solve 1 question of the 2<sup>nd</sup> type: 5
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>target = 18, types = [[6,1],[3,2],[2,3]]
-<strong>输出：</strong>1
-<strong>解释：</strong>只有回答所有题目才能获得 18 分。
+<pre>
+<strong>Input:</strong> target = 18, types = [[6,1],[3,2],[2,3]]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> You can only earn 18 points by answering all questions.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= target &lt;= 1000</code></li>
@@ -77,25 +78,25 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][j]$ 表示前 $i$ 种类型的题目中，恰好得到 $j$ 分的方法数。初始时 $f[0][0] = 1$，其余 $f[i][j] = 0$。答案即为 $f[n][target]$。
+We define $f[i][j]$ to represent the number of methods to get $j$ points exactly from the first $i$ types of questions. Initially, $f[0][0] = 1$, and the rest $f[i][j] = 0$. The answer is $f[n][target]$.
 
-我们可以枚举第 $i$ 种类型的题目，假设该类型题目的数量为 $count$，分数为 $marks$，那么我们可以得到如下状态转移方程：
+We can enumerate the $i$th type of questions, suppose the number of questions of this type is $count$, and the score is $marks$. Then we can get the following state transition equation:
 
 $$
 f[i][j] = \sum_{k=0}^{count} f[i-1][j-k \times marks]
 $$
 
-其中 $k$ 表示第 $i$ 种类型的题目的数量。
+where $k$ represents the number of questions of the $i$th type.
 
-最终的答案即为 $f[n][target]$。注意答案可能很大，需要对 $10^9 + 7$ 取模。
+The final answer is $f[n][target]$. Note that the answer may be very large and needs to be modulo $10^9 + 7$.
 
-时间复杂度 $O(n \times target \times count)$，空间复杂度 $O(n \times target)$。其中 $n$ 为题目类型的数量；而 $target$ 和 $count$ 分别为题目的目标分数和每种类型题目的数量。
+The time complexity is $O(n \times target \times count)$ and the space complexity is $O(n \times target)$. $n$ is the number of types of questions, and $target$ and $count$ are the target score and the number of questions of each type, respectively.
 
 <!-- tabs:start -->
 

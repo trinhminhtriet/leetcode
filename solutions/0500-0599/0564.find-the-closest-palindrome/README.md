@@ -1,61 +1,56 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0564.Find%20the%20Closest%20Palindrome/README.md
+difficulty: Hard
 tags:
-    - 数学
-    - 字符串
+    - Math
+    - String
 ---
 
 <!-- problem:start -->
 
-# [564. 寻找最近的回文数](https://leetcode.cn/problems/find-the-closest-palindrome)
+# [564. Find the Closest Palindrome](https://leetcode.com/problems/find-the-closest-palindrome)
 
-[English Version](/solution/0500-0599/0564.Find%20the%20Closest%20Palindrome/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个表示整数的字符串&nbsp;<code>n</code> ，返回与它最近的回文整数（不包括自身）。如果不止一个，返回较小的那个。</p>
+<p>Given a string <code>n</code> representing an integer, return <em>the closest integer (not including itself), which is a palindrome</em>. If there is a tie, return <em><strong>the smaller one</strong></em>.</p>
 
-<p>“最近的”定义为两个整数<strong>差的绝对值</strong>最小。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入:</strong> n = "123"
-<strong>输出:</strong> "121"
-</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> n = "1"
-<strong>输出:</strong> "0"
-<strong>解释:</strong> 0 和 2是最近的回文，但我们返回最小的，也就是 0。
-</pre>
+<p>The closest is defined as the absolute difference minimized between two integers.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示:</strong></p>
+<pre>
+<strong>Input:</strong> n = &quot;123&quot;
+<strong>Output:</strong> &quot;121&quot;
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = &quot;1&quot;
+<strong>Output:</strong> &quot;0&quot;
+<strong>Explanation:</strong> 0 and 2 are the closest palindromes but we return the smallest which is 0.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n.length &lt;= 18</code></li>
-	<li><code>n</code>&nbsp;只由数字组成</li>
-	<li><code>n</code>&nbsp;不含前导 0</li>
-	<li><code>n</code>&nbsp;代表在&nbsp;<code>[1, 10<sup>18</sup>&nbsp;- 1]</code> 范围内的整数</li>
+	<li><code>n</code> consists of only digits.</li>
+	<li><code>n</code> does not have leading zeros.</li>
+	<li><code>n</code> is representing an integer in the range <code>[1, 10<sup>18</sup> - 1]</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

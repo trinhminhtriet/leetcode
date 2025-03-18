@@ -1,47 +1,35 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0405.Convert%20a%20Number%20to%20Hexadecimal/README.md
+difficulty: Easy
 tags:
-    - 位运算
-    - 数学
+    - Bit Manipulation
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [405. 数字转换为十六进制数](https://leetcode.cn/problems/convert-a-number-to-hexadecimal)
+# [405. Convert a Number to Hexadecimal](https://leetcode.com/problems/convert-a-number-to-hexadecimal)
 
-[English Version](/solution/0400-0499/0405.Convert%20a%20Number%20to%20Hexadecimal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数，编写一个算法将这个数转换为十六进制数。对于负整数，我们通常使用&nbsp;<a href="https://baike.baidu.com/item/%E8%A1%A5%E7%A0%81/6854613?fr=aladdin">补码运算</a>&nbsp;方法。</p>
+<p>Given a 32-bit integer <code>num</code>, return <em>a string representing its hexadecimal representation</em>. For negative integers, <a href="https://en.wikipedia.org/wiki/Two%27s_complement" target="_blank">two&rsquo;s complement</a> method is used.</p>
 
-<p>答案字符串中的所有字母都应该是小写字符，并且除了 0 本身之外，答案中不应该有任何前置零。</p>
+<p>All the letters in the answer string should be lowercase characters, and there should not be any leading zeros in the answer except for the zero itself.</p>
 
-<p><strong>注意: </strong>不允许使用任何由库提供的将数字直接转换或格式化为十六进制的方法来解决这个问题。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>num = 26
-<b>输出：</b>"1a"
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>num = -1
-<b>输出：</b>"ffffffff"
-</pre>
+<p><strong>Note:&nbsp;</strong>You are not allowed to use any built-in library method to directly solve this problem.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> num = 26
+<strong>Output:</strong> "1a"
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> num = -1
+<strong>Output:</strong> "ffffffff"
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>-2<sup>31</sup> &lt;= num &lt;= 2<sup>31</sup> - 1</code></li>
@@ -49,11 +37,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -146,7 +134,7 @@ func toHex(num int) string {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

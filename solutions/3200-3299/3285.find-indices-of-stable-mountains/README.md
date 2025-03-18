@@ -1,65 +1,60 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3285.Find%20Indices%20of%20Stable%20Mountains/README.md
+difficulty: Easy
 rating: 1166
-source: 第 139 场双周赛 Q1
+source: Biweekly Contest 139 Q1
 tags:
-    - 数组
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [3285. 找到稳定山的下标](https://leetcode.cn/problems/find-indices-of-stable-mountains)
+# [3285. Find Indices of Stable Mountains](https://leetcode.com/problems/find-indices-of-stable-mountains)
 
-[English Version](/solution/3200-3299/3285.Find%20Indices%20of%20Stable%20Mountains/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有&nbsp;<code>n</code>&nbsp;座山排成一列，每座山都有一个高度。给你一个整数数组&nbsp;<code>height</code>&nbsp;，其中&nbsp;<code>height[i]</code>&nbsp;表示第 <code>i</code>&nbsp;座山的高度，再给你一个整数&nbsp;<code>threshold</code>&nbsp;。</p>
+<p>There are <code>n</code> mountains in a row, and each mountain has a height. You are given an integer array <code>height</code> where <code>height[i]</code> represents the height of mountain <code>i</code>, and an integer <code>threshold</code>.</p>
 
-<p>对于下标不为 <code>0</code>&nbsp;的一座山，如果它左侧相邻的山的高度 <strong>严格</strong><strong>大于</strong>&nbsp;<code>threshold</code>&nbsp;，那么我们称它是 <strong>稳定</strong>&nbsp;的。我们定义下标为 <code>0</code>&nbsp;的山 <strong>不是</strong>&nbsp;稳定的。</p>
+<p>A mountain is called <strong>stable</strong> if the mountain just before it (<strong>if it exists</strong>) has a height <strong>strictly greater</strong> than <code>threshold</code>. <strong>Note</strong> that mountain 0 is <strong>not</strong> stable.</p>
 
-<p>请你返回一个数组，包含所有 <strong>稳定</strong>&nbsp;山的下标，你可以以 <strong>任意</strong>&nbsp;顺序返回下标数组。</p>
+<p>Return an array containing the indices of <em>all</em> <strong>stable</strong> mountains in <strong>any</strong> order.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>height = [1,2,3,4,5], threshold = 2</span></p>
+<p><strong>Input:</strong> <span class="example-io">height = [1,2,3,4,5], threshold = 2</span></p>
 
-<p><span class="example-io"><b>输出：</b>[3,4]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[3,4]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>下标为 3 的山是稳定的，因为&nbsp;<code>height[2] == 3</code>&nbsp;大于&nbsp;<code>threshold == 2</code>&nbsp;。</li>
-	<li>下标为 4 的山是稳定的，因为&nbsp;<code>height[3] == 4</code> 大于 <code>threshold == 2</code>.</li>
+	<li>Mountain 3 is stable because <code>height[2] == 3</code> is greater than <code>threshold == 2</code>.</li>
+	<li>Mountain 4 is stable because <code>height[3] == 4</code> is greater than <code>threshold == 2</code>.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>height = [10,1,10,1,10], threshold = 3</span></p>
+<p><strong>Input:</strong> <span class="example-io">height = [10,1,10,1,10], threshold = 3</span></p>
 
-<p><span class="example-io"><b>输出：</b>[1,3]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[1,3]</span></p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>height = [10,1,10,1,10], threshold = 10</span></p>
+<p><strong>Input:</strong> <span class="example-io">height = [10,1,10,1,10], threshold = 10</span></p>
 
-<p><span class="example-io"><b>输出：</b>[]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[]</span></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n == height.length &lt;= 100</code></li>
@@ -69,17 +64,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：遍历
+### Solution 1: Traversal
 
-我们直接从下标为 $1$ 的山开始遍历，如果它左侧相邻的山的高度大于 $threshold$，那么我们就将它的下标加入到结果数组中。
+We directly traverse the mountains starting from index $1$. If the height of the mountain to its left is greater than $threshold$, we add its index to the result array.
 
-遍历结束后，返回结果数组即可。
+After the traversal, we return the result array.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{height}$ 的长度。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{height}$. Ignoring the space consumption of the result array, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

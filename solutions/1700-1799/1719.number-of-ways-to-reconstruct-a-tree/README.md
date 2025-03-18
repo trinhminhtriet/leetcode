@@ -1,95 +1,90 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1719.Number%20Of%20Ways%20To%20Reconstruct%20A%20Tree/README.md
+difficulty: Hard
 rating: 3018
-source: 第 43 场双周赛 Q4
+source: Biweekly Contest 43 Q4
 tags:
-    - 树
-    - 图
+    - Tree
+    - Graph
 ---
 
 <!-- problem:start -->
 
-# [1719. 重构一棵树的方案数](https://leetcode.cn/problems/number-of-ways-to-reconstruct-a-tree)
+# [1719. Number Of Ways To Reconstruct A Tree](https://leetcode.com/problems/number-of-ways-to-reconstruct-a-tree)
 
-[English Version](/solution/1700-1799/1719.Number%20Of%20Ways%20To%20Reconstruct%20A%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组 <code>pairs</code> ，其中 <code>pairs[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> ，并且满足：</p>
+<p>You are given an array <code>pairs</code>, where <code>pairs[i] = [x<sub>i</sub>, y<sub>i</sub>]</code>, and:</p>
 
 <ul>
-	<li><code>pairs</code> 中没有重复元素</li>
-	<li><code>x<sub>i</sub> < y<sub>i</sub></code></li>
+	<li>There are no duplicates.</li>
+	<li><code>x<sub>i</sub> &lt; y<sub>i</sub></code></li>
 </ul>
 
-<p>令 <code>ways</code> 为满足下面条件的有根树的方案数：</p>
+<p>Let <code>ways</code> be the number of rooted trees that satisfy the following conditions:</p>
 
 <ul>
-	<li>树所包含的所有节点值都在 <code>pairs</code> 中。</li>
-	<li>一个数对 <code>[x<sub>i</sub>, y<sub>i</sub>]</code> 出现在 <code>pairs</code> 中 <strong>当且仅当</strong><strong> </strong><code>x<sub>i</sub></code> 是 <code>y<sub>i</sub></code> 的祖先或者 <code>y<sub>i</sub></code> 是 <code>x<sub>i</sub></code><sub> </sub>的祖先。</li>
-	<li><strong>注意：</strong>构造出来的树不一定是二叉树。</li>
+	<li>The tree consists of nodes whose values appeared in <code>pairs</code>.</li>
+	<li>A pair <code>[x<sub>i</sub>, y<sub>i</sub>]</code> exists in <code>pairs</code> <strong>if and only if</strong> <code>x<sub>i</sub></code> is an ancestor of <code>y<sub>i</sub></code> or <code>y<sub>i</sub></code> is an ancestor of <code>x<sub>i</sub></code>.</li>
+	<li><strong>Note:</strong> the tree does not have to be a binary tree.</li>
 </ul>
 
-<p>两棵树被视为不同的方案当存在至少一个节点在两棵树中有不同的父节点。</p>
+<p>Two ways are considered to be different if there is at least one node that has different parents in both ways.</p>
 
-<p>请你返回：</p>
+<p>Return:</p>
 
 <ul>
-	<li>如果 <code>ways == 0</code> ，返回 <code>0</code> 。</li>
-	<li>如果 <code>ways == 1</code> ，返回 <code>1</code> 。</li>
-	<li>如果 <code>ways > 1</code> ，返回 <code>2</code> 。</li>
+	<li><code>0</code> if <code>ways == 0</code></li>
+	<li><code>1</code> if <code>ways == 1</code></li>
+	<li><code>2</code> if <code>ways &gt; 1</code></li>
 </ul>
 
-<p>一棵 <strong>有根树</strong> 指的是只有一个根节点的树，所有边都是从根往外的方向。</p>
+<p>A <strong>rooted tree</strong> is a tree that has a single root node, and all edges are oriented to be outgoing from the root.</p>
 
-<p>我们称从根到一个节点路径上的任意一个节点（除去节点本身）都是该节点的 <strong>祖先</strong> 。根节点没有祖先。</p>
+<p>An <strong>ancestor</strong> of a node is any node on the path from the root to that node (excluding the node itself). The root has no ancestors.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1719.Number%20Of%20Ways%20To%20Reconstruct%20A%20Tree/images/trees2.png" style="width: 208px; height: 221px;" />
 <pre>
-<b>输入：</b>pairs = [[1,2],[2,3]]
-<b>输出：</b>1
-<b>解释：</b>如上图所示，有且只有一个符合规定的有根树。
+<strong>Input:</strong> pairs = [[1,2],[2,3]]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> There is exactly one valid rooted tree, which is shown in the above figure.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1719.Number%20Of%20Ways%20To%20Reconstruct%20A%20Tree/images/tree.png" style="width: 234px; height: 241px;" />
 <pre>
-<b>输入：</b>pairs = [[1,2],[2,3],[1,3]]
-<b>输出：</b>2
-<b>解释：</b>有多个符合规定的有根树，其中三个如上图所示。
+<strong>Input:</strong> pairs = [[1,2],[2,3],[1,3]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> There are multiple valid rooted trees. Three of them are shown in the above figures.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>pairs = [[1,2],[2,3],[2,4],[1,5]]
-<b>输出：</b>0
-<b>解释：</b>没有符合规定的有根树。</pre>
+<strong>Input:</strong> pairs = [[1,2],[2,3],[2,4],[1,5]]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There are no valid rooted trees.</pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= pairs.length <= 10<sup>5</sup></code></li>
-	<li><code>1 <= x<sub>i </sub>< y<sub>i</sub> <= 500</code></li>
-	<li><code>pairs</code> 中的元素互不相同。</li>
+	<li><code>1 &lt;= pairs.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= x<sub>i </sub>&lt; y<sub>i</sub> &lt;= 500</code></li>
+	<li>The elements in <code>pairs</code> are unique.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

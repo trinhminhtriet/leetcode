@@ -1,92 +1,89 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2213.Longest%20Substring%20of%20One%20Repeating%20Character/README.md
+difficulty: Hard
 rating: 2628
-source: 第 285 场周赛 Q4
+source: Weekly Contest 285 Q4
 tags:
-    - 线段树
-    - 数组
-    - 字符串
-    - 有序集合
+    - Segment Tree
+    - Array
+    - String
+    - Ordered Set
 ---
 
 <!-- problem:start -->
 
-# [2213. 由单个字符重复的最长子字符串](https://leetcode.cn/problems/longest-substring-of-one-repeating-character)
+# [2213. Longest Substring of One Repeating Character](https://leetcode.com/problems/longest-substring-of-one-repeating-character)
 
-[English Version](/solution/2200-2299/2213.Longest%20Substring%20of%20One%20Repeating%20Character/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的字符串 <code>s</code> 。另给你一个下标从 <strong>0</strong> 开始、长度为 <code>k</code> 的字符串 <code>queryCharacters</code> ，一个下标从 <code>0</code> 开始、长度也是 <code>k</code> 的整数 <strong>下标</strong> 数组&nbsp;<code>queryIndices</code> ，这两个都用来描述 <code>k</code> 个查询。</p>
+<p>You are given a <strong>0-indexed</strong> string <code>s</code>. You are also given a <strong>0-indexed</strong> string <code>queryCharacters</code> of length <code>k</code> and a <strong>0-indexed</strong> array of integer <strong>indices</strong> <code>queryIndices</code> of length <code>k</code>, both of which are used to describe <code>k</code> queries.</p>
 
-<p>第 <code>i</code> 个查询会将 <code>s</code> 中位于下标 <code>queryIndices[i]</code> 的字符更新为 <code>queryCharacters[i]</code> 。</p>
+<p>The <code>i<sup>th</sup></code> query updates the character in <code>s</code> at index <code>queryIndices[i]</code> to the character <code>queryCharacters[i]</code>.</p>
 
-<p>返回一个长度为 <code>k</code> 的数组 <code>lengths</code> ，其中 <code>lengths[i]</code> 是在执行第 <code>i</code> 个查询 <strong>之后</strong> <code>s</code> 中仅由 <strong>单个字符重复</strong> 组成的 <strong>最长子字符串</strong> 的 <strong>长度</strong> <em>。</em></p>
+<p>Return <em>an array</em> <code>lengths</code> <em>of length </em><code>k</code><em> where</em> <code>lengths[i]</code> <em>is the <strong>length</strong> of the <strong>longest substring</strong> of </em><code>s</code><em> consisting of <strong>only one repeating</strong> character <strong>after</strong> the</em> <code>i<sup>th</sup></code> <em>query</em><em> is performed.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "babacc", queryCharacters = "bcb", queryIndices = [1,3,3]
-<strong>输出：</strong>[3,3,4]
-<strong>解释：</strong>
-- 第 1 次查询更新后 s = "<em>b<strong>b</strong>b</em>acc" 。由单个字符重复组成的最长子字符串是 "bbb" ，长度为 3 。
-- 第 2 次查询更新后 s = "bbb<em><strong>c</strong>cc</em>" 。由单个字符重复组成的最长子字符串是 "bbb" 或 "ccc"，长度为 3 。
-- 第 3 次查询更新后 s = "<em>bbb<strong>b</strong></em>cc" 。由单个字符重复组成的最长子字符串是 "bbbb" ，长度为 4 。
-因此，返回 [3,3,4] 。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "abyzz", queryCharacters = "aa", queryIndices = [2,1]
-<strong>输出：</strong>[2,3]
-<strong>解释：</strong>
-- 第 1 次查询更新后 s = "ab<strong>a</strong><em>zz</em>" 。由单个字符重复组成的最长子字符串是 "zz" ，长度为 2 。
-- 第 2 次查询更新后 s = "<em>a<strong>a</strong>a</em>zz" 。由单个字符重复组成的最长子字符串是 "aaa" ，长度为 3 。
-因此，返回 [2,3] 。
+<strong>Input:</strong> s = &quot;babacc&quot;, queryCharacters = &quot;bcb&quot;, queryIndices = [1,3,3]
+<strong>Output:</strong> [3,3,4]
+<strong>Explanation:</strong> 
+- 1<sup>st</sup> query updates s = &quot;<u>b<strong>b</strong>b</u>acc&quot;. The longest substring consisting of one repeating character is &quot;bbb&quot; with length 3.
+- 2<sup>nd</sup> query updates s = &quot;bbb<u><strong>c</strong>cc</u>&quot;. 
+  The longest substring consisting of one repeating character can be &quot;bbb&quot; or &quot;ccc&quot; with length 3.
+- 3<sup>rd</sup> query updates s = &quot;<u>bbb<strong>b</strong></u>cc&quot;. The longest substring consisting of one repeating character is &quot;bbbb&quot; with length 4.
+Thus, we return [3,3,4].
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;abyzz&quot;, queryCharacters = &quot;aa&quot;, queryIndices = [2,1]
+<strong>Output:</strong> [2,3]
+<strong>Explanation:</strong>
+- 1<sup>st</sup> query updates s = &quot;ab<strong>a</strong><u>zz</u>&quot;. The longest substring consisting of one repeating character is &quot;zz&quot; with length 2.
+- 2<sup>nd</sup> query updates s = &quot;<u>a<strong>a</strong>a</u>zz&quot;. The longest substring consisting of one repeating character is &quot;aaa&quot; with length 3.
+Thus, we return [2,3].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> 由小写英文字母组成</li>
+	<li><code>s</code> consists of lowercase English letters.</li>
 	<li><code>k == queryCharacters.length == queryIndices.length</code></li>
 	<li><code>1 &lt;= k &lt;= 10<sup>5</sup></code></li>
-	<li><code>queryCharacters</code> 由小写英文字母组成</li>
+	<li><code>queryCharacters</code> consists of lowercase English letters.</li>
 	<li><code>0 &lt;= queryIndices[i] &lt; s.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：线段树
+### Solution 1: Segment Tree
 
-线段树将整个区间分割为多个不连续的子区间，子区间的数量不超过 $\log(\textit{width})$。更新某个元素的值，只需要更新 $\log(\textit{width})$ 个区间，并且这些区间都包含在一个包含该元素的大区间内。区间修改时，需要使用**懒标记**保证效率。
+The segment tree divides the entire interval into multiple non-continuous sub-intervals, and the number of sub-intervals does not exceed $\log(\textit{width})$. To update the value of an element, you only need to update $\log(\textit{width})$ intervals, and these intervals are all contained in a large interval that contains the element. When modifying the interval, you need to use **lazy tags** to ensure efficiency.
 
--   线段树的每个节点代表一个区间；
--   线段树具有唯一的根节点，代表的区间是整个统计范围，如 $[1, n]$；
--   线段树的每个叶子节点代表一个长度为 $1$ 的元区间 $[x, x]$；
--   对于每个内部节点 $[l, r]$，它的左儿子是 $[l, mid]$，右儿子是 $[mid + 1, r]$, 其中 $mid = \frac{l + r}{2}$；
+-   Each node of the segment tree represents an interval;
+-   The segment tree has a unique root node, which represents the entire statistical range, such as $[1, n]$;
+-   Each leaf node of the segment tree represents an elementary interval of length $1$, $[x, x]$;
+-   For each internal node $[l, r]$, its left child is $[l, mid]$, and the right child is $[mid + 1, r]$, where $mid = \frac{l + r}{2}$;
 
-对于本题，线段树节点维护的信息有：
+For this problem, the information maintained by the segment tree node includes:
 
-1. 前缀最长连续字符个数 $lmx$；
-1. 后缀最长连续字符个数 $rmx$；
-1. 区间最长连续字符个数 $mx$。
-1. 区间左端点 $l$ 和右端点 $r$。
+1. The number of longest consecutive characters in the prefix, $lmx$;
+2. The number of longest consecutive characters in the suffix, $rmx$;
+3. The number of longest consecutive characters in the interval, $mx$.
+4. The left endpoint $l$ and the right endpoint $r$ of the interval.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n \times \log n)$。其中 $n$ 是字符串 $s$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n \times \log n)$. Where $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

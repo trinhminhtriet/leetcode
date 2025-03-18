@@ -1,44 +1,32 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0022.Generate%20Parentheses/README.md
+difficulty: Medium
 tags:
-    - 字符串
-    - 动态规划
-    - 回溯
+    - String
+    - Dynamic Programming
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [22. 括号生成](https://leetcode.cn/problems/generate-parentheses)
+# [22. Generate Parentheses](https://leetcode.com/problems/generate-parentheses)
 
-[English Version](/solution/0000-0099/0022.Generate%20Parentheses/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>数字 <code>n</code>&nbsp;代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 <strong>有效的 </strong>括号组合。</p>
+<p>Given <code>n</code> pairs of parentheses, write a function to <em>generate all combinations of well-formed parentheses</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 3
-<strong>输出：</strong>["((()))","(()())","(())()","()(())","()()()"]
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> n = 3
+<strong>Output:</strong> ["((()))","(()())","(())()","()(())","()()()"]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> n = 1
+<strong>Output:</strong> ["()"]
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 1
-<strong>输出：</strong>["()"]
-</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 8</code></li>
@@ -46,22 +34,22 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS + 剪枝
+### Solution 1: DFS + Pruning
 
-题目中 $n$ 的范围为 $[1, 8]$，因此我们直接通过“暴力搜索 + 剪枝”的方式通过本题。
+The range of $n$ in the problem is $[1, 8]$, so we can directly solve this problem through "brute force search + pruning".
 
-我们设计一个函数 $dfs(l, r, t)$，其中 $l$ 和 $r$ 分别表示左括号和右括号的数量，而 $t$ 表示当前的括号序列。那么我们可以得到如下的递归结构：
+We design a function $dfs(l, r, t)$, where $l$ and $r$ represent the number of left and right brackets respectively, and $t$ represents the current bracket sequence. Then we can get the following recursive structure:
 
--   如果 $l \gt n$ 或者 $r \gt n$ 或者 $l \lt r$，那么当前括号组合 $t$ 不合法，直接返回；
--   如果 $l = n$ 且 $r = n$，那么当前括号组合 $t$ 合法，将其加入答案数组 `ans` 中，直接返回；
--   我们可以选择添加一个左括号，递归执行 `dfs(l + 1, r, t + "(")`；
--   我们也可以选择添加一个右括号，递归执行 `dfs(l, r + 1, t + ")")`。
+-   If $l \gt n$ or $r \gt n$ or $l \lt r$, then the current bracket combination $t$ is invalid, return directly;
+-   If $l = n$ and $r = n$, then the current bracket combination $t$ is valid, add it to the answer array `ans`, and return directly;
+-   We can choose to add a left bracket, and recursively execute `dfs(l + 1, r, t + "(")`;
+-   We can also choose to add a right bracket, and recursively execute `dfs(l, r + 1, t + ")")`.
 
-时间复杂度 $O(2^{n\times 2} \times n)$，空间复杂度 $O(n)$。
+The time complexity is $O(2^{n\times 2} \times n)$, and the space complexity is $O(n)$.
 
 <!-- tabs:start -->
 
@@ -179,23 +167,27 @@ function generateParenthesis(n: number): string[] {
 
 ```rust
 impl Solution {
-    pub fn generate_parenthesis(n: i32) -> Vec<String> {
-        let mut ans = Vec::new();
-
-        fn dfs(ans: &mut Vec<String>, l: i32, r: i32, t: String, n: i32) {
-            if l > n || r > n || l < r {
-                return;
-            }
-            if l == n && r == n {
-                ans.push(t);
-                return;
-            }
-            dfs(ans, l + 1, r, format!("{}(", t), n);
-            dfs(ans, l, r + 1, format!("{})", t), n);
+    fn dfs(left: i32, right: i32, s: &mut String, res: &mut Vec<String>) {
+        if left == 0 && right == 0 {
+            res.push(s.clone());
+            return;
         }
+        if left > 0 {
+            s.push('(');
+            Self::dfs(left - 1, right, s, res);
+            s.pop();
+        }
+        if right > left {
+            s.push(')');
+            Self::dfs(left, right - 1, s, res);
+            s.pop();
+        }
+    }
 
-        dfs(&mut ans, 0, 0, String::new(), n);
-        ans
+    pub fn generate_parenthesis(n: i32) -> Vec<String> {
+        let mut res = Vec::new();
+        Self::dfs(n, n, &mut String::new(), &mut res);
+        res
     }
 }
 ```
@@ -283,9 +275,11 @@ class Solution {
 
 <!-- tabs:end -->
 
+<!-- solution:end -->
+
 <!-- solution:start -->
 
-### 方法二：递归
+### Solution 2: Recursion
 
 <!-- tabs:start -->
 

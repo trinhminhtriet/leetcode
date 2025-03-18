@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2308.Arrange%20Table%20by%20Gender/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2308. 按性别排列表格 🔒](https://leetcode.cn/problems/arrange-table-by-gender)
+# [2308. Arrange Table by Gender 🔒](https://leetcode.com/problems/arrange-table-by-gender)
 
-[English Version](/solution/2300-2399/2308.Arrange%20Table%20by%20Gender/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Genders</code></p>
+<p>Table: <code>Genders</code></p>
 
 <pre>
 +-------------+---------+
@@ -25,25 +22,26 @@ tags:
 | user_id     | int     |
 | gender      | varchar |
 +-------------+---------+
-user_id 是该表的主键(具有唯一值的列)。
-gender 的值是 'female', 'male','other' 之一。
-该表中的每一行都包含用户的 ID 及其性别。
-表格中 'female', 'male','other' 数量相等。
+user_id is the primary key (column with unique values) for this table.
+gender is ENUM (category) of type &#39;female&#39;, &#39;male&#39;, or &#39;other&#39;.
+Each row in this table contains the ID of a user and their gender.
+The table has an equal number of &#39;female&#39;, &#39;male&#39;, and &#39;other&#39;.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写一个解决方案以重新排列 <code>Genders</code> 表，使行按顺序在&nbsp;<code>'female'</code>,&nbsp;<code>'other'</code>&nbsp;和&nbsp;<code>'male'</code>&nbsp;之间交替。同时每种性别按照&nbsp;user_id 升序进行排序。<br />
-按 <strong>上述顺序</strong> 返回结果表。<br />
-返回结果格式如以下示例所示。</p>
+<p>Write a solution&nbsp;to rearrange the <code>Genders</code> table such that the rows alternate between <code>&#39;female&#39;</code>, <code>&#39;other&#39;</code>, and <code>&#39;male&#39;</code> in order. The table should be rearranged such that the IDs of each gender are sorted in ascending order.</p>
+
+<p>Return the result table in <strong>the mentioned order</strong>.</p>
+
+<p>The&nbsp;result format is shown in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
-Genders 表:
+<strong>Input:</strong> 
+Genders table:
 +---------+--------+
 | user_id | gender |
 +---------+--------+
@@ -57,7 +55,7 @@ Genders 表:
 | 1       | other  |
 | 9       | female |
 +---------+--------+
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +---------+--------+
 | user_id | gender |
 +---------+--------+
@@ -71,21 +69,21 @@ Genders 表:
 | 6       | other  |
 | 8       | male   |
 +---------+--------+
-<strong>解释:</strong> 
-女性：ID 3、7、9。
-其他性别：ID 1、2、6。
-男性：ID 4、5、8。
-我们在 'female', 'other','male' 之间交替排列表。
-注意，每种性别都是按 user_id 升序排序的。
+<strong>Explanation:</strong> 
+Female gender: IDs 3, 7, and 9.
+Other gender: IDs 1, 2, and 6.
+Male gender: IDs 4, 5, and 8.
+We arrange the table alternating between &#39;female&#39;, &#39;other&#39;, and &#39;male&#39;.
+Note that the IDs of each gender are sorted in ascending order.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -119,7 +117,7 @@ ORDER BY rk1, rk2;
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

@@ -1,78 +1,75 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2234.Maximum%20Total%20Beauty%20of%20the%20Gardens/README.md
+difficulty: Hard
 rating: 2561
-source: 第 288 场周赛 Q4
+source: Weekly Contest 288 Q4
 tags:
-    - 贪心
-    - 数组
-    - 双指针
-    - 二分查找
-    - 排序
+    - Greedy
+    - Array
+    - Two Pointers
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2234. 花园的最大总美丽值](https://leetcode.cn/problems/maximum-total-beauty-of-the-gardens)
+# [2234. Maximum Total Beauty of the Gardens](https://leetcode.com/problems/maximum-total-beauty-of-the-gardens)
 
-[English Version](/solution/2200-2299/2234.Maximum%20Total%20Beauty%20of%20the%20Gardens/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>Alice 是&nbsp;<code>n</code>&nbsp;个花园的园丁，她想通过种花，最大化她所有花园的总美丽值。</p>
+<p>Alice is a caretaker of <code>n</code> gardens and she wants to plant flowers to maximize the total beauty of all her gardens.</p>
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始大小为 <code>n</code>&nbsp;的整数数组&nbsp;<code>flowers</code>&nbsp;，其中&nbsp;<code>flowers[i]</code>&nbsp;是第 <code>i</code>&nbsp;个花园里已经种的花的数目。已经种了的花 <strong>不能</strong>&nbsp;移走。同时给你&nbsp;<code>newFlowers</code>&nbsp;，表示 Alice 额外可以种花的&nbsp;<strong>最大数目</strong>&nbsp;。同时给你的还有整数&nbsp;<code>target</code>&nbsp;，<code>full</code>&nbsp;和&nbsp;<code>partial</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>flowers</code> of size <code>n</code>, where <code>flowers[i]</code> is the number of flowers already planted in the <code>i<sup>th</sup></code> garden. Flowers that are already planted <strong>cannot</strong> be removed. You are then given another integer <code>newFlowers</code>, which is the <strong>maximum</strong> number of flowers that Alice can additionally plant. You are also given the integers <code>target</code>, <code>full</code>, and <code>partial</code>.</p>
 
-<p>如果一个花园有 <strong>至少</strong>&nbsp;<code>target</code>&nbsp;朵花，那么这个花园称为 <strong>完善的</strong>&nbsp;，花园的 <strong>总美丽值</strong>&nbsp;为以下分数之 <strong>和</strong> ：</p>
+<p>A garden is considered <strong>complete</strong> if it has <strong>at least</strong> <code>target</code> flowers. The <strong>total beauty</strong> of the gardens is then determined as the <strong>sum</strong> of the following:</p>
 
 <ul>
-	<li><b>完善</b> 花园数目乘以&nbsp;<code>full</code>.</li>
-	<li>剩余 <strong>不完善</strong>&nbsp;花园里，花的 <strong>最少数目</strong>&nbsp;乘以&nbsp;<code>partial</code>&nbsp;。如果没有不完善花园，那么这一部分的值为&nbsp;<code>0</code>&nbsp;。</li>
+	<li>The number of <strong>complete</strong> gardens multiplied by <code>full</code>.</li>
+	<li>The <strong>minimum</strong> number of flowers in any of the <strong>incomplete</strong> gardens multiplied by <code>partial</code>. If there are no incomplete gardens, then this value will be <code>0</code>.</li>
 </ul>
 
-<p>请你返回 Alice 种最多 <code>newFlowers</code>&nbsp;朵花以后，能得到的<strong>&nbsp;最大</strong>&nbsp;总美丽值。</p>
+<p>Return <em>the <strong>maximum</strong> total beauty that Alice can obtain after planting at most </em><code>newFlowers</code><em> flowers.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>flowers = [1,3,1,1], newFlowers = 7, target = 6, full = 12, partial = 1
-<b>输出：</b>14
-<b>解释：</b>Alice 可以按以下方案种花
-- 在第 0 个花园种 2 朵花
-- 在第 1 个花园种 3 朵花
-- 在第 2 个花园种 1 朵花
-- 在第 3 个花园种 1 朵花
-花园里花的数目为 [3,6,2,2] 。总共种了 2 + 3 + 1 + 1 = 7 朵花。
-只有 1 个花园是完善的。
-不完善花园里花的最少数目是 2 。
-所以总美丽值为 1 * 12 + 2 * 1 = 12 + 2 = 14 。
-没有其他方案可以让花园总美丽值超过 14 。
+<pre>
+<strong>Input:</strong> flowers = [1,3,1,1], newFlowers = 7, target = 6, full = 12, partial = 1
+<strong>Output:</strong> 14
+<strong>Explanation:</strong> Alice can plant
+- 2 flowers in the 0<sup>th</sup> garden
+- 3 flowers in the 1<sup>st</sup> garden
+- 1 flower in the 2<sup>nd</sup> garden
+- 1 flower in the 3<sup>rd</sup> garden
+The gardens will then be [3,6,2,2]. She planted a total of 2 + 3 + 1 + 1 = 7 flowers.
+There is 1 garden that is complete.
+The minimum number of flowers in the incomplete gardens is 2.
+Thus, the total beauty is 1 * 12 + 2 * 1 = 12 + 2 = 14.
+No other way of planting flowers can obtain a total beauty higher than 14.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>flowers = [2,4,5,3], newFlowers = 10, target = 5, full = 2, partial = 6
-<b>输出：</b>30
-<b>解释：</b>Alice 可以按以下方案种花
-- 在第 0 个花园种 3 朵花
-- 在第 1 个花园种 0 朵花
-- 在第 2 个花园种 0 朵花
-- 在第 3 个花园种 2 朵花
-花园里花的数目为 [5,4,5,5] 。总共种了 3 + 0 + 0 + 2 = 5 朵花。
-有 3 个花园是完善的。
-不完善花园里花的最少数目为 4 。
-所以总美丽值为 3 * 2 + 4 * 6 = 6 + 24 = 30 。
-没有其他方案可以让花园总美丽值超过 30 。
-注意，Alice可以让所有花园都变成完善的，但这样她的总美丽值反而更小。
+<pre>
+<strong>Input:</strong> flowers = [2,4,5,3], newFlowers = 10, target = 5, full = 2, partial = 6
+<strong>Output:</strong> 30
+<strong>Explanation:</strong> Alice can plant
+- 3 flowers in the 0<sup>th</sup> garden
+- 0 flowers in the 1<sup>st</sup> garden
+- 0 flowers in the 2<sup>nd</sup> garden
+- 2 flowers in the 3<sup>rd</sup> garden
+The gardens will then be [5,4,5,5]. She planted a total of 3 + 0 + 0 + 2 = 5 flowers.
+There are 3 gardens that are complete.
+The minimum number of flowers in the incomplete gardens is 4.
+Thus, the total beauty is 3 * 2 + 4 * 6 = 6 + 24 = 30.
+No other way of planting flowers can obtain a total beauty higher than 30.
+Note that Alice could make all the gardens complete but in this case, she would obtain a lower total beauty.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= flowers.length &lt;= 10<sup>5</sup></code></li>
@@ -83,23 +80,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举 + 二分查找
+### Solution 1: Enumeration + Binary Search
 
-我们注意到，如果一个花园中种的花的数目已经大于等于 $\textit{target}$，那么这个花园就已经是完善的花园，不能再改变。而不完善的花园中，可以通过种更多的花来使得这个花园变成完善的花园。
+We note that if the number of flowers in a garden is already greater than or equal to $\textit{target}$, then this garden is already a perfect garden and cannot be changed. For imperfect gardens, we can plant more flowers to make them perfect gardens.
 
-我们不妨枚举有多少个花园最终成为完善的花园，假设初始时有 $x$ 个完善的花园，那么我们可以在 $[x, n]$ 范围内枚举。我们应该选择哪些不完善花园变成完善花园呢？实际上，我们应该选择那么花的数目较多的花园，这样才能使得最终剩下的可额外种植的花更多，将这些花用于提升不完善花园的最小值。因此，我们对数组 $\textit{flowers}$ 进行排序。
+Let's enumerate how many gardens will eventually become perfect gardens. Suppose initially there are $x$ perfect gardens, then we can enumerate in the range $[x, n]$. Which imperfect gardens should we choose to become perfect gardens? In fact, we should choose the gardens with more flowers so that the remaining flowers can be used to increase the minimum value of the imperfect gardens. Therefore, we sort the array $\textit{flowers}$.
 
-接下来，我们枚举完善花园的数目 $x$，那么当前要变成完善花园的是 $\textit{target}[n-x]$，需要种植的花的数量为 $\max(0, \textit{target} - \textit{flowers}[n - x])$。
+Next, we enumerate the number of perfect gardens $x$. The current garden to become a perfect garden is $\textit{target}[n-x]$, and the number of flowers needed is $\max(0, \textit{target} - \textit{flowers}[n - x])$.
 
-我们更新剩余可种植的花 $\textit{newFlowers}$，如果小于 $0$，说明已经不能将更多的花园变成完善花园了，直接退出枚举。
+We update the remaining flowers $\textit{newFlowers}$. If it is less than $0$, it means we can no longer make more gardens perfect, so we stop the enumeration.
 
-否则，我们在 $[0,..n-x-1]$ 范围内，二分查找可以把不完善花园变成完善花园的最大下标。记下标为 $l$，那么所需要种植的花的数量为 $\textit{cost} = \textit{flowers}[l] \times (l + 1) - s[l + 1]$，其中 $s[i]$ 是 $\textit{flowers}$ 数组中前 $i$ 个数之和。如果此时还能提升最小值的大小，我们算出能提升的幅度 $\frac{\textit{newFlowers} - \textit{cost}}{l + 1}$，并且保证最终的最小值不超过 $\textit{target}-1$。即最小值 $y = \min(\textit{flowers}[l] + \frac{\textit{newFlowers} - \textit{cost}}{l + 1}, \textit{target} - 1)$。那么此时花园的美丽值为 $x \times \textit{full} + y \times \textit{partial}$。答案为所有美丽值的最大值。
+Otherwise, we perform a binary search in the range $[0,..n-x-1]$ to find the maximum index of the imperfect gardens that can be turned into perfect gardens. Let the index be $l$, then the number of flowers needed is $\textit{cost} = \textit{flowers}[l] \times (l + 1) - s[l + 1]$, where $s[i]$ is the sum of the first $i$ numbers in the $\textit{flowers}$ array. If we can still increase the minimum value, we calculate the increase $\frac{\textit{newFlowers} - \textit{cost}}{l + 1}$, and ensure that the final minimum value does not exceed $\textit{target}-1$. That is, the minimum value $y = \min(\textit{flowers}[l] + \frac{\textit{newFlowers} - \textit{cost}}{l + 1}, \textit{target} - 1)$. Then the beauty value of the garden is $x \times \textit{full} + y \times \textit{partial}$. The answer is the maximum of all beauty values.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{flowers}$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the $\textit{flowers}$ array.
 
 <!-- tabs:start -->
 

@@ -1,64 +1,58 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0647.Palindromic%20Substrings/README.md
+difficulty: Medium
 tags:
-    - 双指针
-    - 字符串
-    - 动态规划
+    - Two Pointers
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [647. 回文子串](https://leetcode.cn/problems/palindromic-substrings)
+# [647. Palindromic Substrings](https://leetcode.com/problems/palindromic-substrings)
 
-[English Version](/solution/0600-0699/0647.Palindromic%20Substrings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> ，请你统计并返回这个字符串中 <strong>回文子串</strong> 的数目。</p>
+<p>Given a string <code>s</code>, return <em>the number of <strong>palindromic substrings</strong> in it</em>.</p>
 
-<p><strong>回文字符串</strong> 是正着读和倒过来读一样的字符串。</p>
+<p>A string is a <strong>palindrome</strong> when it reads the same backward as forward.</p>
 
-<p><strong>子字符串</strong> 是字符串中的由连续字符组成的一个序列。</p>
+<p>A <strong>substring</strong> is a contiguous sequence of characters within the string.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "abc"
-<strong>输出：</strong>3
-<strong>解释：</strong>三个回文子串: "a", "b", "c"
+<strong>Input:</strong> s = &quot;abc&quot;
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> Three palindromic strings: &quot;a&quot;, &quot;b&quot;, &quot;c&quot;.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "aaa"
-<strong>输出：</strong>6
-<strong>解释：</strong>6个回文子串: "a", "a", "a", "aa", "aa", "aaa"</pre>
+<strong>Input:</strong> s = &quot;aaa&quot;
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> Six palindromic strings: &quot;a&quot;, &quot;a&quot;, &quot;a&quot;, &quot;aa&quot;, &quot;aa&quot;, &quot;aaa&quot;.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
-	<li><code>s</code> 由小写英文字母组成</li>
+	<li><code>s</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：从中心向两侧扩展回文串
-
-时间复杂度 $O(n^2)$，其中 $n$ 是字符串 `s` 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -162,11 +156,7 @@ var countSubstrings = function (s) {
 
 <!-- solution:start -->
 
-### 方法二：Manacher 算法
-
-在 Manacher 算法的计算过程中，用 $p[i]-1$ 表示以第 $i$ 位为中心的最大回文长度，以第 $i$ 位为中心的回文串数量为 $\left \lceil \frac{p[i]-1}{2}  \right \rceil$。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 `s` 的长度。
+### Solution 2
 
 <!-- tabs:start -->
 

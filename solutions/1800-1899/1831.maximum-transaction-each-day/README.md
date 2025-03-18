@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1831.Maximum%20Transaction%20Each%20Day/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1831. 每天的最大交易 🔒](https://leetcode.cn/problems/maximum-transaction-each-day)
+# [1831. Maximum Transaction Each Day 🔒](https://leetcode.com/problems/maximum-transaction-each-day)
 
-[English Version](/solution/1800-1899/1831.Maximum%20Transaction%20Each%20Day/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Transactions</code></p>
+<p>Table: <code>Transactions</code></p>
 
 <pre>
 +----------------+----------+
@@ -26,24 +23,23 @@ tags:
 | day            | datetime |
 | amount         | int      |
 +----------------+----------+
-transaction_id 是该表具有唯一值的列。
-每行包括了该次交易的信息。
+transaction_id is the column with unique values for this table.
+Each row contains information about one transaction.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写一个解决方案，报告每天交易金额 <code>amount</code> <strong>最大</strong> 的交易 ID 。如果一天中有多个这样的交易，返回这些交易的 ID 。</p>
+<p>Write a solution&nbsp;to report the IDs of the transactions with the <strong>maximum</strong> <code>amount</code> on their respective day. If in one day there are multiple such transactions, return all of them.</p>
 
-<p><span style="">返回结果根据 </span><code>transaction_id</code>&nbsp;<strong>升序排列</strong>。</p>
+<p>Return the result table <strong>ordered by</strong> <code>transaction_id</code> <strong> in ascending order</strong>.</p>
 
-<p>返回格式如下示例所示：</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 Transactions table:
 +----------------+--------------------+--------+
 | transaction_id | day                | amount |
@@ -54,7 +50,7 @@ Transactions table:
 | 5              | 2021-4-28 16:39:59 | 40     |
 | 6              | 2021-4-29 23:39:28 | 58     |
 +----------------+--------------------+--------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +----------------+
 | transaction_id |
 +----------------+
@@ -63,25 +59,25 @@ Transactions table:
 | 6              |
 | 8              |
 +----------------+
-<strong>解释：</strong>
-"2021-4-3"  --&gt; 有一个 id 是 8 的交易，因此，把它加入结果表。 
-"2021-4-28" --&gt; 有两个交易，id 是 5 和 9 ，交易 5 的金额是 40 ，而交易 9 的数量是 21 。只需要将交易 5 加入结果表，因为它是当天金额最大的交易。
-"2021-4-29" --&gt; 有两个交易，id 是 1 和 6 ，这两个交易的金额都是 58 ，因此需要把它们都写入结果表。
-最后，把交易 id 按照升序排列。</pre>
+<strong>Explanation:</strong> 
+&quot;2021-4-3&quot;  --&gt; We have one transaction with ID 8, so we add 8 to the result table.
+&quot;2021-4-28&quot; --&gt; We have two transactions with IDs 5 and 9. The transaction with ID 5 has an amount of 40, while the transaction with ID 9 has an amount of 21. We only include the transaction with ID 5 as it has the maximum amount this day.
+&quot;2021-4-29&quot; --&gt; We have two transactions with IDs 1 and 6. Both transactions have the same amount of 58, so we include both in the result table.
+We order the result table by transaction_id after collecting these IDs.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>你可以不使用&nbsp;<code>MAX()</code>&nbsp;函数解决这道题目吗?</p>
+<p><strong>Follow up:</strong> Could you solve it without using the <code>MAX()</code> function?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：窗口函数
+### Solution 1: Window Function
 
-我们可以使用窗口函数 `RANK`，按照每天的交易金额 `amount` 降序排列，然后选择排名为 $1$ 的交易。
+We can use the window function `RANK()`, which assigns a rank to each transaction based on its amount in descending order, and then select the transactions with a rank of $1$.
 
 <!-- tabs:start -->
 

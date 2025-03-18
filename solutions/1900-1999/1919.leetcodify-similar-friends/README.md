@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1919.Leetcodify%20Similar%20Friends/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1919. 兴趣相同的朋友 🔒](https://leetcode.cn/problems/leetcodify-similar-friends)
+# [1919. Leetcodify Similar Friends 🔒](https://leetcode.com/problems/leetcodify-similar-friends)
 
-[English Version](/solution/1900-1999/1919.Leetcodify%20Similar%20Friends/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Listens</code></p>
+<p>Table: <code>Listens</code></p>
 
 <pre>
 +-------------+---------+
@@ -26,13 +23,13 @@ tags:
 | song_id     | int     |
 | day         | date    |
 +-------------+---------+
-该表没有主键，因此会存在重复的行。
-该表的每一行所代表的含义是：用户（user_id）在某天（day）听了某首歌曲（song_id）。
+This table may contain duplicate rows.
+Each row of this table indicates that the user user_id listened to the song song_id on the day day.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>表: <code>Friendship</code></p>
+<p>Table: <code>Friendship</code></p>
 
 <pre>
 +---------------+---------+
@@ -41,30 +38,29 @@ tags:
 | user1_id      | int     |
 | user2_id      | int     |
 +---------------+---------+
-(user1_id, user2_id) 是该表的主键。
-该表的每一行所代表的含义是，用户（user1_id, user2_id）是朋友。
-注意：user1_id &lt; user2_id。
+(user1_id, user2_id) is the primary key (combination of columns with unique values) for this table.
+Each row of this table indicates that the users user1_id and user2_id are friends.
+Note that user1_id &lt; user2_id.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>请写一段SQL查询获取到兴趣相同的朋友。用户 <code>x</code>&nbsp;和 用户 <code>y</code>&nbsp;是兴趣相同的朋友，需满足下述条件：</p>
+<p>Write a solution to report the similar friends of Leetcodify users. A user <code>x</code> and user <code>y</code> are&nbsp;similar friends if:</p>
 
 <ul>
-	<li>用户&nbsp;<code>x</code>&nbsp;和&nbsp;<code>y</code>&nbsp;是朋友，并且</li>
-	<li>用户&nbsp;<code>x</code> and <code>y</code>&nbsp;在同一天内听过相同的歌曲，且数量大于等于三首.</li>
+	<li>Users <code>x</code> and <code>y</code> are friends, and</li>
+	<li>Users <code>x</code> and <code>y</code> listened to the same three or more different songs <strong>on the same day</strong>.</li>
 </ul>
 
-<p>结果表&nbsp;<strong>无需排序&nbsp;</strong>。注意：返回的结果需要和源数据表的呈现方式相同&nbsp;（例如，&nbsp;需满足&nbsp;<code>user1_id &lt; user2_id</code>）。</p>
+<p>Return the result table in <strong>any order</strong>. Note that you must return the similar pairs of friends the same way they were represented in the input (i.e., always <code>user1_id &lt; user2_id</code>).</p>
 
-<p>结果表的格式如下例。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1：</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 Listens table:
 +---------+---------+------------+
 | user_id | song_id | day        |
@@ -93,25 +89,26 @@ Friendship table:
 | 2        | 4        |
 | 2        | 5        |
 +----------+----------+
-<b>输出：</b>
+<strong>Output:</strong> 
 +----------+----------+
 | user1_id | user2_id |
 +----------+----------+
 | 1        | 2        |
 +----------+----------+
-<strong>解释：</strong>
-用户 1 和 2 是朋友, 并且他们在同一天内都听了10、11、12的歌曲。所以，他们是兴趣相同的朋友。
-用户 1 和 3 在同一天内都听了10、11、12的歌曲，但他们不是朋友。
-用户 2 和 4 是朋友，但他们同一天内听过相同的歌曲的数量小于3。
-用户 2 和 5 是朋友，并且在都听了了10、11、12的歌曲，但不在同一天内。</pre>
+<strong>Explanation:</strong> 
+Users 1 and 2 are friends, and they listened to songs 10, 11, and 12 on the same day. They are similar friends.
+Users 1 and 3 listened to songs 10, 11, and 12 on the same day, but they are not friends.
+Users 2 and 4 are friends, but they did not listen to the same three different songs.
+Users 2 and 5 are friends and listened to songs 10, 11, and 12, but they did not listen to them on the same day.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

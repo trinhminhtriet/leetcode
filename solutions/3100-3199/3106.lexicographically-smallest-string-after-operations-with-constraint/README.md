@@ -1,98 +1,94 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3106.Lexicographically%20Smallest%20String%20After%20Operations%20With%20Constraint/README.md
+difficulty: Medium
 rating: 1515
-source: 第 392 场周赛 Q2
+source: Weekly Contest 392 Q2
 tags:
-    - 贪心
-    - 字符串
+    - Greedy
+    - String
 ---
 
 <!-- problem:start -->
 
-# [3106. 满足距离约束且字典序最小的字符串](https://leetcode.cn/problems/lexicographically-smallest-string-after-operations-with-constraint)
+# [3106. Lexicographically Smallest String After Operations With Constraint](https://leetcode.com/problems/lexicographically-smallest-string-after-operations-with-constraint)
 
-[English Version](/solution/3100-3199/3106.Lexicographically%20Smallest%20String%20After%20Operations%20With%20Constraint/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> 和一个整数 <code>k</code> 。</p>
+<p>You are given a string <code>s</code> and an integer <code>k</code>.</p>
 
-<p>定义函数 <code>distance(s<sub>1</sub>, s<sub>2</sub>)</code> ，用于衡量两个长度为 <code>n</code> 的字符串 <code>s<sub>1</sub></code> 和 <code>s<sub>2</sub></code> 之间的距离，即：</p>
+<p>Define a function <code>distance(s<sub>1</sub>, s<sub>2</sub>)</code> between two strings <code>s<sub>1</sub></code> and <code>s<sub>2</sub></code> of the same length <code>n</code> as:</p>
 
 <ul>
-	<li>字符 <code>'a'</code> 到 <code>'z'</code> 按 <strong>循环 </strong>顺序排列，对于区间 <code>[0, n - 1]</code> 中的 <code>i</code> ，计算所有「 <code>s<sub>1</sub>[i]</code> 和 <code>s<sub>2</sub>[i]</code> 之间<strong> 最小距离</strong>」的 <strong>和 </strong>。</li>
+	<li>The<strong> sum</strong> of the <strong>minimum distance</strong> between <code>s<sub>1</sub>[i]</code> and <code>s<sub>2</sub>[i]</code> when the characters from <code>&#39;a&#39;</code> to <code>&#39;z&#39;</code> are placed in a <strong>cyclic</strong> order, for all <code>i</code> in the range <code>[0, n - 1]</code>.</li>
 </ul>
 
-<p>例如，<code>distance("ab", "cd") == 4</code> ，且 <code>distance("a", "z") == 1</code> 。</p>
+<p>For example, <code>distance(&quot;ab&quot;, &quot;cd&quot;) == 4</code>, and <code>distance(&quot;a&quot;, &quot;z&quot;) == 1</code>.</p>
 
-<p>你可以对字符串 <code>s</code> 执行<strong> 任意次 </strong>操作。在每次操作中，可以将 <code>s</code> 中的一个字母 <strong>改变 </strong>为<strong> 任意 </strong>其他小写英文字母。</p>
+<p>You can <strong>change</strong> any letter of <code>s</code> to <strong>any</strong> other lowercase English letter, <strong>any</strong> number of times.</p>
 
-<p>返回一个字符串，表示在执行一些操作后你可以得到的 <strong>字典序最小</strong> 的字符串 <code>t</code> ，且满足 <code>distance(s, t) &lt;= k</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "zbbz", k = 3
-<strong>输出：</strong>"aaaz"
-<strong>解释：</strong>在这个例子中，可以执行以下操作：
-将 s[0] 改为 'a' ，s 变为 "abbz" 。
-将 s[1] 改为 'a' ，s 变为 "aabz" 。
-将 s[2] 改为 'a' ，s 变为 "aaaz" 。
-"zbbz" 和 "aaaz" 之间的距离等于 k = 3 。
-可以证明 "aaaz" 是在任意次操作后能够得到的字典序最小的字符串。
-因此，答案是 "aaaz" 。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "xaxcd", k = 4
-<strong>输出：</strong>"aawcd"
-<strong>解释：</strong>在这个例子中，可以执行以下操作：
-将 s[0] 改为 'a' ，s 变为 "aaxcd" 。
-将 s[2] 改为 'w' ，s 变为 "aawcd" 。
-"xaxcd" 和 "aawcd" 之间的距离等于 k = 4 。
-可以证明 "aawcd" 是在任意次操作后能够得到的字典序最小的字符串。
-因此，答案是 "aawcd" 。
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "lol", k = 0
-<strong>输出：</strong>"lol"
-<strong>解释：</strong>在这个例子中，k = 0，更改任何字符都会使得距离大于 0 。
-因此，答案是 "lol" 。</pre>
+<p>Return a string denoting the <strong><span data-keyword="lexicographically-smaller-string">lexicographically smallest</span></strong> string <code>t</code> you can get after some changes, such that <code>distance(s, t) &lt;= k</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;zbbz&quot;, k = 3</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">&quot;aaaz&quot;</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>Change <code>s</code> to <code>&quot;aaaz&quot;</code>. The distance between <code>&quot;zbbz&quot;</code> and <code>&quot;aaaz&quot;</code> is equal to <code>k = 3</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;xaxcd&quot;, k = 4</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">&quot;aawcd&quot;</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The distance between &quot;xaxcd&quot; and &quot;aawcd&quot; is equal to k = 4.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;lol&quot;, k = 0</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">&quot;lol&quot;</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>It&#39;s impossible to change any character as <code>k = 0</code>.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 100</code></li>
 	<li><code>0 &lt;= k &lt;= 2000</code></li>
-	<li><code>s</code> 只包含小写英文字母。</li>
+	<li><code>s</code> consists only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们可以遍历字符串 $s$ 的每个位置，对于每个位置，我们枚举所有小于当前字符的字符，计算改变到这个字符的代价 $d$，如果 $d \leq k$，我们就将当前位置的字符改为这个字符，并将 $k$ 减去 $d$，然后结束枚举，继续遍历下一个位置。
+We can traverse each position of the string $s$. For each position, we enumerate all characters less than the current character, calculate the cost $d$ to change to this character. If $d \leq k$, we change the current character to this character, subtract $d$ from $k$, end the enumeration, and continue to the next position.
 
-遍历结束后，我们就得到了一个满足条件的字符串。
+After the traversal, we get a string that meets the conditions.
 
-时间复杂度 $O(n \times |\Sigma|)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度；而 $|\Sigma|$ 是字符集的大小，本题中 $|\Sigma| \leq 26$。
+The time complexity is $O(n \times |\Sigma|)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$, and $|\Sigma|$ is the size of the character set. In this problem, $|\Sigma| \leq 26$.
 
 <!-- tabs:start -->
 

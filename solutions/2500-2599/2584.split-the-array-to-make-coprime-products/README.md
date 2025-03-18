@@ -1,64 +1,56 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2584.Split%20the%20Array%20to%20Make%20Coprime%20Products/README.md
+difficulty: Hard
 rating: 2159
-source: 第 335 场周赛 Q3
+source: Weekly Contest 335 Q3
 tags:
-    - 数组
-    - 哈希表
-    - 数学
-    - 数论
+    - Array
+    - Hash Table
+    - Math
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [2584. 分割数组使乘积互质](https://leetcode.cn/problems/split-the-array-to-make-coprime-products)
+# [2584. Split the Array to Make Coprime Products](https://leetcode.com/problems/split-the-array-to-make-coprime-products)
 
-[English Version](/solution/2500-2599/2584.Split%20the%20Array%20to%20Make%20Coprime%20Products/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code> 的整数数组 <code>nums</code> ，下标从 <strong>0</strong> 开始。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of length <code>n</code>.</p>
 
-<p>如果在下标 <code>i</code> 处 <strong>分割</strong> 数组，其中 <code>0 &lt;= i &lt;= n - 2</code> ，使前 <code>i + 1</code> 个元素的乘积和剩余元素的乘积互质，则认为该分割 <strong>有效</strong> 。</p>
+<p>A <strong>split</strong> at an index <code>i</code> where <code>0 &lt;= i &lt;= n - 2</code> is called <strong>valid</strong> if the product of the first <code>i + 1</code> elements and the product of the remaining elements are coprime.</p>
 
 <ul>
-	<li>例如，如果 <code>nums = [2, 3, 3]</code> ，那么在下标 <code>i = 0</code> 处的分割有效，因为 <code>2</code> 和 <code>9</code> 互质，而在下标 <code>i = 1</code> 处的分割无效，因为 <code>6</code> 和 <code>3</code> 不互质。在下标 <code>i = 2</code> 处的分割也无效，因为 <code>i == n - 1</code> 。</li>
+	<li>For example, if <code>nums = [2, 3, 3]</code>, then a split at the index <code>i = 0</code> is valid because <code>2</code> and <code>9</code> are coprime, while a split at the index <code>i = 1</code> is not valid because <code>6</code> and <code>3</code> are not coprime. A split at the index <code>i = 2</code> is not valid because <code>i == n - 1</code>.</li>
 </ul>
 
-<p>返回可以有效分割数组的最小下标 <code>i</code> ，如果不存在有效分割，则返回 <code>-1</code> 。</p>
+<p>Return <em>the smallest index </em><code>i</code><em> at which the array can be split validly or </em><code>-1</code><em> if there is no such split</em>.</p>
 
-<p>当且仅当 <code>gcd(val1, val2) == 1</code> 成立时，<code>val1</code> 和 <code>val2</code> 这两个值才是互质的，其中 <code>gcd(val1, val2)</code> 表示 <code>val1</code> 和 <code>val2</code> 的最大公约数。</p>
+<p>Two values <code>val1</code> and <code>val2</code> are coprime if <code>gcd(val1, val2) == 1</code> where <code>gcd(val1, val2)</code> is the greatest common divisor of <code>val1</code> and <code>val2</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2584.Split%20the%20Array%20to%20Make%20Coprime%20Products/images/second.png" style="width: 450px; height: 211px;" /></p>
-
+<p><strong>Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2584.Split%20the%20Array%20to%20Make%20Coprime%20Products/images/second.png" style="width: 450px; height: 211px;" />
 <pre>
-<strong>输入：</strong>nums = [4,7,8,15,3,5]
-<strong>输出：</strong>2
-<strong>解释：</strong>上表展示了每个下标 i 处的前 i + 1 个元素的乘积、剩余元素的乘积和它们的最大公约数的值。
-唯一一个有效分割位于下标 2 。</pre>
+<strong>Input:</strong> nums = [4,7,8,15,3,5]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The table above shows the values of the product of the first i + 1 elements, the remaining elements, and their gcd at each index i.
+The only valid split is at index 2.
+</pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2584.Split%20the%20Array%20to%20Make%20Coprime%20Products/images/capture.png" style="width: 450px; height: 215px;" /></p>
-
+<p><strong>Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2584.Split%20the%20Array%20to%20Make%20Coprime%20Products/images/capture.png" style="width: 450px; height: 215px;" />
 <pre>
-<strong>输入：</strong>nums = [4,7,15,8,3,5]
-<strong>输出：</strong>-1
-<strong>解释：</strong>上表展示了每个下标 i 处的前 i + 1 个元素的乘积、剩余元素的乘积和它们的最大公约数的值。
-不存在有效分割。
+<strong>Input:</strong> nums = [4,7,15,8,3,5]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> The table above shows the values of the product of the first i + 1 elements, the remaining elements, and their gcd at each index i.
+There is no valid split.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -68,11 +60,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：质因数分解
+### Solution 1
 
 <!-- tabs:start -->
 

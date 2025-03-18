@@ -1,71 +1,55 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0186.Reverse%20Words%20in%20a%20String%20II/README.md
+difficulty: Medium
 tags:
-    - 双指针
-    - 字符串
+    - Two Pointers
+    - String
 ---
 
 <!-- problem:start -->
 
-# [186. 反转字符串中的单词 II 🔒](https://leetcode.cn/problems/reverse-words-in-a-string-ii)
+# [186. Reverse Words in a String II 🔒](https://leetcode.com/problems/reverse-words-in-a-string-ii)
 
-[English Version](/solution/0100-0199/0186.Reverse%20Words%20in%20a%20String%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符数组 <code>s</code> ，反转其中 <strong>单词</strong> 的顺序。</p>
+<p>Given a character array <code>s</code>, reverse the order of the <strong>words</strong>.</p>
 
-<p><strong>单词</strong> 的定义为：单词是一个由非空格字符组成的序列。<code>s</code> 中的单词将会由单个空格分隔。</p>
+<p>A <strong>word</strong> is defined as a sequence of non-space characters. The <strong>words</strong> in <code>s</code> will be separated by a single space.</p>
 
-<div class="original__bRMd">
-<div>
-<p>必须设计并实现 <strong>原地</strong> 解法来解决此问题，即不分配额外的空间。</p>
+<p>Your code must solve the problem&nbsp;<strong>in-place,</strong> i.e. without allocating extra space.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = ["t","h","e"," ","s","k","y"," ","i","s"," ","b","l","u","e"]
-<strong>输出：</strong>["b","l","u","e"," ","i","s"," ","s","k","y"," ","t","h","e"]
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> s = ["t","h","e"," ","s","k","y"," ","i","s"," ","b","l","u","e"]
+<strong>Output:</strong> ["b","l","u","e"," ","i","s"," ","s","k","y"," ","t","h","e"]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> s = ["a"]
+<strong>Output:</strong> ["a"]
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = ["a"]
-<strong>输出：</strong>["a"]
-</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code> 可以是一个英文字母（大写或小写）、数字、或是空格 <code>' '</code> 。</li>
-	<li><code>s</code> 中至少存在一个单词</li>
-	<li><code>s</code> 不含前导或尾随空格</li>
-	<li>题目数据保证：<code>s</code> 中的每个单词都由单个空格分隔</li>
+	<li><code>s[i]</code> is an English letter (uppercase or lowercase), digit, or space <code>&#39; &#39;</code>.</li>
+	<li>There is <strong>at least one</strong> word in <code>s</code>.</li>
+	<li><code>s</code> does not contain leading or trailing spaces.</li>
+	<li>All the words in <code>s</code> are guaranteed to be separated by a single space.</li>
 </ul>
-</div>
-</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1: Two Pointers
 
-我们可以遍历字符数组 $s$，利用双指针 $i$ 和 $j$ 找到每个单词的起始位置和结束位置，然后反转每个单词，最后再反转整个字符数组。
+We can iterate through the character array $s$, using two pointers $i$ and $j$ to find the start and end positions of each word, then reverse each word, and finally reverse the entire character array.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符数组 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the character array $s$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

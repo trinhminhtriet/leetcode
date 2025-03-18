@@ -1,85 +1,76 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0955.Delete%20Columns%20to%20Make%20Sorted%20II/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数组
-    - 字符串
+    - Greedy
+    - Array
+    - String
 ---
 
 <!-- problem:start -->
 
-# [955. 删列造序 II](https://leetcode.cn/problems/delete-columns-to-make-sorted-ii)
+# [955. Delete Columns to Make Sorted II](https://leetcode.com/problems/delete-columns-to-make-sorted-ii)
 
-[English Version](/solution/0900-0999/0955.Delete%20Columns%20to%20Make%20Sorted%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定由 <code>n</code> 个字符串组成的数组 <code>strs</code>，其中每个字符串长度相等。</p>
+<p>You are given an array of <code>n</code> strings <code>strs</code>, all of the same length.</p>
 
-<p>选取一个删除索引序列，对于 <code>strs</code> 中的每个字符串，删除对应每个索引处的字符。</p>
+<p>We may choose any deletion indices, and we delete all the characters in those indices for each string.</p>
 
-<p>比如，有 <code>strs = ["abcdef", "uvwxyz"]</code>，删除索引序列 <code>{0, 2, 3}</code>，删除后 <code>strs</code> 为<code>["bef", "vyz"]</code>。</p>
+<p>For example, if we have <code>strs = [&quot;abcdef&quot;,&quot;uvwxyz&quot;]</code> and deletion indices <code>{0, 2, 3}</code>, then the final array after deletions is <code>[&quot;bef&quot;, &quot;vyz&quot;]</code>.</p>
 
-<p>假设，我们选择了一组删除索引 <code>answer</code>，那么在执行删除操作之后，最终得到的数组的元素是按 <strong>字典序</strong>（<code>strs[0] <= strs[1] <= strs[2] ... <= strs[n - 1]</code>）排列的，然后请你返回 <code>answer.length</code> 的最小可能值。</p>
+<p>Suppose we chose a set of deletion indices <code>answer</code> such that after deletions, the final array has its elements in <strong>lexicographic</strong> order (i.e., <code>strs[0] &lt;= strs[1] &lt;= strs[2] &lt;= ... &lt;= strs[n - 1]</code>). Return <em>the minimum possible value of</em> <code>answer.length</code>.</p>
 
-<p> </p>
-
-<ol>
-</ol>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>strs = ["ca","bb","ac"]
-<strong>输出：</strong>1
-<strong>解释： </strong>
-删除第一列后，strs = ["a", "b", "c"]。
-现在 strs 中元素是按字典排列的 (即，strs[0] <= strs[1] <= strs[2])。
-我们至少需要进行 1 次删除，因为最初 strs 不是按字典序排列的，所以答案是 1。
+<strong>Input:</strong> strs = [&quot;ca&quot;,&quot;bb&quot;,&quot;ac&quot;]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> 
+After deleting the first column, strs = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;].
+Now strs is in lexicographic order (ie. strs[0] &lt;= strs[1] &lt;= strs[2]).
+We require at least 1 deletion since initially strs was not in lexicographic order, so the answer is 1.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>strs = ["xc","yb","za"]
-<strong>输出：</strong>0
-<strong>解释：</strong>
-strs 的列已经是按字典序排列了，所以我们不需要删除任何东西。
-注意 strs 的行不需要按字典序排列。
-也就是说，strs[0][0] <= strs[0][1] <= ... 不一定成立。
+<strong>Input:</strong> strs = [&quot;xc&quot;,&quot;yb&quot;,&quot;za&quot;]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> 
+strs is already in lexicographic order, so we do not need to delete anything.
+Note that the rows of strs are not necessarily in lexicographic order:
+i.e., it is NOT necessarily true that (strs[0][0] &lt;= strs[0][1] &lt;= ...)
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>strs = ["zyx","wvu","tsr"]
-<strong>输出：</strong>3
-<strong>解释：</strong>
-我们必须删掉每一列。
+<strong>Input:</strong> strs = [&quot;zyx&quot;,&quot;wvu&quot;,&quot;tsr&quot;]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We have to delete every column.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == strs.length</code></li>
-	<li><code>1 <= n <= 100</code></li>
-	<li><code>1 <= strs[i].length <= 100</code></li>
-	<li><code>strs[i]</code> 由小写英文字母组成</li>
+	<li><code>1 &lt;= n &lt;= 100</code></li>
+	<li><code>1 &lt;= strs[i].length &lt;= 100</code></li>
+	<li><code>strs[i]</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,76 +1,71 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0915.Partition%20Array%20into%20Disjoint%20Intervals/README.md
+difficulty: Medium
 tags:
-    - 数组
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [915. 分割数组](https://leetcode.cn/problems/partition-array-into-disjoint-intervals)
+# [915. Partition Array into Disjoint Intervals](https://leetcode.com/problems/partition-array-into-disjoint-intervals)
 
-[English Version](/solution/0900-0999/0915.Partition%20Array%20into%20Disjoint%20Intervals/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个数组&nbsp;<code>nums</code>&nbsp;，将其划分为两个连续子数组&nbsp;<code>left</code>&nbsp;和&nbsp;<code>right</code>，&nbsp;使得：</p>
+<p>Given an integer array <code>nums</code>, partition it into two (contiguous) subarrays <code>left</code> and <code>right</code> so that:</p>
 
 <ul>
-	<li><code>left</code>&nbsp;中的每个元素都小于或等于&nbsp;<code>right</code>&nbsp;中的每个元素。</li>
-	<li><code>left</code> 和&nbsp;<code>right</code>&nbsp;都是非空的。</li>
-	<li><code>left</code> 的长度要尽可能小。</li>
+	<li>Every element in <code>left</code> is less than or equal to every element in <code>right</code>.</li>
+	<li><code>left</code> and <code>right</code> are non-empty.</li>
+	<li><code>left</code> has the smallest possible size.</li>
 </ul>
 
-<p><em>在完成这样的分组后返回&nbsp;<code>left</code>&nbsp;的&nbsp;<strong>长度&nbsp;</strong></em>。</p>
+<p>Return <em>the length of </em><code>left</code><em> after such a partitioning</em>.</p>
 
-<p>用例可以保证存在这样的划分方法。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [5,0,3,8,6]
-<strong>输出：</strong>3
-<strong>解释：</strong>left = [5,0,3]，right = [8,6]
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,1,1,0,6,12]
-<strong>输出：</strong>4
-<strong>解释：</strong>left = [1,1,1,0]，right = [6,12]
-</pre>
+<p>Test cases are generated such that partitioning exists.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [5,0,3,8,6]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> left = [5,0,3], right = [8,6]
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,1,1,0,6,12]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> left = [1,1,1,0], right = [6,12]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= nums[i] &lt;= 10<sup>6</sup></code></li>
-	<li>可以保证至少有一种方法能够按题目所描述的那样对 <code>nums</code> 进行划分。</li>
+	<li>There is at least one valid answer for the given input.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀最大值 + 后缀最小值
+### Solution 1: Prefix Maximum + Suffix Minimum
 
-划分后的两个子数组要满足题目要求，需要保证“数组前缀最大值”小于等于“数组后缀最小值”。
+To satisfy the requirements of the problem after partitioning into two subarrays, we need to ensure that the "maximum value of the array prefix" is less than or equal to the "minimum value of the array suffix".
 
-因此，我们可以先预处理出数组的后缀最小值，记录在 `mi` 数组中。
+Therefore, we can first preprocess the minimum value of the array suffix and record it in the `mi` array.
 
-然后从前往后遍历数组，维护数组前缀的最大值 `mx`，当遍历到某个位置时，如果数组前缀最大值小于等于数组后缀最小值，那么当前位置就是划分的分界点，直接返回即可。
+Then, we traverse the array from front to back, maintaining the maximum value `mx` of the array prefix. When we traverse to a certain position, if the maximum value of the array prefix is less than or equal to the minimum value of the array suffix, then the current position is the dividing point of the partition, and we can return it directly.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `nums` 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array `nums`.
 
 <!-- tabs:start -->
 

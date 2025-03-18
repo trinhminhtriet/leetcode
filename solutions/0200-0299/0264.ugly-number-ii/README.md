@@ -1,49 +1,44 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0264.Ugly%20Number%20II/README.md
+difficulty: Medium
 tags:
-    - 哈希表
-    - 数学
-    - 动态规划
-    - 堆（优先队列）
+    - Hash Table
+    - Math
+    - Dynamic Programming
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [264. 丑数 II](https://leetcode.cn/problems/ugly-number-ii)
+# [264. Ugly Number II](https://leetcode.com/problems/ugly-number-ii)
 
-[English Version](/solution/0200-0299/0264.Ugly%20Number%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>n</code> ，请你找出并返回第 <code>n</code> 个 <strong>丑数</strong> 。</p>
+<p>An <strong>ugly number</strong> is a positive integer whose prime factors are limited to <code>2</code>, <code>3</code>, and <code>5</code>.</p>
 
-<p><strong>丑数 </strong>就是质因子只包含&nbsp;<code>2</code>、<code>3</code> 和&nbsp;<code>5</code>&nbsp;的正整数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 10
-<strong>输出：</strong>12
-<strong>解释：</strong>[1, 2, 3, 4, 5, 6, 8, 9, 10, 12] 是由前 10 个丑数组成的序列。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 1
-<strong>输出：</strong>1
-<strong>解释：</strong>1 通常被视为丑数。
-</pre>
+<p>Given an integer <code>n</code>, return <em>the</em> <code>n<sup>th</sup></code> <em><strong>ugly number</strong></em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 10
+<strong>Output:</strong> 12
+<strong>Explanation:</strong> [1, 2, 3, 4, 5, 6, 8, 9, 10, 12] is the sequence of the first 10 ugly numbers.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> 1 has no prime factors, therefore all of its prime factors are limited to 2, 3, and 5.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1690</code></li>
@@ -51,15 +46,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：优先队列（最小堆）
-
-初始时，将第一个丑数 $1$ 加入堆。每次取出堆顶元素 $x$，由于 $2x$, $3x$, $5x$ 也是丑数，因此将它们加入堆中。为了避免重复元素，可以用哈希表 $vis$ 去重。
-
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -230,17 +221,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二：动态规划
-
-定义数组 $dp$，其中 $dp[i-1]$ 表示第 $i$ 个丑数，那么第 $n$ 个丑数就是 $dp[n - 1]$。最小的丑数是 $1$，所以 $dp[0]=1$。
-
-定义 $3$ 个指针 $p_2$, $p_3$ 和 $p_5$，表示下一个丑数是当前指针指向的丑数乘以对应的质因数。初始时，三个指针的值都指向 $0$。
-
-当 $i$ 在 $[1,2..n-1]$ 范围内，我们更新 $dp[i]=\min(dp[p_2] \times 2, dp[p_3] \times 3, dp[p_5] \times 5)$，然后分别比较 $dp[i]$ 与 $dp[p_2] \times 2$, $dp[p_3] \times 3$, $dp[p_5] \times 5$ 是否相等，若是，则对应的指针加 $1$。
-
-最后返回 $dp[n - 1]$ 即可。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。
+### Solution 2
 
 <!-- tabs:start -->
 

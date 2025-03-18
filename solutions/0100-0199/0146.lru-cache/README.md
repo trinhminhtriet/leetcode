@@ -1,93 +1,84 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0146.LRU%20Cache/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 哈希表
-    - 链表
-    - 双向链表
+    - Design
+    - Hash Table
+    - Linked List
+    - Doubly-Linked List
 ---
 
 <!-- problem:start -->
 
-# [146. LRU 缓存](https://leetcode.cn/problems/lru-cache)
+# [146. LRU Cache](https://leetcode.com/problems/lru-cache)
 
-[English Version](/solution/0100-0199/0146.LRU%20Cache/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<div class="title__3Vvk">请你设计并实现一个满足&nbsp; <a href="https://baike.baidu.com/item/LRU" target="_blank">LRU (最近最少使用) 缓存</a> 约束的数据结构。</div>
+<p>Design a data structure that follows the constraints of a <strong><a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#LRU" target="_blank">Least Recently Used (LRU) cache</a></strong>.</p>
 
-<div class="title__3Vvk">实现 <code>LRUCache</code> 类：</div>
+<p>Implement the <code>LRUCache</code> class:</p>
 
-<div class="original__bRMd">
-<div>
 <ul>
-	<li><code>LRUCache(int capacity)</code> 以 <strong>正整数</strong> 作为容量&nbsp;<code>capacity</code> 初始化 LRU 缓存</li>
-	<li><code>int get(int key)</code> 如果关键字 <code>key</code> 存在于缓存中，则返回关键字的值，否则返回 <code>-1</code> 。</li>
-	<li><code>void put(int key, int value)</code>&nbsp;如果关键字&nbsp;<code>key</code> 已经存在，则变更其数据值&nbsp;<code>value</code> ；如果不存在，则向缓存中插入该组&nbsp;<code>key-value</code> 。如果插入操作导致关键字数量超过&nbsp;<code>capacity</code> ，则应该 <strong>逐出</strong> 最久未使用的关键字。</li>
+	<li><code>LRUCache(int capacity)</code> Initialize the LRU cache with <strong>positive</strong> size <code>capacity</code>.</li>
+	<li><code>int get(int key)</code> Return the value of the <code>key</code> if the key exists, otherwise return <code>-1</code>.</li>
+	<li><code>void put(int key, int value)</code> Update the value of the <code>key</code> if the <code>key</code> exists. Otherwise, add the <code>key-value</code> pair to the cache. If the number of keys exceeds the <code>capacity</code> from this operation, <strong>evict</strong> the least recently used key.</li>
 </ul>
 
-<p>函数 <code>get</code> 和 <code>put</code> 必须以 <code>O(1)</code> 的平均时间复杂度运行。</p>
-</div>
-</div>
+<p>The functions <code>get</code> and <code>put</code> must each run in <code>O(1)</code> average time complexity.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["LRUCache", "put", "put", "get", "put", "get", "put", "get", "get", "get"]
+<strong>Input</strong>
+[&quot;LRUCache&quot;, &quot;put&quot;, &quot;put&quot;, &quot;get&quot;, &quot;put&quot;, &quot;get&quot;, &quot;put&quot;, &quot;get&quot;, &quot;get&quot;, &quot;get&quot;]
 [[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]]
-<strong>输出</strong>
+<strong>Output</strong>
 [null, null, null, 1, null, -1, null, -1, 3, 4]
 
-<strong>解释</strong>
+<strong>Explanation</strong>
 LRUCache lRUCache = new LRUCache(2);
-lRUCache.put(1, 1); // 缓存是 {1=1}
-lRUCache.put(2, 2); // 缓存是 {1=1, 2=2}
-lRUCache.get(1);    // 返回 1
-lRUCache.put(3, 3); // 该操作会使得关键字 2 作废，缓存是 {1=1, 3=3}
-lRUCache.get(2);    // 返回 -1 (未找到)
-lRUCache.put(4, 4); // 该操作会使得关键字 1 作废，缓存是 {4=4, 3=3}
-lRUCache.get(1);    // 返回 -1 (未找到)
-lRUCache.get(3);    // 返回 3
-lRUCache.get(4);    // 返回 4
+lRUCache.put(1, 1); // cache is {1=1}
+lRUCache.put(2, 2); // cache is {1=1, 2=2}
+lRUCache.get(1);    // return 1
+lRUCache.put(3, 3); // LRU key was 2, evicts key 2, cache is {1=1, 3=3}
+lRUCache.get(2);    // returns -1 (not found)
+lRUCache.put(4, 4); // LRU key was 1, evicts key 1, cache is {4=4, 3=3}
+lRUCache.get(1);    // return -1 (not found)
+lRUCache.get(3);    // return 3
+lRUCache.get(4);    // return 4
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= capacity &lt;= 3000</code></li>
-	<li><code>0 &lt;= key &lt;= 10000</code></li>
+	<li><code>0 &lt;= key &lt;= 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= value &lt;= 10<sup>5</sup></code></li>
-	<li>最多调用 <code>2 * 10<sup>5</sup></code> 次 <code>get</code> 和 <code>put</code></li>
+	<li>At most <code>2 * 10<sup>5</sup></code> calls will be made to <code>get</code> and <code>put</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 双向链表
+### Solution 1: Hash Table + Doubly Linked List
 
-我们可以用“哈希表”和“双向链表”实现一个 LRU 缓存。
+We can implement an LRU (Least Recently Used) cache using a "hash table" and a "doubly linked list".
 
--   哈希表：用于存储 key 和对应的节点位置。
--   双向链表：用于存储节点数据，按照访问时间排序。
+-   Hash Table: Used to store the key and its corresponding node location.
+-   Doubly Linked List: Used to store node data, sorted by access time.
 
-当访问一个节点时，如果节点存在，我们将其从原来的位置删除，并重新插入到链表头部。这样就能保证链表尾部存储的就是最近最久未使用的节点，当节点数量大于缓存最大空间时就淘汰链表尾部的节点。
+When accessing a node, if the node exists, we delete it from its original position and reinsert it at the head of the list. This ensures that the node stored at the tail of the list is the least recently used node. When the number of nodes exceeds the maximum cache space, we eliminate the node at the tail of the list.
 
-当插入一个节点时，如果节点存在，我们将其从原来的位置删除，并重新插入到链表头部。如果不存在，我们首先检查缓存是否已满，如果已满，则删除链表尾部的节点，将新的节点插入链表头部。
+When inserting a node, if the node exists, we delete it from its original position and reinsert it at the head of the list. If it does not exist, we first check if the cache is full. If it is full, we delete the node at the tail of the list and insert the new node at the head of the list.
 
-时间复杂度 $O(1)$，空间复杂度 $O(\textit{capacity})$。
+The time complexity is $O(1)$, and the space complexity is $O(\textit{capacity})$.
 
 <!-- tabs:start -->
 

@@ -1,70 +1,65 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0345.Reverse%20Vowels%20of%20a%20String/README.md
+difficulty: Easy
 tags:
-    - 双指针
-    - 字符串
+    - Two Pointers
+    - String
 ---
 
 <!-- problem:start -->
 
-# [345. 反转字符串中的元音字母](https://leetcode.cn/problems/reverse-vowels-of-a-string)
+# [345. Reverse Vowels of a String](https://leetcode.com/problems/reverse-vowels-of-a-string)
 
-[English Version](/solution/0300-0399/0345.Reverse%20Vowels%20of%20a%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> ，仅反转字符串中的所有元音字母，并返回结果字符串。</p>
+<p>Given a string <code>s</code>, reverse only all the vowels in the string and return it.</p>
 
-<p>元音字母包括 <code>'a'</code>、<code>'e'</code>、<code>'i'</code>、<code>'o'</code>、<code>'u'</code>，且可能以大小写两种形式出现不止一次。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong><span class="example-io">s = "IceCreAm"</span></p>
-
-<p><span class="example-io"><b>输出：</b>"AceCreIm"</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p><code>s</code>&nbsp;中的元音是&nbsp;<code>['I', 'e', 'e', 'A']</code>。反转这些元音，<code>s</code> 变为&nbsp;<code>"AceCreIm"</code>.</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "leetcode"</span></p>
-
-<p><strong>输出：</strong><span class="example-io">"leotcede"</span></p>
+<p>The vowels are <code>&#39;a&#39;</code>, <code>&#39;e&#39;</code>, <code>&#39;i&#39;</code>, <code>&#39;o&#39;</code>, and <code>&#39;u&#39;</code>, and they can appear in both lower and upper cases, more than once.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;IceCreAm&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">&quot;AceCreIm&quot;</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The vowels in <code>s</code> are <code>[&#39;I&#39;, &#39;e&#39;, &#39;e&#39;, &#39;A&#39;]</code>. On reversing the vowels, s becomes <code>&quot;AceCreIm&quot;</code>.</p>
 </div>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;leetcode&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">&quot;leotcede&quot;</span></p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 3 * 10<sup>5</sup></code></li>
-	<li><code>s</code> 由 <strong>可打印的 ASCII</strong> 字符组成</li>
+	<li><code>s</code> consist of <strong>printable ASCII</strong> characters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1: Two Pointers
 
-我们可以用两个指针 $i$ 和 $j$，初始时分别指向字符串的首尾。
+We can use two pointers $i$ and $j$, initially pointing to the start and end of the string respectively.
 
-每次循环判断 $i$ 指向的字符是否是元音字母，如果不是则向后移动 $i$；同理，判断 $j$ 指向的字符是否是元音字母，如果不是则向前移动 $j$。如果此时 $i \lt j$，那么 $i$ 和 $j$ 指向的字符都是元音字母，交换这两个字符。然后向后移动 $i$，向前移动 $j$。继续上述操作，直到 $i \ge j$。
+In each loop, we check whether the character at $i$ is a vowel. If it's not, we move $i$ forward. Similarly, we check whether the character at $j$ is a vowel. If it's not, we move $j$ backward. If $i < j$ at this point, then both characters at $i$ and $j$ are vowels, so we swap these two characters. Then, we move $i$ forward and $j$ backward. We continue the above operations until $i \ge j$.
 
-时间复杂度 $O(n)$，其中 $n$ 是字符串的长度。空间复杂度 $O(|\Sigma|)$，其中 $\Sigma$ 是字符集的大小。
+The time complexity is $O(n)$, where $n$ is the length of the string. The space complexity is $O(|\Sigma|)$, where $\Sigma$ is the size of the character set.
 
 <!-- tabs:start -->
 

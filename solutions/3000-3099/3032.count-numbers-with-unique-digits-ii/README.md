@@ -1,54 +1,49 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3032.Count%20Numbers%20With%20Unique%20Digits%20II/README.md
+difficulty: Easy
 tags:
-    - 哈希表
-    - 数学
-    - 动态规划
+    - Hash Table
+    - Math
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3032. 统计各位数字都不同的数字个数 II 🔒](https://leetcode.cn/problems/count-numbers-with-unique-digits-ii)
+# [3032. Count Numbers With Unique Digits II 🔒](https://leetcode.com/problems/count-numbers-with-unique-digits-ii)
 
-[English Version](/solution/3000-3099/3032.Count%20Numbers%20With%20Unique%20Digits%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-给你两个 <strong>正整数</strong> <code>a</code> 和 <code>b</code> ，返回 <strong>闭区间</strong> <code>[a, b]</code> 内各位数字都不同的数字个数。
+Given two <strong>positive</strong> integers <code>a</code> and <code>b</code>, return <em>the count of numbers having&nbsp;<strong>unique</strong> digits in the range</em> <code>[a, b]</code> <em>(<strong>inclusive</strong>).</em>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>a = 1, b = 20
-<strong>输出：</strong>19
-<strong>解释：</strong>除 11 以外，区间 [1, 20] 内的所有数字的各位数字都不同。因此，答案为 19 。
+<strong>Input:</strong> a = 1, b = 20
+<strong>Output:</strong> 19
+<strong>Explanation:</strong> All the numbers in the range [1, 20] have unique digits except 11. Hence, the answer is 19.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>a = 9, b = 19
-<strong>输出：</strong>10
-<strong>解释：</strong>除 11 以外，区间 [1, 20] 内的所有数字的各位数字都不同。因此，答案为 10 。
+<strong>Input:</strong> a = 9, b = 19
+<strong>Output:</strong> 10
+<strong>Explanation:</strong> All the numbers in the range [9, 19] have unique digits except 11. Hence, the answer is 10. 
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>a = 80, b = 120
-<strong>输出：</strong>27
-<strong>解释：</strong>区间 [80, 120] 内共有 41 个整数，其中 27 个数字的各位数字都不同。
+<strong>Input:</strong> a = 80, b = 120
+<strong>Output:</strong> 27
+<strong>Explanation:</strong> There are 41 numbers in the range [80, 120], 27 of which have unique digits.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= a &lt;= b &lt;= 1000</code></li>
@@ -56,28 +51,28 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：状态压缩 + 数位 DP
+### Solution 1: State Compression + Digit DP
 
-题目要求统计区间 $[a, b]$ 中的数中有多少个数的数位是唯一的，我们可以使用状态压缩和数位 DP 来解决这个问题。
+The problem asks to count how many numbers in the range $[a, b]$ have unique digits. We can solve this problem using state compression and digit DP.
 
-我们可以用一个函数 $f(n)$ 来统计 $[1, n]$ 中的数中有多少个数的数位是唯一的，那么答案就是 $f(b) - f(a - 1)$。
+We can use a function $f(n)$ to count how many numbers in the range $[1, n]$ have unique digits. Then the answer is $f(b) - f(a - 1)$.
 
-另外，我们可以用一个二进制数来记录数字中出现过的数字，比如数字中出现了 $1, 3, 5$，那么我们可以用 $10101$ 来表示这个状态。
+In addition, we can use a binary number to record the digits that have appeared in the number. For example, if the digits $1, 3, 5$ have appeared in the number, we can use $10101$ to represent this state.
 
-接下来，我们使用记忆化搜索来实现数位 DP。从起点向下搜索，到最底层得到方案数，一层层向上返回答案并累加，最后从搜索起点得到最终的答案。
+Next, we use memoization search to implement digit DP. We search from the starting point to the bottom layer to get the number of schemes, return the answer layer by layer and accumulate it, and finally get the final answer from the search starting point.
 
-基本步骤如下：
+The basic steps are as follows:
 
-1. 我们将数字 $n$ 转换为字符串 $num$，其中 $num[0]$ 为最高位，而 $num[len - 1]$ 为最低位。
-2. 根据题目信息，设计一个函数 $dfs(pos, mask, limit)$，其中 $pos$ 表示当前处理的位置，$mask$ 表示当前数字中出现过的数字，$limit$ 表示当前位置是否有限制。如果 $limit$ 为真，那么当前位置的数字不能超过 $num[pos]$。
+1. We convert the number $n$ into a string $num$, where $num[0]$ is the highest digit and $num[len - 1]$ is the lowest digit.
+2. Based on the problem information, we design a function $dfs(pos, mask, limit)$, where $pos$ represents the current processing position, $mask$ represents the digits that have appeared in the current number, and $limit$ represents whether there is a limit at the current position. If $limit$ is true, then the digit at the current position cannot exceed $num[pos]$.
 
-答案为 $dfs(0, 0, true)$。
+The answer is $dfs(0, 0, true)$.
 
-时间复杂度 $O(m \times 2^{10} \times 10)$，空间复杂度 $O(m \times 2^{10})$。其中 $m$ 为 $b$ 的位数。
+The time complexity is $O(m \times 2^{10} \times 10)$, and the space complexity is $O(m \times 2^{10})$. Where $m$ is the number of digits in $b$.
 
 <!-- tabs:start -->
 
@@ -289,7 +284,7 @@ function numberCount(a: number, b: number): number {
 
 <!-- solution:start -->
 
-### 方法 2
+### Solution 2
 
 <!-- tabs:start -->
 

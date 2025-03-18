@@ -1,46 +1,39 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0311.Sparse%20Matrix%20Multiplication/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
-    - 矩阵
+    - Array
+    - Hash Table
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [311. 稀疏矩阵的乘法 🔒](https://leetcode.cn/problems/sparse-matrix-multiplication)
+# [311. Sparse Matrix Multiplication 🔒](https://leetcode.com/problems/sparse-matrix-multiplication)
 
-[English Version](/solution/0300-0399/0311.Sparse%20Matrix%20Multiplication/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个&nbsp;<a href="https://baike.baidu.com/item/%E7%A8%80%E7%96%8F%E7%9F%A9%E9%98%B5" target="_blank">稀疏矩阵</a>&nbsp;：大小为 <code>m x k</code> 的稀疏矩阵 <code>mat1</code> 和大小为 <code>k x n</code> 的稀疏矩阵 <code>mat2</code> ，返回 <code>mat1 x mat2</code> 的结果。你可以假设乘法总是可能的。</p>
+<p>Given two <a href="https://en.wikipedia.org/wiki/Sparse_matrix" target="_blank">sparse matrices</a> <code>mat1</code> of size <code>m x k</code> and <code>mat2</code> of size <code>k x n</code>, return the result of <code>mat1 x mat2</code>. You may assume that multiplication is always possible.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0311.Sparse%20Matrix%20Multiplication/images/mult-grid.jpg" style="height: 142px; width: 500px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0311.Sparse%20Matrix%20Multiplication/images/mult-grid.jpg" style="width: 500px; height: 142px;" />
 <pre>
-<strong>输入：</strong>mat1 = [[1,0,0],[-1,0,3]], mat2 = [[7,0,0],[0,0,0],[0,0,1]]
-<strong>输出：</strong>[[7,0,0],[-7,0,3]]
+<strong>Input:</strong> mat1 = [[1,0,0],[-1,0,3]], mat2 = [[7,0,0],[0,0,0],[0,0,1]]
+<strong>Output:</strong> [[7,0,0],[-7,0,3]]
 </pre>
 
-<p><strong>&nbsp;示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>mat1 = [[0]], mat2 = [[0]]
-<b>输出：</b>[[0]]
+<strong>Input:</strong> mat1 = [[0]], mat2 = [[0]]
+<strong>Output:</strong> [[0]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == mat1.length</code></li>
@@ -52,15 +45,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：直接相乘
+### Solution 1: Direct Multiplication
 
-我们可以直接按照矩阵乘法的定义，计算出结果矩阵中的每一个元素。
+We can directly calculate each element in the result matrix according to the definition of matrix multiplication.
 
-时间复杂度 $O(m \times n \times k)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是矩阵 $mat1$ 的行数和矩阵 $mat2$ 的列数，而 $k$ 是矩阵 $mat1$ 的列数或矩阵 $mat2$ 的行数。
+The time complexity is $O(m \times n \times k)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the number of rows of matrix $mat1$ and the number of columns of matrix $mat2$ respectively, and $k$ is the number of columns of matrix $mat1$ or the number of rows of matrix $mat2$.
 
 <!-- tabs:start -->
 
@@ -160,13 +153,13 @@ function multiply(mat1: number[][], mat2: number[][]): number[][] {
 
 <!-- solution:start -->
 
-### 方法二：预处理
+### Solution 2: Preprocessing
 
-我们可以预处理出两个矩阵的稀疏表示，即 $g1[i]$ 表示矩阵 $mat1$ 第 $i$ 行中所有非零元素的列下标和值，而 $g2[i]$ 表示矩阵 $mat2$ 第 $i$ 行中所有非零元素的列下标和值。
+We can preprocess the sparse representation of the two matrices, i.e., $g1[i]$ represents the column index and value of all non-zero elements in the $i$th row of matrix $mat1$, and $g2[i]$ represents the column index and value of all non-zero elements in the $i$th row of matrix $mat2$.
 
-接下来，我们遍历每一行 $i$，遍历 $g1[i]$ 中的每一个元素 $(k, x)$，遍历 $g2[k]$ 中的每一个元素 $(j, y)$，那么最终 $mat1[i][k] \times mat2[k][j]$ 就会对应到结果矩阵中的 $ans[i][j]$，我们将所有的结果累加即可。
+Next, we traverse each row $i$, traverse each element $(k, x)$ in $g1[i]$, traverse each element $(j, y)$ in $g2[k]$, then $mat1[i][k] \times mat2[k][j]$ will correspond to $ans[i][j]$ in the result matrix, and we can accumulate all the results.
 
-时间复杂度 $O(m \times n \times k)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是矩阵 $mat1$ 的行数和矩阵 $mat2$ 的列数，而 $k$ 是矩阵 $mat1$ 的列数或矩阵 $mat2$ 的行数。
+The time complexity is $O(m \times n \times k)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the number of rows of matrix $mat1$ and the number of columns of matrix $mat2$ respectively, and $k$ is the number of columns of matrix $mat1$ or the number of rows of matrix $mat2$.
 
 <!-- tabs:start -->
 

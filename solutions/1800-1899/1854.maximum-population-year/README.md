@@ -1,51 +1,48 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1854.Maximum%20Population%20Year/README.md
+difficulty: Easy
 rating: 1370
-source: 第 240 场周赛 Q1
+source: Weekly Contest 240 Q1
 tags:
-    - 数组
-    - 计数
-    - 前缀和
+    - Array
+    - Counting
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [1854. 人口最多的年份](https://leetcode.cn/problems/maximum-population-year)
+# [1854. Maximum Population Year](https://leetcode.com/problems/maximum-population-year)
 
-[English Version](/solution/1800-1899/1854.Maximum%20Population%20Year/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二维整数数组 <code>logs</code> ，其中每个 <code>logs[i] = [birth<sub>i</sub>, death<sub>i</sub>]</code> 表示第 <code>i</code> 个人的出生和死亡年份。</p>
+<p>You are given a 2D integer array <code>logs</code> where each <code>logs[i] = [birth<sub>i</sub>, death<sub>i</sub>]</code> indicates the birth and death years of the <code>i<sup>th</sup></code> person.</p>
 
-<p>年份 <code>x</code> 的 <strong>人口</strong> 定义为这一年期间活着的人的数目。第 <code>i</code> 个人被计入年份 <code>x</code> 的人口需要满足：<code>x</code> 在闭区间 <code>[birth<sub>i</sub>, death<sub>i</sub> - 1]</code> 内。注意，人不应当计入他们死亡当年的人口中。</p>
+<p>The <strong>population</strong> of some year <code>x</code> is the number of people alive during that year. The <code>i<sup>th</sup></code> person is counted in year <code>x</code>&#39;s population if <code>x</code> is in the <strong>inclusive</strong> range <code>[birth<sub>i</sub>, death<sub>i</sub> - 1]</code>. Note that the person is <strong>not</strong> counted in the year that they die.</p>
 
-<p>返回 <strong>人口最多</strong> 且 <strong>最早</strong> 的年份。</p>
+<p>Return <em>the <strong>earliest</strong> year with the <strong>maximum population</strong></em>.</p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>logs = [[1993,1999],[2000,2010]]
-<strong>输出：</strong>1993
-<strong>解释：</strong>人口最多为 1 ，而 1993 是人口为 1 的最早年份。
+<pre>
+<strong>Input:</strong> logs = [[1993,1999],[2000,2010]]
+<strong>Output:</strong> 1993
+<strong>Explanation:</strong> The maximum population is 1, and 1993 is the earliest year with this population.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>logs = [[1950,1961],[1960,1971],[1970,1981]]
-<strong>输出：</strong>1960
-<strong>解释：</strong> 
-人口最多为 2 ，分别出现在 1960 和 1970 。
-其中最早年份是 1960 。</pre>
+<pre>
+<strong>Input:</strong> logs = [[1950,1961],[1960,1971],[1970,1981]]
+<strong>Output:</strong> 1960
+<strong>Explanation:</strong> 
+The maximum population is 2, and it had happened in years 1960 and 1970.
+The earlier year between them is 1960.</pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= logs.length &lt;= 100</code></li>
@@ -54,17 +51,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：差分数组
+### Solution 1: Difference Array
 
-我们注意到，年份的范围是 $[1950,..2050]$，因此我们可以将这些年份映射到一个长度为 $101$ 的数组 $d$ 中，数组的下标表示年份减去 $1950$ 的值。
+We notice that the range of years is $[1950,..2050]$. Therefore, we can map these years to an array $d$ of length $101$, where the index of the array represents the value of the year minus $1950$.
 
-接下来遍历 $logs$，对于每个人，我们将 $d[birth_i - 1950]$ 加 $1$，将 $d[death_i - 1950]$ 减 $1$。最后遍历数组 $d$，求出前缀和的最大值，即为人口最多的年份，再加上 $1950$ 即为答案。
+Next, we traverse $logs$. For each person, we increment $d[birth_i - 1950]$ by $1$ and decrement $d[death_i - 1950]$ by $1$. Finally, we traverse the array $d$, find the maximum value of the prefix sum, which is the year with the most population, and add $1950$ to get the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 为数组 $logs$ 的长度；而 $C$ 为年份的范围大小，即 $2050 - 1950 + 1 = 101$。
+The time complexity is $O(n)$, and the space complexity is $O(C)$. Where $n$ is the length of the array $logs$, and $C$ is the range size of the years, i.e., $2050 - 1950 + 1 = 101$.
 
 <!-- tabs:start -->
 

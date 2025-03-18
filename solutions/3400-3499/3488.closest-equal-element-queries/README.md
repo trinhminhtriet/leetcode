@@ -1,66 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3488.Closest%20Equal%20Element%20Queries/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
-    - 二分查找
+    - Array
+    - Hash Table
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [3488. 距离最小相等元素查询](https://leetcode.cn/problems/closest-equal-element-queries)
+# [3488. Closest Equal Element Queries](https://leetcode.com/problems/closest-equal-element-queries)
 
-[English Version](/solution/3400-3499/3488.Closest%20Equal%20Element%20Queries/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个&nbsp;<strong>循环&nbsp;</strong>数组&nbsp;<code>nums</code>&nbsp;和一个数组&nbsp;<code>queries</code>&nbsp;。</p>
+<p>You are given a <strong>circular</strong> array <code>nums</code> and an array <code>queries</code>.</p>
 
-<p>对于每个查询&nbsp;<code>i</code>&nbsp;，你需要找到以下内容：</p>
+<p>For each query <code>i</code>, you have to find the following:</p>
 
 <ul>
-	<li>数组&nbsp;<code>nums</code>&nbsp;中下标&nbsp;<code>queries[i]</code>&nbsp;处的元素与&nbsp;<strong>任意&nbsp;</strong>其他下标&nbsp;<code>j</code>（满足&nbsp;<code>nums[j] == nums[queries[i]]</code>）之间的&nbsp;<strong>最小&nbsp;</strong>距离。如果不存在这样的下标&nbsp;<code>j</code>，则该查询的结果为 <code>-1</code> 。</li>
+	<li>The <strong>minimum</strong> distance between the element at index <code>queries[i]</code> and <strong>any</strong> other index <code>j</code> in the <strong>circular</strong> array, where <code>nums[j] == nums[queries[i]]</code>. If no such index exists, the answer for that query should be -1.</li>
 </ul>
 
-<p>返回一个数组&nbsp;<code>answer</code>，其大小与&nbsp;<code>queries</code>&nbsp;相同，其中&nbsp;<code>answer[i]</code>&nbsp;表示查询<code>i</code>的结果。</p>
+<p>Return an array <code>answer</code> of the <strong>same</strong> size as <code>queries</code>, where <code>answer[i]</code> represents the result for query <code>i</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [1,3,1,4,1,3,2], queries = [0,3,5]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,3,1,4,1,3,2], queries = [0,3,5]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">[2,-1,3]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[2,-1,3]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>查询 0：下标&nbsp;<code>queries[0] = 0</code>&nbsp;处的元素为&nbsp;<code>nums[0] = 1</code>&nbsp;。最近的相同值下标为 2，距离为 2。</li>
-	<li>查询 1：下标&nbsp;<code>queries[1] = 3</code>&nbsp;处的元素为&nbsp;<code>nums[3] = 4</code>&nbsp;。不存在其他包含值 4 的下标，因此结果为 -1。</li>
-	<li>查询 2：下标&nbsp;<code>queries[2] = 5</code>&nbsp;处的元素为&nbsp;<code>nums[5] = 3</code>&nbsp;。最近的相同值下标为 1，距离为 3（沿着循环路径：<code>5 -&gt; 6 -&gt; 0 -&gt; 1</code>）。</li>
+	<li>Query 0: The element at <code>queries[0] = 0</code> is <code>nums[0] = 1</code>. The nearest index with the same value is 2, and the distance between them is 2.</li>
+	<li>Query 1: The element at <code>queries[1] = 3</code> is <code>nums[3] = 4</code>. No other index contains 4, so the result is -1.</li>
+	<li>Query 2: The element at <code>queries[2] = 5</code> is <code>nums[5] = 3</code>. The nearest index with the same value is 1, and the distance between them is 3 (following the circular path: <code>5 -&gt; 6 -&gt; 0 -&gt; 1</code>).</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [1,2,3,4], queries = [0,1,2,3]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3,4], queries = [0,1,2,3]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">[-1,-1,-1,-1]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[-1,-1,-1,-1]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>数组&nbsp;<code>nums</code>&nbsp;中的每个值都是唯一的，因此没有下标与查询的元素值相同。所有查询的结果均为 -1。</p>
+<p>Each value in <code>nums</code> is unique, so no index shares the same value as the queried element. This results in -1 for all queries.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= queries.length &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -70,15 +65,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：环形数组 + 哈希表
+### Solution 1: Circular Array + Hash Table
 
-根据题目描述，我们需要找出数组每个元素与上一个相同元素的最小距离，以及与下一个相同元素的最小距离。并且，由于数组是循环的，所以我们需要考虑数组的环形特性，我们可以将数组扩展为原数组的两倍，然后使用哈希表 $\textit{left}$ 和 $\textit{right}$ 分别记录每个元素上一次出现的位置和下一次出现的位置，计算出每个位置的元素与另一个相同元素的最小距离，记录在数组 $\textit{d}$ 中。最后，我们遍历查询，对于每个查询 $i$，我们取 $\textit{d}[i]$ 和 $\textit{d}[i+n]$ 中的最小值，如果该值大于等于 $n$，则说明不存在与查询元素相同的元素，返回 $-1$，否则返回该值。
+According to the problem description, we need to find the minimum distance between each element in the array and its previous identical element, as well as the minimum distance to its next identical element. Since the array is circular, we need to consider the circular nature of the array. We can extend the array to twice its original length, and then use hash tables $\textit{left}$ and $\textit{right}$ to record the positions where each element last appeared and will next appear, respectively. We calculate the minimum distance between each position's element and another identical element, recording it in the array $\textit{d}$. Finally, we traverse the queries, and for each query $i$, we take the minimum value of $\textit{d}[i]$ and $\textit{d}[i+n]$. If this value is greater than or equal to $n$, it means there is no element identical to the queried element, so we return $-1$; otherwise, we return the value.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

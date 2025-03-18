@@ -1,75 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2785.Sort%20Vowels%20in%20a%20String/README.md
+difficulty: Medium
 rating: 1266
-source: 第 109 场双周赛 Q2
+source: Biweekly Contest 109 Q2
 tags:
-    - 字符串
-    - 排序
+    - String
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2785. 将字符串中的元音字母排序](https://leetcode.cn/problems/sort-vowels-in-a-string)
+# [2785. Sort Vowels in a String](https://leetcode.com/problems/sort-vowels-in-a-string)
 
-[English Version](/solution/2700-2799/2785.Sort%20Vowels%20in%20a%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的字符串&nbsp;<code>s</code>&nbsp;，将&nbsp;<code>s</code>&nbsp;中的元素重新 <b>排列</b>&nbsp;得到新的字符串&nbsp;<code>t</code>&nbsp;，它满足：</p>
+<p>Given a <strong>0-indexed</strong> string <code>s</code>, <strong>permute</strong> <code>s</code> to get a new string <code>t</code> such that:</p>
 
 <ul>
-	<li>所有辅音字母都在原来的位置上。更正式的，如果满足&nbsp;<code>0 &lt;= i &lt; s.length</code>&nbsp;的下标 <code>i</code>&nbsp;处的&nbsp;<code>s[i]</code>&nbsp;是个辅音字母，那么&nbsp;<code>t[i] = s[i]</code>&nbsp;。</li>
-	<li>元音字母都必须以他们的 <strong>ASCII</strong>&nbsp;值按 <strong>非递减</strong>&nbsp;顺序排列。更正式的，对于满足&nbsp;<code>0 &lt;= i &lt; j &lt; s.length</code>&nbsp;的下标 <code>i</code>&nbsp;和 <code>j</code>&nbsp; ，如果&nbsp;<code>s[i]</code> 和&nbsp;<code>s[j]</code>&nbsp;都是元音字母，那么&nbsp;<code>t[i]</code>&nbsp;的 ASCII 值不能大于&nbsp;<code>t[j]</code>&nbsp;的 ASCII 值。</li>
+	<li>All consonants remain in their original places. More formally, if there is an index <code>i</code> with <code>0 &lt;= i &lt; s.length</code> such that <code>s[i]</code> is a consonant, then <code>t[i] = s[i]</code>.</li>
+	<li>The vowels must be sorted in the <strong>nondecreasing</strong> order of their <strong>ASCII</strong> values. More formally, for pairs of indices <code>i</code>, <code>j</code> with <code>0 &lt;= i &lt; j &lt; s.length</code> such that <code>s[i]</code> and <code>s[j]</code> are vowels, then <code>t[i]</code> must not have a higher ASCII value than <code>t[j]</code>.</li>
 </ul>
 
-<p>请你返回结果字母串。</p>
+<p>Return <em>the resulting string</em>.</p>
 
-<p>元音字母为&nbsp;<code>'a'</code>&nbsp;，<code>'e'</code>&nbsp;，<code>'i'</code>&nbsp;，<code>'o'</code>&nbsp;和&nbsp;<code>'u'</code>&nbsp;，它们可能是小写字母也可能是大写字母，辅音字母是除了这 5 个字母以外的所有字母。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>s = "lEetcOde"
-<b>输出：</b>"lEOtcede"
-<b>解释：</b>'E' ，'O' 和 'e' 是 s 中的元音字母，'l' ，'t' ，'c' 和 'd' 是所有的辅音。将元音字母按照 ASCII 值排序，辅音字母留在原地。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>s = "lYmpH"
-<b>输出：</b>"lYmpH"
-<b>解释：</b>s 中没有元音字母（s 中都为辅音字母），所以我们返回 "lYmpH" 。
-</pre>
+<p>The vowels are <code>&#39;a&#39;</code>, <code>&#39;e&#39;</code>, <code>&#39;i&#39;</code>, <code>&#39;o&#39;</code>, and <code>&#39;u&#39;</code>, and they can appear in lowercase or uppercase. Consonants comprise all letters that are not vowels.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;lEetcOde&quot;
+<strong>Output:</strong> &quot;lEOtcede&quot;
+<strong>Explanation:</strong> &#39;E&#39;, &#39;O&#39;, and &#39;e&#39; are the vowels in s; &#39;l&#39;, &#39;t&#39;, &#39;c&#39;, and &#39;d&#39; are all consonants. The vowels are sorted according to their ASCII values, and the consonants remain in the same places.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;lYmpH&quot;
+<strong>Output:</strong> &quot;lYmpH&quot;
+<strong>Explanation:</strong> There are no vowels in s (all characters in s are consonants), so we return &quot;lYmpH&quot;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code>&nbsp;只包含英语字母表中的 <strong>大写&nbsp;</strong>和 <strong>小写&nbsp;</strong>字母。</li>
+	<li><code>s</code> consists only of letters of the&nbsp;English alphabet&nbsp;in <strong>uppercase and lowercase</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序
+### Solution 1: Sorting
 
-我们先将字符串中的所有元音字母存到数组或列表 $vs$ 中，然后我们对 $vs$ 进行排序。
+First, we store all the vowels in the string into an array or list $vs$, then we sort $vs$.
 
-接下来，我们遍历字符串 $s$，保持辅音字母不变，如果是元音字母，则依次按顺序替换为 $vs$ 数组中的字母。
+Next, we traverse the string $s$, keeping the consonants unchanged. If it is a vowel, we replace it in order with the letters in the $vs$ array.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

@@ -1,84 +1,71 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2071.Maximum%20Number%20of%20Tasks%20You%20Can%20Assign/README.md
+difficulty: Hard
 rating: 2648
-source: 第 65 场双周赛 Q4
+source: Biweekly Contest 65 Q4
 tags:
-    - 贪心
-    - 队列
-    - 数组
-    - 二分查找
-    - 排序
-    - 单调队列
+    - Greedy
+    - Queue
+    - Array
+    - Binary Search
+    - Sorting
+    - Monotonic Queue
 ---
 
 <!-- problem:start -->
 
-# [2071. 你可以安排的最多任务数目](https://leetcode.cn/problems/maximum-number-of-tasks-you-can-assign)
+# [2071. Maximum Number of Tasks You Can Assign](https://leetcode.com/problems/maximum-number-of-tasks-you-can-assign)
 
-[English Version](/solution/2000-2099/2071.Maximum%20Number%20of%20Tasks%20You%20Can%20Assign/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你&nbsp;<code>n</code>&nbsp;个任务和&nbsp;<code>m</code>&nbsp;个工人。每个任务需要一定的力量值才能完成，需要的力量值保存在下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>tasks</code>&nbsp;中，第 <code>i</code>&nbsp;个任务需要&nbsp;<code>tasks[i]</code>&nbsp;的力量才能完成。每个工人的力量值保存在下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>workers</code>&nbsp;中，第&nbsp;<code>j</code>&nbsp;个工人的力量值为&nbsp;<code>workers[j]</code>&nbsp;。每个工人只能完成 <strong>一个</strong>&nbsp;任务，且力量值需要 <strong>大于等于</strong>&nbsp;该任务的力量要求值（即&nbsp;<code>workers[j] &gt;= tasks[i]</code>&nbsp;）。</p>
+<p>You have <code>n</code> tasks and <code>m</code> workers. Each task has a strength requirement stored in a <strong>0-indexed</strong> integer array <code>tasks</code>, with the <code>i<sup>th</sup></code> task requiring <code>tasks[i]</code> strength to complete. The strength of each worker is stored in a <strong>0-indexed</strong> integer array <code>workers</code>, with the <code>j<sup>th</sup></code> worker having <code>workers[j]</code> strength. Each worker can only be assigned to a <strong>single</strong> task and must have a strength <strong>greater than or equal</strong> to the task&#39;s strength requirement (i.e., <code>workers[j] &gt;= tasks[i]</code>).</p>
 
-<p>除此以外，你还有&nbsp;<code>pills</code>&nbsp;个神奇药丸，可以给 <strong>一个工人的力量值</strong>&nbsp;增加&nbsp;<code>strength</code>&nbsp;。你可以决定给哪些工人使用药丸，但每个工人&nbsp;<strong>最多</strong>&nbsp;只能使用&nbsp;<strong>一片</strong>&nbsp;药丸。</p>
+<p>Additionally, you have <code>pills</code> magical pills that will <strong>increase a worker&#39;s strength</strong> by <code>strength</code>. You can decide which workers receive the magical pills, however, you may only give each worker <strong>at most one</strong> magical pill.</p>
 
-<p>给你下标从 <strong>0</strong>&nbsp;开始的整数数组<code>tasks</code> 和&nbsp;<code>workers</code>&nbsp;以及两个整数&nbsp;<code>pills</code> 和&nbsp;<code>strength</code>&nbsp;，请你返回 <strong>最多</strong>&nbsp;有多少个任务可以被完成。</p>
+<p>Given the <strong>0-indexed </strong>integer arrays <code>tasks</code> and <code>workers</code> and the integers <code>pills</code> and <code>strength</code>, return <em>the <strong>maximum</strong> number of tasks that can be completed.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>tasks = [<em><strong>3</strong></em>,<em><strong>2</strong></em>,<em><strong>1</strong></em>], workers = [<em><strong>0</strong></em>,<em><strong>3</strong></em>,<em><strong>3</strong></em>], pills = 1, strength = 1
-<b>输出：</b>3
-<strong>解释：</strong>
-我们可以按照如下方案安排药丸：
-- 给 0 号工人药丸。
-- 0 号工人完成任务 2（0 + 1 &gt;= 1）
-- 1 号工人完成任务 1（3 &gt;= 2）
-- 2 号工人完成任务 0（3 &gt;= 3）
+<pre>
+<strong>Input:</strong> tasks = [<u><strong>3</strong></u>,<u><strong>2</strong></u>,<u><strong>1</strong></u>], workers = [<u><strong>0</strong></u>,<u><strong>3</strong></u>,<u><strong>3</strong></u>], pills = 1, strength = 1
+<strong>Output:</strong> 3
+<strong>Explanation:</strong>
+We can assign the magical pill and tasks as follows:
+- Give the magical pill to worker 0.
+- Assign worker 0 to task 2 (0 + 1 &gt;= 1)
+- Assign worker 1 to task 1 (3 &gt;= 2)
+- Assign worker 2 to task 0 (3 &gt;= 3)
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>tasks = [<em><strong>5</strong></em>,4], workers = [<em><strong>0</strong></em>,0,0], pills = 1, strength = 5
-<b>输出：</b>1
-<strong>解释：</strong>
-我们可以按照如下方案安排药丸：
-- 给 0 号工人药丸。
-- 0 号工人完成任务 0（0 + 5 &gt;= 5）
+<pre>
+<strong>Input:</strong> tasks = [<u><strong>5</strong></u>,4], workers = [<u><strong>0</strong></u>,0,0], pills = 1, strength = 5
+<strong>Output:</strong> 1
+<strong>Explanation:</strong>
+We can assign the magical pill and tasks as follows:
+- Give the magical pill to worker 0.
+- Assign worker 0 to task 0 (0 + 5 &gt;= 5)
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><b>输入：</b>tasks = [<em><strong>10</strong></em>,<em><strong>15</strong></em>,30], workers = [<em><strong>0</strong></em>,<em><strong>10</strong></em>,10,10,10], pills = 3, strength = 10
-<b>输出：</b>2
-<strong>解释：</strong>
-我们可以按照如下方案安排药丸：
-- 给 0 号和 1 号工人药丸。
-- 0 号工人完成任务 0（0 + 10 &gt;= 10）
-- 1 号工人完成任务 1（10 + 10 &gt;= 15）
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><b>输入：</b>tasks = [<em><strong>5</strong></em>,9,<em><strong>8</strong></em>,<em><strong>5</strong></em>,9], workers = [1,<em><strong>6</strong></em>,<em><strong>4</strong></em>,2,<em><strong>6</strong></em>], pills = 1, strength = 5
-<b>输出：</b>3
-<strong>解释：</strong>
-我们可以按照如下方案安排药丸：
-- 给 2 号工人药丸。
-- 1 号工人完成任务 0（6 &gt;= 5）
-- 2 号工人完成任务 2（4 + 5 &gt;= 8）
-- 4 号工人完成任务 3（6 &gt;= 5）
+<pre>
+<strong>Input:</strong> tasks = [<u><strong>10</strong></u>,<u><strong>15</strong></u>,30], workers = [<u><strong>0</strong></u>,<u><strong>10</strong></u>,10,10,10], pills = 3, strength = 10
+<strong>Output:</strong> 2
+<strong>Explanation:</strong>
+We can assign the magical pills and tasks as follows:
+- Give the magical pill to worker 0 and worker 1.
+- Assign worker 0 to task 0 (0 + 10 &gt;= 10)
+- Assign worker 1 to task 1 (10 + 10 &gt;= 15)
+The last pill is not given because it will not make any worker strong enough for the last task.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == tasks.length</code></li>
@@ -90,25 +77,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 二分查找
-
-将任务按照完成时间从小到大排序，将工人按照能力从小到大排序。
-
-假设我们要安排的任务数为 $x$，那么我们可以贪心地将前 $x$ 个任务分配给力量值最大的 $x$ 个工人。假设能完成任务数为 $x$，那么也一定能完成任务数为 $x-1$，$x-2$，$x-3$，…，$1$，$0$ 的情况。因此，我们可以使用二分查找的方法，找到最大的 $x$，使得能够完成任务数为 $x$ 的情况。
-
-我们定义一个函数 $check(x)$，表示是否能够完成任务数为 $x$ 的情况。
-
-函数 $check(x)$ 的实现如下：
-
-从小到大遍历力量值最大的 $x$ 个工人，记当前遍历到的工人为 $j$，那么当前可选任务必须满足 $tasks[i] \leq workers[j] + strength$。
-
-如果当前可选任务中要求力量值最小的一个 $task[i]$ 小于等于 $workers[j]$，那么第 $j$ 个工人不用吃药就可以完成任务 $task[i]$。否则，当前工人必须吃药，如果还有药丸，那么吃药，并且在当前可选任务中选择要求力量值最大的一个任务完成。否则，返回 `false`。
-
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为任务数。
+### Solution 1
 
 <!-- tabs:start -->
 

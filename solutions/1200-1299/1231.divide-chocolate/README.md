@@ -1,79 +1,77 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1231.Divide%20Chocolate/README.md
+difficulty: Hard
 rating: 2029
-source: 第 11 场双周赛 Q4
+source: Biweekly Contest 11 Q4
 tags:
-    - 数组
-    - 二分查找
+    - Array
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [1231. 分享巧克力 🔒](https://leetcode.cn/problems/divide-chocolate)
+# [1231. Divide Chocolate 🔒](https://leetcode.com/problems/divide-chocolate)
 
-[English Version](/solution/1200-1299/1231.Divide%20Chocolate/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有一大块巧克力，它由一些甜度不完全相同的小块组成。我们用数组&nbsp;<code>sweetness</code>&nbsp;来表示每一小块的甜度。</p>
+<p>You have one chocolate bar that consists of some chunks. Each chunk has its own sweetness given by the array&nbsp;<code>sweetness</code>.</p>
 
-<p>你打算和&nbsp;<code>K</code>&nbsp;名朋友一起分享这块巧克力，所以你需要将切割&nbsp;<code>K</code>&nbsp;次才能得到 <code>K+1</code>&nbsp;块，每一块都由一些 <strong>连续&nbsp;</strong>的小块组成。</p>
+<p>You want to share the chocolate with your <code>k</code>&nbsp;friends so you start cutting the chocolate bar into <code>k + 1</code>&nbsp;pieces using&nbsp;<code>k</code>&nbsp;cuts, each piece consists of some <strong>consecutive</strong> chunks.</p>
 
-<p>为了表现出你的慷慨，你将会吃掉&nbsp;<strong>总甜度最小</strong> 的一块，并将其余几块分给你的朋友们。</p>
+<p>Being generous, you will eat the piece with the <strong>minimum total sweetness</strong> and give the other pieces to your friends.</p>
 
-<p>请找出一个最佳的切割策略，使得你所分得的巧克力&nbsp;<strong>总甜度最大</strong>，并返回这个 <strong>最大总甜度</strong>。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>sweetness = [1,2,3,4,5,6,7,8,9], K = 5
-<strong>输出：</strong>6
-<strong>解释：</strong>你可以把巧克力分成 [1,2,3], [4,5], [6], [7], [8], [9]。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>sweetness = [5,6,7,8,9,1,2,3,4], K = 8
-<strong>输出：</strong>1
-<strong>解释：</strong>只有一种办法可以把巧克力分成 9 块。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>sweetness = [1,2,2,1,2,2,1,2,2], K = 2
-<strong>输出：</strong>5
-<strong>解释：</strong>你可以把巧克力分成 [1,2,2], [1,2,2], [1,2,2]。
-</pre>
+<p>Find the <strong>maximum total sweetness</strong> of the&nbsp;piece you can get by cutting the chocolate bar optimally.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> sweetness = [1,2,3,4,5,6,7,8,9], k = 5
+<strong>Output:</strong> 6
+<b>Explanation: </b>You can divide the chocolate to [1,2,3], [4,5], [6], [7], [8], [9]
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> sweetness = [5,6,7,8,9,1,2,3,4], k = 8
+<strong>Output:</strong> 1
+<b>Explanation: </b>There is only one way to cut the bar into 9 pieces.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> sweetness = [1,2,2,1,2,2,1,2,2], k = 2
+<strong>Output:</strong> 5
+<b>Explanation: </b>You can divide the chocolate to [1,2,2], [1,2,2], [1,2,2]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>0 &lt;= K &lt;&nbsp;sweetness.length &lt;= 10^4</code></li>
-	<li><code>1 &lt;= sweetness[i] &lt;= 10^5</code></li>
+	<li><code>0 &lt;= k &lt; sweetness.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= sweetness[i] &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找 + 贪心
+### Solution 1: Binary Search + Greedy
 
-我们注意到，如果我们能吃到一块甜度为 $x$ 的巧克力，那么甜度小于等于 $x$ 的巧克力也都能吃到。这存在着单调性，因此，我们可以使用二分查找，找到最大的满足条件的 $x$。
+We notice that if we can eat a piece of chocolate with sweetness $x$, then we can also eat all chocolates with sweetness less than or equal to $x$. This shows monotonicity, therefore, we can use binary search to find the maximum $x$ that satisfies the condition.
 
-我们定义二分查找的左边界 $l=0$，右边界 $r=\sum_{i=0}^{n-1} sweetness[i]$。每一次，我们取 $l$ 和 $r$ 的中间值 $mid$，然后判断能否吃到一块甜度为 $mid$ 的巧克力。如果能吃到，那么我们就尝试吃掉甜度更大的巧克力，即令 $l=mid$；否则，我们就尝试吃掉甜度更小的巧克力，即令 $r=mid-1$。在二分查找结束后，我们返回 $l$ 即可。
+We define the left boundary of the binary search as $l=0$, and the right boundary as $r=\sum_{i=0}^{n-1} sweetness[i]$. Each time, we take the middle value $mid$ of $l$ and $r$, and then determine whether we can eat a piece of chocolate with sweetness $mid$. If we can, then we try to eat a piece of chocolate with greater sweetness, i.e., let $l=mid$; otherwise, we try to eat a piece of chocolate with smaller sweetness, i.e., let $r=mid-1$. After the binary search ends, we return $l$.
 
-问题的关键在于，我们如何判断能否吃到一块甜度为 $x$ 的巧克力。我们可以使用贪心的思想，从左到右遍历数组，每次累加当前的甜度，当累加的甜度大于等于 $x$ 时，那么巧克力数 $cnt$ 加 $1$，并将累加的甜度清零。最后判断 $cnt$ 是否大于 $k$ 即可。
+The key to the problem is how to determine whether we can eat a piece of chocolate with sweetness $x$. We can use a greedy approach, traverse the array from left to right, accumulate the current sweetness each time, when the accumulated sweetness is greater than or equal to $x$, the chocolate count $cnt$ is increased by $1$, and the accumulated sweetness is reset to zero. Finally, check whether $cnt$ is greater than $k$.
 
-时间复杂度 $O(n \times \log \sum_{i=0}^{n-1} sweetness[i])$，空间复杂度 $O(1)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n \times \log \sum_{i=0}^{n-1} sweetness[i])$, and the space complexity is $O(1)$. Where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

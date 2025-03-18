@@ -1,87 +1,67 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0081.Search%20in%20Rotated%20Sorted%20Array%20II/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 二分查找
+    - Array
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [81. 搜索旋转排序数组 II](https://leetcode.cn/problems/search-in-rotated-sorted-array-ii)
+# [81. Search in Rotated Sorted Array II](https://leetcode.com/problems/search-in-rotated-sorted-array-ii)
 
-[English Version](/solution/0000-0099/0081.Search%20in%20Rotated%20Sorted%20Array%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>已知存在一个按非降序排列的整数数组 <code>nums</code> ，数组中的值不必互不相同。</p>
+<p>There is an integer array <code>nums</code> sorted in non-decreasing order (not necessarily with <strong>distinct</strong> values).</p>
 
-<p>在传递给函数之前，<code>nums</code> 在预先未知的某个下标 <code>k</code>（<code>0 &lt;= k &lt; nums.length</code>）上进行了 <strong>旋转 </strong>，使数组变为 <code>[nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]</code>（下标 <strong>从 0 开始</strong> 计数）。例如， <code>[0,1,2,4,4,4,5,6,6,7]</code> 在下标 <code>5</code> 处经旋转后可能变为 <code>[4,5,6,6,7,0,1,2,4,4]</code> 。</p>
+<p>Before being passed to your function, <code>nums</code> is <strong>rotated</strong> at an unknown pivot index <code>k</code> (<code>0 &lt;= k &lt; nums.length</code>) such that the resulting array is <code>[nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]</code> (<strong>0-indexed</strong>). For example, <code>[0,1,2,4,4,4,5,6,6,7]</code> might be rotated at pivot index <code>5</code> and become <code>[4,5,6,6,7,0,1,2,4,4]</code>.</p>
 
-<p>给你 <strong>旋转后</strong> 的数组 <code>nums</code> 和一个整数 <code>target</code> ，请你编写一个函数来判断给定的目标值是否存在于数组中。如果 <code>nums</code> 中存在这个目标值 <code>target</code> ，则返回 <code>true</code> ，否则返回 <code>false</code> 。</p>
+<p>Given the array <code>nums</code> <strong>after</strong> the rotation and an integer <code>target</code>, return <code>true</code><em> if </em><code>target</code><em> is in </em><code>nums</code><em>, or </em><code>false</code><em> if it is not in </em><code>nums</code><em>.</em></p>
 
-<p>你必须尽可能减少整个操作步骤。</p>
+<p>You must decrease the overall operation steps as much as possible.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = <code>[2,5,6,0,0,1,2]</code>, target = 0
-<strong>输出：</strong>true
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> nums = [2,5,6,0,0,1,2], target = 0
+<strong>Output:</strong> true
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> nums = [2,5,6,0,0,1,2], target = 3
+<strong>Output:</strong> false
 </pre>
-
-<p><strong>示例&nbsp;2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = <code>[2,5,6,0,0,1,2]</code>, target = 3
-<strong>输出：</strong>false</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 5000</code></li>
 	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
-	<li>题目数据保证 <code>nums</code> 在预先未知的某个下标上进行了旋转</li>
+	<li><code>nums</code> is guaranteed to be rotated at some pivot.</li>
 	<li><code>-10<sup>4</sup> &lt;= target &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong></p>
-
-<ul>
-	<li>此题与&nbsp;<a href="https://leetcode.cn/problems/search-in-rotated-sorted-array/description/">搜索旋转排序数组</a>&nbsp;相似，但本题中的&nbsp;<code>nums</code>&nbsp; 可能包含 <strong>重复</strong> 元素。这会影响到程序的时间复杂度吗？会有怎样的影响，为什么？</li>
-</ul>
-
-<p>&nbsp;</p>
+<p><strong>Follow up:</strong> This problem is similar to&nbsp;<a href="/problems/search-in-rotated-sorted-array/description/" target="_blank">Search in Rotated Sorted Array</a>, but&nbsp;<code>nums</code> may contain <strong>duplicates</strong>. Would this affect the runtime complexity? How and why?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-我们定义二分查找的左边界 $l = 0$，右边界 $r = n - 1$，其中 $n$ 为数组的长度。
+We define the left boundary of the binary search as $l = 0$ and the right boundary as $r = n - 1$, where $n$ is the length of the array.
 
-每次在二分查找的过程中，我们会得到当前的中点 $\textit{mid} = (l + r) / 2$。
+Each time during the binary search, we get the current midpoint $\textit{mid} = (l + r) / 2$.
 
--   如果 $\textit{nums}[\textit{mid}] > \textit{nums}[r]$，说明 $[l, \textit{mid}]$ 是有序的，此时如果 $\textit{nums}[l] \le \textit{target} \le \textit{nums}[\textit{mid}]$，说明 $\textit{target}$ 位于 $[l, \textit{mid}]$，否则 $\textit{target}$ 位于 $[\textit{mid} + 1, r]$。
--   如果 $\textit{nums}[\textit{mid}] < \textit{nums}[r]$，说明 $[\textit{mid} + 1, r]$ 是有序的，此时如果 $\textit{nums}[\textit{mid}] < \textit{target} \le \textit{nums}[r]$，说明 $\textit{target}$ 位于 $[\textit{mid} + 1, r]$，否则 $\textit{target}$ 位于 $[l, \textit{mid}]$。
--   如果 $\textit{nums}[\textit{mid}] = \textit{nums}[r]$，说明元素 $\textit{nums}[\textit{mid}]$ 和 $\textit{nums}[r]$ 相等，此时无法判断 $\textit{target}$ 位于哪个区间，我们只能将 $r$ 减少 $1$。
+-   If $\textit{nums}[\textit{mid}] > \textit{nums}[r]$, it means $[l, \textit{mid}]$ is ordered. If $\textit{nums}[l] \le \textit{target} \le \textit{nums}[\textit{mid}]$, it means $\textit{target}$ is in $[l, \textit{mid}]$. Otherwise, $\textit{target}$ is in $[\textit{mid} + 1, r]$.
+-   If $\textit{nums}[\textit{mid}] < \textit{nums}[r]$, it means $[\textit{mid} + 1, r]$ is ordered. If $\textit{nums}[\textit{mid}] < \textit{target} \le \textit{nums}[r]$, it means $\textit{target}$ is in $[\textit{mid} + 1, r]$. Otherwise, $\textit{target}$ is in $[l, \textit{mid}]$.
+-   If $\textit{nums}[\textit{mid}] = \textit{nums}[r]$, it means the elements $\textit{nums}[\textit{mid}]$ and $\textit{nums}[r]$ are equal. In this case, we cannot determine which interval $\textit{target}$ is in, so we can only decrease $r$ by $1$.
 
-二分查找结束后，如果 $\textit{nums}[l] = \textit{target}$，则说明数组中存在目标值 $\textit{target}$，否则说明不存在。
+After the binary search, if $\textit{nums}[l] = \textit{target}$, it means the target value $\textit{target}$ exists in the array. Otherwise, it does not exist.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组的长度。空间复杂度 $O(1)$。
-
-我们定义二分查找的左边界 $l=0$，右边界 $r=n-1$，其中 $n$ 为数组的长度。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,100 +1,95 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1670.Design%20Front%20Middle%20Back%20Queue/README.md
+difficulty: Medium
 rating: 1610
-source: 第 40 场双周赛 Q3
+source: Biweekly Contest 40 Q3
 tags:
-    - 设计
-    - 队列
-    - 数组
-    - 链表
-    - 数据流
+    - Design
+    - Queue
+    - Array
+    - Linked List
+    - Data Stream
 ---
 
 <!-- problem:start -->
 
-# [1670. 设计前中后队列](https://leetcode.cn/problems/design-front-middle-back-queue)
+# [1670. Design Front Middle Back Queue](https://leetcode.com/problems/design-front-middle-back-queue)
 
-[English Version](/solution/1600-1699/1670.Design%20Front%20Middle%20Back%20Queue/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你设计一个队列，支持在前，中，后三个位置的 <code>push</code> 和 <code>pop</code> 操作。</p>
+<p>Design a queue that supports <code>push</code> and <code>pop</code> operations in the front, middle, and back.</p>
 
-<p>请你完成 <code>FrontMiddleBack</code> 类：</p>
-
-<ul>
-	<li><code>FrontMiddleBack()</code> 初始化队列。</li>
-	<li><code>void pushFront(int val)</code> 将 <code>val</code> 添加到队列的 <strong>最前面</strong> 。</li>
-	<li><code>void pushMiddle(int val)</code> 将 <code>val</code> 添加到队列的 <strong>正中间</strong> 。</li>
-	<li><code>void pushBack(int val)</code> 将 <code>val</code> 添加到队里的 <strong>最后面</strong> 。</li>
-	<li><code>int popFront()</code> 将 <strong>最前面</strong> 的元素从队列中删除并返回值，如果删除之前队列为空，那么返回 <code>-1</code> 。</li>
-	<li><code>int popMiddle()</code> 将 <b>正中间</b> 的元素从队列中删除并返回值，如果删除之前队列为空，那么返回 <code>-1</code> 。</li>
-	<li><code>int popBack()</code> 将 <strong>最后面</strong> 的元素从队列中删除并返回值，如果删除之前队列为空，那么返回 <code>-1</code> 。</li>
-</ul>
-
-<p>请注意当有 <strong>两个</strong> 中间位置的时候，选择靠前面的位置进行操作。比方说：</p>
+<p>Implement the <code>FrontMiddleBack</code> class:</p>
 
 <ul>
-	<li>将 <code>6</code> 添加到 <code>[1, 2, 3, 4, 5]</code> 的中间位置，结果数组为 <code>[1, 2, <strong>6</strong>, 3, 4, 5]</code> 。</li>
-	<li>从 <code>[1, 2, <strong>3</strong>, 4, 5, 6]</code> 的中间位置弹出元素，返回 <code>3</code> ，数组变为 <code>[1, 2, 4, 5, 6]</code> 。</li>
+	<li><code>FrontMiddleBack()</code> Initializes the queue.</li>
+	<li><code>void pushFront(int val)</code> Adds <code>val</code> to the <strong>front</strong> of the queue.</li>
+	<li><code>void pushMiddle(int val)</code> Adds <code>val</code> to the <strong>middle</strong> of the queue.</li>
+	<li><code>void pushBack(int val)</code> Adds <code>val</code> to the <strong>back</strong> of the queue.</li>
+	<li><code>int popFront()</code> Removes the <strong>front</strong> element of the queue and returns it. If the queue is empty, return <code>-1</code>.</li>
+	<li><code>int popMiddle()</code> Removes the <strong>middle</strong> element of the queue and returns it. If the queue is empty, return <code>-1</code>.</li>
+	<li><code>int popBack()</code> Removes the <strong>back</strong> element of the queue and returns it. If the queue is empty, return <code>-1</code>.</li>
 </ul>
 
-<p> </p>
+<p><strong>Notice</strong> that when there are <b>two</b> middle position choices, the operation is performed on the <strong>frontmost</strong> middle position choice. For example:</p>
 
-<p><strong>示例 1：</strong></p>
+<ul>
+	<li>Pushing <code>6</code> into the middle of <code>[1, 2, 3, 4, 5]</code> results in <code>[1, 2, <u>6</u>, 3, 4, 5]</code>.</li>
+	<li>Popping the middle from <code>[1, 2, <u>3</u>, 4, 5, 6]</code> returns <code>3</code> and results in <code>[1, 2, 4, 5, 6]</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["FrontMiddleBackQueue", "pushFront", "pushBack", "pushMiddle", "pushMiddle", "popFront", "popMiddle", "popMiddle", "popBack", "popFront"]
+<strong>Input:</strong>
+[&quot;FrontMiddleBackQueue&quot;, &quot;pushFront&quot;, &quot;pushBack&quot;, &quot;pushMiddle&quot;, &quot;pushMiddle&quot;, &quot;popFront&quot;, &quot;popMiddle&quot;, &quot;popMiddle&quot;, &quot;popBack&quot;, &quot;popFront&quot;]
 [[], [1], [2], [3], [4], [], [], [], [], []]
-<strong>输出：</strong>
+<strong>Output:</strong>
 [null, null, null, null, null, 1, 3, 4, 2, -1]
 
-<strong>解释：</strong>
+<strong>Explanation:</strong>
 FrontMiddleBackQueue q = new FrontMiddleBackQueue();
-q.pushFront(1);   // [<strong>1</strong>]
-q.pushBack(2);    // [1, <strong>2</strong>]
-q.pushMiddle(3);  // [1, <strong>3</strong>, 2]
-q.pushMiddle(4);  // [1, <strong>4</strong>, 3, 2]
-q.popFront();     // 返回 1 -> [4, 3, 2]
-q.popMiddle();    // 返回 3 -> [4, 2]
-q.popMiddle();    // 返回 4 -> [2]
-q.popBack();      // 返回 2 -> []
-q.popFront();     // 返回 -1 -> [] （队列为空）
+q.pushFront(1);   // [<u>1</u>]
+q.pushBack(2);    // [1, <u>2</u>]
+q.pushMiddle(3);  // [1, <u>3</u>, 2]
+q.pushMiddle(4);  // [1, <u>4</u>, 3, 2]
+q.popFront();     // return 1 -&gt; [4, 3, 2]
+q.popMiddle();    // return 3 -&gt; [4, 2]
+q.popMiddle();    // return 4 -&gt; [2]
+q.popBack();      // return 2 -&gt; []
+q.popFront();     // return -1 -&gt; [] (The queue is empty)
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= val <= 10<sup>9</sup></code></li>
-	<li>最多调用 <code>1000</code> 次 <code>pushFront</code>， <code>pushMiddle</code>， <code>pushBack</code>， <code>popFront</code>， <code>popMiddle</code> 和 <code>popBack</code> 。</li>
+	<li><code>1 &lt;= val &lt;= 10<sup>9</sup></code></li>
+	<li>At most&nbsp;<code>1000</code>&nbsp;calls will be made to&nbsp;<code>pushFront</code>,&nbsp;<code>pushMiddle</code>,&nbsp;<code>pushBack</code>, <code>popFront</code>, <code>popMiddle</code>, and <code>popBack</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：两个双端队列
+### Solution 1: Two Deques
 
-我们用两个双端队列，其中 $q_1$ 存储前半部分，而 $q_2$ 存储后半部分。每次由 `rebalance` 函数来维护两个队列的平衡性，即保持 $q_2$ 的长度大于等于 $q_1$ 的长度，且长度之差不超过 $1$。
+We use two deques, where $q_1$ stores the first half, and $q_2$ stores the second half. The `rebalance` function is used to maintain the balance between the two queues, i.e., keeping the length of $q_2$ greater than or equal to the length of $q_1$, and the difference in length does not exceed $1$.
 
-在 `pushFront`、`pushMiddle` 和 `pushBack` 函数中，我们只需要将元素添加到 $q_1$ 或 $q_2$ 中，并调用 `rebalance` 函数即可。
+In the `pushFront`, `pushMiddle`, and `pushBack` functions, we only need to add elements to $q_1$ or $q_2$, and call the `rebalance` function.
 
-对于 `popFront` 函数，我们需要判断 $q_1$ 和 $q_2$ 是否为空，如果都为空，则返回 $-1$，否则我们需要判断 $q_1$ 是否为空，如果不为空，则弹出 $q_1$ 的队首元素，否则弹出 $q_2$ 的队首元素，并调用 `rebalance` 函数。
+For the `popFront` function, we need to check whether $q_1$ and $q_2$ are empty. If both are empty, return $-1$. Otherwise, we need to check whether $q_1$ is empty. If not, pop the front element of $q_1$, otherwise pop the front element of $q_2$, and call the `rebalance` function.
 
-对于 `popMiddle` 函数，我们需要判断 $q_1$ 和 $q_2$ 是否为空，如果都为空，则返回 $-1$，否则我们需要判断 $q_1$ 和 $q_2$ 的长度是否相等，如果相等，则弹出 $q_1$ 的队尾元素，否则弹出 $q_2$ 的队首元素，并调用 `rebalance` 函数。
+For the `popMiddle` function, we need to check whether $q_1$ and $q_2$ are empty. If both are empty, return $-1$. Otherwise, we need to check whether the lengths of $q_1$ and $q_2$ are equal. If they are equal, pop the last element of $q_1$, otherwise pop the front element of $q_2$, and call the `rebalance` function.
 
-对于 `popBack` 函数，我们只需要判断 $q_2$ 是否为空，如果为空，则返回 $-1$，否则弹出 $q_2$ 的队尾元素，并调用 `rebalance` 函数。
+For the `popBack` function, we only need to check whether $q_2$ is empty. If it is empty, return $-1$. Otherwise, pop the last element of $q_2$, and call the `rebalance` function.
 
-以上操作的时间复杂度均为 $O(1)$，空间复杂度为 $O(n)$，其中 $n$ 是队列中的元素数量。
+The time complexity of the above operations is $O(1)$, and the space complexity is $O(n)$, where $n$ is the number of elements in the queue.
 
 <!-- tabs:start -->
 

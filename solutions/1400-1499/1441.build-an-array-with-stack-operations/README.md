@@ -1,93 +1,96 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1441.Build%20an%20Array%20With%20Stack%20Operations/README.md
+difficulty: Medium
 rating: 1180
-source: 第 188 场周赛 Q1
+source: Weekly Contest 188 Q1
 tags:
-    - 栈
-    - 数组
-    - 模拟
+    - Stack
+    - Array
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [1441. 用栈操作构建数组](https://leetcode.cn/problems/build-an-array-with-stack-operations)
+# [1441. Build an Array With Stack Operations](https://leetcode.com/problems/build-an-array-with-stack-operations)
 
-[English Version](/solution/1400-1499/1441.Build%20an%20Array%20With%20Stack%20Operations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组 <code>target</code> 和一个整数 <code>n</code>。每次迭代，需要从&nbsp; <code>list = { 1 , 2 , 3 ..., n }</code> 中依次读取一个数字。</p>
+<p>You are given an integer array <code>target</code> and an integer <code>n</code>.</p>
 
-<p>请使用下述操作来构建目标数组 <code>target</code> ：</p>
+<p>You have an empty stack with the two following operations:</p>
 
 <ul>
-	<li><code>"Push"</code>：从 <code>list</code> 中读取一个新元素， 并将其推入数组中。</li>
-	<li><code>"Pop"</code>：删除数组中的最后一个元素。</li>
-	<li>如果目标数组构建完成，就停止读取更多元素。</li>
+	<li><strong><code>&quot;Push&quot;</code></strong>: pushes an integer to the top of the stack.</li>
+	<li><strong><code>&quot;Pop&quot;</code></strong>: removes the integer on the top of the stack.</li>
 </ul>
 
-<p>题目数据保证目标数组严格递增，并且只包含 <code>1</code> 到 <code>n</code> 之间的数字。</p>
+<p>You also have a stream of the integers in the range <code>[1, n]</code>.</p>
 
-<p>请返回构建目标数组所用的操作序列。如果存在多个可行方案，返回任一即可。</p>
+<p>Use the two stack operations to make the numbers in the stack (from the bottom to the top) equal to <code>target</code>. You should follow the following rules:</p>
 
-<p>&nbsp;</p>
+<ul>
+	<li>If the stream of the integers is not empty, pick the next integer from the stream and push it to the top of the stack.</li>
+	<li>If the stack is not empty, pop the integer at the top of the stack.</li>
+	<li>If, at any moment, the elements in the stack (from the bottom to the top) are equal to <code>target</code>, do not read new integers from the stream and do not do more operations on the stack.</li>
+</ul>
 
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>target = [1,3], n = 3
-<strong>输出：</strong>["Push","Push","Pop","Push"]
-<strong>解释： 
-</strong>读取 1 并自动推入数组 -&gt; [1]
-读取 2 并自动推入数组，然后删除它 -&gt; [1]
-读取 3 并自动推入数组 -&gt; [1,3]
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>target = [1,2,3], n = 3
-<strong>输出：</strong>["Push","Push","Push"]
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>target = [1,2], n = 4
-<strong>输出：</strong>["Push","Push"]
-<strong>解释：</strong>只需要读取前 2 个数字就可以停止。
-</pre>
+<p>Return <em>the stack operations needed to build </em><code>target</code> following the mentioned rules. If there are multiple valid answers, return <strong>any of them</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> target = [1,3], n = 3
+<strong>Output:</strong> [&quot;Push&quot;,&quot;Push&quot;,&quot;Pop&quot;,&quot;Push&quot;]
+<strong>Explanation:</strong> Initially the stack s is empty. The last element is the top of the stack.
+Read 1 from the stream and push it to the stack. s = [1].
+Read 2 from the stream and push it to the stack. s = [1,2].
+Pop the integer on the top of the stack. s = [1].
+Read 3 from the stream and push it to the stack. s = [1,3].
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> target = [1,2,3], n = 3
+<strong>Output:</strong> [&quot;Push&quot;,&quot;Push&quot;,&quot;Push&quot;]
+<strong>Explanation:</strong> Initially the stack s is empty. The last element is the top of the stack.
+Read 1 from the stream and push it to the stack. s = [1].
+Read 2 from the stream and push it to the stack. s = [1,2].
+Read 3 from the stream and push it to the stack. s = [1,2,3].
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> target = [1,2], n = 4
+<strong>Output:</strong> [&quot;Push&quot;,&quot;Push&quot;]
+<strong>Explanation:</strong> Initially the stack s is empty. The last element is the top of the stack.
+Read 1 from the stream and push it to the stack. s = [1].
+Read 2 from the stream and push it to the stack. s = [1,2].
+Since the stack (from the bottom to the top) is equal to target, we stop the stack operations.
+The answers that read integer 3 from the stream are not accepted.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= target.length &lt;= 100</code></li>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
 	<li><code>1 &lt;= target[i] &lt;= n</code></li>
-	<li><code>target</code> 严格递增</li>
+	<li><code>target</code> is strictly increasing.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
-
-我们定义 $cur$ 表示当前已经从 `list` 中读取到的数字，初始时 $cur = 0$，用一个数组 $ans$ 存储答案。
-
-遍历数组 `target`，对于每个数字 $v$，如果当前要从 `list` 读取的数字小于 $v$，那么我们应该执行 `Push` 和 `Pop` 操作，直到读取的数字等于 $v$，然后执行 `Push` 操作，这样就可以得到数字 $v$。
-
-遍历结束后，也就构建出了数组 `target`，返回 `ans` 即可。
-
-时间复杂度 $O(n)$，其中 $n$ 为数组 `target` 的长度。忽略答案的空间消耗，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 

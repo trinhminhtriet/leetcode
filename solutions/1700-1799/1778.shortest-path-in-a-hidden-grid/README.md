@@ -1,121 +1,118 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1778.Shortest%20Path%20in%20a%20Hidden%20Grid/README.md
+difficulty: Medium
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 图
-    - 交互
+    - Depth-First Search
+    - Breadth-First Search
+    - Graph
+    - Interactive
 ---
 
 <!-- problem:start -->
 
-# [1778. 未知网格中的最短路径 🔒](https://leetcode.cn/problems/shortest-path-in-a-hidden-grid)
+# [1778. Shortest Path in a Hidden Grid 🔒](https://leetcode.com/problems/shortest-path-in-a-hidden-grid)
 
-[English Version](/solution/1700-1799/1778.Shortest%20Path%20in%20a%20Hidden%20Grid/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>这是一个<strong>交互式的问题。</strong></p>
+<p>This is an <strong>interactive problem</strong>.</p>
 
-<p>一个未知的网格里有一个机器人，你需要让机器人从起点走到终点。这个网格的大小是 <code>m x n</code>，网格中的每个位置只会是可通行和不可通行两种状态。题目<strong>保证</strong>机器人的起点和终点不同，且都是可通行的。</p>
+<p>There is a robot in a hidden grid, and you are trying to get it from its starting cell to the target cell in this grid. The grid is of size <code>m x n</code>, and each cell in the grid is either empty or blocked. It is <strong>guaranteed</strong> that the starting cell and the target cell are different, and neither of them is blocked.</p>
 
-<p>你需要找到起点到终点的最短路径，然而你<strong>不知道</strong>网格的大小、起点和终点。你只能向 <code>GridMaster</code> 对象查询。</p>
+<p>You want to find the minimum distance to the target cell. However, you <strong>do not know</strong> the grid&#39;s dimensions, the starting cell, nor the target cell. You are only allowed to ask queries to the <code>GridMaster</code> object.</p>
 
-<p><code>GridMaster</code>有这些方法：</p>
-
-<ul>
-	<li><code>boolean canMove(char direction)</code> 当机器人能向对应方向移动时，返回 <code>true</code>，否则返回 <code>false</code>。</li>
-	<li><code>void move(char direction)</code> 把机器人向这个方向移动。如果移动方向上是不可通行的或是网格的边界，则这次移动会被<strong>忽略</strong>，机器人会待在原地。</li>
-	<li><code>boolean isTarget()</code> 如果机器人当前位于终点，返回 <code>true</code>，否则返回 <code>false</code>。</li>
-</ul>
-
-<p>注意上述方法中的direction应该是 <code>{'U','D','L','R'}</code> 中的一个，分别代表上下左右四个方向。</p>
-
-<p>返回机器人的初始位置到终点的最短距离。如果在起点和终点间没有路径联通，返回 <code>-1</code>。</p>
-
-<p><strong>自定义测试用例</strong></p>
-
-<p>测试用例是一个 <code>m x n</code> 的二维矩阵 <code>grid</code>，其中：</p>
+<p>Thr <code>GridMaster</code> class has the following functions:</p>
 
 <ul>
-	<li><code>grid[i][j] == -1</code> 表明机器人一开始位于位置 <code>(i, j)</code> （即起点）。</li>
-	<li><code>grid[i][j] == 0</code> 表明位置 <code>(i, j)</code> 不可通行。</li>
-	<li><code>grid[i][j] == 1</code> 表明位置 <code>(i, j)</code> 可以通行.</li>
-	<li><code>grid[i][j] == 2</code> 表明位置 <code>(i, j)</code> 是终点.</li>
+	<li><code>boolean canMove(char direction)</code> Returns <code>true</code> if the robot can move in that direction. Otherwise, it returns <code>false</code>.</li>
+	<li><code>void move(char direction)</code> Moves the robot in that direction. If this move would move the robot to a blocked cell or off the grid, the move will be <strong>ignored</strong>, and the robot will remain in the same position.</li>
+	<li><code>boolean isTarget()</code> Returns <code>true</code> if the robot is currently on the target cell. Otherwise, it returns <code>false</code>.</li>
 </ul>
 
-<p><code>grid</code> 里恰有一个<code>-1</code> 和一个 <code>2</code>。记住在你的代码中，你对这些信息将<strong>一无所知</strong>。</p>
+<p>Note that <code>direction</code> in the above functions should be a character from <code>{&#39;U&#39;,&#39;D&#39;,&#39;L&#39;,&#39;R&#39;}</code>, representing the directions up, down, left, and right, respectively.</p>
 
-<p><strong>示例1：</strong></p>
+<p>Return <em>the <strong>minimum distance</strong> between the robot&#39;s initial starting cell and the target cell. If there is no valid path between the cells, return </em><code>-1</code>.</p>
+
+<p><strong>Custom testing:</strong></p>
+
+<p>The test input is read as a 2D matrix <code>grid</code> of size <code>m x n</code> where:</p>
+
+<ul>
+	<li><code>grid[i][j] == -1</code> indicates that the robot is in cell <code>(i, j)</code> (the starting cell).</li>
+	<li><code>grid[i][j] == 0</code> indicates that the cell <code>(i, j)</code> is blocked.</li>
+	<li><code>grid[i][j] == 1</code> indicates that the cell <code>(i, j)</code> is empty.</li>
+	<li><code>grid[i][j] == 2</code> indicates that the cell <code>(i, j)</code> is the target cell.</li>
+</ul>
+
+<p>There is exactly one <code>-1</code> and <code>2</code> in <code>grid</code>. Remember that you will <strong>not</strong> have this information in your code.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> grid = [[1,2],[-1,0]]
-<strong>输出:</strong> 2
-<strong>解释:</strong> 一种可能的交互过程如下：
+<strong>Input:</strong> grid = [[1,2],[-1,0]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> One possible interaction is described below:
 The robot is initially standing on cell (1, 0), denoted by the -1.
-- master.canMove('U') 返回 true.
-- master.canMove('D') 返回false.
-- master.canMove('L') 返回 false.
-- master.canMove('R') 返回 false.
-- master.move('U') 把机器人移动到 (0, 0).
-- master.isTarget() 返回 false.
-- master.canMove('U') 返回 false.
-- master.canMove('D') 返回 true.
-- master.canMove('L') 返回 false.
-- master.canMove('R') 返回 true.
-- master.move('R') 把机器人移动到 (0, 1).
-- master.isTarget() 返回 true. 
-我们现在知道终点是点 (0, 1)，而且最短的路径是2.
+- master.canMove(&#39;U&#39;) returns true.
+- master.canMove(&#39;D&#39;) returns false.
+- master.canMove(&#39;L&#39;) returns false.
+- master.canMove(&#39;R&#39;) returns false.
+- master.move(&#39;U&#39;) moves the robot to the cell (0, 0).
+- master.isTarget() returns false.
+- master.canMove(&#39;U&#39;) returns false.
+- master.canMove(&#39;D&#39;) returns true.
+- master.canMove(&#39;L&#39;) returns false.
+- master.canMove(&#39;R&#39;) returns true.
+- master.move(&#39;R&#39;) moves the robot to the cell (0, 1).
+- master.isTarget() returns true. 
+We now know that the target is the cell (0, 1), and the shortest path to the target cell is 2.
 </pre>
 
-<p><strong>示例2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> grid = [[0,0,-1],[1,1,1],[2,0,0]]
-<strong>输出:</strong> 4
-<strong>解释:</strong> 机器人和终点的最短路径长是4.</pre>
+<strong>Input:</strong> grid = [[0,0,-1],[1,1,1],[2,0,0]]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong>&nbsp;The minimum distance between the robot and the target cell is 4.</pre>
 
-<p><strong>示例3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入:</strong> grid = [[-1,0],[0,2]]
-<strong>输出:</strong> -1
-<strong>解释:</strong> 机器人和终点间没有可通行的路径.</pre>
+<strong>Input:</strong> grid = [[-1,0],[0,2]]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong>&nbsp;There is no path from the robot to the target cell.</pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= n, m <= 500</code></li>
+	<li><code>1 &lt;= n, m &lt;= 500</code></li>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
-	<li><code>grid[i][j]</code> 只可能是 <code>-1</code>, <code>0</code>, <code>1</code> 或 <code>2</code></li>
-	<li><code>grid</code> 中 <strong>有且只有一个</strong> <code>-1</code></li>
-	<li><code>grid</code> 中<strong> 有且只有一个</strong> <code>2</code></li>
+	<li><code>grid[i][j]</code> is either <code>-1</code>, <code>0</code>, <code>1</code>, or <code>2</code>.</li>
+	<li>There is <strong>exactly one</strong> <code>-1</code> in <code>grid</code>.</li>
+	<li>There is <strong>exactly one</strong> <code>2</code> in <code>grid</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS 建图 + BFS 求最短路
+### Solution 1: DFS for Graph Construction + BFS for Shortest Path
 
-我们不妨假设机器人从坐标 $(0, 0)$ 出发，那么我们可以通过 DFS，找到所有可达的坐标，记录在哈希表 $vis$ 中。另外，我们还需要记录终点的坐标 $target$。
+We can assume that the robot starts from the coordinate $(0, 0)$. Then, we can use DFS to find all reachable coordinates and record them in the hash table $vis$. In addition, we also need to record the coordinates of the endpoint $target$.
 
-如果找不到终点，那么直接返回 $-1$。否则，我们可以通过 BFS，求出最短路。
+If the endpoint cannot be found, we directly return $-1$. Otherwise, we can use BFS to find the shortest path.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是网格的行数和列数。
+The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the number of rows and columns of the grid, respectively.
 
-相似题目：
+Similar problems:
 
--   [1810. 隐藏网格下的最小消耗路径](https://github.com/doocs/leetcode/blob/main/solution/1800-1899/1810.Minimum%20Path%20Cost%20in%20a%20Hidden%20Grid/README.md)
+-   [1810. Minimum Path Cost in a Hidden Grid](https://github.com/doocs/leetcode/blob/main/solution/1800-1899/1810.Minimum%20Path%20Cost%20in%20a%20Hidden%20Grid/README_EN.md)
 
 <!-- tabs:start -->
 

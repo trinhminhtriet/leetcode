@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1159.Market%20Analysis%20II/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1159. 市场分析 II 🔒](https://leetcode.cn/problems/market-analysis-ii)
+# [1159. Market Analysis II 🔒](https://leetcode.com/problems/market-analysis-ii)
 
-[English Version](/solution/1100-1199/1159.Market%20Analysis%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Users</code></p>
+<p>Table: <code>Users</code></p>
 
 <pre>
 +----------------+---------+
@@ -26,11 +23,13 @@ tags:
 | join_date      | date    |
 | favorite_brand | varchar |
 +----------------+---------+
-user_id 是该表的主键(具有唯一值的列)。
-表中包含一位在线购物网站用户的个人信息，用户可以在该网站出售和购买商品。
+user_id is the primary key (column with unique values) of this table.
+This table has the info of the users of an online shopping website where users can sell and buy items.
 </pre>
 
-<p>表: <code>Orders</code></p>
+<p>&nbsp;</p>
+
+<p>Table: <code>Orders</code></p>
 
 <pre>
 +---------------+---------+
@@ -42,12 +41,14 @@ user_id 是该表的主键(具有唯一值的列)。
 | buyer_id      | int     |
 | seller_id     | int     |
 +---------------+---------+
-order_id 是该表的主键(具有唯一值的列)。
-item_id 是 Items 表的外键(reference 列)。
-buyer_id 和 seller_id 是 Users 表的外键。
+order_id is the primary key (column with unique values) of this table.
+item_id is a foreign key (reference column) to the Items table.
+buyer_id and seller_id are foreign keys to the Users table.
 </pre>
 
-<p>表: <code>Items</code></p>
+<p>&nbsp;</p>
+
+<p>Table: <code>Items</code></p>
 
 <pre>
 +---------------+---------+
@@ -56,25 +57,22 @@ buyer_id 和 seller_id 是 Users 表的外键。
 | item_id       | int     |
 | item_brand    | varchar |
 +---------------+---------+
-item_id 是该表的主键(具有唯一值的列)。
+item_id is the primary key (column with unique values) of this table.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写一个解决方案，为每个用户找出他们出售的第二件商品(按日期)的品牌是否是他们最喜欢的品牌。如果用户售出的商品少于两件，则该用户的结果为否。保证卖家不会在一天内卖出一件以上的商品。</p>
+<p>Write a solution to find for each user whether the brand of the second item (by date) they sold is their favorite brand. If a user sold less than two items, report the answer for that user as no. It is guaranteed that no seller sells more than one item in a day.</p>
+
+<p>Return the result table in <strong>any order</strong>.</p>
+
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p>以 <strong>任意顺序</strong> 返回结果表。</p>
-
-<p>返回结果格式如下例所示：</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 Users table:
 +---------+------------+----------------+
 | user_id | join_date  | favorite_brand |
@@ -104,7 +102,7 @@ Items table:
 | 3       | LG         |
 | 4       | HP         |
 +---------+------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-----------+--------------------+
 | seller_id | 2nd_item_fav_brand |
 +-----------+--------------------+
@@ -113,19 +111,19 @@ Items table:
 | 3         | yes                |
 | 4         | no                 |
 +-----------+--------------------+
-<strong>解释：</strong>
-id 为 1 的用户的查询结果是 no，因为他什么也没有卖出
-id为 2 和 3 的用户的查询结果是 yes，因为他们卖出的第二件商品的品牌是他们最喜爱的品牌
-id为 4 的用户的查询结果是 no，因为他卖出的第二件商品的品牌不是他最喜爱的品牌
+<strong>Explanation:</strong> 
+The answer for the user with id 1 is no because they sold nothing.
+The answer for the users with id 2 and 3 is yes because the brands of their second sold items are their favorite brands.
+The answer for the user with id 4 is no because the brand of their second sold item is not their favorite brand.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,87 +1,73 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0433.Minimum%20Genetic%20Mutation/README.md
+difficulty: Medium
 tags:
-    - 广度优先搜索
-    - 哈希表
-    - 字符串
+    - Breadth-First Search
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [433. 最小基因变化](https://leetcode.cn/problems/minimum-genetic-mutation)
+# [433. Minimum Genetic Mutation](https://leetcode.com/problems/minimum-genetic-mutation)
 
-[English Version](/solution/0400-0499/0433.Minimum%20Genetic%20Mutation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>基因序列可以表示为一条由 8 个字符组成的字符串，其中每个字符都是 <code>'A'</code>、<code>'C'</code>、<code>'G'</code> 和 <code>'T'</code> 之一。</p>
+<p>A gene string can be represented by an 8-character long string, with choices from <code>&#39;A&#39;</code>, <code>&#39;C&#39;</code>, <code>&#39;G&#39;</code>, and <code>&#39;T&#39;</code>.</p>
 
-<p>假设我们需要调查从基因序列&nbsp;<code>start</code> 变为 <code>end</code> 所发生的基因变化。一次基因变化就意味着这个基因序列中的一个字符发生了变化。</p>
+<p>Suppose we need to investigate a mutation from a gene string <code>startGene</code> to a gene string <code>endGene</code> where one mutation is defined as one single character changed in the gene string.</p>
 
 <ul>
-	<li>例如，<code>"AACCGGTT" --&gt; "AACCGGTA"</code> 就是一次基因变化。</li>
+	<li>For example, <code>&quot;AACCGGTT&quot; --&gt; &quot;AACCGGTA&quot;</code> is one mutation.</li>
 </ul>
 
-<p>另有一个基因库 <code>bank</code> 记录了所有有效的基因变化，只有基因库中的基因才是有效的基因序列。（变化后的基因必须位于基因库 <code>bank</code> 中）</p>
+<p>There is also a gene bank <code>bank</code> that records all the valid gene mutations. A gene must be in <code>bank</code> to make it a valid gene string.</p>
 
-<p>给你两个基因序列 <code>start</code> 和 <code>end</code> ，以及一个基因库 <code>bank</code> ，请你找出并返回能够使&nbsp;<code>start</code> 变化为 <code>end</code> 所需的最少变化次数。如果无法完成此基因变化，返回 <code>-1</code> 。</p>
+<p>Given the two gene strings <code>startGene</code> and <code>endGene</code> and the gene bank <code>bank</code>, return <em>the minimum number of mutations needed to mutate from </em><code>startGene</code><em> to </em><code>endGene</code>. If there is no such a mutation, return <code>-1</code>.</p>
 
-<p>注意：起始基因序列&nbsp;<code>start</code> 默认是有效的，但是它并不一定会出现在基因库中。</p>
+<p>Note that the starting point is assumed to be valid, so it might not be included in the bank.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>start = "AACCGGTT", end = "AACCGGTA", bank = ["AACCGGTA"]
-<strong>输出：</strong>1
+<strong>Input:</strong> startGene = &quot;AACCGGTT&quot;, endGene = &quot;AACCGGTA&quot;, bank = [&quot;AACCGGTA&quot;]
+<strong>Output:</strong> 1
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>start = "AACCGGTT", end = "AAACGGTA", bank = ["AACCGGTA","AACCGCTA","AAACGGTA"]
-<strong>输出：</strong>2
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>start = "AAAAACCC", end = "AACCCCCC", bank = ["AAAACCCC","AAACCCCC","AACCCCCC"]
-<strong>输出：</strong>3
+<strong>Input:</strong> startGene = &quot;AACCGGTT&quot;, endGene = &quot;AAACGGTA&quot;, bank = [&quot;AACCGGTA&quot;,&quot;AACCGCTA&quot;,&quot;AAACGGTA&quot;]
+<strong>Output:</strong> 2
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>start.length == 8</code></li>
-	<li><code>end.length == 8</code></li>
 	<li><code>0 &lt;= bank.length &lt;= 10</code></li>
-	<li><code>bank[i].length == 8</code></li>
-	<li><code>start</code>、<code>end</code> 和 <code>bank[i]</code> 仅由字符 <code>['A', 'C', 'G', 'T']</code> 组成</li>
+	<li><code>startGene.length == endGene.length == bank[i].length == 8</code></li>
+	<li><code>startGene</code>, <code>endGene</code>, and <code>bank[i]</code> consist of only the characters <code>[&#39;A&#39;, &#39;C&#39;, &#39;G&#39;, &#39;T&#39;]</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
+### Solution 1: BFS
 
-我们定义一个队列 `q`，用于存储当前基因序列以及变化的次数，定义一个集合 `vis`，用于存储已经访问过的基因序列。初始时，将起始基因序列 `start` 加入队列 `q`，并将其加入集合 `vis`。
+We define a queue `q` to store the current gene sequence and the number of changes, and a set `vis` to store the visited gene sequences. Initially, we add the starting gene sequence `start` to the queue `q` and the set `vis`.
 
-然后，我们不断从队列 `q` 中取出一个基因序列，如果该基因序列等于目标基因序列，则返回当前的变化次数。否则，我们遍历基因库 `bank`，计算当前基因序列与基因库中的基因序列的差异值，如果差异值为 $1$，且基因库中的基因序列没有被访问过，则将其加入队列 `q`，并将其加入集合 `vis`。
+Then, we continuously take out a gene sequence from the queue `q`. If this gene sequence equals the target gene sequence, we return the current number of changes. Otherwise, we iterate through the gene bank `bank`, calculate the difference value between the current gene sequence and the gene sequence in the gene bank. If the difference value is $1$ and the gene sequence in the gene bank has not been visited, we add it to the queue `q` and the set `vis`.
 
-如果队列 `q` 为空，说明无法完成基因变化，返回 $-1$。
+If the queue `q` is empty, it means that the gene change cannot be completed, so we return $-1$.
 
-时间复杂度 $O(C \times n \times m)$，空间复杂度 $O(n \times m)$。其中 $n$ 和 $m$ 分别表示基因序列的长度和基因库的长度，而 $C$ 表示基因序列的字符集大小，本题中 $C = 4$。
+The time complexity is $O(C \times n \times m)$, and the space complexity is $O(n \times m)$. Where $n$ and $m$ are the lengths of the gene sequence and the gene bank respectively, and $C$ is the size of the character set of the gene sequence. In this problem, $C = 4$.
 
 <!-- tabs:start -->
 

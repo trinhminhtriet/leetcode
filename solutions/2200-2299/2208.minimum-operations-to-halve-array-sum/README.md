@@ -1,66 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2208.Minimum%20Operations%20to%20Halve%20Array%20Sum/README.md
+difficulty: Medium
 rating: 1550
-source: 第 74 场双周赛 Q3
+source: Biweekly Contest 74 Q3
 tags:
-    - 贪心
-    - 数组
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2208. 将数组和减半的最少操作次数](https://leetcode.cn/problems/minimum-operations-to-halve-array-sum)
+# [2208. Minimum Operations to Halve Array Sum](https://leetcode.com/problems/minimum-operations-to-halve-array-sum)
 
-[English Version](/solution/2200-2299/2208.Minimum%20Operations%20to%20Halve%20Array%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数数组&nbsp;<code>nums</code>&nbsp;。每一次操作中，你可以从&nbsp;<code>nums</code>&nbsp;中选择 <strong>任意</strong>&nbsp;一个数并将它减小到 <strong>恰好</strong>&nbsp;一半。（注意，在后续操作中你可以对减半过的数继续执行操作）</p>
+<p>You are given an array <code>nums</code> of positive integers. In one operation, you can choose <strong>any</strong> number from <code>nums</code> and reduce it to <strong>exactly</strong> half the number. (Note that you may choose this reduced number in future operations.)</p>
 
-<p>请你返回将 <code>nums</code>&nbsp;数组和 <strong>至少</strong>&nbsp;减少一半的 <strong>最少</strong>&nbsp;操作数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [5,19,8,1]
-<b>输出：</b>3
-<b>解释：</b>初始 nums 的和为 5 + 19 + 8 + 1 = 33 。
-以下是将数组和减少至少一半的一种方法：
-选择数字 19 并减小为 9.5 。
-选择数字 9.5 并减小为 4.75 。
-选择数字 8 并减小为 4 。
-最终数组为 [5, 4.75, 4, 1] ，和为 5 + 4.75 + 4 + 1 = 14.75 。
-nums 的和减小了 33 - 14.75 = 18.25 ，减小的部分超过了初始数组和的一半，18.25 &gt;= 33/2 = 16.5 。
-我们需要 3 个操作实现题目要求，所以返回 3 。
-可以证明，无法通过少于 3 个操作使数组和减少至少一半。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [3,8,20]
-<b>输出：</b>3
-<strong>解释：</strong>初始 nums 的和为 3 + 8 + 20 = 31 。
-以下是将数组和减少至少一半的一种方法：
-选择数字 20 并减小为 10 。
-选择数字 10 并减小为 5 。
-选择数字 3 并减小为 1.5 。
-最终数组为 [1.5, 8, 5] ，和为 1.5 + 8 + 5 = 14.5 。
-nums 的和减小了 31 - 14.5 = 16.5 ，减小的部分超过了初始数组和的一半， 16.5 &gt;= 31/2 = 15.5 。
-我们需要 3 个操作实现题目要求，所以返回 3 。
-可以证明，无法通过少于 3 个操作使数组和减少至少一半。
-</pre>
+<p>Return<em> the <strong>minimum</strong> number of operations to reduce the sum of </em><code>nums</code><em> by <strong>at least</strong> half.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [5,19,8,1]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The initial sum of nums is equal to 5 + 19 + 8 + 1 = 33.
+The following is one of the ways to reduce the sum by at least half:
+Pick the number 19 and reduce it to 9.5.
+Pick the number 9.5 and reduce it to 4.75.
+Pick the number 8 and reduce it to 4.
+The final array is [5, 4.75, 4, 1] with a total sum of 5 + 4.75 + 4 + 1 = 14.75. 
+The sum of nums has been reduced by 33 - 14.75 = 18.25, which is at least half of the initial sum, 18.25 &gt;= 33/2 = 16.5.
+Overall, 3 operations were used so we return 3.
+It can be shown that we cannot reduce the sum by at least half in less than 3 operations.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [3,8,20]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The initial sum of nums is equal to 3 + 8 + 20 = 31.
+The following is one of the ways to reduce the sum by at least half:
+Pick the number 20 and reduce it to 10.
+Pick the number 10 and reduce it to 5.
+Pick the number 3 and reduce it to 1.5.
+The final array is [1.5, 8, 5] with a total sum of 1.5 + 8 + 5 = 14.5. 
+The sum of nums has been reduced by 31 - 14.5 = 16.5, which is at least half of the initial sum, 16.5 &gt;= 31/2 = 15.5.
+Overall, 3 operations were used so we return 3.
+It can be shown that we cannot reduce the sum by at least half in less than 3 operations.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -69,17 +64,17 @@ nums 的和减小了 31 - 14.5 = 16.5 ，减小的部分超过了初始数组和
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 优先队列（大根堆）
+### Solution 1: Greedy + Priority Queue (Max Heap)
 
-根据题目描述，每一次操作，都会将数组中的一个数减半。要使得数组和至少减少一半的操作次数最少，那么每一次操作都应该选择当前数组中的最大值进行减半。
+According to the problem description, each operation will halve a number in the array. To minimize the number of operations that reduce the array sum by at least half, each operation should halve the current maximum value in the array.
 
-因此，我们先算出数组要减少的总和 $s$，然后用一个优先队列（大根堆）维护数组中的所有数，每次从优先队列中取出最大值 $t$，将其减半，然后将减半后的数重新放入优先队列中，同时更新 $s$，直到 $s \le 0$ 为止。那么此时的操作次数就是答案。
+Therefore, we first calculate the total sum $s$ that the array needs to reduce, and then use a priority queue (max heap) to maintain all the numbers in the array. Each time we take the maximum value $t$ from the priority queue, halve it, and then put the halved number back into the priority queue, while updating $s$, until $s \le 0$. The number of operations at this time is the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

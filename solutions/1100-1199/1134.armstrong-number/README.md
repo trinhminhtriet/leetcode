@@ -1,49 +1,43 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1134.Armstrong%20Number/README.md
+difficulty: Easy
 rating: 1231
-source: 第 5 场双周赛 Q2
+source: Biweekly Contest 5 Q2
 tags:
-    - 数学
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [1134. 阿姆斯特朗数 🔒](https://leetcode.cn/problems/armstrong-number)
+# [1134. Armstrong Number 🔒](https://leetcode.com/problems/armstrong-number)
 
-[English Version](/solution/1100-1199/1134.Armstrong%20Number/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>n</code>&nbsp;，让你来判定他是否是<strong>&nbsp;</strong><strong>阿姆斯特朗数</strong>，是则返回 <code>true</code>，不是则返回 <code>false</code>。</p>
+<p>Given an integer <code>n</code>, return <code>true</code> <em>if and only if it is an <strong>Armstrong number</strong></em>.</p>
 
-<p>假设存在一个 <code>k</code> 位数 <code>n</code>&nbsp;，其每一位上的数字的 <code>k</code> 次幂的总和也是 <code>n</code>&nbsp;，那么这个数是阿姆斯特朗数 。</p>
+<p>The <code>k</code>-digit number <code>n</code> is an Armstrong number if and only if the <code>k<sup>th</sup></code> power of each digit sums to <code>n</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 153
-<strong>输出：</strong>true
-<strong>示例： </strong>
-153 是一个 3 位数，且 153 = 1<sup>3</sup> + 5<sup>3</sup> + 3<sup>3</sup>。
+<strong>Input:</strong> n = 153
+<strong>Output:</strong> true
+<strong>Explanation:</strong> 153 is a 3-digit number, and 153 = 1<sup>3</sup> + 5<sup>3</sup> + 3<sup>3</sup>.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 123
-<strong>输出：</strong>false
-<strong>解释：</strong>123 是一个 3 位数，且 123 != 1<sup>3</sup> + 2<sup>3</sup> + 3<sup>3</sup> = 36。
+<strong>Input:</strong> n = 123
+<strong>Output:</strong> false
+<strong>Explanation:</strong> 123 is a 3-digit number, and 123 != 1<sup>3</sup> + 2<sup>3</sup> + 3<sup>3</sup> = 36.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>8</sup></code></li>
@@ -51,15 +45,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以先计算出数字的位数 $k$，然后计算每一位上的数字的 $k$ 次幂的总和 $s$，最后判断 $s$ 是否等于 $n$ 即可。
+We can first calculate the number of digits $k$, then calculate the sum $s$ of the $k$th power of each digit, and finally check whether $s$ equals $n$.
 
-时间复杂度 $O(\log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为给定的数字。
+The time complexity is $O(\log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the given number.
 
 <!-- tabs:start -->
 

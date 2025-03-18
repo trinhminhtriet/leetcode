@@ -1,97 +1,92 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1106.Parsing%20A%20Boolean%20Expression/README.md
+difficulty: Hard
 rating: 1880
-source: 第 143 场周赛 Q4
+source: Weekly Contest 143 Q4
 tags:
-    - 栈
-    - 递归
-    - 字符串
+    - Stack
+    - Recursion
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1106. 解析布尔表达式](https://leetcode.cn/problems/parsing-a-boolean-expression)
+# [1106. Parsing A Boolean Expression](https://leetcode.com/problems/parsing-a-boolean-expression)
 
-[English Version](/solution/1100-1199/1106.Parsing%20A%20Boolean%20Expression/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong>布尔表达式</strong> 是计算结果不是 <code>true</code> 就是 <code>false</code> 的表达式。有效的表达式需遵循以下约定：</p>
+<p>A <strong>boolean expression</strong> is an expression that evaluates to either <code>true</code> or <code>false</code>. It can be in one of the following shapes:</p>
 
 <ul>
-	<li><code>'t'</code>，运算结果为 <code>true</code></li>
-	<li><code>'f'</code>，运算结果为 <code>false</code></li>
-	<li><code>'!(subExpr)'</code>，运算过程为对内部表达式 <code>subExpr</code> 进行 <strong>逻辑非</strong>（NOT）运算</li>
-	<li><code>'&amp;(subExpr<sub>1</sub>, subExpr<sub>2</sub>, ..., subExpr<sub>n</sub>)'</code>，运算过程为对 2 个或以上内部表达式 <code>subExpr<sub>1</sub>, subExpr<sub>2</sub>, ..., subExpr<sub>n</sub></code> 进行 <strong>逻辑与</strong>（AND）运算</li>
-	<li><code>'|(subExpr<sub>1</sub>, subExpr<sub>2</sub>, ..., subExpr<sub>n</sub>)'</code>，运算过程为对 2 个或以上内部表达式 <code>subExpr<sub>1</sub>, subExpr<sub>2</sub>, ..., subExpr<sub>n</sub></code> 进行 <strong>逻辑或</strong>（OR）运算</li>
+	<li><code>&#39;t&#39;</code> that evaluates to <code>true</code>.</li>
+	<li><code>&#39;f&#39;</code> that evaluates to <code>false</code>.</li>
+	<li><code>&#39;!(subExpr)&#39;</code> that evaluates to <strong>the logical NOT</strong> of the inner expression <code>subExpr</code>.</li>
+	<li><code>&#39;&amp;(subExpr<sub>1</sub>, subExpr<sub>2</sub>, ..., subExpr<sub>n</sub>)&#39;</code> that evaluates to <strong>the logical AND</strong> of the inner expressions <code>subExpr<sub>1</sub>, subExpr<sub>2</sub>, ..., subExpr<sub>n</sub></code> where <code>n &gt;= 1</code>.</li>
+	<li><code>&#39;|(subExpr<sub>1</sub>, subExpr<sub>2</sub>, ..., subExpr<sub>n</sub>)&#39;</code> that evaluates to <strong>the logical OR</strong> of the inner expressions <code>subExpr<sub>1</sub>, subExpr<sub>2</sub>, ..., subExpr<sub>n</sub></code> where <code>n &gt;= 1</code>.</li>
 </ul>
 
-<p>给你一个以字符串形式表述的&nbsp;<a href="https://baike.baidu.com/item/%E5%B8%83%E5%B0%94%E8%A1%A8%E8%BE%BE%E5%BC%8F/1574380?fr=aladdin" target="_blank">布尔表达式</a> <code>expression</code>，返回该式的运算结果。</p>
+<p>Given a string <code>expression</code> that represents a <strong>boolean expression</strong>, return <em>the evaluation of that expression</em>.</p>
 
-<p>题目测试用例所给出的表达式均为有效的布尔表达式，遵循上述约定。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>expression = "&amp;(|(f))"
-<strong>输出：</strong>false
-<strong>解释：</strong>
-首先，计算 |(f) --&gt; f ，表达式变为 "&amp;(f)" 。
-接着，计算 &amp;(f) --&gt; f ，表达式变为 "f" 。
-最后，返回 false 。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>expression = "|(f,f,f,t)"
-<strong>输出：</strong>true
-<strong>解释：</strong>计算 (false OR false OR false OR true) ，结果为 true 。
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>expression = "!(&amp;(f,t))"
-<strong>输出：</strong>true
-<strong>解释：</strong>
-首先，计算 &amp;(f,t) --&gt; (false AND true) --&gt; false --&gt; f ，表达式变为 "!(f)" 。
-接着，计算 !(f) --&gt; NOT false --&gt; true ，返回 true 。
-</pre>
+<p>It is <strong>guaranteed</strong> that the given expression is valid and follows the given rules.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> expression = &quot;&amp;(|(f))&quot;
+<strong>Output:</strong> false
+<strong>Explanation:</strong> 
+First, evaluate |(f) --&gt; f. The expression is now &quot;&amp;(f)&quot;.
+Then, evaluate &amp;(f) --&gt; f. The expression is now &quot;f&quot;.
+Finally, return false.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> expression = &quot;|(f,f,f,t)&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The evaluation of (false OR false OR false OR true) is true.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> expression = &quot;!(&amp;(f,t))&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> 
+First, evaluate &amp;(f,t) --&gt; (false AND true) --&gt; false --&gt; f. The expression is now &quot;!(f)&quot;.
+Then, evaluate !(f) --&gt; NOT false --&gt; true. We return true.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= expression.length &lt;= 2 * 10<sup>4</sup></code></li>
-	<li><code>expression[i]</code> 为 <code>'('</code>、<code>')'</code>、<code>'&amp;'</code>、<code>'|'</code>、<code>'!'</code>、<code>'t'</code>、<code>'f'</code> 和 <code>','</code> 之一</li>
+	<li>expression[i] is one following characters: <code>&#39;(&#39;</code>, <code>&#39;)&#39;</code>, <code>&#39;&amp;&#39;</code>, <code>&#39;|&#39;</code>, <code>&#39;!&#39;</code>, <code>&#39;t&#39;</code>, <code>&#39;f&#39;</code>, and <code>&#39;,&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：栈
+### Solution 1: Stack
 
-对于这种表达式解析问题，我们可以使用栈来辅助解决。
+For this type of expression parsing problem, we can use a stack to assist.
 
-从左到右遍历表达式 `expression`，对于遍历到的每个字符 $c$：
+We traverse the expression `expression` from left to right. For each character $c$ we encounter:
 
--   如果 $c$ 是 `"tf!&|"` 中的一个，我们直接将其入栈；
--   如果 $c$ 是右括号 `')'`，我们将栈中元素依次出栈，直到遇到操作符 `'!'` 或 `'&'` 或 `'|'`。过程中我们用变量 $t$ 和 $f$ 记录出栈字符中 `'t'` 和 `'f'` 的个数。最后根据出栈字符的个数和操作符计算得到新的字符 `'t'` 或 `'f'`，并将其入栈。
+-   If $c$ is one of `"tf!&|"`, we push it directly onto the stack;
+-   If $c$ is a right parenthesis `')'`, we pop elements from the stack until we encounter an operator `'!'`, `'&'`, or `'|'`. During this process, we use variables $t$ and $f$ to record the number of `'t'` and `'f'` characters popped from the stack. Finally, based on the number of characters popped and the operator, we calculate a new character `'t'` or `'f'` and push it onto the stack.
 
-遍历完表达式 `expression` 后，栈中只剩下一个字符，如果是 `'t'`，返回 `true`，否则返回 `false`。
+After traversing the expression `expression`, there is only one character left in the stack. If it is `'t'`, return `true`, otherwise return `false`.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是表达式 `expression` 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the expression `expression`.
 
 <!-- tabs:start -->
 

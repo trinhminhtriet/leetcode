@@ -1,103 +1,88 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1348.Tweet%20Counts%20Per%20Frequency/README.md
+difficulty: Medium
 rating: 2036
-source: 第 175 场周赛 Q3
+source: Weekly Contest 175 Q3
 tags:
-    - 设计
-    - 哈希表
-    - 二分查找
-    - 有序集合
-    - 排序
+    - Design
+    - Hash Table
+    - Binary Search
+    - Ordered Set
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1348. 推文计数](https://leetcode.cn/problems/tweet-counts-per-frequency)
+# [1348. Tweet Counts Per Frequency](https://leetcode.com/problems/tweet-counts-per-frequency)
 
-[English Version](/solution/1300-1399/1348.Tweet%20Counts%20Per%20Frequency/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一家社交媒体公司正试图通过分析特定时间段内出现的推文数量来监控其网站上的活动。这些时间段可以根据特定的频率（&nbsp;<strong>每分钟&nbsp;</strong>、<strong>每小时&nbsp;</strong>或 <strong>每一天</strong> ）划分为更小的 <strong>时间段</strong> 。</p>
+<p>A social media company is trying to monitor activity on their site by analyzing the number of tweets that occur in select periods of time. These periods can be partitioned into smaller <strong>time chunks</strong> based on a certain frequency (every <strong>minute</strong>, <strong>hour</strong>, or <strong>day</strong>).</p>
 
-<p>&nbsp;</p>
-
-<p>例如，周期 <code>[10,10000]</code>&nbsp;（以 <strong>秒</strong> 为单位）将被划分为以下频率的 <strong>时间块</strong> :</p>
+<p>For example, the period <code>[10, 10000]</code> (in <strong>seconds</strong>) would be partitioned into the following <strong>time chunks</strong> with these frequencies:</p>
 
 <ul>
-	<li>每 <strong>分钟</strong> (60秒 块)：<meta charset="UTF-8" />&nbsp;<code>[10,69]</code>,&nbsp;<code>[70,129]</code>,&nbsp;<code>[130,189]</code>,&nbsp;<code>...</code>,&nbsp;<code>[9970,10000]</code></li>
-	<li>每 <strong>小时</strong> (3600秒 块)：<meta charset="UTF-8" /><code>[10,3609]</code>,&nbsp;<code>[3610,7209]</code>,&nbsp;<code>[7210,10000]</code></li>
-	<li>每 <strong>天</strong> (86400秒 块)：<meta charset="UTF-8" />&nbsp;<code>[10,10000]</code></li>
+	<li>Every <strong>minute</strong> (60-second chunks): <code>[10,69]</code>, <code>[70,129]</code>, <code>[130,189]</code>, <code>...</code>, <code>[9970,10000]</code></li>
+	<li>Every <strong>hour</strong> (3600-second chunks): <code>[10,3609]</code>, <code>[3610,7209]</code>, <code>[7210,10000]</code></li>
+	<li>Every <strong>day</strong> (86400-second chunks): <code>[10,10000]</code></li>
 </ul>
 
-<p>注意，最后一个块可能比指定频率的块大小更短，并且总是以时间段的结束时间结束(在上面的示例中为 <code>10000</code> )。</p>
+<p>Notice that the last chunk may be shorter than the specified frequency&#39;s chunk size and will always end with the end time of the period (<code>10000</code> in the above example).</p>
 
-<p>设计和实现一个API来帮助公司进行分析。</p>
+<p>Design and implement an API to help the company with their analysis.</p>
 
-<p>实现 <code>TweetCounts</code> 类:</p>
+<p>Implement the <code>TweetCounts</code> class:</p>
 
 <ul>
-	<li><code>TweetCounts()</code> 初始化 <code>TweetCounts</code> 对象。</li>
-	<li>存储记录时间的 <code>tweetName</code> (以秒为单位)。</li>
-	<li><code>List&lt;integer&gt; getTweetCountsPerFrequency(String freq, String tweetName, int startTime, int endTime)</code>&nbsp;返回一个整数列表，表示给定时间 <code>[startTime, endTime]</code>&nbsp;（单位秒）和频率频率中，每个 <strong>时间块</strong> 中带有 <code>tweetName</code> 的 <code>tweet</code> 的数量。
+	<li><code>TweetCounts()</code> Initializes the <code>TweetCounts</code> object.</li>
+	<li><code>void recordTweet(String tweetName, int time)</code> Stores the <code>tweetName</code> at the recorded <code>time</code> (in <strong>seconds</strong>).</li>
+	<li><code>List&lt;Integer&gt; getTweetCountsPerFrequency(String freq, String tweetName, int startTime, int endTime)</code> Returns a list of integers representing the number of tweets with <code>tweetName</code> in each <strong>time chunk</strong> for the given period of time <code>[startTime, endTime]</code> (in <strong>seconds</strong>) and frequency <code>freq</code>.
 	<ul>
-		<li><code>freq</code> 是 <code>“minute”</code> 、 <code>“hour”</code> 或 <code>“day”</code> 中的一个，分别表示 <strong>每分钟</strong> 、 <strong>每小时</strong> 或 <strong>每一天</strong> 的频率。</li>
+		<li><code>freq</code> is one of <code>&quot;minute&quot;</code>, <code>&quot;hour&quot;</code>, or <code>&quot;day&quot;</code> representing a frequency of every <strong>minute</strong>, <strong>hour</strong>, or <strong>day</strong> respectively.</li>
 	</ul>
 	</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["TweetCounts","recordTweet","recordTweet","recordTweet","getTweetCountsPerFrequency","getTweetCountsPerFrequency","recordTweet","getTweetCountsPerFrequency"]
-[[],["tweet3",0],["tweet3",60],["tweet3",10],["minute","tweet3",0,59],["minute","tweet3",0,60],["tweet3",120],["hour","tweet3",0,210]]
+<strong>Input</strong>
+[&quot;TweetCounts&quot;,&quot;recordTweet&quot;,&quot;recordTweet&quot;,&quot;recordTweet&quot;,&quot;getTweetCountsPerFrequency&quot;,&quot;getTweetCountsPerFrequency&quot;,&quot;recordTweet&quot;,&quot;getTweetCountsPerFrequency&quot;]
+[[],[&quot;tweet3&quot;,0],[&quot;tweet3&quot;,60],[&quot;tweet3&quot;,10],[&quot;minute&quot;,&quot;tweet3&quot;,0,59],[&quot;minute&quot;,&quot;tweet3&quot;,0,60],[&quot;tweet3&quot;,120],[&quot;hour&quot;,&quot;tweet3&quot;,0,210]]
 
-<strong>输出：</strong>
+<strong>Output</strong>
 [null,null,null,null,[2],[2,1],null,[4]]
 
-<strong>解释：</strong>
+<strong>Explanation</strong>
 TweetCounts tweetCounts = new TweetCounts();
-tweetCounts.recordTweet("tweet3", 0);
-tweetCounts.recordTweet("tweet3", 60);
-tweetCounts.recordTweet("tweet3", 10);                             //&nbsp;"tweet3"&nbsp;发布推文的时间分别是&nbsp;0,&nbsp;10&nbsp;和&nbsp;60 。
-tweetCounts.getTweetCountsPerFrequency("minute", "tweet3", 0, 59); //&nbsp;返回&nbsp;[2]。统计频率是每分钟（60 秒），因此只有一个有效时间间隔 [0,60&gt;&nbsp;-&nbsp;&gt;&nbsp;2&nbsp;条推文。
-tweetCounts.getTweetCountsPerFrequency("minute", "tweet3", 0, 60); //&nbsp;返回&nbsp;[2,1]。统计频率是每分钟（60 秒），因此有两个有效时间间隔&nbsp;<strong>1)</strong>&nbsp;[0,60&gt;&nbsp;-&nbsp;&gt;&nbsp;2&nbsp;条推文，和&nbsp;<strong>2)</strong>&nbsp;[60,61&gt;&nbsp;-&nbsp;&gt;&nbsp;1&nbsp;条推文。 
-tweetCounts.recordTweet("tweet3", 120);                            // "tweet3"&nbsp;发布推文的时间分别是 0, 10, 60 和 120 。
-tweetCounts.getTweetCountsPerFrequency("hour", "tweet3", 0, 210);  //&nbsp;返回&nbsp;[4]。统计频率是每小时（3600 秒），因此只有一个有效时间间隔 [0,211&gt;&nbsp;-&nbsp;&gt;&nbsp;4&nbsp;条推文。
+tweetCounts.recordTweet(&quot;tweet3&quot;, 0);                              // New tweet &quot;tweet3&quot; at time 0
+tweetCounts.recordTweet(&quot;tweet3&quot;, 60);                             // New tweet &quot;tweet3&quot; at time 60
+tweetCounts.recordTweet(&quot;tweet3&quot;, 10);                             // New tweet &quot;tweet3&quot; at time 10
+tweetCounts.getTweetCountsPerFrequency(&quot;minute&quot;, &quot;tweet3&quot;, 0, 59); // return [2]; chunk [0,59] had 2 tweets
+tweetCounts.getTweetCountsPerFrequency(&quot;minute&quot;, &quot;tweet3&quot;, 0, 60); // return [2,1]; chunk [0,59] had 2 tweets, chunk [60,60] had 1 tweet
+tweetCounts.recordTweet(&quot;tweet3&quot;, 120);                            // New tweet &quot;tweet3&quot; at time 120
+tweetCounts.getTweetCountsPerFrequency(&quot;hour&quot;, &quot;tweet3&quot;, 0, 210);  // return [4]; chunk [0,210] had 4 tweets
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= time, startTime, endTime &lt;= 10<sup>9</sup></code></li>
 	<li><code>0 &lt;= endTime - startTime &lt;= 10<sup>4</sup></code></li>
-	<li><code>recordTweet</code>&nbsp;和&nbsp;<code>getTweetCountsPerFrequency</code>，最多有<meta charset="UTF-8" />&nbsp;<code>10<sup>4</sup></code>&nbsp;次操作。</li>
+	<li>There will be at most <code>10<sup>4</sup></code> calls <strong>in total</strong> to <code>recordTweet</code> and <code>getTweetCountsPerFrequency</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 有序列表
-
-我们用哈希表 `data` 记录每个用户的推文时间，用有序列表记录每个用户的所有推文时间。
-
-对于 `recordTweet` 操作，我们将推文时间加入到用户的推文时间列表中。
-
-对于 `getTweetCountsPerFrequency` 操作，我们先计算出时间间隔 `f`，然后遍历用户的推文时间列表，统计每个时间间隔内的推文数量。
-
-时间复杂度，对于 `recordTweet` 操作，总的时间复杂度 $O(n \times \log n)$；对于 `getTweetCountsPerFrequency` 操作，总的时间复杂度 $O(q \times (t + \log n))$。其中 $n$, $q$ 和 $t$ 分别表示插入的推文数量，查询的次数和时间间隔的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

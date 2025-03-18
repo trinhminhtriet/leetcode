@@ -1,78 +1,73 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1218.Longest%20Arithmetic%20Subsequence%20of%20Given%20Difference/README.md
+difficulty: Medium
 rating: 1597
-source: 第 157 场周赛 Q2
+source: Weekly Contest 157 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 动态规划
+    - Array
+    - Hash Table
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1218. 最长定差子序列](https://leetcode.cn/problems/longest-arithmetic-subsequence-of-given-difference)
+# [1218. Longest Arithmetic Subsequence of Given Difference](https://leetcode.com/problems/longest-arithmetic-subsequence-of-given-difference)
 
-[English Version](/solution/1200-1299/1218.Longest%20Arithmetic%20Subsequence%20of%20Given%20Difference/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>arr</code> 和一个整数 <code>difference</code>，请你找出并返回 <code>arr</code> 中最长等差子序列的长度，该子序列中相邻元素之间的差等于 <code>difference</code> 。</p>
+<p>Given an integer array <code>arr</code> and an integer <code>difference</code>, return the length of the longest subsequence in <code>arr</code> which is an arithmetic sequence such that the difference between adjacent elements in the subsequence equals <code>difference</code>.</p>
 
-<p><strong>子序列</strong> 是指在不改变其余元素顺序的情况下，通过删除一些元素或不删除任何元素而从 <code>arr</code> 派生出来的序列。</p>
+<p>A <strong>subsequence</strong> is a sequence that can be derived from <code>arr</code> by deleting some or no elements without changing the order of the remaining elements.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [1,2,3,4], difference = 1
-<strong>输出：</strong>4
-<strong>解释：</strong>最长的等差子序列是 [1,2,3,4]。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [1,3,5,7], difference = 1
-<strong>输出：</strong>1
-<strong>解释：</strong>最长的等差子序列是任意单个元素。
+<strong>Input:</strong> arr = [1,2,3,4], difference = 1
+<strong>Output:</strong> 4
+<strong>Explanation: </strong>The longest arithmetic subsequence is [1,2,3,4].</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [1,3,5,7], difference = 1
+<strong>Output:</strong> 1
+<strong>Explanation: </strong>The longest arithmetic subsequence is any single element.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [1,5,7,8,5,3,4,2,1], difference = -2
-<strong>输出：</strong>4
-<strong>解释：</strong>最长的等差子序列是 [7,5,3,1]。
+<strong>Input:</strong> arr = [1,5,7,8,5,3,4,2,1], difference = -2
+<strong>Output:</strong> 4
+<strong>Explanation: </strong>The longest arithmetic subsequence is [7,5,3,1].
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= arr.length <= 10<sup>5</sup></code></li>
-	<li><code>-10<sup>4</sup> <= arr[i], difference <= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= arr.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= arr[i], difference &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们可以使用哈希表 $f$ 来存储以 $x$ 结尾的最长等差子序列的长度。
+We can use a hash table $f$ to store the length of the longest arithmetic subsequence ending with $x$.
 
-遍历数组 $\textit{arr}$，对于每个元素 $x$，我们更新 $f[x]$ 为 $f[x - \textit{difference}] + 1$。
+Traverse the array $\textit{arr}$, and for each element $x$, update $f[x]$ to be $f[x - \textit{difference}] + 1$.
 
-遍历结束后，我们返回 $f$ 中的最大值作为答案返回即可。
+After the traversal, return the maximum value in $f$ as the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{arr}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{arr}$.
 
 <!-- tabs:start -->
 
@@ -133,6 +128,18 @@ func longestSubsequence(arr []int, difference int) (ans int) {
 }
 ```
 
+#### TypeScript
+
+```ts
+function longestSubsequence(arr: number[], difference: number): number {
+    const f: Map<number, number> = new Map();
+    for (const x of arr) {
+        f.set(x, (f.get(x - difference) ?? 0) + 1);
+    }
+    return Math.max(...f.values());
+}
+```
+
 #### Rust
 
 ```rust
@@ -149,18 +156,6 @@ impl Solution {
         }
         ans
     }
-}
-```
-
-#### TypeScript
-
-```ts
-function longestSubsequence(arr: number[], difference: number): number {
-    const f: Map<number, number> = new Map();
-    for (const x of arr) {
-        f.set(x, (f.get(x - difference) ?? 0) + 1);
-    }
-    return Math.max(...f.values());
 }
 ```
 

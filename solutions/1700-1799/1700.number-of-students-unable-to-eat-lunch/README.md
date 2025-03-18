@@ -1,90 +1,88 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1700.Number%20of%20Students%20Unable%20to%20Eat%20Lunch/README.md
+difficulty: Easy
 rating: 1404
-source: 第 42 场双周赛 Q1
+source: Biweekly Contest 42 Q1
 tags:
-    - 栈
-    - 队列
-    - 数组
-    - 模拟
+    - Stack
+    - Queue
+    - Array
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [1700. 无法吃午餐的学生数量](https://leetcode.cn/problems/number-of-students-unable-to-eat-lunch)
+# [1700. Number of Students Unable to Eat Lunch](https://leetcode.com/problems/number-of-students-unable-to-eat-lunch)
 
-[English Version](/solution/1700-1799/1700.Number%20of%20Students%20Unable%20to%20Eat%20Lunch/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>学校的自助午餐提供圆形和方形的三明治，分别用数字 <code>0</code> 和 <code>1</code> 表示。所有学生站在一个队列里，每个学生要么喜欢圆形的要么喜欢方形的。<br>
-餐厅里三明治的数量与学生的数量相同。所有三明治都放在一个 <strong>栈</strong> 里，每一轮：</p>
+<p>The school cafeteria offers circular and square sandwiches at lunch break, referred to by numbers <code>0</code> and <code>1</code> respectively. All students stand in a queue. Each student either prefers square or circular sandwiches.</p>
+
+<p>The number of sandwiches in the cafeteria is equal to the number of students. The sandwiches are placed in a <strong>stack</strong>. At each step:</p>
 
 <ul>
-	<li>如果队列最前面的学生 <strong>喜欢</strong> 栈顶的三明治，那么会 <strong>拿走它</strong> 并离开队列。</li>
-	<li>否则，这名学生会 <strong>放弃这个三明治</strong> 并回到队列的尾部。</li>
+	<li>If the student at the front of the queue <strong>prefers</strong> the sandwich on the top of the stack, they will <strong>take it</strong> and leave the queue.</li>
+	<li>Otherwise, they will <strong>leave it</strong> and go to the queue&#39;s end.</li>
 </ul>
 
-<p>这个过程会一直持续到队列里所有学生都不喜欢栈顶的三明治为止。</p>
+<p>This continues until none of the queue students want to take the top sandwich and are thus unable to eat.</p>
 
-<p>给你两个整数数组 <code>students</code> 和 <code>sandwiches</code> ，其中 <code>sandwiches[i]</code> 是栈里面第 <code>i<sup>​​​​​​</sup></code> 个三明治的类型（<code>i = 0</code> 是栈的顶部）， <code>students[j]</code> 是初始队列里第 <code>j<sup>​​​​​​</sup></code> 名学生对三明治的喜好（<code>j = 0</code> 是队列的最开始位置）。请你返回无法吃午餐的学生数量。</p>
+<p>You are given two integer arrays <code>students</code> and <code>sandwiches</code> where <code>sandwiches[i]</code> is the type of the <code>i<sup>​​​​​​th</sup></code> sandwich in the stack (<code>i = 0</code> is the top of the stack) and <code>students[j]</code> is the preference of the <code>j<sup>​​​​​​th</sup></code> student in the initial queue (<code>j = 0</code> is the front of the queue). Return <em>the number of students that are unable to eat.</em></p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>students = [1,1,0,0], sandwiches = [0,1,0,1]
-<b>输出：</b>0<strong> 
-解释：</strong>
-- 最前面的学生放弃最顶上的三明治，并回到队列的末尾，学生队列变为 students = [1,0,0,1]。
-- 最前面的学生放弃最顶上的三明治，并回到队列的末尾，学生队列变为 students = [0,0,1,1]。
-- 最前面的学生拿走最顶上的三明治，剩余学生队列为 students = [0,1,1]，三明治栈为 sandwiches = [1,0,1]。
-- 最前面的学生放弃最顶上的三明治，并回到队列的末尾，学生队列变为 students = [1,1,0]。
-- 最前面的学生拿走最顶上的三明治，剩余学生队列为 students = [1,0]，三明治栈为 sandwiches = [0,1]。
-- 最前面的学生放弃最顶上的三明治，并回到队列的末尾，学生队列变为 students = [0,1]。
-- 最前面的学生拿走最顶上的三明治，剩余学生队列为 students = [1]，三明治栈为 sandwiches = [1]。
-- 最前面的学生拿走最顶上的三明治，剩余学生队列为 students = []，三明治栈为 sandwiches = []。
-所以所有学生都有三明治吃。
+<pre>
+<strong>Input:</strong> students = [1,1,0,0], sandwiches = [0,1,0,1]
+<strong>Output:</strong> 0<strong> 
+Explanation:</strong>
+- Front student leaves the top sandwich and returns to the end of the line making students = [1,0,0,1].
+- Front student leaves the top sandwich and returns to the end of the line making students = [0,0,1,1].
+- Front student takes the top sandwich and leaves the line making students = [0,1,1] and sandwiches = [1,0,1].
+- Front student leaves the top sandwich and returns to the end of the line making students = [1,1,0].
+- Front student takes the top sandwich and leaves the line making students = [1,0] and sandwiches = [0,1].
+- Front student leaves the top sandwich and returns to the end of the line making students = [0,1].
+- Front student takes the top sandwich and leaves the line making students = [1] and sandwiches = [1].
+- Front student takes the top sandwich and leaves the line making students = [] and sandwiches = [].
+Hence all students are able to eat.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>students = [1,1,1,0,0,1], sandwiches = [1,0,0,0,1,1]
-<b>输出：</b>3
+<pre>
+<strong>Input:</strong> students = [1,1,1,0,0,1], sandwiches = [1,0,0,0,1,1]
+<strong>Output:</strong> 3
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= students.length, sandwiches.length &lt;= 100</code></li>
 	<li><code>students.length == sandwiches.length</code></li>
-	<li><code>sandwiches[i]</code> 要么是 <code>0</code> ，要么是 <code>1</code> 。</li>
-	<li><code>students[i]</code> 要么是 <code>0</code> ，要么是 <code>1</code> 。</li>
+	<li><code>sandwiches[i]</code> is <code>0</code> or <code>1</code>.</li>
+	<li><code>students[i]</code> is <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们观察发现，学生位置可调整，而三明治位置不可调整。也就是说，若前面的三明治没被拿走，则往后的所有三明治也无法被拿走。
+We observe that the positions of the students can be adjusted, but the positions of the sandwiches cannot be adjusted. That is to say, if the sandwich in front is not taken, then all the sandwiches behind cannot be taken.
 
-因此，我们先用计数器 $cnt$ 统计学生喜欢的三明治种类和对应的数量。
+Therefore, we first use a counter $cnt$ to count the types of sandwiches that students like and their corresponding quantities.
 
-然后遍历三明治，若在 $cnt$ 中找不到喜欢此三明治的学生，说明后面的三明治也无法被拿走，返回当前剩余的学生数量。
+Then we traverse the sandwiches. If we cannot find a student who likes this sandwich in $cnt$, it means that the sandwiches behind cannot be taken, and we return the current number of remaining students.
 
-遍历结束。，说明所有学生都有三明治吃，返回 $0$。
+If the traversal is over, it means that all students have sandwiches to eat, and we return $0$.
 
-时间复杂度 $O(n)$，其中 $n$ 为三明治数量。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the number of sandwiches. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

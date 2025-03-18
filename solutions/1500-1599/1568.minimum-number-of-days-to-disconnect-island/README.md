@@ -1,81 +1,69 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1568.Minimum%20Number%20of%20Days%20to%20Disconnect%20Island/README.md
+difficulty: Hard
 rating: 2208
-source: 第 204 场周赛 Q3
+source: Weekly Contest 204 Q3
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 数组
-    - 矩阵
-    - 强连通分量
+    - Depth-First Search
+    - Breadth-First Search
+    - Array
+    - Matrix
+    - Strongly Connected Component
 ---
 
 <!-- problem:start -->
 
-# [1568. 使陆地分离的最少天数](https://leetcode.cn/problems/minimum-number-of-days-to-disconnect-island)
+# [1568. Minimum Number of Days to Disconnect Island](https://leetcode.com/problems/minimum-number-of-days-to-disconnect-island)
 
-[English Version](/solution/1500-1599/1568.Minimum%20Number%20of%20Days%20to%20Disconnect%20Island/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个大小为 <code>m x n</code> ，由若干 <code>0</code> 和 <code>1</code> 组成的二维网格 <code>grid</code> ，其中 <code>1</code> 表示陆地， <code>0</code> 表示水。<strong>岛屿</strong> 由水平方向或竖直方向上相邻的 <code>1</code> （陆地）连接形成。</p>
+<p>You are given an <code>m x n</code> binary grid <code>grid</code> where <code>1</code> represents land and <code>0</code> represents water. An <strong>island</strong> is a maximal <strong>4-directionally</strong> (horizontal or vertical) connected group of <code>1</code>&#39;s.</p>
 
-<p>如果 <strong>恰好只有一座岛屿 </strong>，则认为陆地是 <strong>连通的</strong> ；否则，陆地就是 <strong>分离的</strong> 。</p>
+<p>The grid is said to be <strong>connected</strong> if we have <strong>exactly one island</strong>, otherwise is said <strong>disconnected</strong>.</p>
 
-<p>一天内，可以将 <strong>任何单个</strong> 陆地单元（<code>1</code>）更改为水单元（<code>0</code>）。</p>
+<p>In one day, we are allowed to change <strong>any </strong>single land cell <code>(1)</code> into a water cell <code>(0)</code>.</p>
 
-<p>返回使陆地分离的最少天数。</p>
+<p>Return <em>the minimum number of days to disconnect the grid</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1568.Minimum%20Number%20of%20Days%20to%20Disconnect%20Island/images/land1.jpg" style="width: 500px; height: 169px;" />
 <pre>
-<strong>输入：</strong>grid = [[0,1,1,0],[0,1,1,0],[0,0,0,0]]
-<strong>输出：</strong>2
-<strong>解释：</strong>至少需要 2 天才能得到分离的陆地。
-将陆地 grid[1][1] 和 grid[0][2] 更改为水，得到两个分离的岛屿。</pre>
+<strong>Input:</strong> grid = [[0,1,1,0],[0,1,1,0],[0,0,0,0]]
 
-<p><strong class="example">示例 2：</strong></p>
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> We need at least 2 days to get a disconnected grid.
+Change land grid[1][1] and grid[0][2] to water and get 2 disconnected island.
+
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1568.Minimum%20Number%20of%20Days%20to%20Disconnect%20Island/images/land2.jpg" style="width: 404px; height: 85px;" />
 <pre>
-<strong>输入：</strong>grid = [[1,1]]
-<strong>输出：</strong>2
-<strong>解释：</strong>如果网格中都是水，也认为是分离的 ([[1,1]] -&gt; [[0,0]])，0 岛屿。
+<strong>Input:</strong> grid = [[1,1]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> Grid of full water is also disconnected ([[1,1]] -&gt; [[0,0]]), 0 islands.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 30</code></li>
-	<li><code>grid[i][j]</code> 为 <code>0</code> 或 <code>1</code></li>
+	<li><code>grid[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：脑筋急转弯
-
-观察发现，我们总是可以通过把角落相邻的两个陆地变成水，使得岛屿分离。因此，答案只可能是 0，1 或 2。
-
-我们跑一遍 DFS，统计当前岛屿的数量，如果数量不等于 $1$，也就是说不满足恰好只有一座岛屿，那么答案就是 0。
-
-否则，我们遍历每一块陆地，把它变成水，然后再跑一遍 DFS，看看岛屿的数量是否不等于 1，如果不等于 1，说明这块陆地变成水后，岛屿分离了，答案就是 1。
-
-遍历结束，说明必须要把两块陆地变成水，才能使得岛屿分离，因此答案就是 2。
-
-时间复杂度 $O(m^2\times n^2)$，其中 $m$ 和 $n$ 分别是 `grid` 的行数和列数。
+### Solution 1
 
 <!-- tabs:start -->
 

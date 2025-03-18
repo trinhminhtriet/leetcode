@@ -1,57 +1,50 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2443.Sum%20of%20Number%20and%20Its%20Reverse/README.md
+difficulty: Medium
 rating: 1376
-source: 第 315 场周赛 Q3
+source: Weekly Contest 315 Q3
 tags:
-    - 数学
-    - 枚举
+    - Math
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [2443. 反转之后的数字和](https://leetcode.cn/problems/sum-of-number-and-its-reverse)
+# [2443. Sum of Number and Its Reverse](https://leetcode.com/problems/sum-of-number-and-its-reverse)
 
-[English Version](/solution/2400-2499/2443.Sum%20of%20Number%20and%20Its%20Reverse/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <strong>非负</strong> 整数 <code>num</code> 。如果存在某个 <strong>非负</strong> 整数 <code>k</code> 满足 <code>k + reverse(k) = num</code>&nbsp; ，则返回 <code>true</code> ；否则，返回<em> </em><code>false</code> 。</p>
-
-<p><code>reverse(k)</code> 表示 <code>k</code> 反转每个数位后得到的数字。</p>
+<p>Given a <strong>non-negative</strong> integer <code>num</code>, return <code>true</code><em> if </em><code>num</code><em> can be expressed as the sum of any <strong>non-negative</strong> integer and its reverse, or </em><code>false</code><em> otherwise.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>num = 443
-<strong>输出：</strong>true
-<strong>解释：</strong>172 + 271 = 443 ，所以返回 true 。
+<strong>Input:</strong> num = 443
+<strong>Output:</strong> true
+<strong>Explanation:</strong> 172 + 271 = 443 so we return true.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>num = 63
-<strong>输出：</strong>false
-<strong>解释：</strong>63 不能表示为非负整数及其反转后数字之和，返回 false 。
+<strong>Input:</strong> num = 63
+<strong>Output:</strong> false
+<strong>Explanation:</strong> 63 cannot be expressed as the sum of a non-negative integer and its reverse so we return false.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>num = 181
-<strong>输出：</strong>true
-<strong>解释：</strong>140 + 041 = 181 ，所以返回 true 。注意，反转后的数字可能包含前导零。
+<strong>Input:</strong> num = 181
+<strong>Output:</strong> true
+<strong>Explanation:</strong> 140 + 041 = 181 so we return true. Note that when a number is reversed, there may be leading zeros.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= num &lt;= 10<sup>5</sup></code></li>
@@ -59,15 +52,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：暴力枚举
+### Solution 1: Brute Force Enumeration
 
-在 $[0,.., num]$ 范围内枚举 $k$，判断 $k + reverse(k)$ 是否等于 $num$ 即可。
+Enumerate $k$ in the range $[0,.., num]$, and check whether $k + reverse(k)$ equals $num$.
 
-时间复杂度 $O(n \times \log n)。其中 $n$ 为 $num$ 的大小。
+The time complexity is $O(n \times \log n)$, where $n$ is the size of $num$.
 
 <!-- tabs:start -->
 

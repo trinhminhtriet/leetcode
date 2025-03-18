@@ -1,52 +1,43 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0931.Minimum%20Falling%20Path%20Sum/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 动态规划
-    - 矩阵
+    - Array
+    - Dynamic Programming
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [931. 下降路径最小和](https://leetcode.cn/problems/minimum-falling-path-sum)
+# [931. Minimum Falling Path Sum](https://leetcode.com/problems/minimum-falling-path-sum)
 
-[English Version](/solution/0900-0999/0931.Minimum%20Falling%20Path%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>n x n</code> 的<strong> 方形 </strong>整数数组&nbsp;<code>matrix</code> ，请你找出并返回通过 <code>matrix</code> 的<strong>下降路径</strong><em> </em>的<strong> </strong><strong>最小和</strong> 。</p>
+<p>Given an <code>n x n</code> array of integers <code>matrix</code>, return <em>the <strong>minimum sum</strong> of any <strong>falling path</strong> through</em> <code>matrix</code>.</p>
 
-<p><strong>下降路径</strong> 可以从第一行中的任何元素开始，并从每一行中选择一个元素。在下一行选择的元素和当前行所选元素最多相隔一列（即位于正下方或者沿对角线向左或者向右的第一个元素）。具体来说，位置 <code>(row, col)</code> 的下一个元素应当是 <code>(row + 1, col - 1)</code>、<code>(row + 1, col)</code> 或者 <code>(row + 1, col + 1)</code> 。</p>
+<p>A <strong>falling path</strong> starts at any element in the first row and chooses the element in the next row that is either directly below or diagonally left/right. Specifically, the next element from position <code>(row, col)</code> will be <code>(row + 1, col - 1)</code>, <code>(row + 1, col)</code>, or <code>(row + 1, col + 1)</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0931.Minimum%20Falling%20Path%20Sum/images/1729566253-aneDag-image.png" style="height: 500px; width: 499px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0931.Minimum%20Falling%20Path%20Sum/images/failing1-grid.jpg" style="width: 499px; height: 500px;" />
 <pre>
-<strong>输入：</strong>matrix = [[2,1,3],[6,5,4],[7,8,9]]
-<strong>输出：</strong>13
-<strong>解释：</strong>如图所示，为和最小的两条下降路径
+<strong>Input:</strong> matrix = [[2,1,3],[6,5,4],[7,8,9]]
+<strong>Output:</strong> 13
+<strong>Explanation:</strong> There are two falling paths with a minimum sum as shown.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0931.Minimum%20Falling%20Path%20Sum/images/1729566282-dtXwRd-image.png" style="height: 365px; width: 164px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0931.Minimum%20Falling%20Path%20Sum/images/failing2-grid.jpg" style="width: 164px; height: 365px;" />
 <pre>
-<strong>输入：</strong>matrix = [[-19,57],[-40,-5]]
-<strong>输出：</strong>-59
-<strong>解释：</strong>如图所示，为和最小的下降路径
+<strong>Input:</strong> matrix = [[-19,57],[-40,-5]]
+<strong>Output:</strong> -59
+<strong>Explanation:</strong> The falling path with a minimum sum is shown.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == matrix.length == matrix[i].length</code></li>
@@ -56,23 +47,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
-
-我们定义 $f[i][j]$ 表示从第一行开始下降，到达第 $i$ 行第 $j$ 列的最小路径和。那么我们可以得到这样的动态规划转移方程：
-
-$$
-f[i][j] = matrix[i][j] + \min \left\{ \begin{aligned} & f[i - 1][j - 1], & j > 0 \\ & f[i - 1][j], & 0 \leq j < n \\ & f[i - 1][j + 1], & j + 1 < n \end{aligned} \right.
-$$
-
-最终的答案即为 $\min \limits_{0 \leq j < n} f[n - 1][j]$。
-
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。
-
-我们注意到，状态 $f[i][j]$ 只与上一行的状态有关，因此我们可以使用滚动数组的方式，去掉第一维的状态，将空间复杂度优化到 $O(n)$。
+### Solution 1
 
 <!-- tabs:start -->
 

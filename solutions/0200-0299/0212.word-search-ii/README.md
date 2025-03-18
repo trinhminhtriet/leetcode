@@ -1,75 +1,62 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0212.Word%20Search%20II/README.md
+difficulty: Hard
 tags:
-    - 字典树
-    - 数组
-    - 字符串
-    - 回溯
-    - 矩阵
+    - Trie
+    - Array
+    - String
+    - Backtracking
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [212. 单词搜索 II](https://leetcode.cn/problems/word-search-ii)
+# [212. Word Search II](https://leetcode.com/problems/word-search-ii)
 
-[English Version](/solution/0200-0299/0212.Word%20Search%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个&nbsp;<code>m x n</code> 二维字符网格&nbsp;<code>board</code><strong>&nbsp;</strong>和一个单词（字符串）列表 <code>words</code>，&nbsp;<em>返回所有二维网格上的单词</em>&nbsp;。</p>
+<p>Given an <code>m x n</code> <code>board</code>&nbsp;of characters and a list of strings <code>words</code>, return <em>all words on the board</em>.</p>
 
-<p>单词必须按照字母顺序，通过 <strong>相邻的单元格</strong> 内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母在一个单词中不允许被重复使用。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0212.Word%20Search%20II/images/search1.jpg" />
-<pre>
-<strong>输入：</strong>board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], words = ["oath","pea","eat","rain"]
-<strong>输出：</strong>["eat","oath"]
-</pre>
-
-<p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0212.Word%20Search%20II/images/search2.jpg" />
-<pre>
-<strong>输入：</strong>board = [["a","b"],["c","d"]], words = ["abcb"]
-<strong>输出：</strong>[]
-</pre>
+<p>Each word must be constructed from letters of sequentially adjacent cells, where <strong>adjacent cells</strong> are horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0212.Word%20Search%20II/images/search1.jpg" style="width: 322px; height: 322px;" />
+<pre>
+<strong>Input:</strong> board = [[&quot;o&quot;,&quot;a&quot;,&quot;a&quot;,&quot;n&quot;],[&quot;e&quot;,&quot;t&quot;,&quot;a&quot;,&quot;e&quot;],[&quot;i&quot;,&quot;h&quot;,&quot;k&quot;,&quot;r&quot;],[&quot;i&quot;,&quot;f&quot;,&quot;l&quot;,&quot;v&quot;]], words = [&quot;oath&quot;,&quot;pea&quot;,&quot;eat&quot;,&quot;rain&quot;]
+<strong>Output:</strong> [&quot;eat&quot;,&quot;oath&quot;]
+</pre>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0212.Word%20Search%20II/images/search2.jpg" style="width: 162px; height: 162px;" />
+<pre>
+<strong>Input:</strong> board = [[&quot;a&quot;,&quot;b&quot;],[&quot;c&quot;,&quot;d&quot;]], words = [&quot;abcb&quot;]
+<strong>Output:</strong> []
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == board.length</code></li>
 	<li><code>n == board[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 12</code></li>
-	<li><code>board[i][j]</code> 是一个小写英文字母</li>
+	<li><code>board[i][j]</code> is a lowercase English letter.</li>
 	<li><code>1 &lt;= words.length &lt;= 3 * 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 10</code></li>
-	<li><code>words[i]</code> 由小写英文字母组成</li>
-	<li><code>words</code> 中的所有字符串互不相同</li>
+	<li><code>words[i]</code> consists of lowercase English letters.</li>
+	<li>All the strings of <code>words</code> are unique.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀树 + DFS
-
-我们首先将 `words` 中的单词构建成前缀树，前缀树的每个节点包含一个长度为 $26$ 的数组 `children`，表示该节点的子节点，数组的下标表示子节点对应的字符，数组的值表示子节点的引用。同时，每个节点还包含一个整数 `ref`，表示该节点对应的单词在 `words` 中的引用，如果该节点不是单词的结尾，则 `ref` 的值为 $-1$。
-
-接下来，我们对于 `board` 中的每个单元格，从该单元格出发，进行深度优先搜索，搜索过程中，如果当前单词不是前缀树中的单词，则剪枝，如果当前单词是前缀树中的单词，则将该单词加入答案，并将该单词在前缀树中的引用置为 $-1$，表示该单词已经被找到，不需要再次搜索。
-
-最后，我们将答案返回即可。
-
-时间复杂度 $(m \times n \times 3^{l-1})$，空间复杂度 $(k \times l)$。其中 $m$ 和 $n$ 分别是 `board` 的行数和列数。而 $l$ 和 $k$ 分别是 `words` 中的单词的平均长度和单词的个数。
+### Solution 1
 
 <!-- tabs:start -->
 

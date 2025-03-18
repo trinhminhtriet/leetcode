@@ -1,97 +1,93 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2276.Count%20Integers%20in%20Intervals/README.md
+difficulty: Hard
 rating: 2222
-source: 第 293 场周赛 Q4
+source: Weekly Contest 293 Q4
 tags:
-    - 设计
-    - 线段树
-    - 有序集合
+    - Design
+    - Segment Tree
+    - Ordered Set
 ---
 
 <!-- problem:start -->
 
-# [2276. 统计区间中的整数数目](https://leetcode.cn/problems/count-integers-in-intervals)
+# [2276. Count Integers in Intervals](https://leetcode.com/problems/count-integers-in-intervals)
 
-[English Version](/solution/2200-2299/2276.Count%20Integers%20in%20Intervals/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你区间的 <strong>空</strong> 集，请你设计并实现满足要求的数据结构：</p>
+<p>Given an <strong>empty</strong> set of intervals, implement a data structure that can:</p>
 
 <ul>
-	<li><strong>新增：</strong>添加一个区间到这个区间集合中。</li>
-	<li><strong>统计：</strong>计算出现在 <strong>至少一个</strong> 区间中的整数个数。</li>
+	<li><strong>Add</strong> an interval to the set of intervals.</li>
+	<li><strong>Count</strong> the number of integers that are present in <strong>at least one</strong> interval.</li>
 </ul>
 
-<p>实现 <code>CountIntervals</code> 类：</p>
+<p>Implement the <code>CountIntervals</code> class:</p>
 
 <ul>
-	<li><code>CountIntervals()</code> 使用区间的空集初始化对象</li>
-	<li><code>void add(int left, int right)</code> 添加区间 <code>[left, right]</code> 到区间集合之中。</li>
-	<li><code>int count()</code> 返回出现在 <strong>至少一个</strong> 区间中的整数个数。</li>
+	<li><code>CountIntervals()</code> Initializes the object with an empty set of intervals.</li>
+	<li><code>void add(int left, int right)</code> Adds the interval <code>[left, right]</code> to the set of intervals.</li>
+	<li><code>int count()</code> Returns the number of integers that are present in <strong>at least one</strong> interval.</li>
 </ul>
 
-<p><strong>注意：</strong>区间 <code>[left, right]</code> 表示满足 <code>left &lt;= x &lt;= right</code> 的所有整数 <code>x</code> 。</p>
+<p><strong>Note</strong> that an interval <code>[left, right]</code> denotes all the integers <code>x</code> where <code>left &lt;= x &lt;= right</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["CountIntervals", "add", "add", "count", "add", "count"]
+<strong>Input</strong>
+[&quot;CountIntervals&quot;, &quot;add&quot;, &quot;add&quot;, &quot;count&quot;, &quot;add&quot;, &quot;count&quot;]
 [[], [2, 3], [7, 10], [], [5, 8], []]
-<strong>输出</strong>
+<strong>Output</strong>
 [null, null, null, 6, null, 8]
 
-<strong>解释</strong>
-CountIntervals countIntervals = new CountIntervals(); // 用一个区间空集初始化对象
-countIntervals.add(2, 3);  // 将 [2, 3] 添加到区间集合中
-countIntervals.add(7, 10); // 将 [7, 10] 添加到区间集合中
-countIntervals.count();    // 返回 6
-                           // 整数 2 和 3 出现在区间 [2, 3] 中
-                           // 整数 7、8、9、10 出现在区间 [7, 10] 中
-countIntervals.add(5, 8);  // 将 [5, 8] 添加到区间集合中
-countIntervals.count();    // 返回 8
-                           // 整数 2 和 3 出现在区间 [2, 3] 中
-                           // 整数 5 和 6 出现在区间 [5, 8] 中
-                           // 整数 7 和 8 出现在区间 [5, 8] 和区间 [7, 10] 中
-                           // 整数 9 和 10 出现在区间 [7, 10] 中</pre>
+<strong>Explanation</strong>
+CountIntervals countIntervals = new CountIntervals(); // initialize the object with an empty set of intervals. 
+countIntervals.add(2, 3);  // add [2, 3] to the set of intervals.
+countIntervals.add(7, 10); // add [7, 10] to the set of intervals.
+countIntervals.count();    // return 6
+                           // the integers 2 and 3 are present in the interval [2, 3].
+                           // the integers 7, 8, 9, and 10 are present in the interval [7, 10].
+countIntervals.add(5, 8);  // add [5, 8] to the set of intervals.
+countIntervals.count();    // return 8
+                           // the integers 2 and 3 are present in the interval [2, 3].
+                           // the integers 5 and 6 are present in the interval [5, 8].
+                           // the integers 7 and 8 are present in the intervals [5, 8] and [7, 10].
+                           // the integers 9 and 10 are present in the interval [7, 10].
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= left &lt;= right &lt;= 10<sup>9</sup></code></li>
-	<li>最多调用&nbsp; <code>add</code> 和 <code>count</code> 方法 <strong>总计</strong> <code>10<sup>5</sup></code> 次</li>
-	<li>调用 <code>count</code> 方法至少一次</li>
+	<li>At most <code>10<sup>5</sup></code> calls <strong>in total</strong> will be made to <code>add</code> and <code>count</code>.</li>
+	<li>At least <strong>one</strong> call will be made to <code>count</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：线段树（动态开点）
+### Solution 1: Segment Tree (Dynamic Opening)
 
-根据题目描述，我们需要维护一个区间集合，支持区间的添加和查询操作。对于区间的添加，我们可以使用线段树来维护区间集合。
+According to the problem description, we need to maintain a set of intervals that supports adding intervals and querying operations. For adding intervals, we can use a segment tree to maintain the interval set.
 
-线段树将整个区间分割为多个不连续的子区间，子区间的数量不超过 $\log(width)$。更新某个元素的值，只需要更新 $\log(width)$ 个区间，并且这些区间都包含在一个包含该元素的大区间内。区间修改时，需要使用**懒标记**保证效率。
+The segment tree divides the entire interval into multiple non-contiguous sub-intervals, with the number of sub-intervals not exceeding $\log(width)$. To update the value of an element, we only need to update $\log(width)$ intervals, and these intervals are all contained within a larger interval that includes the element. When modifying intervals, we need to use **lazy propagation** to ensure efficiency.
 
--   线段树的每个节点代表一个区间；
--   线段树具有唯一的根节点，代表的区间是整个统计范围，如 $[1,N]$；
--   线段树的每个叶子节点代表一个长度为 $1$ 的元区间 $[x,x]$；
--   对于每个内部节点 $[l,r]$，它的左儿子是 $[l,mid]$，右儿子是 $[mid+1,r]$, 其中 $mid=⌊(l+r)/2⌋$ (即向下取整)。
+-   Each node of the segment tree represents an interval;
+-   The segment tree has a unique root node representing the entire range, such as $[1, N]$;
+-   Each leaf node of the segment tree represents a unit interval of length 1, $[x, x]$;
+-   For each internal node $[l, r]$, its left child is $[l, mid]$ and its right child is $[mid+1, r]$, where $mid = \lfloor (l + r) / 2 \rfloor$ (i.e., floor division).
 
-由于题目数据范围较大，我们可以使用动态开点的线段树来实现。动态开点的线段树是指，我们只在需要的时候才开点，而不是一开始就开好所有的点，这样可以节省空间。
+Since the data range in the problem is large, we can use a dynamically opened segment tree. A dynamically opened segment tree means that we only open nodes when needed, rather than opening all nodes at the beginning, which saves space.
 
-时间复杂度方面，每次操作的时间复杂度为 $O(\log n)$。空间复杂度为 $O(m \times \log n)$。其中 $m$ 为操作次数，而 $n$ 为数据范围。
+In terms of time complexity, each operation has a time complexity of $O(\log n)$. The space complexity is $O(m \times \log n)$, where $m$ is the number of operations and $n$ is the data range.
 
 <!-- tabs:start -->
 

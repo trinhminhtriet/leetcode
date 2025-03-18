@@ -1,59 +1,54 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0812.Largest%20Triangle%20Area/README.md
+difficulty: Easy
 tags:
-    - 几何
-    - 数组
-    - 数学
+    - Geometry
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [812. 最大三角形面积](https://leetcode.cn/problems/largest-triangle-area)
+# [812. Largest Triangle Area](https://leetcode.com/problems/largest-triangle-area)
 
-[English Version](/solution/0800-0899/0812.Largest%20Triangle%20Area/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个由 <strong>X-Y</strong> 平面上的点组成的数组 <code>points</code> ，其中 <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> 。从其中取任意三个不同的点组成三角形，返回能组成的最大三角形的面积。与真实值误差在 <code>10<sup>-5</sup></code> 内的答案将会视为正确答案<strong>。</strong></p>
+<p>Given an array of points on the <strong>X-Y</strong> plane <code>points</code> where <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code>, return <em>the area of the largest triangle that can be formed by any three different points</em>. Answers within <code>10<sup>-5</sup></code> of the actual answer will be accepted.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0812.Largest%20Triangle%20Area/images/1027.png" style="height: 369px; width: 450px;" />
 <pre>
-<strong>输入：</strong>points = [[0,0],[0,1],[1,0],[0,2],[2,0]]
-<strong>输出：</strong>2.00000
-<strong>解释：</strong>输入中的 5 个点如上图所示，红色的三角形面积最大。
+<strong>Input:</strong> points = [[0,0],[0,1],[1,0],[0,2],[2,0]]
+<strong>Output:</strong> 2.00000
+<strong>Explanation:</strong> The five points are shown in the above figure. The red triangle is the largest.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>points = [[1,0],[0,0],[0,1]]
-<strong>输出：</strong>0.50000
+<strong>Input:</strong> points = [[1,0],[0,0],[0,1]]
+<strong>Output:</strong> 0.50000
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= points.length &lt;= 50</code></li>
 	<li><code>-50 &lt;= x<sub>i</sub>, y<sub>i</sub> &lt;= 50</code></li>
-	<li>给出的所有点 <strong>互不相同</strong></li>
+	<li>All the given points are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

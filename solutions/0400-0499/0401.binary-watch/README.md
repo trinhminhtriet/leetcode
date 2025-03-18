@@ -1,63 +1,51 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0401.Binary%20Watch/README.md
+difficulty: Easy
 tags:
-    - 位运算
-    - 回溯
+    - Bit Manipulation
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [401. 二进制手表](https://leetcode.cn/problems/binary-watch)
+# [401. Binary Watch](https://leetcode.com/problems/binary-watch)
 
-[English Version](/solution/0400-0499/0401.Binary%20Watch/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>二进制手表顶部有 4 个 LED 代表<strong> 小时（0-11）</strong>，底部的 6 个 LED 代表<strong> 分钟（0-59）</strong>。每个 LED 代表一个 0 或 1，最低位在右侧。</p>
+<p>A binary watch has 4 LEDs on the top to represent the hours (0-11), and 6 LEDs on the bottom to represent&nbsp;the minutes (0-59). Each LED represents a zero or one, with the least significant bit on the right.</p>
 
 <ul>
-	<li>例如，下面的二进制手表读取 <code>"4:51"</code> 。</li>
+	<li>For example, the below binary watch reads <code>&quot;4:51&quot;</code>.</li>
 </ul>
 
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0401.Binary%20Watch/images/binarywatch.jpg" style="height: 300px; width" /></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0401.Binary%20Watch/images/binarywatch.jpg" style="width: 500px; height: 500px;" /></p>
 
-<p>给你一个整数 <code>turnedOn</code> ，表示当前亮着的 LED 的数量，返回二进制手表可以表示的所有可能时间。你可以 <strong>按任意顺序</strong> 返回答案。</p>
+<p>Given an integer <code>turnedOn</code> which represents the number of LEDs that are currently on (ignoring the PM), return <em>all possible times the watch could represent</em>. You may return the answer in <strong>any order</strong>.</p>
 
-<p>小时不会以零开头：</p>
+<p>The hour must not contain a leading zero.</p>
 
 <ul>
-	<li>例如，<code>"01:00"</code> 是无效的时间，正确的写法应该是 <code>"1:00"</code> 。</li>
+	<li>For example, <code>&quot;01:00&quot;</code> is not valid. It should be <code>&quot;1:00&quot;</code>.</li>
 </ul>
 
-<p>分钟必须由两位数组成，可能会以零开头：</p>
+<p>The minute must&nbsp;consist of two digits and may contain a leading zero.</p>
 
 <ul>
-	<li>例如，<code>"10:2"</code> 是无效的时间，正确的写法应该是 <code>"10:02"</code> 。</li>
+	<li>For example, <code>&quot;10:2&quot;</code> is not valid. It should be <code>&quot;10:02&quot;</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>turnedOn = 1
-<strong>输出：</strong>["0:01","0:02","0:04","0:08","0:16","0:32","1:00","2:00","4:00","8:00"]
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> turnedOn = 1
+<strong>Output:</strong> ["0:01","0:02","0:04","0:08","0:16","0:32","1:00","2:00","4:00","8:00"]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> turnedOn = 9
+<strong>Output:</strong> []
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>turnedOn = 9
-<strong>输出：</strong>[]
-</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= turnedOn &lt;= 10</code></li>
@@ -65,15 +53,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举组合
-
-题目可转换为求 i(`i∈[0,12)`) 和 j(`j∈[0,60)`) 所有可能的组合。
-
-合法组合需要满足的条件是：i 的二进制形式中 1 的个数加上 j 的二进制形式中 1 的个数，结果等于 turnedOn。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -236,9 +220,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：二进制枚举
-
-利用 10 个二进制位表示手表，其中前 4 位代表小时，后 6 位代表分钟。枚举 `[0, 1 << 10)` 的所有数，找出合法的数。
+### Solution 2
 
 <!-- tabs:start -->
 

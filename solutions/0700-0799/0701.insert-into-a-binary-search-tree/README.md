@@ -1,79 +1,74 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0701.Insert%20into%20a%20Binary%20Search%20Tree/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 二叉搜索树
-    - 二叉树
+    - Tree
+    - Binary Search Tree
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [701. 二叉搜索树中的插入操作](https://leetcode.cn/problems/insert-into-a-binary-search-tree)
+# [701. Insert into a Binary Search Tree](https://leetcode.com/problems/insert-into-a-binary-search-tree)
 
-[English Version](/solution/0700-0799/0701.Insert%20into%20a%20Binary%20Search%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定二叉搜索树（BST）的根节点<meta charset="UTF-8" />&nbsp;<code>root</code>&nbsp;和要插入树中的值<meta charset="UTF-8" />&nbsp;<code>value</code>&nbsp;，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。 输入数据 <strong>保证</strong> ，新值和原始二叉搜索树中的任意节点值都不同。</p>
+<p>You are given the <code>root</code> node of a binary search tree (BST) and a <code>value</code> to insert into the tree. Return <em>the root node of the BST after the insertion</em>. It is <strong>guaranteed</strong> that the new value does not exist in the original BST.</p>
 
-<p><strong>注意</strong>，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回 <strong>任意有效的结果</strong> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0701.Insert%20into%20a%20Binary%20Search%20Tree/images/insertbst.jpg" />
-<pre>
-<strong>输入：</strong>root = [4,2,7,1,3], val = 5
-<strong>输出：</strong>[4,2,7,1,3,5]
-<strong>解释：</strong>另一个满足题目要求可以通过的树是：
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0701.Insert%20into%20a%20Binary%20Search%20Tree/images/bst.jpg" />
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>root = [40,20,60,10,30,50,70], val = 25
-<strong>输出：</strong>[40,20,60,10,30,50,70,null,null,25]
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>root = [4,2,7,1,3,null,null,null,null,null,null], val = 5
-<strong>输出：</strong>[4,2,7,1,3,5]
-</pre>
+<p><strong>Notice</strong>&nbsp;that there may exist&nbsp;multiple valid ways for the&nbsp;insertion, as long as the tree remains a BST after insertion. You can return <strong>any of them</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0701.Insert%20into%20a%20Binary%20Search%20Tree/images/insertbst.jpg" style="width: 752px; height: 221px;" />
+<pre>
+<strong>Input:</strong> root = [4,2,7,1,3], val = 5
+<strong>Output:</strong> [4,2,7,1,3,5]
+<strong>Explanation:</strong> Another accepted tree is:
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0701.Insert%20into%20a%20Binary%20Search%20Tree/images/bst.jpg" style="width: 352px; height: 301px;" />
+</pre>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> root = [40,20,60,10,30,50,70], val = 25
+<strong>Output:</strong> [40,20,60,10,30,50,70,null,null,25]
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> root = [4,2,7,1,3,null,null,null,null,null,null], val = 5
+<strong>Output:</strong> [4,2,7,1,3,5]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中的节点数将在<meta charset="UTF-8" />&nbsp;<code>[0,&nbsp;10<sup>4</sup>]</code>的范围内。<meta charset="UTF-8" /></li>
-	<li><code>-10<sup>8</sup>&nbsp;&lt;= Node.val &lt;= 10<sup>8</sup></code></li>
-	<li>所有值&nbsp;<meta charset="UTF-8" /><code>Node.val</code>&nbsp;是&nbsp;<strong>独一无二</strong>&nbsp;的。</li>
-	<li><code>-10<sup>8</sup>&nbsp;&lt;= val &lt;= 10<sup>8</sup></code></li>
-	<li><strong>保证</strong>&nbsp;<code>val</code>&nbsp;在原始BST中不存在。</li>
+	<li>The number of nodes in&nbsp;the tree will be in the range <code>[0,&nbsp;10<sup>4</sup>]</code>.</li>
+	<li><code>-10<sup>8</sup> &lt;= Node.val &lt;= 10<sup>8</sup></code></li>
+	<li>All the values <code>Node.val</code> are <strong>unique</strong>.</li>
+	<li><code>-10<sup>8</sup> &lt;= val &lt;= 10<sup>8</sup></code></li>
+	<li>It&#39;s <strong>guaranteed</strong> that <code>val</code> does not exist in the original BST.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
+### Solution 1: Recursion
 
-如果根节点为空，我们直接创建一个新节点，值为 $\textit{val}$，并返回。
+If the root node is null, we directly create a new node with the value $\textit{val}$ and return it.
 
-如果根节点的值大于 $\textit{val}$，我们递归地将 $\textit{val}$ 插入到左子树中，并将左子树的根节点更新为返回后的根节点。
+If the root node's value is greater than $\textit{val}$, we recursively insert $\textit{val}$ into the left subtree and update the root of the left subtree with the returned root node.
 
-如果根节点的值小于 $\textit{val}$，我们递归地将 $\textit{val}$ 插入到右子树中，并将右子树的根节点更新为返回后的根节点。
+If the root node's value is less than $\textit{val}$, we recursively insert $\textit{val}$ into the right subtree and update the root of the right subtree with the returned root node.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 

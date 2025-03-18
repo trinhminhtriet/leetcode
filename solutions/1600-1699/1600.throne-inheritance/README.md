@@ -1,112 +1,107 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1600.Throne%20Inheritance/README.md
+difficulty: Medium
 rating: 1768
-source: 第 208 场周赛 Q3
+source: Weekly Contest 208 Q3
 tags:
-    - 树
-    - 深度优先搜索
-    - 设计
-    - 哈希表
+    - Tree
+    - Depth-First Search
+    - Design
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [1600. 王位继承顺序](https://leetcode.cn/problems/throne-inheritance)
+# [1600. Throne Inheritance](https://leetcode.com/problems/throne-inheritance)
 
-[English Version](/solution/1600-1699/1600.Throne%20Inheritance/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个王国里住着国王、他的孩子们、他的孙子们等等。每一个时间点，这个家庭里有人出生也有人死亡。</p>
+<p>A kingdom consists of a king, his children, his grandchildren, and so on. Every once in a while, someone in the family dies or a child is born.</p>
 
-<p>这个王国有一个明确规定的王位继承顺序，第一继承人总是国王自己。我们定义递归函数&nbsp;<code>Successor(x, curOrder)</code>&nbsp;，给定一个人&nbsp;<code>x</code>&nbsp;和当前的继承顺序，该函数返回 <code>x</code>&nbsp;的下一继承人。</p>
+<p>The kingdom has a well-defined order of inheritance that consists of the king as the first member. Let&#39;s define the recursive function <code>Successor(x, curOrder)</code>, which given a person <code>x</code> and the inheritance order so far, returns who should be the next person after <code>x</code> in the order of inheritance.</p>
 
 <pre>
 Successor(x, curOrder):
-    如果 x 没有孩子或者所有 x 的孩子都在 curOrder 中：
-        如果 x 是国王，那么返回 null
-        否则，返回 Successor(x 的父亲, curOrder)
-    否则，返回 x 不在 curOrder 中最年长的孩子
+    if x has no children or all of x&#39;s children are in curOrder:
+        if x is the king return null
+        else return Successor(x&#39;s parent, curOrder)
+    else return x&#39;s oldest child who&#39;s not in curOrder
 </pre>
 
-<p>比方说，假设王国由国王，他的孩子&nbsp;Alice 和 Bob （Alice 比 Bob&nbsp;年长）和 Alice 的孩子&nbsp;Jack 组成。</p>
+<p>For example, assume we have a kingdom that consists of the king, his children Alice and Bob (Alice is older than Bob), and finally Alice&#39;s son Jack.</p>
 
 <ol>
-	<li>一开始，&nbsp;<code>curOrder</code>&nbsp;为&nbsp;<code>["king"]</code>.</li>
-	<li>调用&nbsp;<code>Successor(king, curOrder)</code>&nbsp;，返回 Alice ，所以我们将 Alice 放入 <code>curOrder</code>&nbsp;中，得到&nbsp;<code>["king", "Alice"]</code>&nbsp;。</li>
-	<li>调用&nbsp;<code>Successor(Alice, curOrder)</code>&nbsp;，返回 Jack ，所以我们将 Jack 放入&nbsp;<code>curOrder</code>&nbsp;中，得到&nbsp;<code>["king", "Alice", "Jack"]</code>&nbsp;。</li>
-	<li>调用&nbsp;<code>Successor(Jack, curOrder)</code>&nbsp;，返回 Bob ，所以我们将 Bob 放入&nbsp;<code>curOrder</code>&nbsp;中，得到&nbsp;<code>["king", "Alice", "Jack", "Bob"]</code>&nbsp;。</li>
-	<li>调用&nbsp;<code>Successor(Bob, curOrder)</code>&nbsp;，返回&nbsp;<code>null</code>&nbsp;。最终得到继承顺序为&nbsp;<code>["king", "Alice", "Jack", "Bob"]</code>&nbsp;。</li>
+	<li>In the beginning, <code>curOrder</code> will be <code>[&quot;king&quot;]</code>.</li>
+	<li>Calling <code>Successor(king, curOrder)</code> will return Alice, so we append to <code>curOrder</code> to get <code>[&quot;king&quot;, &quot;Alice&quot;]</code>.</li>
+	<li>Calling <code>Successor(Alice, curOrder)</code> will return Jack, so we append to <code>curOrder</code> to get <code>[&quot;king&quot;, &quot;Alice&quot;, &quot;Jack&quot;]</code>.</li>
+	<li>Calling <code>Successor(Jack, curOrder)</code> will return Bob, so we append to <code>curOrder</code> to get <code>[&quot;king&quot;, &quot;Alice&quot;, &quot;Jack&quot;, &quot;Bob&quot;]</code>.</li>
+	<li>Calling <code>Successor(Bob, curOrder)</code> will return <code>null</code>. Thus the order of inheritance will be <code>[&quot;king&quot;, &quot;Alice&quot;, &quot;Jack&quot;, &quot;Bob&quot;]</code>.</li>
 </ol>
 
-<p>通过以上的函数，我们总是能得到一个唯一的继承顺序。</p>
+<p>Using the above function, we can always obtain a unique order of inheritance.</p>
 
-<p>请你实现&nbsp;<code>ThroneInheritance</code>&nbsp;类：</p>
+<p>Implement the <code>ThroneInheritance</code> class:</p>
 
 <ul>
-	<li><code>ThroneInheritance(string kingName)</code> 初始化一个&nbsp;<code>ThroneInheritance</code>&nbsp;类的对象。国王的名字作为构造函数的参数传入。</li>
-	<li><code>void birth(string parentName, string childName)</code>&nbsp;表示&nbsp;<code>parentName</code>&nbsp;新拥有了一个名为&nbsp;<code>childName</code>&nbsp;的孩子。</li>
-	<li><code>void death(string name)</code>&nbsp;表示名为&nbsp;<code>name</code>&nbsp;的人死亡。一个人的死亡不会影响&nbsp;<code>Successor</code>&nbsp;函数，也不会影响当前的继承顺序。你可以只将这个人标记为死亡状态。</li>
-	<li><code>string[] getInheritanceOrder()</code>&nbsp;返回 <strong>除去</strong>&nbsp;死亡人员的当前继承顺序列表。</li>
+	<li><code>ThroneInheritance(string kingName)</code> Initializes an object of the <code>ThroneInheritance</code> class. The name of the king is given as part of the constructor.</li>
+	<li><code>void birth(string parentName, string childName)</code> Indicates that <code>parentName</code> gave birth to <code>childName</code>.</li>
+	<li><code>void death(string name)</code> Indicates the death of <code>name</code>. The death of the person doesn&#39;t affect the <code>Successor</code> function nor the current inheritance order. You can treat it as just marking the person as dead.</li>
+	<li><code>string[] getInheritanceOrder()</code> Returns a list representing the current order of inheritance <strong>excluding</strong> dead people.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["ThroneInheritance", "birth", "birth", "birth", "birth", "birth", "birth", "getInheritanceOrder", "death", "getInheritanceOrder"]
-[["king"], ["king", "andy"], ["king", "bob"], ["king", "catherine"], ["andy", "matthew"], ["bob", "alex"], ["bob", "asha"], [null], ["bob"], [null]]
-<strong>输出：</strong>
-[null, null, null, null, null, null, null, ["king", "andy", "matthew", "bob", "alex", "asha", "catherine"], null, ["king", "andy", "matthew", "alex", "asha", "catherine"]]
+<strong>Input</strong>
+[&quot;ThroneInheritance&quot;, &quot;birth&quot;, &quot;birth&quot;, &quot;birth&quot;, &quot;birth&quot;, &quot;birth&quot;, &quot;birth&quot;, &quot;getInheritanceOrder&quot;, &quot;death&quot;, &quot;getInheritanceOrder&quot;]
+[[&quot;king&quot;], [&quot;king&quot;, &quot;andy&quot;], [&quot;king&quot;, &quot;bob&quot;], [&quot;king&quot;, &quot;catherine&quot;], [&quot;andy&quot;, &quot;matthew&quot;], [&quot;bob&quot;, &quot;alex&quot;], [&quot;bob&quot;, &quot;asha&quot;], [null], [&quot;bob&quot;], [null]]
+<strong>Output</strong>
+[null, null, null, null, null, null, null, [&quot;king&quot;, &quot;andy&quot;, &quot;matthew&quot;, &quot;bob&quot;, &quot;alex&quot;, &quot;asha&quot;, &quot;catherine&quot;], null, [&quot;king&quot;, &quot;andy&quot;, &quot;matthew&quot;, &quot;alex&quot;, &quot;asha&quot;, &quot;catherine&quot;]]
 
-<strong>解释：</strong>
-ThroneInheritance t= new ThroneInheritance("king"); // 继承顺序：<strong>king</strong>
-t.birth("king", "andy"); // 继承顺序：king &gt; <strong>andy</strong>
-t.birth("king", "bob"); // 继承顺序：king &gt; andy &gt; <strong>bob</strong>
-t.birth("king", "catherine"); // 继承顺序：king &gt; andy &gt; bob &gt; <strong>catherine</strong>
-t.birth("andy", "matthew"); // 继承顺序：king &gt; andy &gt; <strong>matthew</strong> &gt; bob &gt; catherine
-t.birth("bob", "alex"); // 继承顺序：king &gt; andy &gt; matthew &gt; bob &gt; <strong>alex</strong> &gt; catherine
-t.birth("bob", "asha"); // 继承顺序：king &gt; andy &gt; matthew &gt; bob &gt; alex &gt; <strong>asha</strong> &gt; catherine
-t.getInheritanceOrder(); // 返回 ["king", "andy", "matthew", "bob", "alex", "asha", "catherine"]
-t.death("bob"); // 继承顺序：king &gt; andy &gt; matthew &gt; <strong>bob（已经去世）</strong>&gt; alex &gt; asha &gt; catherine
-t.getInheritanceOrder(); // 返回 ["king", "andy", "matthew", "alex", "asha", "catherine"]
+<strong>Explanation</strong>
+ThroneInheritance t= new ThroneInheritance(&quot;king&quot;); // order: <strong>king</strong>
+t.birth(&quot;king&quot;, &quot;andy&quot;); // order: king &gt; <strong>andy</strong>
+t.birth(&quot;king&quot;, &quot;bob&quot;); // order: king &gt; andy &gt; <strong>bob</strong>
+t.birth(&quot;king&quot;, &quot;catherine&quot;); // order: king &gt; andy &gt; bob &gt; <strong>catherine</strong>
+t.birth(&quot;andy&quot;, &quot;matthew&quot;); // order: king &gt; andy &gt; <strong>matthew</strong> &gt; bob &gt; catherine
+t.birth(&quot;bob&quot;, &quot;alex&quot;); // order: king &gt; andy &gt; matthew &gt; bob &gt; <strong>alex</strong> &gt; catherine
+t.birth(&quot;bob&quot;, &quot;asha&quot;); // order: king &gt; andy &gt; matthew &gt; bob &gt; alex &gt; <strong>asha</strong> &gt; catherine
+t.getInheritanceOrder(); // return [&quot;king&quot;, &quot;andy&quot;, &quot;matthew&quot;, &quot;bob&quot;, &quot;alex&quot;, &quot;asha&quot;, &quot;catherine&quot;]
+t.death(&quot;bob&quot;); // order: king &gt; andy &gt; matthew &gt; <strong><s>bob</s></strong> &gt; alex &gt; asha &gt; catherine
+t.getInheritanceOrder(); // return [&quot;king&quot;, &quot;andy&quot;, &quot;matthew&quot;, &quot;alex&quot;, &quot;asha&quot;, &quot;catherine&quot;]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= kingName.length, parentName.length, childName.length, name.length &lt;= 15</code></li>
-	<li><code>kingName</code>，<code>parentName</code>，&nbsp;<code>childName</code>&nbsp;和&nbsp;<code>name</code>&nbsp;仅包含小写英文字母。</li>
-	<li>所有的参数&nbsp;<code>childName</code> 和&nbsp;<code>kingName</code>&nbsp;<strong>互不相同</strong>。</li>
-	<li>所有&nbsp;<code>death</code>&nbsp;函数中的死亡名字 <code>name</code>&nbsp;要么是国王，要么是已经出生了的人员名字。</li>
-	<li>每次调用 <code>birth(parentName, childName)</code> 时，测试用例都保证 <code>parentName</code> 对应的人员是活着的。</li>
-	<li>最多调用&nbsp;<code>10<sup>5</sup></code>&nbsp;次<code>birth</code> 和&nbsp;<code>death</code>&nbsp;。</li>
-	<li>最多调用&nbsp;<code>10</code>&nbsp;次&nbsp;<code>getInheritanceOrder</code>&nbsp;。</li>
+	<li><code>kingName</code>, <code>parentName</code>, <code>childName</code>, and <code>name</code> consist of lowercase English letters only.</li>
+	<li>All arguments <code>childName</code> and <code>kingName</code> are <strong>distinct</strong>.</li>
+	<li>All <code>name</code> arguments of <code>death</code> will be passed to either the constructor or as <code>childName</code> to <code>birth</code> first.</li>
+	<li>For each call to&nbsp;<code>birth(parentName, childName)</code>, it is guaranteed that&nbsp;<code>parentName</code> is alive.</li>
+	<li>At most <code>10<sup>5</sup></code> calls will be made to <code>birth</code> and <code>death</code>.</li>
+	<li>At most <code>10</code> calls will be made to <code>getInheritanceOrder</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：多叉树的前序遍历
+### Solution 1: Preorder Traversal of a Multi-branch Tree
 
-根据题目描述，我们可以发现，王位继承顺序实际上是一个多叉树的前序遍历。我们可以使用一个哈希表 $g$ 存储每个人的孩子，使用一个集合 $dead$ 存储已经去世的人。
+According to the problem description, we can find that the order of throne inheritance is actually a preorder traversal of a multi-branch tree. We can use a hash table $g$ to store the children of each person, and a set $dead$ to store the people who have died.
 
--   调用 `birth(parentName, childName)` 时，我们将 `childName` 添加到 `parentName` 的孩子列表中。
--   调用 `death(name)` 时，我们将 `name` 添加到 `dead` 集合中。
--   调用 `getInheritanceOrder()` 时，我们从国王开始进行深度优先搜索，如果当前节点 `x` 没有去世，我们将 `x` 添加到答案列表中，然后递归地遍历 `x` 的所有孩子。
+-   When calling `birth(parentName, childName)`, we add `childName` to the child list of `parentName`.
+-   When calling `death(name)`, we add `name` to the `dead` set.
+-   When calling `getInheritanceOrder()`, we start a depth-first search from the king. If the current node `x` is not dead, we add `x` to the answer list, and then recursively traverse all children of `x`.
 
-时间复杂度方面，`birth` 和 `death` 的时间复杂度均为 $O(1)$，`getInheritanceOrder` 的时间复杂度为 $O(n)$，空间复杂度为 $O(n)$。其中 $n$ 是节点数量。
+In terms of time complexity, both `birth` and `death` have a time complexity of $O(1)$, and `getInheritanceOrder` has a time complexity of $O(n)$. The space complexity is $O(n)$, where $n$ is the number of nodes.
 
 <!-- tabs:start -->
 

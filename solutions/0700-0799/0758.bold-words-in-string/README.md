@@ -1,73 +1,62 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0758.Bold%20Words%20in%20String/README.md
+difficulty: Medium
 tags:
-    - 字典树
-    - 数组
-    - 哈希表
-    - 字符串
-    - 字符串匹配
+    - Trie
+    - Array
+    - Hash Table
+    - String
+    - String Matching
 ---
 
 <!-- problem:start -->
 
-# [758. 字符串中的加粗单词 🔒](https://leetcode.cn/problems/bold-words-in-string)
+# [758. Bold Words in String 🔒](https://leetcode.com/problems/bold-words-in-string)
 
-[English Version](/solution/0700-0799/0758.Bold%20Words%20in%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个关键词集合&nbsp;<code>words</code> 和一个字符串&nbsp;<code>s</code>，将所有 <code>s</code> 中出现的关键词&nbsp;<code>words[i]</code>&nbsp;加粗。所有在标签&nbsp;<code>&lt;b&gt;</code>&nbsp;和&nbsp;<code>&lt;b&gt;</code>&nbsp;中的字母都会加粗。</p>
+<p>Given an array of keywords <code>words</code> and a string <code>s</code>, make all appearances of all keywords <code>words[i]</code> in <code>s</code> bold. Any letters between <code>&lt;b&gt;</code> and <code>&lt;/b&gt;</code> tags become bold.</p>
 
-<p>加粗后返回 <code>s</code> 。返回的字符串需要使用尽可能少的标签，当然标签应形成有效的组合。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入:</strong> words = ["ab","bc"], s = "aabcd"
-<strong>输出:</strong> "a&lt;b&gt;abc&lt;/b&gt;d"
-<strong>解释: </strong>注意返回 <code>"a&lt;b&gt;a&lt;b&gt;b&lt;/b&gt;c&lt;/b&gt;d"</code> 会使用更多的标签，因此是错误的。
-</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> words = ["ab","cb"], s = "aabcd"
-<strong>输出:</strong> "a&lt;b&gt;ab&lt;/b&gt;cd"
-</pre>
+<p>Return <code>s</code> <em>after adding the bold tags</em>. The returned string should use the least number of tags possible, and the tags should form a valid combination.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示:</strong></p>
+<pre>
+<strong>Input:</strong> words = [&quot;ab&quot;,&quot;bc&quot;], s = &quot;aabcd&quot;
+<strong>Output:</strong> &quot;a&lt;b&gt;abc&lt;/b&gt;d&quot;
+<strong>Explanation:</strong> Note that returning <code>&quot;a&lt;b&gt;a&lt;b&gt;b&lt;/b&gt;c&lt;/b&gt;d&quot;</code> would use more tags, so it is incorrect.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> words = [&quot;ab&quot;,&quot;cb&quot;], s = &quot;aabcd&quot;
+<strong>Output:</strong> &quot;a&lt;b&gt;ab&lt;/b&gt;cd&quot;
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 500</code></li>
 	<li><code>0 &lt;= words.length &lt;= 50</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 10</code></li>
-	<li><code>s</code>&nbsp;和&nbsp;<code>words[i]</code>&nbsp;由小写英文字母组成</li>
+	<li><code>s</code> and <code>words[i]</code> consist of lowercase English letters.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>注：</strong>此题与「616 - 给字符串添加加粗标签」相同 - <a href="https://leetcode.cn/problems/add-bold-tag-in-string/">https://leetcode.cn/problems/add-bold-tag-in-string/</a></p>
+<p><strong>Note:</strong> This question is the same as <a href="https://leetcode.com/problems/add-bold-tag-in-string/description/" target="_blank">616. Add Bold Tag in String</a>.</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀树 + 区间合并
-
-相似题目：
-
--   [1065. 字符串的索引对](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1065.Index%20Pairs%20of%20a%20String/README.md)
--   [616. 给字符串添加加粗标签](https://github.com/doocs/leetcode/blob/main/solution/0600-0699/0616.Add%20Bold%20Tag%20in%20String/README.md)
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,91 +1,79 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1363.Largest%20Multiple%20of%20Three/README.md
+difficulty: Hard
 rating: 1822
-source: 第 177 场周赛 Q4
+source: Weekly Contest 177 Q4
 tags:
-    - 贪心
-    - 数组
-    - 数学
-    - 动态规划
-    - 排序
+    - Greedy
+    - Array
+    - Math
+    - Dynamic Programming
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1363. 形成三的最大倍数](https://leetcode.cn/problems/largest-multiple-of-three)
+# [1363. Largest Multiple of Three](https://leetcode.com/problems/largest-multiple-of-three)
 
-[English Version](/solution/1300-1399/1363.Largest%20Multiple%20of%20Three/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>digits</code>，你可以通过按 <strong>任意顺序</strong> 连接其中某些数字来形成 <strong>3</strong> 的倍数，请你返回所能得到的最大的 3 的倍数。</p>
+<p>Given an array of digits <code>digits</code>, return <em>the largest multiple of <strong>three</strong> that can be formed by concatenating some of the given digits in <strong>any order</strong></em>. If there is no answer return an empty string.</p>
 
-<p>由于答案可能不在整数数据类型范围内，请以字符串形式返回答案。如果无法得到答案，请返回一个空字符串。返回的结果不应包含不必要的前导零。</p>
+<p>Since the answer may not fit in an integer data type, return the answer as a string. Note that the returning answer must not contain unnecessary leading zeros.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>digits = [8,1,9]
-<strong>输出：</strong>"981"
+<strong>Input:</strong> digits = [8,1,9]
+<strong>Output:</strong> &quot;981&quot;
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>digits = [8,6,7,1,0]
-<strong>输出：</strong>"8760"
+<strong>Input:</strong> digits = [8,6,7,1,0]
+<strong>Output:</strong> &quot;8760&quot;
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>digits = [1]
-<strong>输出：</strong>""
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>digits = [0,0,0,0,0,0]
-<strong>输出：</strong>"0"
+<strong>Input:</strong> digits = [1]
+<strong>Output:</strong> &quot;&quot;
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= digits.length &lt;= 10^4</code></li>
+	<li><code>1 &lt;= digits.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= digits[i] &lt;= 9</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 动态规划 + 逆推
+### Solution 1: Greedy + Dynamic Programming + Backtracking
 
-我们定义 $f[i][j]$ 表示在前 $i$ 个数中选取若干个数，使得选取的数的和模 $3$ 为 $j$ 的最大长度。为了使得选取的数最大，我们需要尽可能选取更多的数，因此我们需要使得 $f[i][j]$ 尽可能大。我们初始化 $f[0][0] = 0$，其余的 $f[0][j] = -\infty$。
+We define $f[i][j]$ as the maximum length of selecting several numbers from the first $i$ numbers, so that the sum of the selected numbers modulo $3$ equals $j$. To make the selected numbers as large as possible, we need to select as many numbers as possible, so we need to make $f[i][j]$ as large as possible. We initialize $f[0][0] = 0$, and the rest of $f[0][j] = -\infty$.
 
-考虑 $f[i][j]$ 如何进行状态转移。我们可以不选取第 $i$ 个数，此时 $f[i][j] = f[i - 1][j]$；我们也可以选取第 $i$ 个数，此时 $f[i][j] = f[i - 1][(j - x_i \bmod 3 + 3) \bmod 3] + 1$，其中 $x_i$ 表示第 $i$ 个数的值。因此我们有如下的状态转移方程：
+Consider how $f[i][j]$ transitions. We can choose not to select the $i$-th number, in which case $f[i][j] = f[i - 1][j]$; we can also choose to select the $i$-th number, in which case $f[i][j] = f[i - 1][(j - x_i \bmod 3 + 3) \bmod 3] + 1$, where $x_i$ represents the value of the $i$-th number. Therefore, we have the following state transition equation:
 
 $$
 f[i][j] = \max \{ f[i - 1][j], f[i - 1][(j - x_i \bmod 3 + 3) \bmod 3] + 1 \}
 $$
 
-如果 $f[n][0] \le 0$，那么我们无法选取任何数，因此答案字符串为空。否则我们可以通过 $f$ 数组进行逆推，找出选取的数。
+If $f[n][0] \le 0$, then we cannot select any number, so the answer string is empty. Otherwise, we can backtrack through the $f$ array to find out the selected numbers.
 
-定义 $i = n$, $j = 0$，从 $f[i][j]$ 开始逆推，记 $k = (j - x_i \bmod 3 + 3) \bmod 3$，如果 $f[i - 1][k] + 1 = f[i][j]$，那么我们选取了第 $i$ 个数，否则我们没有选取第 $i$ 个数。如果我们选取了第 $i$ 个数，那么我们将 $j$ 更新为 $k$，否则我们保持 $j$ 不变。为了使得同等长度的数最大，我们应该优先选取较大的数，因此，我们在前面首先对数组进行排序。
+Define $i = n$, $j = 0$, start backtracking from $f[i][j]$, let $k = (j - x_i \bmod 3 + 3) \bmod 3$, if $f[i - 1][k] + 1 = f[i][j]$, then we have selected the $i$-th number, otherwise we have not selected the $i$-th number. If we have selected the $i$-th number, then we update $j$ to $k$, otherwise we keep $j$ unchanged. To make the number of the same length as large as possible, we should prefer to select larger numbers, so we should sort the array first.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

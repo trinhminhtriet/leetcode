@@ -1,89 +1,84 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2914.Minimum%20Number%20of%20Changes%20to%20Make%20Binary%20String%20Beautiful/README.md
+difficulty: Medium
 rating: 1479
-source: 第 116 场双周赛 Q2
+source: Biweekly Contest 116 Q2
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2914. 使二进制字符串变美丽的最少修改次数](https://leetcode.cn/problems/minimum-number-of-changes-to-make-binary-string-beautiful)
+# [2914. Minimum Number of Changes to Make Binary String Beautiful](https://leetcode.com/problems/minimum-number-of-changes-to-make-binary-string-beautiful)
 
-[English Version](/solution/2900-2999/2914.Minimum%20Number%20of%20Changes%20to%20Make%20Binary%20String%20Beautiful/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为偶数下标从 <strong>0</strong>&nbsp;开始的二进制字符串&nbsp;<code>s</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> binary string <code>s</code> having an even length.</p>
 
-<p>如果可以将一个字符串分割成一个或者更多满足以下条件的子字符串，那么我们称这个字符串是 <strong>美丽的</strong>&nbsp;：</p>
+<p>A string is <strong>beautiful</strong> if it&#39;s possible to partition it into one or more substrings such that:</p>
 
 <ul>
-	<li>每个子字符串的长度都是 <strong>偶数</strong>&nbsp;。</li>
-	<li>每个子字符串都 <strong>只</strong>&nbsp;包含 <code>1</code>&nbsp;或 <strong>只</strong>&nbsp;包含 <code>0</code>&nbsp;。</li>
+	<li>Each substring has an <strong>even length</strong>.</li>
+	<li>Each substring contains <strong>only</strong> <code>1</code>&#39;s or <strong>only</strong> <code>0</code>&#39;s.</li>
 </ul>
 
-<p>你可以将 <code>s</code>&nbsp;中任一字符改成&nbsp;<code>0</code>&nbsp;或者&nbsp;<code>1</code>&nbsp;。</p>
+<p>You can change any character in <code>s</code> to <code>0</code> or <code>1</code>.</p>
 
-<p>请你返回让字符串 <code>s</code>&nbsp;美丽的<strong>&nbsp;最少</strong>&nbsp;字符修改次数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>s = "1001"
-<b>输出：</b>2
-<b>解释：</b>我们将 s[1] 改为 1 ，且将 s[3] 改为 0 ，得到字符串 "1100" 。
-字符串 "1100" 是美丽的，因为我们可以将它分割成 "11|00" 。
-将字符串变美丽最少需要 2 次修改。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>s = "10"
-<b>输出：</b>1
-<b>解释：</b>我们将 s[1] 改为 1 ，得到字符串 "11" 。
-字符串 "11" 是美丽的，因为它已经是美丽的。
-将字符串变美丽最少需要 1 次修改。
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>s = "0000"
-<b>输出：</b>0
-<b>解释：</b>不需要进行任何修改，字符串 "0000" 已经是美丽字符串。
-</pre>
+<p>Return <em>the <strong>minimum</strong> number of changes required to make the string </em><code>s</code> <em>beautiful</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;1001&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> We change s[1] to 1 and s[3] to 0 to get string &quot;1100&quot;.
+It can be seen that the string &quot;1100&quot; is beautiful because we can partition it into &quot;11|00&quot;.
+It can be proven that 2 is the minimum number of changes needed to make the string beautiful.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;10&quot;
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> We change s[1] to 1 to get string &quot;11&quot;.
+It can be seen that the string &quot;11&quot; is beautiful because we can partition it into &quot;11&quot;.
+It can be proven that 1 is the minimum number of changes needed to make the string beautiful.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;0000&quot;
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> We don&#39;t need to make any changes as the string &quot;0000&quot; is beautiful already.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code>&nbsp;的长度为偶数。</li>
-	<li><code>s[i]</code>&nbsp;要么是&nbsp;<code>'0'</code>&nbsp;，要么是&nbsp;<code>'1'</code> 。</li>
+	<li><code>s</code> has an even length.</li>
+	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们只需要遍历字符串 $s$ 的所有奇数下标 $1, 3, 5, \cdots$，如果当前奇数下标与前一个下标的字符不同，即 $s[i] \ne s[i - 1]$，那么就需要修改当前字符，使得 $s[i] = s[i - 1]$。因此，此时答案需要加 $1$。
+We only need to traverse all odd indices $1, 3, 5, \cdots$ of the string $s$. If the current odd index is different from the previous index, i.e., $s[i] \ne s[i - 1]$, we need to modify the current character so that $s[i] = s[i - 1]$. Therefore, the answer needs to be incremented by $1$.
 
-遍历结束后，返回答案即可。
+After the traversal, we return the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 是字符串 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

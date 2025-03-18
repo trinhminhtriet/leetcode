@@ -1,74 +1,69 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3098.Find%20the%20Sum%20of%20Subsequence%20Powers/README.md
+difficulty: Hard
 rating: 2552
-source: 第 127 场双周赛 Q4
+source: Biweekly Contest 127 Q4
 tags:
-    - 数组
-    - 动态规划
-    - 排序
+    - Array
+    - Dynamic Programming
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [3098. 求出所有子序列的能量和](https://leetcode.cn/problems/find-the-sum-of-subsequence-powers)
+# [3098. Find the Sum of Subsequence Powers](https://leetcode.com/problems/find-the-sum-of-subsequence-powers)
 
-[English Version](/solution/3000-3099/3098.Find%20the%20Sum%20of%20Subsequence%20Powers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;和一个 <strong>正</strong>&nbsp;整数&nbsp;<code>k</code>&nbsp;。</p>
+<p>You are given an integer array <code>nums</code> of length <code>n</code>, and a <strong>positive</strong> integer <code>k</code>.</p>
 
-<p>一个 <span data-keyword="subsequence-array">子序列</span> 的 <strong>能量</strong>&nbsp;定义为子序列中&nbsp;<strong>任意</strong>&nbsp;两个元素的差值绝对值的 <strong>最小值</strong>&nbsp;。</p>
+<p>The <strong>power</strong> of a <span data-keyword="subsequence-array">subsequence</span> is defined as the <strong>minimum</strong> absolute difference between <strong>any</strong> two elements in the subsequence.</p>
 
-<p>请你返回 <code>nums</code>&nbsp;中长度 <strong>等于</strong>&nbsp;<code>k</code>&nbsp;的 <strong>所有</strong>&nbsp;子序列的 <strong>能量和</strong>&nbsp;。</p>
+<p>Return <em>the <strong>sum</strong> of <strong>powers</strong> of <strong>all</strong> subsequences of </em><code>nums</code><em> which have length</em> <strong><em>equal to</em></strong> <code>k</code>.</p>
 
-<p>由于答案可能会很大，将答案对&nbsp;<code>10<sup>9 </sup>+ 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,2,3,4], k = 3</span></p>
-
-<p><span class="example-io"><b>输出：</b>4</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p><code>nums</code>&nbsp;中总共有 4 个长度为 3 的子序列：<code>[1,2,3]</code>&nbsp;，<code>[1,3,4]</code>&nbsp;，<code>[1,2,4]</code>&nbsp;和&nbsp;<code>[2,3,4]</code>&nbsp;。能量和为 <code>|2 - 3| + |3 - 4| + |2 - 1| + |3 - 4| = 4</code>&nbsp;。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [2,2], k = 2</span></p>
-
-<p><span class="example-io"><b>输出：</b>0</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p><code>nums</code>&nbsp;中唯一一个长度为 2 的子序列是&nbsp;<code>[2,2]</code>&nbsp;。能量和为&nbsp;<code>|2 - 2| = 0</code>&nbsp;。</p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong><span class="example-io">nums = [4,3,-1], k = 2</span></p>
-
-<p><span class="example-io"><b>输出：</b>10</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p><code>nums</code>&nbsp;总共有 3 个长度为 2 的子序列：<code>[4,3]</code>&nbsp;，<code>[4,-1]</code>&nbsp;和&nbsp;<code>[3,-1]</code>&nbsp;。能量和为&nbsp;<code>|4 - 3| + |4 - (-1)| + |3 - (-1)| = 10</code>&nbsp;。</p>
-</div>
+<p>Since the answer may be large, return it <strong>modulo</strong> <code>10<sup>9 </sup>+ 7</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3,4], k = 3</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>There are 4 subsequences in <code>nums</code> which have length 3: <code>[1,2,3]</code>, <code>[1,3,4]</code>, <code>[1,2,4]</code>, and <code>[2,3,4]</code>. The sum of powers is <code>|2 - 3| + |3 - 4| + |2 - 1| + |3 - 4| = 4</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [2,2], k = 2</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The only subsequence in <code>nums</code> which has length 2 is&nbsp;<code>[2,2]</code>. The sum of powers is <code>|2 - 2| = 0</code>.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [4,3,-1], k = 2</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">10</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>There are 3 subsequences in <code>nums</code> which have length 2: <code>[4,3]</code>, <code>[4,-1]</code>, and <code>[3,-1]</code>. The sum of powers is <code>|4 - 3| + |4 - (-1)| + |3 - (-1)| = 10</code>.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n == nums.length &lt;= 50</code></li>
@@ -78,27 +73,27 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-由于题目涉及子序列元素的最小差值，我们不妨对数组 $\textit{nums}$ 进行排序，这样可以方便我们计算子序列元素的最小差值。
+Given the problem involves the minimum difference between elements of a subsequence, we might as well sort the array $\textit{nums}$, which facilitates the calculation of the minimum difference between subsequence elements.
 
-接下来，我们设计一个函数 $dfs(i, j, k, mi)$，表示当前处理到第 $i$ 个元素，上一个选取的是第 $j$ 个元素，还需要选取 $k$ 个元素，当前的最小差值为 $mi$ 时，能量和的值。那么答案就是 $dfs(0, n, k, +\infty)$。（若上一个选取的是第 $n$ 个元素，表示之前没有选取过元素）
+Next, we design a function $dfs(i, j, k, mi)$, representing the value of the energy sum when processing the $i$-th element, the last selected element is the $j$-th element, $k$ more elements need to be selected, and the current minimum difference is $mi$. Therefore, the answer is $dfs(0, n, k, +\infty)$ (If the last selected element is the $n$-th element, it indicates that no element has been selected before).
 
-函数 $dfs(i, j, k, mi)$ 的执行过程如下：
+The execution process of the function $dfs(i, j, k, mi)$ is as follows:
 
--   如果 $i \geq n$，表示已经处理完了所有的元素，如果 $k = 0$，返回 $mi$，否则返回 $0$；
--   如果剩余的元素个数 $n - i$ 不足 $k$ 个，返回 $0$；
--   否则，我们可以选择不选取第 $i$ 个元素，可以获得的能量和为 $dfs(i + 1, j, k, mi)$；
--   也可以选择选取第 $i$ 个元素。如果 $j = n$，表示之前没有选取过元素，那么可以获得的能量和为 $dfs(i + 1, i, k - 1, mi)$；否则，可以获得的能量和为 $dfs(i + 1, i, k - 1, \min(mi, \textit{nums}[i] - \textit{nums}[j]))$。
--   我们累加上述结果，并对 $10^9 + 7$ 取模后返回。
+-   If $i \geq n$, it means all elements have been processed. If $k = 0$, return $mi$; otherwise, return $0$.
+-   If the remaining number of elements $n - i$ is less than $k$, return $0$.
+-   Otherwise, we can choose not to select the $i$-th element, and the energy sum obtained is $dfs(i + 1, j, k, mi)$.
+-   We can also choose to select the $i$-th element. If $j = n$, it means no element has been selected before, then the energy sum obtained is $dfs(i + 1, i, k - 1, mi)$; otherwise, the energy sum obtained is $dfs(i + 1, i, k - 1, \min(mi, \textit{nums}[i] - \textit{nums}[j]))$.
+-   We add up the above results and return the result modulo $10^9 + 7$.
 
-为了避免重复计算，我们可以使用记忆化搜索的方法，将已经计算过的结果保存起来。
+To avoid repeated calculations, we can use memoization, saving the results that have already been calculated.
 
-时间复杂度 $O(n^4 \times k)$，空间复杂度 $O(n^4 \times k)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n^4 \times k)$, and the space complexity is $O(n^4 \times k)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

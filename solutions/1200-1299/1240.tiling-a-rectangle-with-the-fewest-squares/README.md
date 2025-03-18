@@ -1,59 +1,54 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1240.Tiling%20a%20Rectangle%20with%20the%20Fewest%20Squares/README.md
+difficulty: Hard
 rating: 2241
-source: 第 160 场周赛 Q4
+source: Weekly Contest 160 Q4
 tags:
-    - 回溯
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [1240. 铺瓷砖](https://leetcode.cn/problems/tiling-a-rectangle-with-the-fewest-squares)
+# [1240. Tiling a Rectangle with the Fewest Squares](https://leetcode.com/problems/tiling-a-rectangle-with-the-fewest-squares)
 
-[English Version](/solution/1200-1299/1240.Tiling%20a%20Rectangle%20with%20the%20Fewest%20Squares/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个大小为&nbsp;<code>n</code>&nbsp;x&nbsp;<code>m</code>&nbsp;的长方形，返回贴满矩形所需的整数边正方形的最小数量。</p>
+<p>Given a rectangle of size <code>n</code> x <code>m</code>, return <em>the minimum number of integer-sided squares that tile the rectangle</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1240.Tiling%20a%20Rectangle%20with%20the%20Fewest%20Squares/images/sample_11_1592.png" style="height: 106px; width: 154px;" /></p>
-
-<pre>
-<strong>输入：</strong>n = 2, m = 3
-<strong>输出：</strong>3
-<code><strong>解释：</strong>需要<strong> </strong>3</code> 个正方形来覆盖长方形。
-<code>     2</code> 个 <code>1x1 的正方形</code>
-<code>     1</code> 个 <code>2x2 的正方形</code></pre>
-
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1240.Tiling%20a%20Rectangle%20with%20the%20Fewest%20Squares/images/sample_22_1592.png" style="height: 126px; width: 224px;" /></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1240.Tiling%20a%20Rectangle%20with%20the%20Fewest%20Squares/images/sample_11_1592.png" style="width: 154px; height: 106px;" /></p>
 
 <pre>
-<strong>输入：</strong>n = 5, m = 8
-<strong>输出：</strong>5
+<strong>Input:</strong> n = 2, m = 3
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> <code>3</code> squares are necessary to cover the rectangle.
+<code>2</code> (squares of <code>1x1</code>)
+<code>1</code> (square of <code>2x2</code>)</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1240.Tiling%20a%20Rectangle%20with%20the%20Fewest%20Squares/images/sample_22_1592.png" style="width: 224px; height: 126px;" /></p>
+
+<pre>
+<strong>Input:</strong> n = 5, m = 8
+<strong>Output:</strong> 5
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1240.Tiling%20a%20Rectangle%20with%20the%20Fewest%20Squares/images/sample_33_1592.png" style="height: 189px; width: 224px;" /></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1240.Tiling%20a%20Rectangle%20with%20the%20Fewest%20Squares/images/sample_33_1592.png" style="width: 224px; height: 189px;" /></p>
 
 <pre>
-<strong>输入：</strong>n = 11, m = 13
-<strong>输出：</strong>6
+<strong>Input:</strong> n = 11, m = 13
+<strong>Output:</strong> 6
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n, m &lt;= 13</code></li>
@@ -61,20 +56,20 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归回溯 + 状态压缩
+### Solution 1: Recursive Backtracking + State Compression
 
-我们可以按位置进行递归回溯，过程中我们用一个变量 $t$ 记录当前使用的瓷砖数。
+We can perform recursive backtracking by position, during which we use a variable $t$ to record the current number of tiles used.
 
--   如果 $j = m$，即第 $i$ 行已经被完全填充，则递归到下一行，即 $(i + 1, 0)$。
--   如果 $i = n$，则表示所有位置都已经被填充，我们更新答案并返回。
--   如果当前位置 $(i, j)$ 已经被填充，则直接递归到下一个位置 $(i, j + 1)$。
--   否则，我们枚举当前位置 $(i, j)$ 可以填充的最大正方形的边长 $w$，并将当前位置 $(i, j)$ 到 $(i + w - 1, j + w - 1)$ 的位置全部填充，然后递归到下一个位置 $(i, j + w)$。在回溯时，我们需要将当前位置 $(i, j)$ 到 $(i + w - 1, j + w - 1)$ 的位置全部清空。
+-   If $j = m$, i.e., the $i$-th row has been completely filled, then we recurse to the next row, i.e., $(i + 1, 0)$.
+-   If $i = n$, it means that all positions have been filled, we update the answer and return.
+-   If the current position $(i, j)$ has been filled, then directly recurse to the next position $(i, j + 1)$.
+-   Otherwise, we enumerate the maximum square side length $w$ that the current position $(i, j)$ can fill, and fill all positions from $(i, j)$ to $(i + w - 1, j + w - 1)$, then recurse to the next position $(i, j + w)$. When backtracking, we need to clear all positions from $(i, j)$ to $(i + w - 1, j + w - 1)$.
 
-由于每个位置只有两种状态：填充或者未填充，因此我们可以使用一个整数来表示当前位置的状态。我们使用一个长度为 $n$ 的整数数组 $filled$，其中 $filled[i]$ 表示第 $i$ 行的状态。如果 $filled[i]$ 的第 $j$ 位为 $1$，则表示第 $i$ 行第 $j$ 列已经被填充，否则表示未填充。
+Since each position only has two states: filled or not filled, we can use an integer to represent the current state. We use an integer array $filled$ of length $n$, where $filled[i]$ represents the state of the $i$-th row. If the $j$-th bit of $filled[i]$ is $1$, it means that the $i$-th row and the $j$-th column have been filled, otherwise it means not filled.
 
 <!-- tabs:start -->
 
@@ -351,7 +346,7 @@ function tilingRectangle(n: number, m: number): number {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

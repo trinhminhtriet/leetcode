@@ -1,64 +1,59 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0059.Spiral%20Matrix%20II/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 矩阵
-    - 模拟
+    - Array
+    - Matrix
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [59. 螺旋矩阵 II](https://leetcode.cn/problems/spiral-matrix-ii)
+# [59. Spiral Matrix II](https://leetcode.com/problems/spiral-matrix-ii)
 
-[English Version](/solution/0000-0099/0059.Spiral%20Matrix%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数 <code>n</code> ，生成一个包含 <code>1</code> 到 <code>n<sup>2</sup></code> 所有元素，且元素按顺时针顺序螺旋排列的 <code>n x n</code> 正方形矩阵 <code>matrix</code> 。</p>
+<p>Given a positive integer <code>n</code>, generate an <code>n x n</code> <code>matrix</code> filled with elements from <code>1</code> to <code>n<sup>2</sup></code> in spiral order.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0059.Spiral%20Matrix%20II/images/spiraln.jpg" style="width: 242px; height: 242px;" />
 <pre>
-<strong>输入：</strong>n = 3
-<strong>输出：</strong>[[1,2,3],[8,9,4],[7,6,5]]
+<strong>Input:</strong> n = 3
+<strong>Output:</strong> [[1,2,3],[8,9,4],[7,6,5]]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 1
-<strong>输出：</strong>[[1]]
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> [[1]]
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= n <= 20</code></li>
+	<li><code>1 &lt;= n &lt;= 20</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以直接模拟螺旋矩阵的生成过程。
+We can directly simulate the process of generating the spiral matrix.
 
-定义一个二维数组 $\textit{ans}$，用于存储螺旋矩阵。用 $i$ 和 $j$ 分别表示当前位置的行号和列号，用 $k$ 表示当前的方向编号，$\textit{dirs}$ 表示方向编号与方向的对应关系。
+Define a 2D array $\textit{ans}$ to store the spiral matrix. Use $i$ and $j$ to represent the current row and column indices, and use $k$ to represent the current direction index. $\textit{dirs}$ represents the mapping between direction indices and directions.
 
-从 $1$ 开始，依次填入矩阵中的每个位置。每次填入一个位置后，计算下一个位置的行号和列号，如果下一个位置不在矩阵中或者已经被填过，则改变方向，再计算下一个位置的行号和列号。
+Starting from $1$, fill each position in the matrix sequentially. After filling a position, calculate the row and column indices of the next position. If the next position is out of bounds or has already been filled, change the direction and then calculate the row and column indices of the next position.
 
-时间复杂度 $O(n^2)$，其中 $n$ 是矩阵的边长。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n^2)$, where $n$ is the side length of the matrix. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

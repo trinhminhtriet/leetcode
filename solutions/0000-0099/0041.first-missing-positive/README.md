@@ -1,51 +1,50 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0041.First%20Missing%20Positive/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 哈希表
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [41. 缺失的第一个正数](https://leetcode.cn/problems/first-missing-positive)
+# [41. First Missing Positive](https://leetcode.com/problems/first-missing-positive)
 
-[English Version](/solution/0000-0099/0041.First%20Missing%20Positive/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个未排序的整数数组 <code>nums</code> ，请你找出其中没有出现的最小的正整数。</p>
-请你实现时间复杂度为 <code>O(n)</code> 并且只使用常数级别额外空间的解决方案。
+<p>Given an unsorted integer array <code>nums</code>. Return the <em>smallest positive integer</em> that is <em>not present</em> in <code>nums</code>.</p>
+
+<p>You must implement an algorithm that runs in <code>O(n)</code> time and uses <code>O(1)</code> auxiliary space.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,0]
-<strong>输出：</strong>3
-<strong>解释：</strong>范围 [1,2] 中的数字都在数组中。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,4,-1,1]
-<strong>输出：</strong>2
-<strong>解释：</strong>1 在数组中，但 2 没有。</pre>
+<strong>Input:</strong> nums = [1,2,0]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The numbers in the range [1,2] are all in the array.
+</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [7,8,9,11,12]
-<strong>输出：</strong>1
-<strong>解释：</strong>最小的正数 1 没有出现。</pre>
+<strong>Input:</strong> nums = [3,4,-1,1]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 1 is in the array but 2 is missing.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [7,8,9,11,12]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The smallest positive integer 1 is missing.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -54,17 +53,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：原地交换
+### Solution 1: In-place Swap
 
-我们假设数组 $nums$ 长度为 $n$，那么最小的正整数一定在 $[1, .., n + 1]$ 之间。我们可以遍历数组，将数组中的每个数 $x$ 交换到它应该在的位置上，即 $x$ 应该在的位置为 $x - 1$。如果 $x$ 不在 $[1, n + 1]$ 之间，那么我们就不用管它。
+We assume the length of the array $nums$ is $n$, then the smallest positive integer must be in the range $[1, .., n + 1]$. We can traverse the array and swap each number $x$ to its correct position, that is, the position $x - 1$. If $x$ is not in the range $[1, n + 1]$, then we can ignore it.
 
-遍历结束后，我们再遍历数组，如果 $i+1$ 不等于 $nums[i]$，那么 $i+1$ 就是我们要找的最小的正整数。
+After the traversal, we traverse the array again. If $i+1$ is not equal to $nums[i]$, then $i+1$ is the smallest positive integer we are looking for.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

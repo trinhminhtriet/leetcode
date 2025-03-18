@@ -1,112 +1,107 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2102.Sequentially%20Ordinal%20Rank%20Tracker/README.md
+difficulty: Hard
 rating: 2158
-source: 第 67 场双周赛 Q4
+source: Biweekly Contest 67 Q4
 tags:
-    - 设计
-    - 数据流
-    - 有序集合
-    - 堆（优先队列）
+    - Design
+    - Data Stream
+    - Ordered Set
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2102. 序列顺序查询](https://leetcode.cn/problems/sequentially-ordinal-rank-tracker)
+# [2102. Sequentially Ordinal Rank Tracker](https://leetcode.com/problems/sequentially-ordinal-rank-tracker)
 
-[English Version](/solution/2100-2199/2102.Sequentially%20Ordinal%20Rank%20Tracker/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个观光景点由它的名字&nbsp;<code>name</code> 和景点评分&nbsp;<code>score</code>&nbsp;组成，其中&nbsp;<code>name</code>&nbsp;是所有观光景点中&nbsp;<strong>唯一</strong>&nbsp;的字符串，<code>score</code>&nbsp;是一个整数。景点按照最好到最坏排序。景点评分 <strong>越高</strong>&nbsp;，这个景点越好。如果有两个景点的评分一样，那么 <strong>字典序较小</strong>&nbsp;的景点更好。</p>
+<p>A scenic location is represented by its <code>name</code> and attractiveness <code>score</code>, where <code>name</code> is a <strong>unique</strong> string among all locations and <code>score</code> is an integer. Locations can be ranked from the best to the worst. The <strong>higher</strong> the score, the better the location. If the scores of two locations are equal, then the location with the <strong>lexicographically smaller</strong> name is better.</p>
 
-<p>你需要搭建一个系统，查询景点的排名。初始时系统里没有任何景点。这个系统支持：</p>
+<p>You are building a system that tracks the ranking of locations with the system initially starting with no locations. It supports:</p>
 
 <ul>
-	<li><strong>添加</strong> 景点，每次添加 <strong>一个</strong> 景点。</li>
-	<li><strong>查询 </strong>已经添加景点中第&nbsp;<code>i</code>&nbsp;<strong>好</strong>&nbsp;的景点，其中&nbsp;<code>i</code>&nbsp;是系统目前位置查询的次数（包括当前这一次）。
+	<li><strong>Adding</strong> scenic locations, <strong>one at a time</strong>.</li>
+	<li><strong>Querying</strong> the <code>i<sup>th</sup></code> <strong>best</strong> location of <strong>all locations already added</strong>, where <code>i</code> is the number of times the system has been queried (including the current query).
 	<ul>
-		<li>比方说，如果系统正在进行第 <code>4</code>&nbsp;次查询，那么需要返回所有已经添加景点中第 <code>4</code>&nbsp;好的。</li>
+		<li>For example, when the system is queried for the <code>4<sup>th</sup></code> time, it returns the <code>4<sup>th</sup></code> best location of all locations already added.</li>
 	</ul>
 	</li>
 </ul>
 
-<p>注意，测试数据保证&nbsp;<strong>任意查询时刻</strong>&nbsp;，查询次数都 <strong>不超过</strong>&nbsp;系统中景点的数目。</p>
+<p>Note that the test data are generated so that <strong>at any time</strong>, the number of queries <strong>does not exceed</strong> the number of locations added to the system.</p>
 
-<p>请你实现&nbsp;<code>SORTracker</code>&nbsp;类：</p>
+<p>Implement the <code>SORTracker</code> class:</p>
 
 <ul>
-	<li><code>SORTracker()</code>&nbsp;初始化系统。</li>
-	<li><code>void add(string name, int score)</code>&nbsp;向系统中添加一个名为&nbsp;<code>name</code> 评分为&nbsp;<code>score</code>&nbsp;的景点。</li>
-	<li><code>string get()</code>&nbsp;查询第 <code>i</code>&nbsp;好的景点，其中 <code>i</code>&nbsp;是目前系统查询的次数（包括当前这次查询）。</li>
+	<li><code>SORTracker()</code> Initializes the tracker system.</li>
+	<li><code>void add(string name, int score)</code> Adds a scenic location with <code>name</code> and <code>score</code> to the system.</li>
+	<li><code>string get()</code> Queries and returns the <code>i<sup>th</sup></code> best location, where <code>i</code> is the number of times this method has been invoked (including this invocation).</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["SORTracker", "add", "add", "get", "add", "get", "add", "get", "add", "get", "add", "get", "get"]
-[[], ["bradford", 2], ["branford", 3], [], ["alps", 2], [], ["orland", 2], [], ["orlando", 3], [], ["alpine", 2], [], []]
-<strong>输出：</strong>
-[null, null, null, "branford", null, "alps", null, "bradford", null, "bradford", null, "bradford", "orland"]
+<strong>Input</strong>
+[&quot;SORTracker&quot;, &quot;add&quot;, &quot;add&quot;, &quot;get&quot;, &quot;add&quot;, &quot;get&quot;, &quot;add&quot;, &quot;get&quot;, &quot;add&quot;, &quot;get&quot;, &quot;add&quot;, &quot;get&quot;, &quot;get&quot;]
+[[], [&quot;bradford&quot;, 2], [&quot;branford&quot;, 3], [], [&quot;alps&quot;, 2], [], [&quot;orland&quot;, 2], [], [&quot;orlando&quot;, 3], [], [&quot;alpine&quot;, 2], [], []]
+<strong>Output</strong>
+[null, null, null, &quot;branford&quot;, null, &quot;alps&quot;, null, &quot;bradford&quot;, null, &quot;bradford&quot;, null, &quot;bradford&quot;, &quot;orland&quot;]
 
-<strong>解释：</strong>
-SORTracker tracker = new SORTracker(); // 初始化系统
-tracker.add("bradford", 2); // 添加 name="bradford" 且 score=2 的景点。
-tracker.add("branford", 3); // 添加 name="branford" 且 score=3 的景点。
-tracker.get();              // 从好到坏的景点为：branford ，bradford 。
-                            // 注意到 branford 比 bradford 好，因为它的 <strong>评分更高</strong> (3 &gt; 2) 。
-                            // 这是第 1 次调用 get() ，所以返回最好的景点："branford" 。
-tracker.add("alps", 2);     // 添加 name="alps" 且 score=2 的景点。
-tracker.get();              // 从好到坏的景点为：branford, alps, bradford 。
-                            // 注意 alps 比 bradford 好，虽然它们评分相同，都为 2 。
-                            // 这是因为 "alps" <strong>字典序</strong>&nbsp;比 "bradford" 小。
-                            // 返回第 2 好的地点 "alps" ，因为当前为第 2 次调用 get() 。
-tracker.add("orland", 2);   // 添加 name="orland" 且 score=2 的景点。
-tracker.get();              // 从好到坏的景点为：branford, alps, bradford, orland 。
-                            // 返回 "bradford" ，因为当前为第 3 次调用 get() 。
-tracker.add("orlando", 3);  // 添加 name="orlando" 且 score=3 的景点。
-tracker.get();              // 从好到坏的景点为：branford, orlando, alps, bradford, orland 。
-                            // 返回 "bradford".
-tracker.add("alpine", 2);   // 添加 name="alpine" 且 score=2 的景点。
-tracker.get();              // 从好到坏的景点为：branford, orlando, alpine, alps, bradford, orland 。
-                            // 返回 "bradford" 。
-tracker.get();              // 从好到坏的景点为：branford, orlando, alpine, alps, bradford, orland 。
-                            // 返回 "orland" 。
+<strong>Explanation</strong>
+SORTracker tracker = new SORTracker(); // Initialize the tracker system.
+tracker.add(&quot;bradford&quot;, 2); // Add location with name=&quot;bradford&quot; and score=2 to the system.
+tracker.add(&quot;branford&quot;, 3); // Add location with name=&quot;branford&quot; and score=3 to the system.
+tracker.get();              // The sorted locations, from best to worst, are: branford, bradford.
+                            // Note that branford precedes bradford due to its <strong>higher score</strong> (3 &gt; 2).
+                            // This is the 1<sup>st</sup> time get() is called, so return the best location: &quot;branford&quot;.
+tracker.add(&quot;alps&quot;, 2);     // Add location with name=&quot;alps&quot; and score=2 to the system.
+tracker.get();              // Sorted locations: branford, alps, bradford.
+                            // Note that alps precedes bradford even though they have the same score (2).
+                            // This is because &quot;alps&quot; is <strong>lexicographically smaller</strong> than &quot;bradford&quot;.
+                            // Return the 2<sup>nd</sup> best location &quot;alps&quot;, as it is the 2<sup>nd</sup> time get() is called.
+tracker.add(&quot;orland&quot;, 2);   // Add location with name=&quot;orland&quot; and score=2 to the system.
+tracker.get();              // Sorted locations: branford, alps, bradford, orland.
+                            // Return &quot;bradford&quot;, as it is the 3<sup>rd</sup> time get() is called.
+tracker.add(&quot;orlando&quot;, 3);  // Add location with name=&quot;orlando&quot; and score=3 to the system.
+tracker.get();              // Sorted locations: branford, orlando, alps, bradford, orland.
+                            // Return &quot;bradford&quot;.
+tracker.add(&quot;alpine&quot;, 2);   // Add location with name=&quot;alpine&quot; and score=2 to the system.
+tracker.get();              // Sorted locations: branford, orlando, alpine, alps, bradford, orland.
+                            // Return &quot;bradford&quot;.
+tracker.get();              // Sorted locations: branford, orlando, alpine, alps, bradford, orland.
+                            // Return &quot;orland&quot;.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>name</code>&nbsp;只包含小写英文字母，且每个景点名字互不相同。</li>
+	<li><code>name</code> consists of lowercase English letters, and is unique among all locations.</li>
 	<li><code>1 &lt;= name.length &lt;= 10</code></li>
 	<li><code>1 &lt;= score &lt;= 10<sup>5</sup></code></li>
-	<li>任意时刻，调用&nbsp;<code>get</code>&nbsp;的次数都不超过调用&nbsp;<code>add</code>&nbsp;的次数。</li>
-	<li><strong>总共</strong>&nbsp;调用&nbsp;<code>add</code> 和&nbsp;<code>get</code>&nbsp;不超过&nbsp;<code>4 * 10<sup>4</sup></code>&nbsp;</li>
+	<li>At any time, the number of calls to <code>get</code> does not exceed the number of calls to <code>add</code>.</li>
+	<li>At most <code>4 * 10<sup>4</sup></code> calls <strong>in total</strong> will be made to <code>add</code> and <code>get</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：有序集合
+### Solution 1: Ordered Set
 
-我们可以使用有序集合来存储景点，用一个变量 $i$ 来记录当前查询的次数，初始时 $i = -1$。
+We can use an ordered set to store the attractions, and a variable $i$ to record the current number of queries, initially $i = -1$.
 
-调用 `add` 方法时，我们将景点的评分取负数，这样就可以使用有序集合按照评分从大到小排序，如果评分相同，按照景点名字的字典序从小到大排序。
+When calling the `add` method, we take the negative of the attraction's rating, so that we can use the ordered set to sort by rating in descending order. If the ratings are the same, sort by the dictionary order of the attraction names in ascending order.
 
-调用 `get` 方法时，我们将 $i$ 加一，然后返回有序集合中第 $i$ 个景点的名字。
+When calling the `get` method, we increment $i$ by one, and then return the name of the $i$-th attraction in the ordered set.
 
-每次操作的时间复杂度为 $O(\log n)$，其中 $n$ 为已添加的景点数。空间复杂度为 $O(n)$。
+The time complexity of each operation is $O(\log n)$, where $n$ is the number of added attractions. The space complexity is $O(n)$.
 
 <!-- tabs:start -->
 
@@ -175,15 +170,15 @@ private:
 
 <!-- solution:start -->
 
-### 方法二：双优先队列（大小根堆）
+### Solution 2: Double Priority Queue (Min-Max Heap)
 
-我们注意到，由于本题中的查询操作是按照严格递增的顺序进行的，因此我们可以使用类似于数据流中的中位数的方法，定义两个优先队列 `good` 和 `bad`，其中 `good` 是一个小根堆，存储当前最好的景点，`bad` 是一个大根堆，存储当前第 $i$ 好的景点。
+We notice that the query operations in this problem are performed in strictly increasing order. Therefore, we can use a method similar to the median in the data stream. We define two priority queues `good` and `bad`. `good` is a min-heap, storing the current best attractions, and `bad` is a max-heap, storing the current $i$-th best attraction.
 
-每次调用 `add` 方法时，我们将景点的评分和名字加入 `good` 中，然后将 `good` 中的最差的景点加入 `bad` 中。
+Each time the `add` method is called, we add the attraction's rating and name to `good`, and then add the worst attraction in `good` to `bad`.
 
-每次调用 `get` 方法时，我们将 `bad` 中的最好的景点加入 `good` 中，然后返回 `good` 中的最差的景点。
+Each time the `get` method is called, we add the best attraction in `bad` to `good`, and then return the worst attraction in `good`.
 
-每次操作的时间复杂度为 $O(\log n)$，其中 $n$ 为已添加的景点数。空间复杂度为 $O(n)$。
+The time complexity of each operation is $O(\log n)$, where $n$ is the number of added attractions. The space complexity is $O(n)$.
 
 <!-- tabs:start -->
 

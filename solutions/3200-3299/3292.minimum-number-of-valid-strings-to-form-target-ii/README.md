@@ -1,119 +1,114 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3292.Minimum%20Number%20of%20Valid%20Strings%20to%20Form%20Target%20II/README.md
+difficulty: Hard
 rating: 2661
-source: 第 415 场周赛 Q4
+source: Weekly Contest 415 Q4
 tags:
-    - 线段树
-    - 数组
-    - 字符串
-    - 二分查找
-    - 动态规划
-    - 字符串匹配
-    - 哈希函数
-    - 滚动哈希
+    - Segment Tree
+    - Array
+    - String
+    - Binary Search
+    - Dynamic Programming
+    - String Matching
+    - Hash Function
+    - Rolling Hash
 ---
 
 <!-- problem:start -->
 
-# [3292. 形成目标字符串需要的最少字符串数 II](https://leetcode.cn/problems/minimum-number-of-valid-strings-to-form-target-ii)
+# [3292. Minimum Number of Valid Strings to Form Target II](https://leetcode.com/problems/minimum-number-of-valid-strings-to-form-target-ii)
 
-[English Version](/solution/3200-3299/3292.Minimum%20Number%20of%20Valid%20Strings%20to%20Form%20Target%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串数组 <code>words</code> 和一个字符串 <code>target</code>。</p>
+<p>You are given an array of strings <code>words</code> and a string <code>target</code>.</p>
 
-<p>如果字符串 <code>x</code> 是 <code>words</code> 中<strong> 任意 </strong>字符串的 <span data-keyword="string-prefix">前缀</span>，则认为 <code>x</code> 是一个 <strong>有效</strong> 字符串。</p>
+<p>A string <code>x</code> is called <strong>valid</strong> if <code>x</code> is a <span data-keyword="string-prefix">prefix</span> of <strong>any</strong> string in <code>words</code>.</p>
 
-<p>现计划通过 <strong>连接 </strong>有效字符串形成 <code>target</code> ，请你计算并返回需要连接的 <strong>最少 </strong>字符串数量。如果无法通过这种方式形成 <code>target</code>，则返回 <code>-1</code>。</p>
+<p>Return the <strong>minimum</strong> number of <strong>valid</strong> strings that can be <em>concatenated</em> to form <code>target</code>. If it is <strong>not</strong> possible to form <code>target</code>, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">words = ["abc","aaaaa","bcdef"], target = "aabcdabc"</span></p>
+<p><strong>Input:</strong> <span class="example-io">words = [&quot;abc&quot;,&quot;aaaaa&quot;,&quot;bcdef&quot;], target = &quot;aabcdabc&quot;</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">3</span></p>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>target 字符串可以通过连接以下有效字符串形成：</p>
+<p>The target string can be formed by concatenating:</p>
 
 <ul>
-	<li><code>words[1]</code> 的长度为 2 的前缀，即 <code>"aa"</code>。</li>
-	<li><code>words[2]</code> 的长度为 3 的前缀，即 <code>"bcd"</code>。</li>
-	<li><code>words[0]</code> 的长度为 3 的前缀，即 <code>"abc"</code>。</li>
+	<li>Prefix of length 2 of <code>words[1]</code>, i.e. <code>&quot;aa&quot;</code>.</li>
+	<li>Prefix of length 3 of <code>words[2]</code>, i.e. <code>&quot;bcd&quot;</code>.</li>
+	<li>Prefix of length 3 of <code>words[0]</code>, i.e. <code>&quot;abc&quot;</code>.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">words = ["abababab","ab"], target = "ababaababa"</span></p>
+<p><strong>Input:</strong> <span class="example-io">words = [&quot;abababab&quot;,&quot;ab&quot;], target = &quot;ababaababa&quot;</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>target 字符串可以通过连接以下有效字符串形成：</p>
+<p>The target string can be formed by concatenating:</p>
 
 <ul>
-	<li><code>words[0]</code> 的长度为 5 的前缀，即 <code>"ababa"</code>。</li>
-	<li><code>words[0]</code> 的长度为 5 的前缀，即 <code>"ababa"</code>。</li>
+	<li>Prefix of length 5 of <code>words[0]</code>, i.e. <code>&quot;ababa&quot;</code>.</li>
+	<li>Prefix of length 5 of <code>words[0]</code>, i.e. <code>&quot;ababa&quot;</code>.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">words = ["abcdef"], target = "xyz"</span></p>
+<p><strong>Input:</strong> <span class="example-io">words = [&quot;abcdef&quot;], target = &quot;xyz&quot;</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">-1</span></p>
+<p><strong>Output:</strong> <span class="example-io">-1</span></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 100</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 5 * 10<sup>4</sup></code></li>
-	<li>输入确保 <code>sum(words[i].length) &lt;= 10<sup>5</sup></code>.</li>
-	<li><code>words[i]</code> &nbsp;只包含小写英文字母。</li>
+	<li>The input is generated such that <code>sum(words[i].length) &lt;= 10<sup>5</sup></code>.</li>
+	<li><code>words[i]</code> consists only of lowercase English letters.</li>
 	<li><code>1 &lt;= target.length &lt;= 5 * 10<sup>4</sup></code></li>
-	<li><code>target</code> &nbsp;只包含小写英文字母。</li>
+	<li><code>target</code> consists only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：字符串哈希 + 二分查找 + 贪心
+### Solution 1: String Hashing + Binary Search + Greedy
 
-由于本题数据规模较大，使用“字典树 + 记忆化搜索”的方法将会超时，我们需要寻找一种更高效的解法。
+Due to the large data scale of this problem, using the "Trie + Memoization" method will time out. We need to find a more efficient solution.
 
-考虑从字符串 $\textit{target}$ 的第 $i$ 个字符开始，最远能够匹配的字符串长度，假设为 $\textit{dist}$，那么对于任意 $j \in [i, i + \textit{dist}-1]$，我们都能够在 $\textit{words}$ 中找到一个字符串，使得 $\textit{target}[i..j]$ 是这个字符串的前缀。这存在着单调性，我们可以使用二分查找来确定 $\textit{dist}$。
+Consider starting from the $i$-th character of the string $\textit{target}$ and finding the maximum matching substring length, denoted as $\textit{dist}$. For any $j \in [i, i + \textit{dist} - 1]$, we can find a string in $\textit{words}$ such that $\textit{target}[i..j]$ is a prefix of this string. This has a monotonic property, so we can use binary search to determine $\textit{dist}$.
 
-具体地，我们首先预处理出 $\textit{words}$ 中所有字符串的每个前缀的哈希值，按照前缀长度分组存储在 $\textit{s}$ 数组中。另外，将 $\textit{target}$ 的哈希值也预处理出来，存储在 $\textit{hashing}$ 中，便于我们查询任意 $\textit{target}[l..r]$ 的哈希值。
+Specifically, we first preprocess the hash values of all prefixes of strings in $\textit{words}$ and store them in the array $\textit{s}$ grouped by prefix length. Additionally, we preprocess the hash values of $\textit{target}$ and store them in $\textit{hashing}$ to facilitate querying the hash value of any $\textit{target}[l..r]$.
 
-接下来，我们设计一个函数 $\textit{f}(i)$，表示从字符串 $\textit{target}$ 的第 $i$ 个字符开始，最远能够匹配的字符串长度。我们可以通过二分查找的方式确定 $\textit{f}(i)$。
+Next, we design a function $\textit{f}(i)$ to represent the maximum matching substring length starting from the $i$-th character of the string $\textit{target}$. We can determine $\textit{f}(i)$ using binary search.
 
-定义二分查找的左边界 $l = 0$，右边界 $r = \min(n - i, m)$，其中 $n$ 是字符串 $\textit{target}$ 的长度，而 $m$ 是 $\textit{words}$ 中字符串的最大长度。在二分查找的过程中，我们需要判断 $\textit{target}[i..i+\textit{mid}-1]$ 是否是 $\textit{s}[\textit{mid}]$ 中的某个哈希值，如果是，则将左边界 $l$ 更新为 $\textit{mid}$，否则将右边界 $r$ 更新为 $\textit{mid}-1$。二分结束后，返回 $l$ 即可。
+Define the left boundary of the binary search as $l = 0$ and the right boundary as $r = \min(n - i, m)$, where $n$ is the length of the string $\textit{target}$ and $m$ is the maximum length of strings in $\textit{words}$. During the binary search, we need to check if $\textit{target}[i..i+\textit{mid}-1]$ is one of the hash values in $\textit{s}[\textit{mid}]$. If it is, update the left boundary $l$ to $\textit{mid}$; otherwise, update the right boundary $r$ to $\textit{mid} - 1$. After the binary search, return $l$.
 
-算出 $\textit{f}(i)$ 后，问题就转化为了一个经典的贪心问题，我们从 $i = 0$ 开始，对于每个位置 $i$，最远可以移动到的位置为 $i + \textit{f}(i)$，求最少需要多少次移动即可到达终点。
+After calculating $\textit{f}(i)$, the problem becomes a classic greedy problem. Starting from $i = 0$, for each position $i$, the farthest position we can move to is $i + \textit{f}(i)$. We need to find the minimum number of moves to reach the end.
 
-我们定义 $\textit{last}$ 表示上一次移动的位置，变量 $\textit{mx}$ 表示当前位置能够移动到的最远位置，初始时 $\textit{last} = \textit{mx} = 0$。我们从 $i = 0$ 开始遍历，如果 $i$ 等于 $\textit{last}$，说明我们需要再次移动，此时如果 $\textit{last} = \textit{mx}$，说明我们无法再移动，返回 $-1$；否则，我们将 $\textit{last}$ 更新为 $\textit{mx}$，并将答案加一。
+We define $\textit{last}$ to represent the last moved position and $\textit{mx}$ to represent the farthest position we can move to from the current position. Initially, $\textit{last} = \textit{mx} = 0$. We traverse from $i = 0$. If $i$ equals $\textit{last}$, it means we need to move again. If $\textit{last} = \textit{mx}$, it means we cannot move further, so we return $-1$. Otherwise, we update $\textit{last}$ to $\textit{mx}$ and increment the answer by one.
 
-遍历结束后，返回答案即可。
+After the traversal, return the answer.
 
-时间复杂度 $O(n \times \log n + L)$，空间复杂度 $O(n + L)$。其中 $n$ 是字符串 $\textit{target}$ 的长度，而 $L$ 是所有有效字符串的总长度。
+The time complexity is $O(n \times \log n + L)$, and the space complexity is $O(n + L)$. Here, $n$ is the length of the string $\textit{target}$, and $L$ is the total length of all valid strings.
 
 <!-- tabs:start -->
 

@@ -1,64 +1,60 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2681.Power%20of%20Heroes/README.md
+difficulty: Hard
 rating: 2060
-source: 第 104 场双周赛 Q4
+source: Biweekly Contest 104 Q4
 tags:
-    - 数组
-    - 数学
-    - 动态规划
-    - 前缀和
-    - 排序
+    - Array
+    - Math
+    - Dynamic Programming
+    - Prefix Sum
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2681. 英雄的力量](https://leetcode.cn/problems/power-of-heroes)
+# [2681. Power of Heroes](https://leetcode.com/problems/power-of-heroes)
 
-[English Version](/solution/2600-2699/2681.Power%20of%20Heroes/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;，它表示英雄的能力值。如果我们选出一部分英雄，这组英雄的 <strong>力量</strong>&nbsp;定义为：</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> representing the strength of some heroes. The<b> power</b> of a group of heroes is defined as follows:</p>
 
 <ul>
-	<li><code>i<sub>0</sub></code>&nbsp;，<code>i<sub>1</sub></code>&nbsp;，<span style="">... </span><code><span style="">i<sub>k</sub></span></code><span style="">&nbsp;</span>表示这组英雄在数组中的下标。那么这组英雄的力量为&nbsp;<code><font face="monospace">max(nums[</font>i<sub>0</sub><font face="monospace">],nums[</font>i<sub>1</sub><font face="monospace">] ... nums[</font><span style="font-size:10.8333px">i<sub>k</sub></span><font face="monospace">])<sup>2</sup> * min(nums[</font>i<sub>0</sub><font face="monospace">],nums[</font>i<sub>1</sub><font face="monospace">] ... nums[</font><span style="font-size:10.8333px">i<sub>k</sub></span><font face="monospace">])</font></code> 。</li>
+	<li>Let <code>i<sub>0</sub></code>, <code>i<sub>1</sub></code>, ... ,<code>i<sub>k</sub></code> be the indices of the heroes in a group. Then, the power of this group is <code>max(nums[i<sub>0</sub>], nums[i<sub>1</sub>], ... ,nums[i<sub>k</sub>])<sup>2</sup> * min(nums[i<sub>0</sub>], nums[i<sub>1</sub>], ... ,nums[i<sub>k</sub>])</code>.</li>
 </ul>
 
-<p>请你返回所有可能的 <strong>非空</strong> 英雄组的 <strong>力量</strong> 之和。由于答案可能非常大，请你将结果对&nbsp;<code>10<sup>9 </sup>+ 7</code>&nbsp;<strong>取余。</strong></p>
+<p>Return <em>the sum of the <strong>power</strong> of all <strong>non-empty</strong> groups of heroes possible.</em> Since the sum could be very large, return it <strong>modulo</strong> <code>10<sup>9 </sup>+ 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [2,1,4]
-<b>输出：</b>141
-<b>解释：</b>
-第 1&nbsp;组：[2] 的力量为 2<sup>2</sup>&nbsp;* 2 = 8 。
-第 2&nbsp;组：[1] 的力量为 1<sup>2</sup> * 1 = 1 。
-第 3&nbsp;组：[4] 的力量为 4<sup>2</sup> * 4 = 64 。
-第 4&nbsp;组：[2,1] 的力量为 2<sup>2</sup> * 1 = 4 。
-第 5 组：[2,4] 的力量为 4<sup>2</sup> * 2 = 32 。
-第 6&nbsp;组：[1,4] 的力量为 4<sup>2</sup> * 1 = 16 。
-第​ ​​​​​​7&nbsp;组：[2,1,4] 的力量为 4<sup>2</sup>​​​​​​​ * 1 = 16 。
-所有英雄组的力量之和为 8 + 1 + 64 + 4 + 32 + 16 + 16 = 141 。
+<strong>Input:</strong> nums = [2,1,4]
+<strong>Output:</strong> 141
+<strong>Explanation:</strong> 
+1<sup>st</sup>&nbsp;group: [2] has power = 2<sup>2</sup>&nbsp;* 2 = 8.
+2<sup>nd</sup>&nbsp;group: [1] has power = 1<sup>2</sup> * 1 = 1. 
+3<sup>rd</sup>&nbsp;group: [4] has power = 4<sup>2</sup> * 4 = 64. 
+4<sup>th</sup>&nbsp;group: [2,1] has power = 2<sup>2</sup> * 1 = 4. 
+5<sup>th</sup>&nbsp;group: [2,4] has power = 4<sup>2</sup> * 2 = 32. 
+6<sup>th</sup>&nbsp;group: [1,4] has power = 4<sup>2</sup> * 1 = 16. 
+​​​​​​​7<sup>th</sup>&nbsp;group: [2,1,4] has power = 4<sup>2</sup>​​​​​​​ * 1 = 16. 
+The sum of powers of all groups is 8 + 1 + 64 + 4 + 32 + 16 + 16 = 141.
+
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,1,1]
-<b>输出：</b>7
-<b>解释：</b>总共有 7 个英雄组，每一组的力量都是 1 。所以所有英雄组的力量之和为 7 。
+<strong>Input:</strong> nums = [1,1,1]
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> A total of 7 groups are possible, and the power of each group will be 1. Therefore, the sum of the powers of all groups is 7.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -67,27 +63,27 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 数学
+### Solution 1: Sorting + Mathematics
 
-我们注意到，题目中涉及到子序列的最大值和最小值，数组中元素的顺序不影响最终的结果，因此我们可以先对数组进行排序。
+We notice that the problem involves the maximum and minimum values of a subsequence, and the order of elements in the array does not affect the final result. Therefore, we can sort the array first.
 
-接下来，我们枚举每个元素作为子序列的最小值，不妨记数组的每个元素为 $a_1, a_2, \cdots, a_n$。以 $a_i$ 作为最小值的子序列的贡献为：
+Next, we enumerate each element as the minimum value of the subsequence. Let's denote each element of the array as $a_1, a_2, \cdots, a_n$. The contribution of the subsequence with $a_i$ as the minimum value is:
 
 $$
 a_i \times (a_{i}^{2} + a_{i+1}^2 + 2 \times a_{i+2}^2 + 4 \times a_{i+3}^2 + \cdots + 2^{n-i-1} \times a_n^2)
 $$
 
-我们注意到，每一个 $a_i$ 都会乘上 $a_i^2$，这一部分我们可以直接累加到答案中。剩下的部分，我们可以用一个变量 $p$ 来维护，初始时 $p = 0$。
+We notice that each $a_i$ will be multiplied by $a_i^2$, which we can directly add to the answer. For the remaining part, we can maintain it with a variable $p$, initially set to $0$.
 
-接下来从右往左枚举 $a_i$，每次我们将 $a_i \times p$ 累加到答案中，然后令 $p = p \times 2 + a_i^2$。
+Then, we enumerate $a_i$ from right to left. Each time, we add $a_i \times p$ to the answer, and then set $p = p \times 2 + a_i^2$.
 
-枚举完所有的 $a_i$ 之后，返回答案即可。
+After enumerating all $a_i$, return the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

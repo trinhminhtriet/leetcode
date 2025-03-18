@@ -1,92 +1,88 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2715.Timeout%20Cancellation/README.md
+difficulty: Easy
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2715. 执行可取消的延迟函数](https://leetcode.cn/problems/timeout-cancellation)
+# [2715. Timeout Cancellation](https://leetcode.com/problems/timeout-cancellation)
 
-[English Version](/solution/2700-2799/2715.Timeout%20Cancellation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个函数 <code>fn</code>&nbsp;，一个参数数组 <code>args</code> 和一个以毫秒为单位的超时时间 <code>t</code> ，返回一个取消函数 <code>cancelFn</code> 。</p>
+<p>Given a function <code>fn</code>, an array of&nbsp;arguments&nbsp;<code>args</code>, and a timeout&nbsp;<code>t</code>&nbsp;in milliseconds, return a cancel function <code>cancelFn</code>.</p>
 
-<p>在 <code>cancelTimeMs</code>&nbsp;的延迟后，返回的取消函数 <code>cancelFn</code> 将被调用。</p>
+<p>After a delay of <code>cancelTimeMs</code>, the returned cancel function <code>cancelFn</code> will be invoked.</p>
 
 <pre>
 setTimeout(cancelFn, cancelTimeMs)
 </pre>
 
-<p>最初，函数 <code>fn</code> 的执行应该延迟 <code>t</code> 毫秒。</p>
+<p>Initially, the execution of the function <code>fn</code> should be delayed by <code>t</code> milliseconds.</p>
 
-<p>如果在 <code>t</code> 毫秒的延迟之前调用了函数 <code>cancelFn</code>，它应该取消 <code>fn</code> 的延迟执行。否则，如果在指定的延迟 <code>t</code> 内没有调用 <code>cancelFn</code>，则应执行 <code>fn</code>，并使用提供的 <code>args</code> 作为参数。</p>
+<p>If, before the delay of <code>t</code> milliseconds, the function <code>cancelFn</code> is invoked, it should cancel the delayed execution of <code>fn</code>. Otherwise, if <code>cancelFn</code> is not invoked within the specified delay <code>t</code>, <code>fn</code> should be executed with the provided <code>args</code> as arguments.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>fn = (x) =&gt; x * 5, args = [2], t = 20
-<b>输出：</b>[{"time": 20, "returned": 10}]
-<b>解释：</b>
+<strong>Input:</strong> fn = (x) =&gt; x * 5, args = [2], t = 20
+<strong>Output:</strong> [{&quot;time&quot;: 20, &quot;returned&quot;: 10}]
+<strong>Explanation:</strong> 
 const cancelTimeMs = 50;
 const cancelFn = cancellable((x) =&gt; x * 5, [2], 20);
 setTimeout(cancelFn, cancelTimeMs);
 
-取消操作被安排在延迟了 cancelTimeMs（50毫秒）后进行，这发生在 fn(2) 在20毫秒时执行之后。</pre>
+The cancellation was scheduled to occur after a delay of cancelTimeMs (50ms), which happened after the execution of fn(2) at 20ms.
+</pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>fn = (x) =&gt; x**2, args = [2], t = 100
-<b>输出：</b>[]
-<b>解释：</b>
+<strong>Input:</strong> fn = (x) =&gt; x**2, args = [2], t = 100
+<strong>Output:</strong> []
+<strong>Explanation:</strong> 
 const cancelTimeMs = 50;
 const cancelFn = cancellable((x) =&gt; x**2, [2], 100);
 setTimeout(cancelFn, cancelTimeMs);
 
-取消操作被安排在延迟了 cancelTimeMs（50毫秒）后进行，这发生在 fn(2) 在100毫秒时执行之前，导致 fn(2) 从未被调用。
+The cancellation was scheduled to occur after a delay of cancelTimeMs (50ms), which happened before the execution of fn(2) at 100ms, resulting in fn(2) never being called.
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>fn = (x1, x2) =&gt; x1 * x2, args = [2,4], t = 30
-<b>输出：</b>[{"time": 30, "returned": 8}]
-<b>解释：</b>
-const cancelTimeMs = 100;
+<strong>Input:</strong> fn = (x1, x2) =&gt; x1 * x2, args = [2,4], t = 30
+<strong>Output:</strong> [{&quot;time&quot;: 30, &quot;returned&quot;: 8}]
+<strong>Explanation: 
+</strong>const cancelTimeMs = 100;
 const cancelFn = cancellable((x1, x2) =&gt; x1 * x2, [2,4], 30);
 setTimeout(cancelFn, cancelTimeMs);
 
-取消操作被安排在延迟了 cancelTimeMs（100毫秒）后进行，这发生在 fn(2,4) 在30毫秒时执行之后。
+The cancellation was scheduled to occur after a delay of cancelTimeMs (100ms), which happened after the execution of fn(2,4) at 30ms.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>fn</code> 是一个函数</li>
-	<li><code>args</code> 是一个有效的 JSON 数组</li>
+	<li><code>fn</code> is a function</li>
+	<li><code>args</code> is a valid JSON array</li>
 	<li><code>1 &lt;= args.length &lt;= 10</code></li>
 	<li><code><font face="monospace">20 &lt;= t &lt;= 1000</font></code></li>
-	<li><code><font face="monospace">10 &lt;= cancelTimeMs&nbsp;&lt;= 1000</font></code></li>
+	<li><code><font face="monospace">10 &lt;= cancelTimeMs &lt;= 1000</font></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

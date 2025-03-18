@@ -1,66 +1,63 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1734.Decode%20XORed%20Permutation/README.md
+difficulty: Medium
 rating: 2024
-source: 第 44 场双周赛 Q3
+source: Biweekly Contest 44 Q3
 tags:
-    - 位运算
-    - 数组
+    - Bit Manipulation
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [1734. 解码异或后的排列](https://leetcode.cn/problems/decode-xored-permutation)
+# [1734. Decode XORed Permutation](https://leetcode.com/problems/decode-xored-permutation)
 
-[English Version](/solution/1700-1799/1734.Decode%20XORed%20Permutation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>perm</code> ，它是前 <code>n</code> 个正整数的排列，且 <code>n</code> 是个 <strong>奇数</strong> 。</p>
+<p>There is an integer array <code>perm</code> that is a permutation of the first <code>n</code> positive integers, where <code>n</code> is always <strong>odd</strong>.</p>
 
-<p>它被加密成另一个长度为 <code>n - 1</code> 的整数数组 <code>encoded</code> ，满足 <code>encoded[i] = perm[i] XOR perm[i + 1]</code> 。比方说，如果 <code>perm = [1,3,2]</code> ，那么 <code>encoded = [2,1]</code> 。</p>
+<p>It was encoded into another integer array <code>encoded</code> of length <code>n - 1</code>, such that <code>encoded[i] = perm[i] XOR perm[i + 1]</code>. For example, if <code>perm = [1,3,2]</code>, then <code>encoded = [2,1]</code>.</p>
 
-<p>给你 <code>encoded</code> 数组，请你返回原始数组 <code>perm</code> 。题目保证答案存在且唯一。</p>
+<p>Given the <code>encoded</code> array, return <em>the original array</em> <code>perm</code>. It is guaranteed that the answer exists and is unique.</p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>encoded = [3,1]
-<b>输出：</b>[1,2,3]
-<b>解释：</b>如果 perm = [1,2,3] ，那么 encoded = [1 XOR 2,2 XOR 3] = [3,1]
+<pre>
+<strong>Input:</strong> encoded = [3,1]
+<strong>Output:</strong> [1,2,3]
+<strong>Explanation:</strong> If perm = [1,2,3], then encoded = [1 XOR 2,2 XOR 3] = [3,1]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>encoded = [6,5,4,6]
-<b>输出：</b>[2,4,1,5,3]
+<pre>
+<strong>Input:</strong> encoded = [6,5,4,6]
+<strong>Output:</strong> [2,4,1,5,3]
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>3 &lt;= n &lt; 10<sup>5</sup></code></li>
-	<li><code>n</code> 是奇数。</li>
+	<li><code>3 &lt;= n &lt;&nbsp;10<sup>5</sup></code></li>
+	<li><code>n</code>&nbsp;is odd.</li>
 	<li><code>encoded.length == n - 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算
+### Solution 1: Bitwise Operation
 
-我们注意到，数组 $perm$ 是前 $n$ 个正整数的排列，因此 $perm$ 的所有元素的异或和为 $1 \oplus 2 \oplus \cdots \oplus n$，记为 $a$。而 $encode[i]=perm[i] \oplus perm[i+1]$，如果我们将 $encode[0],encode[2],\cdots,encode[n-3]$ 的所有元素的异或和记为 $b$，则 $perm[n-1]=a \oplus b$。知道了 $perm$ 的最后一个元素，我们就可以通过逆序遍历数组 $encode$ 求出 $perm$ 的所有元素。
+We notice that the array $perm$ is a permutation of the first $n$ positive integers, so the XOR of all elements in $perm$ is $1 \oplus 2 \oplus \cdots \oplus n$, denoted as $a$. And $encode[i]=perm[i] \oplus perm[i+1]$, if we denote the XOR of all elements $encode[0],encode[2],\cdots,encode[n-3]$ as $b$, then $perm[n-1]=a \oplus b$. Knowing the last element of $perm$, we can find all elements of $perm$ by traversing the array $encode$ in reverse order.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 $perm$ 的长度。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $perm$. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

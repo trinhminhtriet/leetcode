@@ -1,51 +1,43 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0869.Reordered%20Power%20of%202/README.md
+difficulty: Medium
 tags:
-    - 哈希表
-    - 数学
-    - 计数
-    - 枚举
-    - 排序
+    - Hash Table
+    - Math
+    - Counting
+    - Enumeration
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [869. 重新排序得到 2 的幂](https://leetcode.cn/problems/reordered-power-of-2)
+# [869. Reordered Power of 2](https://leetcode.com/problems/reordered-power-of-2)
 
-[English Version](/solution/0800-0899/0869.Reordered%20Power%20of%202/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定正整数&nbsp;<code>n</code>&nbsp;，我们按任何顺序（包括原始顺序）将数字重新排序，注意其前导数字不能为零。</p>
+<p>You are given an integer <code>n</code>. We reorder the digits in any order (including the original order) such that the leading digit is not zero.</p>
 
-<p>如果我们可以通过上述方式得到&nbsp;2 的幂，返回 <code>true</code>；否则，返回 <code>false</code>。</p>
+<p>Return <code>true</code> <em>if and only if we can do this so that the resulting number is a power of two</em>.</p>
 
 <p>&nbsp;</p>
-
-<ol>
-</ol>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 1
-<strong>输出：</strong>true
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> true
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 10
-<strong>输出：</strong>false
+<strong>Input:</strong> n = 10
+<strong>Output:</strong> false
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>9</sup></code></li>
@@ -53,11 +45,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

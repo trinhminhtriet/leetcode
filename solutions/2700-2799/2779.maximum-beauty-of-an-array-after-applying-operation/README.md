@@ -1,69 +1,64 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2779.Maximum%20Beauty%20of%20an%20Array%20After%20Applying%20Operation/README.md
+difficulty: Medium
 rating: 1638
-source: 第 354 场周赛 Q2
+source: Weekly Contest 354 Q2
 tags:
-    - 数组
-    - 二分查找
-    - 排序
-    - 滑动窗口
+    - Array
+    - Binary Search
+    - Sorting
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [2779. 数组的最大美丽值](https://leetcode.cn/problems/maximum-beauty-of-an-array-after-applying-operation)
+# [2779. Maximum Beauty of an Array After Applying Operation](https://leetcode.com/problems/maximum-beauty-of-an-array-after-applying-operation)
 
-[English Version](/solution/2700-2799/2779.Maximum%20Beauty%20of%20an%20Array%20After%20Applying%20Operation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 和一个 <strong>非负</strong> 整数 <code>k</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> array <code>nums</code> and a <strong>non-negative</strong> integer <code>k</code>.</p>
 
-<p>在一步操作中，你可以执行下述指令：</p>
+<p>In one operation, you can do the following:</p>
 
 <ul>
-	<li>在范围&nbsp;<code>[0, nums.length - 1]</code> 中选择一个 <strong>此前没有选过</strong> 的下标 <code>i</code> 。</li>
-	<li>将 <code>nums[i]</code> 替换为范围 <code>[nums[i] - k, nums[i] + k]</code> 内的任一整数。</li>
+	<li>Choose an index <code>i</code> that <strong>hasn&#39;t been chosen before</strong> from the range <code>[0, nums.length - 1]</code>.</li>
+	<li>Replace <code>nums[i]</code> with any integer from the range <code>[nums[i] - k, nums[i] + k]</code>.</li>
 </ul>
 
-<p>数组的 <strong>美丽值</strong> 定义为数组中由相等元素组成的最长子序列的长度。</p>
+<p>The <strong>beauty</strong> of the array is the length of the longest subsequence consisting of equal elements.</p>
 
-<p>对数组 <code>nums</code> 执行上述操作任意次后，返回数组可能取得的 <strong>最大</strong> 美丽值。</p>
+<p>Return <em>the <strong>maximum</strong> possible beauty of the array </em><code>nums</code><em> after applying the operation any number of times.</em></p>
 
-<p><strong>注意：</strong>你 <strong>只</strong> 能对每个下标执行 <strong>一次</strong> 此操作。</p>
+<p><strong>Note</strong> that you can apply the operation to each index <strong>only once</strong>.</p>
 
-<p>数组的 <strong>子序列</strong> 定义是：经由原数组删除一些元素（也可能不删除）得到的一个新数组，且在此过程中剩余元素的顺序不发生改变。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [4,6,1,2], k = 2
-<strong>输出：</strong>3
-<strong>解释：</strong>在这个示例中，我们执行下述操作：
-- 选择下标 1 ，将其替换为 4（从范围 [4,8] 中选出），此时 nums = [4,4,1,2] 。
-- 选择下标 3 ，将其替换为 4（从范围 [0,4] 中选出），此时 nums = [4,4,1,4] 。
-执行上述操作后，数组的美丽值是 3（子序列由下标 0 、1 、3 对应的元素组成）。
-可以证明 3 是我们可以得到的由相等元素组成的最长子序列长度。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,1,1,1], k = 10
-<strong>输出：</strong>4
-<strong>解释：</strong>在这个示例中，我们无需执行任何操作。
-数组 nums 的美丽值是 4（整个数组）。
-</pre>
+<p>A&nbsp;<strong>subsequence</strong> of an array is a new array generated from the original array by deleting some elements (possibly none) without changing the order of the remaining elements.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [4,6,1,2], k = 2
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> In this example, we apply the following operations:
+- Choose index 1, replace it with 4 (from range [4,8]), nums = [4,4,1,2].
+- Choose index 3, replace it with 4 (from range [0,4]), nums = [4,4,1,4].
+After the applied operations, the beauty of the array nums is 3 (subsequence consisting of indices 0, 1, and 3).
+It can be proven that 3 is the maximum possible length we can achieve.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,1,1,1], k = 10
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> In this example we don&#39;t have to apply any operations.
+The beauty of the array nums is 4 (whole array).
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -72,19 +67,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：差分数组
+### Solution 1: Difference Array
 
-我们注意到，对于每一次操作，区间 $[nums[i]-k, nums[i]+k]$ 内的所有元素都会增加 $1$，因此我们可以使用差分数组来记录这些操作对美丽值的贡献。
+We notice that for each operation, all elements within the interval $[nums[i]-k, nums[i]+k]$ will increase by $1$. Therefore, we can use a difference array to record the contributions of these operations to the beauty value.
 
-题目中 $nums[i]-k$ 可能为负数，我们统一将所有元素加上 $k$，保证结果为非负数。因此，我们可以创建一个长度为 $\max(nums) + k \times 2 + 2$ 的差分数组 $d$。
+In the problem, $nums[i]-k$ might be negative. We add $k$ to all elements to ensure the results are non-negative. Thus, we can create a difference array $d$ with a length of $\max(nums) + k \times 2 + 2$.
 
-接下来，遍历数组 $nums$，对于当前遍历到的元素 $x$，我们将 $d[x]$ 增加 $1$，将 $d[x+k\times2+1]$ 减少 $1$。这样，我们就可以通过 $d$ 数组计算出每个位置的前缀和，即为每个位置的美丽值。找到最大的美丽值即可。
+Next, we iterate through the array $nums$. For the current element $x$ being iterated, we increase $d[x]$ by $1$ and decrease $d[x+k\times2+1]$ by $1$. In this way, we can calculate the prefix sum for each position using the $d$ array, which represents the beauty value for each position. The maximum beauty value can then be found.
 
-时间复杂度 $O(M + 2 \times k + n)$，空间复杂度 $O(M + 2 \times k)$。其中 $n$ 是数组 $nums$ 的长度，而 $M$ 是数组 $nums$ 中的最大值。
+The time complexity is $O(M + 2 \times k + n)$, and the space complexity is $O(M + 2 \times k)$. Here, $n$ is the length of the array $nums$, and $M$ is the maximum value in the array $nums$.
 
 <!-- tabs:start -->
 

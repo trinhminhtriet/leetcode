@@ -1,64 +1,63 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0964.Least%20Operators%20to%20Express%20Number/README.md
+difficulty: Hard
 tags:
-    - 记忆化搜索
-    - 数学
-    - 动态规划
+    - Memoization
+    - Math
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [964. 表示数字的最少运算符](https://leetcode.cn/problems/least-operators-to-express-number)
+# [964. Least Operators to Express Number](https://leetcode.com/problems/least-operators-to-express-number)
 
-[English Version](/solution/0900-0999/0964.Least%20Operators%20to%20Express%20Number/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个正整数 <code>x</code>，我们将会写出一个形如&nbsp;<code>x (op1) x (op2) x (op3) x ...</code>&nbsp;的表达式，其中每个运算符&nbsp;<code>op1</code>，<code>op2</code>，… 可以是加、减、乘、除（<code>+</code>，<code>-</code>，<code>*</code>，或是&nbsp;<code>/</code>）之一。例如，对于&nbsp;<code>x = 3</code>，我们可以写出表达式&nbsp;<code>3 * 3 / 3 + 3 - 3</code>，该式的值为 3 。</p>
+<p>Given a single positive integer <code>x</code>, we will write an expression of the form <code>x (op1) x (op2) x (op3) x ...</code> where each operator <code>op1</code>, <code>op2</code>, etc. is either addition, subtraction, multiplication, or division (<code>+</code>, <code>-</code>, <code>*</code>, or <code>/)</code>. For example, with <code>x = 3</code>, we might write <code>3 * 3 / 3 + 3 - 3</code> which is a value of <font face="monospace">3</font>.</p>
 
-<p>在写这样的表达式时，我们需要遵守下面的惯例：</p>
+<p>When writing such an expression, we adhere to the following conventions:</p>
 
 <ul>
-	<li>除运算符（<code>/</code>）返回有理数。</li>
-	<li>任何地方都没有括号。</li>
-	<li>我们使用通常的操作顺序：乘法和除法发生在加法和减法之前。</li>
-	<li>不允许使用一元否定运算符（<code>-</code>）。例如，“<code>x - x</code>” 是一个有效的表达式，因为它只使用减法，但是 “<code>-x + x</code>” 不是，因为它使用了否定运算符。&nbsp;</li>
+	<li>The division operator (<code>/</code>) returns rational numbers.</li>
+	<li>There are no parentheses placed anywhere.</li>
+	<li>We use the usual order of operations: multiplication and division happen before addition and subtraction.</li>
+	<li>It is not allowed to use the unary negation operator (<code>-</code>). For example, &quot;<code>x - x</code>&quot; is a valid expression as it only uses subtraction, but &quot;<code>-x + x</code>&quot; is not because it uses negation.</li>
 </ul>
 
-<p>我们希望编写一个能使表达式等于给定的目标值 <code>target</code> 且运算符最少的表达式。返回所用运算符的最少数量。</p>
+<p>We would like to write an expression with the least number of operators such that the expression equals the given <code>target</code>. Return the least number of operators used.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>x = 3, target = 19
-<strong>输出：</strong>5
-<strong>解释：</strong>3 * 3 + 3 * 3 + 3 / 3 。表达式包含 5 个运算符。
+<strong>Input:</strong> x = 3, target = 19
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> 3 * 3 + 3 * 3 + 3 / 3.
+The expression contains 5 operations.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>x = 5, target = 501
-<strong>输出：</strong>8
-<strong>解释：</strong>5 * 5 * 5 * 5 - 5 * 5 * 5 + 5 / 5 。表达式包含 8 个运算符。
+<strong>Input:</strong> x = 5, target = 501
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> 5 * 5 * 5 * 5 - 5 * 5 * 5 + 5 / 5.
+The expression contains 8 operations.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>x = 100, target = 100000000
-<strong>输出：</strong>3
-<strong>解释：</strong>100 * 100 * 100 * 100 。表达式包含 3 个运算符。</pre>
+<strong>Input:</strong> x = 100, target = 100000000
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 100 * 100 * 100 * 100.
+The expression contains 3 operations.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= x &lt;= 100</code></li>
@@ -67,26 +66,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
-
-我们定义一个函数 $dfs(v)$，表示用 $x$ 凑成数字 $v$ 所需要的最少运算符数量。那么答案就是 $dfs(target)$。
-
-函数 $dfs(v)$ 的执行逻辑如下：
-
-如果 $x \geq v$，那么此时可以用 $v$ 个 $x / x$ 相加来得到 $v$，运算符数量为 $v \times 2 - 1$；也可以用 $x$ 减去 $(x - v)$ 个 $x / x$ 来得到 $v$，运算符数量为 $(x - v) \times 2$。取两者的最小值。
-
-否则，我们从 $k=2$ 开始枚举 $x^k$，找到第一个 $x^k \geq v$ 的 $k$：
-
--   如果此时 $x^k - v \geq v$，那么只能先得到 $x^{k-1}$，然后再递归计算 $dfs(v - x^{k-1})$，此时运算符数量为 $k - 1 + dfs(v - x^{k-1})$；
--   如果此时 $x^k - v < v$，那么可以按照上面的方式得到 $v$，此时运算符数量为 $k - 1 + dfs(v - x^{k-1})$；也可以先得到 $x^k$，再递归计算 $dfs(x^k - v)$，此时运算符数量为 $k + dfs(x^k - v)$。取两者的最小值。
-
-为了避免重复计算，我们使用记忆化搜索的方式实现 $dfs$ 函数。
-
-时间复杂度 $O(\log_{x}{target})$，空间复杂度 $O(\log_{x}{target})$。
+### Solution 1
 
 <!-- tabs:start -->
 

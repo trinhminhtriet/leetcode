@@ -1,47 +1,42 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0905.Sort%20Array%20By%20Parity/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 双指针
-    - 排序
+    - Array
+    - Two Pointers
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [905. 按奇偶排序数组](https://leetcode.cn/problems/sort-array-by-parity)
+# [905. Sort Array By Parity](https://leetcode.com/problems/sort-array-by-parity)
 
-[English Version](/solution/0900-0999/0905.Sort%20Array%20By%20Parity/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code>，将 <code>nums</code> 中的的所有偶数元素移动到数组的前面，后跟所有奇数元素。</p>
+<p>Given an integer array <code>nums</code>, move all the even integers at the beginning of the array followed by all the odd integers.</p>
 
-<p>返回满足此条件的 <strong>任一数组</strong> 作为答案。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [3,1,2,4]
-<strong>输出：</strong>[2,4,3,1]
-<strong>解释：</strong>[4,2,3,1]、[2,4,1,3] 和 [4,2,1,3] 也会被视作正确答案。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [0]
-<strong>输出：</strong>[0]
-</pre>
+<p>Return <em><strong>any array</strong> that satisfies this condition</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [3,1,2,4]
+<strong>Output:</strong> [2,4,3,1]
+<strong>Explanation:</strong> The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [0]
+<strong>Output:</strong> [0]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 5000</code></li>
@@ -50,21 +45,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1: Two Pointers
 
-我们用两个指针 $i$ 和 $j$ 分别指向数组的首尾，当 $i < j$ 时，执行以下操作。
+We use two pointers $i$ and $j$ to point to the beginning and end of the array respectively. When $i < j$, we perform the following operations.
 
--   如果 $nums[i]$ 为偶数，则 $i$ 自增 $1$。
--   如果 $nums[j]$ 为奇数，则 $j$ 自减 $1$。
--   如果 $nums[i]$ 为奇数，且 $nums[j]$ 为偶数，则交换 $nums[i]$ 和 $nums[j]$。然后 $i$ 自增 $1$，而 $j$ 自减 $1$。
+-   If $nums[i]$ is even, then increment $i$ by $1$.
+-   If $nums[j]$ is odd, then decrement $j$ by $1$.
+-   If $nums[i]$ is odd and $nums[j]$ is even, then swap $nums[i]$ and $nums[j]$. Then increment $i$ by $1$, and decrement $j$ by $1$.
 
-最后返回数组 $nums$ 即可。
+Finally, return the array $nums$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

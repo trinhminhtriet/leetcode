@@ -1,90 +1,85 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1631.Path%20With%20Minimum%20Effort/README.md
+difficulty: Medium
 rating: 1947
-source: 第 212 场周赛 Q3
+source: Weekly Contest 212 Q3
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 并查集
-    - 数组
-    - 二分查找
-    - 矩阵
-    - 堆（优先队列）
+    - Depth-First Search
+    - Breadth-First Search
+    - Union Find
+    - Array
+    - Binary Search
+    - Matrix
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1631. 最小体力消耗路径](https://leetcode.cn/problems/path-with-minimum-effort)
+# [1631. Path With Minimum Effort](https://leetcode.com/problems/path-with-minimum-effort)
 
-[English Version](/solution/1600-1699/1631.Path%20With%20Minimum%20Effort/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你准备参加一场远足活动。给你一个二维 <code>rows x columns</code> 的地图 <code>heights</code> ，其中 <code>heights[row][col]</code> 表示格子 <code>(row, col)</code> 的高度。一开始你在最左上角的格子 <code>(0, 0)</code> ，且你希望去最右下角的格子 <code>(rows-1, columns-1)</code> （注意下标从 <strong>0</strong> 开始编号）。你每次可以往 <strong>上</strong>，<strong>下</strong>，<strong>左</strong>，<strong>右</strong> 四个方向之一移动，你想要找到耗费 <strong>体力</strong> 最小的一条路径。</p>
+<p>You are a hiker preparing for an upcoming hike. You are given <code>heights</code>, a 2D array of size <code>rows x columns</code>, where <code>heights[row][col]</code> represents the height of cell <code>(row, col)</code>. You are situated in the top-left cell, <code>(0, 0)</code>, and you hope to travel to the bottom-right cell, <code>(rows-1, columns-1)</code> (i.e.,&nbsp;<strong>0-indexed</strong>). You can move <strong>up</strong>, <strong>down</strong>, <strong>left</strong>, or <strong>right</strong>, and you wish to find a route that requires the minimum <strong>effort</strong>.</p>
 
-<p>一条路径耗费的 <strong>体力值</strong> 是路径上相邻格子之间 <strong>高度差绝对值</strong> 的 <strong>最大值</strong> 决定的。</p>
+<p>A route&#39;s <strong>effort</strong> is the <strong>maximum absolute difference</strong><strong> </strong>in heights between two consecutive cells of the route.</p>
 
-<p>请你返回从左上角走到右下角的最小<strong> 体力消耗值</strong> 。</p>
+<p>Return <em>the minimum <strong>effort</strong> required to travel from the top-left cell to the bottom-right cell.</em></p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1631.Path%20With%20Minimum%20Effort/images/ex1.png" style="width: 300px; height: 300px;" /></p>
 
 <pre>
-<b>输入：</b>heights = [[1,2,2],[3,8,2],[5,3,5]]
-<b>输出：</b>2
-<b>解释：</b>路径 [1,3,5,3,5] 连续格子的差值绝对值最大为 2 。
-这条路径比路径 [1,2,2,2,5] 更优，因为另一条路径差值最大值为 3 。
+<strong>Input:</strong> heights = [[1,2,2],[3,8,2],[5,3,5]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The route of [1,3,5,3,5] has a maximum absolute difference of 2 in consecutive cells.
+This is better than the route of [1,2,2,2,5], where the maximum absolute difference is 3.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1631.Path%20With%20Minimum%20Effort/images/ex2.png" style="width: 300px; height: 300px;" /></p>
 
 <pre>
-<b>输入：</b>heights = [[1,2,3],[3,8,4],[5,3,5]]
-<b>输出：</b>1
-<b>解释：</b>路径 [1,2,3,4,5] 的相邻格子差值绝对值最大为 1 ，比路径 [1,3,5,3,5] 更优。
+<strong>Input:</strong> heights = [[1,2,3],[3,8,4],[5,3,5]]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The route of [1,2,3,4,5] has a maximum absolute difference of 1 in consecutive cells, which is better than route [1,3,5,3,5].
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1631.Path%20With%20Minimum%20Effort/images/ex3.png" style="width: 300px; height: 300px;" />
 <pre>
-<b>输入：</b>heights = [[1,2,1,1,1],[1,2,1,2,1],[1,2,1,2,1],[1,2,1,2,1],[1,1,1,2,1]]
-<b>输出：</b>0
-<b>解释：</b>上图所示路径不需要消耗任何体力。
+<strong>Input:</strong> heights = [[1,2,1,1,1],[1,2,1,2,1],[1,2,1,2,1],[1,2,1,2,1],[1,1,1,2,1]]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> This route does not require any effort.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>rows == heights.length</code></li>
 	<li><code>columns == heights[i].length</code></li>
-	<li><code>1 <= rows, columns <= 100</code></li>
-	<li><code>1 <= heights[i][j] <= 10<sup>6</sup></code></li>
+	<li><code>1 &lt;= rows, columns &lt;= 100</code></li>
+	<li><code>1 &lt;= heights[i][j] &lt;= 10<sup>6</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：并查集
+### Solution 1: Union-Find
 
-对于本题，我们可以把每个格子当做图的一个节点，把相邻两个格子的高度差绝对值当做边的权重，因此本题是求解从最左上角的节点到最右下角的节点的连通性问题。
+For this problem, we can treat each cell as a node in a graph, and the absolute difference in height between two adjacent cells as the weight of the edge. Therefore, this problem is to solve the connectivity problem from the top-left node to the bottom-right node.
 
-我们先构建一个边集，然后按照边的权重从小到大进行排序，逐个添加边，直到最左上角的节点和最右下角的节点连通为止，此时的边的权重就是题目的最小体力消耗值。
+We first construct a set of edges, then sort them in ascending order of edge weight, and add edges one by one until the top-left node and the bottom-right node are connected. At this point, the weight of the edge is the minimum physical consumption value required by the problem.
 
-时间复杂度 $O(m \times n \times \log(m \times n))$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是二维数组的行数和列数。
+The time complexity is $O(m \times n \times \log(m \times n))$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the number of rows and columns in the two-dimensional array, respectively.
 
 <!-- tabs:start -->
 
@@ -436,13 +431,13 @@ function minimumEffortPath(heights: number[][]): number {
 
 <!-- solution:start -->
 
-### 方法二：二分查找 + BFS
+### Solution 2: Binary Search + BFS
 
-我们注意到，如果一个路径的最大体力消耗值为 $x$，那么对于任意 $y > x$，该路径也是满足条件的，这存在着单调性，因此我们可以使用二分查找的方法，找到最小的满足条件的体力消耗值。
+We notice that if the maximum physical consumption value of a path is $x$, then for any $y > x$, this path also meets the conditions. This shows monotonicity, so we can use the binary search method to find the minimum physical consumption value that meets the conditions.
 
-我们定义二分查找的左边界 $l=0$，右边界 $r=10^6$，每次取 $mid=(l+r)/2$，然后使用 BFS 判断是否存在一条从左上角到右下角的路径，使得路径上相邻节点的高度差绝对值都不大于 $mid$，如果存在，那么说明 $mid$ 还有可能是最小的满足条件的体力消耗值，因此令 $r=mid$，否则令 $l=mid+1$。
+We define the left boundary of the binary search as $l=0$, and the right boundary as $r=10^6$. Each time we take $mid=(l+r)/2$, then use BFS to determine whether there is a path from the top-left corner to the bottom-right corner, so that the absolute difference in height between adjacent nodes on the path is not greater than $mid$. If it exists, it means that $mid$ may still be the minimum physical consumption value that meets the conditions, so we set $r=mid$, otherwise we set $l=mid+1$.
 
-时间复杂度 $O(m \times n \times \log M)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是二维数组的行数和列数，而 $M$ 是二维数组中的最大值，本题中 $M=10^6$。
+The time complexity is $O(m \times n \times \log M)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the number of rows and columns in the two-dimensional array, respectively, and $M$ is the maximum value in the two-dimensional array. In this problem, $M=10^6$.
 
 <!-- tabs:start -->
 
@@ -660,15 +655,15 @@ function minimumEffortPath(heights: number[][]): number {
 
 <!-- solution:start -->
 
-### 方法三：堆优化的 Dijkstra 算法
+### Solution 3: Heap-optimized Dijkstra Algorithm
 
-我们可以把每个格子当做图的一个节点，把相邻两个格子的高度差绝对值当做边的权重，因此本题是求解从最左上角的节点到最右下角的节点的最短路径问题。
+We can treat each cell as a node in a graph, and the absolute difference in height between two adjacent cells as the weight of the edge. Therefore, this problem is to solve the shortest path problem from the top-left node to the bottom-right node.
 
-我们可以使用 Dijkstra 算法求解最短路径，使用优先队列（堆）来优化时间复杂度。具体地，我们维护一个大小为 $m \times n$ 的二维数组 $dist$，其中 $dist[i][j]$ 表示从左上角到节点 $(i,j)$ 的最短路径的最大权重，初始时 $dist[0][0]=0$，其余元素均为正无穷大。
+We can use the Dijkstra algorithm to solve the shortest path problem, and use a priority queue (heap) to optimize the time complexity. Specifically, we maintain a two-dimensional array $dist$ of size $m \times n$, where $dist[i][j]$ represents the maximum weight of the shortest path from the top-left corner to the node $(i,j)$. Initially, $dist[0][0]=0$, and all other elements are positive infinity.
 
-我们用优先队列（堆）来存储节点，每次从优先队列（堆）中取出权重最小的节点，然后更新其相邻节点的权重，如果相邻节点的权重发生了改变，那么就把该节点加入优先队列（堆）中。当优先队列（堆）为空时，说明我们已经找到了最短路径。
+We use a priority queue (heap) to store nodes, and each time we take out the node with the smallest weight from the priority queue (heap), then update the weights of its adjacent nodes. If the weight of an adjacent node changes, then we add this node to the priority queue (heap). When the priority queue (heap) is empty, it means that we have found the shortest path.
 
-时间复杂度 $O(m \times n \times \log(m \times n))$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是二维数组的行数和列数。
+The time complexity is $O(m \times n \times \log(m \times n))$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the number of rows and columns in the two-dimensional array, respectively.
 
 <!-- tabs:start -->
 

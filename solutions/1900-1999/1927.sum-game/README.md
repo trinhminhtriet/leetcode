@@ -1,110 +1,105 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1927.Sum%20Game/README.md
+difficulty: Medium
 rating: 2004
-source: 第 56 场双周赛 Q3
+source: Biweekly Contest 56 Q3
 tags:
-    - 贪心
-    - 数学
-    - 字符串
-    - 博弈
+    - Greedy
+    - Math
+    - String
+    - Game Theory
 ---
 
 <!-- problem:start -->
 
-# [1927. 求和游戏](https://leetcode.cn/problems/sum-game)
+# [1927. Sum Game](https://leetcode.com/problems/sum-game)
 
-[English Version](/solution/1900-1999/1927.Sum%20Game/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>Alice 和 Bob 玩一个游戏，两人轮流行动，<strong>Alice 先手</strong> 。</p>
+<p>Alice and Bob take turns playing a game, with <strong>Alice</strong><strong>&nbsp;starting first</strong>.</p>
 
-<p>给你一个 <strong>偶数长度</strong> 的字符串 <code>num</code> ，每一个字符为数字字符或者 <code>'?'</code> 。每一次操作中，如果 <code>num</code> 中至少有一个 <code>'?'</code> ，那么玩家可以执行以下操作：</p>
+<p>You are given a string <code>num</code> of <strong>even length</strong> consisting of digits and <code>&#39;?&#39;</code> characters. On each turn, a player will do the following if there is still at least one <code>&#39;?&#39;</code> in <code>num</code>:</p>
 
 <ol>
-	<li>选择一个下标 <code>i</code> 满足 <code>num[i] == '?'</code> 。</li>
-	<li>将 <code>num[i]</code> 用 <code>'0'</code> 到 <code>'9'</code> 之间的一个数字字符替代。</li>
+	<li>Choose an index <code>i</code> where <code>num[i] == &#39;?&#39;</code>.</li>
+	<li>Replace <code>num[i]</code> with any digit between <code>&#39;0&#39;</code> and <code>&#39;9&#39;</code>.</li>
 </ol>
 
-<p>当 <code>num</code> 中没有<span style=""> </span><code>'?'</code> 时，游戏结束。</p>
+<p>The game ends when there are no more <code>&#39;?&#39;</code> characters in <code>num</code>.</p>
 
-<p>Bob 获胜的条件是 <code>num</code> 中前一半数字的和 <strong>等于</strong> 后一半数字的和。Alice 获胜的条件是前一半的和与后一半的和 <strong>不相等</strong> 。</p>
+<p>For Bob&nbsp;to win, the sum of the digits in the first half of <code>num</code> must be <strong>equal</strong> to the sum of the digits in the second half. For Alice&nbsp;to win, the sums must <strong>not be equal</strong>.</p>
 
 <ul>
-	<li>比方说，游戏结束时 <code>num = "243801"</code> ，那么 Bob 获胜，因为 <code>2+4+3 = 8+0+1</code> 。如果游戏结束时 <code>num = "243803"</code> ，那么 Alice 获胜，因为 <code>2+4+3 != 8+0+3</code> 。</li>
+	<li>For example, if the game ended with <code>num = &quot;243801&quot;</code>, then Bob&nbsp;wins because <code>2+4+3 = 8+0+1</code>. If the game ended with <code>num = &quot;243803&quot;</code>, then Alice&nbsp;wins because <code>2+4+3 != 8+0+3</code>.</li>
 </ul>
 
-<p>在 Alice 和 Bob 都采取 <strong>最优</strong> 策略的前提下，如果 Alice 获胜，请返回 <code>true</code> ，如果 Bob 获胜，请返回 <code>false</code> 。</p>
+<p>Assuming Alice and Bob play <strong>optimally</strong>, return <code>true</code> <em>if Alice will win and </em><code>false</code> <em>if Bob will win</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>num = "5023"
-<b>输出：</b>false
-<b>解释：</b>num 中没有 '?' ，没法进行任何操作。
-前一半的和等于后一半的和：5 + 0 = 2 + 3 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>num = "25??"
-<b>输出：</b>true
-<strong>解释：</strong>Alice 可以将两个 '?' 中的一个替换为 '9' ，Bob 无论如何都无法使前一半的和等于后一半的和。
+<strong>Input:</strong> num = &quot;5023&quot;
+<strong>Output:</strong> false
+<strong>Explanation:</strong> There are no moves to be made.
+The sum of the first half is equal to the sum of the second half: 5 + 0 = 2 + 3.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>num = "?3295???"
-<b>输出：</b>false
-<b>解释：</b>Bob 总是能赢。一种可能的结果是：
-- Alice 将第一个 '?' 用 '9' 替换。num = "93295???" 。
-- Bob 将后面一半中的一个 '?' 替换为 '9' 。num = "932959??" 。
-- Alice 将后面一半中的一个 '?' 替换为 '2' 。num = "9329592?" 。
-- Bob 将后面一半中最后一个 '?' 替换为 '7' 。num = "93295927" 。
-Bob 获胜，因为 9 + 3 + 2 + 9 = 5 + 9 + 2 + 7 。
+<strong>Input:</strong> num = &quot;25??&quot;
+<strong>Output:</strong> true
+<strong>Explanation: </strong>Alice can replace one of the &#39;?&#39;s with &#39;9&#39; and it will be impossible for Bob to make the sums equal.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> num = &quot;?3295???&quot;
+<strong>Output:</strong> false
+<strong>Explanation:</strong> It can be proven that Bob will always win. One possible outcome is:
+- Alice replaces the first &#39;?&#39; with &#39;9&#39;. num = &quot;93295???&quot;.
+- Bob replaces one of the &#39;?&#39; in the right half with &#39;9&#39;. num = &quot;932959??&quot;.
+- Alice replaces one of the &#39;?&#39; in the right half with &#39;2&#39;. num = &quot;9329592?&quot;.
+- Bob replaces the last &#39;?&#39; in the right half with &#39;7&#39;. num = &quot;93295927&quot;.
+Bob wins because 9 + 3 + 2 + 9 = 5 + 9 + 2 + 7.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>2 <= num.length <= 10<sup>5</sup></code></li>
-	<li><code>num.length</code> 是 <strong>偶数</strong> 。</li>
-	<li><code>num</code> 只包含数字字符和 <code>'?'</code> 。</li>
+	<li><code>2 &lt;= num.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>num.length</code> is <strong>even</strong>.</li>
+	<li><code>num</code> consists of only digits and <code>&#39;?&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分类讨论
+### Solution 1: Case Analysis
 
-如果 `'?'` 的个数为奇数，那么 Alice 一定会获胜，因为她可以选择将最后一个 `'?'` 替换为任何一个数字，使得前一半的和与后一半的和不相等。
+If the number of `'?'` is odd, Alice will definitely win because she can choose to replace the last `'?'` with any digit, making the sum of the first half different from the sum of the second half.
 
-如果 `'?'` 的个数为偶数，Alice 为了使得前一半的和与后一半的和不相等，那么会选择在当前和较大的一半数字中放置 $9$，在当前和较小的一半数字中放置 $0$，而 Bob 为了使得前后两半的和相等，那么会选择在 Alice 替换数字的另一半放置一个与 Alice 替换数字相同的数字。
+If the number of `'?'` is even, Alice will try to make the sums of the two halves different by placing $9$ in the half with the larger current sum and $0$ in the half with the smaller current sum. Bob, on the other hand, will try to make the sums equal by placing a digit in the other half that matches the digit Alice placed.
 
-因此，最终会使得剩下的所有偶数个 `'?'` 集中在其中一半。假设当前两半的数字差值为 $d$。
+As a result, all remaining even-numbered `'?'` will be concentrated in one half. Suppose the current difference between the sums of the two halves is $d$.
 
-我们先考虑，如果剩下两个 `'?'`，差值为 $x$，此时：
+Let's consider the case where there are two remaining `'?'` and the difference is $x$:
 
--   如果 $x \lt 9$，那么 Alice 必胜，因为 Alice 可以将其中一个 `'?'` 替换为 $9$，使得前一半的和与后一半的和不相等；
--   如果 $x \gt 9$，那么 Alice 必胜，因为 Alice 可以将其中一个 `'?'` 替换为 $0$，使得前一半的和与后一半的和不相等；
--   如果 $x = 9$，那么 Bob 必胜，假设 Alice 替换的数字为 $a$，那么 Bob 可以将另一个 `'?'` 替换为 $9 - a$，使得前后两半的和相等。
+-   If $x \lt 9$, Alice will definitely win because she can replace one of the `'?'` with $9$, making the sums of the two halves different.
+-   If $x \gt 9$, Alice will definitely win because she can replace one of the `'?'` with $0$, making the sums of the two halves different.
+-   If $x = 9$, Bob will definitely win. Suppose Alice replaces a digit with $a$, then Bob can replace the other `'?'` with $9 - a$, making the sums of the two halves equal.
 
-因此，如果两半数字差值为 $d= \frac{9 \times cnt}{2}$，其中 $cnt$ 为剩下的 `'?'` 的个数，那么 Bob 必胜，否则 Alice 必胜。
+Therefore, if the difference between the sums of the two halves is $d = \frac{9 \times \textit{cnt}}{2}$, where $\textit{cnt}$ is the number of remaining `'?'`, Bob will definitely win; otherwise, Alice will definitely win.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,64 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2297.Jump%20Game%20VIII/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 图
-    - 数组
-    - 动态规划
-    - 最短路
-    - 单调栈
+    - Stack
+    - Graph
+    - Array
+    - Dynamic Programming
+    - Shortest Path
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [2297. 跳跃游戏 VIII 🔒](https://leetcode.cn/problems/jump-game-viii)
+# [2297. Jump Game VIII 🔒](https://leetcode.com/problems/jump-game-viii)
 
-[English Version](/solution/2200-2299/2297.Jump%20Game%20VIII/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个长度为 n 的下标从 <strong>0</strong>&nbsp;开始的整数数组 <code>nums</code>。初始位置为下标 <code>0</code>。当 <code>i &lt; j</code> 时，你可以从下标 <code>i</code> 跳转到下标 <code>j</code>:</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of length <code>n</code>. You are initially standing at index <code>0</code>. You can jump from index <code>i</code> to index <code>j</code> where <code>i &lt; j</code> if:</p>
 
 <ul>
-	<li>对于在&nbsp;<code>i &lt; k &lt; j</code>&nbsp;范围内的所有下标 <code>k</code> 有&nbsp;<code>nums[i] &lt;= nums[j]</code> 和&nbsp;<code>nums[k] &lt; nums[i]</code> , 或者</li>
-	<li>对于在&nbsp;<code>i &lt; k &lt; j</code>&nbsp;范围内的所有下标 <code>k</code>&nbsp;有&nbsp;<code>nums[i] &gt; nums[j]</code> 和&nbsp;<code>nums[k] &gt;= nums[i]</code>&nbsp;。</li>
+	<li><code>nums[i] &lt;= nums[j]</code> and <code>nums[k] &lt; nums[i]</code> for all indexes <code>k</code> in the range <code>i &lt; k &lt; j</code>, or</li>
+	<li><code>nums[i] &gt; nums[j]</code> and <code>nums[k] &gt;= nums[i]</code> for all indexes <code>k</code> in the range <code>i &lt; k &lt; j</code>.</li>
 </ul>
 
-<p>你还得到了一个长度为 <code>n</code> 的整数数组 <code>costs</code>，其中 <code>costs[i]</code> 表示跳转<strong>到</strong>下标 <code>i</code> 的代价。</p>
+<p>You are also given an integer array <code>costs</code> of length <code>n</code> where <code>costs[i]</code> denotes the cost of jumping <strong>to</strong> index <code>i</code>.</p>
 
-<p>返回<em>跳转到</em>下标 <em><code>n - 1</code> 的最小代价。</em></p>
+<p>Return <em>the <strong>minimum</strong> cost to jump to the index </em><code>n - 1</code>.</p>
 
-<p><strong>示例 1:</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> nums = [3,2,4,4,1], costs = [3,7,6,4,2]
-<strong>输出:</strong> 8
-<strong>解释:</strong> 从下标 0 开始。
-- 以 costs[2]= 6 的代价跳转到下标 2。
-- 以 costs[4]= 2 的代价跳转到下标 4。
-总代价是 8。可以证明，8 是所需的最小代价。
-另外两个可能的路径是:下标 0 -&gt; 1 -&gt; 4 和下标 0 -&gt; 2 -&gt; 3 -&gt; 4。
-它们的总代价分别为9和12。
+<strong>Input:</strong> nums = [3,2,4,4,1], costs = [3,7,6,4,2]
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> You start at index 0.
+- Jump to index 2 with a cost of costs[2] = 6.
+- Jump to index 4 with a cost of costs[4] = 2.
+The total cost is 8. It can be proven that 8 is the minimum cost needed.
+Two other possible paths are from index 0 -&gt; 1 -&gt; 4 and index 0 -&gt; 2 -&gt; 3 -&gt; 4.
+These have a total cost of 9 and 12, respectively.
 </pre>
 
-<p><strong>示例&nbsp;2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> nums = [0,1,2], costs = [1,1,1]
-<strong>输出:</strong> 2
-<strong>解释:</strong> 从下标 0 开始。
-- 以 costs[1] = 1 的代价跳转到下标 1。
-- 以 costs[2] = 1 的代价跳转到下标 2。
-总代价是 2。注意您不能直接从下标 0 跳转到下标 2，因为 nums[0] &lt;= nums[1]。
+<strong>Input:</strong> nums = [0,1,2], costs = [1,1,1]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> Start at index 0.
+- Jump to index 1 with a cost of costs[1] = 1.
+- Jump to index 2 with a cost of costs[2] = 1.
+The total cost is 2. Note that you cannot jump directly from index 0 to index 2 because nums[0] &lt;= nums[1].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>解释:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length == costs.length</code></li>
@@ -68,17 +65,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：单调栈 + 动态规划
+### Solution 1: Monotonic Stack + Dynamic Programming
 
-根据题目描述，我们实际上需要找到 $\textit{nums}[i]$ 的下一个大于等于 $\textit{nums}[i]$ 的位置 $j$，以及下一个小于 $\textit{nums}[i]$ 的位置 $j$。我们利用单调栈可以在 $O(n)$ 的时间内找到这两个位置，然后构建邻接表 $g$，其中 $g[i]$ 表示下标 $i$ 可以跳转到的下标。
+According to the problem description, we need to find the next position $j$ where $\textit{nums}[j]$ is greater than or equal to $\textit{nums}[i]$, and the next position $j$ where $\textit{nums}[j]$ is less than $\textit{nums}[i]$. We can use a monotonic stack to find these two positions in $O(n)$ time, and then construct an adjacency list $g$, where $g[i]$ represents the indices that index $i$ can jump to.
 
-然后我们使用动态规划求解最小代价。设 $f[i]$ 表示跳转到下标 $i$ 的最小代价，初始时 $f[0] = 0$，其余 $f[i] = \infty$。我们从小到大枚举下标 $i$，对于每个 $i$，我们枚举 $g[i]$ 中的每个下标 $j$，进行状态转移 $f[j] = \min(f[j], f[i] + \textit{costs}[j])$。答案为 $f[n - 1]$。
+Then we use dynamic programming to find the minimum cost. Let $f[i]$ represent the minimum cost to jump to index $i$. Initially, $f[0] = 0$ and the rest $f[i] = \infty$. We enumerate the indices $i$ from small to large. For each $i$, we enumerate each index $j$ in $g[i]$ and perform the state transition $f[j] = \min(f[j], f[i] + \textit{costs}[j])$. The answer is $f[n - 1]$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

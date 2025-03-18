@@ -1,91 +1,82 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2959.Number%20of%20Possible%20Sets%20of%20Closing%20Branches/README.md
+difficulty: Hard
 rating: 2077
-source: 第 119 场双周赛 Q4
+source: Biweekly Contest 119 Q4
 tags:
-    - 位运算
-    - 图
-    - 枚举
-    - 最短路
-    - 堆（优先队列）
+    - Bit Manipulation
+    - Graph
+    - Enumeration
+    - Shortest Path
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2959. 关闭分部的可行集合数目](https://leetcode.cn/problems/number-of-possible-sets-of-closing-branches)
+# [2959. Number of Possible Sets of Closing Branches](https://leetcode.com/problems/number-of-possible-sets-of-closing-branches)
 
-[English Version](/solution/2900-2999/2959.Number%20of%20Possible%20Sets%20of%20Closing%20Branches/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个公司在全国有 <code>n</code>&nbsp;个分部，它们之间有的有道路连接。一开始，所有分部通过这些道路两两之间互相可以到达。</p>
+<p>There is a company with <code>n</code> branches across the country, some of which are connected by roads. Initially, all branches are reachable from each other by traveling some roads.</p>
 
-<p>公司意识到在分部之间旅行花费了太多时间，所以它们决定关闭一些分部（<b>也可能不关闭任何分部</b>），同时保证剩下的分部之间两两互相可以到达且最远距离不超过&nbsp;<code>maxDistance</code>&nbsp;。</p>
+<p>The company has realized that they are spending an excessive amount of time traveling between their branches. As a result, they have decided to close down some of these branches (<strong>possibly none</strong>). However, they want to ensure that the remaining branches have a distance of at most <code>maxDistance</code> from each other.</p>
 
-<p>两个分部之间的 <strong>距离</strong> 是通过道路长度之和的 <strong>最小值</strong>&nbsp;。</p>
+<p>The <strong>distance</strong> between two branches is the <strong>minimum</strong> total traveled length needed to reach one branch from another.</p>
 
-<p>给你整数&nbsp;<code>n</code>&nbsp;，<code>maxDistance</code>&nbsp;和下标从 <strong>0</strong>&nbsp;开始的二维整数数组&nbsp;<code>roads</code>&nbsp;，其中&nbsp;<code>roads[i] = [u<sub>i</sub>, v<sub>i</sub>, w<sub>i</sub>]</code>&nbsp;表示一条从&nbsp;<code>u<sub>i</sub></code>&nbsp;到&nbsp;<code>v<sub>i</sub></code>&nbsp;长度为&nbsp;<code>w<sub>i</sub></code>的&nbsp;<strong>无向</strong>&nbsp;道路。</p>
+<p>You are given integers <code>n</code>, <code>maxDistance</code>, and a <strong>0-indexed</strong> 2D array <code>roads</code>, where <code>roads[i] = [u<sub>i</sub>, v<sub>i</sub>, w<sub>i</sub>]</code> represents the <strong>undirected</strong> road between branches <code>u<sub>i</sub></code> and <code>v<sub>i</sub></code> with length <code>w<sub>i</sub></code>.</p>
 
-<p>请你返回关闭分部的可行方案数目，满足每个方案里剩余分部之间的最远距离不超过<em>&nbsp;</em><code>maxDistance</code>。</p>
+<p>Return <em>the number of possible sets of closing branches, so that any branch has a distance of at most </em><code>maxDistance</code><em> from any other</em>.</p>
 
-<p><strong>注意</strong>，关闭一个分部后，与之相连的所有道路不可通行。</p>
+<p><strong>Note</strong> that, after closing a branch, the company will no longer have access to any roads connected to it.</p>
 
-<p><b>注意</b>，两个分部之间可能会有多条道路。</p>
+<p><strong>Note</strong> that, multiple roads are allowed.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2959.Number%20of%20Possible%20Sets%20of%20Closing%20Branches/images/example11.png" style="width: 221px; height: 191px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2959.Number%20of%20Possible%20Sets%20of%20Closing%20Branches/images/example11.png" style="width: 221px; height: 191px;" />
 <pre>
-<b>输入：</b>n = 3, maxDistance = 5, roads = [[0,1,2],[1,2,10],[0,2,10]]
-<b>输出：</b>5
-<b>解释：</b>可行的关闭分部方案有：
-- 关闭分部集合 [2] ，剩余分部为 [0,1] ，它们之间的距离为 2 。
-- 关闭分部集合 [0,1] ，剩余分部为 [2] 。
-- 关闭分部集合 [1,2] ，剩余分部为 [0] 。
-- 关闭分部集合 [0,2] ，剩余分部为 [1] 。
-- 关闭分部集合 [0,1,2] ，关闭后没有剩余分部。
-总共有 5 种可行的关闭方案。
+<strong>Input:</strong> n = 3, maxDistance = 5, roads = [[0,1,2],[1,2,10],[0,2,10]]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The possible sets of closing branches are:
+- The set [2], after closing, active branches are [0,1] and they are reachable to each other within distance 2.
+- The set [0,1], after closing, the active branch is [2].
+- The set [1,2], after closing, the active branch is [0].
+- The set [0,2], after closing, the active branch is [1].
+- The set [0,1,2], after closing, there are no active branches.
+It can be proven, that there are only 5 possible sets of closing branches.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2959.Number%20of%20Possible%20Sets%20of%20Closing%20Branches/images/example22.png" style="width: 221px; height: 241px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2959.Number%20of%20Possible%20Sets%20of%20Closing%20Branches/images/example22.png" style="width: 221px; height: 241px;" />
 <pre>
-<b>输入：</b>n = 3, maxDistance = 5, roads = [[0,1,20],[0,1,10],[1,2,2],[0,2,2]]
-<b>输出：</b>7
-<b>解释：</b>可行的关闭分部方案有：
-- 关闭分部集合 [] ，剩余分部为 [0,1,2] ，它们之间的最远距离为 4 。
-- 关闭分部集合 [0] ，剩余分部为 [1,2] ，它们之间的距离为 2 。
-- 关闭分部集合 [1] ，剩余分部为 [0,2] ，它们之间的距离为 2 。
-- 关闭分部集合 [0,1] ，剩余分部为 [2] 。
-- 关闭分部集合 [1,2] ，剩余分部为 [0] 。
-- 关闭分部集合 [0,2] ，剩余分部为 [1] 。
-- 关闭分部集合 [0,1,2] ，关闭后没有剩余分部。
-总共有 7 种可行的关闭方案。
+<strong>Input:</strong> n = 3, maxDistance = 5, roads = [[0,1,20],[0,1,10],[1,2,2],[0,2,2]]
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> The possible sets of closing branches are:
+- The set [], after closing, active branches are [0,1,2] and they are reachable to each other within distance 4.
+- The set [0], after closing, active branches are [1,2] and they are reachable to each other within distance 2.
+- The set [1], after closing, active branches are [0,2] and they are reachable to each other within distance 2.
+- The set [0,1], after closing, the active branch is [2].
+- The set [1,2], after closing, the active branch is [0].
+- The set [0,2], after closing, the active branch is [1].
+- The set [0,1,2], after closing, there are no active branches.
+It can be proven, that there are only 7 possible sets of closing branches.
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>n = 1, maxDistance = 10, roads = []
-<b>输出：</b>2
-<b>解释：</b>可行的关闭分部方案有：
-- 关闭分部集合 [] ，剩余分部为 [0] 。
-- 关闭分部集合 [0] ，关闭后没有剩余分部。
-总共有 2 种可行的关闭方案。
+<strong>Input:</strong> n = 1, maxDistance = 10, roads = []
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The possible sets of closing branches are:
+- The set [], after closing, the active branch is [0].
+- The set [0], after closing, there are no active branches.
+It can be proven, that there are only 2 possible sets of closing branches.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10</code></li>
@@ -95,22 +86,22 @@ tags:
 	<li><code>0 &lt;= u<sub>i</sub>, v<sub>i</sub> &lt;= n - 1</code></li>
 	<li><code>u<sub>i</sub> != v<sub>i</sub></code></li>
 	<li><code>1 &lt;= w<sub>i</sub> &lt;= 1000</code></li>
-	<li>一开始所有分部之间通过道路互相可以到达。</li>
+	<li>All branches are reachable from each other by traveling some roads.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二进制枚举 + Floyd 算法
+### Solution 1: Binary Enumeration + Floyd Algorithm
 
-我们注意到 $n \leq 10$，所以我们不妨考虑使用二进制枚举的方法来枚举所有的分部集合。
+We notice that $n \leq 10$, so we might as well consider using the method of binary enumeration to enumerate all subsets of departments.
 
-对于每个分部集合，我们可以使用 Floyd 算法来计算出剩余分部之间的最短距离，然后判断是否满足题目要求即可。具体地，我们先枚举中间点 $k$，再枚举起点 $i$ 和终点 $j$，如果 $g[i][k] + g[k][j] \lt g[i][j]$，那么我们就用更短的距离 $g[i][k] + g[k][j]$ 更新 $g[i][j]$。
+For each subset of departments, we can use the Floyd algorithm to calculate the shortest distance between the remaining departments, and then judge whether it meets the requirements of the problem. Specifically, we first enumerate the middle point $k$, then enumerate the starting point $i$ and the ending point $j$. If $g[i][k] + g[k][j] < g[i][j]$, then we update $g[i][j]$ with the shorter distance $g[i][k] + g[k][j]$.
 
-时间复杂度 $O(2^n \times (n^3 + m))$，空间复杂度 $O(n^2)$。其中 $n$ 和 $m$ 分别是分部数量和道路数量。
+The time complexity is $O(2^n \times (n^3 + m))$, and the space complexity is $O(n^2)$. Here, $n$ and $m$ are the number of departments and the number of roads, respectively.
 
 <!-- tabs:start -->
 

@@ -1,114 +1,107 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2116.Check%20if%20a%20Parentheses%20String%20Can%20Be%20Valid/README.md
+difficulty: Medium
 rating: 2037
-source: 第 68 场双周赛 Q3
+source: Biweekly Contest 68 Q3
 tags:
-    - 栈
-    - 贪心
-    - 字符串
+    - Stack
+    - Greedy
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2116. 判断一个括号字符串是否有效](https://leetcode.cn/problems/check-if-a-parentheses-string-can-be-valid)
+# [2116. Check if a Parentheses String Can Be Valid](https://leetcode.com/problems/check-if-a-parentheses-string-can-be-valid)
 
-[English Version](/solution/2100-2199/2116.Check%20if%20a%20Parentheses%20String%20Can%20Be%20Valid/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个括号字符串是只由&nbsp;<code>'('</code> 和&nbsp;<code>')'</code>&nbsp;组成的&nbsp;<strong>非空</strong>&nbsp;字符串。如果一个字符串满足下面 <b>任意</b>&nbsp;一个条件，那么它就是有效的：</p>
+<p>A parentheses string is a <strong>non-empty</strong> string consisting only of <code>&#39;(&#39;</code> and <code>&#39;)&#39;</code>. It is valid if <strong>any</strong> of the following conditions is <strong>true</strong>:</p>
 
 <ul>
-	<li>字符串为&nbsp;<code>()</code>.</li>
-	<li>它可以表示为 <code>AB</code><span style="">（</span><code>A</code>&nbsp;与&nbsp;<code>B</code>&nbsp;连接），其中<code>A</code> 和&nbsp;<code>B</code>&nbsp;都是有效括号字符串。</li>
-	<li>它可以表示为&nbsp;<code>(A)</code>&nbsp;，其中&nbsp;<code>A</code>&nbsp;是一个有效括号字符串。</li>
+	<li>It is <code>()</code>.</li>
+	<li>It can be written as <code>AB</code> (<code>A</code> concatenated with <code>B</code>), where <code>A</code> and <code>B</code> are valid parentheses strings.</li>
+	<li>It can be written as <code>(A)</code>, where <code>A</code> is a valid parentheses string.</li>
 </ul>
 
-<p>给你一个括号字符串&nbsp;<code>s</code>&nbsp;和一个字符串&nbsp;<code>locked</code>&nbsp;，两者长度都为&nbsp;<code>n</code>&nbsp;。<code>locked</code>&nbsp;是一个二进制字符串，只包含&nbsp;<code>'0'</code>&nbsp;和&nbsp;<code>'1'</code>&nbsp;。对于&nbsp;<code>locked</code>&nbsp;中&nbsp;<strong>每一个</strong>&nbsp;下标&nbsp;<code>i</code> ：</p>
+<p>You are given a parentheses string <code>s</code> and a string <code>locked</code>, both of length <code>n</code>. <code>locked</code> is a binary string consisting only of <code>&#39;0&#39;</code>s and <code>&#39;1&#39;</code>s. For <strong>each</strong> index <code>i</code> of <code>locked</code>,</p>
 
 <ul>
-	<li>如果&nbsp;<code>locked[i]</code>&nbsp;是&nbsp;<code>'1'</code>&nbsp;，你 <strong>不能</strong>&nbsp;改变&nbsp;<code>s[i]</code>&nbsp;。</li>
-	<li>如果&nbsp;<code>locked[i]</code>&nbsp;是&nbsp;<code>'0'</code>&nbsp;，你&nbsp;<strong>可以</strong>&nbsp;将&nbsp;<code>s[i]</code>&nbsp;变为&nbsp;<code>'('</code>&nbsp;或者&nbsp;<code>')'</code>&nbsp;。</li>
+	<li>If <code>locked[i]</code> is <code>&#39;1&#39;</code>, you <strong>cannot</strong> change <code>s[i]</code>.</li>
+	<li>But if <code>locked[i]</code> is <code>&#39;0&#39;</code>, you <strong>can</strong> change <code>s[i]</code> to either <code>&#39;(&#39;</code> or <code>&#39;)&#39;</code>.</li>
 </ul>
 
-<p>如果你可以将 <code>s</code>&nbsp;变为有效括号字符串，请你返回&nbsp;<code>true</code>&nbsp;，否则返回&nbsp;<code>false</code>&nbsp;。</p>
+<p>Return <code>true</code> <em>if you can make <code>s</code> a valid parentheses string</em>. Otherwise, return <code>false</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2116.Check%20if%20a%20Parentheses%20String%20Can%20Be%20Valid/images/eg1.png" style="width: 311px; height: 101px;" />
+<pre>
+<strong>Input:</strong> s = &quot;))()))&quot;, locked = &quot;010100&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> locked[1] == &#39;1&#39; and locked[3] == &#39;1&#39;, so we cannot change s[1] or s[3].
+We change s[0] and s[4] to &#39;(&#39; while leaving s[2] and s[5] unchanged to make s valid.</pre>
 
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2116.Check%20if%20a%20Parentheses%20String%20Can%20Be%20Valid/images/eg1.png" style="width: 311px; height: 101px;" /></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>s = "))()))", locked = "010100"
-<b>输出：</b>true
-<b>解释：</b>locked[1] == '1' 和 locked[3] == '1' ，所以我们无法改变 s[1] 或者 s[3] 。
-我们可以将 s[0] 和 s[4] 变为 '(' ，不改变 s[2] 和 s[5] ，使 s 变为有效字符串。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>s = "()()", locked = "0000"
-<b>输出：</b>true
-<b>解释：</b>我们不需要做任何改变，因为 s 已经是有效字符串了。
+<strong>Input:</strong> s = &quot;()()&quot;, locked = &quot;0000&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> We do not need to make any changes because s is already valid.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>s = ")", locked = "0"
-<b>输出：</b>false
-<b>解释：</b>locked 允许改变 s[0] 。
-但无论将 s[0] 变为 '(' 或者 ')' 都无法使 s 变为有效字符串。
+<strong>Input:</strong> s = &quot;)&quot;, locked = &quot;0&quot;
+<strong>Output:</strong> false
+<strong>Explanation:</strong> locked permits us to change s[0].
+Changing s[0] to either &#39;(&#39; or &#39;)&#39; will not make s valid.
 </pre>
 
-<p><strong class="example">示例 4：</strong></p>
+<p><strong class="example">Example 4:</strong></p>
 
 <pre>
-<b>输入：</b>s = "(((())(((())", locked = "111111010111"
-<b>输出：</b>false
-<b>解释：</b>locked 允许我们改变 s[6] 和 s[8]。
-我们将 s[6] 和 s[8] 改为 ')' 使 s 变为有效字符串。
+<strong>Input:</strong> s = &quot;(((())(((())&quot;, locked = &quot;111111010111&quot;
+<strong>Output:</strong> false
+<strong>Explanation:</strong> locked permits us to change s[6] and s[8].
+We change s[6] and s[8] to &#39;)&#39; to make s valid.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == s.length == locked.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code>&nbsp;要么是&nbsp;<code>'('</code>&nbsp;要么是&nbsp;<code>')'</code>&nbsp;。</li>
-	<li><code>locked[i]</code> 要么是&nbsp;<code>'0'</code>&nbsp;要么是&nbsp;<code>'1'</code> 。</li>
+	<li><code>s[i]</code> is either <code>&#39;(&#39;</code> or <code>&#39;)&#39;</code>.</li>
+	<li><code>locked[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 两次遍历
+### Solution 1: Greedy + Two Passes
 
-我们观察发现，奇数长度的字符串一定不是有效的括号字符串，因为无论怎么匹配，都会剩下一个括号。因此，如果字符串 $s$ 的长度是奇数，提前返回 $\textit{false}$。
+We observe that a string of odd length cannot be a valid parentheses string because there will always be one unmatched parenthesis. Therefore, if the length of the string $s$ is odd, return $\textit{false}$ immediately.
 
-接下来，我们进行两次遍历。
+Next, we perform two passes.
 
-第一次从左到右，判断所有的 `'('` 括号是否可以被 `')'` 或者可变括号匹配，如果不可以，直接返回 $\textit{false}$。
+The first pass goes from left to right, checking if all `'('` parentheses can be matched by `')'` or changeable parentheses. If not, return $\textit{false}$.
 
-第二次从右到左，判断所有的 `')'` 括号是否可以被 `'('` 或者可变括号匹配，如果不可以，直接返回 $\textit{false}$。
+The second pass goes from right to left, checking if all `')'` parentheses can be matched by `'('` or changeable parentheses. If not, return $\textit{false}$.
 
-遍历结束，说明所有的括号都可以被匹配，字符串 $s$ 是有效的括号字符串，返回 $\textit{true}$。
+If both passes complete successfully, it means all parentheses can be matched, and the string $s$ is a valid parentheses string. Return $\textit{true}$.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
 
-相似题目：
+Similar problems:
 
--   [678. 有效的括号字符串](https://github.com/doocs/leetcode/blob/main/solution/0600-0699/0678.Valid%20Parenthesis%20String/README.md)
+-   [678. Valid Parenthesis String](https://github.com/doocs/leetcode/blob/main/solution/0600-0699/0678.Valid%20Parenthesis%20String/README_EN.md)
 
 <!-- tabs:start -->
 

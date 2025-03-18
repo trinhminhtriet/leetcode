@@ -1,55 +1,58 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2291.Maximum%20Profit%20From%20Trading%20Stocks/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2291. 最大股票收益 🔒](https://leetcode.cn/problems/maximum-profit-from-trading-stocks)
+# [2291. Maximum Profit From Trading Stocks 🔒](https://leetcode.com/problems/maximum-profit-from-trading-stocks)
 
-[English Version](/solution/2200-2299/2291.Maximum%20Profit%20From%20Trading%20Stocks/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个下标从 <strong>0</strong>&nbsp;开始的数组 <code>present</code> 和 <code>future</code> ，<code>present[i]</code> 和 <code>future[i]</code> 分别代表第 <code>i</code> 支股票现在和将来的价格。每支股票你最多购买 <strong>一次</strong> ，你的预算为 <code>budget</code> 。</p>
+<p>You are given two <strong>0-indexed</strong> integer arrays of the same length <code>present</code> and <code>future</code> where <code>present[i]</code> is the current price of the <code>i<sup>th</sup></code> stock and <code>future[i]</code> is the price of the <code>i<sup>th</sup></code> stock a year in the future. You may buy each stock at most <strong>once</strong>. You are also given an integer <code>budget</code> representing the amount of money you currently have.</p>
 
-<p>求最大的收益。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>present = [5,4,6,2,3], future = [8,5,4,3,5], budget = 10
-<strong>输出：</strong>6
-<strong>解释：</strong>你可以选择购买第 0,3,4 支股票获得最大收益：6 。总开销为：5 + 2 + 3 = 10 , 总收益是: 8 + 3 + 5 - 10 = 6 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>present = [2,2,5], future = [3,4,10], budget = 6
-<strong>输出：</strong>5
-<strong>解释：</strong>你可以选择购买第 2 支股票获得最大收益：5 。总开销为：5 , 总收益是: 10 - 5 = 5 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>present = [3,3,12], future = [0,3,15], budget = 10
-<strong>输出：</strong>0
-<strong>解释：</strong>你无法购买唯一一支正收益股票 2 ，因此你的收益是 0 。
-</pre>
+<p>Return <em>the maximum amount of profit you can make.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> present = [5,4,6,2,3], future = [8,5,4,3,5], budget = 10
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> One possible way to maximize your profit is to:
+Buy the 0<sup>th</sup>, 3<sup>rd</sup>, and 4<sup>th</sup> stocks for a total of 5 + 2 + 3 = 10.
+Next year, sell all three stocks for a total of 8 + 3 + 5 = 16.
+The profit you made is 16 - 10 = 6.
+It can be shown that the maximum profit you can make is 6.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> present = [2,2,5], future = [3,4,10], budget = 6
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The only possible way to maximize your profit is to:
+Buy the 2<sup>nd</sup> stock, and make a profit of 10 - 5 = 5.
+It can be shown that the maximum profit you can make is 5.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> present = [3,3,12], future = [0,3,15], budget = 10
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> One possible way to maximize your profit is to:
+Buy the 1<sup>st</sup> stock, and make a profit of 3 - 3 = 0.
+It can be shown that the maximum profit you can make is 0.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == present.length == future.length</code></li>
@@ -60,22 +63,22 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][j]$ 表示前 $i$ 支股票，预算为 $j$ 时的最大收益。那么答案就是 $f[n][\textit{budget}]$。
+We define $f[i][j]$ to represent the maximum profit when considering the first $i$ stocks with a budget of $j$. The answer is $f[n][\textit{budget}]$.
 
-对于第 $i$ 支股票，我们有两种选择：
+For the $i$-th stock, we have two choices:
 
--   不购买，那么 $f[i][j] = f[i - 1][j]$；
--   购买，那么 $f[i][j] = f[i - 1][j - \textit{present}[i]] + \textit{future}[i] - \textit{present}[i]$。
+-   Do not buy it, then $f[i][j] = f[i - 1][j]$;
+-   Buy it, then $f[i][j] = f[i - 1][j - \textit{present}[i]] + \textit{future}[i] - \textit{present}[i]$.
 
-最后返回 $f[n][\textit{budget}]$ 即可。
+Finally, return $f[n][\textit{budget}]$.
 
-时间复杂度 $O(n \times \textit{budget})$，空间复杂度 $O(n \times \textit{budget})$。其中 $n$ 为数组长度。
+The time complexity is $O(n \times \textit{budget})$, and the space complexity is $O(n \times \textit{budget})$. Where $n$ is the length of the array.
 
 <!-- tabs:start -->
 
@@ -178,9 +181,9 @@ function maximumProfit(present: number[], future: number[], budget: number): num
 
 <!-- solution:start -->
 
-### 方法二：动态规划（空间优化）
+### Solution 2: Dynamic Programming (Space Optimization)
 
-我们可以发现，对于每一行，我们只需要用到上一行的值，因此可以将空间复杂度优化到 $O(\text{budget})$。
+We can observe that for each row, we only need the values from the previous row, so we can optimize the space complexity to $O(\text{budget})$.
 
 <!-- tabs:start -->
 

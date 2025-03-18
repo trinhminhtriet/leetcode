@@ -1,92 +1,87 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3170.Lexicographically%20Minimum%20String%20After%20Removing%20Stars/README.md
+difficulty: Medium
 rating: 1772
-source: 第 400 场周赛 Q3
+source: Weekly Contest 400 Q3
 tags:
-    - 栈
-    - 贪心
-    - 哈希表
-    - 字符串
-    - 堆（优先队列）
+    - Stack
+    - Greedy
+    - Hash Table
+    - String
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [3170. 删除星号以后字典序最小的字符串](https://leetcode.cn/problems/lexicographically-minimum-string-after-removing-stars)
+# [3170. Lexicographically Minimum String After Removing Stars](https://leetcode.com/problems/lexicographically-minimum-string-after-removing-stars)
 
-[English Version](/solution/3100-3199/3170.Lexicographically%20Minimum%20String%20After%20Removing%20Stars/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>s</code>&nbsp;。它可能包含任意数量的&nbsp;<code>'*'</code>&nbsp;字符。你的任务是删除所有的&nbsp;<code>'*'</code>&nbsp;字符。</p>
+<p>You are given a string <code>s</code>. It may contain any number of <code>&#39;*&#39;</code> characters. Your task is to remove all <code>&#39;*&#39;</code> characters.</p>
 
-<p>当字符串还存在至少一个&nbsp;<code>'*'</code>&nbsp;字符时，你可以执行以下操作：</p>
+<p>While there is a <code>&#39;*&#39;</code>, do the following operation:</p>
 
 <ul>
-	<li>删除最左边的&nbsp;<code>'*'</code>&nbsp;字符，同时删除该星号字符左边一个字典序 <strong>最小</strong>&nbsp;的字符。如果有多个字典序最小的字符，你可以删除它们中的任意一个。</li>
+	<li>Delete the leftmost <code>&#39;*&#39;</code> and the <strong>smallest</strong> non-<code>&#39;*&#39;</code> character to its <em>left</em>. If there are several smallest characters, you can delete any of them.</li>
 </ul>
 
-<p>请你返回删除所有&nbsp;<code>'*'</code>&nbsp;字符以后，剩余字符连接而成的 <span data-keyword="lexicographically-smaller-string">字典序最小</span> 的字符串。</p>
+<p>Return the <span data-keyword="lexicographically-smaller-string">lexicographically smallest</span> resulting string after removing all <code>&#39;*&#39;</code> characters.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "aaba*"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;aaba*&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>"aab"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;aab&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>删除 <code>'*'</code>&nbsp;号和它左边的其中一个&nbsp;<code>'a'</code>&nbsp;字符。如果我们选择删除&nbsp;<code>s[3]</code>&nbsp;，<code>s</code>&nbsp;字典序最小。</p>
+<p>We should delete one of the <code>&#39;a&#39;</code> characters with <code>&#39;*&#39;</code>. If we choose <code>s[3]</code>, <code>s</code> becomes the lexicographically smallest.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "abc"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;abc&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>"abc"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;abc&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>字符串中没有&nbsp;<code>'*'</code>&nbsp;字符。<!-- notionvc: ff07e34f-b1d6-41fb-9f83-5d0ba3c1ecde --></p>
+<p>There is no <code>&#39;*&#39;</code> in the string.<!-- notionvc: ff07e34f-b1d6-41fb-9f83-5d0ba3c1ecde --></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code>&nbsp;只含有小写英文字母和&nbsp;<code>'*'</code>&nbsp;字符。</li>
-	<li>输入保证操作可以删除所有的&nbsp;<code>'*'</code>&nbsp;字符。</li>
+	<li><code>s</code> consists only of lowercase English letters and <code>&#39;*&#39;</code>.</li>
+	<li>The input is generated such that it is possible to delete all <code>&#39;*&#39;</code> characters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：按字符记录下标
+### Solution 1: Record Indices by Character
 
-我们定义一个数组 $g$，用于记录每个字符的下标列表，定义一个长度为 $n$ 的布尔数组 $rem$，用于记录每个字符是否需要删除。
+We define an array $g$ to record the index list of each character, and a boolean array $rem$ of length $n$ to record whether each character needs to be deleted.
 
-遍历字符串 $s$：
+We traverse the string $s$:
 
-如果当前字符是星号，我们就需要删除它，因此我们将 $rem[i]$ 标记为已删除。同时，我们需要删除此时字典序最小且下标最大的字符。我们从小到大遍历 $26$ 个小写字母，如果 $g[a]$ 不为空，我们就删除 $g[a]$ 中的最后一个下标，并将 $rem$ 中对应的下标置为已删除。
+If the current character is an asterisk, we need to delete it, so we mark $rem[i]$ as deleted. At the same time, we need to delete the character with the smallest lexicographical order and the largest index at this time. We traverse the 26 lowercase letters in ascending order. If $g[a]$ is not empty, we delete the last index in $g[a]$ and set the corresponding index in $rem$ as deleted.
 
-如果当前字符不是星号，我们就将当前字符的下标加入 $g$ 中。
+If the current character is not an asterisk, we add the index of the current character to $g$.
 
-最后，我们遍历 $s$，将未删除的字符拼接起来即可。
+Finally, we traverse $s$ and concatenate the undeleted characters.
 
-时间复杂度 $O(n \times |\Sigma|)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度，而 $|\Sigma|$ 为字符集大小，本题中 $|\Sigma| = 26$。
+The time complexity is $O(n \times |\Sigma|)$, and the space complexity is $O(n)$. Where $n$ is the length of the string $s$, and $|\Sigma|$ is the size of the character set. In this problem, $|\Sigma| = 26$.
 
 <!-- tabs:start -->
 

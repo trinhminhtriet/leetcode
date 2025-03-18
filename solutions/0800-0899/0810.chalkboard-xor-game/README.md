@@ -1,63 +1,58 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0810.Chalkboard%20XOR%20Game/README.md
+difficulty: Hard
 tags:
-    - 位运算
-    - 脑筋急转弯
-    - 数组
-    - 数学
-    - 博弈
+    - Bit Manipulation
+    - Brainteaser
+    - Array
+    - Math
+    - Game Theory
 ---
 
 <!-- problem:start -->
 
-# [810. 黑板异或游戏](https://leetcode.cn/problems/chalkboard-xor-game)
+# [810. Chalkboard XOR Game](https://leetcode.com/problems/chalkboard-xor-game)
 
-[English Version](/solution/0800-0899/0810.Chalkboard%20XOR%20Game/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>黑板上写着一个非负整数数组 <code>nums[i]</code> 。</p>
+<p>You are given an array of integers <code>nums</code> represents the numbers written on a chalkboard.</p>
 
-<p>Alice 和 Bob 轮流从黑板上擦掉一个数字，Alice 先手。如果擦除一个数字后，剩余的所有数字按位异或运算得出的结果等于 <code>0</code> 的话，当前玩家游戏失败。&nbsp;另外，如果只剩一个数字，按位异或运算得到它本身；如果无数字剩余，按位异或运算结果为&nbsp;<code>0</code>。</p>
+<p>Alice and Bob take turns erasing exactly one number from the chalkboard, with Alice starting first. If erasing a number causes the bitwise XOR of all the elements of the chalkboard to become <code>0</code>, then that player loses. The bitwise XOR of one element is that element itself, and the bitwise XOR of no elements is <code>0</code>.</p>
 
-<p>并且，轮到某个玩家时，如果当前黑板上所有数字按位异或运算结果等于 <code>0</code> ，这个玩家获胜。</p>
+<p>Also, if any player starts their turn with the bitwise XOR of all the elements of the chalkboard equal to <code>0</code>, then that player wins.</p>
 
-<p>假设两个玩家每步都使用最优解，当且仅当 Alice 获胜时返回 <code>true</code>。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入:</strong> nums = [1,1,2]
-<strong>输出:</strong> false
-<strong>解释:</strong> 
-Alice 有两个选择: 擦掉数字 1 或 2。
-如果擦掉 1, 数组变成 [1, 2]。剩余数字按位异或得到 1 XOR 2 = 3。那么 Bob 可以擦掉任意数字，因为 Alice 会成为擦掉最后一个数字的人，她总是会输。
-如果 Alice 擦掉 2，那么数组变成[1, 1]。剩余数字按位异或得到 1 XOR 1 = 0。Alice 仍然会输掉游戏。
-</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> nums = [0,1]
-<strong>输出:</strong> true
-</pre>
-
-<p><strong>示例 3:</strong></p>
-
-<pre>
-<strong>输入:</strong> nums = [1,2,3]
-<strong>输出:</strong> true
-</pre>
+<p>Return <code>true</code> <em>if and only if Alice wins the game, assuming both players play optimally</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,1,2]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> 
+Alice has two choices: erase 1 or erase 2. 
+If she erases 1, the nums array becomes [1, 2]. The bitwise XOR of all the elements of the chalkboard is 1 XOR 2 = 3. Now Bob can remove any element he wants, because Alice will be the one to erase the last element and she will lose. 
+If Alice erases 2 first, now nums become [1, 1]. The bitwise XOR of all the elements of the chalkboard is 1 XOR 1 = 0. Alice will lose.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [0,1]
+<strong>Output:</strong> true
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,2,3]
+<strong>Output:</strong> true
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -66,55 +61,55 @@ Alice 有两个选择: 擦掉数字 1 或 2。
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算
+### Solution 1: Bit Manipulation
 
-根据游戏规则，轮到某个玩家时，如果当前黑板上所有数字按位异或运算结果为 $0$，这个玩家获胜。由于 Alice 先手，因此当 $\textit{nums}$ 中所有数字的异或结果为 $0$ 时，Alice 可以获胜。
+According to the game rules, if the XOR result of all numbers on the blackboard is $0$ when it is a player's turn, that player wins. Since Alice goes first, if the XOR result of all numbers in $\textit{nums}$ is $0$, Alice can win.
 
-当 $\textit{nums}$ 中所有数字的异或结果不为 $0$ 时，我们不妨考虑从数组 $\textit{nums}$ 的长度奇偶性来分析 Alice 的获胜情况。
+When the XOR result of all numbers in $\textit{nums}$ is not $0$, let's analyze Alice's winning situation based on the parity of the length of the array $\textit{nums}$.
 
-当 $\textit{nums}$ 的长度为偶数时，如果 Alice 必败，那么只有一种情况，就是 Alice 无论擦掉哪个数字，剩余所有数字的异或结果都等于 $0$。我们来分析一下是否存在这种情况。
+When the length of $\textit{nums}$ is even, if Alice is destined to lose, there is only one situation: no matter which number Alice erases, the XOR result of all remaining numbers equals $0$. Let's analyze whether this situation exists.
 
-假设数组 $\textit{nums}$ 长度为 $n$，并且 $n$ 是偶数，记所有数字异或结尾为 $S$，则有：
+Assume the length of the array $\textit{nums}$ is $n$, and $n$ is even. Let the XOR result of all numbers be $S$, then:
 
 $$
 S = \textit{nums}[0] \oplus \textit{nums}[1] \oplus \cdots \oplus \textit{nums}[n-1] \neq 0
 $$
 
-我们记 $S_i$ 为数组 $\textit{nums}$ 擦掉第 $i$ 个数字后的异或结果，那么有：
+Let $S_i$ be the XOR result after erasing the $i$-th number from the array $\textit{nums}$, then:
 
 $$
 S_i \oplus \textit{nums}[i] = S
 $$
 
-等式两边同时异或 $\textit{nums}[i]$，得到：
+XOR both sides of the equation by $\textit{nums}[i]$, we get:
 
 $$
 S_i = S \oplus \textit{nums}[i]
 $$
 
-如果无论 Alice 擦掉哪个数字，剩余所有数字的异或结果都等于 $0$，那么对所有 $i$，都有 $S_i = 0$，即：
+If no matter which number Alice erases, the XOR result of all remaining numbers equals $0$, then for all $i$, we have $S_i = 0$, i.e.,
 
 $$
 S_0 \oplus S_1 \oplus \cdots \oplus S_{n-1} = 0
 $$
 
-我们将 $S_i = S \oplus \textit{nums}[i]$ 代入上式，得到：
+Substitute $S_i = S \oplus \textit{nums}[i]$ into the above equation, we get:
 
 $$
 S \oplus \textit{nums}[0] \oplus S \oplus \textit{nums}[1] \oplus \cdots \oplus S \oplus \textit{nums}[n-1] = 0
 $$
 
-上式共有 $n$（偶数）个 $S$，而 $\textit{nums}[0] \oplus \textit{nums}[1] \oplus \cdots \oplus \textit{nums}[n-1]$ 也等于 $S$，因此上式等价于 $0 \oplus S = 0$。这与 $S \neq 0$ 矛盾，因此不存在这种情况。因此当 $\textit{nums}$ 的长度为偶数时，Alice 必胜。
+There are $n$ (even) $S$ terms in the above equation, and $\textit{nums}[0] \oplus \textit{nums}[1] \oplus \cdots \oplus \textit{nums}[n-1]$ also equals $S$, so the equation is equivalent to $0 \oplus S = 0$. This contradicts $S \neq 0$, so this situation does not exist. Therefore, when the length of $\textit{nums}$ is even, Alice is guaranteed to win.
 
-如果长度为奇数，那么 Alice 擦掉一个数字后，剩余数字个数为偶数，也就是将偶数长度的情况留给 Bob，那么 Bob 必胜，也即 Alice 必败。
+If the length is odd, then after Alice erases a number, the remaining numbers are even in length, leaving Bob with an even-length situation, which means Bob is guaranteed to win, and thus Alice is destined to lose.
 
-综上，当 $\textit{nums}$ 的长度为偶数，或者 $\textit{nums}$ 中所有数字的异或结果为 $0$ 时，Alice 可以获胜。
+In conclusion, Alice can win when the length of $\textit{nums}$ is even or the XOR result of all numbers in $\textit{nums}$ is $0$.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,68 +1,63 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3013.Divide%20an%20Array%20Into%20Subarrays%20With%20Minimum%20Cost%20II/README.md
+difficulty: Hard
 rating: 2540
-source: 第 122 场双周赛 Q4
+source: Biweekly Contest 122 Q4
 tags:
-    - 数组
-    - 哈希表
-    - 滑动窗口
-    - 堆（优先队列）
+    - Array
+    - Hash Table
+    - Sliding Window
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [3013. 将数组分成最小总代价的子数组 II](https://leetcode.cn/problems/divide-an-array-into-subarrays-with-minimum-cost-ii)
+# [3013. Divide an Array Into Subarrays With Minimum Cost II](https://leetcode.com/problems/divide-an-array-into-subarrays-with-minimum-cost-ii)
 
-[English Version](/solution/3000-3099/3013.Divide%20an%20Array%20Into%20Subarrays%20With%20Minimum%20Cost%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;和两个 <strong>正</strong>&nbsp;整数&nbsp;<code>k</code> 和&nbsp;<code>dist</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> array of integers <code>nums</code> of length <code>n</code>, and two <strong>positive</strong> integers <code>k</code> and <code>dist</code>.</p>
 
-<p>一个数组的 <strong>代价</strong>&nbsp;是数组中的 <strong>第一个</strong>&nbsp;元素。比方说，<code>[1,2,3]</code>&nbsp;的代价为&nbsp;<code>1</code>&nbsp;，<code>[3,4,1]</code>&nbsp;的代价为&nbsp;<code>3</code>&nbsp;。</p>
+<p>The <strong>cost</strong> of an array is the value of its <strong>first</strong> element. For example, the cost of <code>[1,2,3]</code> is <code>1</code> while the cost of <code>[3,4,1]</code> is <code>3</code>.</p>
 
-<p>你需要将 <code>nums</code>&nbsp;分割成 <code>k</code>&nbsp;个 <strong>连续且互不相交</strong>&nbsp;的<span data-keyword="subarray">子数组</span>，满足 <strong>第二</strong>&nbsp;个子数组与第 <code>k</code>&nbsp;个子数组中第一个元素的下标距离 <strong>不超过</strong>&nbsp;<code>dist</code>&nbsp;。换句话说，如果你将&nbsp;<code>nums</code>&nbsp;分割成子数组&nbsp;<code>nums[0..(i<sub>1</sub> - 1)], nums[i<sub>1</sub>..(i<sub>2</sub> - 1)], ..., nums[i<sub>k-1</sub>..(n - 1)]</code>&nbsp;，那么它需要满足&nbsp;<code>i<sub>k-1</sub> - i<sub>1</sub> &lt;= dist</code>&nbsp;。</p>
+<p>You need to divide <code>nums</code> into <code>k</code> <strong>disjoint contiguous </strong><span data-keyword="subarray-nonempty">subarrays</span>, such that the difference between the starting index of the <strong>second</strong> subarray and the starting index of the <code>kth</code> subarray should be <strong>less than or equal to</strong> <code>dist</code>. In other words, if you divide <code>nums</code> into the subarrays <code>nums[0..(i<sub>1</sub> - 1)], nums[i<sub>1</sub>..(i<sub>2</sub> - 1)], ..., nums[i<sub>k-1</sub>..(n - 1)]</code>, then <code>i<sub>k-1</sub> - i<sub>1</sub> &lt;= dist</code>.</p>
 
-<p>请你返回这些子数组的 <strong>最小</strong>&nbsp;总代价。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [1,3,2,6,4,2], k = 3, dist = 3
-<b>输出：</b>5
-<b>解释：</b>将数组分割成 3 个子数组的最优方案是：[1,3] ，[2,6,4] 和 [2] 。这是一个合法分割，因为 i<sub>k-1</sub> - i<sub>1</sub> 等于 5 - 2 = 3 ，等于 dist 。总代价为 nums[0] + nums[2] + nums[5] ，也就是 1 + 2 + 2 = 5 。
-5 是分割成 3 个子数组的最小总代价。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [10,1,2,2,2,1], k = 4, dist = 3
-<b>输出：</b>15
-<b>解释：</b>将数组分割成 4 个子数组的最优方案是：[10] ，[1] ，[2] 和 [2,2,1] 。这是一个合法分割，因为 i<sub>k-1</sub> - i<sub>1</sub> 等于 3 - 1 = 2 ，小于 dist 。总代价为 nums[0] + nums[1] + nums[2] + nums[3] ，也就是 10 + 1 + 2 + 2 = 15 。
-分割 [10] ，[1] ，[2,2,2] 和 [1] 不是一个合法分割，因为 i<sub>k-1</sub> 和 i<sub>1</sub> 的差为 5 - 1 = 4 ，大于 dist 。
-15 是分割成 4 个子数组的最小总代价。
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [10,8,18,9], k = 3, dist = 1
-<b>输出：</b>36
-<b>解释：</b>将数组分割成 4 个子数组的最优方案是：[10] ，[8] 和 [18,9] 。这是一个合法分割，因为 i<sub>k-1</sub> - i<sub>1</sub> 等于 2 - 1 = 1 ，等于 dist 。总代价为 nums[0] + nums[1] + nums[2] ，也就是 10 + 8 + 18 = 36 。
-分割 [10] ，[8,18] 和 [9] 不是一个合法分割，因为 i<sub>k-1</sub> 和 i<sub>1</sub> 的差为 3 - 1 = 2 ，大于 dist 。
-36 是分割成 3 个子数组的最小总代价。
-</pre>
+<p>Return <em>the <strong>minimum</strong> possible sum of the cost of these</em> <em>subarrays</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,3,2,6,4,2], k = 3, dist = 3
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The best possible way to divide nums into 3 subarrays is: [1,3], [2,6,4], and [2]. This choice is valid because i<sub>k-1</sub> - i<sub>1</sub> is 5 - 2 = 3 which is equal to dist. The total cost is nums[0] + nums[2] + nums[5] which is 1 + 2 + 2 = 5.
+It can be shown that there is no possible way to divide nums into 3 subarrays at a cost lower than 5.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [10,1,2,2,2,1], k = 4, dist = 3
+<strong>Output:</strong> 15
+<strong>Explanation:</strong> The best possible way to divide nums into 4 subarrays is: [10], [1], [2], and [2,2,1]. This choice is valid because i<sub>k-1</sub> - i<sub>1</sub> is 3 - 1 = 2 which is less than dist. The total cost is nums[0] + nums[1] + nums[2] + nums[3] which is 10 + 1 + 2 + 2 = 15.
+The division [10], [1], [2,2,2], and [1] is not valid, because the difference between i<sub>k-1</sub> and i<sub>1</sub> is 5 - 1 = 4, which is greater than dist.
+It can be shown that there is no possible way to divide nums into 4 subarrays at a cost lower than 15.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [10,8,18,9], k = 3, dist = 1
+<strong>Output:</strong> 36
+<strong>Explanation:</strong> The best possible way to divide nums into 4 subarrays is: [10], [8], and [18,9]. This choice is valid because i<sub>k-1</sub> - i<sub>1</sub> is 2 - 1 = 1 which is equal to dist.The total cost is nums[0] + nums[1] + nums[2] which is 10 + 8 + 18 = 36.
+The division [10], [8,18], and [9] is not valid, because the difference between i<sub>k-1</sub> and i<sub>1</sub> is 3 - 1 = 2, which is greater than dist.
+It can be shown that there is no possible way to divide nums into 3 subarrays at a cost lower than 36.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= n &lt;= 10<sup>5</sup></code></li>
@@ -73,23 +68,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：有序集合
+### Solution 1: Ordered Set
 
-题目需要我们将数组 $\textit{nums}$ 分割成 $k$ 个连续且不相交的子数组，并且第二个子数组的第一个元素与第 $k$ 个子数组的第一个元素的下标距离不超过 $\textit{dist}$，这等价于让我们从 $\textit{nums}$ 下标为 $1$ 的元素开始，找到一个窗口大小为 $\textit{dist}+1$ 的子数组，求其中前 $k-1$ 的最小元素之和。我们将 $k$ 减 $1$，这样我们只需要求出 $k$ 个最小元素之和，再加上 $\textit{nums}[0]$ 即可。
+The problem requires us to divide the array $\textit{nums}$ into $k$ consecutive and non-overlapping subarrays, and the distance between the first element of the second subarray and the first element of the $k$-th subarray should not exceed $\textit{dist}$. This is equivalent to finding a subarray of size $\textit{dist}+1$ starting from the element at index $1$ in $\textit{nums}$, and calculating the sum of the smallest $k-1$ elements in it. We subtract $1$ from $k$, so we only need to find the sum of the smallest $k$ elements and add $\textit{nums}[0]$ to it.
 
-我们可以使用两个有序集合 $\textit{l}$ 和 $\textit{r}$ 分别维护大小为 $\textit{dist} + 1$ 的窗口元素，其中 $\textit{l}$ 维护最小的 $k$ 个元素，而 $\textit{r}$ 维护窗口的剩余元素。我们维护一个变量 $\textit{s}$ 表示 $\textit{nums}[0]$ 与 $l$ 中元素之和。初始时，我们将前 $\textit{dist}+2$ 个元素之和累加到 $\textit{s}$ 中，并将下标为 $[1, \textit{dist} + 1]$ 的所有元素加入到 $\textit{l}$ 中。如果 $\textit{l}$ 的大小大于 $k$，我们循环将 $\textit{l}$ 中的最大元素移动到 $\textit{r}$ 中，直到 $\textit{l}$ 的大小等于 $k$，过程中更新 $\textit{s}$ 的值。
+We can use two ordered sets $\textit{l}$ and $\textit{r}$ to maintain the elements of the window of size $\textit{dist} + 1$. The set $\textit{l}$ maintains the smallest $k$ elements, while the set $\textit{r}$ maintains the remaining elements of the window. We maintain a variable $\textit{s}$ to represent the sum of $\textit{nums}[0]$ and the elements in $\textit{l}$. Initially, we add the sum of the first $\textit{dist}+2$ elements to $\textit{s}$ and add all elements with indices $[1, \textit{dist} + 1]$ to $\textit{l}$. If the size of $\textit{l}$ is greater than $k$, we repeatedly move the largest element from $\textit{l}$ to $\textit{r}$ until the size of $\textit{l}$ equals $k$, updating the value of $\textit{s}$ in the process.
 
-那么此时初始答案 $\textit{ans} = \textit{s}$。
+At this point, the initial answer is $\textit{ans} = \textit{s}$.
 
-接下来我们从 $\textit{dist}+2$ 开始遍历 $\textit{nums}$，对于每一个元素 $\textit{nums}[i]$，我们需要将 $\textit{nums}[i-\textit{dist}-1]$ 从 $\textit{l}$ 或 $\textit{r}$ 中移除，然后将 $\textit{nums}[i]$ 加入到 $\textit{l}$ 或 $\textit{r}$ 中。如果 $\textit{nums}[i]$ 小于 $\textit{l}$ 中的最大元素，我们将 $\textit{nums}[i]$ 加入到 $\textit{l}$ 中，否则加入到 $\textit{r}$ 中。如果此时 $\textit{l}$ 的大小小于 $k$，我们将 $\textit{r}$ 中的最小元素移动到 $\textit{l}$ 中，直到 $\textit{l}$ 的大小等于 $k$。如果此时 $\textit{l}$ 的大小大于 $k$，我们将 $\textit{l}$ 中的最大元素移动到 $\textit{r}$ 中，直到 $\textit{l}$ 的大小等于 $k$。过程中更新 $\textit{s}$ 的值，并更新 $\textit{ans} = \min(\textit{ans}, \textit{s})$。
+Next, we traverse $\textit{nums}$ starting from $\textit{dist}+2$. For each element $\textit{nums}[i]$, we need to remove $\textit{nums}[i-\textit{dist}-1]$ from either $\textit{l}$ or $\textit{r}$, and then add $\textit{nums}[i]$ to either $\textit{l}$ or $\textit{r}$. If $\textit{nums}[i]$ is less than the largest element in $\textit{l}$, we add $\textit{nums}[i]$ to $\textit{l}$; otherwise, we add it to $\textit{r}$. If the size of $\textit{l}$ is less than $k$, we move the smallest element from $\textit{r}$ to $\textit{l}$ until the size of $\textit{l}$ equals $k$. If the size of $\textit{l}$ is greater than $k$, we move the largest element from $\textit{l}$ to $\textit{r}$ until the size of $\textit{l}$ equals $k$. During this process, we update the value of $\textit{s}$ and update $\textit{ans} = \min(\textit{ans}, \textit{s})$.
 
-最终答案即为 $\textit{ans}$。
+The final answer is $\textit{ans}$.
 
-时间复杂度 $O(n \times \log \textit{dist})$，空间复杂度 $O(\textit{dist})$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \times \log \textit{dist})$, and the space complexity is $O(\textit{dist})$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

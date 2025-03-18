@@ -1,101 +1,88 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1516.Move%20Sub-Tree%20of%20N-Ary%20Tree/README.md
+difficulty: Hard
 tags:
-    - 树
-    - 深度优先搜索
+    - Tree
+    - Depth-First Search
 ---
 
 <!-- problem:start -->
 
-# [1516. 移动 N 叉树的子树 🔒](https://leetcode.cn/problems/move-sub-tree-of-n-ary-tree)
+# [1516. Move Sub-Tree of N-Ary Tree 🔒](https://leetcode.com/problems/move-sub-tree-of-n-ary-tree)
 
-[English Version](/solution/1500-1599/1516.Move%20Sub-Tree%20of%20N-Ary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一棵没有重复值的 <span data-keyword="n-ary-tree">N 叉树</span> 的根节点&nbsp;<code>root</code>&nbsp;，以及其中的两个节点&nbsp;<code>p</code> 和&nbsp;<code>q</code>。</p>
+<p>Given the <code>root</code> of an <span data-keyword="n-ary-tree">N-ary tree</span> of unique values, and two nodes of the tree <code>p</code> and <code>q</code>.</p>
 
-<p>移动节点&nbsp;<code>p</code>&nbsp;及其子树，使节点 <code>p</code>&nbsp;成为节点&nbsp;<code>q</code>&nbsp;的直接子节点。如果&nbsp;<code>p</code>&nbsp;已经是&nbsp;<code>q</code>&nbsp;的直接子节点，则请勿改动任何节点。节点&nbsp;<code>p</code> <strong>必须</strong>是节点&nbsp;<code>q</code>&nbsp;的子节点列表的最后一项。</p>
+<p>You should move the subtree of the node <code>p</code> to become a direct child of node <code>q</code>. If <code>p</code> is already a direct child of <code>q</code>, do not change anything. Node <code>p</code> <strong>must be</strong> the last child in the children list of node <code>q</code>.</p>
 
-<p>返回改动后的<em>树的根节点</em>。</p>
+<p>Return <em>the root of the tree</em> after adjusting it.</p>
 
 <p>&nbsp;</p>
 
-<p>节点&nbsp;<code>p</code>&nbsp;和&nbsp;<code>q</code>&nbsp;可能是下列三种情况之一：</p>
+<p>There are 3 cases for nodes <code>p</code> and <code>q</code>:</p>
 
 <ol>
-	<li>节点&nbsp;<code>q</code>&nbsp;在节点&nbsp;<code>p</code>&nbsp;的子树中。</li>
-	<li>节点&nbsp;<code>p</code>&nbsp;在节点&nbsp;<code>q</code>&nbsp;的子树中。</li>
-	<li>节点&nbsp;<code>p</code>&nbsp;不在节点&nbsp;<code>q</code>&nbsp;的子树中，且节点&nbsp;<code>q</code> 也不在节点&nbsp;<code>p</code>&nbsp;的子树中。</li>
+	<li>Node <code>q</code> is in the sub-tree of node <code>p</code>.</li>
+	<li>Node <code>p</code> is in the sub-tree of node <code>q</code>.</li>
+	<li>Neither node <code>p</code> is in the sub-tree of node <code>q</code> nor node <code>q</code> is in the sub-tree of node <code>p</code>.</li>
 </ol>
 
-<p>在第 2 种和第 3 种情况中，你只需要移动&nbsp;<code>p</code>&nbsp;（及其子树），使 <code>p</code>&nbsp;成为&nbsp;<code>q</code>&nbsp;的子节点。但是在第 1 种情况中，树的节点可能会断连，因此你还需要重新连接这些节点。<strong>请在解题前仔细阅读示例。</strong></p>
+<p>In cases 2 and 3, you just need to move <code><span>p</span></code> (with its sub-tree) to be a child of <code>q</code>, but in case 1 the tree may be disconnected, thus you need to reconnect the tree again. <strong>Please read the examples carefully before solving this problem.</strong></p>
 
 <p>&nbsp;</p>
 
-<p><em>N 叉树的输入序列以层序遍历的形式给出，每组子节点用 null 分隔（见示例）。</em></p>
+<p><em>Nary-Tree input serialization is represented in their level order traversal, each group of children is separated by the null value (See examples).</em></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1516.Move%20Sub-Tree%20of%20N-Ary%20Tree/images/sample_4_964.png" style="height: 269px; width: 296px;" /></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1516.Move%20Sub-Tree%20of%20N-Ary%20Tree/images/sample_4_964.png" style="width: 296px; height: 241px;" /></p>
 
-<p>例如，上面的树会被序列化为&nbsp;[1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]。</p>
+<p>For example, the above tree is serialized as <code>[1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1516.Move%20Sub-Tree%20of%20N-Ary%20Tree/images/move_e1.jpg" style="height: 188px; width: 450px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1516.Move%20Sub-Tree%20of%20N-Ary%20Tree/images/move_e1.jpg" style="width: 450px; height: 188px;" />
 <pre>
-<strong>输入:</strong> root = [1,null,2,3,null,4,5,null,6,null,7,8], p = 4, q = 1
-<strong>输出:</strong> [1,null,2,3,4,null,5,null,6,null,7,8]
-<strong>解释:</strong> 该示例属于第二种情况，节点 p 在节点 q 的子树中。我们可以移动节点 p 及其子树，使 p 成为节点 q 的直接子节点。
-注意，节点 4 是节点 1 的最后一个子节点。</pre>
+<strong>Input:</strong> root = [1,null,2,3,null,4,5,null,6,null,7,8], p = 4, q = 1
+<strong>Output:</strong> [1,null,2,3,4,null,5,null,6,null,7,8]
+<strong>Explanation:</strong> This example follows the second case as node p is in the sub-tree of node q. We move node p with its sub-tree to be a direct child of node q.
+Notice that node 4 is the last child of node 1.</pre>
 
-<p><strong>示例 2:</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1516.Move%20Sub-Tree%20of%20N-Ary%20Tree/images/move_e2.jpg" style="height: 281px; width: 281px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1516.Move%20Sub-Tree%20of%20N-Ary%20Tree/images/move_e2.jpg" style="width: 281px; height: 281px;" />
 <pre>
-<strong>输入:</strong> root = [1,null,2,3,null,4,5,null,6,null,7,8], p = 7, q = 4
-<strong>输出:</strong> [1,null,2,3,null,4,5,null,6,null,7,8]
-<strong>解释:</strong> 节点 7 已经是节点 4 的直接子节点，因此我们不改动任何节点。
+<strong>Input:</strong> root = [1,null,2,3,null,4,5,null,6,null,7,8], p = 7, q = 4
+<strong>Output:</strong> [1,null,2,3,null,4,5,null,6,null,7,8]
+<strong>Explanation:</strong> Node 7 is already a direct child of node 4. We don&#39;t change anything.
 </pre>
 
-<p><strong>示例 3:</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1516.Move%20Sub-Tree%20of%20N-Ary%20Tree/images/move_e3.jpg" style="height: 331px; width: 450px;" /></p>
-
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1516.Move%20Sub-Tree%20of%20N-Ary%20Tree/images/move_e3.jpg" style="width: 450px; height: 331px;" />
 <pre>
-<strong>输入:</strong> root = [1,null,2,3,null,4,5,null,6,null,7,8], p = 3, q = 8
-<strong>输出:</strong> [1,null,2,null,4,5,null,7,8,null,null,null,3,null,6]
-<strong>解释:</strong> 该示例属于第三种情况，节点 p 不在节点 q 的子树中，反之亦然。我们可以移动节点 3 及其子树，使之成为节点 8 的子节点。
+<strong>Input:</strong> root = [1,null,2,3,null,4,5,null,6,null,7,8], p = 3, q = 8
+<strong>Output:</strong> [1,null,2,null,4,5,null,7,8,null,null,null,3,null,6]
+<strong>Explanation:</strong> This example follows case 3 because node p is not in the sub-tree of node q and vice-versa. We can move node 3 with its sub-tree and make it as node 8&#39;s child.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>节点的总数在&nbsp;<code>[2,&nbsp;1000]</code>&nbsp;间。</li>
-	<li>每个节点都有&nbsp;<strong>唯一&nbsp;</strong>的值。</li>
+	<li>The total number of nodes is between <code>[2, 1000]</code>.</li>
+	<li>Each node has a <strong>unique</strong> value.</li>
 	<li><code>p != null</code></li>
 	<li><code>q != null</code></li>
-	<li><code>p</code>&nbsp;和&nbsp;<code>q</code>&nbsp;是两个不同的节点（即&nbsp;<code>p != q</code>&nbsp;）。</li>
+	<li><code>p</code> and <code>q</code> are two different nodes (i.e. <code>p != q</code>).</li>
 </ul>
-
-<p>&nbsp;</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

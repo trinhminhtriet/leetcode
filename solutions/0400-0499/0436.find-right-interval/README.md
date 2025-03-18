@@ -1,79 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0436.Find%20Right%20Interval/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 二分查找
-    - 排序
+    - Array
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [436. 寻找右区间](https://leetcode.cn/problems/find-right-interval)
+# [436. Find Right Interval](https://leetcode.com/problems/find-right-interval)
 
-[English Version](/solution/0400-0499/0436.Find%20Right%20Interval/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个区间数组 <code>intervals</code> ，其中&nbsp;<code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> ，且每个&nbsp;<code>start<sub>i</sub></code> 都 <strong>不同</strong> 。</p>
+<p>You are given an array of <code>intervals</code>, where <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> and each <code>start<sub>i</sub></code> is <strong>unique</strong>.</p>
 
-<p>区间 <code>i</code> 的 <strong>右侧区间</strong>&nbsp;是满足 <code>start<sub>j</sub>&nbsp;&gt;= end<sub>i</sub></code>，且 <code>start<sub>j</sub></code> <strong>最小&nbsp;</strong>的区间 <code>j</code>。注意 <code>i</code> 可能等于 <code>j</code> 。</p>
+<p>The <strong>right interval</strong> for an interval <code>i</code> is an interval <code>j</code> such that <code>start<sub>j</sub> &gt;= end<sub>i</sub></code> and <code>start<sub>j</sub></code> is <strong>minimized</strong>. Note that <code>i</code> may equal <code>j</code>.</p>
 
-<p>返回一个由每个区间 <code>i</code>&nbsp;对应的 <strong>右侧区间</strong> 下标组成的数组。如果某个区间 <code>i</code> 不存在对应的 <strong>右侧区间</strong> ，则下标 <code>i</code> 处的值设为 <code>-1</code> 。</p>
-&nbsp;
+<p>Return <em>an array of <strong>right interval</strong> indices for each interval <code>i</code></em>. If no <strong>right interval</strong> exists for interval <code>i</code>, then put <code>-1</code> at index <code>i</code>.</p>
 
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>intervals = [[1,2]]
-<strong>输出：</strong>[-1]
-<strong>解释：</strong>集合中只有一个区间，所以输出-1。
+<strong>Input:</strong> intervals = [[1,2]]
+<strong>Output:</strong> [-1]
+<strong>Explanation:</strong> There is only one interval in the collection, so it outputs -1.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>intervals = [[3,4],[2,3],[1,2]]
-<strong>输出：</strong>[-1,0,1]
-<strong>解释：</strong>对于 [3,4] ，没有满足条件的“右侧”区间。
-对于 [2,3] ，区间[3,4]具有最小的“右”起点;
-对于 [1,2] ，区间[2,3]具有最小的“右”起点。
+<strong>Input:</strong> intervals = [[3,4],[2,3],[1,2]]
+<strong>Output:</strong> [-1,0,1]
+<strong>Explanation:</strong> There is no right interval for [3,4].
+The right interval for [2,3] is [3,4] since start<sub>0</sub> = 3 is the smallest start that is &gt;= end<sub>1</sub> = 3.
+The right interval for [1,2] is [2,3] since start<sub>1</sub> = 2 is the smallest start that is &gt;= end<sub>2</sub> = 2.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>intervals = [[1,4],[2,3],[3,4]]
-<strong>输出：</strong>[-1,2,-1]
-<strong>解释：</strong>对于区间 [1,4] 和 [3,4] ，没有满足条件的“右侧”区间。
-对于 [2,3] ，区间 [3,4] 有最小的“右”起点。
+<strong>Input:</strong> intervals = [[1,4],[2,3],[3,4]]
+<strong>Output:</strong> [-1,2,-1]
+<strong>Explanation:</strong> There is no right interval for [1,4] and [3,4].
+The right interval for [2,3] is [3,4] since start<sub>2</sub> = 3 is the smallest start that is &gt;= end<sub>1</sub> = 3.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;=&nbsp;intervals.length &lt;= 2 * 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= intervals.length &lt;= 2 * 10<sup>4</sup></code></li>
 	<li><code>intervals[i].length == 2</code></li>
 	<li><code>-10<sup>6</sup> &lt;= start<sub>i</sub> &lt;= end<sub>i</sub> &lt;= 10<sup>6</sup></code></li>
-	<li>每个间隔的起点都 <strong>不相同</strong></li>
+	<li>The start point of each interval is <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 二分查找
+### Solution 1: Sorting + Binary Search
 
-我们可以将区间的起点和下标存入数组 `arr` 中，并按照起点进行排序。然后遍历区间数组，对于每个区间 `[_, ed]`，我们可以使用二分查找找到第一个起点大于等于 `ed` 的区间，即为其右侧区间，如果找到了，我们就将其下标存入答案数组中，否则存入 `-1`。
+We can store the start point and index of each interval into an array `arr`, and sort it by the start point. Then we iterate through the interval array, for each interval `[_, ed]`, we can use binary search to find the first interval whose start point is greater than or equal to `ed`, which is its right-side interval. If found, we store its index into the answer array, otherwise, we store `-1`.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为区间的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the intervals.
 
 <!-- tabs:start -->
 

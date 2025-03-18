@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1211.Queries%20Quality%20and%20Percentage/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1211. 查询结果的质量和占比](https://leetcode.cn/problems/queries-quality-and-percentage)
+# [1211. Queries Quality and Percentage](https://leetcode.com/problems/queries-quality-and-percentage)
 
-[English Version](/solution/1200-1299/1211.Queries%20Quality%20and%20Percentage/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><code>Queries</code>&nbsp;表：&nbsp;</p>
+<p>Table: <code>Queries</code></p>
 
 <pre>
 +-------------+---------+
@@ -27,40 +24,39 @@ tags:
 | position    | int     |
 | rating      | int     |
 +-------------+---------+
-此表可能有重复的行。
-此表包含了一些从数据库中收集的查询信息。
-“位置”（<code>position</code>）列的值为 <strong>1</strong> 到 <strong>500</strong> 。
-“评分”（<code>rating</code>）列的值为 <strong>1</strong> 到 <strong>5</strong> 。评分小于 3 的查询被定义为质量很差的查询。
+This table may have duplicate rows.
+This table contains information collected from some queries on a database.
+The <code>position</code> column has a value from <strong>1</strong> to <strong>500</strong>.
+The <code>rating</code> column has a value from <strong>1</strong> to <strong>5</strong>. Query with <code>rating</code> less than 3 is a poor query.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>将查询结果的质量 <code>quality</code> 定义为：</p>
+<p>We define query <code>quality</code> as:</p>
 
 <blockquote>
-<p>各查询结果的评分与其位置之间比率的平均值。</p>
+<p>The average of the ratio between query rating and its position.</p>
 </blockquote>
 
-<p>将劣质查询百分比&nbsp;<code>poor_query_percentage</code>&nbsp;定义为：</p>
+<p>We also define <code>poor query percentage</code> as:</p>
 
 <blockquote>
-<p>评分小于 3 的查询结果占全部查询结果的百分比。</p>
+<p>The percentage of all queries with rating less than 3.</p>
 </blockquote>
 
-<p>编写解决方案，找出每次的&nbsp;<code>query_name</code>&nbsp;、&nbsp;<code>quality</code>&nbsp;和&nbsp;<code>poor_query_percentage</code>。</p>
+<p>Write a solution to find each <code>query_name</code>, the <code>quality</code> and <code>poor_query_percentage</code>.</p>
 
-<p><code>quality</code>&nbsp;和&nbsp;<code>poor_query_percentage</code>&nbsp;都应 <strong>四舍五入到小数点后两位</strong> 。</p>
+<p>Both <code>quality</code> and <code>poor_query_percentage</code> should be <strong>rounded to 2 decimal places</strong>.</p>
 
-<p>以 <strong>任意顺序</strong> 返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果格式如下所示：</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 Queries table:
 +------------+-------------------+----------+--------+
 | query_name | result            | position | rating |
@@ -72,30 +68,30 @@ Queries table:
 | Cat        | Siamese           | 3        | 3      |
 | Cat        | Sphynx            | 7        | 4      |
 +------------+-------------------+----------+--------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +------------+---------+-----------------------+
 | query_name | quality | poor_query_percentage |
 +------------+---------+-----------------------+
 | Dog        | 2.50    | 33.33                 |
 | Cat        | 0.66    | 33.33                 |
 +------------+---------+-----------------------+
-<strong>解释：</strong>
-Dog 查询结果的质量为 ((5 / 1) + (5 / 2) + (1 / 200)) / 3 = 2.50
-Dog 查询结果的劣质查询百分比为 (1 / 3) * 100 = 33.33
+<strong>Explanation:</strong> 
+Dog queries quality is ((5 / 1) + (5 / 2) + (1 / 200)) / 3 = 2.50
+Dog queries poor_ query_percentage is (1 / 3) * 100 = 33.33
 
-Cat 查询结果的质量为 ((2 / 5) + (3 / 3) + (4 / 7)) / 3 = 0.66
-Cat 查询结果的劣质查询百分比为 (1 / 3) * 100 = 33.33
+Cat queries quality equals ((2 / 5) + (3 / 3) + (4 / 7)) / 3 = 0.66
+Cat queries poor_ query_percentage is (1 / 3) * 100 = 33.33
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组统计
+### Solution 1: Grouping and Aggregation
 
-我们将查询结果按照 `query_name` 进行分组，然后利用 `AVG` 和 `ROUND` 函数计算 `quality` 和 `poor_query_percentage`。
+We can group the query results by `query_name`, and then use the `AVG` and `ROUND` functions to calculate `quality` and `poor_query_percentage`.
 
 <!-- tabs:start -->
 

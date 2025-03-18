@@ -1,45 +1,41 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0507.Perfect%20Number/README.md
+difficulty: Easy
 tags:
-    - 数学
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [507. 完美数](https://leetcode.cn/problems/perfect-number)
+# [507. Perfect Number](https://leetcode.com/problems/perfect-number)
 
-[English Version](/solution/0500-0599/0507.Perfect%20Number/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>对于一个&nbsp;<strong>正整数</strong>，如果它和除了它自身以外的所有 <strong>正因子</strong> 之和相等，我们称它为 <strong>「完美数」</strong>。</p>
+<p>A <a href="https://en.wikipedia.org/wiki/Perfect_number" target="_blank"><strong>perfect number</strong></a> is a <strong>positive integer</strong> that is equal to the sum of its <strong>positive divisors</strong>, excluding the number itself. A <strong>divisor</strong> of an integer <code>x</code> is an integer that can divide <code>x</code> evenly.</p>
 
-<p>给定一个&nbsp;<strong>整数&nbsp;</strong><code>n</code>，&nbsp;如果是完美数，返回 <code>true</code>；否则返回 <code>false</code>。</p>
+<p>Given an integer <code>n</code>, return <code>true</code><em> if </em><code>n</code><em> is a perfect number, otherwise return </em><code>false</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>num = 28
-<strong>输出：</strong>true
-<strong>解释：</strong>28 = 1 + 2 + 4 + 7 + 14
-1, 2, 4, 7, 和 14 是 28 的所有正因子。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>num = 7
-<strong>输出：</strong>false
+<strong>Input:</strong> num = 28
+<strong>Output:</strong> true
+<strong>Explanation:</strong> 28 = 1 + 2 + 4 + 7 + 14
+1, 2, 4, 7, and 14 are all divisors of 28.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> num = 7
+<strong>Output:</strong> false
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num &lt;= 10<sup>8</sup></code></li>
@@ -47,19 +43,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们首先判断 $\textit{num}$ 是否为 1，如果为 1，则 $\textit{num}$ 不是完美数，返回 $\text{false}$。
+First, we check if $\textit{num}$ is 1. If it is, then $\textit{num}$ is not a perfect number, and we return $\text{false}$.
 
-然后，我们从 2 开始枚举 $\textit{num}$ 的所有正因子，如果 $\textit{num}$ 能被 $\textit{num}$ 的某个正因子 $i$ 整除，那么我们将 $i$ 加入到答案 $\textit{s}$ 中。如果 $\textit{num}$ 除以 $i$ 得到的商不等于 $i$，我们也将 $\textit{num}$ 除以 $i$ 得到的商加入到答案 $\textit{s}$ 中。
+Next, we enumerate all positive divisors of $\textit{num}$ starting from 2. If $\textit{num}$ is divisible by a positive divisor $i$, we add $i$ to the sum $\textit{s}$. If the quotient of $\textit{num}$ divided by $i$ is not equal to $i$, we also add the quotient to the sum $\textit{s}$.
 
-最后，我们判断 $\textit{s}$ 是否等于 $\textit{num}$ 即可。
+Finally, we check if $\textit{s}$ is equal to $\textit{num}$.
 
-时间复杂度 $O(\sqrt{n})$，其中 $n$ 为 $\textit{num}$ 的大小。空间复杂度 $O(1)$。
+The time complexity is $O(\sqrt{n})$, where $n$ is the value of $\textit{num}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,73 +1,68 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2827.Number%20of%20Beautiful%20Integers%20in%20the%20Range/README.md
+difficulty: Hard
 rating: 2324
-source: 第 111 场双周赛 Q4
+source: Biweekly Contest 111 Q4
 tags:
-    - 数学
-    - 动态规划
+    - Math
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2827. 范围中美丽整数的数目](https://leetcode.cn/problems/number-of-beautiful-integers-in-the-range)
+# [2827. Number of Beautiful Integers in the Range](https://leetcode.com/problems/number-of-beautiful-integers-in-the-range)
 
-[English Version](/solution/2800-2899/2827.Number%20of%20Beautiful%20Integers%20in%20the%20Range/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你正整数&nbsp;<code>low</code>&nbsp;，<code>high</code>&nbsp;和&nbsp;<code>k</code>&nbsp;。</p>
+<p>You are given positive integers <code>low</code>, <code>high</code>, and <code>k</code>.</p>
 
-<p>如果一个数满足以下两个条件，那么它是 <strong>美丽的</strong>&nbsp;：</p>
+<p>A number is <strong>beautiful</strong> if it meets both of the following conditions:</p>
 
 <ul>
-	<li>偶数数位的数目与奇数数位的数目相同。</li>
-	<li>这个整数可以被&nbsp;<code>k</code>&nbsp;整除。</li>
+	<li>The count of even digits in the number is equal to the count of odd digits.</li>
+	<li>The number is divisible by <code>k</code>.</li>
 </ul>
 
-<p>请你返回范围&nbsp;<code>[low, high]</code>&nbsp;中美丽整数的数目。</p>
+<p>Return <em>the number of beautiful integers in the range</em> <code>[low, high]</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>low = 10, high = 20, k = 3
-<b>输出：</b>2
-<b>解释：</b>给定范围中有 2 个美丽数字：[12,18]
-- 12 是美丽整数，因为它有 1 个奇数数位和 1 个偶数数位，而且可以被 k = 3 整除。
-- 18 是美丽整数，因为它有 1 个奇数数位和 1 个偶数数位，而且可以被 k = 3 整除。
-以下是一些不是美丽整数的例子：
-- 16 不是美丽整数，因为它不能被 k = 3 整除。
-- 15 不是美丽整数，因为它的奇数数位和偶数数位的数目不相等。
-给定范围内总共有 2 个美丽整数。
+<strong>Input:</strong> low = 10, high = 20, k = 3
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> There are 2 beautiful integers in the given range: [12,18]. 
+- 12 is beautiful because it contains 1 odd digit and 1 even digit, and is divisible by k = 3.
+- 18 is beautiful because it contains 1 odd digit and 1 even digit, and is divisible by k = 3.
+Additionally we can see that:
+- 16 is not beautiful because it is not divisible by k = 3.
+- 15 is not beautiful because it does not contain equal counts even and odd digits.
+It can be shown that there are only 2 beautiful integers in the given range.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>low = 1, high = 10, k = 1
-<b>输出：</b>1
-<b>解释：</b>给定范围中有 1 个美丽数字：[10]
-- 10 是美丽整数，因为它有 1 个奇数数位和 1 个偶数数位，而且可以被 k = 1 整除。
-给定范围内总共有 1 个美丽整数。
+<strong>Input:</strong> low = 1, high = 10, k = 1
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> There is 1 beautiful integer in the given range: [10].
+- 10 is beautiful because it contains 1 odd digit and 1 even digit, and is divisible by k = 1.
+It can be shown that there is only 1 beautiful integer in the given range.
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>low = 5, high = 5, k = 2
-<b>输出：</b>0
-<b>解释：</b>给定范围中有 0 个美丽数字。
-- 5 不是美丽整数，因为它的奇数数位和偶数数位的数目不相等。
+<strong>Input:</strong> low = 5, high = 5, k = 2
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There are 0 beautiful integers in the given range.
+- 5 is not beautiful because it is not divisible by k = 2 and it does not contain equal even and odd digits.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt; low &lt;= high &lt;= 10<sup>9</sup></code></li>
@@ -76,34 +71,34 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数位 DP
+### Solution 1: Digit DP
 
-我们注意到，题目求的是区间 $[low, high]$ 内的美丽整数的个数，对于这种区间 $[l,..r]$ 的问题，我们通常可以考虑转化为求 $[1, r]$ 和 $[1, l-1]$ 的答案，然后相减即可。另外，题目中只涉及到不同数位之间的关系，而不涉及具体的数值，因此我们可以考虑使用数位 DP 来解决。
+We notice that the problem is asking for the number of beautiful integers in the interval $[low, high]$. For such an interval $[l,..r]$ problem, we can usually consider transforming it into finding the answers for $[1, r]$ and $[1, l-1]$, and then subtracting the latter from the former. Moreover, the problem only involves the relationship between different digits, not the specific values, so we can consider using Digit DP to solve it.
 
-我们设计一个函数 $dfs(pos, mod, diff, lead, limit)$，表示当前处理到第 $pos$ 位，当前数字模 $k$ 的结果为 $mod$，当前数字的奇偶数位差为 $diff$，当前数字是否有前导零为 $lead$，当前数字是否达到上界为 $limit$ 时的方案数。
+We design a function $dfs(pos, mod, diff, lead, limit)$, which represents the number of schemes when we are currently processing the $pos$-th digit, the result of the current number modulo $k$ is $mod$, the difference between the odd and even digits of the current number is $diff$, whether the current number has leading zeros is $lead$, and whether the current number has reached the upper limit is $limit$.
 
-函数 $dfs(pos, mod, diff, lead, limit)$ 的执行逻辑如下：
+The execution logic of the function $dfs(pos, mod, diff, lead, limit)$ is as follows:
 
-如果 $pos$ 超出了 $num$ 的长度，说明我们已经处理完了所有数位，如果此时 $mod=0$，并且 $diff=0$，说明当前数字满足题目要求，我们返回 $1$，否则返回 $0$。
+If $pos$ exceeds the length of $num$, it means that we have processed all the digits. If $mod=0$ and $diff=0$ at this time, it means that the current number meets the requirements of the problem, so we return $1$, otherwise we return $0$.
 
-否则，我们计算得到当前数位的上界 $up$，然后在 $[0,..up]$ 范围内枚举当前数位的数字 $i$：
+Otherwise, we calculate the upper limit $up$ of the current digit, and then enumerate the digit $i$ in the range $[0,..up]$:
 
--   如果 $i=0$ 且 $lead$ 为真，说明当前数字只包含前导零，我们递归计算 $dfs(pos + 1, mod, diff, 1, limit\ and\ i=up)$ 的值并累加到答案中；
--   否则，我们根据 $i$ 的奇偶性更新 $diff$ 的值，然后递归计算 $dfs(pos + 1, (mod \times 10 + i) \bmod k, diff, 0, limit\ and\ i=up)$ 的值并累加到答案中。
+-   If $i=0$ and $lead$ is true, it means that the current number only contains leading zeros. We recursively calculate the value of $dfs(pos + 1, mod, diff, 1, limit\ and\ i=up)$ and add it to the answer.
+-   Otherwise, we update the value of $diff$ according to the parity of $i$, and then recursively calculate the value of $dfs(pos + 1, (mod \times 10 + i) \bmod k, diff, 0, limit\ and\ i=up)$ and add it to the answer.
 
-最终我们返回答案。
+Finally, we return the answer.
 
-在主函数中，我们分别计算 $[1, high]$ 和 $[1, low-1]$ 的答案 $a$ 和 $b$，最终答案为 $a-b$。
+In the main function, we calculate the answers $a$ and $b$ for $[1, high]$ and $[1, low-1]$ respectively. The final answer is $a-b$.
 
-时间复杂度 $O((\log M)^2 \times k \times |\Sigma|)$，空间复杂度 $O((\log M)^2 \times k \times)$，其中 $M$ 表示 $high$ 数字的大小，而 $|\Sigma|$ 表示数字集合。
+The time complexity is $O((\log M)^2 \times k \times |\Sigma|)$, and the space complexity is $O((\log M)^2 \times k)$, where $M$ represents the size of the number $high$, and $|\Sigma|$ represents the digit set.
 
-相似题目：
+Similar problems:
 
--   [2719. 统计整数数目](https://github.com/doocs/leetcode/blob/main/solution/2700-2799/2719.Count%20of%20Integers/README.md)
+-   [2719. Count of Integers](https://github.com/doocs/leetcode/blob/main/solution/2700-2799/2719.Count%20of%20Integers/README_EN.md)
 
 <!-- tabs:start -->
 

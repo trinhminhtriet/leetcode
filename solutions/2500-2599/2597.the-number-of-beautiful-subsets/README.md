@@ -1,60 +1,55 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2597.The%20Number%20of%20Beautiful%20Subsets/README.md
+difficulty: Medium
 rating: 2023
-source: 第 337 场周赛 Q3
+source: Weekly Contest 337 Q3
 tags:
-    - 数组
-    - 哈希表
-    - 数学
-    - 动态规划
-    - 回溯
-    - 组合数学
-    - 排序
+    - Array
+    - Hash Table
+    - Math
+    - Dynamic Programming
+    - Backtracking
+    - Combinatorics
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2597. 美丽子集的数目](https://leetcode.cn/problems/the-number-of-beautiful-subsets)
+# [2597. The Number of Beautiful Subsets](https://leetcode.com/problems/the-number-of-beautiful-subsets)
 
-[English Version](/solution/2500-2599/2597.The%20Number%20of%20Beautiful%20Subsets/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个由正整数组成的数组 <code>nums</code> 和一个 <strong>正</strong> 整数 <code>k</code> 。</p>
+<p>You are given an array <code>nums</code> of positive integers and a <strong>positive</strong> integer <code>k</code>.</p>
 
-<p>如果 <code>nums</code> 的子集中，任意两个整数的绝对差均不等于 <code>k</code> ，则认为该子数组是一个 <strong>美丽</strong> 子集。</p>
+<p>A subset of <code>nums</code> is <strong>beautiful</strong> if it does not contain two integers with an absolute difference equal to <code>k</code>.</p>
 
-<p>返回数组 <code>nums</code> 中 <strong>非空</strong> 且 <strong>美丽</strong> 的子集数目。</p>
+<p>Return <em>the number of <strong>non-empty beautiful </strong>subsets of the array</em> <code>nums</code>.</p>
 
-<p><code>nums</code> 的子集定义为：可以经由 <code>nums</code> 删除某些元素（也可能不删除）得到的一个数组。只有在删除元素时选择的索引不同的情况下，两个子集才会被视作是不同的子集。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [2,4,6], k = 2
-<strong>输出：</strong>4
-<strong>解释：</strong>数组 nums 中的美丽子集有：[2], [4], [6], [2, 6] 。
-可以证明数组 [2,4,6] 中只存在 4 个美丽子集。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1], k = 1
-<strong>输出：</strong>1
-<strong>解释：</strong>数组 nums 中的美丽数组有：[1] 。
-可以证明数组 [1] 中只存在 1 个美丽子集。 
-</pre>
+<p>A <strong>subset</strong> of <code>nums</code> is an array that can be obtained by deleting some (possibly none) elements from <code>nums</code>. Two subsets are different if and only if the chosen indices to delete are different.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [2,4,6], k = 2
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The beautiful subsets of the array nums are: [2], [4], [6], [2, 6].
+It can be proved that there are only 4 beautiful subsets in the array [2,4,6].
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1], k = 1
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The beautiful subset of the array nums is [1].
+It can be proved that there is only 1 beautiful subset in the array [1].
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 18</code></li>
@@ -63,22 +58,22 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数 + 回溯
+### Solution 1: Counting + Backtracking
 
-我们用哈希表或数组 $cnt$ 记录当前已经选择的数字以及它们的个数，用 $ans$ 记录美丽子集的数目，初始时 $ans = -1$，表示排除空集。
+We use a hash table or an array $cnt$ to record the currently selected numbers and their counts, and use $ans$ to record the number of beautiful subsets, initially $ans = -1$, indicating that the empty set is excluded.
 
-对于数组 $nums$ 中的每个数字 $x$，我们有两种选择：
+For each number $x$ in the array $nums$, we have two choices:
 
--   不选择 $x$，此时直接递归到下一个数字；
--   选择 $x$，此时需要判断 $x + k$ 和 $x - k$ 是否已经在 $cnt$ 中出现过，如果都没有出现过，那么我们就可以选择 $x$，此时我们将 $x$ 的个数加一，然后递归到下一个数字，最后将 $x$ 的个数减一。
+-   Do not choose $x$, and then directly recurse to the next number;
+-   Choose $x$, then we need to check whether $x + k$ and $x - k$ have appeared in $cnt$ before, if neither has appeared before, then we can choose $x$, at this time we add one to the number of $x$, and then recurse to the next number, and finally subtract one from the number of $x$.
 
-最后，我们返回 $ans$ 即可。
+Finally, we return $ans$.
 
-时间复杂度 $O(2^n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+Time complexity $O(2^n)$, space complexity $O(n)$, where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

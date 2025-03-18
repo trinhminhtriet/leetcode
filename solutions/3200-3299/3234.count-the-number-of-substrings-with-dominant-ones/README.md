@@ -1,43 +1,39 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3234.Count%20the%20Number%20of%20Substrings%20With%20Dominant%20Ones/README.md
+difficulty: Medium
 rating: 2556
-source: 第 408 场周赛 Q3
+source: Weekly Contest 408 Q3
 tags:
-    - 字符串
-    - 枚举
-    - 滑动窗口
+    - String
+    - Enumeration
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [3234. 统计 1 显著的字符串的数量](https://leetcode.cn/problems/count-the-number-of-substrings-with-dominant-ones)
+# [3234. Count the Number of Substrings With Dominant Ones](https://leetcode.com/problems/count-the-number-of-substrings-with-dominant-ones)
 
-[English Version](/solution/3200-3299/3234.Count%20the%20Number%20of%20Substrings%20With%20Dominant%20Ones/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二进制字符串 <code>s</code>。</p>
+<p>You are given a binary string <code>s</code>.</p>
 
-<p>请你统计并返回其中 <strong>1 显著 </strong> 的 <span data-keyword="substring-nonempty">子字符串</span> 的数量。</p>
+<p>Return the number of <span data-keyword="substring-nonempty">substrings</span> with <strong>dominant</strong> ones.</p>
 
-<p>如果字符串中 1 的数量 <strong>大于或等于</strong> 0 的数量的 <strong>平方</strong>，则认为该字符串是一个 <strong>1 显著</strong> 的字符串 。</p>
+<p>A string has <strong>dominant</strong> ones if the number of ones in the string is <strong>greater than or equal to</strong> the <strong>square</strong> of the number of zeros in the string.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">s = "00011"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;00011&quot;</span></p>
 
-<p><strong>输出：</strong><span class="example-io">5</span></p>
+<p><strong>Output:</strong> <span class="example-io">5</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>1 显著的子字符串如下表所示。</p>
+<p>The substrings with dominant ones are shown in the table below.</p>
 </div>
 
 <table>
@@ -46,8 +42,8 @@ tags:
 			<th>i</th>
 			<th>j</th>
 			<th>s[i..j]</th>
-			<th>0 的数量</th>
-			<th>1 的数量</th>
+			<th>Number of Zeros</th>
+			<th>Number of Ones</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -89,18 +85,18 @@ tags:
 	</tbody>
 </table>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">s = "101101"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;101101&quot;</span></p>
 
-<p><strong>输出：</strong><span class="example-io">16</span></p>
+<p><strong>Output:</strong> <span class="example-io">16</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>1 不显著的子字符串如下表所示。</p>
+<p>The substrings with <strong>non-dominant</strong> ones are shown in the table below.</p>
 
-<p>总共有 21 个子字符串，其中 5 个是 1 不显著字符串，因此有 16 个 1 显著子字符串。</p>
+<p>Since there are 21 substrings total and 5 of them have non-dominant ones, it follows that there are 16 substrings with dominant ones.</p>
 </div>
 
 <table>
@@ -109,8 +105,8 @@ tags:
 			<th>i</th>
 			<th>j</th>
 			<th>s[i..j]</th>
-			<th>0 的数量</th>
-			<th>1 的数量</th>
+			<th>Number of Zeros</th>
+			<th>Number of Ones</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -153,21 +149,20 @@ tags:
 </table>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 4 * 10<sup>4</sup></code></li>
-	<li><code>s</code> 仅包含字符 <code>'0'</code> 和 <code>'1'</code>。</li>
+	<li><code>s</code> consists only of characters <code>&#39;0&#39;</code> and <code>&#39;1&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

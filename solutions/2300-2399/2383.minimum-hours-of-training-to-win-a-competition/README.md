@@ -1,66 +1,63 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2383.Minimum%20Hours%20of%20Training%20to%20Win%20a%20Competition/README.md
+difficulty: Easy
 rating: 1413
-source: 第 307 场周赛 Q1
+source: Weekly Contest 307 Q1
 tags:
-    - 贪心
-    - 数组
+    - Greedy
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2383. 赢得比赛需要的最少训练时长](https://leetcode.cn/problems/minimum-hours-of-training-to-win-a-competition)
+# [2383. Minimum Hours of Training to Win a Competition](https://leetcode.com/problems/minimum-hours-of-training-to-win-a-competition)
 
-[English Version](/solution/2300-2399/2383.Minimum%20Hours%20of%20Training%20to%20Win%20a%20Competition/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你正在参加一场比赛，给你两个 <strong>正</strong> 整数 <code>initialEnergy</code> 和 <code>initialExperience</code> 分别表示你的初始精力和初始经验。</p>
+<p>You are entering a competition, and are given two <strong>positive</strong> integers <code>initialEnergy</code> and <code>initialExperience</code> denoting your initial energy and initial experience respectively.</p>
 
-<p>另给你两个下标从 <strong>0</strong> 开始的整数数组 <code>energy</code> 和 <code>experience</code>，长度均为 <code>n</code> 。</p>
+<p>You are also given two <strong>0-indexed</strong> integer arrays <code>energy</code> and <code>experience</code>, both of length <code>n</code>.</p>
 
-<p>你将会 <strong>依次</strong> 对上 <code>n</code> 个对手。第 <code>i</code> 个对手的精力和经验分别用 <code>energy[i]</code> 和 <code>experience[i]</code> 表示。当你对上对手时，需要在经验和精力上都 <strong>严格</strong> 超过对手才能击败他们，然后在可能的情况下继续对上下一个对手。</p>
+<p>You will face <code>n</code> opponents <strong>in order</strong>. The energy and experience of the <code>i<sup>th</sup></code> opponent is denoted by <code>energy[i]</code> and <code>experience[i]</code> respectively. When you face an opponent, you need to have both <strong>strictly</strong> greater experience and energy to defeat them and move to the next opponent if available.</p>
 
-<p>击败第 <code>i</code> 个对手会使你的经验 <strong>增加</strong> <code>experience[i]</code>，但会将你的精力 <strong>减少</strong>&nbsp; <code>energy[i]</code> 。</p>
+<p>Defeating the <code>i<sup>th</sup></code> opponent <strong>increases</strong> your experience by <code>experience[i]</code>, but <strong>decreases</strong> your energy by <code>energy[i]</code>.</p>
 
-<p>在开始比赛前，你可以训练几个小时。每训练一个小时，你可以选择将增加经验增加 1 <strong>或者</strong> 将精力增加 1 。</p>
+<p>Before starting the competition, you can train for some number of hours. After each hour of training, you can <strong>either</strong> choose to increase your initial experience by one, or increase your initial energy by one.</p>
 
-<p>返回击败全部 <code>n</code> 个对手需要训练的 <strong>最少</strong> 小时数目。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>initialEnergy = 5, initialExperience = 3, energy = [1,4,3,2], experience = [2,6,3,1]
-<strong>输出：</strong>8
-<strong>解释：</strong>在 6 小时训练后，你可以将精力提高到 11 ，并且再训练 2 个小时将经验提高到 5 。
-按以下顺序与对手比赛：
-- 你的精力与经验都超过第 0 个对手，所以获胜。
-  精力变为：11 - 1 = 10 ，经验变为：5 + 2 = 7 。
-- 你的精力与经验都超过第 1 个对手，所以获胜。
-  精力变为：10 - 4 = 6 ，经验变为：7 + 6 = 13 。
-- 你的精力与经验都超过第 2 个对手，所以获胜。
-  精力变为：6 - 3 = 3 ，经验变为：13 + 3 = 16 。
-- 你的精力与经验都超过第 3 个对手，所以获胜。
-  精力变为：3 - 2 = 1 ，经验变为：16 + 1 = 17 。
-在比赛前进行了 8 小时训练，所以返回 8 。
-可以证明不存在更小的答案。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>initialEnergy = 2, initialExperience = 4, energy = [1], experience = [3]
-<strong>输出：</strong>0
-<strong>解释：</strong>你不需要额外的精力和经验就可以赢得比赛，所以返回 0 。
-</pre>
+<p>Return <em>the <strong>minimum</strong> number of training hours required to defeat all </em><code>n</code><em> opponents</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> initialEnergy = 5, initialExperience = 3, energy = [1,4,3,2], experience = [2,6,3,1]
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> You can increase your energy to 11 after 6 hours of training, and your experience to 5 after 2 hours of training.
+You face the opponents in the following order:
+- You have more energy and experience than the 0<sup>th</sup> opponent so you win.
+  Your energy becomes 11 - 1 = 10, and your experience becomes 5 + 2 = 7.
+- You have more energy and experience than the 1<sup>st</sup> opponent so you win.
+  Your energy becomes 10 - 4 = 6, and your experience becomes 7 + 6 = 13.
+- You have more energy and experience than the 2<sup>nd</sup> opponent so you win.
+  Your energy becomes 6 - 3 = 3, and your experience becomes 13 + 3 = 16.
+- You have more energy and experience than the 3<sup>rd</sup> opponent so you win.
+  Your energy becomes 3 - 2 = 1, and your experience becomes 16 + 1 = 17.
+You did a total of 6 + 2 = 8 hours of training before the competition, so we return 8.
+It can be proven that no smaller answer exists.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> initialEnergy = 2, initialExperience = 4, energy = [1], experience = [3]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> You do not need any additional energy or experience to win the competition, so we return 0.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == energy.length == experience.length</code></li>
@@ -70,23 +67,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 模拟
+### Solution 1: Greedy + Simulation
 
-我们不妨记当前的精力为 $x$，经验为 $y$。
+Let's denote the current energy as $x$ and the current experience as $y$.
 
-接下来，我们遍历每个对手，对于第 $i$ 个对手，记其精力为 $dx$，经验为 $dy$。
+Next, we traverse each opponent. For the $i$-th opponent, let their energy be $dx$ and their experience be $dy$.
 
--   如果 $x \leq dx$，那么我们需要训练 $dx + 1 - x$ 小时，将精力提升到 $dx + 1$；
--   如果 $y \leq dy$，那么我们需要训练 $dy + 1 - y$ 小时，将经验提升到 $dy + 1$；
--   然后我们将精力减去 $dx$，经验加上 $dy$。
+-   If $x \leq dx$, then we need to train for $dx + 1 - x$ hours to increase our energy to $dx + 1$.
+-   If $y \leq dy$, then we need to train for $dy + 1 - y$ hours to increase our experience to $dy + 1$.
+-   Then, we subtract $dx$ from our energy and add $dy$ to our experience.
 
-最后返回答案即可。
+Finally, return the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 为对手的数量。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the number of opponents. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

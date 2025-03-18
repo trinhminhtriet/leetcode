@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3278.Find%20Candidates%20for%20Data%20Scientist%20Position%20II/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3278. 寻找数据科学家职位的候选人 II 🔒](https://leetcode.cn/problems/find-candidates-for-data-scientist-position-ii)
+# [3278. Find Candidates for Data Scientist Position II 🔒](https://leetcode.com/problems/find-candidates-for-data-scientist-position-ii)
 
-[English Version](/solution/3200-3299/3278.Find%20Candidates%20for%20Data%20Scientist%20Position%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<font face="monospace"><code>Candidates</code></font></p>
+<p>Table: <font face="monospace"><code>Candidates</code></font></p>
 
 <pre>
 +--------------+---------+ 
@@ -26,11 +23,11 @@ tags:
 | skill        | varchar |
 | proficiency  | int     |
 +--------------+---------+
-是这张表的主键（有不同值的列）。 
-每一行包括 candidate_id 和技能，以及熟练程度（1-5）。
+(candidate_id, skill) is the unique key for this table.
+Each row includes candidate_id, skill, and proficiency level (1-5).
 </pre>
 
-<p>表：<font face="monospace"><code>Projects</code></font></p>
+<p>Table: <font face="monospace"><code>Projects</code></font></p>
 
 <pre>
 +--------------+---------+ 
@@ -40,38 +37,37 @@ tags:
 | skill        | varchar |
 | importance   | int     |
 +--------------+---------+
-(project_id, skill) 是这张表的主键。
-每一行包括 project_id，所需技能，以及项目的重要性（1-5）。
+(project_id, skill) is the primary key for this table.
+Each row includes project_id, required skill, and its importance (1-5) for the project.
 </pre>
 
-<p>Leetcode 正在为多个数据科学项目招聘人员。编写一个解决方案来根据以下条件为 <strong>每一个项目</strong> 找到 <strong>最佳候选人</strong>：</p>
+<p>Leetcode is staffing for multiple data science projects. Write a solution to find the <strong>best candidate</strong> for<strong> each project</strong> based on the following criteria:</p>
 
 <ol>
-	<li>候选人必须拥有项目所需的 <strong>所有</strong>&nbsp;技能。</li>
-	<li>为每个候选人-项目对计算如下的 <strong>分数</strong>：
+	<li>Candidates must have <strong>all</strong> the skills required for a project.</li>
+	<li>Calculate a <strong>score</strong> for each candidate-project pair as follows:
 	<ul>
-		<li>从&nbsp;<code>100</code>&nbsp;分<strong>&nbsp;开始。</strong></li>
-		<li>对于每一个技能，当 <b>熟练程度 &gt; 重要性 加</b>&nbsp;<code>10</code>&nbsp;分。</li>
-		<li>对于每一个技能，当&nbsp;<strong>熟练程度 &lt; 重要性 减</strong>&nbsp;<code>5</code>&nbsp;分。</li>
-		<li>如果候选人的技能熟练程度 <strong>等于</strong> 项目的技能重要性，则分数保持不变</li>
+		<li><strong>Start</strong> with <code>100</code> points</li>
+		<li><strong>Add</strong> <code>10</code> points for each skill where <strong>proficiency &gt; importance</strong></li>
+		<li><strong>Subtract</strong> <code>5</code> points for each skill where <strong>proficiency &lt; importance</strong></li>
+		<li>If the candidate&#39;s skill proficiency <strong>equal </strong>to the project&#39;s skill importance, the score remains unchanged</li>
 	</ul>
 	</li>
 </ol>
 
-<p>仅包括每个项目的最佳候选人（最高分）。如果 <strong>相同</strong>，选择有 <strong>更小</strong>&nbsp;<code>candidate_id</code>&nbsp;的候选人。如果一个项目 <strong>没有适合的候选人</strong>，<strong>不要返回 </strong>那个项目。</p>
+<p>Include only the top candidate (highest score) for each project. If there&rsquo;s a <strong>tie</strong>, choose the candidate with the <strong>lower</strong> <code>candidate_id</code>. If there is <strong>no suitable candidate</strong> for a project, <strong>do not return</strong>&nbsp;that project.</p>
 
-<p>返回结果表以&nbsp;<code>project_id</code>&nbsp;升序排序。</p>
+<p>Return a result table ordered by <code>project_id</code> in ascending order.</p>
 
-<p>输出格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p><code>Candidates</code> 表：</p>
+<p><code>Candidates</code> table:</p>
 
 <pre class="example-io">
 +--------------+-----------+-------------+
@@ -92,7 +88,7 @@ tags:
 +--------------+-----------+-------------+
 </pre>
 
-<p><code>Projects</code> 表：</p>
+<p><code>Projects</code> table:</p>
 
 <pre class="example-io">
 +-------------+-----------+------------+
@@ -107,7 +103,7 @@ tags:
 +-------------+-----------+------------+
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +-------------+--------------+-------+
@@ -118,31 +114,31 @@ tags:
 +-------------+--------------+-------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>对于项目 501, 候选人 101 有最高的 105 分。所有其他的候选人有相同的分数，但候选人 101 有比他们更小的 candidate_id。</li>
-	<li>对于项目 502，候选人&nbsp;102 有最高的 130&nbsp;分。</li>
+	<li>For Project 501, Candidate 101 has the highest score of 105. All other candidates have the same score but Candidate 101 has the lowest candidate_id among them.</li>
+	<li>For Project 502, Candidate 102 has the highest score of 130.</li>
 </ul>
 
-<p>输出表以 project_id 升序排序。</p>
+<p>The output table is ordered by project_id in ascending order.</p>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：等值连接 + 分组统计 + 窗口函数
+### Solution 1: Equi-Join + Group Statistics + Window Function
 
-我们可以将表 `Candidates` 和表 `Projects` 通过 `skill` 列进行等值连接，统计每个候选人在每个项目中匹配的技能数量、总分数，记录在表 `S` 中。
+We can perform an equi-join of the `Candidates` table and the `Projects` table on the `skill` column, counting the number of matched skills and calculating the total score for each candidate in each project, which is recorded in table `S`.
 
-然后我们再次统计每个项目所需的技能数量，记录在表 `T` 中。
+Next, we count the required number of skills for each project, recording the results in table `T`.
 
-接着我们将表 `S` 和表 `T` 通过 `project_id` 列进行等值连接，筛选出匹配的技能数量等于所需技能数量的候选人，记录在表 `P` 中，并计算每个项目的候选人排名，字段为 `rk`。
+Then, we perform an equi-join of tables `S` and `T` on the `project_id` column, filtering out candidates whose number of matched skills equals the required number of skills, and recording them in table `P`. We calculate the rank (`rk`) for each candidate within each project.
 
-最后我们筛选出每个项目的排名为 1 的候选人，即为最佳候选人。
+Finally, we filter out the candidates with rank $rk = 1$ for each project, identifying them as the best candidates.
 
 <!-- tabs:start -->
 

@@ -1,72 +1,67 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0772.Basic%20Calculator%20III/README.md
+difficulty: Hard
 tags:
-    - 栈
-    - 递归
-    - 数学
-    - 字符串
+    - Stack
+    - Recursion
+    - Math
+    - String
 ---
 
 <!-- problem:start -->
 
-# [772. 基本计算器 III 🔒](https://leetcode.cn/problems/basic-calculator-iii)
+# [772. Basic Calculator III 🔒](https://leetcode.com/problems/basic-calculator-iii)
 
-[English Version](/solution/0700-0799/0772.Basic%20Calculator%20III/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>实现一个基本的计算器来计算简单的表达式字符串。</p>
+<p>Implement a basic calculator to evaluate a simple expression string.</p>
 
-<p>表达式字符串只包含非负整数，算符 <code>+</code>、<code>-</code>、<code>*</code>、<code>/</code> ，左括号 <code>(</code> 和右括号 <code>)</code> 。整数除法需要 <strong>向下截断</strong> 。</p>
+<p>The expression string contains only non-negative integers, <code>&#39;+&#39;</code>, <code>&#39;-&#39;</code>, <code>&#39;*&#39;</code>, <code>&#39;/&#39;</code> operators, and open <code>&#39;(&#39;</code> and closing parentheses <code>&#39;)&#39;</code>. The integer division should <strong>truncate toward zero</strong>.</p>
 
-<p>你可以假定给定的表达式总是有效的。所有的中间结果的范围均满足 <code>[-2<sup>31</sup>, 2<sup>31</sup> - 1]</code> 。</p>
+<p>You may assume that the given expression is always valid. All intermediate results will be in the range of <code>[-2<sup>31</sup>, 2<sup>31</sup> - 1]</code>.</p>
 
-<p><strong>注意：</strong>你不能使用任何将字符串作为表达式求值的内置函数，比如 <code>eval()</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "1+1"
-<strong>输出：</strong>2
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "6-4/2"
-<strong>输出：</strong>4
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "2*(5+5*2)/3+(6/2+8)"
-<strong>输出：</strong>21
-</pre>
+<p><strong>Note:</strong> You are not allowed to use any built-in function which evaluates strings as mathematical expressions, such as <code>eval()</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;1+1&quot;
+<strong>Output:</strong> 2
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;6-4/2&quot;
+<strong>Output:</strong> 4
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;2*(5+5*2)/3+(6/2+8)&quot;
+<strong>Output:</strong> 21
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s &lt;= 10<sup>4</sup></code></li>
-	<li><code>s</code> 由整数、<code>'+'</code>、<code>'-'</code>、<code>'*'</code>、<code>'/'</code>、<code>'('</code> 和 <code>')'</code> 组成</li>
-	<li><code>s</code> 是一个 <strong>有效的</strong> 表达式</li>
+	<li><code>s</code> consists of digits, <code>&#39;+&#39;</code>, <code>&#39;-&#39;</code>, <code>&#39;*&#39;</code>, <code>&#39;/&#39;</code>, <code>&#39;(&#39;</code>,&nbsp;and&nbsp;<code>&#39;)&#39;</code>.</li>
+	<li><code>s</code> is a <strong>valid</strong> expression.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -110,30 +105,29 @@ class Solution:
 #### C++
 
 ```cpp
-// 逆波兰表示法求解
 class Solution {
 public:
-    // 定义一个操作函数，根据操作符进行数学运算
+    // Define an operation function that performs mathematical operations based on the operator
     int operate(int b, char ch, int a) {
-        // 注意ab顺序
+        // Note the order of ab
         switch (ch) {
         case '+':
-            return a + b; // 加法
+            return a + b; // Addition
         case '-':
-            return a - b; // 减法
+            return a - b; // Subtraction
         case '*':
-            return a * b; // 乘法
+            return a * b; // Multiplication
         case '/':
-            return a / b; // 除法
+            return a / b; // Division
         default:
             break;
         }
-        return 0; // 默认返回0，处理无效操作符
+        return 0; // Default return 0, handle invalid operators
     }
 
-    // 计算字符串表达式的值
+    // Calculate the value of the string expression
     int calculate(string s) {
-        int preority[250]; // 操作符优先级数组
+        int preority[250]; // Operator precedence array
         preority['+'] = 1;
         preority['-'] = 1;
         preority['*'] = 2;
@@ -141,40 +135,40 @@ public:
         preority['('] = 0;
         preority[')'] = 0;
 
-        stack<char> op; // 操作符栈
-        stack<int> num; // 操作数栈
-        int stringsize = s.size(); // 字符串长度
+        stack<char> op; // Operator stack
+        stack<int> num; // Operand stack
+        int stringsize = s.size(); // Length of the string
         int i = 0;
         char ch;
 
-        // 遍历字符串
+        // Traverse the string
         for (; i < stringsize; i++) {
             ch = s[i];
             if (ch == ' ') {
-                continue; // 跳过空格
+                continue; // Skip spaces
             }
             if (ch >= '0' && ch <= '9') {
-                int realnum = ch - '0'; // 将字符转换为数字
-                // 处理多位数字
+                int realnum = ch - '0'; // Convert character to number
+                // Handle multi-digit numbers
                 while (s[i + 1] >= '0' && s[i + 1] <= '9') {
                     i++;
                     realnum *= 10;
                     realnum += s[i] - '0';
                 }
-                num.push(realnum); // 将数字压入栈
+                num.push(realnum); // Push the number onto the stack
             } else {
-                // 处理操作符
+                // Handle operators
                 if (op.empty() || ch == '(' || preority[ch] > preority[op.top()]) {
-                    // 特殊情况，处理首个字符为'-'或'+'的情况
+                    // Special case, handle the first character being '-' or '+'
                     if (num.empty() && (ch == '-' || ch == '+')) {
                         num.push(0);
                     }
-                    op.push(ch); // 将操作符压入栈
-                    // 处理括号内的表达式
+                    op.push(ch); // Push the operator onto the stack
+                    // Handle expressions inside parentheses
                     if (ch == '(') {
                         int j = i;
                         while (j + 1 < stringsize) {
-                            // 预处理括号内的首个操作符
+                            // Preprocess the first operator inside the parentheses
                             if (s[j + 1] == '-' || s[j + 1] == '+') {
                                 num.push(0);
                             }
@@ -185,7 +179,7 @@ public:
                         }
                     }
                 } else if (ch == ')') {
-                    // 处理右括号
+                    // Handle right parentheses
                     char ch2 = ')';
                     ch2 = op.top();
                     op.pop();
@@ -194,12 +188,12 @@ public:
                         num.pop();
                         int b = num.top();
                         num.pop();
-                        num.push(operate(a, ch2, b)); // 计算并压入结果
+                        num.push(operate(a, ch2, b)); // Calculate and push the result
                         ch2 = op.top();
                         op.pop();
                     }
                 } else if (preority[ch] <= preority[op.top()]) {
-                    // 处理优先级小于等于栈顶操作符的情况
+                    // Handle cases where the precedence is less than or equal to the top of the stack
                     char ch2;
                     ch2 = op.top();
                     while (!op.empty() && preority[ch] <= preority[op.top()] && ch2 != '(') {
@@ -208,19 +202,19 @@ public:
                         num.pop();
                         int b = num.top();
                         num.pop();
-                        num.push(operate(a, ch2, b)); // 计算并压入结果
+                        num.push(operate(a, ch2, b)); // Calculate and push the result
                         if (!op.empty()) {
                             ch2 = op.top();
                         } else {
                             break;
                         }
                     }
-                    op.push(ch); // 将当前操作符压入栈
+                    op.push(ch); // Push the current operator onto the stack
                 }
             }
         }
 
-        // 处理剩余在栈中的表达式
+        // Handle the remaining expressions in the stack
         while (!op.empty()) {
             ch = op.top();
             op.pop();
@@ -228,10 +222,10 @@ public:
             num.pop();
             int b = num.top();
             num.pop();
-            num.push(operate(a, ch, b)); // 计算并压入结果
+            num.push(operate(a, ch, b)); // Calculate and push the result
         }
 
-        return num.top(); // 返回最终结果
+        return num.top(); // Return the final result
     }
 };
 ```

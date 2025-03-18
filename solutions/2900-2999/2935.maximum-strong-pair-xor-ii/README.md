@@ -1,71 +1,66 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2935.Maximum%20Strong%20Pair%20XOR%20II/README.md
+difficulty: Hard
 rating: 2348
-source: 第 371 场周赛 Q4
+source: Weekly Contest 371 Q4
 tags:
-    - 位运算
-    - 字典树
-    - 数组
-    - 哈希表
-    - 滑动窗口
+    - Bit Manipulation
+    - Trie
+    - Array
+    - Hash Table
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [2935. 找出强数对的最大异或值 II](https://leetcode.cn/problems/maximum-strong-pair-xor-ii)
+# [2935. Maximum Strong Pair XOR II](https://leetcode.com/problems/maximum-strong-pair-xor-ii)
 
-[English Version](/solution/2900-2999/2935.Maximum%20Strong%20Pair%20XOR%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 。如果一对整数 <code>x</code> 和 <code>y</code> 满足以下条件，则称其为 <strong>强数对</strong> ：</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. A pair of integers <code>x</code> and <code>y</code> is called a <strong>strong</strong> pair if it satisfies the condition:</p>
 
 <ul>
 	<li><code>|x - y| &lt;= min(x, y)</code></li>
 </ul>
 
-<p>你需要从 <code>nums</code> 中选出两个整数，且满足：这两个整数可以形成一个强数对，并且它们的按位异或（<code>XOR</code>）值是在该数组所有强数对中的<strong> 最大值 </strong>。</p>
+<p>You need to select two integers from <code>nums</code> such that they form a strong pair and their bitwise <code>XOR</code> is the <strong>maximum</strong> among all strong pairs in the array.</p>
 
-<p>返回数组 <code>nums</code> 所有可能的强数对中的<strong> 最大 </strong>异或值。</p>
+<p>Return <em>the <strong>maximum</strong> </em><code>XOR</code><em> value out of all possible strong pairs in the array</em> <code>nums</code>.</p>
 
-<p><strong>注意</strong>，你可以选择同一个整数两次来形成一个强数对。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,3,4,5]
-<strong>输出：</strong>7
-<strong>解释：</strong>数组<code> nums </code>中有 11 个强数对：(1, 1), (1, 2), (2, 2), (2, 3), (2, 4), (3, 3), (3, 4), (3, 5), (4, 4), (4, 5) 和 (5, 5) 。
-这些强数对中的最大异或值是 3 XOR 4 = 7 。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [10,100]
-<strong>输出：</strong>0
-<strong>解释：</strong>数组<code> nums </code>中有 2 个强数对：(10, 10) 和 (100, 100) 。
-这些强数对中的最大异或值是 10 XOR 10 = 0 ，数对 (100, 100) 的异或值也是 100 XOR 100 = 0 。
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [500,520,2500,3000]
-<strong>输出：</strong>1020
-<strong>解释：</strong>数组<code> nums </code>中有 6 个强数对：(500, 500), (500, 520), (520, 520), (2500, 2500), (2500, 3000) 和 (3000, 3000) 。
-这些强数对中的最大异或值是 500 XOR 520 = 1020 ；另一个异或值非零的数对是 (5, 6) ，其异或值是 2500 XOR 3000 = 636 。
-</pre>
+<p><strong>Note</strong> that you can pick the same integer twice to form a pair.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,2,3,4,5]
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> There are 11 strong pairs in the array <code>nums</code>: (1, 1), (1, 2), (2, 2), (2, 3), (2, 4), (3, 3), (3, 4), (3, 5), (4, 4), (4, 5) and (5, 5).
+The maximum XOR possible from these pairs is 3 XOR 4 = 7.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [10,100]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There are 2 strong pairs in the array nums: (10, 10) and (100, 100).
+The maximum XOR possible from these pairs is 10 XOR 10 = 0 since the pair (100, 100) also gives 100 XOR 100 = 0.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [500,520,2500,3000]
+<strong>Output:</strong> 1020
+<strong>Explanation:</strong> There are 6 strong pairs in the array nums: (500, 500), (500, 520), (520, 520), (2500, 2500), (2500, 3000) and (3000, 3000).
+The maximum XOR possible from these pairs is 500 XOR 520 = 1020 since the only other non-zero XOR value is 2500 XOR 3000 = 636.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 5 * 10<sup>4</sup></code></li>
@@ -74,17 +69,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 0-1 字典树
+### Solution 1: Sorting + Binary Trie
 
-观察不等式 $|x - y| \leq \min(x, y)$，其中涉及到绝对值以及最小值，我们不妨假设 $x \leq y$，则有 $y - x \leq x$，即 $y \leq 2x$。我们可以从小到大枚举 $y$，那么 $x$ 必须满足不等式 $y \leq 2x$。
+Observing the inequality $|x - y| \leq \min(x, y)$, which involves absolute value and minimum value, we can assume $x \leq y$, then we have $y - x \leq x$, that is, $y \leq 2x$. We can enumerate $y$ from small to large, then $x$ must satisfy the inequality $y \leq 2x$.
 
-因此，我们对数组 $nums$ 进行排序，然后从小到大枚举 $y$，利用双指针维护一个窗口，使得窗口内的元素 $x$ 满足不等式 $y \leq 2x$。我们可以使用 0-1 字典树来维护窗口内的元素，这样我们就可以在 $O(1)$ 的时间内找到窗口内的最大异或值。每一次我们将 $y$ 加入到字典树中，同时将窗口左端点不满足不等式的元素移除，这样就可以保证窗口内的元素满足不等式 $y \leq 2x$。然后从字典树中查询最大异或值，更新答案。
+Therefore, we sort the array $nums$, and then enumerate $y$ from small to large. We use two pointers to maintain a window so that the elements $x$ in the window satisfy the inequality $y \leq 2x$. We can use a binary trie to maintain the elements in the window, so we can find the maximum XOR value in the window in $O(1)$ time. Each time we add $y$ to the trie, and remove the elements at the left end of the window that do not satisfy the inequality, this can ensure that the elements in the window satisfy the inequality $y \leq 2x$. Then query the maximum XOR value from the trie and update the answer.
 
-时间复杂度 $O(n \times \log M)$，空间复杂度 $O(n \times \log M)$。其中 $n$ 是数组 $nums$ 的长度，而 $M$ 是数组 $nums$ 中的最大值，本题中 $M = 2^{20}$。
+The time complexity is $O(n \times \log M)$, and the space complexity is $O(n \times \log M)$. Here, $n$ is the length of the array $nums$, and $M$ is the maximum value in the array $nums$. In this problem, $M = 2^{20}$.
 
 <!-- tabs:start -->
 

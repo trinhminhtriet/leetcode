@@ -1,79 +1,76 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2399.Check%20Distances%20Between%20Same%20Letters/README.md
+difficulty: Easy
 rating: 1243
-source: 第 309 场周赛 Q1
+source: Weekly Contest 309 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
+    - Array
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2399. 检查相同字母间的距离](https://leetcode.cn/problems/check-distances-between-same-letters)
+# [2399. Check Distances Between Same Letters](https://leetcode.com/problems/check-distances-between-same-letters)
 
-[English Version](/solution/2300-2399/2399.Check%20Distances%20Between%20Same%20Letters/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的字符串 <code>s</code> ，该字符串仅由小写英文字母组成，<code>s</code> 中的每个字母都 <strong>恰好</strong> 出现 <strong>两次</strong> 。另给你一个下标从 <strong>0</strong> 开始、长度为 <code>26</code> 的的整数数组 <code>distance</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> string <code>s</code> consisting of only lowercase English letters, where each letter in <code>s</code> appears <strong>exactly</strong> <strong>twice</strong>. You are also given a <strong>0-indexed</strong> integer array <code>distance</code> of length <code>26</code>.</p>
 
-<p>字母表中的每个字母按从 <code>0</code> 到 <code>25</code> 依次编号（即，<code>'a' -&gt; 0</code>, <code>'b' -&gt; 1</code>, <code>'c' -&gt; 2</code>, ... , <code>'z' -&gt; 25</code>）。</p>
+<p>Each letter in the alphabet is numbered from <code>0</code> to <code>25</code> (i.e. <code>&#39;a&#39; -&gt; 0</code>, <code>&#39;b&#39; -&gt; 1</code>, <code>&#39;c&#39; -&gt; 2</code>, ... , <code>&#39;z&#39; -&gt; 25</code>).</p>
 
-<p>在一个 <strong>匀整</strong> 字符串中，第 <code>i</code> 个字母的两次出现之间的字母数量是 <code>distance[i]</code> 。如果第 <code>i</code> 个字母没有在 <code>s</code> 中出现，那么 <code>distance[i]</code> 可以 <strong>忽略</strong> 。</p>
+<p>In a <strong>well-spaced</strong> string, the number of letters between the two occurrences of the <code>i<sup>th</sup></code> letter is <code>distance[i]</code>. If the <code>i<sup>th</sup></code> letter does not appear in <code>s</code>, then <code>distance[i]</code> can be <strong>ignored</strong>.</p>
 
-<p>如果 <code>s</code> 是一个 <strong>匀整</strong> 字符串，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>s = "abaccb", distance = [1,3,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-<strong>输出：</strong>true
-<strong>解释：</strong>
-- 'a' 在下标 0 和下标 2 处出现，所以满足 distance[0] = 1 。
-- 'b' 在下标 1 和下标 5 处出现，所以满足 distance[1] = 3 。
-- 'c' 在下标 3 和下标 4 处出现，所以满足 distance[2] = 0 。
-注意 distance[3] = 5 ，但是由于 'd' 没有在 s 中出现，可以忽略。
-因为 s 是一个匀整字符串，返回 true 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>s = "aa", distance = [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-<strong>输出：</strong>false
-<strong>解释：</strong>
-- 'a' 在下标 0 和 1 处出现，所以两次出现之间的字母数量为 0 。
-但是 distance[0] = 1 ，s 不是一个匀整字符串。
-</pre>
+<p>Return <code>true</code><em> if </em><code>s</code><em> is a <strong>well-spaced</strong> string, otherwise return </em><code>false</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;abaccb&quot;, distance = [1,3,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+<strong>Output:</strong> true
+<strong>Explanation:</strong>
+- &#39;a&#39; appears at indices 0 and 2 so it satisfies distance[0] = 1.
+- &#39;b&#39; appears at indices 1 and 5 so it satisfies distance[1] = 3.
+- &#39;c&#39; appears at indices 3 and 4 so it satisfies distance[2] = 0.
+Note that distance[3] = 5, but since &#39;d&#39; does not appear in s, it can be ignored.
+Return true because s is a well-spaced string.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;aa&quot;, distance = [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+<strong>Output:</strong> false
+<strong>Explanation:</strong>
+- &#39;a&#39; appears at indices 0 and 1 so there are zero letters between them.
+Because distance[0] = 1, s is not a well-spaced string.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= s.length &lt;= 52</code></li>
-	<li><code>s</code> 仅由小写英文字母组成</li>
-	<li><code>s</code> 中的每个字母恰好出现两次</li>
+	<li><code>s</code> consists only of lowercase English letters.</li>
+	<li>Each letter appears in <code>s</code> exactly twice.</li>
 	<li><code>distance.length == 26</code></li>
 	<li><code>0 &lt;= distance[i] &lt;= 50</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数组或哈希表
+### Solution 1: Array or Hash Table
 
-我们可以用哈希表 $d$ 记录每个字母出现的下标，然后遍历哈希表，判断每个字母的下标之差是否等于 `distance` 中对应的值。如果出现不等的情况，直接返回 `false`。如果遍历结束后，没有出现不等的情况，返回 `true`。
+We can use a hash table $d$ to record the indices of each letter's occurrences. Then, traverse the hash table and check if the difference between the indices of each letter equals the corresponding value in the `distance` array. If any discrepancy is found, return `false`. If the traversal completes without discrepancies, return `true`.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(|\Sigma|)$，其中 $\Sigma$ 为字符集，这里为小写字母集合。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(|\Sigma|)$, where $\Sigma$ is the character set, which in this case is the set of lowercase letters.
 
 <!-- tabs:start -->
 

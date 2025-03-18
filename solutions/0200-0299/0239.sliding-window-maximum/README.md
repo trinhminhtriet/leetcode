@@ -1,38 +1,34 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0239.Sliding%20Window%20Maximum/README.md
+difficulty: Hard
 tags:
-    - 队列
-    - 数组
-    - 滑动窗口
-    - 单调队列
-    - 堆（优先队列）
+    - Queue
+    - Array
+    - Sliding Window
+    - Monotonic Queue
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [239. 滑动窗口最大值](https://leetcode.cn/problems/sliding-window-maximum)
+# [239. Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum)
 
-[English Version](/solution/0200-0299/0239.Sliding%20Window%20Maximum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code>，有一个大小为&nbsp;<code>k</code><em>&nbsp;</em>的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 <code>k</code>&nbsp;个数字。滑动窗口每次只向右移动一位。</p>
+<p>You are given an array of integers&nbsp;<code>nums</code>, there is a sliding window of size <code>k</code> which is moving from the very left of the array to the very right. You can only see the <code>k</code> numbers in the window. Each time the sliding window moves right by one position.</p>
 
-<p>返回 <em>滑动窗口中的最大值 </em>。</p>
+<p>Return <em>the max sliding window</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,3,-1,-3,5,3,6,7], k = 3
-<b>输出：</b>[3,3,5,5,6,7]
-<b>解释：</b>
-滑动窗口的位置                最大值
+<strong>Input:</strong> nums = [1,3,-1,-3,5,3,6,7], k = 3
+<strong>Output:</strong> [3,3,5,5,6,7]
+<strong>Explanation:</strong> 
+Window position                Max
 ---------------               -----
 [1  3  -1] -3  5  3  6  7       <strong>3</strong>
  1 [3  -1  -3] 5  3  6  7       <strong>3</strong>
@@ -42,36 +38,35 @@ tags:
  1  3  -1  -3  5 [3  6  7]      <strong>7</strong>
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1], k = 1
-<b>输出：</b>[1]
+<strong>Input:</strong> nums = [1], k = 1
+<strong>Output:</strong> [1]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>-10<sup>4</sup>&nbsp;&lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= k &lt;= nums.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：优先队列（大根堆）
+### Solution 1: Priority Queue (Max-Heap)
 
-我们可以使用优先队列（大根堆）来维护滑动窗口中的最大值。
+We can use a priority queue (max-heap) to maintain the maximum value in the sliding window.
 
-先将前 $k-1$ 个元素加入优先队列，接下来从第 $k$ 个元素开始，将新元素加入优先队列，同时判断堆顶元素是否滑出窗口，如果滑出窗口则将堆顶元素弹出。然后我们将堆顶元素加入结果数组。
+First, add the first $k-1$ elements to the priority queue. Then, starting from the $k$-th element, add the new element to the priority queue and check if the top element of the heap is out of the window. If it is, remove the top element. Then, add the top element of the heap to the result array.
 
-时间复杂度 $O(n \times \log k)$，空间复杂度 $O(k)$。其中 $n$ 为数组长度。
+The time complexity is $O(n \times \log k)$, and the space complexity is $O(k)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 
@@ -177,13 +172,13 @@ func (h *hp) Pop() any     { a := *h; v := a[len(a)-1]; *h = a[:len(a)-1]; retur
 
 <!-- solution:start -->
 
-### 方法二：单调队列
+### Solution 2: Monotonic Queue
 
-求滑动窗口的最大值，一种常见的方法是使用单调队列。
+To find the maximum value in a sliding window, a common method is to use a monotonic queue.
 
-我们可以维护一个从队头到队尾单调递减的队列 $q$，队列中存储的是元素的下标。遍历数组 $\textit{nums}$，对于当前元素 $\textit{nums}[i]$，我们首先判断队头元素是否滑出窗口，如果滑出窗口则将队头元素弹出。然后我们将当前元素 $\textit{nums}[i]$ 从队尾开始依次与队尾元素比较，如果队尾元素小于等于当前元素，则将队尾元素弹出，直到队尾元素大于当前元素或者队列为空。然后将当前元素的下标加入队列。此时队列的队头元素即为当前滑动窗口的最大值，注意，我们将队头元素加入结果数组的时机是当下标 $i$ 大于等于 $k-1$ 时。
+We can maintain a queue $q$ that is monotonically decreasing from the front to the back, storing the indices of the elements. As we traverse the array $\textit{nums}$, for the current element $\textit{nums}[i]$, we first check if the front element of the queue is out of the window. If it is, we remove the front element. Then, we compare the current element $\textit{nums}[i]$ with the elements at the back of the queue. If the elements at the back are less than or equal to the current element, we remove them until the element at the back is greater than the current element or the queue is empty. Then, we add the index of the current element to the queue. At this point, the front element of the queue is the maximum value of the current sliding window. Note that we add the front element of the queue to the result array when the index $i$ is greater than or equal to $k-1$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(k)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(k)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

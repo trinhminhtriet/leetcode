@@ -1,88 +1,83 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2264.Largest%203-Same-Digit%20Number%20in%20String/README.md
+difficulty: Easy
 rating: 1308
-source: 第 292 场周赛 Q1
+source: Weekly Contest 292 Q1
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2264. 字符串中最大的 3 位相同数字](https://leetcode.cn/problems/largest-3-same-digit-number-in-string)
+# [2264. Largest 3-Same-Digit Number in String](https://leetcode.com/problems/largest-3-same-digit-number-in-string)
 
-[English Version](/solution/2200-2299/2264.Largest%203-Same-Digit%20Number%20in%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>num</code> ，表示一个大整数。如果一个整数满足下述所有条件，则认为该整数是一个 <strong>优质整数</strong> ：</p>
+<p>You are given a string <code>num</code> representing a large integer. An integer is <strong>good</strong> if it meets the following conditions:</p>
 
 <ul>
-	<li>该整数是 <code>num</code> 的一个长度为 <code>3</code> 的 <strong>子字符串</strong> 。</li>
-	<li>该整数由唯一一个数字重复 <code>3</code> 次组成。</li>
+	<li>It is a <strong>substring</strong> of <code>num</code> with length <code>3</code>.</li>
+	<li>It consists of only one unique digit.</li>
 </ul>
 
-<p>以字符串形式返回 <strong>最大的优质整数</strong> 。如果不存在满足要求的整数，则返回一个空字符串 <code>""</code> 。</p>
+<p>Return <em>the <strong>maximum good </strong>integer as a <strong>string</strong> or an empty string </em><code>&quot;&quot;</code><em> if no such integer exists</em>.</p>
 
-<p><strong>注意：</strong></p>
+<p>Note:</p>
 
 <ul>
-	<li><strong>子字符串</strong> 是字符串中的一个连续字符序列。</li>
-	<li><code>num</code> 或优质整数中可能存在 <strong>前导零</strong> 。</li>
+	<li>A <strong>substring</strong> is a contiguous sequence of characters within a string.</li>
+	<li>There may be <strong>leading zeroes</strong> in <code>num</code> or a good integer.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>num = "6<em><strong>777</strong></em>133339"
-<strong>输出：</strong>"777"
-<strong>解释：</strong>num 中存在两个优质整数："777" 和 "333" 。
-"777" 是最大的那个，所以返回 "777" 。
+<strong>Input:</strong> num = &quot;6<strong><u>777</u></strong>133339&quot;
+<strong>Output:</strong> &quot;777&quot;
+<strong>Explanation:</strong> There are two distinct good integers: &quot;777&quot; and &quot;333&quot;.
+&quot;777&quot; is the largest, so we return &quot;777&quot;.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>num = "23<em><strong>000</strong></em>19"
-<strong>输出：</strong>"000"
-<strong>解释：</strong>"000" 是唯一一个优质整数。
+<strong>Input:</strong> num = &quot;23<strong><u>000</u></strong>19&quot;
+<strong>Output:</strong> &quot;000&quot;
+<strong>Explanation:</strong> &quot;000&quot; is the only good integer.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>num = "42352338"
-<strong>输出：</strong>""
-<strong>解释：</strong>不存在长度为 3 且仅由一个唯一数字组成的整数。因此，不存在优质整数。
+<strong>Input:</strong> num = &quot;42352338&quot;
+<strong>Output:</strong> &quot;&quot;
+<strong>Explanation:</strong> No substring of length 3 consists of only one unique digit. Therefore, there are no good integers.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= num.length &lt;= 1000</code></li>
-	<li><code>num</code> 仅由数字（<code>0</code> - <code>9</code>）组成</li>
+	<li><code>num</code> only consists of digits.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们可以从大到小枚举每个数字 $i$，其中 $0 \le i \le 9$，然后判断连续的三个 $i$ 构成的字符串 $s$ 是否是 $num$ 的子串，若是，直接返回 $s$ 即可。
+We can enumerate each digit $i$ from large to small, where $0 \le i \le 9$, and then check whether the string $s$ consisting of three consecutive $i$ is a substring of $num$. If it is, we directly return $s$.
 
-若枚举完所有的 $i$ 都没有找到满足条件的字符串，则返回空字符串。
+If we have enumerated all the possible values of $i$ and still haven't found a substring that satisfies the condition, we return an empty string.
 
-时间复杂度 $O(10 \times n)$，其中 $n$ 是字符串 $num$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(10 \times n)$, where $n$ is the length of the string $num$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

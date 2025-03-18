@@ -1,65 +1,59 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0092.Reverse%20Linked%20List%20II/README.md
+difficulty: Medium
 tags:
-    - 链表
+    - Linked List
 ---
 
 <!-- problem:start -->
 
-# [92. 反转链表 II](https://leetcode.cn/problems/reverse-linked-list-ii)
+# [92. Reverse Linked List II](https://leetcode.com/problems/reverse-linked-list-ii)
 
-[English Version](/solution/0000-0099/0092.Reverse%20Linked%20List%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-给你单链表的头指针 <code>head</code> 和两个整数 <code>left</code> 和 <code>right</code> ，其中 <code>left <= right</code> 。请你反转从位置 <code>left</code> 到位置 <code>right</code> 的链表节点，返回 <strong>反转后的链表</strong> 。
+<p>Given the <code>head</code> of a singly linked list and two integers <code>left</code> and <code>right</code> where <code>left &lt;= right</code>, reverse the nodes of the list from position <code>left</code> to position <code>right</code>, and return <em>the reversed list</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0092.Reverse%20Linked%20List%20II/images/rev2ex2.jpg" style="width: 542px; height: 222px;" />
 <pre>
-<strong>输入：</strong>head = [1,2,3,4,5], left = 2, right = 4
-<strong>输出：</strong>[1,4,3,2,5]
+<strong>Input:</strong> head = [1,2,3,4,5], left = 2, right = 4
+<strong>Output:</strong> [1,4,3,2,5]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>head = [5], left = 1, right = 1
-<strong>输出：</strong>[5]
+<strong>Input:</strong> head = [5], left = 1, right = 1
+<strong>Output:</strong> [5]
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>链表中节点数目为 <code>n</code></li>
-	<li><code>1 <= n <= 500</code></li>
-	<li><code>-500 <= Node.val <= 500</code></li>
-	<li><code>1 <= left <= right <= n</code></li>
+	<li>The number of nodes in the list is <code>n</code>.</li>
+	<li><code>1 &lt;= n &lt;= 500</code></li>
+	<li><code>-500 &lt;= Node.val &lt;= 500</code></li>
+	<li><code>1 &lt;= left &lt;= right &lt;= n</code></li>
 </ul>
 
-<p> </p>
-
-<p><strong>进阶：</strong> 你可以使用一趟扫描完成反转吗？</p>
+<p>&nbsp;</p>
+<strong>Follow up:</strong> Could you do it in one pass?
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-定义一个虚拟头结点 `dummy`，指向链表的头结点 `head`，然后定义一个指针 `pre` 指向 `dummy`，从虚拟头结点开始遍历链表，遍历到第 `left` 个结点时，将 `pre` 指向该结点，然后从该结点开始遍历 `right - left + 1` 次，将遍历到的结点依次插入到 `pre` 的后面，最后返回 `dummy.next` 即可。
+Define a dummy head node `dummy`, pointing to the head node `head` of the linked list. Then define a pointer `pre` pointing to `dummy`. Start traversing the linked list from the dummy head node. When you traverse to the `left` node, point `pre` to this node. Then start traversing `right - left + 1` times from this node, and insert the nodes you traverse into the back of `pre`. Finally, return `dummy.next`.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为链表的长度。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the linked list.
 
 <!-- tabs:start -->
 

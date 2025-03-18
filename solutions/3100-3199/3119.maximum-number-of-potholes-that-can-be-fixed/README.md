@@ -1,90 +1,87 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3119.Maximum%20Number%20of%20Potholes%20That%20Can%20Be%20Fixed/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 字符串
-    - 排序
+    - Greedy
+    - String
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [3119. 最大数量的可修复坑洼 🔒](https://leetcode.cn/problems/maximum-number-of-potholes-that-can-be-fixed)
+# [3119. Maximum Number of Potholes That Can Be Fixed 🔒](https://leetcode.com/problems/maximum-number-of-potholes-that-can-be-fixed)
 
-[English Version](/solution/3100-3199/3119.Maximum%20Number%20of%20Potholes%20That%20Can%20Be%20Fixed/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个字符串&nbsp;<code>road</code>，只包含字符&nbsp;<code>"x"</code>&nbsp;和&nbsp;<code>"."</code>，其中每个&nbsp;<code>"x"</code>&nbsp;代表一个坑洼，每个&nbsp;<code>"."</code>&nbsp;代表一个平滑的道路，以及一个整数&nbsp;<code>budget</code>。</p>
+<p>You are given a string <code>road</code>, consisting only of characters <code>&quot;x&quot;</code> and <code>&quot;.&quot;</code>, where each <code>&quot;x&quot;</code> denotes a <em>pothole</em> and each <code>&quot;.&quot;</code> denotes a smooth road, and an integer <code>budget</code>.</p>
 
-<p>在一次修复操作中，您可以以 <code>n + 1</code> 的价格修复 <code>n</code> 个连续坑洼。</p>
+<p>In one repair operation, you can repair <code>n</code> <strong>consecutive</strong> potholes for a price of <code>n + 1</code>.</p>
 
-<p>返回可以修复的坑洼的 <strong>最大</strong> 数量，以便所有修复的价格总和 <strong>不会超过</strong> 给定的预算&nbsp;<code>budget</code>。</p>
+<p>Return the <strong>maximum</strong> number of potholes that can be fixed such that the sum of the prices of all of the fixes <strong>doesn&#39;t go over</strong> the given budget.</p>
 
-<p><strong class="example">示例 1:</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入:</strong> <span class="example-io">road = "..", budget = 5</span></p>
+<p><strong>Input:</strong> <span class="example-io">road = &quot;..&quot;, budget = 5</span></p>
 
-<p><strong>输出:</strong> <span class="example-io">0</span></p>
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
 
-<p><strong>解释:</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>没有坑洼需要修复。</p>
+<p>There are no potholes to be fixed.</p>
 </div>
 
-<p><strong class="example">示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入:</strong> <span class="example-io">road = "..xxxxx", budget = 4</span></p>
+<p><strong>Input:</strong> <span class="example-io">road = &quot;..xxxxx&quot;, budget = 4</span></p>
 
-<p><strong>输出:</strong> <span class="example-io">3</span></p>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><strong>解释:</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>我们修复了前三个坑洼（它们是连续的）。任务所需的预算为&nbsp;<code>3 + 1 = 4</code>。</p>
+<p>We fix the first three potholes (they are consecutive). The budget needed for this task is <code>3 + 1 = 4</code>.</p>
 </div>
 
-<p><strong class="example">示例 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入:</strong> <span class="example-io">road = "x.x.xxx...x", budget = 14</span></p>
+<p><strong>Input:</strong> <span class="example-io">road = &quot;x.x.xxx...x&quot;, budget = 14</span></p>
 
-<p><strong>输出:</strong> <span class="example-io">6</span></p>
+<p><strong>Output:</strong> <span class="example-io">6</span></p>
 
-<p><strong>解释:</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>我们可以修复所有的坑洼。总花费为&nbsp;<code>(1 + 1) + (1 + 1) + (3 + 1) + (1 + 1) = 10</code>&nbsp;在我们的预算 14&nbsp;之内。</p>
+<p>We can fix all the potholes. The total cost would be <code>(1 + 1) + (1 + 1) + (3 + 1) + (1 + 1) = 10</code> which is within our budget of 14.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= road.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= budget &lt;= 10<sup>5</sup> + 1</code></li>
-	<li><code>road</code>&nbsp;只包含字符&nbsp;<code>'.'</code>&nbsp;和&nbsp;<code>'x'</code>。</li>
+	<li><code>road</code> consists only of characters <code>&#39;.&#39;</code> and <code>&#39;x&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数 + 贪心
+### Solution 1: Counting + Greedy
 
-我们首先统计出每个连续的坑洼的数量，记录在数组 $cnt$ 中，即 $cnt[k]$ 表示有 $cnt[k]$ 个长度为 $k$ 的连续坑洼。
+First, we count the number of each continuous pothole, recorded in the array $cnt$, i.e., $cnt[k]$ represents there are $cnt[k]$ continuous potholes of length $k$.
 
-由于我们要尽可能多地修补坑洼，而对于长度为 $k$ 的连续坑洼，我们需要花费 $k + 1$ 的代价，应该优先修补长度较长的坑洼，这样可以使得代价最小。
+Since we want to repair as many potholes as possible, and for a continuous pothole of length $k$, we need to spend a cost of $k + 1$, we should prioritize repairing longer potholes to minimize the cost.
 
-因此，我们从最长的坑洼开始修补，对于长度为 $k$ 的坑洼，我们最多可以修补的个数为 $t = \min(\textit{budget} / (k + 1), \textit{cnt}[k])$，我们将修补的个数乘以长度 $k$ 加到答案中，然后更新剩余的预算。对于长度为 $k$ 的其余 $cnt[k] - t$ 个坑洼，我们将它们合并到长度为 $k - 1$ 的坑洼中。继续这个过程，直到遍历完所有的坑洼。
+Therefore, we start repairing from the longest pothole. For a pothole of length $k$, the maximum number we can repair is $t = \min(\textit{budget} / (k + 1), \textit{cnt}[k])$. We add the number of repairs multiplied by the length $k$ to the answer, then update the remaining budget. For the remaining $cnt[k] - t$ potholes of length $k$, we merge them into the potholes of length $k - 1$. Continue this process until all potholes are traversed.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $road$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the string $road$.
 
 <!-- tabs:start -->
 

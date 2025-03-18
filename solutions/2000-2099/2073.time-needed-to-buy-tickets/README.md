@@ -1,75 +1,70 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2073.Time%20Needed%20to%20Buy%20Tickets/README.md
+difficulty: Easy
 rating: 1325
-source: 第 267 场周赛 Q1
+source: Weekly Contest 267 Q1
 tags:
-    - 队列
-    - 数组
-    - 模拟
+    - Queue
+    - Array
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2073. 买票需要的时间](https://leetcode.cn/problems/time-needed-to-buy-tickets)
+# [2073. Time Needed to Buy Tickets](https://leetcode.com/problems/time-needed-to-buy-tickets)
 
-[English Version](/solution/2000-2099/2073.Time%20Needed%20to%20Buy%20Tickets/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有 <code>n</code> 个人前来排队买票，其中第 <code>0</code> 人站在队伍 <strong>最前方</strong> ，第 <code>(n - 1)</code> 人站在队伍 <strong>最后方</strong> 。</p>
+<p>There are <code>n</code> people in a line queuing to buy tickets, where the <code>0<sup>th</sup></code> person is at the <strong>front</strong> of the line and the <code>(n - 1)<sup>th</sup></code> person is at the <strong>back</strong> of the line.</p>
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>tickets</code> ，数组长度为 <code>n</code> ，其中第 <code>i</code> 人想要购买的票数为 <code>tickets[i]</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>tickets</code> of length <code>n</code> where the number of tickets that the <code>i<sup>th</sup></code> person would like to buy is <code>tickets[i]</code>.</p>
 
-<p>每个人买票都需要用掉 <strong>恰好 1 秒</strong> 。一个人 <strong>一次只能买一张票</strong> ，如果需要购买更多票，他必须走到&nbsp; <strong>队尾</strong> 重新排队（<strong>瞬间 </strong>发生，不计时间）。如果一个人没有剩下需要买的票，那他将会 <strong>离开</strong> 队伍。</p>
+<p>Each person takes <strong>exactly 1 second</strong> to buy a ticket. A person can only buy <strong>1 ticket at a time</strong> and has to go back to <strong>the end</strong> of the line (which happens <strong>instantaneously</strong>) in order to buy more tickets. If a person does not have any tickets left to buy, the person will <strong>leave </strong>the line.</p>
 
-<p>返回位于位置 <code>k</code>（下标从 <strong>0</strong> 开始）的人完成买票需要的时间（以秒为单位）。</p>
+<p>Return the <strong>time taken</strong> for the person <strong>initially</strong> at position <strong>k</strong><strong> </strong>(0-indexed) to finish buying tickets.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong>tickets = [2,3,2], k = 2</p>
+<p><strong>Input:</strong> <span class="example-io">tickets = [2,3,2], k = 2</span></p>
 
-<p><strong>输出：</strong>6</p>
+<p><strong>Output:</strong> <span class="example-io">6</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>队伍一开始为 [2,3,2]，第 k 个人以下划线标识。</li>
-	<li>在最前面的人买完票后，队伍在第 1 秒变成 [3,<u>2</u>,1]。</li>
-	<li>继续这个过程，队伍在第 2 秒变为[<u>2</u>,1,2]。</li>
-	<li>继续这个过程，队伍在第 3 秒变为[1,2,<u>1</u>]。</li>
-	<li>继续这个过程，队伍在第 4 秒变为[2,<u>1</u>]。</li>
-	<li>继续这个过程，队伍在第 5 秒变为[<u>1</u>,1]。</li>
-	<li>继续这个过程，队伍在第 6 秒变为[1]。第 k 个人完成买票，所以返回 6。</li>
+	<li>The queue starts as [2,3,<u>2</u>], where the kth person is underlined.</li>
+	<li>After the person at the front has bought a ticket, the queue becomes [3,<u>2</u>,1] at 1 second.</li>
+	<li>Continuing this process, the queue becomes [<u>2</u>,1,2] at 2 seconds.</li>
+	<li>Continuing this process, the queue becomes [1,2,<u>1</u>] at 3 seconds.</li>
+	<li>Continuing this process, the queue becomes [2,<u>1</u>] at 4 seconds. Note: the person at the front left the queue.</li>
+	<li>Continuing this process, the queue becomes [<u>1</u>,1] at 5 seconds.</li>
+	<li>Continuing this process, the queue becomes [1] at 6 seconds. The kth person has bought all their tickets, so return 6.</li>
 </ul>
 </div>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong>tickets = [5,1,1,1], k = 0</p>
+<p><strong>Input:</strong> <span class="example-io">tickets = [5,1,1,1], k = 0</span></p>
 
-<p><strong>输出：</strong>8</p>
+<p><strong>Output:</strong> <span class="example-io">8</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>队伍一开始为 [<u>5</u>,1,1,1]，第 k 个人以下划线标识。</li>
-	<li>在最前面的人买完票后，队伍在第 1 秒变成 [1,1,1,<u>4</u>]。</li>
-	<li>继续这个过程 3 秒，队伍在第 4&nbsp;秒变为[<u>4</u>]。</li>
-	<li>继续这个过程 4 秒，队伍在第 8&nbsp;秒变为[]。第 k 个人完成买票，所以返回 8。</li>
+	<li>The queue starts as [<u>5</u>,1,1,1], where the kth person is underlined.</li>
+	<li>After the person at the front has bought a ticket, the queue becomes [1,1,1,<u>4</u>] at 1 second.</li>
+	<li>Continuing this process for 3 seconds, the queue becomes [<u>4]</u> at 4 seconds.</li>
+	<li>Continuing this process for 4 seconds, the queue becomes [] at 8 seconds. The kth person has bought all their tickets, so return 8.</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == tickets.length</code></li>
@@ -80,17 +75,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：一次遍历
+### Solution 1: Single Pass
 
-根据题目描述，当第 $k$ 个人完成购票时，在第 $k$ 个人前面的所有人，购买的票数都不会超过第 $k$ 个人购买的票数，而在第 $k$ 个人后面的所有人，购买的票数都不会超过第 $k$ 个人购买的票数减 $1$。
+According to the problem description, when the $k^{th}$ person finishes buying tickets, all the people in front of the $k^{th}$ person will not buy more tickets than the $k^{th}$ person, and all the people behind the $k^{th}$ person will not buy more tickets than the $k^{th}$ person minus $1$.
 
-因此，我们可以遍历整个队伍，对于第 $i$ 个人，如果 $i \leq k$，购票时间为 $\min(\textit{tickets}[i], \textit{tickets}[k])$，否则购票时间为 $\min(\textit{tickets}[i], \textit{tickets}[k] - 1)$。我们将所有人的购票时间相加即可。
+Therefore, we can traverse the entire queue. For the $i^{th}$ person, if $i \leq k$, the time to buy tickets is $\min(\textit{tickets}[i], \textit{tickets}[k])$; otherwise, the time to buy tickets is $\min(\textit{tickets}[i], \textit{tickets}[k] - 1)$. We sum the buying time for all people to get the result.
 
-时间复杂度 $O(n)$，其中 $n$ 为队伍的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the queue. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

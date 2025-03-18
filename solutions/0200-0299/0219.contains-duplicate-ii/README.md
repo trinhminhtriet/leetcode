@@ -1,50 +1,46 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0219.Contains%20Duplicate%20II/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 哈希表
-    - 滑动窗口
+    - Array
+    - Hash Table
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [219. 存在重复元素 II](https://leetcode.cn/problems/contains-duplicate-ii)
+# [219. Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii)
 
-[English Version](/solution/0200-0299/0219.Contains%20Duplicate%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code> 和一个整数&nbsp;<code>k</code> ，判断数组中是否存在两个 <strong>不同的索引</strong><em>&nbsp;</em><code>i</code>&nbsp;和<em>&nbsp;</em><code>j</code> ，满足 <code>nums[i] == nums[j]</code> 且 <code>abs(i - j) &lt;= k</code> 。如果存在，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
+<p>Given an integer array <code>nums</code> and an integer <code>k</code>, return <code>true</code> <em>if there are two <strong>distinct indices</strong> </em><code>i</code><em> and </em><code>j</code><em> in the array such that </em><code>nums[i] == nums[j]</code><em> and </em><code>abs(i - j) &lt;= k</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,3,1], k<em> </em>= 3
-<strong>输出：</strong>true</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,0,1,1], k<em> </em>=<em> </em>1
-<strong>输出：</strong>true</pre>
+<strong>Input:</strong> nums = [1,2,3,1], k = 3
+<strong>Output:</strong> true
+</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3,1,2,3], k<em> </em>=<em> </em>2
-<strong>输出：</strong>false</pre>
+<strong>Input:</strong> nums = [1,0,1,1], k = 1
+<strong>Output:</strong> true
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,2,3,1,2,3], k = 2
+<strong>Output:</strong> false
+</pre>
 
 <p>&nbsp;</p>
-
-<p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -54,19 +50,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们用一个哈希表 $\textit{d}$ 存放最近遍历到的数以及对应的下标。
+We use a hash table $\textit{d}$ to store the recently traversed numbers and their corresponding indices.
 
-遍历数组 $\textit{nums}$，对于当前遍历到的元素 $\textit{nums}[i]$，如果在哈希表中存在，并且下标与当前元素的下标之差不超过 $k$，则返回 $\text{true}$，否则将当前元素加入哈希表中。
+Traverse the array $\textit{nums}$. For the current element $\textit{nums}[i]$, if it exists in the hash table and the difference between the indices is no more than $k$, return $\text{true}$. Otherwise, add the current element to the hash table.
 
-遍历结束后，返回 $\text{false}$。
+After traversing, return $\text{false}$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

@@ -1,69 +1,64 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3229.Minimum%20Operations%20to%20Make%20Array%20Equal%20to%20Target/README.md
+difficulty: Hard
 rating: 2066
-source: 第 407 场周赛 Q4
+source: Weekly Contest 407 Q4
 tags:
-    - 栈
-    - 贪心
-    - 数组
-    - 动态规划
-    - 单调栈
+    - Stack
+    - Greedy
+    - Array
+    - Dynamic Programming
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [3229. 使数组等于目标数组所需的最少操作次数](https://leetcode.cn/problems/minimum-operations-to-make-array-equal-to-target)
+# [3229. Minimum Operations to Make Array Equal to Target](https://leetcode.com/problems/minimum-operations-to-make-array-equal-to-target)
 
-[English Version](/solution/3200-3299/3229.Minimum%20Operations%20to%20Make%20Array%20Equal%20to%20Target/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个长度相同的正整数数组 <code>nums</code> 和 <code>target</code>。</p>
+<p>You are given two positive integer arrays <code>nums</code> and <code>target</code>, of the same length.</p>
 
-<p>在一次操作中，你可以选择 <code>nums</code> 的任何子数组，并将该子数组内的每个元素的值增加或减少 1。</p>
+<p>In a single operation, you can select any subarray of <code>nums</code> and increment each element within that subarray by 1 or decrement each element within that subarray by 1.</p>
 
-<p>返回使 <code>nums</code> 数组变为 <code>target</code> 数组所需的 <strong>最少 </strong>操作次数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [3,5,1,2], target = [4,6,2,4]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">2</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>执行以下操作可以使 <code>nums</code> 等于 <code>target</code>：<br />
-- <code>nums[0..3]</code> 增加 1，<code>nums = [4,6,2,3]</code>。<br />
-- <code>nums[3..3]</code> 增加 1，<code>nums = [4,6,2,4]</code>。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [1,3,2], target = [2,1,4]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">5</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>执行以下操作可以使 <code>nums</code> 等于 <code>target</code>：<br />
-- <code>nums[0..0]</code> 增加 1，<code>nums = [2,3,2]</code>。<br />
-- <code>nums[1..1]</code> 减少 1，<code>nums = [2,2,2]</code>。<br />
-- <code>nums[1..1]</code> 减少 1，<code>nums = [2,1,2]</code>。<br />
-- <code>nums[2..2]</code> 增加 1，<code>nums = [2,1,3]</code>。<br />
-- <code>nums[2..2]</code> 增加 1，<code>nums = [2,1,4]</code>。</p>
-</div>
+<p>Return the <strong>minimum</strong> number of operations required to make <code>nums</code> equal to the array <code>target</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [3,5,1,2], target = [4,6,2,4]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>We will perform the following operations to make <code>nums</code> equal to <code>target</code>:<br />
+- Increment&nbsp;<code>nums[0..3]</code> by 1, <code>nums = [4,6,2,3]</code>.<br />
+- Increment&nbsp;<code>nums[3..3]</code> by 1, <code>nums = [4,6,2,4]</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,3,2], target = [2,1,4]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">5</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>We will perform the following operations to make <code>nums</code> equal to <code>target</code>:<br />
+- Increment&nbsp;<code>nums[0..0]</code> by 1, <code>nums = [2,3,2]</code>.<br />
+- Decrement&nbsp;<code>nums[1..1]</code> by 1, <code>nums = [2,2,2]</code>.<br />
+- Decrement&nbsp;<code>nums[1..1]</code> by 1, <code>nums = [2,1,2]</code>.<br />
+- Increment&nbsp;<code>nums[2..2]</code> by 1, <code>nums = [2,1,3]</code>.<br />
+- Increment&nbsp;<code>nums[2..2]</code> by 1, <code>nums = [2,1,4]</code>.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length == target.length &lt;= 10<sup>5</sup></code></li>
@@ -72,19 +67,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们可以先计算出 $\textit{nums}$ 和 $\textit{target}$ 两个数组的差值，然后对于一个差值数组，我们找出连续的差值符号相同的区间，然后对于每个区间，我们将第一个元素的绝对值加到结果中，然后对于后面的元素，如果差值的绝对值比前一个差值的绝对值大，那么我们将绝对值的差值加到结果中。
+We can first calculate the difference between the arrays $\textit{nums}$ and $\textit{target}$. For a difference array, we find continuous intervals where the signs of the differences are the same. For each interval, we add the absolute value of the first element to the result. For the subsequent elements, if the absolute value of the difference is greater than the absolute value of the previous difference, we add the difference of the absolute values to the result.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
 
-相似题目：
+Similar problems:
 
--   [1526. 形成目标数组的子数组最少增加次数](https://github.com/doocs/leetcode/tree/main/solution/1500-1599/1526.Minimum%20Number%20of%20Increments%20on%20Subarrays%20to%20Form%20a%20Target%20Array/README.md)
+-   [1526. Minimum Number of Increments on Subarrays to Form a Target Array](https://github.com/doocs/leetcode/tree/main/solution/1500-1599/1526.Minimum%20Number%20of%20Increments%20on%20Subarrays%20to%20Form%20a%20Target%20Array/README_EN.md)
 
 <!-- tabs:start -->
 

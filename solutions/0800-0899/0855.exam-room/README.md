@@ -1,80 +1,77 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0855.Exam%20Room/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 有序集合
-    - 堆（优先队列）
+    - Design
+    - Ordered Set
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [855. 考场就座](https://leetcode.cn/problems/exam-room)
+# [855. Exam Room](https://leetcode.com/problems/exam-room)
 
-[English Version](/solution/0800-0899/0855.Exam%20Room/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在考场里，有&nbsp;<code>n</code>&nbsp;个座位排成一行，编号为 <code>0</code> 到 <code>n - 1</code>。</p>
+<p>There is an exam room with <code>n</code> seats in a single row labeled from <code>0</code> to <code>n - 1</code>.</p>
 
-<p>当学生进入考场后，他必须坐在离最近的人最远的座位上。如果有多个这样的座位，他会坐在编号最小的座位上。(另外，如果考场里没有人，那么学生就坐在 <code>0</code> 号座位上。)</p>
+<p>When a student enters the room, they must sit in the seat that maximizes the distance to the closest person. If there are multiple such seats, they sit in the seat with the lowest number. If no one is in the room, then the student sits at seat number <code>0</code>.</p>
 
-<p>设计一个模拟所述考场的类。</p>
+<p>Design a class that simulates the mentioned exam room.</p>
 
-<p>实现&nbsp;<code>ExamRoom</code>&nbsp;类：</p>
+<p>Implement the <code>ExamRoom</code> class:</p>
 
 <ul>
-	<li><code>ExamRoom(int n)</code> 用座位的数量&nbsp;<code>n</code> 初始化考场对象。</li>
-	<li><code>int seat()</code> 返回下一个学生将会入座的座位编号。</li>
-	<li><code>void leave(int p)</code> 指定坐在座位 <code>p</code> 的学生将离开教室。保证座位 <code>p</code> 上会有一位学生。</li>
+	<li><code>ExamRoom(int n)</code> Initializes the object of the exam room with the number of the seats <code>n</code>.</li>
+	<li><code>int seat()</code> Returns the label of the seat at which the next student will set.</li>
+	<li><code>void leave(int p)</code> Indicates that the student sitting at seat <code>p</code> will leave the room. It is guaranteed that there will be a student sitting at seat <code>p</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["ExamRoom", "seat", "seat", "seat", "seat", "leave", "seat"]
+<strong>Input</strong>
+[&quot;ExamRoom&quot;, &quot;seat&quot;, &quot;seat&quot;, &quot;seat&quot;, &quot;seat&quot;, &quot;leave&quot;, &quot;seat&quot;]
 [[10], [], [], [], [], [4], []]
-<strong>输出：</strong>
+<strong>Output</strong>
 [null, 0, 9, 4, 2, null, 5]
-<strong>解释：</strong>
+
+<strong>Explanation</strong>
 ExamRoom examRoom = new ExamRoom(10);
-examRoom.seat(); // 返回 0，房间里没有人，学生坐在 0 号座位。
-examRoom.seat(); // 返回 9，学生最后坐在 9 号座位。
-examRoom.seat(); // 返回 4，学生最后坐在 4 号座位。
-examRoom.seat(); // 返回 2，学生最后坐在 2 号座位。
+examRoom.seat(); // return 0, no one is in the room, then the student sits at seat number 0.
+examRoom.seat(); // return 9, the student sits at the last seat number 9.
+examRoom.seat(); // return 4, the student sits at the last seat number 4.
+examRoom.seat(); // return 2, the student sits at the last seat number 2.
 examRoom.leave(4);
-examRoom.seat(); // 返回 5，学生最后坐在 5 号座位。
+examRoom.seat(); // return 5, the student sits at the last seat number 5.
+
 </pre>
 
 <p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
-<p><strong>提示：</strong></p>
-
-<ol>
+<ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>9</sup></code></li>
-	<li>保证有学生正坐在座位 <code>p</code> 上。</li>
-	<li><code>seat</code>&nbsp;和&nbsp;<code>leave</code>&nbsp;最多被调用&nbsp;<code>10<sup>4</sup></code>&nbsp;次。</li>
-</ol>
+	<li>It is guaranteed that there is a student sitting at seat <code>p</code>.</li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>seat</code> and <code>leave</code>.</li>
+</ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：有序集合 + 哈希表
+### Solution 1: Ordered Set + Hash Table
 
-考虑到每次 $\text{seat}()$ 时都需要找到最大距离的座位，我们可以使用有序集合来保存座位区间。有序集合的每个元素为一个二元组 $(l, r)$，表示 $l$ 和 $r$ 之间（不包括 $l$ 和 $r$）的座位可以坐学生。初始时有序集合中只有一个元素 $(-1, n)$，表示 $(-1, n)$ 之间的座位可以坐学生。
+Considering that each time we call $\text{seat}()$, we need to find the seat with the maximum distance, we can use an ordered set to store seat intervals. Each element of the ordered set is a tuple $(l, r)$, indicating that the seats between $l$ and $r$ (excluding $l$ and $r$) can be occupied by a student. Initially, the ordered set contains only one element $(-1, n)$, indicating that the seats between $(-1, n)$ can be occupied by a student.
 
-另外，我们使用两个哈希表 $\textit{left}$ 和 $\textit{right}$ 来维护每个有学生的座位的左右邻居学生，方便我们在 $\text{leave}(p)$ 时合并两个座位区间。
+Additionally, we use two hash tables $\textit{left}$ and $\textit{right}$ to maintain the left and right neighbors of each occupied seat, making it easier to merge two seat intervals when calling $\text{leave}(p)$.
 
-时间复杂度 $O(\log n)$，空间复杂度 $O(n)$。其中 $n$ 为考场的座位数。
+The time complexity is $O(\log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of seats in the exam room.
 
 <!-- tabs:start -->
 

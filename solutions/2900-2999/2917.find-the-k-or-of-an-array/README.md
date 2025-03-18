@@ -1,38 +1,36 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2917.Find%20the%20K-or%20of%20an%20Array/README.md
+difficulty: Easy
 rating: 1388
-source: 第 369 场周赛 Q1
+source: Weekly Contest 369 Q1
 tags:
-    - 位运算
-    - 数组
+    - Bit Manipulation
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2917. 找出数组中的 K-or 值](https://leetcode.cn/problems/find-the-k-or-of-an-array)
+# [2917. Find the K-or of an Array](https://leetcode.com/problems/find-the-k-or-of-an-array)
 
-[English Version](/solution/2900-2999/2917.Find%20the%20K-or%20of%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> 。让我们通过扩展标准的按位或来介绍 <strong>K-or</strong> 操作。在 K-or 操作中，如果在 <code>nums</code> 中，至少存在 <code>k</code> 个元素的第 <code>i</code> 位值为 1 ，那么 K-or 中的第 <code>i</code> 位的值是 1 。</p>
+<p>You are given an integer array <code>nums</code>, and an integer <code>k</code>. Let&#39;s introduce&nbsp;<strong>K-or</strong> operation by extending the standard bitwise OR. In K-or, a bit position in the result is set to <code>1</code>&nbsp;if at least <code>k</code> numbers in <code>nums</code> have a <code>1</code> in that position.</p>
 
-<p>返回 <code>nums</code> 的 <strong>K-or</strong> 值。</p>
+<p>Return <em>the K-or of</em> <code>nums</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1: </strong></p>
 
-<p><strong class="example">示例 1：</strong></p>
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input:</strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> nums = [7,12,9,8,9,15], k = 4 </span></p>
 
-<pre>
-<strong>输入：</strong>nums = [7,12,9,8,9,15], k = 4
-<strong>输出：</strong>9
-<strong>解释：</strong>
-用二进制表示 numbers：
-</pre>
+<p><strong>Output:</strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> 9 </span></p>
+
+<p><strong>Explanation: </strong></p>
+
+<p>Represent numbers in binary:</p>
 
 <table style="text-indent:10px; margin-bottom=20px;">
 	<tbody>
@@ -95,28 +93,32 @@ tags:
 	</tbody>
 </table>
 
-<pre>
-位 0 在 7, 9, 9, 15 中为 1。位 3 在 12, 9, 8, 9, 15 中为 1。 只有位 0 和 3 满足。结果是 (1001)<sub>2</sub> = 9。
-</pre>
+<p>Bit 0 is set in 7, 9, 9, and 15. Bit 3 is set in 12, 9, 8, 9, and 15.<br />
+Only bits 0 and 3 qualify. The result is <code>(1001)<sub>2</sub> = 9</code>.</p>
+</div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2: </strong></p>
 
-<pre>
-<strong>输入：</strong>nums = [2,12,1,11,4,5], k = 6
-<strong>输出：</strong>0
-<strong>解释：</strong>没有位在所有 6 个数字中都为 1，如 k = 6 所需要的。所以，答案为 0。
-</pre>
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input:</strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> nums = [2,12,1,11,4,5], k = 6 </span></p>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong>Output:</strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> 0 </span></p>
 
-<pre>
-<strong>输入：</strong>nums = [10,8,5,9,11,6,8], k = 1
-<strong>输出：</strong>15
-<strong>解释：</strong>因为 k == 1 ，数组的 1-or 等于其中所有元素按位或运算的结果。因此，答案为 10 OR 8 OR 5 OR 9 OR 11 OR 6 OR 8 = 15 。</pre>
+<p><strong>Explanation:&nbsp;</strong>No bit appears as 1 in all six array numbers, as required for K-or with <code>k = 6</code>. Thus, the result is 0.</p>
+</div>
+
+<p><strong class="example">Example 3: </strong></p>
+
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input:</strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> nums = [10,8,5,9,11,6,8], k = 1 </span></p>
+
+<p><strong>Output:</strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> 15 </span></p>
+
+<p><strong>Explanation: </strong> Since <code>k == 1</code>, the 1-or of the array is equal to the bitwise OR of all its elements. Hence, the answer is <code>10 OR 8 OR 5 OR 9 OR 11 OR 6 OR 8 = 15</code>.</p>
+</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 50</code></li>
@@ -126,17 +128,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们可以在 $[0, 32)$ 范围内枚举每一位 $i$，统计数组 $nums$ 有多少个数的第 $i$ 位为 $1$，记为 $cnt$。如果 $cnt \ge k$，那么我们就将 $2^i$ 次方加到答案中。
+We can enumerate each bit $i$ in the range $[0, 32)$, and count the number of numbers in the array $nums$ whose $i$-th bit is $1$, denoted as $cnt$. If $cnt \ge k$, we add $2^i$ to the answer.
 
-枚举结束后，返回答案即可。
+After the enumeration, we return the answer.
 
-时间复杂度 $O(n \times \log M)$，其中 $n$ 和 $M$ 分别是数组 $nums$ 的长度以及 $nums$ 的最大值。空间复杂度 $O(1)$。
+The time complexity is $O(n \times \log M)$, where $n$ and $M$ are the length of the array $nums$ and the maximum value in $nums$, respectively. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

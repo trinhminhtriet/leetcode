@@ -1,86 +1,81 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2211.Count%20Collisions%20on%20a%20Road/README.md
+difficulty: Medium
 rating: 1581
-source: 第 285 场周赛 Q2
+source: Weekly Contest 285 Q2
 tags:
-    - 栈
-    - 字符串
-    - 模拟
+    - Stack
+    - String
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2211. 统计道路上的碰撞次数](https://leetcode.cn/problems/count-collisions-on-a-road)
+# [2211. Count Collisions on a Road](https://leetcode.com/problems/count-collisions-on-a-road)
 
-[English Version](/solution/2200-2299/2211.Count%20Collisions%20on%20a%20Road/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在一条无限长的公路上有 <code>n</code> 辆汽车正在行驶。汽车按从左到右的顺序按从 <code>0</code> 到 <code>n - 1</code> 编号，每辆车都在一个 <strong>独特的</strong> 位置。</p>
+<p>There are <code>n</code> cars on an infinitely long road. The cars are numbered from <code>0</code> to <code>n - 1</code> from left to right and each car is present at a <strong>unique</strong> point.</p>
 
-<p>给你一个下标从 <strong>0</strong> 开始的字符串 <code>directions</code> ，长度为 <code>n</code> 。<code>directions[i]</code> 可以是 <code>'L'</code>、<code>'R'</code> 或 <code>'S'</code> 分别表示第 <code>i</code> 辆车是向 <strong>左</strong> 、向 <strong>右</strong> 或者 <strong>停留</strong> 在当前位置。每辆车移动时 <strong>速度相同</strong> 。</p>
+<p>You are given a <strong>0-indexed</strong> string <code>directions</code> of length <code>n</code>. <code>directions[i]</code> can be either <code>&#39;L&#39;</code>, <code>&#39;R&#39;</code>, or <code>&#39;S&#39;</code> denoting whether the <code>i<sup>th</sup></code> car is moving towards the <strong>left</strong>, towards the <strong>right</strong>, or <strong>staying</strong> at its current point respectively. Each moving car has the <strong>same speed</strong>.</p>
 
-<p>碰撞次数可以按下述方式计算：</p>
+<p>The number of collisions can be calculated as follows:</p>
 
 <ul>
-	<li>当两辆移动方向&nbsp;<strong>相反</strong>&nbsp;的车相撞时，碰撞次数加 <code>2</code> 。</li>
-	<li>当一辆移动的车和一辆静止的车相撞时，碰撞次数加 <code>1</code> 。</li>
+	<li>When two cars moving in <strong>opposite</strong> directions collide with each other, the number of collisions increases by <code>2</code>.</li>
+	<li>When a moving car collides with a stationary car, the number of collisions increases by <code>1</code>.</li>
 </ul>
 
-<p>碰撞发生后，涉及的车辆将无法继续移动并停留在碰撞位置。除此之外，汽车不能改变它们的状态或移动方向。</p>
+<p>After a collision, the cars involved can no longer move and will stay at the point where they collided. Other than that, cars cannot change their state or direction of motion.</p>
 
-<p>返回在这条道路上发生的 <strong>碰撞总次数</strong> 。</p>
+<p>Return <em>the <strong>total number of collisions</strong> that will happen on the road</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>directions = "RLRSLL"
-<strong>输出：</strong>5
-<strong>解释：</strong>
-将会在道路上发生的碰撞列出如下：
-- 车 0 和车 1 会互相碰撞。由于它们按相反方向移动，碰撞数量变为 0 + 2 = 2 。
-- 车 2 和车 3 会互相碰撞。由于 3 是静止的，碰撞数量变为 2 + 1 = 3 。
-- 车 3 和车 4 会互相碰撞。由于 3 是静止的，碰撞数量变为 3 + 1 = 4 。
-- 车 4 和车 5 会互相碰撞。在车 4 和车 3 碰撞之后，车 4 会待在碰撞位置，接着和车 5 碰撞。碰撞数量变为 4 + 1 = 5 。
-因此，将会在道路上发生的碰撞总次数是 5 。
+<strong>Input:</strong> directions = &quot;RLRSLL&quot;
+<strong>Output:</strong> 5
+<strong>Explanation:</strong>
+The collisions that will happen on the road are:
+- Cars 0 and 1 will collide with each other. Since they are moving in opposite directions, the number of collisions becomes 0 + 2 = 2.
+- Cars 2 and 3 will collide with each other. Since car 3 is stationary, the number of collisions becomes 2 + 1 = 3.
+- Cars 3 and 4 will collide with each other. Since car 3 is stationary, the number of collisions becomes 3 + 1 = 4.
+- Cars 4 and 5 will collide with each other. After car 4 collides with car 3, it will stay at the point of collision and get hit by car 5. The number of collisions becomes 4 + 1 = 5.
+Thus, the total number of collisions that will happen on the road is 5. 
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>directions = "LLRR"
-<strong>输出：</strong>0
-<strong>解释：</strong>
-不存在会发生碰撞的车辆。因此，将会在道路上发生的碰撞总次数是 0 。</pre>
+<strong>Input:</strong> directions = &quot;LLRR&quot;
+<strong>Output:</strong> 0
+<strong>Explanation:</strong>
+No cars will collide with each other. Thus, the total number of collisions that will happen on the road is 0.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= directions.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>directions[i]</code> 的值为 <code>'L'</code>、<code>'R'</code> 或 <code>'S'</code></li>
+	<li><code>directions[i]</code> is either <code>&#39;L&#39;</code>, <code>&#39;R&#39;</code>, or <code>&#39;S&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：脑筋急转弯
+### Solution 1: Brain Teaser
 
-根据题意，当两辆移动方向相反的车相撞时，碰撞次数加 $2$，即两辆车被撞停，答案加 $2$；当一辆移动的车和一辆静止的车相撞时，碰撞次数加 $1$，即一辆车被撞停，答案加 $1$。
+According to the problem description, when two cars moving in opposite directions collide, the collision count increases by $2$, meaning both cars stop, and the answer increases by $2$. When a moving car collides with a stationary car, the collision count increases by $1$, meaning one car stops, and the answer increases by $1$.
 
-而显然前缀的 $\textit{L}$ 和后缀的 $\textit{R}$ 是不会发生碰撞的，所以我们只需要统计中间不等于 $\textit{S}$ 的字符个数即可。
+Obviously, the prefix $\textit{L}$ and the suffix $\textit{R}$ will not collide, so we only need to count the number of characters in the middle that are not $\textit{S}$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$ 或 $O(1)$。其中 $n$ 是字符串 $\textit{directions}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$ or $O(1)$. Here, $n$ is the length of the string $\textit{directions}$.
 
 <!-- tabs:start -->
 

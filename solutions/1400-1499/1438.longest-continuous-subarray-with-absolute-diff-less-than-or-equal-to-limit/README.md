@@ -1,86 +1,82 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1438.Longest%20Continuous%20Subarray%20With%20Absolute%20Diff%20Less%20Than%20or%20Equal%20to%20Limit/README.md
+difficulty: Medium
 rating: 1672
-source: 第 187 场周赛 Q3
+source: Weekly Contest 187 Q3
 tags:
-    - 队列
-    - 数组
-    - 有序集合
-    - 滑动窗口
-    - 单调队列
-    - 堆（优先队列）
+    - Queue
+    - Array
+    - Ordered Set
+    - Sliding Window
+    - Monotonic Queue
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1438. 绝对差不超过限制的最长连续子数组](https://leetcode.cn/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit)
+# [1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit](https://leetcode.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit)
 
-[English Version](/solution/1400-1499/1438.Longest%20Continuous%20Subarray%20With%20Absolute%20Diff%20Less%20Than%20or%20Equal%20to%20Limit/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> ，和一个表示限制的整数 <code>limit</code>，请你返回最长连续子数组的长度，该子数组中的任意两个元素之间的绝对差必须小于或者等于 <code>limit</code><em> 。</em></p>
-
-<p>如果不存在满足条件的子数组，则返回 <code>0</code> 。</p>
+<p>Given an array of integers <code>nums</code> and an integer <code>limit</code>, return the size of the longest <strong>non-empty</strong> subarray such that the absolute difference between any two elements of this subarray is less than or equal to <code>limit</code><em>.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>nums = [8,2,4,7], limit = 4
-<strong>输出：</strong>2 
-<strong>解释：</strong>所有子数组如下：
-[8] 最大绝对差 |8-8| = 0 &lt;= 4.
-[8,2] 最大绝对差 |8-2| = 6 &gt; 4. 
-[8,2,4] 最大绝对差 |8-2| = 6 &gt; 4.
-[8,2,4,7] 最大绝对差 |8-2| = 6 &gt; 4.
-[2] 最大绝对差 |2-2| = 0 &lt;= 4.
-[2,4] 最大绝对差 |2-4| = 2 &lt;= 4.
-[2,4,7] 最大绝对差 |2-7| = 5 &gt; 4.
-[4] 最大绝对差 |4-4| = 0 &lt;= 4.
-[4,7] 最大绝对差 |4-7| = 3 &lt;= 4.
-[7] 最大绝对差 |7-7| = 0 &lt;= 4. 
-因此，满足题意的最长子数组的长度为 2 。
+<pre>
+<strong>Input:</strong> nums = [8,2,4,7], limit = 4
+<strong>Output:</strong> 2 
+<strong>Explanation:</strong> All subarrays are: 
+[8] with maximum absolute diff |8-8| = 0 &lt;= 4.
+[8,2] with maximum absolute diff |8-2| = 6 &gt; 4. 
+[8,2,4] with maximum absolute diff |8-2| = 6 &gt; 4.
+[8,2,4,7] with maximum absolute diff |8-2| = 6 &gt; 4.
+[2] with maximum absolute diff |2-2| = 0 &lt;= 4.
+[2,4] with maximum absolute diff |2-4| = 2 &lt;= 4.
+[2,4,7] with maximum absolute diff |2-7| = 5 &gt; 4.
+[4] with maximum absolute diff |4-4| = 0 &lt;= 4.
+[4,7] with maximum absolute diff |4-7| = 3 &lt;= 4.
+[7] with maximum absolute diff |7-7| = 0 &lt;= 4. 
+Therefore, the size of the longest subarray is 2.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>nums = [10,1,2,4,7,2], limit = 5
-<strong>输出：</strong>4 
-<strong>解释：</strong>满足题意的最长子数组是 [2,4,7,2]，其最大绝对差 |2-7| = 5 &lt;= 5 。
+<pre>
+<strong>Input:</strong> nums = [10,1,2,4,7,2], limit = 5
+<strong>Output:</strong> 4 
+<strong>Explanation:</strong> The subarray [2,4,7,2] is the longest since the maximum absolute diff is |2-7| = 5 &lt;= 5.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>nums = [4,2,2,2,4,4,2,2], limit = 0
-<strong>输出：</strong>3
+<pre>
+<strong>Input:</strong> nums = [4,2,2,2,4,4,2,2], limit = 0
+<strong>Output:</strong> 3
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 10^5</code></li>
-	<li><code>1 &lt;= nums[i] &lt;= 10^9</code></li>
-	<li><code>0 &lt;= limit &lt;= 10^9</code></li>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
+	<li><code>0 &lt;= limit &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：有序集合 + 滑动窗口
+### Solution 1: Ordered Set + Sliding Window
 
-我们可以枚举每个位置作为子数组的右端点，找到其对应的最靠左的左端点，满足区间内中最大值与最小值的差值不超过 $limit$。过程中，我们用有序集合维护窗口内的最大值和最小值。
+We can enumerate each position as the right endpoint of the subarray, and find the leftmost left endpoint corresponding to it, such that the difference between the maximum and minimum values in the interval does not exceed $limit$. During the process, we use an ordered set to maintain the maximum and minimum values within the window.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 `nums` 的长度。
+The time complexity is $O(n \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array `nums`.
 
 <!-- tabs:start -->
 
@@ -808,13 +804,13 @@ class TreapMultiSet<T = number> implements ITreapMultiSet<T> {
 
 <!-- solution:start -->
 
-### 方法二：二分查找 + 滑动窗口
+### Solution 2: Binary Search + Sliding Window
 
-我们注意到，如果一个长度为 $k$ 的子数组满足条件，那么长度 $k' < k$ 的子数组也满足条件，这存在着单调性，因此，我们可以使用二分查找，找到最长的满足条件的子数组。
+We notice that if a subarray of length $k$ satisfies the condition, then a subarray of length $k' < k$ also satisfies the condition. This shows a monotonicity, therefore, we can use binary search to find the longest subarray that satisfies the condition.
 
-我们定义二分查找的左边界 $l = 0$，右边界 $r = n$。对于每个 $mid = \frac{l + r + 1}{2}$，我们检查是否存在一个长度为 $mid$ 的子数组满足条件。如果存在，我们更新 $l = mid$，否则更新 $r = mid - 1$。那么问题转换为数组中是否存在一个长度为 $mid$ 的子数组满足条件，这其实是求滑动窗口中的最大值和最小值的差值不超过 $limit$。我们可以用两个单调队列分别维护窗口内的最大值和最小值。
+We define the left boundary of the binary search as $l = 0$, and the right boundary as $r = n$. For each $mid = \frac{l + r + 1}{2}$, we check whether there exists a subarray of length $mid$ that satisfies the condition. If it exists, we update $l = mid$, otherwise we update $r = mid - 1$. The problem is transformed into whether there exists a subarray of length $mid$ in the array that satisfies the condition, which is actually to find the difference between the maximum and minimum values in the sliding window does not exceed $limit$. We can use two monotonic queues to maintain the maximum and minimum values in the window respectively.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 
@@ -1187,17 +1183,17 @@ class Deque<T> {
 
 <!-- solution:start -->
 
-### 方法三：滑动窗口 + 双向队列
+### Solution 3: Sliding Window + Deque
 
-我们可以使用双向队列维护窗口内的最大值和最小值。我们维护两个双向队列，分别存储窗口内的最大值和最小值的下标。定义两个指针 $l$ 和 $r$ 分别指向窗口的左边界和右边界。
+We can use a deque to maintain the maximum and minimum values within the window. We maintain two deques, one for storing the indices of the maximum values and the other for the minimum values within the window. Define two pointers $l$ and $r$ to point to the left and right boundaries of the window, respectively.
 
-每次向右移动右边界 $r$，判断最大值队列的队尾下标对应的元素是否小于当前元素，如果小于，则将队尾元素出队，直到最大值队列的队尾元素对应的元素不小于当前元素。同理，判断最小值队列的队尾下标对应的元素是否大于当前元素，如果大于，则将队尾元素出队，直到最小值队列的队尾元素对应的元素不大于当前元素。然后，将当前元素的下标入队。
+Each time we move the right boundary $r$ to the right, we check if the element corresponding to the tail index of the maximum value deque is less than the current element. If it is, we dequeue the tail element until the element corresponding to the tail of the maximum value deque is not less than the current element. Similarly, we check if the element corresponding to the tail index of the minimum value deque is greater than the current element. If it is, we dequeue the tail element until the element corresponding to the tail of the minimum value deque is not greater than the current element. Then, we enqueue the current element's index.
 
-如果最大值队列的队首元素和最小值队列的队首元素的差值大于 $limit$，则向右移动左边界 $l$，然后如果最大值队列的队首元素小于 $l$，则将最大值队列的队首元素出队，如果最小值队列的队首元素小于 $l$，则将最小值队列的队首元素出队。
+If the difference between the elements at the front of the maximum value deque and the minimum value deque is greater than $limit$, then we move the left boundary $l$ to the right. If the element at the front of the maximum value deque is less than $l$, we dequeue the front element of the maximum value deque. Similarly, if the element at the front of the minimum value deque is less than $l$, we dequeue the front element of the minimum value deque.
 
-答案为 $n - l$。
+The answer is $n - l$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

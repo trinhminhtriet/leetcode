@@ -1,92 +1,90 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1946.Largest%20Number%20After%20Mutating%20Substring/README.md
+difficulty: Medium
 rating: 1445
-source: 第 251 场周赛 Q2
+source: Weekly Contest 251 Q2
 tags:
-    - 贪心
-    - 数组
-    - 字符串
+    - Greedy
+    - Array
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1946. 子字符串突变后可能得到的最大整数](https://leetcode.cn/problems/largest-number-after-mutating-substring)
+# [1946. Largest Number After Mutating Substring](https://leetcode.com/problems/largest-number-after-mutating-substring)
 
-[English Version](/solution/1900-1999/1946.Largest%20Number%20After%20Mutating%20Substring/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>num</code> ，该字符串表示一个大整数。另给你一个长度为 <code>10</code> 且 <strong>下标从 0&nbsp; 开始</strong> 的整数数组 <code>change</code> ，该数组将 <code>0-9</code> 中的每个数字映射到另一个数字。更规范的说法是，数字 <code>d</code> 映射为数字 <code>change[d]</code> 。</p>
+<p>You are given a string <code>num</code>, which represents a large integer. You are also given a <strong>0-indexed</strong> integer array <code>change</code> of length <code>10</code> that maps each digit <code>0-9</code> to another digit. More formally, digit <code>d</code> maps to digit <code>change[d]</code>.</p>
 
-<p>你可以选择 <strong>突变</strong>&nbsp; <code>num</code> 的任一子字符串。<strong>突变</strong> 子字符串意味着将每位数字 <code>num[i]</code> 替换为该数字在 <code>change</code> 中的映射（也就是说，将 <code>num[i]</code> 替换为 <code>change[num[i]]</code>）。</p>
+<p>You may <strong>choose</strong> to <b>mutate a single substring</b> of <code>num</code>. To mutate a substring, replace each digit <code>num[i]</code> with the digit it maps to in <code>change</code> (i.e. replace <code>num[i]</code> with <code>change[num[i]]</code>).</p>
 
-<p>请你找出在对 <code>num</code> 的任一子字符串执行突变操作（也可以不执行）后，可能得到的 <strong>最大整数</strong> ，并用字符串表示返回。</p>
+<p>Return <em>a string representing the <strong>largest</strong> possible integer after <strong>mutating</strong> (or choosing not to) a <strong>single substring</strong> of </em><code>num</code>.</p>
 
-<p><strong>子字符串</strong> 是字符串中的一个连续序列。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>num = "<strong><em>1</em></strong>32", change = [9,8,5,0,3,6,4,2,6,8]
-<strong>输出：</strong>"<strong><em>8</em></strong>32"
-<strong>解释：</strong>替换子字符串 "1"：
-- 1 映射为 change[1] = 8 。
-因此 "<strong><em>1</em></strong>32" 变为 "<strong><em>8</em></strong>32" 。
-"832" 是可以构造的最大整数，所以返回它的字符串表示。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>num = "<strong><em>021</em></strong>", change = [9,4,3,5,7,2,1,9,0,6]
-<strong>输出：</strong>"<strong><em>934</em></strong>"
-<strong>解释：</strong>替换子字符串 "021"：
-- 0 映射为 change[0] = 9 。
-- 2 映射为 change[2] = 3 。
-- 1 映射为 change[1] = 4 。
-因此，"<strong><em>021</em></strong>" 变为 "<strong><em>934</em></strong>" 。
-"934" 是可以构造的最大整数，所以返回它的字符串表示。 
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>num = "5", change = [1,4,7,5,3,2,5,6,9,4]
-<strong>输出：</strong>"5"
-<strong>解释：</strong>"5" 已经是可以构造的最大整数，所以返回它的字符串表示。
-</pre>
+<p>A <strong>substring</strong> is a contiguous sequence of characters within the string.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> num = &quot;<u>1</u>32&quot;, change = [9,8,5,0,3,6,4,2,6,8]
+<strong>Output:</strong> &quot;<u>8</u>32&quot;
+<strong>Explanation:</strong> Replace the substring &quot;1&quot;:
+- 1 maps to change[1] = 8.
+Thus, &quot;<u>1</u>32&quot; becomes &quot;<u>8</u>32&quot;.
+&quot;832&quot; is the largest number that can be created, so return it.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> num = &quot;<u>021</u>&quot;, change = [9,4,3,5,7,2,1,9,0,6]
+<strong>Output:</strong> &quot;<u>934</u>&quot;
+<strong>Explanation:</strong> Replace the substring &quot;021&quot;:
+- 0 maps to change[0] = 9.
+- 2 maps to change[2] = 3.
+- 1 maps to change[1] = 4.
+Thus, &quot;<u>021</u>&quot; becomes &quot;<u>934</u>&quot;.
+&quot;934&quot; is the largest number that can be created, so return it.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> num = &quot;5&quot;, change = [1,4,7,5,3,2,5,6,9,4]
+<strong>Output:</strong> &quot;5&quot;
+<strong>Explanation:</strong> &quot;5&quot; is already the largest number that can be created, so return it.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>num</code> 仅由数字 <code>0-9</code> 组成</li>
+	<li><code>num</code> consists of only digits <code>0-9</code>.</li>
 	<li><code>change.length == 10</code></li>
 	<li><code>0 &lt;= change[d] &lt;= 9</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy
 
-根据题目描述，我们可以从字符串的高位开始，贪心的进行连续的替换操作，直到遇到一个比当前位数字小的数字为止。
+According to the problem description, we can start from the highest digit of the string and greedily perform continuous replacement operations until we encounter a digit smaller than the current digit.
 
-我们先将字符串 $\textit{num}$ 转换为字符数组 $\textit{s}$，用一个变量 $\textit{changed}$ 记录是否已经发生过变化，初始时 $\textit{changed} = \text{false}$。
+First, we convert the string $\textit{num}$ into a character array $\textit{s}$ and use a variable $\textit{changed}$ to record whether a change has already occurred, initially $\textit{changed} = \text{false}$.
 
-然后我们遍历字符数组 $\textit{s}$，对于每个字符 $\textit{c}$，我们将其转换为数字 $\textit{d} = \text{change}[\text{int}(\textit{c})]$，如果已经发生过变化且 $\textit{d} < \textit{c}$，则说明我们不能再继续变化，直接退出循环；否则，如果 $\textit{d} > \textit{c}$，则说明我们可以将 $\textit{c}$ 替换为 $\textit{d}$，此时我们将 $\textit{changed} = \text{true}$，并将 $\textit{s}[i]$ 替换为 $\textit{d}$。
+Then we traverse the character array $\textit{s}$. For each character $\textit{c}$, we convert it to a number $\textit{d} = \text{change}[\text{int}(\textit{c})]$. If a change has already occurred and $\textit{d} < \textit{c}$, it means we cannot continue changing, so we exit the loop immediately. Otherwise, if $\textit{d} > \textit{c}$, it means we can replace $\textit{c}$ with $\textit{d}$. At this point, we set $\textit{changed} = \text{true}$ and replace $\textit{s}[i]$ with $\textit{d}$.
 
-最后我们将字符数组 $\textit{s}$ 转换为字符串并返回即可。
+Finally, we convert the character array $\textit{s}$ back to a string and return it.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $\textit{num}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $\textit{num}$.
 
 <!-- tabs:start -->
 

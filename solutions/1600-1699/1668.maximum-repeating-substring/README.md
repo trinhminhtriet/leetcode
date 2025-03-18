@@ -1,76 +1,67 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1668.Maximum%20Repeating%20Substring/README.md
+difficulty: Easy
 rating: 1395
-source: 第 40 场双周赛 Q1
+source: Biweekly Contest 40 Q1
 tags:
-    - 字符串
-    - 动态规划
-    - 字符串匹配
+    - String
+    - Dynamic Programming
+    - String Matching
 ---
 
 <!-- problem:start -->
 
-# [1668. 最大重复子字符串](https://leetcode.cn/problems/maximum-repeating-substring)
+# [1668. Maximum Repeating Substring](https://leetcode.com/problems/maximum-repeating-substring)
 
-[English Version](/solution/1600-1699/1668.Maximum%20Repeating%20Substring/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>sequence</code> ，如果字符串 <code>word</code> 连续重复 <code>k</code> 次形成的字符串是 <code>sequence</code> 的一个子字符串，那么单词 <code>word</code> 的 <strong>重复值为 <code>k</code></strong><strong> </strong>。单词 <code>word</code> 的 <strong>最</strong><strong>大重复值</strong> 是单词 <code>word</code> 在 <code>sequence</code> 中最大的重复值。如果 <code>word</code> 不是 <code>sequence</code> 的子串，那么重复值 <code>k</code> 为 <code>0</code> 。</p>
+<p>For a string <code>sequence</code>, a string <code>word</code> is <strong><code>k</code>-repeating</strong> if <code>word</code> concatenated <code>k</code> times is a substring of <code>sequence</code>. The <code>word</code>&#39;s <strong>maximum <code>k</code>-repeating value</strong> is the highest value <code>k</code> where <code>word</code> is <code>k</code>-repeating in <code>sequence</code>. If <code>word</code> is not a substring of <code>sequence</code>, <code>word</code>&#39;s maximum <code>k</code>-repeating value is <code>0</code>.</p>
 
-<p>给你一个字符串 <code>sequence</code> 和 <code>word</code> ，请你返回 <strong>最大重复值 <code>k</code> </strong>。</p>
+<p>Given strings <code>sequence</code> and <code>word</code>, return <em>the <strong>maximum <code>k</code>-repeating value</strong> of <code>word</code> in <code>sequence</code></em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>sequence = "ababc", word = "ab"
-<b>输出：</b>2
-<strong>解释：</strong>"abab" 是 "<strong>abab</strong>c" 的子字符串。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>sequence = "ababc", word = "ba"
-<b>输出：</b>1
-<strong>解释：</strong>"ba" 是 "a<strong>ba</strong>bc" 的子字符串，但 "baba" 不是 "ababc" 的子字符串。
+<strong>Input:</strong> sequence = &quot;ababc&quot;, word = &quot;ab&quot;
+<strong>Output:</strong> 2
+<strong>Explanation: </strong>&quot;abab&quot; is a substring in &quot;<u>abab</u>c&quot;.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>sequence = "ababc", word = "ac"
-<b>输出：</b>0
-<strong>解释：</strong>"ac" 不是 "ababc" 的子字符串。
+<strong>Input:</strong> sequence = &quot;ababc&quot;, word = &quot;ba&quot;
+<strong>Output:</strong> 1
+<strong>Explanation: </strong>&quot;ba&quot; is a substring in &quot;a<u>ba</u>bc&quot;. &quot;baba&quot; is not a substring in &quot;ababc&quot;.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> sequence = &quot;ababc&quot;, word = &quot;ac&quot;
+<strong>Output:</strong> 0
+<strong>Explanation: </strong>&quot;ac&quot; is not a substring in &quot;ababc&quot;. 
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= sequence.length <= 100</code></li>
-	<li><code>1 <= word.length <= 100</code></li>
-	<li><code>sequence</code> 和 <code>word</code> 都只包含小写英文字母。</li>
+	<li><code>1 &lt;= sequence.length &lt;= 100</code></li>
+	<li><code>1 &lt;= word.length &lt;= 100</code></li>
+	<li><code>sequence</code> and <code>word</code>&nbsp;contains only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：直接枚举
-
-注意到字符串长度不超过 $100$，我们直接从大到小枚举 `word` 的重复次数 $k$，判断 `word` 重复该次数后是否是 `sequence` 的子串，是则直接返回当前的重复次数 $k$。
-
-时间复杂度为 $O(n^2)$，其中 $n$ 为 `sequence` 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

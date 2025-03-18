@@ -1,48 +1,46 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0858.Mirror%20Reflection/README.md
+difficulty: Medium
 tags:
-    - 几何
-    - 数学
-    - 数论
+    - Geometry
+    - Math
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [858. 镜面反射](https://leetcode.cn/problems/mirror-reflection)
+# [858. Mirror Reflection](https://leetcode.com/problems/mirror-reflection)
 
-[English Version](/solution/0800-0899/0858.Mirror%20Reflection/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有一个特殊的正方形房间，每面墙上都有一面镜子。除西南角以外，每个角落都放有一个接受器，编号为&nbsp;<code>0</code>，&nbsp;<code>1</code>，以及&nbsp;<code>2</code>。</p>
+<p>There is a special square room with mirrors on each of the four walls. Except for the southwest corner, there are receptors on each of the remaining corners, numbered <code>0</code>, <code>1</code>, and <code>2</code>.</p>
 
-<p>正方形房间的墙壁长度为&nbsp;<code>p</code>，一束激光从西南角射出，首先会与东墙相遇，入射点到接收器 <code>0</code> 的距离为 <code>q</code> 。</p>
+<p>The square room has walls of length <code>p</code>&nbsp;and a laser ray from the southwest corner first meets the east wall at a distance <code>q</code> from the <code>0<sup>th</sup></code> receptor.</p>
 
-<p>返回光线最先遇到的接收器的编号（保证光线最终会遇到一个接收器）。</p>
-&nbsp;
+<p>Given the two integers <code>p</code> and <code>q</code>, return <em>the number of the receptor that the ray meets first</em>.</p>
 
-<p><strong class="example">示例 1：</strong></p>
+<p>The test cases are guaranteed so that the ray will meet a receptor eventually.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0858.Mirror%20Reflection/images/reflection.png" style="width: 218px; height: 217px;" />
 <pre>
-<strong>输入：</strong>p = 2, q = 1
-<strong>输出：</strong>2
-<strong>解释：</strong>这条光线在第一次被反射回左边的墙时就遇到了接收器 2 。
+<strong>Input:</strong> p = 2, q = 1
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The ray meets receptor 2 the first time it gets reflected back to the left wall.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>p = 3, q = 1
-<strong>输入：</strong>1
+<strong>Input:</strong> p = 3, q = 1
+<strong>Output:</strong> 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= q &lt;= p &lt;= 1000</code></li>
@@ -50,19 +48,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
-
-根据题意，光线在每次反射时，都会向上或向下移动 $q$ 的距离，向右移动 $p$ 的距离。而由于光线最后一定会遇到接收器，因此，我们需要找到一个最小的 $k$，使得 $k \times q$ 是 $p$ 的倍数。
-
-同时，根据 $k$ 的奇偶性，我们可以确定光线最终到达了西侧还是东侧。如果 $k$ 是偶数，那么光线最终到达的是西侧，否则光线最终到达的是东侧。
-
-另外，根据 $k \times q$ 除以 $p$ 的结果的奇偶性，我们可以确定光线最终到达的是北侧还是南侧。如果 $k \times q$ 是 $p$ 的偶数倍，那么光线最终到达的是南侧，否则光线最终到达的是北侧。
-
-时间复杂度 $O(\log p)$，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 

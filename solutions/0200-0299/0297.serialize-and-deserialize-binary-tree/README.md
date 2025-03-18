@@ -1,84 +1,65 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0297.Serialize%20and%20Deserialize%20Binary%20Tree/README.md
+difficulty: Hard
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 设计
-    - 字符串
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
+    - Design
+    - String
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [297. 二叉树的序列化与反序列化](https://leetcode.cn/problems/serialize-and-deserialize-binary-tree)
+# [297. Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree)
 
-[English Version](/solution/0200-0299/0297.Serialize%20and%20Deserialize%20Binary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。</p>
+<p>Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.</p>
 
-<p>请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 / 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。</p>
+<p>Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure.</p>
 
-<p><strong>提示: </strong>输入输出格式与 LeetCode 目前使用的方式一致，详情请参阅&nbsp;<a href="https://support.leetcode.cn/hc/kb/article/1567641/">LeetCode 序列化二叉树的格式</a>。你并非必须采取这种方式，你也可以采用其他的方法解决这个问题。</p>
+<p><strong>Clarification:</strong> The input/output format is the same as <a href="https://support.leetcode.com/hc/en-us/articles/32442719377939-How-to-create-test-cases-on-LeetCode#h_01J5EGREAW3NAEJ14XC07GRW1A" target="_blank">how LeetCode serializes a binary tree</a>. You do not necessarily need to follow this format, so please be creative and come up with different approaches yourself.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0297.Serialize%20and%20Deserialize%20Binary%20Tree/images/serdeser.jpg" style="width: 442px; height: 324px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,3,null,null,4,5]
-<strong>输出：</strong>[1,2,3,null,null,4,5]
+<strong>Input:</strong> root = [1,2,3,null,null,4,5]
+<strong>Output:</strong> [1,2,3,null,null,4,5]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>root = []
-<strong>输出：</strong>[]
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>root = [1]
-<strong>输出：</strong>[1]
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>root = [1,2]
-<strong>输出：</strong>[1,2]
+<strong>Input:</strong> root = []
+<strong>Output:</strong> []
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中结点数在范围 <code>[0, 10<sup>4</sup>]</code> 内</li>
+	<li>The number of nodes in the tree is in the range <code>[0, 10<sup>4</sup>]</code>.</li>
 	<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：层序遍历
+### Solution 1: Level Order Traversal
 
-我们可以采用层序遍历的方式对二叉树进行序列化，即从根节点开始，依次将二叉树的节点按照从上到下、从左到右的顺序加入队列中，然后将队列中的节点依次出队。如果节点不为空，则将其值加入序列化字符串中，否则加入特殊字符 `#`。最后将序列化字符串返回即可。
+We can use level order traversal to serialize the binary tree. Starting from the root node, we add the nodes of the binary tree to the queue in the order from top to bottom, from left to right. Then we dequeue the nodes in the queue one by one. If the node is not null, we add its value to the serialized string; otherwise, we add a special character `#`. Finally, we return the serialized string.
 
-反序列化时，我们将序列化字符串按照分隔符进行切分，得到一个字符串数组，然后依次将字符串数组中的元素加入队列中。队列中的元素即为二叉树的节点，我们从队列中依次取出元素，如果元素不为 `#`，则将其转换为整数后作为节点的值，然后将该节点加入队列中，否则将其置为 `null`。最后返回根节点即可。
+During deserialization, we split the serialized string by the delimiter to get a string array, and then add the elements in the string array to the queue in order. The elements in the queue are the nodes of the binary tree. We dequeue the elements from the queue one by one. If the element is not `#`, we convert it to an integer and use it as the value of the node, and then add the node to the queue; otherwise, we set it to `null`. Finally, we return the root node.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树的节点个数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 

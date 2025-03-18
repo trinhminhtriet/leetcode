@@ -1,74 +1,71 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0318.Maximum%20Product%20of%20Word%20Lengths/README.md
+difficulty: Medium
 tags:
-    - 位运算
-    - 数组
-    - 字符串
+    - Bit Manipulation
+    - Array
+    - String
 ---
 
 <!-- problem:start -->
 
-# [318. 最大单词长度乘积](https://leetcode.cn/problems/maximum-product-of-word-lengths)
+# [318. Maximum Product of Word Lengths](https://leetcode.com/problems/maximum-product-of-word-lengths)
 
-[English Version](/solution/0300-0399/0318.Maximum%20Product%20of%20Word%20Lengths/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串数组&nbsp;<code>words</code> ，找出并返回 <code>length(words[i]) * length(words[j])</code>&nbsp;的最大值，并且这两个单词不含有公共字母。如果不存在这样的两个单词，返回 <code>0</code> 。</p>
+<p>Given a string array <code>words</code>, return <em>the maximum value of</em> <code>length(word[i]) * length(word[j])</code> <em>where the two words do not share common letters</em>. If no such two words exist, return <code>0</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1：</strong></p>
-
-<pre>
-<strong>输入：</strong>words = <code>["abcw","baz","foo","bar","xtfn","abcdef"]</code>
-<strong>输出：</strong><code>16 
-<strong>解释</strong></code><strong>：</strong><code>这两个单词为<strong> </strong>"abcw", "xtfn"</code>。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>words = <code>["a","ab","abc","d","cd","bcd","abcd"]</code>
-<strong>输出：</strong><code>4 
-<strong>解释</strong></code><strong>：</strong>这两个单词为 <code>"ab", "cd"</code>。</pre>
+<strong>Input:</strong> words = [&quot;abcw&quot;,&quot;baz&quot;,&quot;foo&quot;,&quot;bar&quot;,&quot;xtfn&quot;,&quot;abcdef&quot;]
+<strong>Output:</strong> 16
+<strong>Explanation:</strong> The two words can be &quot;abcw&quot;, &quot;xtfn&quot;.
+</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>words = <code>["a","aa","aaa","aaaa"]</code>
-<strong>输出：</strong><code>0 
-<strong>解释</strong></code><strong>：</strong><code>不存在这样的两个单词。</code>
+<strong>Input:</strong> words = [&quot;a&quot;,&quot;ab&quot;,&quot;abc&quot;,&quot;d&quot;,&quot;cd&quot;,&quot;bcd&quot;,&quot;abcd&quot;]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The two words can be &quot;ab&quot;, &quot;cd&quot;.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> words = [&quot;a&quot;,&quot;aa&quot;,&quot;aaa&quot;,&quot;aaaa&quot;]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> No such pair of words.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= words.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 1000</code></li>
-	<li><code>words[i]</code>&nbsp;仅包含小写字母</li>
+	<li><code>words[i]</code> consists only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算
+### Solution 1: Bit Manipulation
 
-题目需要我们找到两个没有公共字母的字符串，使得它们的长度乘积最大。我们可以将每个字符串用一个二进制数 $mask[i]$ 表示，这个二进制数的每一位表示字符串中是否含有某个字母。如果两个字符串没有公共字母，那么这两个字符串对应的二进制数的按位与的结果为 $0$，即 $mask[i] \& mask[j] = 0$。
+The problem requires us to find two strings without common letters, so that their length product is maximized. We can represent each string with a binary number $mask[i]$, where each bit of this binary number indicates whether the string contains a certain letter. If two strings do not have common letters, then the bitwise AND result of the two binary numbers corresponding to these strings is $0$, that is, $mask[i] \& mask[j] = 0$.
 
-我们遍历每个字符串，对于当前遍历到的字符串 $words[i]$，我们先算出对应的二进制数 $mask[i]$，然后再遍历 $j \in [0, i)$ 的所有字符串 $words[j]$，检查 $mask[i] \& mask[j] = 0$ 是否成立，如果成立就更新答案为 $\max(ans, |words[i]| \times |words[j]|)$。
+We traverse each string. For the current string $words[i]$ we are traversing, we first calculate the corresponding binary number $mask[i]$, and then traverse all strings $words[j]$ where $j \in [0, i)$. We check whether $mask[i] \& mask[j] = 0$ holds. If it holds, we update the answer to $\max(ans, |words[i]| \times |words[j]|)$.
 
-遍历结束后，返回答案即可。
+After the traversal, we return the answer.
 
-时间复杂度 $O(n^2 + L)$，空间复杂度 $O(n)$。其中 $n$ 是字符串数组 $words$ 的长度，而 $L$ 是字符串数组所有字符串的长度之和。
+The time complexity is $O(n^2 + L)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string array $words$, and $L$ is the sum of the lengths of all strings in the string array.
 
 <!-- tabs:start -->
 
@@ -183,7 +180,7 @@ function maxProduct(words: string[]): number {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

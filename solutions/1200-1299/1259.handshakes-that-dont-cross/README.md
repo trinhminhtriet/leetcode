@@ -1,88 +1,69 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1259.Handshakes%20That%20Don%27t%20Cross/README.md
+difficulty: Hard
 rating: 1951
-source: 第 13 场双周赛 Q4
+source: Biweekly Contest 13 Q4
 tags:
-    - 数学
-    - 动态规划
+    - Math
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1259. 不相交的握手 🔒](https://leetcode.cn/problems/handshakes-that-dont-cross)
+# [1259. Handshakes That Don't Cross 🔒](https://leetcode.com/problems/handshakes-that-dont-cross)
 
-[English Version](/solution/1200-1299/1259.Handshakes%20That%20Don%27t%20Cross/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong>偶数</strong>&nbsp;个人站成一个圆，总人数为&nbsp;<code>num_people</code>&nbsp;。每个人与除自己外的一个人握手，所以总共会有&nbsp;<code>num_people / 2</code>&nbsp;次握手。</p>
+<p>You are given an <strong>even</strong> number of people <code>numPeople</code> that stand around a circle and each person shakes hands with someone else so that there are <code>numPeople / 2</code> handshakes total.</p>
 
-<p>将握手的人之间连线，请你返回连线不会相交的握手方案数。</p>
+<p>Return <em>the number of ways these handshakes could occur such that none of the handshakes cross</em>.</p>
 
-<p>由于结果可能会很大，请你返回答案 <strong>模</strong>&nbsp;<strong><code>10^9+7</code></strong>&nbsp;后的结果。</p>
+<p>Since the answer could be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>num_people = 2
-<strong>输出：</strong>1
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1259.Handshakes%20That%20Don%27t%20Cross/images/5125_example_2.png" style="width: 450px; height: 215px;" />
+<pre>
+<strong>Input:</strong> numPeople = 4
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> There are two ways to do it, the first way is [(1,2),(3,4)] and the second one is [(2,3),(4,1)].
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1259.Handshakes%20That%20Don%27t%20Cross/images/5125_example_2.png" style="height: 311px; width: 651px;"></p>
-
-<pre><strong>输入：</strong>num_people = 4
-<strong>输出：</strong>2
-<strong>解释：</strong>总共有两种方案，第一种方案是 [(1,2),(3,4)] ，第二种方案是 [(2,3),(4,1)] 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1259.Handshakes%20That%20Don%27t%20Cross/images/5125_example_3.png" style="height: 992px; width: 664px;"></p>
-
-<pre><strong>输入：</strong>num_people = 6
-<strong>输出：</strong>5
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><strong>输入：</strong>num_people = 8
-<strong>输出：</strong>14
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1259.Handshakes%20That%20Don%27t%20Cross/images/5125_example_3.png" style="width: 335px; height: 500px;" />
+<pre>
+<strong>Input:</strong> numPeople = 6
+<strong>Output:</strong> 5
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>2 &lt;= num_people &lt;= 1000</code></li>
-	<li><code>num_people % 2 == 0</code></li>
+	<li><code>2 &lt;= numPeople &lt;= 1000</code></li>
+	<li><code>numPeople</code> is even.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们设计一个函数 $dfs(i)$，表示 $i$ 个人的握手方案数。答案为 $dfs(n)$。
+We design a function $dfs(i)$, which represents the number of handshake schemes for $i$ people. The answer is $dfs(n)$.
 
-函数 $dfs(i)$ 的执行逻辑如下：
+The execution logic of the function $dfs(i)$ is as follows:
 
--   如果 $i \lt 2$，那么只有一种握手方案，即不握手，返回 $1$。
--   否则，我们可以枚举第一个人与谁握手，记剩余的左边的人数为 $l$，右边的人数为 $r=i-l-2$，那么有 $dfs(i)= \sum_{l=0}^{i-1} dfs(l) \times dfs(r)$。
+-   If $i \lt 2$, then there is only one handshake scheme, which is not to shake hands, so return $1$.
+-   Otherwise, we can enumerate who the first person shakes hands with. Let the number of remaining people on the left be $l$, and the number of people on the right be $r=i-l-2$. Then we have $dfs(i)= \sum_{l=0}^{i-1} dfs(l) \times dfs(r)$.
 
-为了避免重复计算，我们使用记忆化搜索的方法。
+To avoid repeated calculations, we use the method of memoization search.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为 $numPeople$ 的大小。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Where $n$ is the size of $numPeople$.
 
 <!-- tabs:start -->
 

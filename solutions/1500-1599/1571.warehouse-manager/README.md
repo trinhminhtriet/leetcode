@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1571.Warehouse%20Manager/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1571. 仓库经理 🔒](https://leetcode.cn/problems/warehouse-manager)
+# [1571. Warehouse Manager 🔒](https://leetcode.com/problems/warehouse-manager)
 
-[English Version](/solution/1500-1599/1571.Warehouse%20Manager/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表:&nbsp;<code>Warehouse</code></p>
+<p>Table: <code>Warehouse</code></p>
 
 <pre>
 +--------------+---------+
@@ -26,13 +23,13 @@ tags:
 | product_id   | int     |
 | units        | int     |
 +--------------+---------+
-(name, product_id) 是该表主键(具有唯一值的列的组合).
-该表的行包含了每个仓库的所有商品信息.
+(name, product_id) is the primary key (combination of columns with unique values) for this table.
+Each row of this table contains the information of the products in each warehouse.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>表: <code>Products</code></p>
+<p>Table: <code>Products</code></p>
 
 <pre>
 +---------------+---------+
@@ -44,25 +41,24 @@ tags:
 | Length        | int     |
 | Height        | int     |
 +---------------+---------+
-product_id 是该表主键(具有唯一值的列).
-该表的行包含了每件商品以英尺为单位的尺寸(宽度, 长度和高度)信息.
+product_id is the primary key (column with unique values) for this table.
+Each row of this table contains information about the product dimensions (Width, Lenght, and Height) in feets of each product.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案报告每个仓库的存货量是多少立方英尺。</p>
+<p>Write a solution to report the number of cubic feet of <strong>volume </strong>the inventory occupies in each warehouse.</p>
 
-<p>返回结果没有顺序要求。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>返回结果格式如下例所示。</p>
+<p>The query result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<code><strong>输入：</strong>
-Warehouse 表</code>:
+<strong>Input:</strong> 
+Warehouse table:
 +------------+--------------+-------------+
 | name       | product_id   | units       |
 +------------+--------------+-------------+
@@ -73,7 +69,7 @@ Warehouse 表</code>:
 | LCHouse2   | 2            | 2           |
 | LCHouse3   | 4            | 1           |
 +------------+--------------+-------------+
-Products 表:
+Products table:
 +------------+--------------+------------+----------+-----------+
 | product_id | product_name | Width      | Length   | Height    |
 +------------+--------------+------------+----------+-----------+
@@ -82,35 +78,36 @@ Products 表:
 | 3          | LC-Phone     | 2          | 10       | 10        |
 | 4          | LC-T-Shirt   | 4          | 10       | 20        |
 +------------+--------------+------------+----------+-----------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +----------------+------------+
-| warehouse_name<code> </code>| volume<code>   </code>  | 
+| warehouse_name | volume     | 
 +----------------+------------+
 | LCHouse1       | 12250      | 
 | LCHouse2       | 20250      |
 | LCHouse3       | 800        |
 +----------------+------------+
-<strong>解释：</strong>
-Id为1的商品(LC-TV)的存货量为 5x50x40 = 10000
-Id为2的商品(LC-KeyChain)的存货量为 5x5x5 = 125 
-Id为3的商品(LC-Phone)的存货量为 2x10x10 = 200
-Id为4的商品(LC-T-Shirt)的存货量为 4x10x20 = 800
-仓库LCHouse1: 1个单位的LC-TV + 10个单位的LC-KeyChain + 5个单位的LC-Phone.
-&nbsp;         总存货量为: 1*10000 + 10*125  + 5*200 = 12250 立方英尺
-仓库LCHouse2: 2个单位的LC-TV + 2个单位的LC-KeyChain.
-&nbsp;         总存货量为: 2*10000 + 2*125 = 20250 立方英尺
-仓库LCHouse3: 1个单位的LC-T-Shirt.
-          总存货量为: 1*800 = 800 立方英尺.</pre>
+<strong>Explanation:</strong> 
+Volume of product_id = 1 (LC-TV), 5x50x40 = 10000
+Volume of product_id = 2 (LC-KeyChain), 5x5x5 = 125 
+Volume of product_id = 3 (LC-Phone), 2x10x10 = 200
+Volume of product_id = 4 (LC-T-Shirt), 4x10x20 = 800
+LCHouse1: 1 unit of LC-TV + 10 units of LC-KeyChain + 5 units of LC-Phone.
+          Total volume: 1*10000 + 10*125  + 5*200 = 12250 cubic feet
+LCHouse2: 2 units of LC-TV + 2 units of LC-KeyChain.
+          Total volume: 2*10000 + 2*125 = 20250 cubic feet
+LCHouse3: 1 unit of LC-T-Shirt.
+          Total volume: 1*800 = 800 cubic feet.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：等值连接 + 分组求和
+### Solution 1: Inner Join + Group By + Sum Function
 
-我们可以使用等值连接将 `Warehouse` 表和 `Products` 表按照 `product_id` 进行连接，并按照仓库名称进行分组，然后使用 `SUM` 函数计算每个仓库的存货量。
+We can use an inner join to join the `Warehouse` table and the `Products` table on the condition of `product_id`, and then group by warehouse name to calculate the inventory of each warehouse using the `SUM` function.
 
 <!-- tabs:start -->
 

@@ -1,80 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0731.My%20Calendar%20II/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 线段树
-    - 数组
-    - 二分查找
-    - 有序集合
-    - 前缀和
+    - Design
+    - Segment Tree
+    - Array
+    - Binary Search
+    - Ordered Set
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [731. 我的日程安排表 II](https://leetcode.cn/problems/my-calendar-ii)
+# [731. My Calendar II](https://leetcode.com/problems/my-calendar-ii)
 
-[English Version](/solution/0700-0799/0731.My%20Calendar%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>实现一个程序来存放你的日程安排。如果要添加的时间内不会导致三重预订时，则可以存储这个新的日程安排。</p>
+<p>You are implementing a program to use as your calendar. We can add a new event if adding the event will not cause a <strong>triple booking</strong>.</p>
 
-<p>当三个日程安排有一些时间上的交叉时（例如三个日程安排都在同一时间内），就会产生 <strong>三重预订</strong>。</p>
+<p>A <strong>triple booking</strong> happens when three events have some non-empty intersection (i.e., some moment is common to all the three events.).</p>
 
-<p>事件能够用一对整数&nbsp;<code>startTime</code>&nbsp;和&nbsp;<code>endTime</code>&nbsp;表示，在一个半开区间的时间&nbsp;<code>[startTime, endTime)</code>&nbsp;上预定。实数&nbsp;<code>x</code> 的范围为&nbsp;&nbsp;<code>startTime &lt;= x &lt; endTime</code>。</p>
+<p>The event can be represented as a pair of integers <code>startTime</code> and <code>endTime</code> that represents a booking on the half-open interval <code>[startTime, endTime)</code>, the range of real numbers <code>x</code> such that <code>startTime &lt;= x &lt; endTime</code>.</p>
 
-<p>实现&nbsp;<code>MyCalendarTwo</code> 类：</p>
+<p>Implement the <code>MyCalendarTwo</code> class:</p>
 
 <ul>
-	<li><code>MyCalendarTwo()</code>&nbsp;初始化日历对象。</li>
-	<li><code>boolean book(int startTime, int endTime)</code>&nbsp;如果可以将日程安排成功添加到日历中而不会导致三重预订，返回 <code>true</code>。否则，返回 <code>false</code> 并且不要将该日程安排添加到日历中。</li>
+	<li><code>MyCalendarTwo()</code> Initializes the calendar object.</li>
+	<li><code>boolean book(int startTime, int endTime)</code> Returns <code>true</code> if the event can be added to the calendar successfully without causing a <strong>triple booking</strong>. Otherwise, return <code>false</code> and do not add the event to the calendar.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["MyCalendarTwo", "book", "book", "book", "book", "book", "book"]
+<strong>Input</strong>
+[&quot;MyCalendarTwo&quot;, &quot;book&quot;, &quot;book&quot;, &quot;book&quot;, &quot;book&quot;, &quot;book&quot;, &quot;book&quot;]
 [[], [10, 20], [50, 60], [10, 40], [5, 15], [5, 10], [25, 55]]
-<strong>输出：</strong>
+<strong>Output</strong>
 [null, true, true, true, false, true, true]
 
-<strong>解释：</strong>
+<strong>Explanation</strong>
 MyCalendarTwo myCalendarTwo = new MyCalendarTwo();
-myCalendarTwo.book(10, 20); // 返回 True，能够预定该日程。
-myCalendarTwo.book(50, 60); // 返回 True，能够预定该日程。
-myCalendarTwo.book(10, 40); // 返回 True，该日程能够被重复预定。
-myCalendarTwo.book(5, 15);  // 返回 False，该日程导致了三重预定，所以不能预定。
-myCalendarTwo.book(5, 10); // 返回 True，能够预定该日程，因为它不使用已经双重预订的时间 10。
-myCalendarTwo.book(25, 55); // 返回 True，能够预定该日程，因为时间段 [25, 40) 将被第三个日程重复预定，时间段 [40, 50) 将被单独预定，而时间段 [50, 55) 将被第二个日程重复预定。
+myCalendarTwo.book(10, 20); // return True, The event can be booked. 
+myCalendarTwo.book(50, 60); // return True, The event can be booked. 
+myCalendarTwo.book(10, 40); // return True, The event can be double booked. 
+myCalendarTwo.book(5, 15);  // return False, The event cannot be booked, because it would result in a triple booking.
+myCalendarTwo.book(5, 10); // return True, The event can be booked, as it does not use time 10 which is already double booked.
+myCalendarTwo.book(25, 55); // return True, The event can be booked, as the time in [25, 40) will be double booked with the third event, the time [40, 50) will be single booked, and the time [50, 55) will be double booked with the second event.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= start &lt; end &lt;= 10<sup>9</sup></code></li>
-	<li>最多调用&nbsp;<code>book</code>&nbsp;1000 次。</li>
+	<li>At most <code>1000</code> calls will be made to <code>book</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：差分
+### Solution 1: Difference Array
 
-我们可以利用差分的思想，将每个时间点的预定情况记录下来，然后遍历所有时间点，统计当前时间点的预定情况，如果预定次数超过 $2$ 次，则返回 $\textit{false}$。否则，返回 $\textit{true}$。
+We can use the concept of a difference array to record the booking status at each time point. Then, we traverse all the time points and count the booking status at the current time point. If the number of bookings exceeds $2$, we return $\textit{false}$. Otherwise, we return $\textit{true}$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$，其中 $n$ 表示日程安排的数量。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$, where $n$ is the number of bookings.
 
 <!-- tabs:start -->
 
@@ -293,23 +288,23 @@ MyCalendarTwo.prototype.book = function (startTime, endTime) {
 
 <!-- solution:start -->
 
-### 方法二：线段树
+### Solution 2: Segment Tree
 
-线段树将整个区间分割为多个不连续的子区间，子区间的数量不超过 $\log(\textit{width})$。更新某个元素的值，只需要更新 $\log(\textit{width})$ 个区间，并且这些区间都包含在一个包含该元素的大区间内。区间修改时，需要使用**懒标记**保证效率。
+A segment tree divides the entire interval into multiple non-contiguous subintervals, with the number of subintervals not exceeding $\log(\textit{width})$. To update the value of an element, only $\log(\textit{width})$ intervals need to be updated, and these intervals are all contained within a larger interval that includes the element. When modifying intervals, a **lazy mark** is used to ensure efficiency.
 
--   线段树的每个节点代表一个区间；
--   线段树具有唯一的根节点，代表的区间是整个统计范围，如 $[1,N]$；
--   线段树的每个叶子节点代表一个长度为 $1$ 的元区间 $[x, x]$；
--   对于每个内部节点 $[l,r]$，它的左儿子是 $[l,\textit{mid}]$，右儿子是 $[\textit{mid}+1,r]$, 其中 $\textit{mid} = ⌊(l+r)/2⌋$ (即向下取整)。
+-   Each node of the segment tree represents an interval;
+-   The segment tree has a unique root node representing the entire statistical range, such as $[1, N]$;
+-   Each leaf node of the segment tree represents a unit interval of length 1, $[x, x]$;
+-   For each internal node $[l, r]$, its left child is $[l, \textit{mid}]$ and its right child is $[\textit{mid} + 1, r]$, where $\textit{mid} = \lfloor(l + r) / 2\rfloor$ (i.e., floor division).
 
-对于本题，线段树节点维护的信息有：
+For this problem, the segment tree nodes maintain the following information:
 
-1. 区间范围内被预定的次数的最大值 $v$
-1. 懒标记 $\textit{add}$
+1. The maximum number of bookings within the interval $v$
+2. Lazy mark $\textit{add}$
 
-由于时间范围为 $10^9$，非常大，因此我们采用动态开点。
+Since the time range is $10^9$, which is very large, we use dynamic node creation.
 
-时间复杂度 $O(n \times log n)$，空间复杂度 $O(n)$，其中 $n$ 表示日程安排的数量。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of bookings.
 
 <!-- tabs:start -->
 

@@ -1,64 +1,56 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0910.Smallest%20Range%20II/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数组
-    - 数学
-    - 排序
+    - Greedy
+    - Array
+    - Math
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [910. 最小差值 II](https://leetcode.cn/problems/smallest-range-ii)
+# [910. Smallest Range II](https://leetcode.com/problems/smallest-range-ii)
 
-[English Version](/solution/0900-0999/0910.Smallest%20Range%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code>，和一个整数&nbsp;<code>k</code> 。</p>
+<p>You are given an integer array <code>nums</code> and an integer <code>k</code>.</p>
 
-<p>对于每个下标 <code>i</code>（<code>0 &lt;= i &lt; nums.length</code>），将 <code>nums[i]</code> 变成<strong> </strong> <code>nums[i] + k</code> 或 <code>nums[i] - k</code> 。</p>
+<p>For each index <code>i</code> where <code>0 &lt;= i &lt; nums.length</code>, change <code>nums[i]</code> to be either <code>nums[i] + k</code> or <code>nums[i] - k</code>.</p>
 
-<p><code>nums</code> 的 <strong>分数</strong> 是 <code>nums</code> 中最大元素和最小元素的差值。</p>
+<p>The <strong>score</strong> of <code>nums</code> is the difference between the maximum and minimum elements in <code>nums</code>.</p>
 
-<p>在更改每个下标对应的值之后，返回 <code>nums</code> 的最小 <strong>分数</strong> 。</p>
+<p>Return <em>the minimum <strong>score</strong> of </em><code>nums</code><em> after changing the values at each index</em>.</p>
 
 <p>&nbsp;</p>
-
-<ol>
-</ol>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1], k = 0
-<strong>输出：</strong>0
-<strong>解释：</strong>分数 = max(nums) - min(nums) = 1 - 1 = 0 。
+<strong>Input:</strong> nums = [1], k = 0
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The score is max(nums) - min(nums) = 1 - 1 = 0.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [0,10], k = 2
-<strong>输出：</strong>6
-<strong>解释：</strong>将数组变为 [2, 8] 。分数 = max(nums) - min(nums) = 8 - 2 = 6 。
+<strong>Input:</strong> nums = [0,10], k = 2
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> Change nums to be [2, 8]. The score is max(nums) - min(nums) = 8 - 2 = 6.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,3,6], k = 3
-<strong>输出：</strong>3
-<strong>解释：</strong>将数组变为 [4, 6, 3] 。分数 = max(nums) - min(nums) = 6 - 3 = 3 。
+<strong>Input:</strong> nums = [1,3,6], k = 3
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> Change nums to be [4, 6, 3]. The score is max(nums) - min(nums) = 6 - 3 = 3.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
@@ -68,17 +60,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 枚举
+### Solution 1: Greedy + Enumeration
 
-根据题目要求，我们需要求数组中的元素最大值与最小值差值的最小值。每个元素可以加上或者减去 $k$，因此我们可以将数组中的元素分为两部分，一部分加上 $k$，一部分减去 $k$。那么，我们应该将数组中的较大值减去 $k$，较小值加上 $k$，这样才能保证最大值与最小值的差值最小。
+According to the problem requirements, we need to find the minimum difference between the maximum and minimum values in the array. Each element can be increased or decreased by $k$, so we can divide the elements in the array into two parts, one part increased by $k$ and the other part decreased by $k$. Therefore, we should decrease the larger values in the array by $k$ and increase the smaller values by $k$ to ensure the minimum difference between the maximum and minimum values.
 
-因此，我们可以先将数组排序，然后枚举数组中的每个元素，将其分为两部分，一部分加上 $k$，一部分减去 $k$，并计算最大值与最小值的差值。最后，取所有差值中的最小值即可。
+Therefore, we can first sort the array, then enumerate each element in the array, divide it into two parts, one part increased by $k$ and the other part decreased by $k$, and calculate the difference between the maximum and minimum values. Finally, take the minimum value among all differences.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$, where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

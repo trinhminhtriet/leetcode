@@ -1,73 +1,68 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3110.Score%20of%20a%20String/README.md
+difficulty: Easy
 rating: 1152
-source: 第 128 场双周赛 Q1
+source: Biweekly Contest 128 Q1
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [3110. 字符串的分数](https://leetcode.cn/problems/score-of-a-string)
+# [3110. Score of a String](https://leetcode.com/problems/score-of-a-string)
 
-[English Version](/solution/3100-3199/3110.Score%20of%20a%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>s</code>&nbsp;。一个字符串的&nbsp;<strong>分数</strong>&nbsp;定义为相邻字符 <strong>ASCII</strong>&nbsp;码差值绝对值的和。</p>
+<p>You are given a string <code>s</code>. The <strong>score</strong> of a string is defined as the sum of the absolute difference between the <strong>ASCII</strong> values of adjacent characters.</p>
 
-<p>请你返回 <code>s</code>&nbsp;的 <strong>分数</strong>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "hello"</span></p>
-
-<p><span class="example-io"><b>输出：</b>13</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p><code>s</code>&nbsp;中字符的 <strong>ASCII </strong>码分别为：<code>'h' = 104</code>&nbsp;，<code>'e' = 101</code>&nbsp;，<code>'l' = 108</code>&nbsp;，<code>'o' = 111</code>&nbsp;。所以&nbsp;<code>s</code>&nbsp;的分数为&nbsp;<code>|104 - 101| + |101 - 108| + |108 - 108| + |108 - 111| = 3 + 7 + 0 + 3 = 13</code>&nbsp;。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "zaz"</span></p>
-
-<p><span class="example-io"><b>输出：</b>50</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p><code>s</code>&nbsp;中字符的 <strong>ASCII&nbsp;</strong>码分别为：<code>'z' = 122</code>&nbsp;，<code>'a' = 97</code>&nbsp;。所以&nbsp;<code>s</code>&nbsp;的分数为&nbsp;<code>|122 - 97| + |97 - 122| = 25 + 25 = 50</code>&nbsp;。</p>
-</div>
+<p>Return the <strong>score</strong> of<em> </em><code>s</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;hello&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">13</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The <strong>ASCII</strong> values of the characters in <code>s</code> are: <code>&#39;h&#39; = 104</code>, <code>&#39;e&#39; = 101</code>, <code>&#39;l&#39; = 108</code>, <code>&#39;o&#39; = 111</code>. So, the score of <code>s</code> would be <code>|104 - 101| + |101 - 108| + |108 - 108| + |108 - 111| = 3 + 7 + 0 + 3 = 13</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;zaz&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">50</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The <strong>ASCII</strong> values of the characters in <code>s</code> are: <code>&#39;z&#39; = 122</code>, <code>&#39;a&#39; = 97</code>. So, the score of <code>s</code> would be <code>|122 - 97| + |97 - 122| = 25 + 25 = 50</code>.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
+	<li><code>s</code> consists only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们直接遍历字符串 $s$，计算相邻字符的 ASCII 码差值的绝对值之和即可。
+We directly traverse the string $s$, calculating the sum of the absolute differences of the ASCII codes of adjacent characters.
 
-时间复杂度 $O(n)$，其中 $n$ 是字符串 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

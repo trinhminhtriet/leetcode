@@ -1,100 +1,95 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2135.Count%20Words%20Obtained%20After%20Adding%20a%20Letter/README.md
+difficulty: Medium
 rating: 1828
-source: 第 275 场周赛 Q3
+source: Weekly Contest 275 Q3
 tags:
-    - 位运算
-    - 数组
-    - 哈希表
-    - 字符串
-    - 排序
+    - Bit Manipulation
+    - Array
+    - Hash Table
+    - String
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2135. 统计追加字母可以获得的单词数](https://leetcode.cn/problems/count-words-obtained-after-adding-a-letter)
+# [2135. Count Words Obtained After Adding a Letter](https://leetcode.com/problems/count-words-obtained-after-adding-a-letter)
 
-[English Version](/solution/2100-2199/2135.Count%20Words%20Obtained%20After%20Adding%20a%20Letter/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个下标从 <strong>0</strong> 开始的字符串数组 <code>startWords</code> 和 <code>targetWords</code> 。每个字符串都仅由 <strong>小写英文字母</strong> 组成。</p>
+<p>You are given two <strong>0-indexed</strong> arrays of strings <code>startWords</code> and <code>targetWords</code>. Each string consists of <strong>lowercase English letters</strong> only.</p>
 
-<p>对于 <code>targetWords</code> 中的每个字符串，检查是否能够从 <code>startWords</code> 中选出一个字符串，执行一次 <strong>转换操作</strong>&nbsp;，得到的结果与当前&nbsp;<code>targetWords</code> 字符串相等。</p>
+<p>For each string in <code>targetWords</code>, check if it is possible to choose a string from <code>startWords</code> and perform a <strong>conversion operation</strong> on it to be equal to that from <code>targetWords</code>.</p>
 
-<p><strong>转换操作</strong> 如下面两步所述：</p>
+<p>The <strong>conversion operation</strong> is described in the following two steps:</p>
 
 <ol>
-	<li><strong>追加</strong> 任何 <strong>不存在</strong> 于当前字符串的任一小写字母到当前字符串的末尾。
+	<li><strong>Append</strong> any lowercase letter that is <strong>not present</strong> in the string to its end.
 
     <ul>
-    	<li>例如，如果字符串为 <code>"abc"</code> ，那么字母 <code>'d'</code>、<code>'e'</code> 或 <code>'y'</code> 都可以加到该字符串末尾，但 <code>'a'</code> 就不行。如果追加的是 <code>'d'</code> ，那么结果字符串为 <code>"abcd"</code> 。</li>
+    	<li>For example, if the string is <code>&quot;abc&quot;</code>, the letters <code>&#39;d&#39;</code>, <code>&#39;e&#39;</code>, or <code>&#39;y&#39;</code> can be added to it, but not <code>&#39;a&#39;</code>. If <code>&#39;d&#39;</code> is added, the resulting string will be <code>&quot;abcd&quot;</code>.</li>
     </ul>
     </li>
-    <li><strong>重排</strong> 新字符串中的字母，可以按 <strong>任意</strong> 顺序重新排布字母。
+    <li><strong>Rearrange</strong> the letters of the new string in <strong>any</strong> arbitrary order.
     <ul>
-    	<li>例如，<code>"abcd"</code> 可以重排为 <code>"acbd"</code>、<code>"bacd"</code>、<code>"cbda"</code>，以此类推。注意，它也可以重排为 <code>"abcd"</code> 自身。</li>
+    	<li>For example, <code>&quot;abcd&quot;</code> can be rearranged to <code>&quot;acbd&quot;</code>, <code>&quot;bacd&quot;</code>, <code>&quot;cbda&quot;</code>, and so on. Note that it can also be rearranged to <code>&quot;abcd&quot;</code> itself.</li>
     </ul>
     </li>
 
 </ol>
 
-<p>找出 <code>targetWords</code> 中有多少字符串能够由&nbsp;<code>startWords</code> 中的 <strong>任一</strong> 字符串执行上述转换操作获得。返回<em> </em><code>targetWords</code><em> </em>中这类 <strong>字符串的数目</strong> 。</p>
+<p>Return <em>the <strong>number of strings</strong> in </em><code>targetWords</code><em> that can be obtained by performing the operations on <strong>any</strong> string of </em><code>startWords</code>.</p>
 
-<p><strong>注意：</strong>你仅能验证 <code>targetWords</code> 中的字符串是否可以由 <code>startWords</code> 中的某个字符串经执行操作获得。<code>startWords</code>&nbsp; 中的字符串在这一过程中 <strong>不</strong> 发生实际变更。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>startWords = ["ant","act","tack"], targetWords = ["tack","act","acti"]
-<strong>输出：</strong>2
-<strong>解释：</strong>
-- 为了形成 targetWords[0] = "tack" ，可以选用 startWords[1] = "act" ，追加字母 'k' ，并重排 "actk" 为 "tack" 。
-- startWords 中不存在可以用于获得 targetWords[1] = "act" 的字符串。
-  注意 "act" 确实存在于 startWords ，但是 <strong>必须</strong> 在重排前给这个字符串追加一个字母。
-- 为了形成 targetWords[2] = "acti" ，可以选用 startWords[1] = "act" ，追加字母 'i' ，并重排 "acti" 为 "acti" 自身。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>startWords = ["ab","a"], targetWords = ["abc","abcd"]
-<strong>输出：</strong>1
-<strong>解释：</strong>
-- 为了形成 targetWords[0] = "abc" ，可以选用 startWords[0] = "ab" ，追加字母 'c' ，并重排为 "abc" 。
-- startWords 中不存在可以用于获得 targetWords[1] = "abcd" 的字符串。
-</pre>
+<p><strong>Note</strong> that you will only be verifying if the string in <code>targetWords</code> can be obtained from a string in <code>startWords</code> by performing the operations. The strings in <code>startWords</code> <strong>do not</strong> actually change during this process.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> startWords = [&quot;ant&quot;,&quot;act&quot;,&quot;tack&quot;], targetWords = [&quot;tack&quot;,&quot;act&quot;,&quot;acti&quot;]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong>
+- In order to form targetWords[0] = &quot;tack&quot;, we use startWords[1] = &quot;act&quot;, append &#39;k&#39; to it, and rearrange &quot;actk&quot; to &quot;tack&quot;.
+- There is no string in startWords that can be used to obtain targetWords[1] = &quot;act&quot;.
+  Note that &quot;act&quot; does exist in startWords, but we <strong>must</strong> append one letter to the string before rearranging it.
+- In order to form targetWords[2] = &quot;acti&quot;, we use startWords[1] = &quot;act&quot;, append &#39;i&#39; to it, and rearrange &quot;acti&quot; to &quot;acti&quot; itself.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> startWords = [&quot;ab&quot;,&quot;a&quot;], targetWords = [&quot;abc&quot;,&quot;abcd&quot;]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong>
+- In order to form targetWords[0] = &quot;abc&quot;, we use startWords[0] = &quot;ab&quot;, add &#39;c&#39; to it, and rearrange it to &quot;abc&quot;.
+- There is no string in startWords that can be used to obtain targetWords[1] = &quot;abcd&quot;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= startWords.length, targetWords.length &lt;= 5 * 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= startWords[i].length, targetWords[j].length &lt;= 26</code></li>
-	<li><code>startWords</code> 和 <code>targetWords</code> 中的每个字符串都仅由小写英文字母组成</li>
-	<li>在 <code>startWords</code> 或 <code>targetWords</code> 的任一字符串中，每个字母至多出现一次</li>
+	<li>Each string of <code>startWords</code> and <code>targetWords</code> consists of lowercase English letters only.</li>
+	<li>No letter occurs more than once in any string of <code>startWords</code> or <code>targetWords</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 位运算
+### Solution 1: Hash Table + Bit Manipulation
 
-我们注意到，题目中给定的字符串只包含小写字母，并且每个字符串的字母至多出现一次。因此，我们可以用一个长度为 $26$ 的二进制数表示一个字符串，其中第 $i$ 位为 $1$ 表示字符串中包含第 $i$ 个小写字母，为 $0$ 表示字符串中不包含第 $i$ 个小写字母。
+We notice that the given strings only contain lowercase letters, and each letter in a string appears at most once. Therefore, we can represent a string with a binary number of length $26$, where the $i$-th bit being $1$ indicates that the string contains the $i$-th lowercase letter, and $0$ indicates the absence of the $i$-th lowercase letter.
 
-我们可以将字符串数组 $\textit{startWords}$ 中的每个字符串转换为一个二进制数，并将这些二进制数存储到一个集合 $\textit{s}$ 中。对于字符串数组 $\textit{targetWords}$ 中的每个字符串，我们首先将其转换为一个二进制数，然后枚举这个字符串中的每个字母，将这个字母从二进制数中去掉，再检查是否存在一个二进制数在集合 $\textit{s}$ 中，使得这个二进制数与去掉的字母的二进制数的异或结果在集合 $\textit{s}$ 中，如果存在，那么这个字符串可以由 $\textit{startWords}$ 中的某个字符串执行转换操作获得，答案加一。然后我们跳过这个字符串，继续处理下一个字符串。
+We can convert each string in the array $\textit{startWords}$ into a binary number and store these binary numbers in a set $\textit{s}$. For each string in the array $\textit{targetWords}$, we first convert it into a binary number, then enumerate each letter in this string, remove this letter from the binary number, and check if there exists a binary number in the set $\textit{s}$ such that the XOR result of this binary number with the removed letter's binary number is in the set $\textit{s}$. If such a binary number exists, then this string can be obtained by performing a transformation operation on some string in $\textit{startWords}$, and we increment the answer by one. Then, we skip this string and continue processing the next string.
 
-时间复杂度 $O(n \times |\Sigma|)$，空间复杂度 $O(n)$。其中 $n$ 为字符串数组 $\textit{targetWords}$ 的长度，而 $|\Sigma|$ 为字符串中的字符集大小，本题中 $|\Sigma| = 26$。
+The time complexity is $O(n \times |\Sigma|)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string array $\textit{targetWords}$, and $|\Sigma|$ is the size of the character set in the string, which is $26$ in this problem.
 
 <!-- tabs:start -->
 

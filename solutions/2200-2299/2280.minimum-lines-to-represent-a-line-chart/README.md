@@ -1,81 +1,69 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2280.Minimum%20Lines%20to%20Represent%20a%20Line%20Chart/README.md
+difficulty: Medium
 rating: 1680
-source: 第 294 场周赛 Q3
+source: Weekly Contest 294 Q3
 tags:
-    - 几何
-    - 数组
-    - 数学
-    - 数论
-    - 排序
+    - Geometry
+    - Array
+    - Math
+    - Number Theory
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2280. 表示一个折线图的最少线段数](https://leetcode.cn/problems/minimum-lines-to-represent-a-line-chart)
+# [2280. Minimum Lines to Represent a Line Chart](https://leetcode.com/problems/minimum-lines-to-represent-a-line-chart)
 
-[English Version](/solution/2200-2299/2280.Minimum%20Lines%20to%20Represent%20a%20Line%20Chart/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二维整数数组&nbsp;<code>stockPrices</code> ，其中&nbsp;<code>stockPrices[i] = [day<sub>i</sub>, price<sub>i</sub>]</code>&nbsp;表示股票在&nbsp;<code>day<sub>i</sub></code>&nbsp;的价格为&nbsp;<code>price<sub>i</sub></code>&nbsp;。<strong>折线图</strong>&nbsp;是一个二维平面上的若干个点组成的图，横坐标表示日期，纵坐标表示价格，折线图由相邻的点连接而成。比方说下图是一个例子：</p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2280.Minimum%20Lines%20to%20Represent%20a%20Line%20Chart/images/1920px-pushkin_population_historysvg.png" style="width: 500px; height: 313px;">
-<p>请你返回要表示一个折线图所需要的 <strong>最少线段数</strong>&nbsp;。</p>
+<p>You are given a 2D integer array <code>stockPrices</code> where <code>stockPrices[i] = [day<sub>i</sub>, price<sub>i</sub>]</code> indicates the price of the stock on day <code>day<sub>i</sub></code> is <code>price<sub>i</sub></code>. A <strong>line chart</strong> is created from the array by plotting the points on an XY plane with the X-axis representing the day and the Y-axis representing the price and connecting adjacent points. One such example is shown below:</p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2280.Minimum%20Lines%20to%20Represent%20a%20Line%20Chart/images/1920px-pushkin_population_historysvg.png" style="width: 500px; height: 313px;" />
+<p>Return <em>the <strong>minimum number of lines</strong> needed to represent the line chart</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2280.Minimum%20Lines%20to%20Represent%20a%20Line%20Chart/images/ex0.png" style="width: 400px; height: 400px;"></p>
-
-<pre><b>输入：</b>stockPrices = [[1,7],[2,6],[3,5],[4,4],[5,4],[6,3],[7,2],[8,1]]
-<b>输出：</b>3
-<strong>解释：</strong>
-上图为输入对应的图，横坐标表示日期，纵坐标表示价格。
-以下 3 个线段可以表示折线图：
-- 线段 1 （红色）从 (1,7) 到 (4,4) ，经过 (1,7) ，(2,6) ，(3,5) 和 (4,4) 。
-- 线段 2 （蓝色）从 (4,4) 到 (5,4) 。
-- 线段 3 （绿色）从 (5,4) 到 (8,1) ，经过 (5,4) ，(6,3) ，(7,2) 和 (8,1) 。
-可以证明，无法用少于 3 条线段表示这个折线图。
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2280.Minimum%20Lines%20to%20Represent%20a%20Line%20Chart/images/ex0.png" style="width: 400px; height: 400px;" />
+<pre>
+<strong>Input:</strong> stockPrices = [[1,7],[2,6],[3,5],[4,4],[5,4],[6,3],[7,2],[8,1]]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong>
+The diagram above represents the input, with the X-axis representing the day and Y-axis representing the price.
+The following 3 lines can be drawn to represent the line chart:
+- Line 1 (in red) from (1,7) to (4,4) passing through (1,7), (2,6), (3,5), and (4,4).
+- Line 2 (in blue) from (4,4) to (5,4).
+- Line 3 (in green) from (5,4) to (8,1) passing through (5,4), (6,3), (7,2), and (8,1).
+It can be shown that it is not possible to represent the line chart using less than 3 lines.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2280.Minimum%20Lines%20to%20Represent%20a%20Line%20Chart/images/ex1.png" style="width: 325px; height: 325px;"></p>
-
-<pre><b>输入：</b>stockPrices = [[3,4],[1,2],[7,8],[2,3]]
-<b>输出：</b>1
-<strong>解释：</strong>
-如上图所示，折线图可以用一条线段表示。
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2280.Minimum%20Lines%20to%20Represent%20a%20Line%20Chart/images/ex1.png" style="width: 325px; height: 325px;" />
+<pre>
+<strong>Input:</strong> stockPrices = [[3,4],[1,2],[7,8],[2,3]]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong>
+As shown in the diagram above, the line chart can be represented with a single line.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= stockPrices.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>stockPrices[i].length == 2</code></li>
 	<li><code>1 &lt;= day<sub>i</sub>, price<sub>i</sub> &lt;= 10<sup>9</sup></code></li>
-	<li>所有&nbsp;<code>day<sub>i</sub></code>&nbsp;<strong>互不相同</strong>&nbsp;。</li>
+	<li>All <code>day<sub>i</sub></code> are <strong>distinct</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：斜率比较
-
-需要注意：
-
-1. 只有一个点时，需要的线段数为 0；
-1. 利用除法计算斜率时，会有浮点误差，可以改成乘法比较。
+### Solution 1
 
 <!-- tabs:start -->
 

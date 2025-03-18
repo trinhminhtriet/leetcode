@@ -1,97 +1,119 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0348.Design%20Tic-Tac-Toe/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 数组
-    - 哈希表
-    - 矩阵
-    - 模拟
+    - Design
+    - Array
+    - Hash Table
+    - Matrix
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [348. 设计井字棋 🔒](https://leetcode.cn/problems/design-tic-tac-toe)
+# [348. Design Tic-Tac-Toe 🔒](https://leetcode.com/problems/design-tic-tac-toe)
 
-[English Version](/solution/0300-0399/0348.Design%20Tic-Tac-Toe/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请在 n &times;&nbsp;n 的棋盘上，实现一个判定井字棋（Tic-Tac-Toe）胜负的神器，判断每一次玩家落子后，是否有胜出的玩家。</p>
+<p>Assume the following rules are for the tic-tac-toe game on an <code>n x n</code> board between two players:</p>
 
-<p>在这个井字棋游戏中，会有 2 名玩家，他们将轮流在棋盘上放置自己的棋子。</p>
+<ol>
+	<li>A move is guaranteed to be valid and is placed on an empty block.</li>
+	<li>Once a winning condition is reached, no more moves are allowed.</li>
+	<li>A player who succeeds in placing <code>n</code> of their marks in a horizontal, vertical, or diagonal row wins the game.</li>
+</ol>
 
-<p>在实现这个判定器的过程中，你可以假设以下这些规则一定成立：</p>
+<p>Implement the <code>TicTacToe</code> class:</p>
 
-<p>&nbsp; &nbsp; &nbsp; 1. 每一步棋都是在棋盘内的，并且只能被放置在一个空的格子里；</p>
+<ul>
+	<li><code>TicTacToe(int n)</code> Initializes the object the size of the board <code>n</code>.</li>
+	<li><code>int move(int row, int col, int player)</code> Indicates that the player with id <code>player</code> plays at the cell <code>(row, col)</code> of the board. The move is guaranteed to be a valid move, and the two players alternate in making moves. Return
+	<ul>
+		<li><code>0</code> if there is <strong>no winner</strong> after the move,</li>
+		<li><code>1</code> if <strong>player 1</strong> is the winner after the move, or</li>
+		<li><code>2</code> if <strong>player 2</strong> is the winner after the move.</li>
+	</ul>
+	</li>
+</ul>
 
-<p>&nbsp; &nbsp; &nbsp; 2. 一旦游戏中有一名玩家胜出的话，游戏将不能再继续；</p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p>&nbsp; &nbsp; &nbsp; 3. 一个玩家如果在同一行、同一列或者同一斜对角线上都放置了自己的棋子，那么他便获得胜利。</p>
+<pre>
+<strong>Input</strong>
+[&quot;TicTacToe&quot;, &quot;move&quot;, &quot;move&quot;, &quot;move&quot;, &quot;move&quot;, &quot;move&quot;, &quot;move&quot;, &quot;move&quot;]
+[[3], [0, 0, 1], [0, 2, 2], [2, 2, 1], [1, 1, 2], [2, 0, 1], [1, 0, 2], [2, 1, 1]]
+<strong>Output</strong>
+[null, 0, 0, 0, 0, 0, 0, 1]
 
-<p><strong>示例:</strong></p>
-
-<pre>给定棋盘边长 <em>n</em> = 3, 玩家 1 的棋子符号是 &quot;X&quot;，玩家 2 的棋子符号是 &quot;O&quot;。
-
-TicTacToe toe = new TicTacToe(3);
-
-toe.move(0, 0, 1); -&gt; 函数返回 0 (此时，暂时没有玩家赢得这场对决)
+<strong>Explanation</strong>
+TicTacToe ticTacToe = new TicTacToe(3);
+Assume that player 1 is &quot;X&quot; and player 2 is &quot;O&quot; in the board.
+ticTacToe.move(0, 0, 1); // return 0 (no one wins)
 |X| | |
-| | | |    // 玩家 1 在 (0, 0) 落子。
+| | | |    // Player 1 makes a move at (0, 0).
 | | | |
 
-toe.move(0, 2, 2); -&gt; 函数返回 0 (暂时没有玩家赢得本场比赛)
+ticTacToe.move(0, 2, 2); // return 0 (no one wins)
 |X| |O|
-| | | |    // 玩家 2 在 (0, 2) 落子。
+| | | |    // Player 2 makes a move at (0, 2).
 | | | |
 
-toe.move(2, 2, 1); -&gt; 函数返回 0 (暂时没有玩家赢得比赛)
+ticTacToe.move(2, 2, 1); // return 0 (no one wins)
 |X| |O|
-| | | |    // 玩家 1 在 (2, 2) 落子。
+| | | |    // Player 1 makes a move at (2, 2).
 | | |X|
 
-toe.move(1, 1, 2); -&gt; 函数返回 0 (暂没有玩家赢得比赛)
+ticTacToe.move(1, 1, 2); // return 0 (no one wins)
 |X| |O|
-| |O| |    // 玩家 2 在 (1, 1) 落子。
+| |O| |    // Player 2 makes a move at (1, 1).
 | | |X|
 
-toe.move(2, 0, 1); -&gt; 函数返回 0 (暂无玩家赢得比赛)
+ticTacToe.move(2, 0, 1); // return 0 (no one wins)
 |X| |O|
-| |O| |    // 玩家 1 在 (2, 0) 落子。
+| |O| |    // Player 1 makes a move at (2, 0).
 |X| |X|
 
-toe.move(1, 0, 2); -&gt; 函数返回 0 (没有玩家赢得比赛)
+ticTacToe.move(1, 0, 2); // return 0 (no one wins)
 |X| |O|
-|O|O| |    // 玩家 2 在 (1, 0) 落子.
+|O|O| |    // Player 2 makes a move at (1, 0).
 |X| |X|
 
-toe.move(2, 1, 1); -&gt; 函数返回 1 (此时，玩家 1 赢得了该场比赛)
+ticTacToe.move(2, 1, 1); // return 1&nbsp;(player 1 wins)
 |X| |O|
-|O|O| |    // 玩家 1 在 (2, 1) 落子。
+|O|O| |    // Player 1 makes a move at (2, 1).
 |X|X|X|
 </pre>
 
 <p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
-<p><strong>进阶:</strong><br>
-您有没有可能将每一步的&nbsp;<code>move()</code>&nbsp;操作优化到比&nbsp;O(<em>n</em><sup>2</sup>) 更快吗?</p>
+<ul>
+	<li><code>2 &lt;= n &lt;= 100</code></li>
+	<li>player is <code>1</code> or <code>2</code>.</li>
+	<li><code>0 &lt;= row, col &lt; n</code></li>
+	<li><code>(row, col)</code> are <strong>unique</strong> for each different call to <code>move</code>.</li>
+	<li>At most <code>n<sup>2</sup></code> calls will be made to <code>move</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow-up:</strong> Could you do better than <code>O(n<sup>2</sup>)</code> per <code>move()</code> operation?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们可以使用一个长度为 $n \times 2 + 2$ 的数组来记录每个玩家在每一行、每一列、两条对角线上的棋子数。我们需要两个这样的数组，分别记录两个玩家的棋子数。
+We can use an array of length $n \times 2 + 2$ to record the number of pieces each player has in each row, each column, and the two diagonals. We need two such arrays to record the number of pieces for the two players respectively.
 
-当一个玩家在某一行、某一列、某一对角线上的棋子数等于 $n$ 时，该玩家获胜。
+When a player has $n$ pieces in a certain row, column, or diagonal, that player wins.
 
-时间复杂度方面，每次落子的时间复杂度为 $O(1)$。空间复杂度为 $O(n)$，其中 $n$ 为棋盘的边长。
+In terms of time complexity, the time complexity of each move is $O(1)$. The space complexity is $O(n)$, where $n$ is the length of the side of the chessboard.
 
 <!-- tabs:start -->
 

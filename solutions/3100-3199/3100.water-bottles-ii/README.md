@@ -1,57 +1,53 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3100.Water%20Bottles%20II/README.md
+difficulty: Medium
 rating: 1366
-source: 第 391 场周赛 Q2
+source: Weekly Contest 391 Q2
 tags:
-    - 数学
-    - 模拟
+    - Math
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [3100. 换水问题 II](https://leetcode.cn/problems/water-bottles-ii)
+# [3100. Water Bottles II](https://leetcode.com/problems/water-bottles-ii)
 
-[English Version](/solution/3100-3199/3100.Water%20Bottles%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数 <code>numBottles</code> 和 <code>numExchange</code> 。</p>
+<p>You are given two integers <code>numBottles</code> and <code>numExchange</code>.</p>
 
-<p><code>numBottles</code> 代表你最初拥有的满水瓶数量。在一次操作中，你可以执行以下操作之一：</p>
+<p><code>numBottles</code> represents the number of full water bottles that you initially have. In one operation, you can perform one of the following operations:</p>
 
 <ul>
-	<li>喝掉任意数量的满水瓶，使它们变成空水瓶。</li>
-	<li>用 <code>numExchange</code> 个空水瓶交换一个满水瓶。然后，将 <code>numExchange</code> 的值增加 1 。</li>
+	<li>Drink any number of full water bottles turning them into empty bottles.</li>
+	<li>Exchange <code>numExchange</code> empty bottles with one full water bottle. Then, increase <code>numExchange</code> by one.</li>
 </ul>
 
-<p>注意，你不能使用相同的 <code>numExchange</code> 值交换多批空水瓶。例如，如果 <code>numBottles == 3</code> 并且 <code>numExchange == 1</code> ，则不能用 <code>3</code> 个空水瓶交换成 <code>3</code> 个满水瓶。</p>
+<p>Note that you cannot exchange multiple batches of empty bottles for the same value of <code>numExchange</code>. For example, if <code>numBottles == 3</code> and <code>numExchange == 1</code>, you cannot exchange <code>3</code> empty water bottles for <code>3</code> full bottles.</p>
 
-<p>返回你 <strong>最多</strong> 可以喝到多少瓶水。</p>
+<p>Return <em>the <strong>maximum</strong> number of water bottles you can drink</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3100.Water%20Bottles%20II/images/exampleone1.png" style="width: 948px; height: 482px; padding: 10px; background: #fff; border-radius: .5rem;" />
 <pre>
-<strong>输入：</strong>numBottles = 13, numExchange = 6
-<strong>输出：</strong>15
-<strong>解释：</strong>上表显示了满水瓶的数量、空水瓶的数量、numExchange 的值，以及累计喝掉的水瓶数量。
+<strong>Input:</strong> numBottles = 13, numExchange = 6
+<strong>Output:</strong> 15
+<strong>Explanation:</strong> The table above shows the number of full water bottles, empty water bottles, the value of numExchange, and the number of bottles drunk.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3100.Water%20Bottles%20II/images/example231.png" style="width: 990px; height: 642px; padding: 10px; background: #fff; border-radius: .5rem;" />
 <pre>
-<strong>输入：</strong>numBottles = 10, numExchange = 3
-<strong>输出：</strong>13
-<strong>解释：</strong>上表显示了满水瓶的数量、空水瓶的数量、numExchange 的值，以及累计喝掉的水瓶数量。</pre>
+<strong>Input:</strong> numBottles = 10, numExchange = 3
+<strong>Output:</strong> 13
+<strong>Explanation:</strong> The table above shows the number of full water bottles, empty water bottles, the value of numExchange, and the number of bottles drunk.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= numBottles &lt;= 100 </code></li>
@@ -60,20 +56,20 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以在一开始就喝掉所有的满水瓶，因此初始时我们喝到的水数量为 `numBottles`。然后我们不断地进行以下操作：
+We can drink all the full water bottles at the beginning, so the initial amount of water we drink is `numBottles`. Then we continuously perform the following operations:
 
--   如果当前有 `numExchange` 个空水瓶，我们就可以用它们换一瓶满水瓶，换完后，`numExchange` 的值增加 1。然后，我们喝掉这瓶水，喝到的水数量增加 $1$，空水瓶数量增加 $1$。
--   如果当前没有 `numExchange` 个空水瓶，那么我们就不能再换水了，此时我们就可以停止操作。
+-   If we currently have `numExchange` empty water bottles, we can exchange them for a full water bottle, after which the value of `numExchange` increases by 1. Then, we drink this bottle of water, the amount of water we drink increases by $1$, and the number of empty water bottles increases by $1$.
+-   If we currently do not have `numExchange` empty water bottles, then we can no longer exchange for water, at which point we can stop the operation.
 
-我们不断地进行上述操作，直到我们无法再换水为止。最终我们喝到的水的数量就是答案。
+We continuously perform the above operations until we can no longer exchange for water. The final amount of water we drink is the answer.
 
-时间复杂度 $O(\sqrt{numBottles})$，空间复杂度 $O(1)$。
+The time complexity is $O(\sqrt{numBottles})$ and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

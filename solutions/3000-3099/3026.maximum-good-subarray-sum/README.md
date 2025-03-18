@@ -1,60 +1,55 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3026.Maximum%20Good%20Subarray%20Sum/README.md
+difficulty: Medium
 rating: 1816
-source: 第 123 场双周赛 Q3
+source: Biweekly Contest 123 Q3
 tags:
-    - 数组
-    - 哈希表
-    - 前缀和
+    - Array
+    - Hash Table
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [3026. 最大好子数组和](https://leetcode.cn/problems/maximum-good-subarray-sum)
+# [3026. Maximum Good Subarray Sum](https://leetcode.com/problems/maximum-good-subarray-sum)
 
-[English Version](/solution/3000-3099/3026.Maximum%20Good%20Subarray%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code>&nbsp;的数组&nbsp;<code>nums</code>&nbsp;和一个 <strong>正</strong>&nbsp;整数&nbsp;<code>k</code>&nbsp;。</p>
+<p>You are given an array <code>nums</code> of length <code>n</code> and a <strong>positive</strong> integer <code>k</code>.</p>
 
-<p>如果&nbsp;<code>nums</code>&nbsp;的一个<span data-keyword="subarray">子数组</span>中，第一个元素和最后一个元素 <strong>差的绝对值恰好</strong>&nbsp;为&nbsp;<code>k</code>&nbsp;，我们称这个子数组为&nbsp;<strong>好</strong>&nbsp;的。换句话说，如果子数组&nbsp;<code>nums[i..j]</code>&nbsp;满足&nbsp;<code>|nums[i] - nums[j]| == k</code>&nbsp;，那么它是一个好子数组。</p>
+<p>A <span data-keyword="subarray-nonempty">subarray</span> of <code>nums</code> is called <strong>good</strong> if the <strong>absolute difference</strong> between its first and last element is <strong>exactly</strong> <code>k</code>, in other words, the subarray <code>nums[i..j]</code> is good if <code>|nums[i] - nums[j]| == k</code>.</p>
 
-<p>请你返回&nbsp;<code>nums</code>&nbsp;中&nbsp;<strong>好</strong>&nbsp;子数组的&nbsp;<strong>最大</strong>&nbsp;和，如果没有好子数组，返回<em>&nbsp;</em><code>0</code>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [1,2,3,4,5,6], k = 1
-<b>输出：</b>11
-<b>解释：</b>好子数组中第一个元素和最后一个元素的差的绝对值必须为 1 。好子数组有 [1,2] ，[2,3] ，[3,4] ，[4,5] 和 [5,6] 。最大子数组和为 11 ，对应的子数组为 [5,6] 。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [-1,3,2,4,5], k = 3
-<b>输出：</b>11
-<b>解释：</b>好子数组中第一个元素和最后一个元素的差的绝对值必须为 3 。好子数组有 [-1,3,2] 和 [2,4,5] 。最大子数组和为 11 ，对应的子数组为 [2,4,5] 。
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [-1,-2,-3,-4], k = 2
-<b>输出：</b>-6
-<b>解释：</b>好子数组中第一个元素和最后一个元素的差的绝对值必须为 2 。好子数组有 [-1,-2,-3] 和 [-2,-3,-4] 。最大子数组和为 -6 ，对应的子数组为 [-1,-2,-3] 。
-</pre>
+<p>Return <em>the <strong>maximum</strong> sum of a <strong>good</strong> subarray of </em><code>nums</code>. <em>If there are no good subarrays</em><em>, return </em><code>0</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,2,3,4,5,6], k = 1
+<strong>Output:</strong> 11
+<strong>Explanation:</strong> The absolute difference between the first and last element<!-- notionvc: 2a6d66c9-0149-4294-b267-8be9fe252de9 --> must be 1 for a good subarray. All the good subarrays are: [1,2], [2,3], [3,4], [4,5], and [5,6]. The maximum subarray sum is 11 for the subarray [5,6].
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [-1,3,2,4,5], k = 3
+<strong>Output:</strong> 11
+<strong>Explanation:</strong> The absolute difference between the first and last element<!-- notionvc: 2a6d66c9-0149-4294-b267-8be9fe252de9 --> must be 3 for a good subarray. All the good subarrays are: [-1,3,2], and [2,4,5]. The maximum subarray sum is 11 for the subarray [2,4,5].
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [-1,-2,-3,-4], k = 2
+<strong>Output:</strong> -6
+<strong>Explanation:</strong> The absolute difference between the first and last element<!-- notionvc: 2a6d66c9-0149-4294-b267-8be9fe252de9 --> must be 2 for a good subarray. All the good subarrays are: [-1,-2,-3], and [-2,-3,-4]. The maximum subarray sum is -6 for the subarray [-1,-2,-3].
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -64,19 +59,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和 + 哈希表
+### Solution 1: Prefix Sum + Hash Table
 
-我们用一个哈希表 $p$ 记录 $nums[i]$ 的前缀数组 $nums[0..i-1]$ 的和 $s$，如果有多个相同的 $nums[i]$，我们只保留最小的 $s$。初始时，我们将 $p[nums[0]]$ 设为 $0$。另外，我们用一个变量 $s$ 记录当前的前缀和，初始时 $s = 0$。初始化答案 $ans$ 为 $-\infty$。
+We use a hash table $p$ to record the sum $s$ of the prefix array $nums[0..i-1]$ for $nums[i]$. If there are multiple identical $nums[i]$, we only keep the smallest $s$. Initially, we set $p[nums[0]]$ to $0$. In addition, we use a variable $s$ to record the current prefix sum, initially $s = 0$. Initialize the answer $ans$ to $-\infty$.
 
-接下来，我们枚举 $nums[i]$，并且维护一个变量 $s$ 表示 $nums[0..i]$ 的和。如果 $nums[i] - k$ 在 $p$ 中，那么我们就找到了一个好子数组，将答案更新为 $ans = \max(ans, s - p[nums[i] - k])$。同理，如果 $nums[i] + k$ 在 $p$ 中，那么我们也找到了一个好子数组，将答案更新为 $ans = \max(ans, s - p[nums[i] + k])$。然后，如果 $i + 1 \lt n$ 并且 $nums[i + 1]$ 不在 $p$ 中，或者 $p[nums[i + 1]] \gt s$，我们就将 $p[nums[i + 1]]$ 设为 $s$。
+Next, we enumerate $nums[i]$, and maintain a variable $s$ to represent the sum of $nums[0..i]$. If $nums[i] - k$ is in $p$, then we have found a good subarray, and update the answer to $ans = \max(ans, s - p[nums[i] - k])$. Similarly, if $nums[i] + k$ is in $p$, then we have also found a good subarray, and update the answer to $ans = \max(ans, s - p[nums[i] + k])$. Then, if $i + 1 \lt n$ and $nums[i + 1]$ is not in $p$, or $p[nums[i + 1]] \gt s$, we set $p[nums[i + 1]]$ to $s$.
 
-最后，如果 $ans = -\infty$，那么我们返回 $0$，否则返回 $ans$。
+Finally, if $ans = -\infty$, then we return $0$, otherwise return $ans$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

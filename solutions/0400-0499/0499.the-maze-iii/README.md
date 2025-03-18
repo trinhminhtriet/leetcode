@@ -1,95 +1,85 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0499.The%20Maze%20III/README.md
+difficulty: Hard
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 图
-    - 数组
-    - 字符串
-    - 矩阵
-    - 最短路
-    - 堆（优先队列）
+    - Depth-First Search
+    - Breadth-First Search
+    - Graph
+    - Array
+    - String
+    - Matrix
+    - Shortest Path
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [499. 迷宫 III 🔒](https://leetcode.cn/problems/the-maze-iii)
+# [499. The Maze III 🔒](https://leetcode.com/problems/the-maze-iii)
 
-[English Version](/solution/0400-0499/0499.The%20Maze%20III/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>由空地和墙组成的迷宫中有一个<strong>球</strong>。球可以向<strong>上（u）下（d）左（l）右（r）</strong>四个方向滚动，但在遇到墙壁前不会停止滚动。当球停下时，可以选择下一个方向。迷宫中还有一个<strong>洞</strong>，当球运动经过洞时，就会掉进洞里。</p>
+<p>There is a ball in a <code>maze</code> with empty spaces (represented as <code>0</code>) and walls (represented as <code>1</code>). The ball can go through the empty spaces by rolling <strong>up, down, left or right</strong>, but it won&#39;t stop rolling until hitting a wall. When the ball stops, it could choose the next direction. There is also a hole in this maze. The ball will drop into the hole if it rolls onto the hole.</p>
 
-<p>给定球的<strong>起始位置，目的地</strong>和<strong>迷宫</strong>，找出让球以最短距离掉进洞里的路径。&nbsp;距离的定义是球从起始位置（不包括）到目的地（包括）经过的<strong>空地</strong>个数。通过&#39;u&#39;, &#39;d&#39;, &#39;l&#39; 和&nbsp;&#39;r&#39;输出球的移动<strong>方向</strong>。&nbsp;由于可能有多条最短路径，&nbsp;请输出<strong>字典序最小</strong>的路径<strong>。</strong>如果球无法进入洞，输出&quot;impossible&quot;。</p>
+<p>Given the <code>m x n</code> <code>maze</code>, the ball&#39;s position <code>ball</code> and the hole&#39;s position <code>hole</code>, where <code>ball = [ball<sub>row</sub>, ball<sub>col</sub>]</code> and <code>hole = [hole<sub>row</sub>, hole<sub>col</sub>]</code>, return <em>a string </em><code>instructions</code><em> of all the instructions that the ball should follow to drop in the hole with the <strong>shortest distance</strong> possible</em>. If there are multiple valid instructions, return the <strong>lexicographically minimum</strong> one. If the ball can&#39;t drop in the hole, return <code>&quot;impossible&quot;</code>.</p>
 
-<p>迷宫由一个0和1的二维数组表示。 1表示墙壁，0表示空地。你可以假定迷宫的边缘都是墙壁。起始位置和目的地的坐标通过行号和列号给出。</p>
+<p>If there is a way for the ball to drop in the hole, the answer <code>instructions</code> should contain the characters <code>&#39;u&#39;</code> (i.e., up), <code>&#39;d&#39;</code> (i.e., down), <code>&#39;l&#39;</code> (i.e., left), and <code>&#39;r&#39;</code> (i.e., right).</p>
+
+<p>The <strong>distance</strong> is the number of <strong>empty spaces</strong> traveled by the ball from the start position (excluded) to the destination (included).</p>
+
+<p>You may assume that <strong>the borders of the maze are all walls</strong> (see examples).</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例1:</strong></p>
-
-<pre><strong>输入 1:</strong> 迷宫由以下二维数组表示
-
-0 0 0 0 0
-1 1 0 0 1
-0 0 0 0 0
-0 1 0 0 1
-0 1 0 0 0
-
-<strong>输入 2:</strong> 球的初始位置 (rowBall, colBall) = (4, 3)
-<strong>输入 3:</strong> 洞的位置 (rowHole, colHole) = (0, 1)
-
-<strong>输出:</strong> &quot;lul&quot;
-
-<strong>解析:</strong> 有两条让球进洞的最短路径。
-第一条路径是 左 -&gt; 上 -&gt; 左, 记为 &quot;lul&quot;.
-第二条路径是 上 -&gt; 左, 记为 &#39;ul&#39;.
-两条路径都具有最短距离6, 但&#39;l&#39; &lt; &#39;u&#39;，故第一条路径字典序更小。因此输出&quot;lul&quot;。
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0499.The%20Maze%20III/images/maze_2_example_1.png" style="width: 100%;">
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0499.The%20Maze%20III/images/maze3-1-grid.jpg" style="width: 573px; height: 573px;" />
+<pre>
+<strong>Input:</strong> maze = [[0,0,0,0,0],[1,1,0,0,1],[0,0,0,0,0],[0,1,0,0,1],[0,1,0,0,0]], ball = [4,3], hole = [0,1]
+<strong>Output:</strong> &quot;lul&quot;
+<strong>Explanation:</strong> There are two shortest ways for the ball to drop into the hole.
+The first way is left -&gt; up -&gt; left, represented by &quot;lul&quot;.
+The second way is up -&gt; left, represented by &#39;ul&#39;.
+Both ways have shortest distance 6, but the first way is lexicographically smaller because &#39;l&#39; &lt; &#39;u&#39;. So the output is &quot;lul&quot;.
 </pre>
 
-<p><strong>示例&nbsp;2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0499.The%20Maze%20III/images/maze3-2-grid.jpg" style="width: 573px; height: 573px;" />
+<pre>
+<strong>Input:</strong> maze = [[0,0,0,0,0],[1,1,0,0,1],[0,0,0,0,0],[0,1,0,0,1],[0,1,0,0,0]], ball = [4,3], hole = [3,0]
+<strong>Output:</strong> &quot;impossible&quot;
+<strong>Explanation:</strong> The ball cannot reach the hole.
+</pre>
 
-<pre><strong>输入 1:</strong> 迷宫由以下二维数组表示
+<p><strong class="example">Example 3:</strong></p>
 
-0 0 0 0 0
-1 1 0 0 1
-0 0 0 0 0
-0 1 0 0 1
-0 1 0 0 0
-
-<strong>输入 2:</strong> 球的初始位置 (rowBall, colBall) = (4, 3)
-<strong>输入 3:</strong> 洞的位置 (rowHole, colHole) = (3, 0)
-
-<strong>输出:</strong> &quot;impossible&quot;
-
-<strong>示例:</strong> 球无法到达洞。
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0499.The%20Maze%20III/images/maze_2_example_2.png" style="width: 100%;">
+<pre>
+<strong>Input:</strong> maze = [[0,0,0,0,0,0,0],[0,0,1,0,0,1,0],[0,0,0,0,1,0,0],[0,0,0,0,0,0,1]], ball = [0,4], hole = [3,5]
+<strong>Output:</strong> &quot;dldr&quot;
 </pre>
 
 <p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
-<p><strong>注意:</strong></p>
-
-<ol>
-	<li>迷宫中只有一个球和一个目的地。</li>
-	<li>球和洞都在空地上，且初始时它们不在同一位置。</li>
-	<li>给定的迷宫不包括边界 (如图中的红色矩形), 但你可以假设迷宫的边缘都是墙壁。</li>
-	<li>迷宫至少包括2块空地，行数和列数均不超过30。</li>
-</ol>
+<ul>
+	<li><code>m == maze.length</code></li>
+	<li><code>n == maze[i].length</code></li>
+	<li><code>1 &lt;= m, n &lt;= 100</code></li>
+	<li><code>maze[i][j]</code> is <code>0</code> or <code>1</code>.</li>
+	<li><code>ball.length == 2</code></li>
+	<li><code>hole.length == 2</code></li>
+	<li><code>0 &lt;= ball<sub>row</sub>, hole<sub>row</sub> &lt;= m</code></li>
+	<li><code>0 &lt;= ball<sub>col</sub>, hole<sub>col</sub> &lt;= n</code></li>
+	<li>Both the ball and the hole exist in an empty space, and they will not be in the same position initially.</li>
+	<li>The maze contains <strong>at least 2 empty spaces</strong>.</li>
+</ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
+### Solution 1
 
 <!-- tabs:start -->
 

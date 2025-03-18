@@ -1,61 +1,57 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2830.Maximize%20the%20Profit%20as%20the%20Salesman/README.md
+difficulty: Medium
 rating: 1851
-source: 第 359 场周赛 Q3
+source: Weekly Contest 359 Q3
 tags:
-    - 数组
-    - 哈希表
-    - 二分查找
-    - 动态规划
-    - 排序
+    - Array
+    - Hash Table
+    - Binary Search
+    - Dynamic Programming
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2830. 销售利润最大化](https://leetcode.cn/problems/maximize-the-profit-as-the-salesman)
+# [2830. Maximize the Profit as the Salesman](https://leetcode.com/problems/maximize-the-profit-as-the-salesman)
 
-[English Version](/solution/2800-2899/2830.Maximize%20the%20Profit%20as%20the%20Salesman/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>n</code> 表示数轴上的房屋数量，编号从 <code>0</code> 到 <code>n - 1</code> 。</p>
+<p>You are given an integer <code>n</code> representing the number of houses on a number line, numbered from <code>0</code> to <code>n - 1</code>.</p>
 
-<p>另给你一个二维整数数组 <code>offers</code> ，其中 <code>offers[i] = [start<sub>i</sub>, end<sub>i</sub>, gold<sub>i</sub>]</code> 表示第 <code>i</code> 个买家想要以 <code>gold<sub>i</sub></code> 枚金币的价格购买从 <code>start<sub>i</sub></code> 到 <code>end<sub>i</sub></code> 的所有房屋。</p>
+<p>Additionally, you are given a 2D integer array <code>offers</code> where <code>offers[i] = [start<sub>i</sub>, end<sub>i</sub>, gold<sub>i</sub>]</code>, indicating that <code>i<sup>th</sup></code> buyer wants to buy all the houses from <code>start<sub>i</sub></code> to <code>end<sub>i</sub></code> for <code>gold<sub>i</sub></code> amount of gold.</p>
 
-<p>作为一名销售，你需要有策略地选择并销售房屋使自己的收入最大化。</p>
+<p>As a salesman, your goal is to <strong>maximize</strong> your earnings by strategically selecting and selling houses to buyers.</p>
 
-<p>返回你可以赚取的金币的最大数目。</p>
+<p>Return <em>the maximum amount of gold you can earn</em>.</p>
 
-<p><strong>注意</strong> 同一所房屋不能卖给不同的买家，并且允许保留一些房屋不进行出售。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 5, offers = [[0,0,1],[0,2,2],[1,3,2]]
-<strong>输出：</strong>3
-<strong>解释：</strong>
-有 5 所房屋，编号从 0 到 4 ，共有 3 个购买要约。
-将位于 [0,0] 范围内的房屋以 1 金币的价格出售给第 1 位买家，并将位于 [1,3] 范围内的房屋以 2 金币的价格出售给第 3 位买家。
-可以证明我们最多只能获得 3 枚金币。</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 5, offers = [[0,0,1],[0,2,10],[1,3,2]]
-<strong>输出：</strong>10
-<strong>解释：</strong>有 5 所房屋，编号从 0 到 4 ，共有 3 个购买要约。
-将位于 [0,2] 范围内的房屋以 10 金币的价格出售给第 2 位买家。
-可以证明我们最多只能获得 10 枚金币。</pre>
+<p><strong>Note</strong> that different buyers can&#39;t buy the same house, and some houses may remain unsold.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 5, offers = [[0,0,1],[0,2,2],[1,3,2]]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> There are 5 houses numbered from 0 to 4 and there are 3 purchase offers.
+We sell houses in the range [0,0] to 1<sup>st</sup> buyer for 1 gold and houses in the range [1,3] to 3<sup>rd</sup> buyer for 2 golds.
+It can be proven that 3 is the maximum amount of gold we can achieve.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 5, offers = [[0,0,1],[0,2,10],[1,3,2]]
+<strong>Output:</strong> 10
+<strong>Explanation:</strong> There are 5 houses numbered from 0 to 4 and there are 3 purchase offers.
+We sell houses in the range [0,2] to 2<sup>nd</sup> buyer for 10 golds.
+It can be proven that 10 is the maximum amount of gold we can achieve.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
@@ -67,19 +63,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 二分查找 + 动态规划
+### Solution 1: Sorting + Binary Search + Dynamic Programming
 
-我们将所有的购买要约按照 $end$ 从小到大排序，然后使用动态规划求解。
+We sort all the purchase offers by $end$ in ascending order, and then use dynamic programming to solve the problem.
 
-定义 $f[i]$ 表示前 $i$ 个购买要约中，我们可以获得的最大金币数。答案即为 $f[n]$。
+Define $f[i]$ to represent the maximum amount of gold we can get from the first $i$ purchase offers. The answer is $f[n]$.
 
-对于 $f[i]$，我们可以选择不卖出第 $i$ 个购买要约，此时 $f[i] = f[i - 1]$；也可以选择卖出第 $i$ 个购买要约，此时 $f[i] = f[j] + gold_i$，其中 $j$ 是满足 $end_j \leq start_i$ 的最大下标。
+For $f[i]$, we can choose not to sell the $i$th purchase offer, in which case $f[i] = f[i - 1]$; or we can choose to sell the $i$th purchase offer, in which case $f[i] = f[j] + gold_i$, where $j$ is the largest index that satisfies $end_j \leq start_i$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是购买要约的数量。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of purchase offers.
 
 <!-- tabs:start -->
 

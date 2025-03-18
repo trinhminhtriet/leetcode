@@ -1,86 +1,81 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2083.Substrings%20That%20Begin%20and%20End%20With%20the%20Same%20Letter/README.md
+difficulty: Medium
 tags:
-    - 哈希表
-    - 数学
-    - 字符串
-    - 计数
-    - 前缀和
+    - Hash Table
+    - Math
+    - String
+    - Counting
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [2083. 求以相同字母开头和结尾的子串总数 🔒](https://leetcode.cn/problems/substrings-that-begin-and-end-with-the-same-letter)
+# [2083. Substrings That Begin and End With the Same Letter 🔒](https://leetcode.com/problems/substrings-that-begin-and-end-with-the-same-letter)
 
-[English Version](/solution/2000-2099/2083.Substrings%20That%20Begin%20and%20End%20With%20the%20Same%20Letter/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个仅由小写英文字母组成的，&nbsp; 下标从 <code>0</code> 开始的字符串 <code>s</code> 。返回 <code>s</code> 中以相同字符开头和结尾的子字符串总数。</p>
+<p>You are given a <strong>0-indexed</strong> string <code>s</code> consisting of only lowercase English letters. Return <em>the number of <strong>substrings</strong> in </em><code>s</code> <em>that begin and end with the <strong>same</strong> character.</em></p>
 
-<p>子字符串是字符串中连续的非空字符序列。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "abcba"
-<strong>输出：</strong>7
-<strong>解释：</strong>
-以相同字母开头和结尾的长度为 1 的子串是："a"、"b"、"c"、"b" 和 "a" 。
-以相同字母开头和结尾的长度为 3 的子串是："bcb" 。
-以相同字母开头和结尾的长度为 5 的子串是："abcba" 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "abacad"
-<strong>输出：</strong>9
-<strong>解释：</strong>
-以相同字母开头和结尾的长度为 1 的子串是："a"、"b"、"a"、"c"、"a" 和 "d" 。
-以相同字母开头和结尾的长度为 3 的子串是："aba" 和 "aca" 。
-以相同字母开头和结尾的长度为 5 的子串是："abaca" 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "a"
-<strong>输出：</strong>1
-<strong>解释：</strong>
-只有一个，以相同字母开头和结尾的长度为 1 的子串是："a"。
-</pre>
+<p>A <strong>substring</strong> is a contiguous non-empty sequence of characters within a string.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;abcba&quot;
+<strong>Output:</strong> 7
+<strong>Explanation:</strong>
+The substrings of length 1 that start and end with the same letter are: &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;b&quot;, and &quot;a&quot;.
+The substring of length 3 that starts and ends with the same letter is: &quot;bcb&quot;.
+The substring of length 5 that starts and ends with the same letter is: &quot;abcba&quot;.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;abacad&quot;
+<strong>Output:</strong> 9
+<strong>Explanation:</strong>
+The substrings of length 1 that start and end with the same letter are: &quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;, and &quot;d&quot;.
+The substrings of length 3 that start and end with the same letter are: &quot;aba&quot; and &quot;aca&quot;.
+The substring of length 5 that starts and ends with the same letter is: &quot;abaca&quot;.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;a&quot;
+<strong>Output:</strong> 1
+<strong>Explanation:</strong>
+The substring of length 1 that starts and ends with the same letter is: &quot;a&quot;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> 仅包含小写英文字母。</li>
+	<li><code>s</code> consists only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数组或哈希表
+### Solution 1: Array or Hash Table
 
-我们可以用哈希表或者一个长度为 $26$ 的数组 $\textit{cnt}$ 来记录每个字符出现的次数。
+We can use a hash table or an array $\textit{cnt}$ of length $26$ to record the occurrences of each character.
 
-遍历字符串 $\textit{s}$，对于每个字符 $\textit{c}$，我们将 $\textit{cnt}[c]$ 的值加 $1$，然后将 $\textit{cnt}[c]$ 的值加到答案中。
+Traverse the string $\textit{s}$. For each character $\textit{c}$, increment the value of $\textit{cnt}[c]$ by $1$, and then add the value of $\textit{cnt}[c]$ to the answer.
 
-最后返回答案即可。
+Finally, return the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 是字符串 $\textit{s}$ 的长度。空间复杂度 $O(|\Sigma|)$，其中 $\Sigma$ 是字符集，这里是小写英文字母，所以 $|\Sigma|=26$。
+The time complexity is $O(n)$, where $n$ is the length of the string $\textit{s}$. The space complexity is $O(|\Sigma|)$, where $\Sigma$ is the character set. Here, it is lowercase English letters, so $|\Sigma|=26$.
 
 <!-- tabs:start -->
 

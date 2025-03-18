@@ -1,57 +1,52 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1053.Previous%20Permutation%20With%20One%20Swap/README.md
+difficulty: Medium
 rating: 1633
-source: 第 138 场周赛 Q3
+source: Weekly Contest 138 Q3
 tags:
-    - 贪心
-    - 数组
+    - Greedy
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [1053. 交换一次的先前排列](https://leetcode.cn/problems/previous-permutation-with-one-swap)
+# [1053. Previous Permutation With One Swap](https://leetcode.com/problems/previous-permutation-with-one-swap)
 
-[English Version](/solution/1000-1099/1053.Previous%20Permutation%20With%20One%20Swap/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数数组 <code>arr</code>（可能存在重复的元素），请你返回可在&nbsp;<strong>一次交换</strong>（交换两数字 <code>arr[i]</code> 和 <code>arr[j]</code> 的位置）后得到的、按<span data-keyword="lexicographically-smaller-string-alien">字典序</span>排列小于 <code>arr</code> 的最大排列。</p>
+<p>Given an array of positive integers <code>arr</code> (not necessarily distinct), return <em>the </em><span data-keyword="lexicographically-smaller-array"><em>lexicographically</em></span><em> largest permutation that is smaller than</em> <code>arr</code>, that can be <strong>made with exactly one swap</strong>. If it cannot be done, then return the same array.</p>
 
-<p>如果无法这么操作，就请返回原数组。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [3,2,1]
-<strong>输出：</strong>[3,1,2]
-<strong>解释：</strong>交换 2 和 1
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [1,1,5]
-<strong>输出：</strong>[1,1,5]
-<strong>解释：</strong>已经是最小排列
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [1,9,4,6,7]
-<strong>输出：</strong>[1,7,4,6,9]
-<strong>解释：</strong>交换 9 和 7
-</pre>
+<p><strong>Note</strong> that a <em>swap</em> exchanges the positions of two numbers <code>arr[i]</code> and <code>arr[j]</code></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> arr = [3,2,1]
+<strong>Output:</strong> [3,1,2]
+<strong>Explanation:</strong> Swapping 2 and 1.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [1,1,5]
+<strong>Output:</strong> [1,1,5]
+<strong>Explanation:</strong> This is already the smallest permutation.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [1,9,4,6,7]
+<strong>Output:</strong> [1,7,4,6,9]
+<strong>Explanation:</strong> Swapping 9 and 7.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 10<sup>4</sup></code></li>
@@ -60,17 +55,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy
 
-我们先从右到左遍历数组，找到第一个满足 $arr[i - 1] \gt arr[i]$ 的下标 $i$，此时 $arr[i - 1]$ 就是我们要交换的数字，我们再从右到左遍历数组，找到第一个满足 $arr[j] \lt arr[i - 1]$ 且 $arr[j] \neq arr[j - 1]$ 的下标 $j$，此时我们交换 $arr[i - 1]$ 和 $arr[j]$ 后返回即可。
+First, we traverse the array from right to left, find the first index $i$ that satisfies $arr[i - 1] > arr[i]$, then $arr[i - 1]$ is the number we need to swap. Next, we traverse the array from right to left again, find the first index $j$ that satisfies $arr[j] < arr[i - 1]$ and $arr[j] \neq arr[j - 1]$. Now, we swap $arr[i - 1]$ and $arr[j]$ and return the array.
 
-如果遍历完数组都没有找到满足条件的下标 $i$，说明数组已经是最小排列，直接返回原数组即可。
+If we traverse the entire array and do not find an index $i$ that meets the conditions, it means the array is already the smallest permutation, so we just return the original array.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

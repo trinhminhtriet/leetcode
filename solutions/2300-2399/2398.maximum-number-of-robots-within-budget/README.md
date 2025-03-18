@@ -1,59 +1,54 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2398.Maximum%20Number%20of%20Robots%20Within%20Budget/README.md
+difficulty: Hard
 rating: 1917
-source: 第 86 场双周赛 Q4
+source: Biweekly Contest 86 Q4
 tags:
-    - 队列
-    - 数组
-    - 二分查找
-    - 前缀和
-    - 滑动窗口
-    - 单调队列
-    - 堆（优先队列）
+    - Queue
+    - Array
+    - Binary Search
+    - Prefix Sum
+    - Sliding Window
+    - Monotonic Queue
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2398. 预算内的最多机器人数目](https://leetcode.cn/problems/maximum-number-of-robots-within-budget)
+# [2398. Maximum Number of Robots Within Budget](https://leetcode.com/problems/maximum-number-of-robots-within-budget)
 
-[English Version](/solution/2300-2399/2398.Maximum%20Number%20of%20Robots%20Within%20Budget/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有&nbsp;<code>n</code>&nbsp;个机器人，给你两个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>chargeTimes</code> 和&nbsp;<code>runningCosts</code>&nbsp;，两者长度都为&nbsp;<code>n</code>&nbsp;。第&nbsp;<code>i</code>&nbsp;个机器人充电时间为&nbsp;<code>chargeTimes[i]</code>&nbsp;单位时间，花费&nbsp;<code>runningCosts[i]</code>&nbsp;单位时间运行。再给你一个整数&nbsp;<code>budget</code>&nbsp;。</p>
+<p>You have <code>n</code> robots. You are given two <strong>0-indexed</strong> integer arrays, <code>chargeTimes</code> and <code>runningCosts</code>, both of length <code>n</code>. The <code>i<sup>th</sup></code> robot costs <code>chargeTimes[i]</code> units to charge and costs <code>runningCosts[i]</code> units to run. You are also given an integer <code>budget</code>.</p>
 
-<p>运行&nbsp;<code>k</code>&nbsp;个机器人 <strong>总开销</strong>&nbsp;是&nbsp;<code>max(chargeTimes) + k * sum(runningCosts)</code>&nbsp;，其中&nbsp;<code>max(chargeTimes)</code>&nbsp;是这&nbsp;<code>k</code>&nbsp;个机器人中最大充电时间，<code>sum(runningCosts)</code>&nbsp;是这 <code>k</code>&nbsp;个机器人的运行时间之和。</p>
+<p>The <strong>total cost</strong> of running <code>k</code> chosen robots is equal to <code>max(chargeTimes) + k * sum(runningCosts)</code>, where <code>max(chargeTimes)</code> is the largest charge cost among the <code>k</code> robots and <code>sum(runningCosts)</code> is the sum of running costs among the <code>k</code> robots.</p>
 
-<p>请你返回在 <strong>不超过</strong>&nbsp;<code>budget</code>&nbsp;的前提下，你 <strong>最多</strong>&nbsp;可以 <strong>连续</strong>&nbsp;运行的机器人数目为多少。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>chargeTimes = [3,6,1,3,4], runningCosts = [2,1,3,4,5], budget = 25
-<b>输出：</b>3
-<b>解释：</b>
-可以在 budget 以内运行所有单个机器人或者连续运行 2 个机器人。
-选择前 3 个机器人，可以得到答案最大值 3 。总开销是 max(3,6,1) + 3 * sum(2,1,3) = 6 + 3 * 6 = 24 ，小于 25 。
-可以看出无法在 budget 以内连续运行超过 3 个机器人，所以我们返回 3 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>chargeTimes = [11,12,19], runningCosts = [10,8,7], budget = 19
-<b>输出：</b>0
-<b>解释：</b>即使运行任何一个单个机器人，还是会超出 budget，所以我们返回 0 。
-</pre>
+<p>Return<em> the <strong>maximum</strong> number of <strong>consecutive</strong> robots you can run such that the total cost <strong>does not</strong> exceed </em><code>budget</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> chargeTimes = [3,6,1,3,4], runningCosts = [2,1,3,4,5], budget = 25
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 
+It is possible to run all individual and consecutive pairs of robots within budget.
+To obtain answer 3, consider the first 3 robots. The total cost will be max(3,6,1) + 3 * sum(2,1,3) = 6 + 3 * 6 = 24 which is less than 25.
+It can be shown that it is not possible to run more than 3 consecutive robots within budget, so we return 3.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> chargeTimes = [11,12,19], runningCosts = [10,8,7], budget = 19
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> No robot can be run that does not exceed the budget, so we return 0.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>chargeTimes.length == runningCosts.length == n</code></li>
@@ -64,19 +59,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针 + 单调队列
+### Solution 1: Two Pointers + Monotonic Queue
 
-问题实际上是求滑动窗口内的最大值，可以用单调队列来求解。
+The problem is essentially finding the maximum value within a sliding window, which can be solved using a monotonic queue.
 
-我们只需要二分枚举窗口 $k$ 的大小，找到一个最大的 $k$，使得满足题目要求。
+We only need to use binary search to enumerate the size of the window $k$, and find the largest $k$ that satisfies the problem requirements.
 
-实现过程中，实际上不需要进行二分枚举，只需要将固定窗口改为双指针非固定窗口即可。
+In the implementation process, we don't actually need to perform binary search enumeration. We just need to change the fixed window to a non-fixed window with double pointers.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$，其中 $n$ 是题目中机器人的数目。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the number of robots in the problem.
 
 <!-- tabs:start -->
 

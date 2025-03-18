@@ -1,26 +1,23 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0271.Encode%20and%20Decode%20Strings/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 数组
-    - 字符串
+    - Design
+    - Array
+    - String
 ---
 
 <!-- problem:start -->
 
-# [271. 字符串的编码与解码 🔒](https://leetcode.cn/problems/encode-and-decode-strings)
+# [271. Encode and Decode Strings 🔒](https://leetcode.com/problems/encode-and-decode-strings)
 
-[English Version](/solution/0200-0299/0271.Encode%20and%20Decode%20Strings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你设计一个算法，可以将一个&nbsp;<strong>字符串列表&nbsp;</strong>编码成为一个&nbsp;<strong>字符串</strong>。这个编码后的字符串是可以通过网络进行高效传送的，并且可以在接收端被解码回原来的字符串列表。</p>
+<p>Design an algorithm to encode <b>a list of strings</b> to <b>a string</b>. The encoded string is then sent over the network and is decoded back to the original list of strings.</p>
 
-<p>1 号机（发送方）有如下函数：</p>
+<p>Machine 1 (sender) has the function:</p>
 
 <pre>
 string encode(vector&lt;string&gt; strs) {
@@ -28,7 +25,7 @@ string encode(vector&lt;string&gt; strs) {
   return encoded_string;
 }</pre>
 
-<p>2 号机（接收方）有如下函数：</p>
+Machine 2 (receiver) has the function:
 
 <pre>
 vector&lt;string&gt; decode(string s) {
@@ -37,76 +34,73 @@ vector&lt;string&gt; decode(string s) {
 }
 </pre>
 
-<p>1 号机（发送方）执行：</p>
+<p>So Machine 1 does:</p>
 
 <pre>
 string encoded_string = encode(strs);
 </pre>
 
-<p>2 号机（接收方）执行：</p>
+<p>and Machine 2 does:</p>
 
 <pre>
 vector&lt;string&gt; strs2 = decode(encoded_string);
 </pre>
 
-<p>此时，2 号机（接收方）的 <code>strs2</code>&nbsp;需要和 1 号机（发送方）的 <code>strs</code> 相同。</p>
+<p><code>strs2</code> in Machine 2 should be the same as <code>strs</code> in Machine 1.</p>
 
-<p>请你来实现这个&nbsp;<code>encode</code> 和&nbsp;<code>decode</code> 方法。</p>
+<p>Implement the <code>encode</code> and <code>decode</code> methods.</p>
 
-<p>不允许使用任何序列化方法解决这个问题（例如 <code>eval</code>）。</p>
+<p>You are not allowed to&nbsp;solve the problem using any serialize methods (such as <code>eval</code>).</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>dummy_input = ["Hello","World"]
-<b>输出：</b>["Hello","World"]
-<strong>解释：</strong>
-1 号机：
+<strong>Input:</strong> dummy_input = [&quot;Hello&quot;,&quot;World&quot;]
+<strong>Output:</strong> [&quot;Hello&quot;,&quot;World&quot;]
+<strong>Explanation:</strong>
+Machine 1:
 Codec encoder = new Codec();
 String msg = encoder.encode(strs);
 Machine 1 ---msg---&gt; Machine 2
 
-2 号机：
+Machine 2:
 Codec decoder = new Codec();
 String[] strs = decoder.decode(msg);
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>dummy_input = [""]
-<b>输出：</b>[""]
+<strong>Input:</strong> dummy_input = [&quot;&quot;]
+<strong>Output:</strong> [&quot;&quot;]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= strs.length &lt;= 200</code></li>
 	<li><code>0 &lt;= strs[i].length &lt;= 200</code></li>
-	<li><code>strs[i]</code>&nbsp;包含 256 个有效 ASCII 字符中的任何可能字符。</li>
+	<li><code>strs[i]</code> contains any possible characters out of <code>256</code> valid ASCII characters.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>你能编写一个通用算法来处理任何可能的字符集吗？</p>
+<p><strong>Follow up: </strong>Could you write a generalized algorithm to work on any possible set of characters?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：编码字符串长度
+### Solution 1: Encode String Length
 
-编码时，将字符串的长度转成固定 $4$ 位的字符串，加上字符串本身，依次拼接到结果字符串。
+During encoding, we convert the length of the string into a fixed 4-digit string, add the string itself, and append it to the result string in sequence.
 
-解码时，先取前四位字符串，得到长度，再通过长度截取后面的字符串。依次截取，最终得到字符串列表。
+During decoding, we first take the first four digits of the string to get the length, and then cut the following string according to the length. We cut it in sequence until we get the list of strings.
 
-时间复杂度 $O(n)$。
+The time complexity is $O(n)$.
 
 <!-- tabs:start -->
 

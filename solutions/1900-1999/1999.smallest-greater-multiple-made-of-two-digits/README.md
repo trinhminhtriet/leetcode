@@ -1,62 +1,59 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1999.Smallest%20Greater%20Multiple%20Made%20of%20Two%20Digits/README.md
+difficulty: Medium
 tags:
-    - 数学
-    - 枚举
+    - Math
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [1999. 最小的仅由两个数组成的倍数 🔒](https://leetcode.cn/problems/smallest-greater-multiple-made-of-two-digits)
+# [1999. Smallest Greater Multiple Made of Two Digits 🔒](https://leetcode.com/problems/smallest-greater-multiple-made-of-two-digits)
 
-[English Version](/solution/1900-1999/1999.Smallest%20Greater%20Multiple%20Made%20of%20Two%20Digits/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你三个整数, <code>k</code>, <code>digit1</code>和&nbsp;<code>digit2</code>, 你想要找到满足以下条件的 <strong>最小 </strong>整数：</p>
+<p>Given three integers, <code>k</code>, <code>digit1</code>, and <code>digit2</code>, you want to find the <strong>smallest</strong> integer that is:</p>
 
 <ul>
-	<li><span style=""><b>大于</b></span><code>k</code> 且是 <code>k</code> 的<strong>倍数</strong></li>
-	<li><strong>仅由</strong><code>digit1</code> <span style="">和 </span><code>digit2</code> 组成，即 <strong>每一位数 </strong>均是 <code>digit1</code> 或 <code>digit2</code></li>
+	<li><strong>Larger</strong> than <code>k</code>,</li>
+	<li>A <strong>multiple</strong> of <code>k</code>, and</li>
+	<li>Comprised of <strong>only</strong> the digits <code>digit1</code> and/or <code>digit2</code>.</li>
 </ul>
 
-<p>请你返回<strong> </strong><strong>最小的满足这两个条件的整数</strong>，如果不存在这样的整数，或者最小的满足这两个条件的整数不在32位整数范围（0~<code>2<sup>31</sup>-1</code>），就返回 <code>-1</code> 。</p>
+<p>Return <em>the <strong>smallest</strong> such integer. If no such integer exists or the integer exceeds the limit of a signed 32-bit integer (</em><code>2<sup>31</sup> - 1</code><em>), return </em><code>-1</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>k = 2, digit1 = 0, digit2 = 2
-<strong>输出：</strong>20
-<strong>解释：</strong>
-20 是第一个仅有数字0和2组成的，比2大且是2的倍数的整数。
+<strong>Input:</strong> k = 2, digit1 = 0, digit2 = 2
+<strong>Output:</strong> 20
+<strong>Explanation:</strong>
+20 is the first integer larger than 2, a multiple of 2, and comprised of only the digits 0 and/or 2.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>k = 3, digit1 = 4, digit2 = 2
-<strong>输出：</strong>24
-<strong>解释：</strong>
-24 是第一个仅有数字 2 和 4 组成的，比 3 大且是 3 的倍数的整数。</pre>
+<strong>Input:</strong> k = 3, digit1 = 4, digit2 = 2
+<strong>Output:</strong> 24
+<strong>Explanation:</strong>
+24 is the first integer larger than 3, a multiple of 3, and comprised of only the digits 4 and/or 2.
+</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>k = 2, digit1 = 0, digit2 = 0
-<strong>输出：</strong>-1
-<strong>解释：
-</strong>不存在仅由 0 组成的比 2 大且是 2 的倍数的整数，因此返回 -1 。
+<strong>Input:</strong> k = 2, digit1 = 0, digit2 = 0
+<strong>Output:</strong> -1
+<strong>Explanation:
+</strong>No integer meets the requirements so return -1.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= 1000</code></li>
@@ -66,17 +63,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
-
-我们观察 $k$ 的范围，发现 $1 \leq k \leq 1000$，因此，如果 $digit1$ 和 $digit2$ 都为 $0$，那么一定不存在满足条件的整数，直接返回 $-1$ 即可。
-
-否则，我们不妨设 $digit1 \leq digit2$，接下来我们可以使用 BFS 的方法，初始时将整数 $0$ 入队，然后不断地从队首取出一个整数 $x$，如果 $x \gt 2^{31} - 1$，那么说明不存在满足条件的整数，直接返回 $-1$ 即可。如果 $x \gt k$ 且 $x \bmod k = 0$，那么说明找到了满足条件的整数，直接返回 $x$ 即可。否则，我们将其乘以 $10$ 后加上 $digit1$ 和 $digit2$，并将这两个整数入队，继续进行搜索。
-
-时间复杂度 $(\log_{10} M)$，空间复杂度 $O(\log_{10} M)$，其中 $M$ 为 $2^{31} - 1$。
+### Solution 1
 
 <!-- tabs:start -->
 

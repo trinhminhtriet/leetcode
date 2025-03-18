@@ -1,85 +1,76 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2246.Longest%20Path%20With%20Different%20Adjacent%20Characters/README.md
+difficulty: Hard
 rating: 2126
-source: 第 289 场周赛 Q4
+source: Weekly Contest 289 Q4
 tags:
-    - 树
-    - 深度优先搜索
-    - 图
-    - 拓扑排序
-    - 数组
-    - 字符串
+    - Tree
+    - Depth-First Search
+    - Graph
+    - Topological Sort
+    - Array
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2246. 相邻字符不同的最长路径](https://leetcode.cn/problems/longest-path-with-different-adjacent-characters)
+# [2246. Longest Path With Different Adjacent Characters](https://leetcode.com/problems/longest-path-with-different-adjacent-characters)
 
-[English Version](/solution/2200-2299/2246.Longest%20Path%20With%20Different%20Adjacent%20Characters/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一棵 <strong>树</strong>（即一个连通、无向、无环图），根节点是节点 <code>0</code> ，这棵树由编号从 <code>0</code> 到 <code>n - 1</code> 的 <code>n</code> 个节点组成。用下标从 <strong>0</strong> 开始、长度为 <code>n</code> 的数组 <code>parent</code> 来表示这棵树，其中 <code>parent[i]</code> 是节点 <code>i</code> 的父节点，由于节点 <code>0</code> 是根节点，所以 <code>parent[0] == -1</code> 。</p>
+<p>You are given a <strong>tree</strong> (i.e. a connected, undirected graph that has no cycles) <strong>rooted</strong> at node <code>0</code> consisting of <code>n</code> nodes numbered from <code>0</code> to <code>n - 1</code>. The tree is represented by a <strong>0-indexed</strong> array <code>parent</code> of size <code>n</code>, where <code>parent[i]</code> is the parent of node <code>i</code>. Since node <code>0</code> is the root, <code>parent[0] == -1</code>.</p>
 
-<p>另给你一个字符串 <code>s</code> ，长度也是 <code>n</code> ，其中 <code>s[i]</code> 表示分配给节点 <code>i</code> 的字符。</p>
+<p>You are also given a string <code>s</code> of length <code>n</code>, where <code>s[i]</code> is the character assigned to node <code>i</code>.</p>
 
-<p>请你找出路径上任意一对相邻节点都没有分配到相同字符的 <strong>最长路径</strong> ，并返回该路径的长度。</p>
+<p>Return <em>the length of the <strong>longest path</strong> in the tree such that no pair of <strong>adjacent</strong> nodes on the path have the same character assigned to them.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2246.Longest%20Path%20With%20Different%20Adjacent%20Characters/images/testingdrawio.png" style="width: 201px; height: 241px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2246.Longest%20Path%20With%20Different%20Adjacent%20Characters/images/testingdrawio.png" style="width: 201px; height: 241px;" />
 <pre>
-<strong>输入：</strong>parent = [-1,0,0,1,1,2], s = "abacbe"
-<strong>输出：</strong>3
-<strong>解释：</strong>任意一对相邻节点字符都不同的最长路径是：0 -&gt; 1 -&gt; 3 。该路径的长度是 3 ，所以返回 3 。
-可以证明不存在满足上述条件且比 3 更长的路径。 
+<strong>Input:</strong> parent = [-1,0,0,1,1,2], s = &quot;abacbe&quot;
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The longest path where each two adjacent nodes have different characters in the tree is the path: 0 -&gt; 1 -&gt; 3. The length of this path is 3, so 3 is returned.
+It can be proven that there is no longer path that satisfies the conditions. 
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2246.Longest%20Path%20With%20Different%20Adjacent%20Characters/images/graph2drawio.png" style="width: 201px; height: 221px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2246.Longest%20Path%20With%20Different%20Adjacent%20Characters/images/graph2drawio.png" style="width: 201px; height: 221px;" />
 <pre>
-<strong>输入：</strong>parent = [-1,0,0,0], s = "aabc"
-<strong>输出：</strong>3
-<strong>解释：</strong>任意一对相邻节点字符都不同的最长路径是：2 -&gt; 0 -&gt; 3 。该路径的长度为 3 ，所以返回 3 。
+<strong>Input:</strong> parent = [-1,0,0,0], s = &quot;aabc&quot;
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The longest path where each two adjacent nodes have different characters is the path: 2 -&gt; 0 -&gt; 3. The length of this path is 3, so 3 is returned.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == parent.length == s.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li>对所有 <code>i &gt;= 1</code> ，<code>0 &lt;= parent[i] &lt;= n - 1</code> 均成立</li>
+	<li><code>0 &lt;= parent[i] &lt;= n - 1</code> for all <code>i &gt;= 1</code></li>
 	<li><code>parent[0] == -1</code></li>
-	<li><code>parent</code> 表示一棵有效的树</li>
-	<li><code>s</code> 仅由小写英文字母组成</li>
+	<li><code>parent</code> represents a valid tree.</li>
+	<li><code>s</code> consists of only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：树形 DP
+### Solution 1: Tree-shaped DP
 
-我们先根据数组 $parent$ 构建邻接表 $g$，其中 $g[i]$ 表示节点 $i$ 的所有子节点。
+First, we construct an adjacency list $g$ based on the array $parent$, where $g[i]$ represents all child nodes of node $i$.
 
-然后我们从根节点开始 DFS，对于每个节点 $i$，我们遍历 $g[i]$ 中的每个子节点 $j$，如果 $s[i] \neq s[j]$，那么我们就可以从 $i$ 节点出发，经过 $j$ 节点，到达某个叶子节点，这条路径的长度为 $x = 1 + dfs(j)$，我们用 $mx$ 记录最长的一条从节点 $i$ 出发的路径长度。同时，在遍历的过程中，更新答案 $ans = \max(ans, mx + x)$。
+Then we start DFS from the root node. For each node $i$, we traverse each child node $j$ in $g[i]$. If $s[i] \neq s[j]$, then we can start from node $i$, pass through node $j$, and reach a leaf node. The length of this path is $x = 1 + \textit{dfs}(j)$. We use $mx$ to record the longest path length starting from node $i$. At the same time, we update the answer $ans = \max(ans, mx + x)$ during the traversal process.
 
-最后，我们返回 $ans + 1$ 即可。
+Finally, we return $ans + 1$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为节点个数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the number of nodes.
 
 <!-- tabs:start -->
 

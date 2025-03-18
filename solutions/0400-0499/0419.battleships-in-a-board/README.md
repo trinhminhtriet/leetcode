@@ -1,71 +1,65 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0419.Battleships%20in%20a%20Board/README.md
+difficulty: Medium
 tags:
-    - 深度优先搜索
-    - 数组
-    - 矩阵
+    - Depth-First Search
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [419. 棋盘上的战舰](https://leetcode.cn/problems/battleships-in-a-board)
+# [419. Battleships in a Board](https://leetcode.com/problems/battleships-in-a-board)
 
-[English Version](/solution/0400-0499/0419.Battleships%20in%20a%20Board/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个大小为 <code>m x n</code> 的矩阵 <code>board</code> 表示棋盘，其中，每个单元格可以是一艘战舰 <code>'X'</code> 或者是一个空位 <code>'.'</code> ，返回在棋盘 <code>board</code> 上放置的 <strong>舰队</strong> 的数量。</p>
+<p>Given an <code>m x n</code> matrix <code>board</code> where each cell is a battleship <code>&#39;X&#39;</code> or empty <code>&#39;.&#39;</code>, return <em>the number of the <strong>battleships</strong> on</em> <code>board</code>.</p>
 
-<p><strong>舰队</strong> 只能水平或者垂直放置在 <code>board</code> 上。换句话说，舰队只能按 <code>1 x k</code>（<code>1</code> 行，<code>k</code> 列）或 <code>k x 1</code>（<code>k</code> 行，<code>1</code> 列）的形状放置，其中 <code>k</code> 可以是任意大小。两个舰队之间至少有一个水平或垂直的空格分隔 （即没有相邻的舰队）。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0419.Battleships%20in%20a%20Board/images/1719200420-KKnzye-image.png" style="width: 333px; height: 333px;" />
-<pre>
-<strong>输入：</strong>board = [["X",".",".","X"],[".",".",".","X"],[".",".",".","X"]]
-<strong>输出：</strong>2
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>board = [["."]]
-<strong>输出：</strong>0
-</pre>
+<p><strong>Battleships</strong> can only be placed horizontally or vertically on <code>board</code>. In other words, they can only be made of the shape <code>1 x k</code> (<code>1</code> row, <code>k</code> columns) or <code>k x 1</code> (<code>k</code> rows, <code>1</code> column), where <code>k</code> can be of any size. At least one horizontal or vertical cell separates between two battleships (i.e., there are no adjacent battleships).</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img height="333" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0419.Battleships%20in%20a%20Board/images/image.png" width="333" />
+<pre>
+<strong>Input:</strong> board = [[&quot;X&quot;,&quot;.&quot;,&quot;.&quot;,&quot;X&quot;],[&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;X&quot;],[&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;X&quot;]]
+<strong>Output:</strong> 2
+</pre>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> board = [[&quot;.&quot;]]
+<strong>Output:</strong> 0
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == board.length</code></li>
 	<li><code>n == board[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 200</code></li>
-	<li><code>board[i][j]</code> 是 <code>'.'</code> 或 <code>'X'</code></li>
+	<li><code>board[i][j]</code> is either <code>&#39;.&#39;</code> or <code>&#39;X&#39;</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>你可以实现一次扫描算法，并只使用<strong> </strong><code>O(1)</code><strong> </strong>额外空间，并且不修改 <code>board</code> 的值来解决这个问题吗？</p>
+<p><strong>Follow up:</strong> Could you do it in one-pass, using only <code>O(1)</code> extra memory and without modifying the values <code>board</code>?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：直接遍历
+### Solution 1: Direct Iteration
 
-我们可以遍历矩阵，找到每个战舰的左上角，即当前位置为 `X` 且上方和左方都不是 `X` 的位置，将答案加一。
+We can iterate through the matrix, find the top-left corner of each battleship, i.e., the position where the current position is `X` and both the top and left are not `X`, and increment the answer by one.
 
-遍历结束后，返回答案即可。
+After the iteration ends, return the answer.
 
-时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别是矩阵的行数和列数。空间复杂度 $O(1)$。
+The time complexity is $O(m \times n)$, where $m$ and $n$ are the number of rows and columns of the matrix, respectively. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

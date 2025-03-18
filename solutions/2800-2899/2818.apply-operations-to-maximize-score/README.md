@@ -1,74 +1,69 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2818.Apply%20Operations%20to%20Maximize%20Score/README.md
+difficulty: Hard
 rating: 2396
-source: 第 358 场周赛 Q4
+source: Weekly Contest 358 Q4
 tags:
-    - 栈
-    - 贪心
-    - 数组
-    - 数学
-    - 数论
-    - 排序
-    - 单调栈
+    - Stack
+    - Greedy
+    - Array
+    - Math
+    - Number Theory
+    - Sorting
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [2818. 操作使得分最大](https://leetcode.cn/problems/apply-operations-to-maximize-score)
+# [2818. Apply Operations to Maximize Score](https://leetcode.com/problems/apply-operations-to-maximize-score)
 
-[English Version](/solution/2800-2899/2818.Apply%20Operations%20to%20Maximize%20Score/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code>&nbsp;的正整数数组&nbsp;<code>nums</code>&nbsp;和一个整数 <code>k</code>&nbsp;。</p>
+<p>You are given an array <code>nums</code> of <code>n</code> positive integers and an integer <code>k</code>.</p>
 
-<p>一开始，你的分数为 <code>1</code>&nbsp;。你可以进行以下操作至多 <code>k</code>&nbsp;次，目标是使你的分数最大：</p>
+<p>Initially, you start with a score of <code>1</code>. You have to maximize your score by applying the following operation at most <code>k</code> times:</p>
 
 <ul>
-	<li>选择一个之前没有选过的 <strong>非空</strong>&nbsp;子数组&nbsp;<code>nums[l, ..., r]</code>&nbsp;。</li>
-	<li>从&nbsp;<code>nums[l, ..., r]</code>&nbsp;里面选择一个 <strong>质数分数</strong>&nbsp;最高的元素 <code>x</code>&nbsp;。如果多个元素质数分数相同且最高，选择下标最小的一个。</li>
-	<li>将你的分数乘以&nbsp;<code>x</code>&nbsp;。</li>
+	<li>Choose any <strong>non-empty</strong> subarray <code>nums[l, ..., r]</code> that you haven&#39;t chosen previously.</li>
+	<li>Choose an element <code>x</code> of <code>nums[l, ..., r]</code> with the highest <strong>prime score</strong>. If multiple such elements exist, choose the one with the smallest index.</li>
+	<li>Multiply your score by <code>x</code>.</li>
 </ul>
 
-<p><code>nums[l, ..., r]</code>&nbsp;表示&nbsp;<code>nums</code>&nbsp;中起始下标为&nbsp;<code>l</code>&nbsp;，结束下标为 <code>r</code>&nbsp;的子数组，两个端点都包含。</p>
+<p>Here, <code>nums[l, ..., r]</code> denotes the subarray of <code>nums</code> starting at index <code>l</code> and ending at the index <code>r</code>, both ends being inclusive.</p>
 
-<p>一个整数的 <strong>质数分数</strong>&nbsp;等于&nbsp;<code>x</code>&nbsp;不同质因子的数目。比方说，&nbsp;<code>300</code>&nbsp;的质数分数为&nbsp;<code>3</code>&nbsp;，因为&nbsp;<code>300 = 2 * 2 * 3 * 5 * 5</code>&nbsp;。</p>
+<p>The <strong>prime score</strong> of an integer <code>x</code> is equal to the number of distinct prime factors of <code>x</code>. For example, the prime score of <code>300</code> is <code>3</code> since <code>300 = 2 * 2 * 3 * 5 * 5</code>.</p>
 
-<p>请你返回进行至多 <code>k</code>&nbsp;次操作后，可以得到的 <strong>最大分数</strong>&nbsp;。</p>
+<p>Return <em>the <strong>maximum possible score</strong> after applying at most </em><code>k</code><em> operations</em>.</p>
 
-<p>由于答案可能很大，请你将结果对&nbsp;<code>10<sup>9 </sup>+ 7</code>&nbsp;取余后返回。</p>
+<p>Since the answer may be large, return it modulo <code>10<sup>9 </sup>+ 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [8,3,9,3,8], k = 2
-<b>输出：</b>81
-<b>解释：</b>进行以下操作可以得到分数 81 ：
-- 选择子数组 nums[2, ..., 2] 。nums[2] 是子数组中唯一的元素。所以我们将分数乘以 nums[2] ，分数变为 1 * 9 = 9 。
-- 选择子数组 nums[2, ..., 3] 。nums[2] 和 nums[3] 质数分数都为 1 ，但是 nums[2] 下标更小。所以我们将分数乘以 nums[2] ，分数变为 9 * 9 = 81 。
-81 是可以得到的最高得分。</pre>
-
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [19,12,14,6,10,18], k = 3
-<b>输出：</b>4788
-<b>解释：</b>进行以下操作可以得到分数 4788 ：
-- 选择子数组 nums[0, ..., 0] 。nums[0] 是子数组中唯一的元素。所以我们将分数乘以 nums[0] ，分数变为 1 * 19 = 19 。
-- 选择子数组 nums[5, ..., 5] 。nums[5] 是子数组中唯一的元素。所以我们将分数乘以 nums[5] ，分数变为 19 * 18 = 342 。
-- 选择子数组 nums[2, ..., 3] 。nums[2] 和 nums[3] 质数分数都为 2，但是 nums[2] 下标更小。所以我们将分数乘以 nums[2] ，分数变为  342 * 14 = 4788 。
-4788 是可以得到的最高的分。
+<strong>Input:</strong> nums = [8,3,9,3,8], k = 2
+<strong>Output:</strong> 81
+<strong>Explanation:</strong> To get a score of 81, we can apply the following operations:
+- Choose subarray nums[2, ..., 2]. nums[2] is the only element in this subarray. Hence, we multiply the score by nums[2]. The score becomes 1 * 9 = 9.
+- Choose subarray nums[2, ..., 3]. Both nums[2] and nums[3] have a prime score of 1, but nums[2] has the smaller index. Hence, we multiply the score by nums[2]. The score becomes 9 * 9 = 81.
+It can be proven that 81 is the highest score one can obtain.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [19,12,14,6,10,18], k = 3
+<strong>Output:</strong> 4788
+<strong>Explanation:</strong> To get a score of 4788, we can apply the following operations: 
+- Choose subarray nums[0, ..., 0]. nums[0] is the only element in this subarray. Hence, we multiply the score by nums[0]. The score becomes 1 * 19 = 19.
+- Choose subarray nums[5, ..., 5]. nums[5] is the only element in this subarray. Hence, we multiply the score by nums[5]. The score becomes 19 * 18 = 342.
+- Choose subarray nums[2, ..., 3]. Both nums[2] and nums[3] have a prime score of 2, but nums[2] has the smaller index. Hence, we multipy the score by nums[2]. The score becomes 342 * 14 = 4788.
+It can be proven that 4788 is the highest score one can obtain.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length == n &lt;= 10<sup>5</sup></code></li>
@@ -78,19 +73,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：单调栈 + 排序贪心
+### Solution 1: Monotonic Stack + Greedy
 
-我们不妨考虑枚举每个元素 $nums[i]$ 作为质数分数最高的元素，那么我们需要找出左边第一个质数分数大于等于当前元素的位置 $l$，以及右边第一个质数分数大于当前元素的位置 $r$，那么以当前元素为最高质数分数的子数组有 $cnt = (i - l) \times (r - i)$ 个，它对答案的贡献为 $nums[i]^{cnt}$。
+It is not difficult to see that the number of subarrays with the highest prime score of an element $nums[i]$ is $cnt = (i - l) \times (r - i)$, where $l$ is the leftmost index such that $primeScore(nums[l]) \ge primeScore(nums[i])$, and $r$ is the rightmost index such that $primeScore(nums[r]) \ge primeScore(nums[i])$.
 
-而题目限制了最多进行 $k$ 次操作，我们可以贪心地从大到小枚举 $nums[i]$，每一次算出其子数组的个数 $cnt$，如果 $cnt \le k$，那么 $nums[i]$ 对答案的贡献就是 $nums[i]^{cnt}$，然后我们更新 $k = k - cnt$，继续枚举下一个元素。如果 $cnt \gt k$，那么 $nums[i]$ 对答案的贡献就是 $nums[i]^{k}$，然后退出循环。
+Since we are allowed to operate at most $k$ times, we can greedily enumerate $nums[i]$ from large to small, and compute the $cnt$ of each element. If $cnt \le k$, then the contribution of $nums[i]$ to the answer is $nums[i]^{cnt}$, and we update $k = k - cnt$. If $cnt \gt k$, then the contribution of $nums[i]$ to the answer is $nums[i]^{k}$, and we break out the loop.
 
-枚举结束，返回答案即可。注意，由于幂次较大，我们需要用到快速幂。
+Return the answer after the loop. Note that the power is large, so we need to use fast power.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

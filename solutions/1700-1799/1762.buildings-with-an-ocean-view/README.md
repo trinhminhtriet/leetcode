@@ -1,82 +1,72 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1762.Buildings%20With%20an%20Ocean%20View/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 数组
-    - 单调栈
+    - Stack
+    - Array
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [1762. 能看到海景的建筑物 🔒](https://leetcode.cn/problems/buildings-with-an-ocean-view)
+# [1762. Buildings With an Ocean View 🔒](https://leetcode.com/problems/buildings-with-an-ocean-view)
 
-[English Version](/solution/1700-1799/1762.Buildings%20With%20an%20Ocean%20View/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有 <code>n</code> 座建筑物。给你一个大小为 <code>n</code> 的整数数组 <code>heights</code> 表示每一个建筑物的高度。</p>
+<p>There are <code>n</code> buildings in a line. You are given an integer array <code>heights</code> of size <code>n</code> that represents the heights of the buildings in the line.</p>
 
-<p>建筑物的右边是海洋。如果建筑物可以无障碍地看到海洋，则建筑物能看到海景。确切地说，如果一座建筑物右边的所有建筑都比它 <strong>矮</strong> 时，就认为它能看到海景。</p>
+<p>The ocean is to the right of the buildings. A building has an ocean view if the building can see the ocean without obstructions. Formally, a building has an ocean view if all the buildings to its right have a <strong>smaller</strong> height.</p>
 
-<p>返回能看到海景建筑物的下标列表（下标 <strong>从 <code>0</code> 开始</strong> ），并按升序排列。</p>
+<p>Return a list of indices <strong>(0-indexed)</strong> of buildings that have an ocean view, sorted in increasing order.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>heights = [4,2,3,1]
-<strong>输出：</strong>[0,2,3]
-<strong>解释：</strong>1 号建筑物看不到海景，因为 2 号建筑物比它高
+<strong>Input:</strong> heights = [4,2,3,1]
+<strong>Output:</strong> [0,2,3]
+<strong>Explanation:</strong> Building 1 (0-indexed) does not have an ocean view because building 2 is taller.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>heights = [4,3,2,1]
-<strong>输出：</strong>[0,1,2,3]
-<strong>解释：</strong>所有的建筑物都能看到海景。</pre>
+<strong>Input:</strong> heights = [4,3,2,1]
+<strong>Output:</strong> [0,1,2,3]
+<strong>Explanation:</strong> All the buildings have an ocean view.
+</pre>
 
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>heights = [1,3,2,4]
-<strong>输出：</strong>[3]
-<strong>解释：</strong>只有 3 号建筑物能看到海景。</pre>
-
-<p><strong>示例 4：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>heights = [2,2,2,2]
-<strong>输出：</strong>[3]
-<strong>解释：</strong>如果建筑物右边有相同高度的建筑物则无法看到海景。</pre>
+<strong>Input:</strong> heights = [1,3,2,4]
+<strong>Output:</strong> [3]
+<strong>Explanation:</strong> Only building 3 has an ocean view.
+</pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= heights.length <= 10<sup>5</sup></code></li>
-	<li><code>1 <= heights[i] <= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= heights.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= heights[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：逆序遍历求右侧最大值
+### Solution 1: Reverse Traversal to Find the Maximum on the Right
 
-我们逆序遍历数组 $\textit{height}$ 每个元素 $v$，判断 $v$ 与右侧最大元素 $mx$ 的大小关系，若 $mx \lt v$，说明右侧所有元素都比当前元素小，当前位置能看到海景，加入结果数组 $\textit{ans}$。然后我们更新 $mx$ 为 $v$。
+We traverse the array $\textit{height}$ in reverse order for each element $v$, comparing $v$ with the maximum element $mx$ on the right. If $mx \lt v$, it means all elements to the right are smaller than the current element, so the current position can see the ocean and is added to the result array $\textit{ans}$. Then we update $mx$ to $v$.
 
-遍历结束后，逆序返回 $\textit{ans}$ 即可。
+After the traversal, return $\textit{ans}$ in reverse order.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组长度。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

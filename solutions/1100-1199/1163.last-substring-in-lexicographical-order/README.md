@@ -1,75 +1,70 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1163.Last%20Substring%20in%20Lexicographical%20Order/README.md
+difficulty: Hard
 rating: 1864
-source: 第 150 场周赛 Q4
+source: Weekly Contest 150 Q4
 tags:
-    - 双指针
-    - 字符串
+    - Two Pointers
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1163. 按字典序排在最后的子串](https://leetcode.cn/problems/last-substring-in-lexicographical-order)
+# [1163. Last Substring in Lexicographical Order](https://leetcode.com/problems/last-substring-in-lexicographical-order)
 
-[English Version](/solution/1100-1199/1163.Last%20Substring%20in%20Lexicographical%20Order/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>s</code>&nbsp;，找出它的所有子串并按字典序排列，返回排在最后的那个子串。</p>
+<p>Given a string <code>s</code>, return <em>the last substring of</em> <code>s</code> <em>in lexicographical order</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "abab"
-<strong>输出：</strong>"bab"
-<strong>解释：</strong>我们可以找出 7 个子串 ["a", "ab", "aba", "abab", "b", "ba", "bab"]。按字典序排在最后的子串是 "bab"。
+<strong>Input:</strong> s = &quot;abab&quot;
+<strong>Output:</strong> &quot;bab&quot;
+<strong>Explanation:</strong> The substrings are [&quot;a&quot;, &quot;ab&quot;, &quot;aba&quot;, &quot;abab&quot;, &quot;b&quot;, &quot;ba&quot;, &quot;bab&quot;]. The lexicographically maximum substring is &quot;bab&quot;.
 </pre>
 
-<p><strong>示例&nbsp;2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "leetcode"
-<strong>输出：</strong>"tcode"
+<strong>Input:</strong> s = &quot;leetcode&quot;
+<strong>Output:</strong> &quot;tcode&quot;
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 4 * 10<sup>5</sup></code></li>
-	<li><code>s</code> 仅含有小写英文字符。</li>
+	<li><code>s</code> contains only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1: Two pointers
 
-我们注意到，如果一个子串从位置 $i$ 开始，那么字典序最大的子串一定是 $s[i,..n-1]$，即从位置 $i$ 开始的最长后缀。因此，我们只需要找出字典序最大的后缀子串即可。
+We notice that if a substring starts from position $i$, then the largest substring with the largest dictionary order must be $s[i,..n-1]$, which is the longest suffix starting from position $i$. Therefore, we only need to find the largest suffix substring.
 
-我们使用双指针 $i$ 和 $j$，其中指针 $i$ 指向当前字典序最大的子串的起始位置，指针 $j$ 指向当前考虑的子串的起始位置。另外，用一个变量 $k$ 记录当前比较到的位置。初始时 $i = 0$, $j=1$, $k=0$。
+We use two pointers $i$ and $j$, where pointer $i$ points to the starting position of the current largest substring with the largest dictionary order, and pointer $j$ points to the starting position of the current substring being considered. In addition, we use a variable $k$ to record the current position being compared. Initially, $i = 0$, $j=1$, $k=0$.
 
-每一次，我们比较 $s[i+k]$ 和 $s[j+k]$：
+Each time, we compare $s[i+k]$ and $s[j+k]$:
 
-如果 $s[i + k] = s[j + k]$，说明 $s[i,..i+k]$ 和 $s[j,..j+k]$ 相同，我们将 $k$ 加 $1$，继续比较 $s[i+k]$ 和 $s[j+k]$；
+If $s[i + k] = s[j + k]$, it means that $s[i,..i+k]$ and $s[j,..j+k]$ are the same, and we add $k$ by $1$ and continue to compare $s[i+k]$ and $s[j+k]$;
 
-如果 $s[i + k] \lt s[j + k]$，说明 $s[j,..j+k]$ 的字典序更大。此时，我们更新 $i = i + k + 1$，并将 $k$ 重置为 $0$。如果此时 $i \geq j$，那么我们将指针 $j$ 更新为 $i + 1$，即 $j = i + 1$。这里我们跳过了以 $s[i,..,i+k]$ 为起始位置的所有后缀子串，因为它们的字典序一定小于对应的 $s[j,..,j+k]$ 为起始位置的后缀子串。
+If $s[i + k] \lt s[j + k]$, it means that the dictionary order of $s[j,..j+k]$ is larger. At this time, we update $i = i + k + 1$, and reset $k$ to $0$. If $i \geq j$ at this time, we update pointer $j$ to $i + 1$, that is, $j = i + 1$. Here we skip all suffix substrings with $s[i,..,i+k]$ as the starting position, because their dictionary orders are smaller than the suffix substrings with $s[j,..,j+k]$ as the starting position.
 
-同理，如果 $s[i + k] \gt s[j + k]$，说明 $s[i,..,i+k]$ 的字典序更大。此时，我们更新 $j = j + k + 1$，并将 $k$ 重置为 $0$。这里我们跳过了以 $s[j,..,j+k]$ 为起始位置的所有后缀子串，因为它们的字典序一定小于对应的 $s[i,..,i+k]$ 为起始位置的后缀子串。
+Similarly, if $s[i + k] \gt s[j + k]$, it means that the dictionary order of $s[i,..,i+k]$ is larger. At this time, we update $j = j + k + 1$ and reset $k$ to $0$. Here we skip all suffix substrings with $s[j,..,j+k]$ as the starting position, because their dictionary orders are smaller than the suffix substrings with $s[i,..,i+k]$ as the starting position.
 
-最后，我们返回以 $i$ 为起始位置的后缀子串即可，即 $s[i,..,n-1]$。
+Finally, we return the suffix substring starting from $i$, that is, $s[i,..,n-1]$.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of string $s$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

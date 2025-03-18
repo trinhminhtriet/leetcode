@@ -1,58 +1,53 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2735.Collecting%20Chocolates/README.md
+difficulty: Medium
 rating: 2043
-source: 第 349 场周赛 Q3
+source: Weekly Contest 349 Q3
 tags:
-    - 数组
-    - 枚举
+    - Array
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [2735. 收集巧克力](https://leetcode.cn/problems/collecting-chocolates)
+# [2735. Collecting Chocolates](https://leetcode.com/problems/collecting-chocolates)
 
-[English Version](/solution/2700-2799/2735.Collecting%20Chocolates/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code>、下标从 <strong>0</strong> 开始的整数数组 <code>nums</code>，<code>nums[i]</code> 表示收集位于下标 <code>i</code> 处的巧克力成本。每个巧克力都对应一个不同的类型，最初，位于下标 <code>i</code> 的巧克力就对应第 <code>i</code> 个类型。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of size <code>n</code> representing the cost of collecting different chocolates. The cost of collecting the chocolate at the index <code>i</code>&nbsp;is <code>nums[i]</code>. Each chocolate is of a different type, and initially, the chocolate at the index&nbsp;<code>i</code>&nbsp;is of <code>i<sup>th</sup></code> type.</p>
 
-<p>在一步操作中，你可以用成本 <code>x</code> 执行下述行为：</p>
+<p>In one operation, you can do the following with an incurred <strong>cost</strong> of <code>x</code>:</p>
 
 <ul>
-	<li>同时修改所有巧克力的类型，将巧克力的类型&nbsp;<code>i<sup>th</sup></code>&nbsp;修改为类型&nbsp;<code>((i + 1) mod n)<sup>th</sup></code>。</li>
+	<li>Simultaneously change the chocolate of <code>i<sup>th</sup></code> type to <code>((i + 1) mod n)<sup>th</sup></code> type for all chocolates.</li>
 </ul>
 
-<p>假设你可以执行任意次操作，请返回收集所有类型巧克力所需的最小成本。</p>
+<p>Return <em>the minimum cost to collect chocolates of all types, given that you can perform as many operations as you would like.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [20,1,15], x = 5
-<strong>输出：</strong>13
-<strong>解释：</strong>最开始，巧克力的类型分别是 [0,1,2] 。我们可以用成本 1 购买第 1 个类型的巧克力。
-接着，我们用成本 5 执行一次操作，巧克力的类型变更为 [1,2,0] 。我们可以用成本 1 购买第 2 个类型的巧克力。
-然后，我们用成本 5 执行一次操作，巧克力的类型变更为 [2,0,1] 。我们可以用成本 1 购买第 0 个类型的巧克力。
-因此，收集所有类型的巧克力需要的总成本是 (1 + 5 + 1 + 5 + 1) = 13 。可以证明这是一种最优方案。
+<strong>Input:</strong> nums = [20,1,15], x = 5
+<strong>Output:</strong> 13
+<strong>Explanation:</strong> Initially, the chocolate types are [0,1,2]. We will buy the 1<sup>st</sup>&nbsp;type of chocolate at a cost of 1.
+Now, we will perform the operation at a cost of 5, and the types of chocolates will become [1,2,0]. We will buy the 2<sup>nd</sup><sup> </sup>type of chocolate at a cost of 1.
+Now, we will again perform the operation at a cost of 5, and the chocolate types will become [2,0,1]. We will buy the 0<sup>th </sup>type of chocolate at a cost of 1. 
+Thus, the total cost will become (1 + 5 + 1 + 5 + 1) = 13. We can prove that this is optimal.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3], x = 4
-<strong>输出：</strong>6
-<strong>解释：</strong>我们将会按最初的成本收集全部三个类型的巧克力，而不需执行任何操作。因此，收集所有类型的巧克力需要的总成本是 1 + 2 + 3 = 6 。
+<strong>Input:</strong> nums = [1,2,3], x = 4
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> We will collect all three types of chocolates at their own price without performing any operations. Therefore, the total cost is 1 + 2 + 3 = 6.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -62,21 +57,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们考虑枚举操作的次数，定义 $f[i][j]$ 表示第 $i$ 个巧克力进行了 $j$ 次操作后的最小成本。
+We consider enumerating the number of operations, and define $f[i][j]$ as the minimum cost after the $i$-th chocolate has undergone $j$ operations.
 
-对于第 $i$ 个巧克力：
+For the $i$-th chocolate:
 
--   如果 $j = 0$，即没有进行操作，那么 $f[i][j] = nums[i]$；
--   如果 $0 \lt j \leq n-1$，那么它的最小成本就是下标范围为 $[i,.. (i - j + n) \bmod n]$ 的最小成本，即 $f[i][j] = \min\{nums[i], nums[i - 1], \cdots, nums[(i - j + n) \bmod n]\}$，或者可以写成 $f[i][j] = \min\{f[i][j - 1], nums[(i - j + n) \bmod n]\}$。
--   如果 $j \ge n$，由于当 $j = n - 1$ 时，已经覆盖了所有最小成本，如果 $j$ 继续增大，那么最小成本不会再变化，但是操作次数的增加却会导致最终的成本增加，因此，我们不需要考虑 $j \ge n$ 的情况。
+-   If $j = 0$, i.e., no operation is performed, then $f[i][j] = nums[i]$.
+-   If $0 < j \leq n-1$, its minimum cost is the minimum cost within the index range $[i,.. (i - j + n) \bmod n]$, i.e., $f[i][j] = \min\{nums[i], nums[i - 1], \cdots, nums[(i - j + n) \bmod n]\}$, or it can be written as $f[i][j] = \min\{f[i][j - 1], nums[(i - j + n) \bmod n]\}$.
+-   If $j \ge n$, since when $j = n - 1$, all minimum costs have been covered, if $j$ continues to increase, the minimum cost will not change, but the increase in the number of operations will lead to an increase in the final cost, so we do not need to consider the case where $j \ge n$.
 
-综上，我们可以得到状态转移方程：
+In summary, we can get the state transition equation:
 
 $$
 f[i][j] =
@@ -86,9 +81,9 @@ nums[i] ,& j = 0 \\
 \end{cases}
 $$
 
-最后，我们只需要枚举操作的次数 $j$，计算出每种操作次数下的最小成本，取最小值即可。即答案为 $\min\limits_{0 \leq j \leq n - 1} \sum\limits_{i = 0}^{n - 1} f[i][j] + x \times j$。
+Finally, we only need to enumerate the number of operations $j$, calculate the minimum cost under each number of operations, and take the minimum value. That is, the answer is $\min\limits_{0 \leq j \leq n - 1} \sum\limits_{i = 0}^{n - 1} f[i][j] + x \times j$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

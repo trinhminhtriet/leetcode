@@ -1,86 +1,78 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0898.Bitwise%20ORs%20of%20Subarrays/README.md
+difficulty: Medium
 tags:
-    - 位运算
-    - 数组
-    - 动态规划
+    - Bit Manipulation
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [898. 子数组按位或操作](https://leetcode.cn/problems/bitwise-ors-of-subarrays)
+# [898. Bitwise ORs of Subarrays](https://leetcode.com/problems/bitwise-ors-of-subarrays)
 
-[English Version](/solution/0800-0899/0898.Bitwise%20ORs%20of%20Subarrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数数组<meta charset="UTF-8" />&nbsp;<code>arr</code>，返回所有&nbsp;<code>arr</code>&nbsp;的非空子数组的不同按位或的数量。</p>
+<p>Given an integer array <code>arr</code>, return <em>the number of distinct bitwise ORs of all the non-empty subarrays of</em> <code>arr</code>.</p>
 
-<p>子数组的按位或是子数组中每个整数的按位或。含有一个整数的子数组的按位或就是该整数。</p>
+<p>The bitwise OR of a subarray is the bitwise OR of each integer in the subarray. The bitwise OR of a subarray of one integer is that integer.</p>
 
-<p><strong>子数组</strong> 是数组内连续的非空元素序列。</p>
+<p>A <strong>subarray</strong> is a contiguous non-empty sequence of elements within an array.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [0]
-<strong>输出：</strong>1
-<strong>解释：</strong>
-只有一个可能的结果 0 。
+<strong>Input:</strong> arr = [0]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> There is only one possible result: 0.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [1,1,2]
-<strong>输出：</strong>3
-<strong>解释：</strong>
-可能的子数组为 [1]，[1]，[2]，[1, 1]，[1, 2]，[1, 1, 2]。
-产生的结果为 1，1，2，1，3，3 。
-有三个唯一值，所以答案是 3 。
+<strong>Input:</strong> arr = [1,1,2]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The possible subarrays are [1], [1], [2], [1, 1], [1, 2], [1, 1, 2].
+These yield the results 1, 1, 2, 1, 3, 3.
+There are 3 unique values, so the answer is 3.
 </pre>
 
-<p><strong>示例&nbsp;3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [1,2,4]
-<strong>输出：</strong>6
-<strong>解释：</strong>
-可能的结果是 1，2，3，4，6，以及 7 。
+<strong>Input:</strong> arr = [1,2,4]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The possible results are 1, 2, 3, 4, 6, and 7.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong><meta charset="UTF-8" /></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 5 * 10<sup>4</sup></code></li>
-	<li><code>0 &lt;= nums[i]&nbsp;&lt;= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= arr.length &lt;= 5 * 10<sup>4</sup></code></li>
+	<li><code>0 &lt;= arr[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-题目求的是子数组按位或操作的结果的数量，如果我们枚举子数组的结束位置 $i$，那么以 $i-1$ 结尾的子数组按位或操作的结果的数量最多不超过 $32$ 个。这是因为，按位或是一个单调递增的操作。
+The problem asks for the number of unique bitwise OR operations results of subarrays. If we enumerate the end position $i$ of the subarray, the number of bitwise OR operations results of the subarray ending at $i-1$ does not exceed $32$. This is because the bitwise OR operation is a monotonically increasing operation.
 
-因此，我们用一个哈希表 $ans$ 记录所有子数组按位或操作的结果，用一个哈希表 $s$ 记录以当前元素结尾的子数组按位或操作的结果，初始时 $s$ 只包含一个元素 $0$。
+Therefore, we use a hash table $ans$ to record all the results of the bitwise OR operations of subarrays, and a hash table $s$ to record the results of the bitwise OR operations of subarrays ending with the current element. Initially, $s$ only contains one element $0$.
 
-接下来，我们枚举子数组的结束位置 $i$，那么以 $i$ 结尾的子数组按位或操作的结果，是以 $i-1$ 结尾的子数组按位或操作的结果与 $a[i]$ 进行按位或操作的结果的集合，再加上 $a[i]$ 本身。我们用一个哈希表 $t$ 记录以 $i$ 结尾的子数组按位或操作的结果，然后我们更新 $s = t$，并将 $t$ 中的所有元素加入 $ans$。
+Next, we enumerate the end position $i$ of the subarray. The result of the bitwise OR operation of the subarray ending at $i$ is the set of results of the bitwise OR operation of the subarray ending at $i-1$ and $a[i]$, plus $a[i]$ itself. We use a hash table $t$ to record the results of the bitwise OR operation of the subarray ending at $i$, then we update $s = t$, and add all elements in $t$ to $ans$.
 
-最终，我们返回哈希表 $ans$ 中元素的数量即可。
+Finally, we return the number of elements in the hash table $ans$.
 
-时间复杂度 $O(n \times \log M)$，空间复杂度 $O(n \times \log M)$。其中 $n$ 和 $M$ 分别为数组长度和数组中元素的最大值。
+The time complexity is $O(n \times \log M)$, and the space complexity is $O(n \times \log M)$. Here, $n$ and $M$ are the length of the array and the maximum value in the array, respectively.
 
 <!-- tabs:start -->
 

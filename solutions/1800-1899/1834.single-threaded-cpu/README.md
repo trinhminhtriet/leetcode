@@ -1,72 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1834.Single-Threaded%20CPU/README.md
+difficulty: Medium
 rating: 1797
-source: 第 237 场周赛 Q3
+source: Weekly Contest 237 Q3
 tags:
-    - 数组
-    - 排序
-    - 堆（优先队列）
+    - Array
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1834. 单线程 CPU](https://leetcode.cn/problems/single-threaded-cpu)
+# [1834. Single-Threaded CPU](https://leetcode.com/problems/single-threaded-cpu)
 
-[English Version](/solution/1800-1899/1834.Single-Threaded%20CPU/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二维数组 <code>tasks</code> ，用于表示 <code>n</code>​​​​​​ 项从 <code>0</code> 到 <code>n - 1</code> 编号的任务。其中 <code>tasks[i] = [enqueueTime<sub>i</sub>, processingTime<sub>i</sub>]</code> 意味着第 <code>i<sup>​​​​​​</sup></code>​​​​ 项任务将会于 <code>enqueueTime<sub>i</sub></code> 时进入任务队列，需要 <code>processingTime<sub>i</sub></code><sub> </sub>的时长完成执行。</p>
+<p>You are given <code>n</code>​​​​​​ tasks labeled from <code>0</code> to <code>n - 1</code> represented by a 2D integer array <code>tasks</code>, where <code>tasks[i] = [enqueueTime<sub>i</sub>, processingTime<sub>i</sub>]</code> means that the <code>i<sup>​​​​​​th</sup></code>​​​​ task will be available to process at <code>enqueueTime<sub>i</sub></code> and will take <code>processingTime<sub>i</sub></code><sub> </sub>to finish processing.</p>
 
-<p>现有一个单线程 CPU ，同一时间只能执行 <strong>最多一项</strong> 任务，该 CPU 将会按照下述方式运行：</p>
+<p>You have a single-threaded CPU that can process <strong>at most one</strong> task at a time and will act in the following way:</p>
 
 <ul>
-	<li>如果 CPU 空闲，且任务队列中没有需要执行的任务，则 CPU 保持空闲状态。</li>
-	<li>如果 CPU 空闲，但任务队列中有需要执行的任务，则 CPU 将会选择 <strong>执行时间最短</strong> 的任务开始执行。如果多个任务具有同样的最短执行时间，则选择下标最小的任务开始执行。</li>
-	<li>一旦某项任务开始执行，CPU 在 <strong>执行完整个任务</strong> 前都不会停止。</li>
-	<li>CPU 可以在完成一项任务后，立即开始执行一项新任务。</li>
+	<li>If the CPU is idle and there are no available tasks to process, the CPU remains idle.</li>
+	<li>If the CPU is idle and there are available tasks, the CPU will choose the one with the <strong>shortest processing time</strong>. If multiple tasks have the same shortest processing time, it will choose the task with the smallest index.</li>
+	<li>Once a task is started, the CPU will <strong>process the entire task</strong> without stopping.</li>
+	<li>The CPU can finish a task then start a new one instantly.</li>
 </ul>
 
-<p>返回<em> </em>CPU<em> </em>处理任务的顺序。</p>
+<p>Return <em>the order in which the CPU will process the tasks.</em></p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>tasks = [[1,2],[2,4],[3,2],[4,1]]
-<strong>输出：</strong>[0,2,3,1]
-<strong>解释：</strong>事件按下述流程运行： 
-- time = 1 ，任务 0 进入任务队列，可执行任务项 = {0}
-- 同样在 time = 1 ，空闲状态的 CPU 开始执行任务 0 ，可执行任务项 = {}
-- time = 2 ，任务 1 进入任务队列，可执行任务项 = {1}
-- time = 3 ，任务 2 进入任务队列，可执行任务项 = {1, 2}
-- 同样在 time = 3 ，CPU 完成任务 0 并开始执行队列中用时最短的任务 2 ，可执行任务项 = {1}
-- time = 4 ，任务 3 进入任务队列，可执行任务项 = {1, 3}
-- time = 5 ，CPU 完成任务 2 并开始执行队列中用时最短的任务 3 ，可执行任务项 = {1}
-- time = 6 ，CPU 完成任务 3 并开始执行任务 1 ，可执行任务项 = {}
-- time = 10 ，CPU 完成任务 1 并进入空闲状态
+<pre>
+<strong>Input:</strong> tasks = [[1,2],[2,4],[3,2],[4,1]]
+<strong>Output:</strong> [0,2,3,1]
+<strong>Explanation: </strong>The events go as follows: 
+- At time = 1, task 0 is available to process. Available tasks = {0}.
+- Also at time = 1, the idle CPU starts processing task 0. Available tasks = {}.
+- At time = 2, task 1 is available to process. Available tasks = {1}.
+- At time = 3, task 2 is available to process. Available tasks = {1, 2}.
+- Also at time = 3, the CPU finishes task 0 and starts processing task 2 as it is the shortest. Available tasks = {1}.
+- At time = 4, task 3 is available to process. Available tasks = {1, 3}.
+- At time = 5, the CPU finishes task 2 and starts processing task 3 as it is the shortest. Available tasks = {1}.
+- At time = 6, the CPU finishes task 3 and starts processing task 1. Available tasks = {}.
+- At time = 10, the CPU finishes task 1 and becomes idle.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>tasks = [[7,10],[7,12],[7,5],[7,4],[7,2]]
-<strong>输出：</strong>[4,3,2,0,1]
-<strong>解释：</strong>事件按下述流程运行： 
-- time = 7 ，所有任务同时进入任务队列，可执行任务项  = {0,1,2,3,4}
-- 同样在 time = 7 ，空闲状态的 CPU 开始执行任务 4 ，可执行任务项 = {0,1,2,3}
-- time = 9 ，CPU 完成任务 4 并开始执行任务 3 ，可执行任务项 = {0,1,2}
-- time = 13 ，CPU 完成任务 3 并开始执行任务 2 ，可执行任务项 = {0,1}
-- time = 18 ，CPU 完成任务 2 并开始执行任务 0 ，可执行任务项 = {1}
-- time = 28 ，CPU 完成任务 0 并开始执行任务 1 ，可执行任务项 = {}
-- time = 40 ，CPU 完成任务 1 并进入空闲状态</pre>
+<pre>
+<strong>Input:</strong> tasks = [[7,10],[7,12],[7,5],[7,4],[7,2]]
+<strong>Output:</strong> [4,3,2,0,1]
+<strong>Explanation</strong><strong>: </strong>The events go as follows:
+- At time = 7, all the tasks become available. Available tasks = {0,1,2,3,4}.
+- Also at time = 7, the idle CPU starts processing task 4. Available tasks = {0,1,2,3}.
+- At time = 9, the CPU finishes task 4 and starts processing task 3. Available tasks = {0,1,2}.
+- At time = 13, the CPU finishes task 3 and starts processing task 2. Available tasks = {0,1}.
+- At time = 18, the CPU finishes task 2 and starts processing task 0. Available tasks = {1}.
+- At time = 28, the CPU finishes task 0 and starts processing task 1. Available tasks = {}.
+- At time = 40, the CPU finishes task 1 and becomes idle.
+</pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>tasks.length == n</code></li>
@@ -76,23 +74,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 优先队列（小根堆）
+### Solution 1: Sorting + Priority Queue (Min Heap)
 
-我们先将任务按照 `enqueueTime` 从小到大排序，接下来用一个优先队列（小根堆）维护当前可执行的任务，队列中的元素为 `(processingTime, index)`，即任务的执行时间和任务的编号。另外用一个变量 $t$ 表示当前时间，初始值为 $0$。
+First, we sort the tasks by `enqueueTime` in ascending order. Next, we use a priority queue (min heap) to maintain the currently executable tasks. The elements in the queue are `(processingTime, index)`, which represent the execution time and the index of the task. We also use a variable $t$ to represent the current time, initially set to $0$.
 
-接下来我们模拟任务的执行过程。
+Next, we simulate the execution process of the tasks.
 
-如果当前队列为空，说明当前没有可执行的任务，我们将 $t$ 更新为下一个任务的 `enqueueTime` 与当前时间 $t$ 中的较大值。接下来将所有 `enqueueTime` 小于等于 $t$ 的任务加入队列。
+If the current queue is empty, it means there are no executable tasks at the moment. We update $t$ to the larger value between the `enqueueTime` of the next task and the current time $t$. Then, we add all tasks with `enqueueTime` less than or equal to $t$ to the queue.
 
-然后从队列中取出一个任务，将其编号加入答案数组，然后将 $t$ 更新为当前时间 $t$ 与当前任务的执行时间之和。
+Then, we take out a task from the queue, add its index to the answer array, and update $t$ to the sum of the current time $t$ and the execution time of the current task.
 
-循环上述过程，直到队列为空，且所有任务都已经加入过队列。
+We repeat the above process until the queue is empty and all tasks have been added to the queue.
 
-时间复杂度 $O(n \times \log n)$，其中 $n$ 为任务的数量。
+The time complexity is $O(n \times \log n)$, where $n$ is the number of tasks.
 
 <!-- tabs:start -->
 

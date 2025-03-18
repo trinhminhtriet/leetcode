@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1693.Daily%20Leads%20and%20Partners/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1693. 每天的领导和合伙人](https://leetcode.cn/problems/daily-leads-and-partners)
+# [1693. Daily Leads and Partners](https://leetcode.com/problems/daily-leads-and-partners)
 
-[English Version](/solution/1600-1699/1693.Daily%20Leads%20and%20Partners/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>DailySales</code></p>
+<p>Table: <code>DailySales</code></p>
 
 <pre>
 +-------------+---------+
@@ -27,25 +24,25 @@ tags:
 | lead_id     | int     |
 | partner_id  | int     |
 +-------------+---------+
-该表没有主键(具有唯一值的列)。它可能包含重复项。
-该表包含日期、产品的名称，以及售给的领导和合伙人的编号。
-名称只包含小写英文字母。</pre>
+There is no primary key (column with unique values) for this table. It may contain duplicates.
+This table contains the date and the name of the product sold and the IDs of the lead and partner it was sold to.
+The name consists of only lowercase English letters.
+</pre>
 
 <p>&nbsp;</p>
 
-<p>对于每一个&nbsp;<code>date_id</code>&nbsp;和&nbsp;<code>make_name</code>，找出&nbsp;<strong>不同&nbsp;</strong>的&nbsp;<code>lead_id</code>&nbsp;以及&nbsp;<strong>不同&nbsp;</strong>的&nbsp;<code>partner_id</code>&nbsp;的数量。</p>
+<p>For each <code>date_id</code> and <code>make_name</code>, find the number of <strong>distinct</strong> <code>lead_id</code>&#39;s and <strong>distinct</strong> <code>partner_id</code>&#39;s.</p>
 
-<p>按 <strong>任意顺序</strong> 返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>返回结果格式如下示例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-DailySales 表：
+<strong>Input:</strong> 
+DailySales table:
 +-----------+-----------+---------+------------+
 | date_id   | make_name | lead_id | partner_id |
 +-----------+-----------+---------+------------+
@@ -60,7 +57,7 @@ DailySales 表：
 | 2020-12-7 | honda     | 1       | 2          |
 | 2020-12-7 | honda     | 2       | 1          |
 +-----------+-----------+---------+------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-----------+-----------+--------------+-----------------+
 | date_id   | make_name | unique_leads | unique_partners |
 +-----------+-----------+--------------+-----------------+
@@ -69,19 +66,20 @@ DailySales 表：
 | 2020-12-8 | honda     | 2            | 2               |
 | 2020-12-7 | honda     | 3            | 2               |
 +-----------+-----------+--------------+-----------------+
-<strong>解释：</strong>
-在 2020-12-8，丰田（toyota）有领导者 = [0, 1] 和合伙人 = [0, 1, 2] ，同时本田（honda）有领导者 = [1, 2] 和合伙人 = [1, 2]。
-在 2020-12-7，丰田（toyota）有领导者 = [0] 和合伙人 = [1, 2] ，同时本田（honda）有领导者 = [0, 1, 2] 和合伙人 = [1, 2]。</pre>
+<strong>Explanation:</strong> 
+For 2020-12-8, toyota gets leads = [0, 1] and partners = [0, 1, 2] while honda gets leads = [1, 2] and partners = [1, 2].
+For 2020-12-7, toyota gets leads = [0] and partners = [1, 2] while honda gets leads = [0, 1, 2] and partners = [1, 2].
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组统计
+### Solution 1: Group By + Count Distinct
 
-我们可以使用 `GROUP BY` 语句，按照 `date_id` 和 `make_name` 字段进行分组，然后使用 `COUNT(DISTINCT)` 函数，统计 `lead_id` 和 `partner_id` 的不同值的数量。
+We can use the `GROUP BY` statement to group the data by the `date_id` and `make_name` fields, and then use the `COUNT(DISTINCT)` function to count the number of distinct values for `lead_id` and `partner_id`.
 
 <!-- tabs:start -->
 

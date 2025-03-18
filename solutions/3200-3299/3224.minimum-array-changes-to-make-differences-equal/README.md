@@ -1,119 +1,114 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3224.Minimum%20Array%20Changes%20to%20Make%20Differences%20Equal/README.md
+difficulty: Medium
 rating: 1996
-source: 第 135 场双周赛 Q3
+source: Biweekly Contest 135 Q3
 tags:
-    - 数组
-    - 哈希表
-    - 前缀和
+    - Array
+    - Hash Table
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [3224. 使差值相等的最少数组改动次数](https://leetcode.cn/problems/minimum-array-changes-to-make-differences-equal)
+# [3224. Minimum Array Changes to Make Differences Equal](https://leetcode.com/problems/minimum-array-changes-to-make-differences-equal)
 
-[English Version](/solution/3200-3299/3224.Minimum%20Array%20Changes%20to%20Make%20Differences%20Equal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;，<code>n</code>&nbsp;是 <strong>偶数</strong>&nbsp;，同时给你一个整数&nbsp;<code>k</code>&nbsp;。</p>
+<p>You are given an integer array <code>nums</code> of size <code>n</code> where <code>n</code> is <strong>even</strong>, and an integer <code>k</code>.</p>
 
-<p>你可以对数组进行一些操作。每次操作中，你可以将数组中 <strong>任一</strong>&nbsp;元素替换为 <code>0</code>&nbsp;到 <code>k</code>&nbsp;之间的<strong>&nbsp;任一</strong>&nbsp;整数。</p>
+<p>You can perform some changes on the array, where in one change you can replace <strong>any</strong> element in the array with <strong>any</strong> integer in the range from <code>0</code> to <code>k</code>.</p>
 
-<p>执行完所有操作以后，你需要确保最后得到的数组满足以下条件：</p>
+<p>You need to perform some changes (possibly none) such that the final array satisfies the following condition:</p>
 
 <ul>
-	<li>存在一个整数 <code>X</code>&nbsp;，满足对于所有的&nbsp;<code>(0 &lt;= i &lt; n)</code>&nbsp;都有&nbsp;<code>abs(a[i] - a[n - i - 1]) = X</code>&nbsp;。</li>
+	<li>There exists an integer <code>X</code> such that <code>abs(a[i] - a[n - i - 1]) = X</code> for all <code>(0 &lt;= i &lt; n)</code>.</li>
 </ul>
 
-<p>请你返回满足以上条件 <strong>最少</strong>&nbsp;修改次数。</p>
+<p>Return the <strong>minimum</strong> number of changes required to satisfy the above condition.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,0,1,2,4,3], k = 4</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,0,1,2,4,3], k = 4</span></p>
 
-<p><span class="example-io"><b>输出：</b>2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong><br />
-我们可以执行以下操作：</p>
+<p><strong>Explanation:</strong><br />
+We can perform the following changes:</p>
 
 <ul>
-	<li>将&nbsp;<code>nums[1]</code>&nbsp;变为 2 ，结果数组为&nbsp;<code>nums = [1,<em><strong>2</strong></em>,1,2,4,3]</code>&nbsp;。</li>
-	<li>将&nbsp;<code>nums[3]</code>&nbsp;变为 3 ，结果数组为&nbsp;<code>nums = [1,2,1,<em><strong>3</strong></em>,4,3]</code>&nbsp;。</li>
+	<li>Replace <code>nums[1]</code> by 2. The resulting array is <code>nums = [1,<u><strong>2</strong></u>,1,2,4,3]</code>.</li>
+	<li>Replace <code>nums[3]</code> by 3. The resulting array is <code>nums = [1,2,1,<u><strong>3</strong></u>,4,3]</code>.</li>
 </ul>
 
-<p>整数&nbsp;<code>X</code>&nbsp;为 2 。</p>
+<p>The integer <code>X</code> will be 2.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [0,1,2,3,3,6,5,4], k = 6</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [0,1,2,3,3,6,5,4], k = 6</span></p>
 
-<p><span class="example-io"><b>输出：</b>2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong><br />
-我们可以执行以下操作：</p>
+<p><strong>Explanation:</strong><br />
+We can perform the following operations:</p>
 
 <ul>
-	<li>将&nbsp;<code>nums[3]</code>&nbsp;变为 0 ，结果数组为&nbsp;<code>nums = [0,1,2,<em><strong>0</strong></em>,3,6,5,4]</code>&nbsp;。</li>
-	<li>将&nbsp;<code>nums[4]</code>&nbsp;变为 4 ，结果数组为&nbsp;<code>nums = [0,1,2,0,<em><strong>4</strong></em>,6,5,4]</code>&nbsp;。</li>
+	<li>Replace <code>nums[3]</code> by 0. The resulting array is <code>nums = [0,1,2,<u><strong>0</strong></u>,3,6,5,4]</code>.</li>
+	<li>Replace <code>nums[4]</code> by 4. The resulting array is <code>nums = [0,1,2,0,<strong><u>4</u></strong>,6,5,4]</code>.</li>
 </ul>
 
-<p>整数 <code>X</code>&nbsp;为 4 。</p>
+<p>The integer <code>X</code> will be 4.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n == nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>n</code>&nbsp;是偶数。</li>
+	<li><code>n</code> is even.</li>
 	<li><code>0 &lt;= nums[i] &lt;= k &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：差分数组
+### Solution 1: Difference Array
 
-假设最终的数组中，数对 $\textit{nums}[i]$ 和 $\textit{nums}[n-i-1]$ 的差值为 $s$。
+Assume that in the final array, the difference between the pair $\textit{nums}[i]$ and $\textit{nums}[n-i-1]$ is $s$.
 
-我们不妨设 $x$ 为 $\textit{nums}[i]$ 和 $\textit{nums}[n-i-1]$ 的较小值，设 $y$ 为 $\textit{nums}[i]$ 和 $\textit{nums}[n-i-1]$ 的较大值。
+Let's denote $x$ as the smaller value between $\textit{nums}[i]$ and $\textit{nums}[n-i-1]$, and $y$ as the larger value.
 
-对于每一对数，我们有以下几种情况：
+For each pair of numbers, we have the following scenarios:
 
--   如果不需要改动，那么 $y - x = s$。
--   如果改动一次，那么 $s \le \max(y, k - x)$，最大值就是把 $x$ 变为 $0$，或者把 $y$ 变为 $k$。
--   如果改动两次，那么 $s \gt \max(y, k - x)$。
+-   If no change is needed, then $y - x = s$.
+-   If one change is made, then $s \le \max(y, k - x)$, where the maximum value is achieved by changing $x$ to $0$, or changing $y$ to $k$.
+-   If two changes are made, then $s > \max(y, k - x)$.
 
-即：
+That is:
 
--   在 $[0,y-x-1]$ 范围内，需要改动 $1$ 次。
--   在 $[y-x]$ 时，不需要改动。
--   在 $[y-x+1, \max(y, k-x)]$ 范围内，需要改动 $1$ 次。
--   在 $[\max(y, k-x)+1, k]$ 范围内，需要改动 $2$ 次。
+-   In the range $[0, y-x-1]$, $1$ change is needed.
+-   At $[y-x]$, no change is needed.
+-   In the range $[y-x+1, \max(y, k-x)]$, $1$ change is needed.
+-   In the range $[\max(y, k-x)+1, k]$, $2$ changes are needed.
 
-我们枚举每一个数对，利用差分数组，更新每个数对在不同区间范围内的改动次数。
+We enumerate each pair of numbers and use a difference array to update the number of changes needed in different ranges for each pair.
 
-最后，我们求出差分数组的前缀和中的最小值，即为最少的改动次数。
+Finally, we find the minimum value among the prefix sums from the difference array, which is the minimum number of changes needed.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
-相似题目：
+Similar problems:
 
--   [1674. 使数组互补的最少操作次数](https://github.com/doocs/leetcode/tree/main/solution/1600-1699/1674.Minimum%20Moves%20to%20Make%20Array%20Complementary/README.md)
+-   [1674. Minimum Moves to Make Array Complementary](https://github.com/doocs/leetcode/tree/main/solution/1600-1699/1674.Minimum%20Moves%20to%20Make%20Array%20Complementary/README_EN.md)
 
 <!-- tabs:start -->
 

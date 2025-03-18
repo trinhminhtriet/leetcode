@@ -1,66 +1,61 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1271.Hexspeak/README.md
+difficulty: Easy
 rating: 1384
-source: 第 14 场双周赛 Q1
+source: Biweekly Contest 14 Q1
 tags:
-    - 数学
-    - 字符串
+    - Math
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1271. 十六进制魔术数字 🔒](https://leetcode.cn/problems/hexspeak)
+# [1271. Hexspeak 🔒](https://leetcode.com/problems/hexspeak)
 
-[English Version](/solution/1200-1299/1271.Hexspeak/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有一个十进制数字，请按照此规则将它变成「十六进制魔术数字」：首先将它变成字母大写的十六进制字符串，然后将所有的数字&nbsp;<code>0</code> 变成字母&nbsp;<code>O</code> ，将数字&nbsp;<code>1</code> &nbsp;变成字母&nbsp;<code>I</code> 。</p>
+<p>A decimal number can be converted to its <strong>Hexspeak representation</strong> by first converting it to an uppercase hexadecimal string, then replacing all occurrences of the digit <code>&#39;0&#39;</code> with the letter <code>&#39;O&#39;</code>, and the digit <code>&#39;1&#39;</code> with the letter <code>&#39;I&#39;</code>. Such a representation is valid if and only if it consists only of the letters in the set <code>{&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;I&#39;, &#39;O&#39;}</code>.</p>
 
-<p>如果一个数字在转换后只包含&nbsp;<code>{&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;, &quot;I&quot;, &quot;O&quot;}</code>&nbsp;，那么我们就认为这个转换是有效的。</p>
-
-<p>给你一个字符串&nbsp;<code>num</code> ，它表示一个十进制数 <code>N</code>，如果它的十六进制魔术数字转换是有效的，请返回转换后的结果，否则返回&nbsp;<code>&quot;ERROR&quot;</code> 。</p>
+<p>Given a string <code>num</code> representing a decimal integer <code>n</code>, <em>return the <strong>Hexspeak representation</strong> of </em><code>n</code><em> if it is valid, otherwise return </em><code>&quot;ERROR&quot;</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>num = &quot;257&quot;
-<strong>输出：</strong>&quot;IOI&quot;
-<strong>解释：</strong>257 的十六进制表示是 101 。
+<pre>
+<strong>Input:</strong> num = &quot;257&quot;
+<strong>Output:</strong> &quot;IOI&quot;
+<strong>Explanation:</strong> 257 is 101 in hexadecimal.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>num = &quot;3&quot;
-<strong>输出：</strong>&quot;ERROR&quot;
+<pre>
+<strong>Input:</strong> num = &quot;3&quot;
+<strong>Output:</strong> &quot;ERROR&quot;
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= N &lt;= 10^12</code></li>
-	<li>给定字符串不会有前导 0 。</li>
-	<li>结果中的所有字母都应该是大写字母。</li>
+	<li><code>1 &lt;= num.length &lt;= 12</code></li>
+	<li><code>num</code> does not contain leading zeros.</li>
+	<li>num represents an integer in the range <code>[1, 10<sup>12</sup>]</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-将数字转换为十六进制字符串，然后遍历字符串，将数字 $0$ 转换为字母 $O$，将数字 $1$ 转换为字母 $I$，最后判断转换后的字符串是否合法。
+Convert the number to a hexadecimal string, then traverse the string, convert the number $0$ to the letter $O$, and the number $1$ to the letter $I$. Finally, check whether the converted string is valid.
 
-时间复杂度 $O(\log n)$，其中 $n$ 为 $num$ 所表示的十进制数字的大小。
+The time complexity is $O(\log n)$, where $n$ is the size of the decimal number represented by $num$.
 
 <!-- tabs:start -->
 
@@ -68,7 +63,7 @@ tags:
 
 ```python
 class Solution:
-    def toHexspeak(self, num: str) -> str:
+    def toHexspeak 🔒(self, num: str) -> str:
         s = set('ABCDEFIO')
         t = hex(int(num))[2:].upper().replace('0', 'O').replace('1', 'I')
         return t if all(c in s for c in t) else 'ERROR'
@@ -80,7 +75,7 @@ class Solution:
 class Solution {
     private static final Set<Character> S = Set.of('A', 'B', 'C', 'D', 'E', 'F', 'I', 'O');
 
-    public String toHexspeak(String num) {
+    public String toHexspeak 🔒(String num) {
         String t
             = Long.toHexString(Long.valueOf(num)).toUpperCase().replace("0", "O").replace("1", "I");
         for (char c : t.toCharArray()) {
@@ -98,7 +93,7 @@ class Solution {
 ```cpp
 class Solution {
 public:
-    string toHexspeak(string num) {
+    string toHexspeak 🔒(string num) {
         stringstream ss;
         ss << hex << stol(num);
         string t = ss.str();
@@ -119,7 +114,7 @@ public:
 #### Go
 
 ```go
-func toHexspeak(num string) string {
+func toHexspeak 🔒(num string) string {
 	x, _ := strconv.Atoi(num)
 	t := strings.ToUpper(fmt.Sprintf("%x", x))
 	t = strings.ReplaceAll(t, "0", "O")

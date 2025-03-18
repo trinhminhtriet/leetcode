@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0608.Tree%20Node/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [608. 树节点](https://leetcode.cn/problems/tree-node)
+# [608. Tree Node](https://leetcode.com/problems/tree-node)
 
-[English Version](/solution/0600-0699/0608.Tree%20Node/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Tree</code></p>
+<p>Table: <code>Tree</code></p>
 
 <pre>
 +-------------+------+
@@ -25,33 +22,32 @@ tags:
 | id          | int  |
 | p_id        | int  |
 +-------------+------+
-id 是该表中具有唯一值的列。
-该表的每行包含树中节点的 id 及其父节点的 id 信息。
-给定的结构总是一个有效的树。
+id is the column with unique values for this table.
+Each row of this table contains information about the id of a node and the id of its parent node in a tree.
+The given structure is always a valid tree.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>树中的每个节点可以是以下三种类型之一：</p>
+<p>Each node in the tree can be one of three types:</p>
 
 <ul>
-	<li><strong>"Leaf"</strong>：节点是叶子节点。</li>
-	<li><strong>"Root"</strong>：节点是树的根节点。</li>
-	<li><strong>"lnner"</strong>：节点既不是叶子节点也不是根节点。</li>
+	<li><strong>&quot;Leaf&quot;</strong>: if the node is a leaf node.</li>
+	<li><strong>&quot;Root&quot;</strong>: if the node is the root of the tree.</li>
+	<li><strong>&quot;Inner&quot;</strong>: If the node is neither a leaf node nor a root node.</li>
 </ul>
 
-<p>编写一个解决方案来报告树中每个节点的类型。</p>
+<p>Write a solution to report the type of each node in the tree.</p>
 
-<p>以 <strong>任意顺序</strong> 返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0608.Tree%20Node/images/tree1.jpg" style="width: 304px; height: 224px;" />
 <pre>
-<b>输入：</b>
+<strong>Input:</strong> 
 Tree table:
 +----+------+
 | id | p_id |
@@ -62,7 +58,7 @@ Tree table:
 | 4  | 2    |
 | 5  | 2    |
 +----+------+
-<b>输出：</b>
+<strong>Output:</strong> 
 +----+-------+
 | id | type  |
 +----+-------+
@@ -72,48 +68,47 @@ Tree table:
 | 4  | Leaf  |
 | 5  | Leaf  |
 +----+-------+
-<b>解释：</b>
-节点 1 是根节点，因为它的父节点为空，并且它有子节点 2 和 3。
-节点 2 是一个内部节点，因为它有父节点 1 和子节点 4 和 5。
-节点 3、4 和 5 是叶子节点，因为它们有父节点而没有子节点。
+<strong>Explanation:</strong> 
+Node 1 is the root node because its parent node is null and it has child nodes 2 and 3.
+Node 2 is an inner node because it has parent node 1 and child node 4 and 5.
+Nodes 3, 4, and 5 are leaf nodes because they have parent nodes and they do not have child nodes.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0608.Tree%20Node/images/tree2.jpg" style="width: 64px; height: 65px;" />
 <pre>
-<b>输入：</b>
+<strong>Input:</strong> 
 Tree table:
 +----+------+
 | id | p_id |
 +----+------+
 | 1  | null |
 +----+------+
-<b>输出：</b>
+<strong>Output:</strong> 
 +----+-------+
 | id | type  |
 +----+-------+
 | 1  | Root  |
 +----+-------+
-<b>解释：</b>如果树中只有一个节点，则只需要输出其根属性。
+<strong>Explanation:</strong> If there is only one node on the tree, you only need to output its root attributes.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>注意：</strong>本题与 <a href="https://leetcode.cn/problems/binary-tree-nodes/">3054. 二叉树节点</a> 一致。</p>
+<p><strong>Note:</strong> This question is the same as <a href="https://leetcode.com/problems/binary-tree-nodes/description/" target="_blank"> 3054: Binary Tree Nodes.</a></p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：条件判断 + 子查询
+### Solution 1: Conditional Statements + Subquery
 
-我们可以使用 `CASE WHEN` 条件判断语句来判断每个节点的类型，具体地：
+We can use the `CASE WHEN` conditional statement to determine the type of each node as follows:
 
--   如果一个节点的 `p_id` 为 `NULL`，则该节点为根节点；
--   否则，如果一个节点是另一个节点的父节点（这里我们使用子查询来判断），则该节点为内部节点；
--   否则，该节点为叶子节点。
+-   If a node's `p_id` is `NULL`, then it is a root node.
+-   Otherwise, if a node is the parent node of another node (we use a subquery to determine this), then it is an internal node.
+-   Otherwise, it is a leaf node.
 
 <!-- tabs:start -->
 

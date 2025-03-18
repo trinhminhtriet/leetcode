@@ -1,70 +1,63 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0965.Univalued%20Binary%20Tree/README.md
+difficulty: Easy
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [965. 单值二叉树](https://leetcode.cn/problems/univalued-binary-tree)
+# [965. Univalued Binary Tree](https://leetcode.com/problems/univalued-binary-tree)
 
-[English Version](/solution/0900-0999/0965.Univalued%20Binary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>如果二叉树每个节点都具有相同的值，那么该二叉树就是<em>单值</em>二叉树。</p>
+<p>A binary tree is <strong>uni-valued</strong> if every node in the tree has the same value.</p>
 
-<p>只有给定的树是单值二叉树时，才返回&nbsp;<code>true</code>；否则返回 <code>false</code>。</p>
+<p>Given the <code>root</code> of a binary tree, return <code>true</code><em> if the given tree is <strong>uni-valued</strong>, or </em><code>false</code><em> otherwise.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0965.Univalued%20Binary%20Tree/images/screen-shot-2018-12-25-at-50104-pm.png" style="height: 159px; width: 200px;"></p>
-
-<pre><strong>输入：</strong>[1,1,1,1,1,null,1]
-<strong>输出：</strong>true
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0965.Univalued%20Binary%20Tree/images/unival_bst_1.png" style="width: 265px; height: 172px;" />
+<pre>
+<strong>Input:</strong> root = [1,1,1,1,1,null,1]
+<strong>Output:</strong> true
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0965.Univalued%20Binary%20Tree/images/screen-shot-2018-12-25-at-50050-pm.png" style="height: 158px; width: 200px;"></p>
-
-<pre><strong>输入：</strong>[2,2,2,5,2]
-<strong>输出：</strong>false
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0965.Univalued%20Binary%20Tree/images/unival_bst_2.png" style="width: 198px; height: 169px;" />
+<pre>
+<strong>Input:</strong> root = [2,2,2,5,2]
+<strong>Output:</strong> false
 </pre>
 
 <p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
-<p><strong>提示：</strong></p>
-
-<ol>
-	<li>给定树的节点数范围是&nbsp;<code>[1, 100]</code>。</li>
-	<li>每个节点的值都是整数，范围为&nbsp;<code>[0, 99]</code>&nbsp;。</li>
-</ol>
+<ul>
+	<li>The number of nodes in the tree is in the range <code>[1, 100]</code>.</li>
+	<li><code>0 &lt;= Node.val &lt; 100</code></li>
+</ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
+### Solution 1: DFS
 
-我们记根节点的值为 $x$，然后设计一个函数 $\text{dfs}(\text{root})$，它表示当前节点的值是否等于 $x$，并且它的左右子树也是单值二叉树。
+We denote the value of the root node as $x$, and then design a function $\text{dfs}(\text{root})$, which indicates whether the current node's value is equal to $x$ and its left and right subtrees are also univalued binary trees.
 
-在函数 $\text{dfs}(\text{root})$ 中，如果当前节点为空，那么返回 $\text{true}$，否则，如果当前节点的值等于 $x$，并且它的左右子树也是单值二叉树，那么返回 $\text{true}$，否则返回 $\text{false}$。
+In the function $\text{dfs}(\text{root})$, if the current node is null, return $\text{true}$; otherwise, if the current node's value is equal to $x$ and its left and right subtrees are also univalued binary trees, return $\text{true}$; otherwise, return $\text{false}$.
 
-在主函数中，我们调用 $\text{dfs}(\text{root})$，并返回结果。
+In the main function, we call $\text{dfs}(\text{root})$ and return the result.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是树中的节点数目。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the number of nodes in the tree.
 
 <!-- tabs:start -->
 

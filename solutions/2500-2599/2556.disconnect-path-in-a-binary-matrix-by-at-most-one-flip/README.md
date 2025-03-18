@@ -1,84 +1,76 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2556.Disconnect%20Path%20in%20a%20Binary%20Matrix%20by%20at%20Most%20One%20Flip/README.md
+difficulty: Medium
 rating: 2368
-source: 第 97 场双周赛 Q4
+source: Biweekly Contest 97 Q4
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 数组
-    - 动态规划
-    - 矩阵
+    - Depth-First Search
+    - Breadth-First Search
+    - Array
+    - Dynamic Programming
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [2556. 二进制矩阵中翻转最多一次使路径不连通](https://leetcode.cn/problems/disconnect-path-in-a-binary-matrix-by-at-most-one-flip)
+# [2556. Disconnect Path in a Binary Matrix by at Most One Flip](https://leetcode.com/problems/disconnect-path-in-a-binary-matrix-by-at-most-one-flip)
 
-[English Version](/solution/2500-2599/2556.Disconnect%20Path%20in%20a%20Binary%20Matrix%20by%20at%20Most%20One%20Flip/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的&nbsp;<code>m x n</code>&nbsp;<strong>二进制</strong> 矩阵&nbsp;<code>grid</code>&nbsp;。你可以从一个格子&nbsp;<code>(row, col)</code>&nbsp;移动到格子&nbsp;<code>(row + 1, col)</code>&nbsp;或者&nbsp;<code>(row, col + 1)</code>&nbsp;，前提是前往的格子值为 <code>1</code>&nbsp;。如果从&nbsp;<code>(0, 0)</code>&nbsp;到&nbsp;<code>(m - 1, n - 1)</code>&nbsp;没有任何路径，我们称该矩阵是&nbsp;<strong>不连通</strong>&nbsp;的。</p>
+<p>You are given a <strong>0-indexed</strong> <code>m x n</code> <strong>binary</strong> matrix <code>grid</code>. You can move from a cell <code>(row, col)</code> to any of the cells <code>(row + 1, col)</code> or <code>(row, col + 1)</code> that has the value <code>1</code>.&nbsp;The matrix is <strong>disconnected</strong> if there is no path from <code>(0, 0)</code> to <code>(m - 1, n - 1)</code>.</p>
 
-<p>你可以翻转 <strong>最多一个</strong>&nbsp;格子的值（也可以不翻转）。你 <strong>不能翻转</strong>&nbsp;格子&nbsp;<code>(0, 0)</code> 和&nbsp;<code>(m - 1, n - 1)</code>&nbsp;。</p>
+<p>You can flip the value of <strong>at most one</strong> (possibly none) cell. You <strong>cannot flip</strong> the cells <code>(0, 0)</code> and <code>(m - 1, n - 1)</code>.</p>
 
-<p>如果可以使矩阵不连通，请你返回&nbsp;<code>true</code>&nbsp;，否则返回<em>&nbsp;</em><code>false</code><em>&nbsp;</em>。</p>
+<p>Return <code>true</code> <em>if it is possible to make the matrix disconnect or </em><code>false</code><em> otherwise</em>.</p>
 
-<p><strong>注意</strong>&nbsp;，翻转一个格子的值，可以使它的值从&nbsp;<code>0</code>&nbsp;变&nbsp;<code>1</code>&nbsp;，或从&nbsp;<code>1</code>&nbsp;变&nbsp;<code>0</code>&nbsp;。</p>
+<p><strong>Note</strong> that flipping a cell changes its value from <code>0</code> to <code>1</code> or from <code>1</code> to <code>0</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2556.Disconnect%20Path%20in%20a%20Binary%20Matrix%20by%20at%20Most%20One%20Flip/images/yetgrid2drawio.png" style="width: 441px; height: 151px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2556.Disconnect%20Path%20in%20a%20Binary%20Matrix%20by%20at%20Most%20One%20Flip/images/yetgrid2drawio.png" style="width: 441px; height: 151px;" />
 <pre>
-<b>输入：</b>grid = [[1,1,1],[1,0,0],[1,1,1]]
-<strong>输出：</strong>true
-<b>解释：</b>按照上图所示我们翻转蓝色格子里的值，翻转后从 (0, 0) 到 (2, 2) 没有路径。
+<strong>Input:</strong> grid = [[1,1,1],[1,0,0],[1,1,1]]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> We can change the cell shown in the diagram above. There is no path from (0, 0) to (2, 2) in the resulting grid.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2556.Disconnect%20Path%20in%20a%20Binary%20Matrix%20by%20at%20Most%20One%20Flip/images/yetgrid3drawio.png" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2556.Disconnect%20Path%20in%20a%20Binary%20Matrix%20by%20at%20Most%20One%20Flip/images/yetgrid3drawio.png" />
 <pre>
-<b>输入：</b>grid = [[1,1,1],[1,0,1],[1,1,1]]
-<b>输出：</b>false
-<b>解释：</b>无法翻转至多一个格子，使 (0, 0) 到 (2, 2) 没有路径。
+<strong>Input:</strong> grid = [[1,1,1],[1,0,1],[1,1,1]]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> It is not possible to change at most one cell such that there is not path from (0, 0) to (2, 2).
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 1000</code></li>
 	<li><code>1 &lt;= m * n &lt;= 10<sup>5</sup></code></li>
+	<li><code>grid[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
 	<li><code>grid[0][0] == grid[m - 1][n - 1] == 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：两次 DFS
+### Solution 1: Two DFS Traversals
 
-我们先进行一次 DFS，判断从 $(0, 0)$ 到 $(m - 1, n - 1)$ 是否存在路径，记结果为 $a$。在 DFS 的过程中，我们将访问过的格子的值置为 $0$，以防止重复访问。
+First, we perform a DFS traversal to determine whether there is a path from $(0, 0)$ to $(m - 1, n - 1)$, and we denote the result as $a$. During the DFS process, we set the value of the visited cells to $0$ to prevent revisiting.
 
-接下来，我们将 $(0, 0)$ 和 $(m - 1, n - 1)$ 的值置为 $1$，再进行一次 DFS，判断从 $(0, 0)$ 到 $(m - 1, n - 1)$ 是否存在路径，记结果为 $b$。在 DFS 的过程中，我们将访问过的格子的值置为 $0$，避免重复访问。
+Next, we set the values of $(0, 0)$ and $(m - 1, n - 1)$ to $1$, and perform another DFS traversal to determine whether there is a path from $(0, 0)$ to $(m - 1, n - 1)$, and we denote the result as $b$. During the DFS process, we set the value of the visited cells to $0$ to avoid revisiting.
 
-最后，如果 $a$ 和 $b$ 都为 `true`，则返回 `false`，否则返回 `true`。
+Finally, if both $a$ and $b$ are `true`, we return `false`, otherwise, we return `true`.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
+The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the number of rows and columns of the matrix, respectively.
 
 <!-- tabs:start -->
 

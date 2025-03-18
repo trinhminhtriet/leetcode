@@ -1,90 +1,86 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2336.Smallest%20Number%20in%20Infinite%20Set/README.md
+difficulty: Medium
 rating: 1375
-source: 第 301 场周赛 Q2
+source: Weekly Contest 301 Q2
 tags:
-    - 设计
-    - 哈希表
-    - 有序集合
-    - 堆（优先队列）
+    - Design
+    - Hash Table
+    - Ordered Set
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2336. 无限集中的最小数字](https://leetcode.cn/problems/smallest-number-in-infinite-set)
+# [2336. Smallest Number in Infinite Set](https://leetcode.com/problems/smallest-number-in-infinite-set)
 
-[English Version](/solution/2300-2399/2336.Smallest%20Number%20in%20Infinite%20Set/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>现有一个包含所有正整数的集合 <code>[1, 2, 3, 4, 5, ...]</code> 。</p>
+<p>You have a set which contains all positive integers <code>[1, 2, 3, 4, 5, ...]</code>.</p>
 
-<p>实现 <code>SmallestInfiniteSet</code> 类：</p>
+<p>Implement the <code>SmallestInfiniteSet</code> class:</p>
 
 <ul>
-	<li><code>SmallestInfiniteSet()</code> 初始化 <strong>SmallestInfiniteSet</strong> 对象以包含 <strong>所有</strong> 正整数。</li>
-	<li><code>int popSmallest()</code> <strong>移除</strong> 并返回该无限集中的最小整数。</li>
-	<li><code>void addBack(int num)</code> 如果正整数 <code>num</code> <strong>不</strong> 存在于无限集中，则将一个 <code>num</code> <strong>添加</strong> 到该无限集中。</li>
+	<li><code>SmallestInfiniteSet()</code> Initializes the <strong>SmallestInfiniteSet</strong> object to contain <strong>all</strong> positive integers.</li>
+	<li><code>int popSmallest()</code> <strong>Removes</strong> and returns the smallest integer contained in the infinite set.</li>
+	<li><code>void addBack(int num)</code> <strong>Adds</strong> a positive integer <code>num</code> back into the infinite set, if it is <strong>not</strong> already in the infinite set.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["SmallestInfiniteSet", "addBack", "popSmallest", "popSmallest", "popSmallest", "addBack", "popSmallest", "popSmallest", "popSmallest"]
+<strong>Input</strong>
+[&quot;SmallestInfiniteSet&quot;, &quot;addBack&quot;, &quot;popSmallest&quot;, &quot;popSmallest&quot;, &quot;popSmallest&quot;, &quot;addBack&quot;, &quot;popSmallest&quot;, &quot;popSmallest&quot;, &quot;popSmallest&quot;]
 [[], [2], [], [], [], [1], [], [], []]
-<strong>输出</strong>
+<strong>Output</strong>
 [null, null, 1, 2, 3, null, 1, 4, 5]
 
-<strong>解释</strong>
+<strong>Explanation</strong>
 SmallestInfiniteSet smallestInfiniteSet = new SmallestInfiniteSet();
-smallestInfiniteSet.addBack(2);    // 2 已经在集合中，所以不做任何变更。
-smallestInfiniteSet.popSmallest(); // 返回 1 ，因为 1 是最小的整数，并将其从集合中移除。
-smallestInfiniteSet.popSmallest(); // 返回 2 ，并将其从集合中移除。
-smallestInfiniteSet.popSmallest(); // 返回 3 ，并将其从集合中移除。
-smallestInfiniteSet.addBack(1);    // 将 1 添加到该集合中。
-smallestInfiniteSet.popSmallest(); // 返回 1 ，因为 1 在上一步中被添加到集合中，
-                                   // 且 1 是最小的整数，并将其从集合中移除。
-smallestInfiniteSet.popSmallest(); // 返回 4 ，并将其从集合中移除。
-smallestInfiniteSet.popSmallest(); // 返回 5 ，并将其从集合中移除。</pre>
+smallestInfiniteSet.addBack(2);    // 2 is already in the set, so no change is made.
+smallestInfiniteSet.popSmallest(); // return 1, since 1 is the smallest number, and remove it from the set.
+smallestInfiniteSet.popSmallest(); // return 2, and remove it from the set.
+smallestInfiniteSet.popSmallest(); // return 3, and remove it from the set.
+smallestInfiniteSet.addBack(1);    // 1 is added back to the set.
+smallestInfiniteSet.popSmallest(); // return 1, since 1 was added back to the set and
+                                   // is the smallest number, and remove it from the set.
+smallestInfiniteSet.popSmallest(); // return 4, and remove it from the set.
+smallestInfiniteSet.popSmallest(); // return 5, and remove it from the set.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num &lt;= 1000</code></li>
-	<li>最多调用 <code>popSmallest</code> 和 <code>addBack</code> 方法 <strong>共计</strong> <code>1000</code> 次</li>
+	<li>At most <code>1000</code> calls will be made <strong>in total</strong> to <code>popSmallest</code> and <code>addBack</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：有序集合 + 模拟
+### Solution 1: Ordered Set + Simulation
 
-我们注意到，题目中集合的元素范围是 $[1, 1000]$，并且我们需要支持的操作有：
+We note that the range of elements in the set given by the problem is $[1, 1000]$, and the operations we need to support are:
 
--   `popSmallest`：弹出集合中的最小元素
--   `addBack`：向集合中添加元素
+-   `popSmallest`: Pop the smallest element from the set
+-   `addBack`: Add an element back to the set
 
-因此，我们可以使用有序集合来模拟，不妨记有序集合为 $s$，集合中的元素为 $s_1, s_2, \cdots, s_n$，其中 $n$ 为有序集合中的元素个数。本题中 $n \le 1000$。
+Therefore, we can use an ordered set to simulate this. Let's denote the ordered set as $s$, and the elements in the set as $s_1, s_2, \cdots, s_n$, where $n$ is the number of elements in the ordered set. In this problem, $n \le 1000$.
 
-我们在初始化时，将 $[1, 1000]$ 中的所有元素加入有序集合中。时间复杂度 $O(n \times \log n)$。
+During initialization, we add all elements in $[1, 1000]$ to the ordered set. The time complexity is $O(n \times \log n)$.
 
-在 `popSmallest` 操作中，我们只需要弹出有序集合中的第一个元素即可。单次操作时间复杂度 $O(\log n)$。
+In the `popSmallest` operation, we just need to pop the first element from the ordered set. The time complexity for a single operation is $O(\log n)$.
 
-在 `addBack` 操作中，我们只需要将元素加入有序集合中即可。单次操作时间复杂度 $O(\log n)$。
+In the `addBack` operation, we just need to add the element back to the ordered set. The time complexity for a single operation is $O(\log n)$.
 
-空间复杂度 $O(n)$。
+The space complexity is $O(n)$.
 
 <!-- tabs:start -->
 
@@ -911,7 +907,7 @@ impl SmallestInfiniteSet {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

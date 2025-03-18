@@ -1,78 +1,72 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2596.Check%20Knight%20Tour%20Configuration/README.md
+difficulty: Medium
 rating: 1448
-source: 第 337 场周赛 Q2
+source: Weekly Contest 337 Q2
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 数组
-    - 矩阵
-    - 模拟
+    - Depth-First Search
+    - Breadth-First Search
+    - Array
+    - Matrix
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2596. 检查骑士巡视方案](https://leetcode.cn/problems/check-knight-tour-configuration)
+# [2596. Check Knight Tour Configuration](https://leetcode.com/problems/check-knight-tour-configuration)
 
-[English Version](/solution/2500-2599/2596.Check%20Knight%20Tour%20Configuration/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>骑士在一张 <code>n x n</code> 的棋盘上巡视。在&nbsp;<strong>有效&nbsp;</strong>的巡视方案中，骑士会从棋盘的 <strong>左上角</strong> 出发，并且访问棋盘上的每个格子 <strong>恰好一次</strong> 。</p>
+<p>There is a knight on an <code>n x n</code> chessboard. In a valid configuration, the knight starts <strong>at the top-left cell</strong> of the board and visits every cell on the board <strong>exactly once</strong>.</p>
 
-<p>给你一个 <code>n x n</code> 的整数矩阵 <code>grid</code> ，由范围 <code>[0, n * n - 1]</code> 内的不同整数组成，其中 <code>grid[row][col]</code> 表示单元格 <code>(row, col)</code> 是骑士访问的第 <code>grid[row][col]</code> 个单元格。骑士的行动是从下标 <strong>0</strong> 开始的。</p>
+<p>You are given an <code>n x n</code> integer matrix <code>grid</code> consisting of distinct integers from the range <code>[0, n * n - 1]</code> where <code>grid[row][col]</code> indicates that the cell <code>(row, col)</code> is the <code>grid[row][col]<sup>th</sup></code> cell that the knight visited. The moves are <strong>0-indexed</strong>.</p>
 
-<p>如果 <code>grid</code> 表示了骑士的有效巡视方案，返回 <code>true</code>；否则返回 <code>false</code>。</p>
+<p>Return <code>true</code> <em>if</em> <code>grid</code> <em>represents a valid configuration of the knight&#39;s movements or</em> <code>false</code> <em>otherwise</em>.</p>
 
-<p><strong>注意</strong>，骑士行动时可以垂直移动两个格子且水平移动一个格子，或水平移动两个格子且垂直移动一个格子。下图展示了骑士从某个格子出发可能的八种行动路线。<br />
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2596.Check%20Knight%20Tour%20Configuration/images/1694590028-CTMBQL-image.png" style="width: 350px; height: 350px;" /></p>
-
+<p><strong>Note</strong> that a valid knight move consists of moving two squares vertically and one square horizontally, or two squares horizontally and one square vertically. The figure below illustrates all the possible eight moves of a knight from some cell.</p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2596.Check%20Knight%20Tour%20Configuration/images/knight.png" style="width: 300px; height: 300px;" />
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2596.Check%20Knight%20Tour%20Configuration/images/1694590044-AmhkRb-image.png" style="width: 251px; height: 251px;" />
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2596.Check%20Knight%20Tour%20Configuration/images/yetgriddrawio-5.png" style="width: 251px; height: 251px;" />
 <pre>
-<strong>输入：</strong>grid = [[0,11,16,5,20],[17,4,19,10,15],[12,1,8,21,6],[3,18,23,14,9],[24,13,2,7,22]]
-<strong>输出：</strong>true
-<strong>解释：</strong>grid 如上图所示，可以证明这是一个有效的巡视方案。
+<strong>Input:</strong> grid = [[0,11,16,5,20],[17,4,19,10,15],[12,1,8,21,6],[3,18,23,14,9],[24,13,2,7,22]]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The above diagram represents the grid. It can be shown that it is a valid configuration.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2596.Check%20Knight%20Tour%20Configuration/images/1694590057-FIMBAG-image.png" style="width: 151px; height: 151px;" />
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2596.Check%20Knight%20Tour%20Configuration/images/yetgriddrawio-6.png" style="width: 151px; height: 151px;" />
 <pre>
-<strong>输入：</strong>grid = [[0,3,6],[5,8,1],[2,7,4]]
-<strong>输出：</strong>false
-<strong>解释：</strong>grid 如上图所示，考虑到骑士第 7 次行动后的位置，第 8 次行动是无效的。
+<strong>Input:</strong> grid = [[0,3,6],[5,8,1],[2,7,4]]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The above diagram represents the grid. The 8<sup>th</sup> move of the knight is not valid considering its position after the 7<sup>th</sup> move.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == grid.length == grid[i].length</code></li>
 	<li><code>3 &lt;= n &lt;= 7</code></li>
 	<li><code>0 &lt;= grid[row][col] &lt; n * n</code></li>
-	<li><code>grid</code> 中的所有整数 <strong>互不相同</strong></li>
+	<li>All integers in <code>grid</code> are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们先用数组 $\textit{pos}$ 记录骑士访问的每个格子的坐标，然后遍历 $\textit{pos}$ 数组，检查相邻两个格子的坐标差是否为 $(1, 2)$ 或 $(2, 1)$ 即可。若不满足，则返回 $\textit{false}$。
+We first use an array $\textit{pos}$ to record the coordinates of each cell visited by the knight, then traverse the $\textit{pos}$ array and check if the coordinate difference between two adjacent cells is $(1, 2)$ or $(2, 1)$. If not, return $\textit{false}$.
 
-否则遍历结束后，返回 $\textit{true}$
+Otherwise, after the traversal, return $\textit{true}$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为棋盘的边长。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the side length of the chessboard.
 
 <!-- tabs:start -->
 

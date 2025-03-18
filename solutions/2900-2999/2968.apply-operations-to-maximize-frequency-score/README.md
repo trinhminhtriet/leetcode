@@ -1,67 +1,62 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2968.Apply%20Operations%20to%20Maximize%20Frequency%20Score/README.md
+difficulty: Hard
 rating: 2444
-source: 第 376 场周赛 Q4
+source: Weekly Contest 376 Q4
 tags:
-    - 数组
-    - 二分查找
-    - 前缀和
-    - 排序
-    - 滑动窗口
+    - Array
+    - Binary Search
+    - Prefix Sum
+    - Sorting
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [2968. 执行操作使频率分数最大](https://leetcode.cn/problems/apply-operations-to-maximize-frequency-score)
+# [2968. Apply Operations to Maximize Frequency Score](https://leetcode.com/problems/apply-operations-to-maximize-frequency-score)
 
-[English Version](/solution/2900-2999/2968.Apply%20Operations%20to%20Maximize%20Frequency%20Score/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> and an integer <code>k</code>.</p>
 
-<p>你可以对数组执行 <strong>至多</strong>&nbsp;<code>k</code>&nbsp;次操作：</p>
+<p>You can perform the following operation on the array <strong>at most</strong> <code>k</code> times:</p>
 
 <ul>
-	<li>从数组中选择一个下标 <code>i</code>&nbsp;，将&nbsp;<code>nums[i]</code> <strong>增加</strong>&nbsp;或者&nbsp;<strong>减少</strong>&nbsp;<code>1</code>&nbsp;。</li>
+	<li>Choose any index <code>i</code> from the array and <strong>increase</strong> or <strong>decrease</strong> <code>nums[i]</code> by <code>1</code>.</li>
 </ul>
 
-<p>最终数组的频率分数定义为数组中众数的 <strong>频率</strong>&nbsp;。</p>
+<p>The score of the final array is the <strong>frequency</strong> of the most frequent element in the array.</p>
 
-<p>请你返回你可以得到的 <strong>最大</strong>&nbsp;频率分数。</p>
+<p>Return <em>the <strong>maximum</strong> score you can achieve</em>.</p>
 
-<p>众数指的是数组中出现次数最多的数。一个元素的频率指的是数组中这个元素的出现次数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [1,2,6,4], k = 3
-<b>输出：</b>3
-<b>解释：</b>我们可以对数组执行以下操作：
-- 选择 i = 0 ，将 nums[0] 增加 1 。得到数组 [2,2,6,4] 。
-- 选择 i = 3 ，将 nums[3] 减少 1 ，得到数组 [2,2,6,3] 。
-- 选择 i = 3 ，将 nums[3] 减少 1 ，得到数组 [2,2,6,2] 。
-元素 2 是最终数组中的众数，出现了 3 次，所以频率分数为 3 。
-3 是所有可行方案里的最大频率分数。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [1,4,4,2,4], k = 0
-<b>输出：</b>3
-<b>解释：</b>我们无法执行任何操作，所以得到的频率分数是原数组中众数的频率 3 。
-</pre>
+<p>The frequency of an element is the number of occurences of that element in the array.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,2,6,4], k = 3
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We can do the following operations on the array:
+- Choose i = 0, and increase the value of nums[0] by 1. The resulting array is [2,2,6,4].
+- Choose i = 3, and decrease the value of nums[3] by 1. The resulting array is [2,2,6,3].
+- Choose i = 3, and decrease the value of nums[3] by 1. The resulting array is [2,2,6,2].
+The element 2 is the most frequent in the final array so our score is 3.
+It can be shown that we cannot achieve a better score.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,4,4,2,4], k = 0
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We cannot apply any operations so our score will be the frequency of the most frequent element in the original array, which is 3.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -71,21 +66,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 前缀和 + 二分查找
+### Solution 1: Sorting + Prefix Sum + Binary Search
 
-题目求的是在最多进行 $k$ 次操作的情况下，我们能得到的众数的最大频率。如果我们将数组 $nums$ 按照从小到大的顺序排列，那么最好就是将一段连续的数字都变成同一个数，这样可以使得操作次数较少，并且众数的频率较高。
+The problem asks for the maximum frequency of the mode we can get after performing at most $k$ operations. If we sort the array $nums$ in ascending order, it would be best to turn a continuous segment of numbers into the same number, which can reduce the number of operations and increase the frequency of the mode.
 
-因此，我们不妨先对数组 $nums$ 进行排序。
+Therefore, we might as well sort the array $nums$ first.
 
-接下来，我们再分析，如果一个频率 $x$ 是可行的，那么对于任意 $y \le x$，频率 $y$ 也是可行的，这存在着单调性。因此，我们可以通过二分查找，找到最大的满足条件的频率。
+Next, we analyze that if a frequency $x$ is feasible, then for any $y \le x$, the frequency $y$ is also feasible, which shows monotonicity. Therefore, we can use binary search to find the maximum feasible frequency.
 
-我们二分枚举频率，定义二分查找的左边界 $l = 0$，右边界 $r = n$，其中 $n$ 是数组的长度。每次二分查找的过程中，我们取中间值 $mid = \lfloor \frac{l + r + 1}{2} \rfloor$，然后判断 $nums$ 中是否存在一个长度为 $mid$ 的连续子数组，使得这个子数组中的所有元素都变成这个子数组的中位数，且操作次数不超过 $k$。如果存在，那么我们就将左边界 $l$ 更新为 $mid$，否则我们就将右边界 $r$ 更新为 $mid - 1$。
+We binary search the frequency, define the left boundary of the binary search as $l = 0$, and the right boundary as $r = n$, where $n$ is the length of the array. In each binary search process, we take the middle value $mid = \lfloor \frac{l + r + 1}{2} \rfloor$, and then determine whether there exists a continuous subarray of length $mid$ in $nums$, such that all elements in this subarray become the median of this subarray, and the number of operations does not exceed $k$. If it exists, then we update the left boundary $l$ to $mid$, otherwise we update the right boundary $r$ to $mid - 1$.
 
-为了判断是否存在这样的子数组，我们可以使用前缀和。我们首先定义两个指针 $i$ 和 $j$，初始时 $i = 0$, $j = i + mid$。那么 $nums[i]$ 到 $nums[j - 1]$ 这一段的元素都变成 $nums[(i + j) / 2]$，所需要的操作次数为 $left + right$，其中：
+To determine whether such a subarray exists, we can use prefix sum. We first define two pointers $i$ and $j$, initially $i = 0$, $j = i + mid$. Then all elements from $nums[i]$ to $nums[j - 1]$ are changed to $nums[(i + j) / 2]$, and the number of operations required is $left + right$, where:
 
 $$
 \begin{aligned}
@@ -101,9 +96,9 @@ $$
 \end{aligned}
 $$
 
-我们可以通过前缀和数组 $s$ 来计算 $\sum_{k = i}^{j} nums[k]$，从而在 $O(1)$ 的时间内计算出 $left$ 和 $right$。
+We can use the prefix sum array $s$ to calculate $\sum_{k = i}^{j} nums[k]$, so as to calculate $left$ and $right$ in $O(1)$ time.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

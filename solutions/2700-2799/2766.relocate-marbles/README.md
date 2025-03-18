@@ -1,86 +1,81 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2766.Relocate%20Marbles/README.md
+difficulty: Medium
 rating: 1613
-source: 第 108 场双周赛 Q2
+source: Biweekly Contest 108 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 排序
-    - 模拟
+    - Array
+    - Hash Table
+    - Sorting
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2766. 重新放置石块](https://leetcode.cn/problems/relocate-marbles)
+# [2766. Relocate Marbles](https://leetcode.com/problems/relocate-marbles)
 
-[English Version](/solution/2700-2799/2766.Relocate%20Marbles/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;，表示一些石块的初始位置。再给你两个长度<strong>&nbsp;相等</strong>&nbsp;下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>moveFrom</code> 和&nbsp;<code>moveTo</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> representing the initial positions of some marbles. You are also given two <strong>0-indexed </strong>integer arrays <code>moveFrom</code> and <code>moveTo</code> of <strong>equal</strong> length.</p>
 
-<p>在&nbsp;<code>moveFrom.length</code>&nbsp;次操作内，你将改变石块的位置。在第&nbsp;<code>i</code>&nbsp;次操作中，你将位置在&nbsp;<code>moveFrom[i]</code>&nbsp;的所有石块移到位置&nbsp;<code>moveTo[i]</code>&nbsp;。</p>
+<p>Throughout <code>moveFrom.length</code> steps, you will change the positions of the marbles. On the <code>i<sup>th</sup></code> step, you will move <strong>all</strong> marbles at position <code>moveFrom[i]</code> to position <code>moveTo[i]</code>.</p>
 
-<p>完成这些操作后，请你按升序返回所有 <strong>有</strong>&nbsp;石块的位置。</p>
+<p>After completing all the steps, return <em>the sorted list of <strong>occupied</strong> positions</em>.</p>
 
-<p><strong>注意：</strong></p>
+<p><strong>Notes:</strong></p>
 
 <ul>
-	<li>如果一个位置至少有一个石块，我们称这个位置 <strong>有</strong>&nbsp;石块。</li>
-	<li>一个位置可能会有多个石块。</li>
+	<li>We call a position <strong>occupied</strong> if there is at least one marble in that position.</li>
+	<li>There may be multiple marbles in a single position.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [1,6,7,8], moveFrom = [1,7,2], moveTo = [2,9,5]
-<b>输出：</b>[5,6,8,9]
-<b>解释：</b>一开始，石块在位置 1,6,7,8 。
-第 i = 0 步操作中，我们将位置 1 处的石块移到位置 2 处，位置 2,6,7,8 有石块。
-第 i = 1 步操作中，我们将位置 7 处的石块移到位置 9 处，位置 2,6,8,9 有石块。
-第 i = 2 步操作中，我们将位置 2 处的石块移到位置 5 处，位置 5,6,8,9 有石块。
-最后，至少有一个石块的位置为 [5,6,8,9] 。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,1,3,3], moveFrom = [1,3], moveTo = [2,2]
-<b>输出：</b>[2]
-<b>解释：</b>一开始，石块在位置 [1,1,3,3] 。
-第 i = 0 步操作中，我们将位置 1 处的石块移到位置 2 处，有石块的位置为 [2,2,3,3] 。
-第 i = 1 步操作中，我们将位置 3 处的石块移到位置 2 处，有石块的位置为 [2,2,2,2] 。
-由于 2 是唯一有石块的位置，我们返回 [2] 。
+<strong>Input:</strong> nums = [1,6,7,8], moveFrom = [1,7,2], moveTo = [2,9,5]
+<strong>Output:</strong> [5,6,8,9]
+<strong>Explanation:</strong> Initially, the marbles are at positions 1,6,7,8.
+At the i = 0th step, we move the marbles at position 1 to position 2. Then, positions 2,6,7,8 are occupied.
+At the i = 1st step, we move the marbles at position 7 to position 9. Then, positions 2,6,8,9 are occupied.
+At the i = 2nd step, we move the marbles at position 2 to position 5. Then, positions 5,6,8,9 are occupied.
+At the end, the final positions containing at least one marbles are [5,6,8,9].</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,1,3,3], moveFrom = [1,3], moveTo = [2,2]
+<strong>Output:</strong> [2]
+<strong>Explanation:</strong> Initially, the marbles are at positions [1,1,3,3].
+At the i = 0th step, we move all the marbles at position 1 to position 2. Then, the marbles are at positions [2,2,3,3].
+At the i = 1st step, we move all the marbles at position 3 to position 2. Then, the marbles are at positions [2,2,2,2].
+Since 2 is the only occupied position, we return [2].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= moveFrom.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>moveFrom.length == moveTo.length</code></li>
 	<li><code>1 &lt;= nums[i], moveFrom[i], moveTo[i] &lt;= 10<sup>9</sup></code></li>
-	<li>测试数据保证在进行第&nbsp;<code>i</code>&nbsp;步操作时，<code>moveFrom[i]</code>&nbsp;处至少有一个石块。</li>
+	<li>The test cases are generated such that there is at least a marble in&nbsp;<code>moveFrom[i]</code>&nbsp;at the moment we want to apply&nbsp;the <code>i<sup>th</sup></code>&nbsp;move.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们用一个哈希表 $pos$ 记录所有有石块的位置，初始时 $pos$ 中包含 $nums$ 中的所有元素。然后我们遍历 $moveFrom$ 和 $moveTo$，每次将 $moveFrom[i]$ 从 $pos$ 中移除，再将 $moveTo[i]$ 添加到 $pos$ 中。最后我们将 $pos$ 中的元素排序后返回即可。
+Let's use a hash table $pos$ to record all stone positions. Initially, $pos$ contains all elements of $nums$. Then we iterate through $moveFrom$ and $moveTo$. Each time, we remove $moveFrom[i]$ from $pos$ and add $moveTo[i]$ to $pos$. Finally, we sort the elements in $pos$ and return.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n \times \log n)$ and the space complexity is $O(n)$. Here, $n$ is the length of array $nums$.
 
 <!-- tabs:start -->
 

@@ -1,95 +1,90 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3269.Constructing%20Two%20Increasing%20Arrays/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3269. 构建两个递增数组 🔒](https://leetcode.cn/problems/constructing-two-increasing-arrays)
+# [3269. Constructing Two Increasing Arrays 🔒](https://leetcode.com/problems/constructing-two-increasing-arrays)
 
-[English Version](/solution/3200-3299/3269.Constructing%20Two%20Increasing%20Arrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个只包含 0 和 1 的整数数组&nbsp;<code>nums1</code> 和&nbsp;<code>nums2</code>，你的任务是执行下面操作后使数组 <code>nums1</code> 和 <code>nums2</code> 中 <strong>最大</strong> 可达数字 <strong>尽可能小</strong>。</p>
+<p>Given 2 integer arrays <code>nums1</code> and <code>nums2</code> consisting only of 0 and 1, your task is to calculate the <strong>minimum</strong> possible <strong>largest</strong> number in arrays <code>nums1</code> and <code>nums2</code>, after doing the following.</p>
 
-<p>将每个 0 替换为正偶数，将每个 1 替换为正奇数。在替换后，两个数组都应该&nbsp;<strong>递增</strong>&nbsp;并且每个整数&nbsp;<strong>至多</strong>&nbsp;被使用一次。</p>
+<p>Replace every 0 with an <em>even positive integer</em> and every 1 with an <em>odd positive integer</em>. After replacement, both arrays should be <strong>increasing</strong> and each integer should be used <strong>at most</strong> once.</p>
 
-<p>返回执行操作后最小的最大可达数字。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums1 = [], nums2 = [1,0,1,1]</span></p>
-
-<p><span class="example-io"><b>输出：</b>5</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>在替换之后， <code>nums1 = []</code>&nbsp;与&nbsp;<code>nums2 = [1, 2, 3, 5]</code>。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums1 = [0,1,0,1], nums2 = [1,0,0,1]</span></p>
-
-<p><span class="example-io"><b>输出：</b>9</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>有最大元素 9 的一种替换方式， <code>nums1 = [2, 3, 8, 9]</code>&nbsp;与&nbsp;<code>nums2 = [1, 4, 6, 7]</code>。</p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums1 = [0,1,0,0,1], nums2 = [0,0,0,1]</span></p>
-
-<p><span class="example-io"><b>输出：</b>13</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>有最大元素 13 的一种替换方式，<code>nums1 = [2, 3, 4, 6, 7]</code>&nbsp;与&nbsp;<code>nums2 = [8, 10, 12, 13]</code>。</p>
-</div>
+<p>Return the <em>minimum possible largest number</em> after applying the changes.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums1 = [], nums2 = [1,0,1,1]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">5</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>After replacing, <code>nums1 = []</code>, and <code>nums2 = [1, 2, 3, 5]</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums1 = [0,1,0,1], nums2 = [1,0,0,1]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">9</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>One way to replace, having 9 as the largest element is <code>nums1 = [2, 3, 8, 9]</code>, and <code>nums2 = [1, 4, 6, 7]</code>.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums1 = [0,1,0,0,1], nums2 = [0,0,0,1]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">13</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>One way to replace, having 13 as the largest element is <code>nums1 = [2, 3, 4, 6, 7]</code>, and <code>nums2 = [8, 10, 12, 13]</code>.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= nums1.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= nums2.length &lt;= 1000</code></li>
-	<li><code>nums1</code>&nbsp;和&nbsp;<code>nums2</code>&nbsp;只包含 0 和 1。</li>
+	<li><code>nums1</code> and <code>nums2</code> consist only of 0 and 1.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][j]$ 表示数组 $\textit{nums1}$ 的前 $i$ 个元素和数组 $\textit{nums2}$ 的前 $j$ 个元素中，最小的最大值。初始时 $f[i][j] = 0$，答案为 $f[m][n]$，其中 $m$ 和 $n$ 分别是数组 $\textit{nums1}$ 和 $\textit{nums2}$ 的长度。
+We define $f[i][j]$ to represent the minimum of the maximum values among the first $i$ elements of array $\textit{nums1}$ and the first $j$ elements of array $\textit{nums2}$. Initially, $f[i][j] = 0$, and the answer is $f[m][n]$, where $m$ and $n$ are the lengths of arrays $\textit{nums1}$ and $\textit{nums2}$, respectively.
 
-如果 $j = 0$，那么 $f[i][0]$ 的值只能由 $f[i - 1][0]$ 转移得到，转移方程为 $f[i][0] = \textit{nxt}(f[i - 1][0], \textit{nums1}[i - 1])$，其中 $\textit{nxt}(x, y)$ 表示比 $x$ 大且奇偶性与 $y$ 相同的最小整数。
+If $j = 0$, then the value of $f[i][0]$ can only be derived from $f[i - 1][0]$, with the transition equation $f[i][0] = \textit{nxt}(f[i - 1][0], \textit{nums1}[i - 1])$, where $\textit{nxt}(x, y)$ represents the smallest integer greater than $x$ that has the same parity as $y$.
 
-如果 $i = 0$，那么 $f[0][j]$ 的值只能由 $f[0][j - 1]$ 转移得到，转移方程为 $f[0][j] = \textit{nxt}(f[0][j - 1], \textit{nums2}[j - 1])$。
+If $i = 0$, then the value of $f[0][j]$ can only be derived from $f[0][j - 1]$, with the transition equation $f[0][j] = \textit{nxt}(f[0][j - 1], \textit{nums2}[j - 1])$.
 
-如果 $i > 0$ 且 $j > 0$，那么 $f[i][j]$ 的值可以由 $f[i - 1][j]$ 和 $f[i][j - 1]$ 转移得到，转移方程为 $f[i][j] = \min(\textit{nxt}(f[i - 1][j], \textit{nums1}[i - 1]), \textit{nxt}(f[i][j - 1], \textit{nums2}[j - 1]))$。
+If $i > 0$ and $j > 0$, then the value of $f[i][j]$ can be derived from both $f[i - 1][j]$ and $f[i][j - 1]$, with the transition equation $f[i][j] = \min(\textit{nxt}(f[i - 1][j], \textit{nums1}[i - 1]), \textit{nxt}(f[i][j - 1], \textit{nums2}[j - 1]))$.
 
-最后返回 $f[m][n]$ 即可。
+Finally, return $f[m][n]$.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是数组 $\textit{nums1}$ 和 $\textit{nums2}$ 的长度。
+The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the lengths of arrays $\textit{nums1}$ and $\textit{nums2}$, respectively.
 
 <!-- tabs:start -->
 

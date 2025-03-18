@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1303.Find%20the%20Team%20Size/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1303. 求团队人数 🔒](https://leetcode.cn/problems/find-the-team-size)
+# [1303. Find the Team Size 🔒](https://leetcode.com/problems/find-the-team-size)
 
-[English Version](/solution/1300-1399/1303.Find%20the%20Team%20Size/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>员工表：<code>Employee</code></p>
+<p>Table: <code>Employee</code></p>
 
 <pre>
 +---------------+---------+
@@ -25,24 +22,23 @@ tags:
 | employee_id   | int     |
 | team_id       | int     |
 +---------------+---------+
-employee_id 字段是这张表的主键(具有唯一值的列)
-表中的每一行都包含每个员工的 ID 和他们所属的团队。
+employee_id is the primary key (column with unique values) for this table.
+Each row of this table contains the ID of each employee and their respective team.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案以求得每个员工所在团队的总人数。</p>
+<p>Write a solution to find the team size of each of the employees.</p>
 
-<p>返回结果表 <strong>无顺序要求&nbsp;</strong>。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>返回结果格式示例如下：</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 Employee Table:
 +-------------+------------+
 | employee_id | team_id    |
@@ -54,7 +50,7 @@ Employee Table:
 |     5       |     9      |
 |     6       |     9      |
 +-------------+------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-------------+------------+
 | employee_id | team_size  |
 +-------------+------------+
@@ -65,21 +61,21 @@ Employee Table:
 |     5       |     2      |
 |     6       |     2      |
 +-------------+------------+
-<strong>解释：</strong>
-ID 为 1、2、3 的员工是 team_id 为 8 的团队的成员，
-ID 为 4 的员工是 team_id 为 7 的团队的成员，
-ID 为 5、6 的员工是 team_id 为 9 的团队的成员。
+<strong>Explanation:</strong> 
+Employees with Id 1,2,3 are part of a team with team_id = 8.
+Employee with Id 4 is part of a team with team_id = 7.
+Employees with Id 5,6 are part of a team with team_id = 9.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组统计 + 等值连接
+### Solution 1: Group By + Equi-Join
 
-我们可以先统计出每个团队的人数，记录在 `T` 表中，然后我们将 `Employee` 表与 `T` 表按照 `team_id` 进行等值连接，即可得到每个员工所在团队的总人数。
+We can first count the number of people in each team and record it in the `T` table. Then, we can use an equi-join to join the `Employee` table and the `T` table based on `team_id`, and obtain the total number of people in each team.
 
 <!-- tabs:start -->
 
@@ -105,9 +101,9 @@ FROM
 
 <!-- solution:start -->
 
-### 方法二：左连接
+### Solution 2: Left Join
 
-我们也可以使用左连接，将 `Employee` 表按照 `team_id` 进行自连接，然后按照 `employee_id` 进行分组，统计每个员工所在团队的总人数。
+We can also use a left join to join the `Employee` table with itself based on `team_id`, and then group by `employee_id` to count the total number of people in each team that the employee belongs to.
 
 <!-- tabs:start -->
 

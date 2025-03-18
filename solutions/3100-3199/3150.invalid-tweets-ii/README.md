@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3150.Invalid%20Tweets%20II/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3150. 无效的推文 II 🔒](https://leetcode.cn/problems/invalid-tweets-ii)
+# [3150. Invalid Tweets II 🔒](https://leetcode.com/problems/invalid-tweets-ii)
 
-[English Version](/solution/3100-3199/3150.Invalid%20Tweets%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Tweets</code></p>
+<p>Table: <code>Tweets</code></p>
 
 <pre>
 +----------------+---------+
@@ -25,29 +22,29 @@ tags:
 | tweet_id       | int     |
 | content        | varchar |
 +----------------+---------+
-tweet_id 是这个表的主键（有不同值的列）。
-这个表包含某社交媒体 App 中所有的推文。</pre>
+tweet_id is the primary key (column with unique values) for this table.
+This table contains all the tweets in a social media app.
+</pre>
 
-<p>编写一个解决方案来找到 <strong>无效的推文</strong>。如果一条推文满足下面 <strong>任一</strong>&nbsp;条件会被认为无效：</p>
+<p>Write a solution to find <strong>invalid tweets</strong>. A tweet is considered invalid if it meets <strong>any</strong> of the following criteria:</p>
 
 <ul>
-	<li>长度超过&nbsp;<code>140</code>&nbsp;个字符。</li>
-	<li>有超过&nbsp;<code>3</code>&nbsp;次提及。</li>
-	<li>有超过&nbsp;<code><font face="monospace">3</font></code>&nbsp;个标签。</li>
+	<li>It exceeds <code>140</code> characters in length.</li>
+	<li>It has more than <code>3</code> mentions.</li>
+	<li>It includes more than <code><font face="monospace">3</font></code>&nbsp;hashtags.</li>
 </ul>
 
-<p>以&nbsp;<code>tweet_id</code> <em><strong>升序</strong>&nbsp;</em>返回结果表。</p>
+<p>Return <em>the result table ordered by</em> <code>tweet_id</code> <em>in <strong>ascending</strong> order</em>.</p>
 
-<p>查询结果格式如下所示：</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong>Example:</strong></p>
 
 <div class="example-block">
-<p><b>输入：</b></p>
+<p><strong>Input:</strong></p>
 
-<p>Tweets 表：</p>
+<p>Tweets table:</p>
 
 <pre class="example-io">
   +----------+-----------------------------------------------------------------------------------+
@@ -60,7 +57,7 @@ tweet_id 是这个表的主键（有不同值的列）。
   +----------+-----------------------------------------------------------------------------------+
   </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
   +----------+
@@ -71,23 +68,23 @@ tweet_id 是这个表的主键（有不同值的列）。
   +----------+
   </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>tweet_id&nbsp;1 包含 4&nbsp;次提及。</li>
-	<li>tweet_id 4 包含 4 个标签。</li>
+	<li>tweet_id&nbsp;1 contains 4&nbsp;mentions.</li>
+	<li>tweet_id 4 contains 4 hashtags.</li>
 </ul>
-输出表以 tweet_id 升序排序。</div>
+Output table is ordered by tweet_id in ascending order.</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：LENGTH() 函数 + REPLACE() 函数
+### Solution 1: LENGTH() Function + REPLACE() Function
 
-我们可以使用 `LENGTH()` 函数计算字符串的长度，计算排除掉 `@` 或 `#` 之后的长度，然后使用 `OR` 运算符连接这三个条件，筛选出对应的 tweet_id，并按照 tweet_id 升序排序。
+We can use the `LENGTH()` function to calculate the length of the string, calculate the length after excluding `@` or `#`, then use the `OR` operator to connect these three conditions, filter out the corresponding tweet_id, and sort by tweet_id in ascending order.
 
 <!-- tabs:start -->
 

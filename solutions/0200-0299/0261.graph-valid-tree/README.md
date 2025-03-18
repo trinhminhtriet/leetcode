@@ -1,75 +1,68 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0261.Graph%20Valid%20Tree/README.md
+difficulty: Medium
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 并查集
-    - 图
+    - Depth-First Search
+    - Breadth-First Search
+    - Union Find
+    - Graph
 ---
 
 <!-- problem:start -->
 
-# [261. 以图判树 🔒](https://leetcode.cn/problems/graph-valid-tree)
+# [261. Graph Valid Tree 🔒](https://leetcode.com/problems/graph-valid-tree)
 
-[English Version](/solution/0200-0299/0261.Graph%20Valid%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定编号从 <code>0</code> 到 <code>n - 1</code>&nbsp;的&nbsp;<code>n</code> 个结点。给定一个整数&nbsp;<code>n</code>&nbsp;和一个&nbsp;<code>edges</code>&nbsp;列表，其中&nbsp;<code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;表示图中节点&nbsp;<code>a<sub>i</sub></code>&nbsp;和&nbsp;<code>b<sub>i</sub></code>&nbsp;之间存在一条无向边。</p>
+<p>You have a graph of <code>n</code> nodes labeled from <code>0</code> to <code>n - 1</code>. You are given an integer n and a list of <code>edges</code> where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an undirected edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the graph.</p>
 
-<p>如果这些边能够形成一个合法有效的树结构，则返回 <code>true</code> ，否则返回 <code>false</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0261.Graph%20Valid%20Tree/images/tree1-graph.jpg" /></p>
-
-<pre>
-<strong>输入:</strong> <code>n = 5</code>, edges<code> = [[0,1],[0,2],[0,3],[1,4]]</code>
-<strong>输出:</strong> true</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0261.Graph%20Valid%20Tree/images/tree2-graph.jpg" /></p>
-
-<pre>
-<strong>输入:</strong> <code>n = 5, </code>edges<code> = [[0,1],[1,2],[2,3],[1,3],[1,4]]</code>
-<strong>输出:</strong> false</pre>
+<p>Return <code>true</code> <em>if the edges of the given graph make up a valid tree, and</em> <code>false</code> <em>otherwise</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0261.Graph%20Valid%20Tree/images/tree1-graph.jpg" style="width: 222px; height: 302px;" />
+<pre>
+<strong>Input:</strong> n = 5, edges = [[0,1],[0,2],[0,3],[1,4]]
+<strong>Output:</strong> true
+</pre>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0261.Graph%20Valid%20Tree/images/tree2-graph.jpg" style="width: 382px; height: 222px;" />
+<pre>
+<strong>Input:</strong> n = 5, edges = [[0,1],[1,2],[2,3],[1,3],[1,4]]
+<strong>Output:</strong> false
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 2000</code></li>
 	<li><code>0 &lt;= edges.length &lt;= 5000</code></li>
 	<li><code>edges[i].length == 2</code></li>
-	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub>&nbsp;&lt; n</code></li>
-	<li><code>a<sub>i</sub>&nbsp;!= b<sub>i</sub></code></li>
-	<li>不存在自循环或重复的边</li>
+	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt; n</code></li>
+	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
+	<li>There are no self-loops or repeated edges.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：并查集
+### Solution 1: Union-Find
 
-判断是否是树，需要满足以下两个条件：
+To determine whether it is a tree, the following two conditions must be met:
 
-1. 边的数量等于节点数减一；
-2. 不存在环。
+1. The number of edges is equal to the number of nodes minus one;
+2. There is no cycle.
 
-我们可以使用并查集来判断是否存在环。遍历边，如果两个节点已经在同一个集合中，说明存在环。否则，我们将两个节点合并到同一个集合中。然后将连通分量的数量减一，最后判断连通分量的数量是否为 $1$。
+We can use a union-find set to determine whether there is a cycle. We traverse the edges, if two nodes are already in the same set, it means there is a cycle. Otherwise, we merge the two nodes into the same set. Then we decrease the number of connected components by one, and finally check whether the number of connected components is $1$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是节点数。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$, where $n$ is the number of nodes.
 
 <!-- tabs:start -->
 
@@ -97,37 +90,6 @@ class Solution:
 
 ```java
 class Solution {
-    private int[] p;
-
-    public boolean validTree(int n, int[][] edges) {
-        p = new int[n];
-        for (int i = 0; i < n; ++i) {
-            p[i] = i;
-        }
-        for (var e : edges) {
-            int pa = find(e[0]), pb = find(e[1]);
-            if (pa == pb) {
-                return false;
-            }
-            p[pa] = pb;
-            --n;
-        }
-        return n == 1;
-    }
-
-    private int find(int x) {
-        if (p[x] != x) {
-            p[x] = find(p[x]);
-        }
-        return p[x];
-    }
-}
-```
-
-#### C++
-
-```cpp
-class Solution {
 public:
     bool validTree(int n, vector<vector<int>>& edges) {
         vector<int> p(n);
@@ -147,6 +109,32 @@ public:
             --n;
         }
         return n == 1;
+    }
+};
+```
+
+#### C++
+
+```cpp
+class Solution {
+public:
+    vector<int> p;
+
+    bool validTree(int n, vector<vector<int>>& edges) {
+        p.resize(n);
+        for (int i = 0; i < n; ++i) p[i] = i;
+        for (auto& e : edges) {
+            int a = e[0], b = e[1];
+            if (find(a) == find(b)) return 0;
+            p[find(a)] = find(b);
+            --n;
+        }
+        return n == 1;
+    }
+
+    int find(int x) {
+        if (p[x] != x) p[x] = find(p[x]);
+        return p[x];
     }
 };
 ```
@@ -213,11 +201,11 @@ var validTree = function (n, edges) {
 
 <!-- solution:start -->
 
-### 方法二：DFS
+### Solution 2: DFS
 
-我们也可以使用深度优先搜索来判断是否存在环。我们可以使用一个数组 $vis$ 来记录访问过的节点，搜索时，我们先将节点标记为已访问，然后遍历与该节点相邻的节点，如果相邻节点已经访问过，则跳过，否则递归访问相邻节点。最后，我们判断是否所有节点都被访问过，如果有未访问过的节点，说明无法构成树，返回 `false`。
+We can also use depth-first search to determine whether there is a cycle. We can use an array $vis$ to record the visited nodes. During the search, we first mark the node as visited, then traverse the nodes adjacent to this node. If the adjacent node has been visited, we skip it, otherwise we recursively visit the adjacent node. Finally, we check whether all nodes have been visited. If there are nodes that have not been visited, it means that it cannot form a tree, so we return `false`.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the number of nodes.
 
 <!-- tabs:start -->
 

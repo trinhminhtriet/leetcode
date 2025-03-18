@@ -1,50 +1,48 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1304.Find%20N%20Unique%20Integers%20Sum%20up%20to%20Zero/README.md
+difficulty: Easy
 rating: 1167
-source: 第 169 场周赛 Q1
+source: Weekly Contest 169 Q1
 tags:
-    - 数组
-    - 数学
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [1304. 和为零的 N 个不同整数](https://leetcode.cn/problems/find-n-unique-integers-sum-up-to-zero)
+# [1304. Find N Unique Integers Sum up to Zero](https://leetcode.com/problems/find-n-unique-integers-sum-up-to-zero)
 
-[English Version](/solution/1300-1399/1304.Find%20N%20Unique%20Integers%20Sum%20up%20to%20Zero/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>n</code>，请你返回 <strong>任意&nbsp;</strong>一个由 <code>n</code>&nbsp;个 <strong>各不相同&nbsp;</strong>的整数组成的数组，并且这 <code>n</code> 个数相加和为 <code>0</code> 。</p>
+<p>Given an integer <code>n</code>, return <strong>any</strong> array containing <code>n</code> <strong>unique</strong> integers such that they add up to <code>0</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>n = 5
-<strong>输出：</strong>[-7,-1,1,3,4]
-<strong>解释：</strong>这些数组也是正确的 [-5,-1,1,2,3]，[-3,-1,2,-2,4]。
+<pre>
+<strong>Input:</strong> n = 5
+<strong>Output:</strong> [-7,-1,1,3,4]
+<strong>Explanation:</strong> These arrays also are accepted [-5,-1,1,2,3] , [-3,-1,2,-2,4].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>n = 3
-<strong>输出：</strong>[-1,0,1]
+<pre>
+<strong>Input:</strong> n = 3
+<strong>Output:</strong> [-1,0,1]
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>n = 1
-<strong>输出：</strong>[0]
+<pre>
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> [0]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
@@ -52,15 +50,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：构造
-
-我们可以从 $1$ 开始，依次将正数和负数交替放入结果数组中，一共循环 $\frac{n}{2}$ 次，如果 $n$ 为奇数，则最后再将 $0$ 放入结果数组中。
-
-时间复杂度 $O(n)$，其中 $n$ 为给定的整数。忽略答案的空间消耗，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -142,11 +136,7 @@ function sumZero(n: number): number[] {
 
 <!-- solution:start -->
 
-### 方法二：构造 + 数学
-
-我们也可以将 $1$ 到 $n-1$ 的所有整数放入结果数组中，最后再把前 $n-1$ 个整数的和 $\frac{n(n-1)}{2}$ 的相反数放入结果数组中。
-
-时间复杂度 $O(n)$，其中 $n$ 为给定的整数。忽略答案的空间消耗，空间复杂度 $O(1)$。
+### Solution 2
 
 <!-- tabs:start -->
 

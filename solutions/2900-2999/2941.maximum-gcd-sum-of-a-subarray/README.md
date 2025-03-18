@@ -1,57 +1,52 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2941.Maximum%20GCD-Sum%20of%20a%20Subarray/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 数学
-    - 二分查找
-    - 数论
+    - Array
+    - Math
+    - Binary Search
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [2941. 子数组的最大 GCD-Sum 🔒](https://leetcode.cn/problems/maximum-gcd-sum-of-a-subarray)
+# [2941. Maximum GCD-Sum of a Subarray 🔒](https://leetcode.com/problems/maximum-gcd-sum-of-a-subarray)
 
-[English Version](/solution/2900-2999/2941.Maximum%20GCD-Sum%20of%20a%20Subarray/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数数组 <code>nums</code> 和一个整数 <code>k</code>.</p>
+<p>You are given an array of integers <code>nums</code> and an integer <code>k</code>.</p>
 
-<p>数组 <code>a</code> 的 <strong>gcd-sum</strong>&nbsp;计算方法如下：</p>
+<p>The <strong>gcd-sum</strong> of an array <code>a</code> is calculated as follows:</p>
 
 <ul>
-	<li>设&nbsp;<code>s</code>&nbsp;为&nbsp;<code>a</code>&nbsp;的所有元素的和。</li>
-	<li>设&nbsp;<code>g</code>&nbsp;为&nbsp;<code>a</code>&nbsp;的所有元素的 <strong>最大公约数</strong>。</li>
-	<li><code>a</code> 的 gcd-sum&nbsp;等于 <code>s * g</code>.</li>
+	<li>Let <code>s</code> be the sum of all the elements of <code>a</code>.</li>
+	<li>Let <code>g</code> be the <strong>greatest common divisor</strong> of all the elements of <code>a</code>.</li>
+	<li>The gcd-sum of <code>a</code> is equal to <code>s * g</code>.</li>
 </ul>
 
-<p>返回 <em><code>nums</code> 的至少包含 <code>k</code> 个元素的子数组的 <strong>最大 gcd-sum</strong>。</em></p>
+<p>Return <em>the <strong>maximum gcd-sum</strong> of a subarray of</em> <code>nums</code> <em>with at least</em> <code>k</code> <em>elements.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [2,1,4,4,4,2], k = 2
-<b>输出：</b>48
-<b>解释：</b>我们选择子数组 [4,4,4]，该数组的 gcd-sum 为 4 * (4 + 4 + 4) = 48。
-可以证明我们无法选择任何其他 gcd-sum 大于 48 的子数组。</pre>
-
-<p><b>示例 2：</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [7,3,9,4], k = 1
-<b>输出：</b>81
-<b>解释：</b>我们选择子数组 [9]，该数组的 gcd-sum 为 9 * 9 = 81。
-可以证明我们无法选择任何其他 gcd-sum 大于 81 的子数组。</pre>
+<strong>Input:</strong> nums = [2,1,4,4,4,2], k = 2
+<strong>Output:</strong> 48
+<strong>Explanation:</strong> We take the subarray [4,4,4], the gcd-sum of this array is 4 * (4 + 4 + 4) = 48.
+It can be shown that we can not select any other subarray with a gcd-sum greater than 48.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [7,3,9,4], k = 1
+<strong>Output:</strong> 81
+<strong>Explanation:</strong> We take the subarray [9], the gcd-sum of this array is 9 * 9 = 81.
+It can be shown that we can not select any other subarray with a gcd-sum greater than 81.</pre>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -62,11 +57,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -252,7 +247,7 @@ function gcd(a: number, b: number): number {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

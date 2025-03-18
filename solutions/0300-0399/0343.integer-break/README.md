@@ -1,45 +1,42 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0343.Integer%20Break/README.md
+difficulty: Medium
 tags:
-    - 数学
-    - 动态规划
+    - Math
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [343. 整数拆分](https://leetcode.cn/problems/integer-break)
+# [343. Integer Break](https://leetcode.com/problems/integer-break)
 
-[English Version](/solution/0300-0399/0343.Integer%20Break/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个正整数&nbsp;<code>n</code>&nbsp;，将其拆分为 <code>k</code> 个 <strong>正整数</strong> 的和（&nbsp;<code>k &gt;= 2</code>&nbsp;），并使这些整数的乘积最大化。</p>
+<p>Given an integer <code>n</code>, break it into the sum of <code>k</code> <strong>positive integers</strong>, where <code>k &gt;= 2</code>, and maximize the product of those integers.</p>
 
-<p>返回 <em>你可以获得的最大乘积</em>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入: </strong>n = 2
-<strong>输出: </strong>1
-<strong>解释: </strong>2 = 1 + 1, 1 × 1 = 1。</pre>
-
-<p><strong>示例&nbsp;2:</strong></p>
-
-<pre>
-<strong>输入: </strong>n = 10
-<strong>输出: </strong>36
-<strong>解释: </strong>10 = 3 + 3 + 4, 3 ×&nbsp;3 ×&nbsp;4 = 36。</pre>
+<p>Return <em>the maximum product you can get</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示:</strong></p>
+<pre>
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> 2 = 1 + 1, 1 &times; 1 = 1.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 10
+<strong>Output:</strong> 36
+<strong>Explanation:</strong> 10 = 3 + 3 + 4, 3 &times; 3 &times; 4 = 36.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 58</code></li>
@@ -47,28 +44,28 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i]$ 表示正整数 $i$ 拆分后能获得的最大乘积，初始时 $f[1] = 1$。答案即为 $f[n]$。
+We define $f[i]$ as the maximum product that can be obtained by splitting the positive integer $i$, with an initial condition of $f[1] = 1$. The answer is $f[n]$.
 
-考虑 $i$ 最后拆分出的数字 $j$，其中 $j \in [1, i)$。对于 $i$ 拆分出的数字 $j$，有两种情况：
+Consider the last number $j$ split from $i$, where $j \in [1, i)$. For the number $j$ split from $i$, there are two cases:
 
-1. 将 $i$ 拆分成 $i - j$ 和 $j$ 的和，不继续拆分，此时乘积为 $(i - j) \times j$；
-2. 将 $i$ 拆分成 $i - j$ 和 $j$ 的和，继续拆分，此时乘积为 $f[i - j] \times j$。
+1. Split $i$ into the sum of $i - j$ and $j$, without further splitting, where the product is $(i - j) \times j$;
+2. Split $i$ into the sum of $i - j$ and $j$, and continue splitting, where the product is $f[i - j] \times j$.
 
-因此，我们可以得到状态转移方程：
+Therefore, we can derive the state transition equation:
 
 $$
 f[i] = \max(f[i], f[i - j] \times j, (i - j) \times j) \quad (j \in [0, i))
 $$
 
-最后返回 $f[n]$ 即可。
+Finally, returning $f[n]$ will suffice.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为给定的正整数。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the given positive integer.
 
 <!-- tabs:start -->
 
@@ -225,11 +222,11 @@ int integerBreak(int n) {
 
 <!-- solution:start -->
 
-### 方法二：数学
+### Solution 1: Mathematics
 
-当 $n \lt 4$ 时，由于题目要求至少拆分成两个整数，因此 $n - 1$ 是最大乘积。当 $n \ge 4$ 时，我们尽可能多地拆分 $3$，当剩下的最后一段为 $4$ 时，我们将其拆分为 $2 + 2$，这样乘积最大。
+When $n < 4$, since the problem requires splitting into at least two integers, $n - 1$ yields the maximum product. When $n \geq 4$, we split into as many $3$s as possible. If the last segment remaining is $4$, we split it into $2 + 2$ for the maximum product.
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+The time complexity is $O(1)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

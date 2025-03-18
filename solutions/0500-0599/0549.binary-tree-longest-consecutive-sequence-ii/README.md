@@ -1,72 +1,62 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0549.Binary%20Tree%20Longest%20Consecutive%20Sequence%20II/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [549. 二叉树最长连续序列 II 🔒](https://leetcode.cn/problems/binary-tree-longest-consecutive-sequence-ii)
+# [549. Binary Tree Longest Consecutive Sequence II 🔒](https://leetcode.com/problems/binary-tree-longest-consecutive-sequence-ii)
 
-[English Version](/solution/0500-0599/0549.Binary%20Tree%20Longest%20Consecutive%20Sequence%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定二叉树的根&nbsp;<code>root</code>&nbsp;，返回树中<strong>最长连续路径</strong>的长度。<br />
-<strong>连续路径</strong>是路径中相邻节点的值相差 <code>1</code> 的路径。此路径可以是增加或减少。</p>
+<p>Given the <code>root</code> of a binary tree, return <em>the length of the longest consecutive path in the tree</em>.</p>
+
+<p>A consecutive path is a path where the values of the consecutive nodes in the path differ by one. This path can be either increasing or decreasing.</p>
 
 <ul>
-	<li>例如，&nbsp;<code>[1,2,3,4]</code> 和 <code>[4,3,2,1]</code> 都被认为有效，但路径 <code>[1,2,4,3]</code> 无效。</li>
+	<li>For example, <code>[1,2,3,4]</code> and <code>[4,3,2,1]</code> are both considered valid, but the path <code>[1,2,4,3]</code> is not valid.</li>
 </ul>
 
-<p>另一方面，路径可以是子-父-子顺序，不一定是父子顺序。</p>
+<p>On the other hand, the path can be in the child-Parent-child order, where not necessarily be parent-child order.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0549.Binary%20Tree%20Longest%20Consecutive%20Sequence%20II/images/consec2-1-tree.jpg" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0549.Binary%20Tree%20Longest%20Consecutive%20Sequence%20II/images/consec2-1-tree.jpg" style="width: 207px; height: 183px;" />
 <pre>
-<strong>输入: </strong>root = [1,2,3]
-<strong>输出:</strong> 2
-<strong>解释:</strong> 最长的连续路径是 [1, 2] 或者 [2, 1]。
+<strong>Input:</strong> root = [1,2,3]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The longest consecutive path is [1, 2] or [2, 1].
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0549.Binary%20Tree%20Longest%20Consecutive%20Sequence%20II/images/consec2-2-tree.jpg" style="width: 207px; height: 183px;" />
+<pre>
+<strong>Input:</strong> root = [2,1,3]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The longest consecutive path is [1, 2, 3] or [3, 2, 1].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 2:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0549.Binary%20Tree%20Longest%20Consecutive%20Sequence%20II/images/consec2-2-tree.jpg" /></p>
-
-<pre>
-<strong>输入: </strong>root = [2,1,3]
-<strong>输出:</strong> 3
-<strong>解释:</strong> 最长的连续路径是 [1, 2, 3] 或者 [3, 2, 1]。
-</pre>
-
-<p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树上所有节点的值都在&nbsp;<code>[1, 3 * 10<sup>4</sup>]</code>&nbsp;范围内。</li>
-	<li><code>-3 * 10<sup>4</sup>&nbsp;&lt;= Node.val &lt;= 3 * 10<sup>4</sup></code></li>
+	<li>The number of nodes in the tree is in the range <code>[1, 3 * 10<sup>4</sup>]</code>.</li>
+	<li><code>-3 * 10<sup>4</sup> &lt;= Node.val &lt;= 3 * 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

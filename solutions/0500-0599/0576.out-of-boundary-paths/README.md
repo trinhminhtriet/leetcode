@@ -1,44 +1,39 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0576.Out%20of%20Boundary%20Paths/README.md
+difficulty: Medium
 tags:
-    - 动态规划
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [576. 出界的路径数](https://leetcode.cn/problems/out-of-boundary-paths)
+# [576. Out of Boundary Paths](https://leetcode.com/problems/out-of-boundary-paths)
 
-[English Version](/solution/0500-0599/0576.Out%20of%20Boundary%20Paths/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个大小为 <code>m x n</code> 的网格和一个球。球的起始坐标为 <code>[startRow, startColumn]</code> 。你可以将球移到在四个方向上相邻的单元格内（可以穿过网格边界到达网格之外）。你 <strong>最多</strong> 可以移动 <code>maxMove</code> 次球。</p>
+<p>There is an <code>m x n</code> grid with a ball. The ball is initially at the position <code>[startRow, startColumn]</code>. You are allowed to move the ball to one of the four adjacent cells in the grid (possibly out of the grid crossing the grid boundary). You can apply <strong>at most</strong> <code>maxMove</code> moves to the ball.</p>
 
-<p>给你五个整数 <code>m</code>、<code>n</code>、<code>maxMove</code>、<code>startRow</code> 以及 <code>startColumn</code> ，找出并返回可以将球移出边界的路径数量。因为答案可能非常大，返回对 <code>10<sup>9</sup> + 7</code> <strong>取余</strong> 后的结果。</p>
+<p>Given the five integers <code>m</code>, <code>n</code>, <code>maxMove</code>, <code>startRow</code>, <code>startColumn</code>, return the number of paths to move the ball out of the grid boundary. Since the answer can be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0576.Out%20of%20Boundary%20Paths/images/out_of_boundary_paths_1.png" style="width: 500px; height: 296px;" />
 <pre>
-<strong>输入：</strong>m = 2, n = 2, maxMove = 2, startRow = 0, startColumn = 0
-<strong>输出：</strong>6
+<strong>Input:</strong> m = 2, n = 2, maxMove = 2, startRow = 0, startColumn = 0
+<strong>Output:</strong> 6
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0576.Out%20of%20Boundary%20Paths/images/out_of_boundary_paths_2.png" style="width: 500px; height: 293px;" />
 <pre>
-<strong>输入：</strong>m = 1, n = 3, maxMove = 3, startRow = 0, startColumn = 1
-<strong>输出：</strong>12
+<strong>Input:</strong> m = 1, n = 3, maxMove = 3, startRow = 0, startColumn = 1
+<strong>Output:</strong> 12
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= m, n &lt;= 50</code></li>
@@ -49,21 +44,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们定义一个函数 $\textit{dfs}(i, j, k)$ 表示从坐标 $(i, j)$ 出发，还剩下 $k$ 步可以移动的情况下，可以移出边界的路径数量。
+We define a function $\textit{dfs}(i, j, k)$ to represent the number of paths that can move out of the boundary starting from coordinates $(i, j)$ with $k$ steps remaining.
 
-在函数 $\textit{dfs}(i, j, k)$ 中，我们首先处理边界情况，如果当前坐标 $(i, j)$ 不在网格范围内，如果 $k \geq 0$，则返回 $1$，否则返回 $0$。如果 $k \leq 0$，说明还在网格内，但是已经没有移动次数了，返回 $0$。接下来，我们遍历四个方向，移动到下一个坐标 $(x, y)$，然后递归调用 $\textit{dfs}(x, y, k - 1)$，并将结果累加到答案中。
+In the function $\textit{dfs}(i, j, k)$, we first handle the boundary cases. If the current coordinates $(i, j)$ are out of the grid range, return $1$ if $k \geq 0$, otherwise return $0$. If $k \leq 0$, it means we are still within the grid but have no remaining moves, so return $0$. Next, we iterate over the four directions, move to the next coordinates $(x, y)$, then recursively call $\textit{dfs}(x, y, k - 1)$, and accumulate the results to the answer.
 
-在主函数中，我们调用 $\textit{dfs}(startRow, startColumn, maxMove)$，即从起始坐标 $(\textit{startRow}, \textit{startColumn})$ 出发，还剩下 $\textit{maxMove}$ 步可以移动的情况下，可以移出边界的路径数量。
+In the main function, we call $\textit{dfs}(startRow, startColumn, maxMove)$, which represents the number of paths that can move out of the boundary starting from the initial coordinates $(\textit{startRow}, \textit{startColumn})$ with $\textit{maxMove}$ steps remaining.
 
-为了避免重复计算，我们可以使用记忆化搜索。
+To avoid redundant calculations, we can use memoization.
 
-时间复杂度 $O(m \times n \times k)$，空间复杂度 $O(m \times n \times k)$。其中 $m$ 和 $n$ 分别是网格的行数和列数，而 $k$ 是可以移动的步数，本题中 $k = \textit{maxMove} \leq 50$。
+The time complexity is $O(m \times n \times k)$, and the space complexity is $O(m \times n \times k)$. Here, $m$ and $n$ are the number of rows and columns of the grid, and $k$ is the number of steps that can be moved, with $k = \textit{maxMove} \leq 50$.
 
 <!-- tabs:start -->
 

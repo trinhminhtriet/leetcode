@@ -1,80 +1,76 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2080.Range%20Frequency%20Queries/README.md
+difficulty: Medium
 rating: 1702
-source: 第 268 场周赛 Q3
+source: Weekly Contest 268 Q3
 tags:
-    - 设计
-    - 线段树
-    - 数组
-    - 哈希表
-    - 二分查找
+    - Design
+    - Segment Tree
+    - Array
+    - Hash Table
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [2080. 区间内查询数字的频率](https://leetcode.cn/problems/range-frequency-queries)
+# [2080. Range Frequency Queries](https://leetcode.com/problems/range-frequency-queries)
 
-[English Version](/solution/2000-2099/2080.Range%20Frequency%20Queries/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你设计一个数据结构，它能求出给定子数组内一个给定值的 <strong>频率</strong>&nbsp;。</p>
+<p>Design a data structure to find the <strong>frequency</strong> of a given value in a given subarray.</p>
 
-<p>子数组中一个值的 <strong>频率</strong>&nbsp;指的是这个子数组中这个值的出现次数。</p>
+<p>The <strong>frequency</strong> of a value in a subarray is the number of occurrences of that value in the subarray.</p>
 
-<p>请你实现&nbsp;<code>RangeFreqQuery</code>&nbsp;类：</p>
+<p>Implement the <code>RangeFreqQuery</code> class:</p>
 
 <ul>
-	<li><code>RangeFreqQuery(int[] arr)</code>&nbsp;用下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>arr</code>&nbsp;构造一个类的实例。</li>
-	<li><code>int query(int left, int right, int value)</code>&nbsp;返回子数组&nbsp;<code>arr[left...right]</code>&nbsp;中&nbsp;<code>value</code>&nbsp;的&nbsp;<strong>频率</strong>&nbsp;。</li>
+	<li><code>RangeFreqQuery(int[] arr)</code> Constructs an instance of the class with the given <strong>0-indexed</strong> integer array <code>arr</code>.</li>
+	<li><code>int query(int left, int right, int value)</code> Returns the <strong>frequency</strong> of <code>value</code> in the subarray <code>arr[left...right]</code>.</li>
 </ul>
 
-<p>一个 <strong>子数组</strong> 指的是数组中一段连续的元素。<code>arr[left...right]</code>&nbsp;指的是 <code>nums</code>&nbsp;中包含下标 <code>left</code>&nbsp;和 <code>right</code>&nbsp;<strong>在内</strong>&nbsp;的中间一段连续元素。</p>
+<p>A <strong>subarray</strong> is a contiguous sequence of elements within an array. <code>arr[left...right]</code> denotes the subarray that contains the elements of <code>nums</code> between indices <code>left</code> and <code>right</code> (<strong>inclusive</strong>).</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>
-["RangeFreqQuery", "query", "query"]
+<pre>
+<strong>Input</strong>
+[&quot;RangeFreqQuery&quot;, &quot;query&quot;, &quot;query&quot;]
 [[[12, 33, 4, 56, 22, 2, 34, 33, 22, 12, 34, 56]], [1, 2, 4], [0, 11, 33]]
-<strong>输出：</strong>
+<strong>Output</strong>
 [null, 1, 2]
 
-<strong>解释：</strong>
+<strong>Explanation</strong>
 RangeFreqQuery rangeFreqQuery = new RangeFreqQuery([12, 33, 4, 56, 22, 2, 34, 33, 22, 12, 34, 56]);
-rangeFreqQuery.query(1, 2, 4); // 返回 1 。4 在子数组 [33, 4] 中出现 1 次。
-rangeFreqQuery.query(0, 11, 33); // 返回 2 。33 在整个子数组中出现 2 次。
+rangeFreqQuery.query(1, 2, 4); // return 1. The value 4 occurs 1 time in the subarray [33, 4]
+rangeFreqQuery.query(0, 11, 33); // return 2. The value 33 occurs 2 times in the whole array.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= arr[i], value &lt;= 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= left &lt;= right &lt; arr.length</code></li>
-	<li>调用&nbsp;<code>query</code>&nbsp;不超过&nbsp;<code>10<sup>5</sup></code>&nbsp;次。</li>
+	<li>At most <code>10<sup>5</sup></code> calls will be made to <code>query</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 二分查找
+### Solution 1: Hash Table + Binary Search
 
-我们用一个哈希表 $g$ 来存储每个值对应的下标数组。在构造函数中，我们遍历数组 $\textit{arr}$，将每个值对应的下标加入到哈希表中。
+We use a hash table $g$ to store the array of indices corresponding to each value. In the constructor, we traverse the array $\textit{arr}$, adding the index corresponding to each value to the hash table.
 
-在查询函数中，我们首先判断哈希表中是否存在给定的值。如果不存在，说明该值在数组中不存在，直接返回 $0$。否则，我们获取该值对应的下标数组 $\textit{idx}$。然后我们使用二分查找找到下标数组中第一个大于等于 $\textit{left}$ 的下标 $l$，以及第一个大于 $\textit{right}$ 的下标 $r$。最后返回 $r - l$ 即可。
+In the query function, we first check whether the given value exists in the hash table. If it does not exist, it means that the value does not exist in the array, so we directly return $0$. Otherwise, we get the index array $\textit{idx}$ corresponding to the value. Then we use binary search to find the first index $l$ that is greater than or equal to $\textit{left}$, and the first index $r$ that is greater than $\textit{right}$. Finally, we return $r - l$.
 
-时间复杂度方面，构造函数的时间复杂度为 $O(n)$，查询函数的时间复杂度为 $O(\log n)$。其中 $n$ 为数组的长度。空间复杂度为 $O(n)$。
+In terms of time complexity, the time complexity of the constructor is $O(n)$, and the time complexity of the query function is $O(\log n)$. The space complexity is $O(n)$. Where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

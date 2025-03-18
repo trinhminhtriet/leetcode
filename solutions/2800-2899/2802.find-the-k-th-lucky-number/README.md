@@ -1,56 +1,51 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2802.Find%20The%20K-th%20Lucky%20Number/README.md
+difficulty: Medium
 tags:
-    - 位运算
-    - 数学
-    - 字符串
+    - Bit Manipulation
+    - Math
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2802. 找出第 K 个幸运数字 🔒](https://leetcode.cn/problems/find-the-k-th-lucky-number)
+# [2802. Find The K-th Lucky Number 🔒](https://leetcode.com/problems/find-the-k-th-lucky-number)
 
-[English Version](/solution/2800-2899/2802.Find%20The%20K-th%20Lucky%20Number/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>我们知道 <code>4</code> 和 <code>7</code> 是 <strong>幸运</strong> 数字。同时，如果一个数字只包含幸运数字，那么它被称为幸运数字。</p>
+<p>We know that <code>4</code> and <code>7</code> are <strong>lucky</strong> digits. Also, a number is called <strong>lucky</strong>&nbsp;if it contains <strong>only</strong> lucky digits.</p>
 
-<p>给定一个整数 <code>k</code>，返回第 <code>k</code> 个幸运数字，并将其表示为一个 <strong>字符串</strong> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>k = 4
-<b>输出：</b>"47"
-<b>解释：</b>第一个幸运数字是 4，第二个是 7，第三个是 44，第四个是 47。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>k = 10
-<b>输出：</b>"477"
-<b>解释：</b>按递增顺序列出的幸运数字为：
-4, 7, 44, 47, 74, 77, 444, 447, 474, 477。 因此第10个幸运数字是477。</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>k = 1000
-<b>输出：</b>"777747447"
-<b>解释：</b>第 1000 个幸运数字是 777747447。
-</pre>
+<p>You are given an integer <code>k</code>, return<em> the </em><code>k<sup>th</sup></code><em>&nbsp;lucky number represented as a <strong>string</strong>.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> k = 4
+<strong>Output:</strong> &quot;47&quot;
+<strong>Explanation:</strong> The first lucky number is 4, the second one is 7, the third one is 44 and the fourth one is 47.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> k = 10
+<strong>Output:</strong> &quot;477&quot;
+<strong>Explanation:</strong> Here are lucky numbers sorted in increasing order:
+4, 7, 44, 47, 74, 77, 444, 447, 474, 477. So the 10<sup>th</sup> lucky number is 477.</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> k = 1000
+<strong>Output:</strong> &quot;777747447&quot;
+<strong>Explanation:</strong> It can be shown that the 1000<sup>th</sup> lucky number is 777747447.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= 10<sup>9</sup></code></li>
@@ -58,19 +53,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
+### Solution 1: Mathematics
 
-根据题目描述，一个幸运数只包含数字 $4$ 和 $7$，因此 $n$ 位幸运数的个数为 $2^n$。
+According to the problem description, a lucky number only contains the digits $4$ and $7$, so the number of $n$-digit lucky numbers is $2^n$.
 
-我们初始化 $n=1$，接下来循环判断 $k$ 是否大于 $2^n$，如果大于则将 $k$ 减去 $2^n$，同时 $n$ 加一，直到 $k$ 小于等于 $2^n$。此时，我们只需要找出 $n$ 位幸运数中的第 $k$ 个即可。
+We initialize $n=1$, then loop to check whether $k$ is greater than $2^n$. If it is, we subtract $2^n$ from $k$ and increment $n$, until $k$ is less than or equal to $2^n$. At this point, we just need to find the $k$-th lucky number among the $n$-digit lucky numbers.
 
-如果 $k$ 小于等于 $2^{n-1}$，则第 $k$ 个幸运数的第一位为 $4$，否则第一位为 $7$，然后我们将 $k$ 减去 $2^{n-1}$，继续判断第二位，直到 $n$ 位幸运数的所有位都判断完毕。
+If $k$ is less than or equal to $2^{n-1}$, then the first digit of the $k$-th lucky number is $4$, otherwise the first digit is $7$. Then we subtract $2^{n-1}$ from $k$ and continue to determine the second digit, until all digits of the $n$-digit lucky number are determined.
 
-时间复杂度 $O(\log k)$，空间复杂度 $O(\log k)$。
+The time complexity is $O(\log k)$, and the space complexity is $O(\log k)$.
 
 <!-- tabs:start -->
 

@@ -1,52 +1,49 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0263.Ugly%20Number/README.md
+difficulty: Easy
 tags:
-    - 数学
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [263. 丑数](https://leetcode.cn/problems/ugly-number)
+# [263. Ugly Number](https://leetcode.com/problems/ugly-number)
 
-[English Version](/solution/0200-0299/0263.Ugly%20Number/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong>丑数 </strong>就是只包含质因数&nbsp;<code>2</code>、<code>3</code> 和 <code>5</code>&nbsp;的&nbsp;<em>正&nbsp;</em>整数。</p>
+<p>An <strong>ugly number</strong> is a <em>positive</em> integer which does not have a prime factor other than 2, 3, and 5.</p>
 
-<p>给你一个整数 <code>n</code> ，请你判断 <code>n</code> 是否为 <strong>丑数</strong> 。如果是，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
+<p>Given an integer <code>n</code>, return <code>true</code> <em>if</em> <code>n</code> <em>is an <strong>ugly number</strong></em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 6
-<strong>输出：</strong>true
-<strong>解释：</strong>6 = 2 × 3</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 1
-<strong>输出：</strong>true
-<strong>解释：</strong>1 没有质因数。</pre>
+<strong>Input:</strong> n = 6
+<strong>Output:</strong> true
+<strong>Explanation:</strong> 6 = 2 &times; 3
+</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 14
-<strong>输出：</strong>false
-<strong>解释：</strong>14 不是丑数，因为它包含了另外一个质因数&nbsp;<code>7 </code>。
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> true
+<strong>Explanation:</strong> 1 has no prime factors.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 14
+<strong>Output:</strong> false
+<strong>Explanation:</strong> 14 is not ugly since it includes the prime factor 7.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>-2<sup>31</sup> &lt;= n &lt;= 2<sup>31</sup> - 1</code></li>
@@ -54,11 +51,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

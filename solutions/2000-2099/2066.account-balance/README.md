@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2066.Account%20Balance/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2066. 账户余额 🔒](https://leetcode.cn/problems/account-balance)
+# [2066. Account Balance 🔒](https://leetcode.com/problems/account-balance)
 
-[English Version](/solution/2000-2099/2066.Account%20Balance/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表名: <code>Transactions</code></p>
+<p>Table: <code>Transactions</code></p>
 
 <pre>
 +-------------+------+
@@ -27,26 +24,25 @@ tags:
 | type        | ENUM |
 | amount      | int  |
 +-------------+------+
-(account_id, day) 是该Transactions表的主键.
-表中的每行数据表示一次交易的信息, 包括此次交易的账号(account_id), 交易类型(type), 交易发生时间(day), 交易发生金额(amount).
-其中交易类型(type)字段包括了两种行为：存入 ('Deposit'), 取出('Withdraw').
+(account_id, day) is the primary key (combination of columns with unique values) for this table.
+Each row contains information about one transaction, including the transaction type, the day it occurred on, and the amount.
+type is an ENUM (category) of the type (&#39;Deposit&#39;,&#39;Withdraw&#39;) 
 </pre>
 
 <p>&nbsp;</p>
 
-<p>请写出能够返回用户每次交易完成后的账户余额. 我们约定所有用户在进行交易前的账户余额都为0，&nbsp;并且保证所有交易行为后的余额不为负数。</p>
+<p>Write a solution to report the balance of each user after each transaction. You may assume that the balance of each account before any transaction is <code>0</code> and that the balance will never be below <code>0</code> at any moment.</p>
 
-<p>返回的结果请依次按照 账户（<code>account_id</code>),&nbsp;日期(&nbsp;<code>day</code>&nbsp;) 进行<strong>升序排序</strong>&nbsp;.</p>
+<p>Return the result table <strong>in ascending order</strong> by <code>account_id</code>, then by <code>day</code> in case of a tie.</p>
 
-<p>查询结果的格式请参照以下测试样例.</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>测试样例1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
-Transactions 表:
+<strong>Input:</strong> 
+Transactions table:
 +------------+------------+----------+--------+
 | account_id | day        | type     | amount |
 +------------+------------+----------+--------+
@@ -56,7 +52,7 @@ Transactions 表:
 | 2          | 2021-12-07 | Deposit  | 7000   |
 | 2          | 2021-12-12 | Withdraw | 7000   |
 +------------+------------+----------+--------+
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +------------+------------+---------+
 | account_id | day        | balance |
 +------------+------------+---------+
@@ -66,26 +62,25 @@ Transactions 表:
 | 2          | 2021-12-07 | 7000    |
 | 2          | 2021-12-12 | 0       |
 +------------+------------+---------+
-
-<strong>解释:</strong> 
-账户1:
-- 初始金额为 0.
-- 2021-11-07 --&gt; 存入2000. 余额变为 0 + 2000 = 2000.
-- 2021-11-09 --&gt; 取出1000. 余额变为 2000 - 1000 = 1000.
-- 2021-11-11 --&gt; 存入3000. 余额变为 1000 + 3000 = 4000.
-账户2:
-- 初始金额为 0.
-- 2021-12-07 --&gt; 存入7000. 余额变为 0 + 7000 = 7000.
-- 2021-12-12 --&gt; 取出 7000. 余额变为 7000 - 7000 = 0.
+<strong>Explanation:</strong> 
+Account 1:
+- Initial balance is 0.
+- 2021-11-07 --&gt; deposit 2000. Balance is 0 + 2000 = 2000.
+- 2021-11-09 --&gt; withdraw 1000. Balance is 2000 - 1000 = 1000.
+- 2021-11-11 --&gt; deposit 3000. Balance is 1000 + 3000 = 4000.
+Account 2:
+- Initial balance is 0.
+- 2021-12-07 --&gt; deposit 7000. Balance is 0 + 7000 = 7000.
+- 2021-12-12 --&gt; withdraw 7000. Balance is 7000 - 7000 = 0.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

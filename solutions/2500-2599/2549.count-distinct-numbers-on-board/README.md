@@ -1,68 +1,63 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2549.Count%20Distinct%20Numbers%20on%20Board/README.md
+difficulty: Easy
 rating: 1265
-source: 第 330 场周赛 Q1
+source: Weekly Contest 330 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 数学
-    - 模拟
+    - Array
+    - Hash Table
+    - Math
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2549. 统计桌面上的不同数字](https://leetcode.cn/problems/count-distinct-numbers-on-board)
+# [2549. Count Distinct Numbers on Board](https://leetcode.com/problems/count-distinct-numbers-on-board)
 
-[English Version](/solution/2500-2599/2549.Count%20Distinct%20Numbers%20on%20Board/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数 <code>n</code> ，开始时，它放在桌面上。在 <code>10<sup>9</sup></code> 天内，每天都要执行下述步骤：</p>
+<p>You are given a positive integer <code>n</code>, that is initially placed on a board. Every day, for <code>10<sup>9</sup></code> days, you perform the following procedure:</p>
 
 <ul>
-	<li>对于出现在桌面上的每个数字 <code>x</code> ，找出符合 <code>1 &lt;= i &lt;= n</code> 且满足 <code>x % i == 1</code> 的所有数字 <code>i</code> 。</li>
-	<li>然后，将这些数字放在桌面上。</li>
+	<li>For each number <code>x</code> present on the board, find all numbers <code>1 &lt;= i &lt;= n</code> such that <code>x % i == 1</code>.</li>
+	<li>Then, place those numbers on the board.</li>
 </ul>
 
-<p>返回在 <code>10<sup>9</sup></code> 天之后，出现在桌面上的 <strong>不同</strong> 整数的数目。</p>
+<p>Return<em> the number of <strong>distinct</strong> integers present on the board after</em> <code>10<sup>9</sup></code> <em>days have elapsed</em>.</p>
 
-<p><strong>注意：</strong></p>
+<p><strong>Note:</strong></p>
 
 <ul>
-	<li>一旦数字放在桌面上，则会一直保留直到结束。</li>
-	<li><code>%</code> 表示取余运算。例如，<code>14 % 3</code> 等于 <code>2</code> 。</li>
+	<li>Once a number is placed on the board, it will remain on it until the end.</li>
+	<li><code>%</code>&nbsp;stands&nbsp;for the modulo operation. For example,&nbsp;<code>14 % 3</code> is <code>2</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 5
-<strong>输出：</strong>4
-<strong>解释：</strong>最开始，5 在桌面上。 
-第二天，2 和 4 也出现在桌面上，因为 5 % 2 == 1 且 5 % 4 == 1 。 
-再过一天 3 也出现在桌面上，因为 4 % 3 == 1 。 
-在十亿天结束时，桌面上的不同数字有 2 、3 、4 、5 。
+<strong>Input:</strong> n = 5
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Initially, 5 is present on the board. 
+The next day, 2 and 4 will be added since 5 % 2 == 1 and 5 % 4 == 1. 
+After that day, 3 will be added to the board because 4 % 3 == 1. 
+At the end of a billion days, the distinct numbers on the board will be 2, 3, 4, and 5. 
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 3 
-<strong>输出：</strong>2
-<strong>解释：</strong> 
-因为 3 % 2 == 1 ，2 也出现在桌面上。 
-在十亿天结束时，桌面上的不同数字只有两个：2 和 3 。 
+<strong>Input:</strong> n = 3
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 
+Since 3 % 2 == 1, 2 will be added to the board. 
+After a billion days, the only two distinct numbers on the board are 2 and 3. 
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
@@ -70,17 +65,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：脑筋急转弯
+### Solution 1: Lateral Thinking
 
-由于每一次对桌面上的数字 $n$ 进行操作，会使得数字 $n-1$ 也出现在桌面上，因此最终桌面上的数字为 $[2,...n]$，共 $n-1$ 个数字。
+Since every operation on the number $n$ on the desktop will also cause the number $n-1$ to appear on the desktop, the final numbers on the desktop are $[2,...n]$, that is, $n-1$ numbers.
 
-注意到 $n$ 可能为 $1$，因此需要特判。
+Note that $n$ could be $1$, so it needs to be specially judged.
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+The time complexity is $O(1)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

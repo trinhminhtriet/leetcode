@@ -1,52 +1,46 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0011.Container%20With%20Most%20Water/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数组
-    - 双指针
+    - Greedy
+    - Array
+    - Two Pointers
 ---
 
 <!-- problem:start -->
 
-# [11. 盛最多水的容器](https://leetcode.cn/problems/container-with-most-water)
+# [11. Container With Most Water](https://leetcode.com/problems/container-with-most-water)
 
-[English Version](/solution/0000-0099/0011.Container%20With%20Most%20Water/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个长度为 <code>n</code> 的整数数组&nbsp;<code>height</code>&nbsp;。有&nbsp;<code>n</code>&nbsp;条垂线，第 <code>i</code> 条线的两个端点是&nbsp;<code>(i, 0)</code>&nbsp;和&nbsp;<code>(i, height[i])</code>&nbsp;。</p>
+<p>You are given an integer array <code>height</code> of length <code>n</code>. There are <code>n</code> vertical lines drawn such that the two endpoints of the <code>i<sup>th</sup></code> line are <code>(i, 0)</code> and <code>(i, height[i])</code>.</p>
 
-<p>找出其中的两条线，使得它们与&nbsp;<code>x</code>&nbsp;轴共同构成的容器可以容纳最多的水。</p>
+<p>Find two lines that together with the x-axis form a container, such that the container contains the most water.</p>
 
-<p>返回容器可以储存的最大水量。</p>
+<p>Return <em>the maximum amount of water a container can store</em>.</p>
 
-<p><strong>说明：</strong>你不能倾斜容器。</p>
+<p><strong>Notice</strong> that you may not slant the container.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0011.Container%20With%20Most%20Water/images/question_11.jpg" style="width: 600px; height: 287px;" />
+<pre>
+<strong>Input:</strong> height = [1,8,6,2,5,4,8,3,7]
+<strong>Output:</strong> 49
+<strong>Explanation:</strong> The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+</pre>
 
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0011.Container%20With%20Most%20Water/images/question_11.jpg" /></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>[1,8,6,2,5,4,8,3,7]
-<strong>输出：</strong>49 
-<strong>解释：</strong>图中垂直线代表输入数组 [1,8,6,2,5,4,8,3,7]。在此情况下，容器能够容纳水（表示为蓝色部分）的最大值为&nbsp;49。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>height = [1,1]
-<strong>输出：</strong>1
+<strong>Input:</strong> height = [1,1]
+<strong>Output:</strong> 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == height.length</code></li>
@@ -56,21 +50,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1: Two Pointers
 
-我们使用两个指针 $l$ 和 $r$ 分别指向数组的左右两端，即 $l = 0$，而 $r = n - 1$，其中 $n$ 是数组的长度。
+We use two pointers $l$ and $r$ to point to the left and right ends of the array, respectively, i.e., $l = 0$ and $r = n - 1$, where $n$ is the length of the array.
 
-接下来，我们使用变量 $\textit{ans}$ 记录容器的最大容量，初始化为 $0$。
+Next, we use a variable $\textit{ans}$ to record the maximum capacity of the container, initially set to $0$.
 
-然后，我们开始进行循环，每次循环中，我们计算当前容器的容量，即 $\textit{min}(height[l], height[r]) \times (r - l)$，并将其与 $\textit{ans}$ 进行比较，将较大值赋给 $\textit{ans}$。然后，我们判断 $height[l]$ 和 $height[r]$ 的大小，如果 $\textit{height}[l] < \textit{height}[r]$，移动 $r$ 指针不会使得结果变得更好，因为容器的高度由较短的那根垂直线决定，所以我们移动 $l$ 指针。反之，我们移动 $r$ 指针。
+Then, we start a loop. In each iteration, we calculate the current capacity of the container, i.e., $\textit{min}(height[l], height[r]) \times (r - l)$, and compare it with $\textit{ans}$, assigning the larger value to $\textit{ans}$. Then, we compare the values of $height[l]$ and $height[r]$. If $\textit{height}[l] < \textit{height}[r]$, moving the $r$ pointer will not improve the result because the height of the container is determined by the shorter vertical line, so we move the $l$ pointer. Otherwise, we move the $r$ pointer.
 
-遍历结束后，返回 $\textit{ans}$ 即可。
+After the iteration, we return $\textit{ans}$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{height}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{height}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

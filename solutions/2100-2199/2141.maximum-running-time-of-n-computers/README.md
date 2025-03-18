@@ -1,66 +1,60 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2141.Maximum%20Running%20Time%20of%20N%20Computers/README.md
+difficulty: Hard
 rating: 2265
-source: 第 276 场周赛 Q4
+source: Weekly Contest 276 Q4
 tags:
-    - 贪心
-    - 数组
-    - 二分查找
-    - 排序
+    - Greedy
+    - Array
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2141. 同时运行 N 台电脑的最长时间](https://leetcode.cn/problems/maximum-running-time-of-n-computers)
+# [2141. Maximum Running Time of N Computers](https://leetcode.com/problems/maximum-running-time-of-n-computers)
 
-[English Version](/solution/2100-2199/2141.Maximum%20Running%20Time%20of%20N%20Computers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有&nbsp;<code>n</code>&nbsp;台电脑。给你整数&nbsp;<code>n</code>&nbsp;和一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>batteries</code>&nbsp;，其中第&nbsp;<code>i</code>&nbsp;个电池可以让一台电脑 <strong>运行&nbsp;</strong><code>batteries[i]</code>&nbsp;分钟。你想使用这些电池让&nbsp;<strong>全部</strong>&nbsp;<code>n</code>&nbsp;台电脑 <b>同时</b>&nbsp;运行。</p>
+<p>You have <code>n</code> computers. You are given the integer <code>n</code> and a <strong>0-indexed</strong> integer array <code>batteries</code> where the <code>i<sup>th</sup></code> battery can <strong>run</strong> a computer for <code>batteries[i]</code> minutes. You are interested in running <strong>all</strong> <code>n</code> computers <strong>simultaneously</strong> using the given batteries.</p>
 
-<p>一开始，你可以给每台电脑连接 <strong>至多一个电池</strong>&nbsp;。然后在任意整数时刻，你都可以将一台电脑与它的电池断开连接，并连接另一个电池，你可以进行这个操作 <strong>任意次</strong>&nbsp;。新连接的电池可以是一个全新的电池，也可以是别的电脑用过的电池。断开连接和连接新的电池不会花费任何时间。</p>
+<p>Initially, you can insert <strong>at most one battery</strong> into each computer. After that and at any integer time moment, you can remove a battery from a computer and insert another battery <strong>any number of times</strong>. The inserted battery can be a totally new battery or a battery from another computer. You may assume that the removing and inserting processes take no time.</p>
 
-<p>注意，你不能给电池充电。</p>
+<p>Note that the batteries cannot be recharged.</p>
 
-<p>请你返回你可以让 <code>n</code>&nbsp;台电脑同时运行的 <strong>最长</strong>&nbsp;分钟数。</p>
+<p>Return <em>the <strong>maximum</strong> number of minutes you can run all the </em><code>n</code><em> computers simultaneously.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2141.Maximum%20Running%20Time%20of%20N%20Computers/images/example1-fit.png" style="width: 762px; height: 150px;" />
+<pre>
+<strong>Input:</strong> n = 2, batteries = [3,3,3]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> 
+Initially, insert battery 0 into the first computer and battery 1 into the second computer.
+After two minutes, remove battery 1 from the second computer and insert battery 2 instead. Note that battery 1 can still run for one minute.
+At the end of the third minute, battery 0 is drained, and you need to remove it from the first computer and insert battery 1 instead.
+By the end of the fourth minute, battery 1 is also drained, and the first computer is no longer running.
+We can run the two computers simultaneously for at most 4 minutes, so we return 4.
 
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2141.Maximum%20Running%20Time%20of%20N%20Computers/images/example1-fit.png" style="width: 762px; height: 150px;"></p>
-
-<pre><b>输入：</b>n = 2, batteries = [3,3,3]
-<b>输出：</b>4
-<b>解释：</b>
-一开始，将第一台电脑与电池 0 连接，第二台电脑与电池 1 连接。
-2 分钟后，将第二台电脑与电池 1 断开连接，并连接电池 2 。注意，电池 0 还可以供电 1 分钟。
-在第 3 分钟结尾，你需要将第一台电脑与电池 0 断开连接，然后连接电池 1 。
-在第 4 分钟结尾，电池 1 也被耗尽，第一台电脑无法继续运行。
-我们最多能同时让两台电脑同时运行 4 分钟，所以我们返回 4 。
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2141.Maximum%20Running%20Time%20of%20N%20Computers/images/example2.png" style="width: 629px; height: 150px;"></p>
-
-<pre><b>输入：</b>n = 2, batteries = [1,1,1,1]
-<b>输出：</b>2
-<b>解释：</b>
-一开始，将第一台电脑与电池 0 连接，第二台电脑与电池 2 连接。
-一分钟后，电池 0 和电池 2 同时耗尽，所以你需要将它们断开连接，并将电池 1 和第一台电脑连接，电池 3 和第二台电脑连接。
-1 分钟后，电池 1 和电池 3 也耗尽了，所以两台电脑都无法继续运行。
-我们最多能让两台电脑同时运行 2 分钟，所以我们返回 2 。
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2141.Maximum%20Running%20Time%20of%20N%20Computers/images/example2.png" style="width: 629px; height: 150px;" />
+<pre>
+<strong>Input:</strong> n = 2, batteries = [1,1,1,1]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 
+Initially, insert battery 0 into the first computer and battery 2 into the second computer. 
+After one minute, battery 0 and battery 2 are drained so you need to remove them and insert battery 1 into the first computer and battery 3 into the second computer. 
+After another minute, battery 1 and battery 3 are also drained so the first and second computers are no longer running.
+We can run the two computers simultaneously for at most 2 minutes, so we return 2.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= batteries.length &lt;= 10<sup>5</sup></code></li>
@@ -69,19 +63,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-我们注意到，如果我们可以让 $n$ 台电脑同时运行 $t$ 分钟，那么我们也可以让 $n$ 台电脑同时运行 $t' \le t$ 分钟，这存在着单调性。因此，我们可以使用二分查找的方法找到最大的 $t$。
+We notice that if we can run $n$ computers simultaneously for $t$ minutes, then we can also run $n$ computers simultaneously for $t' \le t$ minutes, which shows monotonicity. Therefore, we can use the binary search method to find the maximum $t$.
 
-我们定义二分查找的左边界 $l=0$，右边界 $r=\sum_{i=0}^{n-1} batteries[i]$。每次二分查找的过程中，我们使用一个变量 $mid$ 表示当前的中间值，即 $mid = (l + r + 1) >> 1$。我们判断是否存在一种方案，使得 $n$ 台电脑同时运行 $mid$ 分钟。如果存在，那么我们就将 $l$ 更新为 $mid$，否则我们将 $r$ 更新为 $mid - 1$。最后，我们返回 $l$ 即为答案。
+We define the left boundary of the binary search as $l=0$ and the right boundary as $r=\sum_{i=0}^{n-1} batteries[i]$. During each binary search iteration, we use a variable $mid$ to represent the current middle value, i.e., $mid = (l + r + 1) >> 1$. We check if there exists a scheme that allows $n$ computers to run simultaneously for $mid$ minutes. If such a scheme exists, then we update $l$ to $mid$; otherwise, we update $r$ to $mid - 1$. Finally, we return $l$ as the answer.
 
-问题转化为如何判断是否存在一种方案，使得 $n$ 台电脑同时运行 $mid$ 分钟。如果一个电池可以运行的分钟数大于 $mid$，由于电脑同时运行 $mid$ 分钟，而一个电池同一时间只能供电一台电脑，因此我们只能使用这个电池 $mid$ 分钟。如果一个电池可以运行的分钟数小于等于 $mid$，我们可以使用这个电池的全部电量。因此，我们统计所有电池可以供电的分钟数之和 $s$，如果 $s \ge n \times mid$，那么我们就可以使得 $n$ 台电脑同时运行 $mid$ 分钟。
+The problem is transformed into how to determine if there exists a scheme that allows $n$ computers to run simultaneously for $mid$ minutes. If a battery can run for more minutes than $mid$, since the computers run simultaneously for $mid$ minutes and a battery can only power one computer at a time, we can only use this battery for $mid$ minutes. If a battery can run for minutes less than or equal to $mid$, we can use all the power of this battery. Therefore, we calculate the total minutes $s$ that all batteries can power, and if $s \ge n \times mid$, then we can make $n$ computers run simultaneously for $mid$ minutes.
 
-时间复杂度 $O(n \times \log M)$，其中 $M$ 为所有电池的电量之和，空间复杂度 $O(1)$。
+The time complexity is $O(n \times \log M)$, where $M$ is the total power of all batteries, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

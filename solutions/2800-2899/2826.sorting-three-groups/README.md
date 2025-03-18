@@ -1,80 +1,85 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2826.Sorting%20Three%20Groups/README.md
+difficulty: Medium
 rating: 1721
-source: 第 111 场双周赛 Q3
+source: Biweekly Contest 111 Q3
 tags:
-    - 数组
-    - 二分查找
-    - 动态规划
+    - Array
+    - Binary Search
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2826. 将三个组排序](https://leetcode.cn/problems/sorting-three-groups)
+# [2826. Sorting Three Groups](https://leetcode.com/problems/sorting-three-groups)
 
-[English Version](/solution/2800-2899/2826.Sorting%20Three%20Groups/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;。<code>nums</code>&nbsp;的每个元素是 1，2 或 3。在每次操作中，你可以删除&nbsp;<code>nums</code>&nbsp;中的一个元素。返回使 nums 成为 <strong>非递减</strong>&nbsp;顺序所需操作数的 <strong>最小值</strong>。</p>
+<p>You are given an integer array <code>nums</code>. Each element in <code>nums</code> is 1, 2 or 3. In each operation, you can remove an element from&nbsp;<code>nums</code>. Return the <strong>minimum</strong> number of operations to make <code>nums</code> <strong>non-decreasing</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong class="example">示例 1：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [2,1,3,2,1]</span></p>
 
-<pre>
-<b>输入：</b>nums = [2,1,3,2,1]
-<b>输出：</b>3
-<b>解释：</b>
-其中一个最优方案是删除 nums[0]，nums[2] 和 nums[3]。
-</pre>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<pre>
-<b>输入：</b>nums = [1,3,2,1,3,3]
-<b>输出：</b>2
-<b>解释：</b>
-其中一个最优方案是删除 nums[1] 和 nums[2]。
-</pre>
+<p>One of the optimal solutions is to remove <code>nums[0]</code>, <code>nums[2]</code> and <code>nums[3]</code>.</p>
+</div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre>
-<b>输入：</b>nums = [2,2,2,2,3,3]
-<b>输出：</b>0
-<b>解释：</b>
-nums 已是非递减顺序的。
-</pre>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,3,2,1,3,3]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>One of the optimal solutions is to remove <code>nums[1]</code> and <code>nums[2]</code>.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [2,2,2,2,3,3]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p><code>nums</code> is already non-decreasing.</p>
+</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 3</code></li>
 </ul>
 
-<p><strong>进阶：</strong>你可以使用&nbsp;<code>O(n)</code>&nbsp;时间复杂度以内的算法解决吗？</p>
+<p>&nbsp;</p>
+<strong>Follow-up:</strong> Can you come up with an algorithm that runs in <code>O(n)</code> time complexity?
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][j]$ 表示将前 $i$ 个数变成美丽数组，并且第 $i$ 个数变成 $j+1$ 的最少操作次数。那么答案就是 $\min(f[n][0], f[n][1], f[n][2])$。
+We define $f[i][j]$ as the minimum number of operations to turn the first $i$ numbers into a beautiful array, and the $i$th number is changed to $j+1$. The answer is $\min(f[n][0], f[n][1], f[n][2])$.
 
-我们可以枚举第 $i$ 个数变成 $j+1$ 的所有情况，然后取最小值。这里我们可以用滚动数组优化空间复杂度。
+We can enumerate all cases where the $i$th number is changed to $j+1$, and then take the minimum value. Here, we can use a rolling array to optimize the space complexity.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

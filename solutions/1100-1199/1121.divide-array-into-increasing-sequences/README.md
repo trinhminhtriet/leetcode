@@ -1,65 +1,60 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1121.Divide%20Array%20Into%20Increasing%20Sequences/README.md
+difficulty: Hard
 rating: 1664
-source: 第 4 场双周赛 Q4
+source: Biweekly Contest 4 Q4
 tags:
-    - 数组
-    - 计数
+    - Array
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [1121. 将数组分成几个递增序列 🔒](https://leetcode.cn/problems/divide-array-into-increasing-sequences)
+# [1121. Divide Array Into Increasing Sequences 🔒](https://leetcode.com/problems/divide-array-into-increasing-sequences)
 
-[English Version](/solution/1100-1199/1121.Divide%20Array%20Into%20Increasing%20Sequences/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <strong>非递减</strong> 的正整数数组&nbsp;<code>nums</code>&nbsp;和整数&nbsp;<code>K</code>，判断该数组是否可以被分成一个或几个&nbsp;<strong>长度至少&nbsp;为 </strong><code>K</code><strong> 的 不相交的递增子序列</strong>。</p>
+<p>Given an integer array <code>nums</code> sorted in non-decreasing order and an integer <code>k</code>, return <code>true</code><em> if this array can be divided into one or more disjoint increasing subsequences of length at least </em><code>k</code><em>, or </em><code>false</code><em> otherwise</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>nums = [1,2,2,3,3,4,4], K = 3
-<strong>输出：</strong>true
-<strong>解释：</strong>
-该数组可以分成两个子序列 [1,2,3,4] 和 [2,3,4]，每个子序列的长度都至少是 3。
+<pre>
+<strong>Input:</strong> nums = [1,2,2,3,3,4,4], k = 3
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The array can be divided into two subsequences [1,2,3,4] and [2,3,4] with lengths at least 3 each.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>nums = [5,6,6,7,8], K = 3
-<strong>输出：</strong>false
-<strong>解释：</strong>
-没有办法根据条件来划分数组。
+<pre>
+<strong>Input:</strong> nums = [5,6,6,7,8], k = 3
+<strong>Output:</strong> false
+<strong>Explanation:</strong> There is no way to divide the array using the conditions required.
 </pre>
 
 <p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
-<p><strong>提示：</strong></p>
-
-<ol>
-	<li><code>1 &lt;= nums.length&nbsp;&lt;= 10^5</code></li>
-	<li><code>1 &lt;= K &lt;= nums.length</code></li>
-	<li><code>1 &lt;= nums[i] &lt;= 10^5</code></li>
-</ol>
+<ul>
+	<li><code>1 &lt;= k &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
+	<li><code>nums</code> is sorted in non-decreasing order.</li>
+</ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：脑筋急转弯
+### Solution 1: Quick Thinking
 
-我们假设可以将数组分成 $m$ 个长度至少为 $k$ 的严格递增子序列，如果数组中出现次数最多的数字的个数为 $cnt$，那么这 $cnt$ 个数字必须在不同的子序列中，所以 $m \geq cnt$，又因为 $m$ 个子序列的长度至少为 $k$，因此，子序列的个数越少越好，所以 $m = cnt$。那么 $cnt \times k \leq n$，才能满足题意。因此，我们只需要统计数组中出现次数最多的数字的个数 $cnt$，然后判断 $cnt \times k \leq n$ 即可。如果是，返回 `true`，否则返回 `false`。
+We assume that the array can be divided into $m$ strictly increasing subsequences of length at least $k$. If the number of the most frequent number in the array is $cnt$, then these $cnt$ numbers must be in different subsequences, so $m \geq cnt$. Also, since the length of $m$ subsequences is at least $k$, the fewer the number of subsequences, the better, so $m = cnt$. Therefore, $cnt \times k \leq n$ must be satisfied. Hence, we only need to count the number of the most frequent number $cnt$ in the array, and then judge whether $cnt \times k \leq n$. If it is, return `true`, otherwise return `false`.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 
@@ -132,7 +127,7 @@ func canDivideIntoSubsequences(nums []int, k int) bool {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

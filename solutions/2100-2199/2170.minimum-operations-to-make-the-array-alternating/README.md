@@ -1,65 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2170.Minimum%20Operations%20to%20Make%20the%20Array%20Alternating/README.md
+difficulty: Medium
 rating: 1662
-source: 第 280 场周赛 Q2
+source: Weekly Contest 280 Q2
 tags:
-    - 贪心
-    - 数组
-    - 哈希表
-    - 计数
+    - Greedy
+    - Array
+    - Hash Table
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [2170. 使数组变成交替数组的最少操作数](https://leetcode.cn/problems/minimum-operations-to-make-the-array-alternating)
+# [2170. Minimum Operations to Make the Array Alternating](https://leetcode.com/problems/minimum-operations-to-make-the-array-alternating)
 
-[English Version](/solution/2100-2199/2170.Minimum%20Operations%20to%20Make%20the%20Array%20Alternating/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的数组 <code>nums</code> ，该数组由 <code>n</code> 个正整数组成。</p>
+<p>You are given a <strong>0-indexed</strong> array <code>nums</code> consisting of <code>n</code> positive integers.</p>
 
-<p>如果满足下述条件，则数组 <code>nums</code> 是一个 <strong>交替数组</strong> ：</p>
+<p>The array <code>nums</code> is called <strong>alternating</strong> if:</p>
 
 <ul>
-	<li><code>nums[i - 2] == nums[i]</code> ，其中 <code>2 &lt;= i &lt;= n - 1</code> 。</li>
-	<li><code>nums[i - 1] != nums[i]</code> ，其中 <code>1 &lt;= i &lt;= n - 1</code> 。</li>
+	<li><code>nums[i - 2] == nums[i]</code>, where <code>2 &lt;= i &lt;= n - 1</code>.</li>
+	<li><code>nums[i - 1] != nums[i]</code>, where <code>1 &lt;= i &lt;= n - 1</code>.</li>
 </ul>
 
-<p>在一步 <strong>操作</strong> 中，你可以选择下标 <code>i</code> 并将 <code>nums[i]</code> <strong>更改</strong> 为 <strong>任一</strong> 正整数。</p>
+<p>In one <strong>operation</strong>, you can choose an index <code>i</code> and <strong>change</strong> <code>nums[i]</code> into <strong>any</strong> positive integer.</p>
 
-<p>返回使数组变成交替数组的 <strong>最少操作数</strong> 。</p>
+<p>Return <em>the <strong>minimum number of operations</strong> required to make the array alternating</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [3,1,3,2,4,3]
-<strong>输出：</strong>3
-<strong>解释：</strong>
-使数组变成交替数组的方法之一是将该数组转换为 [3,1,3,<em><strong>1</strong></em>,<em><strong>3</strong></em>,<em><strong>1</strong></em>] 。
-在这种情况下，操作数为 3 。
-可以证明，操作数少于 3 的情况下，无法使数组变成交替数组。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,2,2,2]
-<strong>输出：</strong>2
-<strong>解释：</strong>
-使数组变成交替数组的方法之一是将该数组转换为 [1,2,<em><strong>1</strong></em>,2,<em><strong>1</strong></em>].
-在这种情况下，操作数为 2 。
-注意，数组不能转换成 [<em><strong>2</strong></em>,2,2,2,2] 。因为在这种情况下，nums[0] == nums[1]，不满足交替数组的条件。
+<strong>Input:</strong> nums = [3,1,3,2,4,3]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong>
+One way to make the array alternating is by converting it to [3,1,3,<u><strong>1</strong></u>,<u><strong>3</strong></u>,<u><strong>1</strong></u>].
+The number of operations required in this case is 3.
+It can be proven that it is not possible to make the array alternating in less than 3 operations. 
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,2,2,2,2]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong>
+One way to make the array alternating is by converting it to [1,2,<u><strong>1</strong></u>,2,<u><strong>1</strong></u>].
+The number of operations required in this case is 2.
+Note that the array cannot be converted to [<u><strong>2</strong></u>,2,2,2,2] because in this case nums[0] == nums[1] which violates the conditions of an alternating array.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -68,19 +64,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：维护奇偶位置的计数
+### Solution 1: Maintain Count of Odd and Even Positions
 
-根据题目描述，我们可以知道，如果数组 $\textit{nums}$ 是一个交替数组，那么数组中的奇数位置和偶数位置的元素一定是不同的，且奇数位置的元素相同，偶数位置的元素也相同。
+According to the problem description, if an array $\textit{nums}$ is an alternating array, then the elements at odd positions and even positions must be different, and the elements at odd positions are the same, as well as the elements at even positions.
 
-要使得数组 $\textit{nums}$ 变成交替数组的操作数最少，我们可以通过统计奇数位置和偶数位置的元素的出现次数，找到偶数位置出现次数最多的两个元素 $a_0$ 和 $a_2$，以及对应的出现次数 $a_1$ 和 $a_3$；再找到奇数位置出现次数最多的两个元素 $b_0$ 和 $b_2$，以及对应的出现次数 $b_1$ 和 $b_3$。
+To minimize the number of operations required to transform the array $\textit{nums}$ into an alternating array, we can count the occurrence of elements at odd and even positions. We find the two elements with the highest occurrence at even positions, $a_0$ and $a_2$, and their corresponding counts $a_1$ and $a_3$; similarly, we find the two elements with the highest occurrence at odd positions, $b_0$ and $b_2$, and their corresponding counts $b_1$ and $b_3$.
 
-如果 $a_0 \neq b_0$，那么我们可以将数组 $\textit{nums}$ 中偶数位置的元素全部变成 $a_0$，奇数位置的元素全部变成 $b_0$，这样操作数为 $n - (a_1 + b_1)$；如果 $a_0 = b_0$，那么我们可以将数组 $\textit{nums}$ 中偶数位置的元素全部变成 $a_0$，奇数位置的元素全部变成 $b_2$，或者将数组 $\textit{nums}$ 中偶数位置的元素全部变成 $a_2$，奇数位置的元素全部变成 $b_0$，这样操作数为 $n - \max(a_1 + b_3, a_3 + b_1)$。
+If $a_0 \neq b_0$, then we can change all elements at even positions in the array $\textit{nums}$ to $a_0$ and all elements at odd positions to $b_0$, making the number of operations $n - (a_1 + b_1)$; if $a_0 = b_0$, then we can change all elements at even positions in the array $\textit{nums}$ to $a_0$ and all elements at odd positions to $b_2$, or change all elements at even positions to $a_2$ and all elements at odd positions to $b_0$, making the number of operations $n - \max(a_1 + b_3, a_3 + b_1)$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

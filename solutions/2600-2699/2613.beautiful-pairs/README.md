@@ -1,58 +1,53 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2613.Beautiful%20Pairs/README.md
+difficulty: Hard
 tags:
-    - 几何
-    - 数组
-    - 数学
-    - 分治
-    - 有序集合
-    - 排序
+    - Geometry
+    - Array
+    - Math
+    - Divide and Conquer
+    - Ordered Set
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2613. 美数对 🔒](https://leetcode.cn/problems/beautiful-pairs)
+# [2613. Beautiful Pairs 🔒](https://leetcode.com/problems/beautiful-pairs)
 
-[English Version](/solution/2600-2699/2613.Beautiful%20Pairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个长度相同的 <strong>下标从 0 开始</strong> 的整数数组 <code>nums1</code> 和 <code>nums2</code>&nbsp;，如果 <code>|nums1[i] - nums1[j]| + |nums2[i] - nums2[j]|</code> 在所有可能的下标对中是最小的，其中 <code>i &lt; j</code> ，则称下标对 <code>(i,j)</code> 为 <strong>美</strong> 数对，</p>
+<p>You are given two <strong>0-indexed</strong> integer arrays <code>nums1</code> and <code>nums2</code> of the same length. A pair of indices <code>(i,j)</code> is called <strong>beautiful</strong> if<code>|nums1[i] - nums1[j]| + |nums2[i] - nums2[j]|</code> is the smallest amongst all possible indices pairs where <code>i &lt; j</code>.</p>
 
-<p>返回美数对。如果有多个美数对，则返回字典序最小的美数对。</p>
+<p>Return <em>the beautiful pair. In the case that there are multiple beautiful pairs, return the lexicographically smallest pair.</em></p>
 
-<p>注意：</p>
+<p>Note that</p>
 
 <ul>
-	<li><code>|x|</code> 表示 <code>x</code> 的绝对值。</li>
-	<li>一对索引 <code>(i1, j1)</code> 在字典序意义下小于 <code>(i2, j2)</code> ，当且仅当 <code>i1 &lt; i2</code> 或 <code>i1 == i2</code> 且 <code>j1 &lt; j2</code>&nbsp;。</li>
+	<li><code>|x|</code> denotes the absolute value of <code>x</code>.</li>
+	<li>A pair of indices <code>(i<sub>1</sub>, j<sub>1</sub>)</code> is lexicographically smaller than <code>(i<sub>2</sub>, j<sub>2</sub>)</code> if <code>i<sub>1</sub> &lt; i<sub>2</sub></code> or <code>i<sub>1</sub> == i<sub>2</sub></code> and <code>j<sub>1</sub> &lt; j<sub>2</sub></code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1 ：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums1 = [1,2,3,2,4], nums2 = [2,3,1,2,3]
-<b>输出：</b>[0,3]
-<b>解释：</b>取下标为 0 和下标为 3 的数对，计算出 |nums1[0]-nums1[3]| + |nums2[0]-nums2[3]| 的值为 1 ，这是我们能够得到的最小值。
+<strong>Input:</strong> nums1 = [1,2,3,2,4], nums2 = [2,3,1,2,3]
+<strong>Output:</strong> [0,3]
+<strong>Explanation:</strong> Consider index 0 and index 3. The value of |nums1[i]-nums1[j]| + |nums2[i]-nums2[j]| is 1, which is the smallest value we can achieve.
 </pre>
 
-<p><strong class="example">示例 2 ：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums1 = [1,2,4,3,2,5], nums2 = [1,4,2,3,5,1]
-<b>输出：</b>[1,4]
-<b>解释：</b>取下标为 1 和下标为 4 的数对，计算出 |nums1[1]-nums1[4]| + |nums2[1]-nums2[4]| 的值为 1，这是我们可以达到的最小值。
+<strong>Input:</strong> nums1 = [1,2,4,3,2,5], nums2 = [1,4,2,3,5,1]
+<strong>Output:</strong> [1,4]
+<strong>Explanation:</strong> Consider index 1 and index 4. The value of |nums1[i]-nums1[j]| + |nums2[i]-nums2[j]| is 1, which is the smallest value we can achieve.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums1.length, nums2.length &lt;= 10<sup>5</sup></code></li>
@@ -63,25 +58,27 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 分治
+### Solution 1: Sorting + Divide and Conquer
 
-本题相当于找出平面中两个点，使得它们的曼哈顿距离最小，如果有多个点满足条件，则返回下标字典序最小的点。
+This problem is equivalent to finding two points in the plane, such that the Manhattan distance between them is the smallest. If there are multiple points satisfying the condition, return the one with the smallest index.
 
-我们先处理重复点的情况，找出每个点对应的下标列表，如果某个点的下标列表长度大于 $1$，那么它的前两个下标可作为候选答案，我们找出最小的下标对即可。
+First, we handle the case where there are duplicate points. For each point, we record the corresponding indices in a list. If the length of the index list is greater than $1$, then the first two indices in the index list can be used as candidates, and we find the smallest index pair.
 
-如果没有重复点，我们将所有点按照 $x$ 坐标排序，然后分治求解。
+If there are no duplicate points, we sort all the points by $x$ coordinates, and then use the divide and conquer to solve the problem.
 
-对于每个区间 $[l, r]$，我们先求出 $x$ 坐标的中位数 $m$，然后递归求解左右两个区间，分别得到 $d_1, (pi_1, pj_1)$ 和 $d_2, (pi_2, pj_2)$，其中 $d_1$ 和 $d_2$ 分别表示左右两个区间的最小曼哈顿距离，而 $(pi_1, pj_1)$ 和 $(pi_2, pj_2)$ 分别表示左右两个区间的最小曼哈顿距离的两个点的下标。我们取 $d_1$ 和 $d_2$ 中较小的一个，如果 $d_1 = d_2$，则取下标字典序较小的一个，将其作为当前区间的最小曼哈顿距离，同时将对应的两个点的下标作为答案。
+For each interval $[l, r]$, we first calculate the median of the $x$ coordinates $m$, and then recursively solve the left and right intervals, and get $d_1, (pi_1, pj_1)$ and $d_2, (pi_2, pj_2)$ respectively, where $d_1$ and $d_2$ are the minimum Manhattan distances of the left and right intervals respectively, and $(pi_1, pj_1)$ and $(pi_2, pj_2)$ are the index pairs of the two points of the minimum Manhattan distance of the left and right intervals respectively. We take the smaller one of $d_1$ and $d_2$ as the minimum Manhattan distance of the current interval, and if $d_1 = d_2$, we take the one with the smaller index as the answer. The corresponding two points of the index are taken as the answer.
 
-以上考虑的是两个点位于同一侧的情况，如果两个点位于不同侧，那么我们以中间点，即下标为 $m = \lfloor (l + r) / 2 \rfloor$ 的点为标准，划分出一个新的区域，区域的范围为中间点向左右两侧分别扩展 $d_1$ 的范围。然后我们将这些范围内的点按照 $y$ 坐标排序，然后遍历排序后的每个点对，如果两个点的 $y$ 坐标之差大于当前的最小曼哈顿距离，那么后面的点对都不用考虑了，因为它们的 $y$ 坐标之差更大，所以曼哈顿距离更大，不会比当前的最小曼哈顿距离更小。否则，我们更新最小曼哈顿距离，同时更新答案。
+The above considers the case where the two points are on the same side. If the two points are on different sides, we take the middle point, i.e. the point with the index of $m = \lfloor (l + r) / 2 \rfloor$ as the standard, and divide a new region. The range of this region is to expand the range of $d_1$ from the middle point to the left and right sides respectively. Then we sort these points in the range by $y$ coordinates, and then traverse each point pair in the sorted order. If the difference of the $y$ coordinates of the two points is greater than the current minimum Manhattan distance, then the following point pairs do not need to be considered, because their $y$ coordinate differences are larger, so the Manhattan distance is larger, and it will not be smaller than the current minimum Manhattan distance. Otherwise, we update the minimum Manhattan distance, and update the answer.
 
-最后，我们返回答案即可。
+Finally, we return the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。
+Time complexity: $O(n \times \log n)$, where $n$ is the length of the array.
+
+Space complexity: $O(n)$.
 
 <!-- tabs:start -->
 

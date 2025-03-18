@@ -1,44 +1,39 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0400.Nth%20Digit/README.md
+difficulty: Medium
 tags:
-    - 数学
-    - 二分查找
+    - Math
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [400. 第 N 位数字](https://leetcode.cn/problems/nth-digit)
+# [400. Nth Digit](https://leetcode.com/problems/nth-digit)
 
-[English Version](/solution/0400-0499/0400.Nth%20Digit/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>n</code> ，请你在无限的整数序列&nbsp;<code>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ...]</code> 中找出并返回第&nbsp;<code>n</code><em> </em>位上的数字。</p>
+<p>Given an integer <code>n</code>, return the <code>n<sup>th</sup></code> digit of the infinite integer sequence <code>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ...]</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 3
-<strong>输出：</strong>3
+<strong>Input:</strong> n = 3
+<strong>Output:</strong> 3
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 11
-<strong>输出：</strong>0
-<strong>解释：</strong>第 11 位数字在序列 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ... 里是 <strong>0 </strong>，它是 10 的一部分。
+<strong>Input:</strong> n = 11
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The 11<sup>th</sup> digit of the sequence 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ... is a 0, which is part of the number 10.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 2<sup>31</sup> - 1</code></li>
@@ -46,21 +41,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
+### Solution 1: Mathematics
 
-位数为 $k$ 的最小整数和最大整数分别为 $10^{k-1}$ 和 $10^k-1$，因此 $k$ 位数的总位数为 $k \times 9 \times 10^{k-1}$。
+The smallest and largest integers with $k$ digits are $10^{k-1}$ and $10^k-1$ respectively, so the total number of digits for $k$-digit numbers is $k \times 9 \times 10^{k-1}$.
 
-我们用 $k$ 表示当前数字的位数，用 $cnt$ 表示当前位数的数字的总数，初始时 $k=1$, $cnt=9$。
+We use $k$ to represent the number of digits of the current number, and $cnt$ to represent the total number of numbers with the current number of digits. Initially, $k=1$, $cnt=9$.
 
-每次将 $n$ 减去 $cnt \times k$，当 $n$ 小于等于 $cnt \times k$ 时，说明 $n$ 对应的数字在当前位数的数字范围内，此时可以计算出对应的数字。
+Each time we subtract $cnt \times k$ from $n$, when $n$ is less than or equal to $cnt \times k$, it means that the number corresponding to $n$ is within the range of numbers with the current number of digits. At this time, we can calculate the corresponding number.
 
-具体做法是，首先计算出 $n$ 对应的是当前位数的哪一个数字，然后计算出是该数字的第几位，从而得到该位上的数字。
+The specific method is to first calculate which number of the current number of digits corresponds to $n$, and then calculate which digit of this number it is, so as to get the number on this digit.
 
-时间复杂度 $O(\log_{10} n)$。
+The time complexity is $O(\log_{10} n)$.
 
 <!-- tabs:start -->
 

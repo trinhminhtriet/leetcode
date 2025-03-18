@@ -1,98 +1,99 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2397.Maximum%20Rows%20Covered%20by%20Columns/README.md
+difficulty: Medium
 rating: 1718
-source: 第 86 场双周赛 Q3
+source: Biweekly Contest 86 Q3
 tags:
-    - 位运算
-    - 数组
-    - 回溯
-    - 枚举
-    - 矩阵
+    - Bit Manipulation
+    - Array
+    - Backtracking
+    - Enumeration
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [2397. 被列覆盖的最多行数](https://leetcode.cn/problems/maximum-rows-covered-by-columns)
+# [2397. Maximum Rows Covered by Columns](https://leetcode.com/problems/maximum-rows-covered-by-columns)
 
-[English Version](/solution/2300-2399/2397.Maximum%20Rows%20Covered%20by%20Columns/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0 </strong>开始、大小为 <code>m x n</code> 的二进制矩阵 <code>matrix</code> ；另给你一个整数 <code>numSelect</code>，表示你必须从 <code>matrix</code> 中选择的 <strong>不同</strong> 列的数量。</p>
+<p>You are given an <code>m x n</code> binary matrix <code>matrix</code> and an integer <code>numSelect</code>.</p>
 
-<p>如果一行中所有的 <code>1</code> 都被你选中的列所覆盖，则认为这一行被 <strong>覆盖</strong> 了。</p>
+<p>Your goal is to select exactly <code>numSelect</code> <strong>distinct </strong>columns from <code>matrix</code> such that you cover as many rows as possible.</p>
 
-<p><strong>形式上</strong>，假设 <code>s = {c<sub>1</sub>, c<sub>2</sub>, ...., c<sub>numSelect</sub>}</code> 是你选择的列的集合。对于矩阵中的某一行 <code>row</code> ，如果满足下述条件，则认为这一行被集合 <code>s</code> <strong>覆盖</strong>：</p>
+<p>A row is considered <strong>covered</strong> if all the <code>1</code>&#39;s in that row are also part of a column that you have selected. If a row does not have any <code>1</code>s, it is also considered covered.</p>
+
+<p>More formally, let us consider <code>selected = {c<sub>1</sub>, c<sub>2</sub>, ...., c<sub>numSelect</sub>}</code> as the set of columns selected by you. A row <code>i</code> is <strong>covered</strong> by <code>selected</code> if:</p>
 
 <ul>
-	<li>对于满足 <code>matrix[row][col] == 1</code> 的每个单元格 <code>matrix[row][col]</code>（<code>0 &lt;= col &lt;= n - 1</code>），<code>col</code> 均存在于 <code>s</code> 中，或者</li>
-	<li><code>row</code> 中 <strong>不存在</strong> 值为 <code>1</code> 的单元格。</li>
+	<li>For each cell where <code>matrix[i][j] == 1</code>, the column <code>j</code> is in <code>selected</code>.</li>
+	<li>Or, no cell in row <code>i</code> has a value of <code>1</code>.</li>
 </ul>
 
-<p>你需要从矩阵中选出 <code>numSelect</code> 个列，使集合覆盖的行数最大化。</p>
-
-<p>返回一个整数，表示可以由 <code>numSelect</code> 列构成的集合 <strong>覆盖</strong> 的 <strong>最大行数</strong> 。</p>
+<p>Return the <strong>maximum</strong> number of rows that can be <strong>covered</strong> by a set of <code>numSelect</code> columns.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2397.Maximum%20Rows%20Covered%20by%20Columns/images/rowscovered.png" style="width: 240px; height: 400px;" /></p>
 
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2397.Maximum%20Rows%20Covered%20by%20Columns/images/rowscovered.png" style="width: 250px; height: 417px;" /></strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">matrix = [[0,0,0],[1,0,1],[0,1,1],[0,0,1]], numSelect = 2</span></p>
 
-<pre>
-<b>输入：</b>matrix = [[0,0,0],[1,0,1],[0,1,1],[0,0,1]], numSelect = 2
-<b>输出：</b>3
-<strong>解释：</strong>
-图示中显示了一种覆盖 3 行的可行办法。
-选择 s = {0, 2} 。
-- 第 0 行被覆盖，因为其中没有出现 1 。
-- 第 1 行被覆盖，因为值为 1 的两列（即 0 和 2）均存在于 s 中。
-- 第 2 行未被覆盖，因为 matrix[2][1] == 1 但是 1 未存在于 s 中。
-- 第 3 行被覆盖，因为 matrix[2][2] == 1 且 2 存在于 s 中。
-因此，可以覆盖 3 行。
-另外 s = {1, 2} 也可以覆盖 3 行，但可以证明无法覆盖更多行。</pre>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><strong>示例 2：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2397.Maximum%20Rows%20Covered%20by%20Columns/images/rowscovered2.png" style="width: 83px; height: 247px;" /></strong></p>
+<p>One possible way to cover 3 rows is shown in the diagram above.<br />
+We choose s = {0, 2}.<br />
+- Row 0 is covered because it has no occurrences of 1.<br />
+- Row 1 is covered because the columns with value 1, i.e. 0 and 2 are present in s.<br />
+- Row 2 is not covered because matrix[2][1] == 1 but 1 is not present in s.<br />
+- Row 3 is covered because matrix[2][2] == 1 and 2 is present in s.<br />
+Thus, we can cover three rows.<br />
+Note that s = {1, 2} will also cover 3 rows, but it can be shown that no more than three rows can be covered.</p>
+</div>
 
-<pre>
-<b>输入：</b>matrix = [[1],[0]], numSelect = 1
-<b>输出：</b>2
-<strong>解释：</strong>
-选择唯一的一列，两行都被覆盖了，因为整个矩阵都被覆盖了。
-所以我们返回 2 。
-</pre>
+<p><strong class="example">Example 2:</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2397.Maximum%20Rows%20Covered%20by%20Columns/images/rowscovered2.png" style="height: 250px; width: 84px;" /></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">matrix = [[1],[0]], numSelect = 1</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>Selecting the only column will result in both rows being covered since the entire matrix is selected.</p>
+</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == matrix.length</code></li>
 	<li><code>n == matrix[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 12</code></li>
-	<li><code>matrix[i][j]</code> 要么是 <code>0</code> 要么是 <code>1</code></li>
+	<li><code>matrix[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
 	<li><code>1 &lt;= numSelect&nbsp;&lt;= n</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二进制枚举
+### Solution 1: Binary Enumeration
 
-我们先将矩阵中的每一行转换成一个二进制数，记录在数组 $rows$ 中，其中 $rows[i]$ 表示第 $i$ 行对应的二进制数，而 $rows[i]$ 这个二进制数的第 $j$ 位表示第 $i$ 行第 $j$ 列的值。
+First, we convert each row of the matrix into a binary number and record it in the array $rows$. Here, $rows[i]$ represents the binary number corresponding to the $i$-th row, and the $j$-th bit of this binary number $rows[i]$ represents the value of the $i$-th row and $j$-th column.
 
-接下来，我们枚举所有的 $2^n$ 种列选择方案，其中 $n$ 为矩阵的列数。对于每一种列选择方案，我们判断是否选中了 `numSelect` 列，如果不是，则跳过。否则，我们统计矩阵中有多少行中的所有 $1$ 都被选中的列覆盖，即统计有多少行的二进制数 $rows[i]$ 与列选择方案 $mask$ 按位与的结果等于 $rows[i]$，并更新最大的行数。
+Next, we enumerate all $2^n$ column selection schemes, where $n$ is the number of columns in the matrix. For each column selection scheme, we check whether `numSelect` columns have been selected. If not, we skip it. Otherwise, we count how many rows in the matrix are covered by the selected columns, i.e., how many binary numbers $rows[i]$ are equal to the bitwise AND of $rows[i]$ and the column selection scheme $mask$. We then update the maximum number of rows.
 
-时间复杂度 $O(2^n \times m)$，空间复杂度 $O(m)$。其中 $m$ 和 $n$ 分别为矩阵的行数和列数。
+The time complexity is $O(2^n \times m)$, and the space complexity is $O(m)$. Where $m$ and $n$ are the number of rows and columns in the matrix, respectively.
 
 <!-- tabs:start -->
 

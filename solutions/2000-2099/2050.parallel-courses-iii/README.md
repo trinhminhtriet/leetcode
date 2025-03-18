@@ -1,70 +1,65 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2050.Parallel%20Courses%20III/README.md
+difficulty: Hard
 rating: 2084
-source: 第 264 场周赛 Q4
+source: Weekly Contest 264 Q4
 tags:
-    - 图
-    - 拓扑排序
-    - 数组
-    - 动态规划
+    - Graph
+    - Topological Sort
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2050. 并行课程 III](https://leetcode.cn/problems/parallel-courses-iii)
+# [2050. Parallel Courses III](https://leetcode.com/problems/parallel-courses-iii)
 
-[English Version](/solution/2000-2099/2050.Parallel%20Courses%20III/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>n</code>&nbsp;，表示有&nbsp;<code>n</code>&nbsp;节课，课程编号从&nbsp;<code>1</code>&nbsp;到&nbsp;<code>n</code>&nbsp;。同时给你一个二维整数数组&nbsp;<code>relations</code>&nbsp;，其中&nbsp;<code>relations[j] = [prevCourse<sub>j</sub>, nextCourse<sub>j</sub>]</code>&nbsp;，表示课程&nbsp;<code>prevCourse<sub>j</sub></code>&nbsp;必须在课程&nbsp;<code>nextCourse<sub>j</sub></code>&nbsp;<strong>之前</strong>&nbsp;完成（先修课的关系）。同时给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>time</code>&nbsp;，其中&nbsp;<code>time[i]</code>&nbsp;表示完成第&nbsp;<code>(i+1)</code>&nbsp;门课程需要花费的 <strong>月份</strong>&nbsp;数。</p>
+<p>You are given an integer <code>n</code>, which indicates that there are <code>n</code> courses labeled from <code>1</code> to <code>n</code>. You are also given a 2D integer array <code>relations</code> where <code>relations[j] = [prevCourse<sub>j</sub>, nextCourse<sub>j</sub>]</code> denotes that course <code>prevCourse<sub>j</sub></code> has to be completed <strong>before</strong> course <code>nextCourse<sub>j</sub></code> (prerequisite relationship). Furthermore, you are given a <strong>0-indexed</strong> integer array <code>time</code> where <code>time[i]</code> denotes how many <strong>months</strong> it takes to complete the <code>(i+1)<sup>th</sup></code> course.</p>
 
-<p>请你根据以下规则算出完成所有课程所需要的 <strong>最少</strong>&nbsp;月份数：</p>
+<p>You must find the <strong>minimum</strong> number of months needed to complete all the courses following these rules:</p>
 
 <ul>
-	<li>如果一门课的所有先修课都已经完成，你可以在 <strong>任意</strong>&nbsp;时间开始这门课程。</li>
-	<li>你可以&nbsp;<strong>同时</strong>&nbsp;上&nbsp;<strong>任意门课程</strong>&nbsp;。</li>
+	<li>You may start taking a course at <strong>any time</strong> if the prerequisites are met.</li>
+	<li><strong>Any number of courses</strong> can be taken at the <strong>same time</strong>.</li>
 </ul>
 
-<p>请你返回完成所有课程所需要的 <strong>最少</strong>&nbsp;月份数。</p>
+<p>Return <em>the <strong>minimum</strong> number of months needed to complete all the courses</em>.</p>
 
-<p><strong>注意：</strong>测试数据保证一定可以完成所有课程（也就是先修课的关系构成一个有向无环图）。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1:</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2050.Parallel%20Courses%20III/images/ex1.png" style="width: 392px; height: 232px;"></strong></p>
-
-<pre><strong>输入：</strong>n = 3, relations = [[1,3],[2,3]], time = [3,2,5]
-<b>输出：</b>8
-<b>解释：</b>上图展示了输入数据所表示的先修关系图，以及完成每门课程需要花费的时间。
-你可以在月份 0 同时开始课程 1 和 2 。
-课程 1 花费 3 个月，课程 2 花费 2 个月。
-所以，最早开始课程 3 的时间是月份 3 ，完成所有课程所需时间为 3 + 5 = 8 个月。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2050.Parallel%20Courses%20III/images/ex2.png" style="width: 500px; height: 365px;"></strong></p>
-
-<pre><b>输入：</b>n = 5, relations = [[1,5],[2,5],[3,5],[3,4],[4,5]], time = [1,2,3,4,5]
-<b>输出：</b>12
-<b>解释：</b>上图展示了输入数据所表示的先修关系图，以及完成每门课程需要花费的时间。
-你可以在月份 0 同时开始课程 1 ，2 和 3 。
-在月份 1，2 和 3 分别完成这三门课程。
-课程 4 需在课程 3 之后开始，也就是 3 个月后。课程 4 在 3 + 4 = 7 月完成。
-课程 5 需在课程 1，2，3 和 4 之后开始，也就是在 max(1,2,3,7) = 7 月开始。
-所以完成所有课程所需的最少时间为 7 + 5 = 12 个月。
-</pre>
+<p><strong>Note:</strong> The test cases are generated such that it is possible to complete every course (i.e., the graph is a directed acyclic graph).</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2050.Parallel%20Courses%20III/images/ex1.png" style="width: 392px; height: 232px;" /></strong>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 3, relations = [[1,3],[2,3]], time = [3,2,5]
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> The figure above represents the given graph and the time required to complete each course. 
+We start course 1 and course 2 simultaneously at month 0.
+Course 1 takes 3 months and course 2 takes 2 months to complete respectively.
+Thus, the earliest time we can start course 3 is at month 3, and the total time required is 3 + 5 = 8 months.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+<strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2050.Parallel%20Courses%20III/images/ex2.png" style="width: 500px; height: 365px;" /></strong>
+
+<pre>
+<strong>Input:</strong> n = 5, relations = [[1,5],[2,5],[3,5],[3,4],[4,5]], time = [1,2,3,4,5]
+<strong>Output:</strong> 12
+<strong>Explanation:</strong> The figure above represents the given graph and the time required to complete each course.
+You can start courses 1, 2, and 3 at month 0.
+You can complete them after 1, 2, and 3 months respectively.
+Course 4 can be taken only after course 3 is completed, i.e., after 3 months. It is completed after 3 + 4 = 7 months.
+Course 5 can be taken only after courses 1, 2, 3, and 4 have been completed, i.e., after max(1,2,3,7) = 7 months.
+Thus, the minimum time needed to complete all the courses is 7 + 5 = 12 months.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 5 * 10<sup>4</sup></code></li>
@@ -72,34 +67,34 @@ tags:
 	<li><code>relations[j].length == 2</code></li>
 	<li><code>1 &lt;= prevCourse<sub>j</sub>, nextCourse<sub>j</sub> &lt;= n</code></li>
 	<li><code>prevCourse<sub>j</sub> != nextCourse<sub>j</sub></code></li>
-	<li>所有的先修课程对&nbsp;<code>[prevCourse<sub>j</sub>, nextCourse<sub>j</sub>]</code>&nbsp;都是 <strong>互不相同</strong>&nbsp;的。</li>
+	<li>All the pairs <code>[prevCourse<sub>j</sub>, nextCourse<sub>j</sub>]</code> are <strong>unique</strong>.</li>
 	<li><code>time.length == n</code></li>
 	<li><code>1 &lt;= time[i] &lt;= 10<sup>4</sup></code></li>
-	<li>先修课程图是一个有向无环图。</li>
+	<li>The given graph is a directed acyclic graph.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：拓扑排序 + 动态规划
+### Solution 1: Topological Sorting + Dynamic Programming
 
-我们首先根据给定的先修课程关系，构建出一个有向无环图，对该图进行拓扑排序，然后根据拓扑排序的结果，使用动态规划求出完成所有课程所需要的最少时间。
+First, we construct a directed acyclic graph based on the given prerequisite course relationships, perform topological sorting on this graph, and then use dynamic programming to find the minimum time required to complete all courses according to the results of the topological sorting.
 
-我们定义以下几个数据结构或变量：
+We define the following data structures or variables:
 
--   邻接表 $g$ 存储有向无环图，同时使用一个数组 $indeg$ 存储每个节点的入度；
--   队列 $q$ 存储所有入度为 $0$ 的节点；
--   数组 $f$ 存储每个节点的最早完成时间，初始时 $f[i] = 0$；
--   变量 $ans$ 记录最终的答案，初始时 $ans = 0$；
+-   Adjacency list $g$ stores the directed acyclic graph, and an array $indeg$ stores the in-degree of each node;
+-   Queue $q$ stores all nodes with an in-degree of $0$;
+-   Array $f$ stores the earliest completion time of each node, initially $f[i] = 0$;
+-   Variable $ans$ records the final answer, initially $ans = 0$;
 
-当 $q$ 非空时，依次取出队首节点 $i$，遍历 $g[i]$ 中的每个节点 $j$，更新 $f[j] = \max(f[j], f[i] + time[j])$，同时更新 $ans = \max(ans, f[j])$，并将 $j$ 的入度减 $1$，如果此时 $j$ 的入度为 $0$，则将 $j$ 加入队列 $q$ 中；
+When $q$ is not empty, take out the head node $i$ in turn, traverse each node $j$ in $g[i]$, update $f[j] = \max(f[j], f[i] + time[j])$, update $ans = \max(ans, f[j])$ at the same time, and reduce the in-degree of $j$ by $1$. If the in-degree of $j$ is $0$ at this time, add $j$ to the queue $q$;
 
-最终返回 $ans$。
+Finally, return $ans$.
 
-时间复杂度 $O(m + n)$，空间复杂度 $O(m + n)$。其中 $m$ 是数组 $relations$ 的长度。
+The time complexity is $O(m + n)$, and the space complexity is $O(m + n)$. Where $m$ is the length of the array $relations$.
 
 <!-- tabs:start -->
 

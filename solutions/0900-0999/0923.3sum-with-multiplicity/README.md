@@ -1,58 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0923.3Sum%20With%20Multiplicity/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
-    - 双指针
-    - 计数
-    - 排序
+    - Array
+    - Hash Table
+    - Two Pointers
+    - Counting
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [923. 三数之和的多种可能](https://leetcode.cn/problems/3sum-with-multiplicity)
+# [923. 3Sum With Multiplicity](https://leetcode.com/problems/3sum-with-multiplicity)
 
-[English Version](/solution/0900-0999/0923.3Sum%20With%20Multiplicity/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数数组<meta charset="UTF-8" />&nbsp;<code>arr</code>&nbsp;，以及一个整数&nbsp;<code>target</code>&nbsp;作为目标值，返回满足 <code>i &lt; j &lt; k</code> 且<meta charset="UTF-8" />&nbsp;<code>arr[i] + arr[j] + arr[k] == target</code>&nbsp;的元组&nbsp;<code>i, j, k</code>&nbsp;的数量。</p>
+<p>Given an integer array <code>arr</code>, and an integer <code>target</code>, return the number of tuples <code>i, j, k</code> such that <code>i &lt; j &lt; k</code> and <code>arr[i] + arr[j] + arr[k] == target</code>.</p>
 
-<p>由于结果会非常大，请返回 <code>10<sup>9</sup>&nbsp;+ 7</code>&nbsp;的模。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [1,1,2,2,3,3,4,4,5,5], target = 8
-<strong>输出：</strong>20
-<strong>解释：</strong>
-按值枚举(arr[i], arr[j], arr[k])：
-(1, 2, 5) 出现 8 次；
-(1, 3, 4) 出现 8 次；
-(2, 2, 4) 出现 2 次；
-(2, 3, 3) 出现 2 次。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [1,1,2,2,2,2], target = 5
-<strong>输出：</strong>12
-<strong>解释：</strong>
-arr[i] = 1, arr[j] = arr[k] = 2 出现 12 次：
-我们从 [1,1] 中选择一个 1，有 2 种情况，
-从 [2,2,2,2] 中选出两个 2，有 6 种情况。
-</pre>
+<p>As the answer can be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> arr = [1,1,2,2,3,3,4,4,5,5], target = 8
+<strong>Output:</strong> 20
+<strong>Explanation: </strong>
+Enumerating by the values (arr[i], arr[j], arr[k]):
+(1, 2, 5) occurs 8 times;
+(1, 3, 4) occurs 8 times;
+(2, 2, 4) occurs 2 times;
+(2, 3, 3) occurs 2 times.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [1,1,2,2,2,2], target = 5
+<strong>Output:</strong> 12
+<strong>Explanation: </strong>
+arr[i] = 1, arr[j] = arr[k] = 2 occurs 12 times:
+We choose one 1 from [1,1] in 2 ways,
+and two 2s from [2,2,2,2] in 6 ways.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [2,1,3], target = 6
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> (1, 2, 3) occured one time in the array so we return 1.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= arr.length &lt;= 3000</code></li>
@@ -62,19 +65,19 @@ arr[i] = 1, arr[j] = arr[k] = 2 出现 12 次：
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数 + 枚举
+### Solution 1: Counting + Enumeration
 
-我们可以用一个哈希表或者一个长度为 $101$ 的数组 $cnt$ 统计数组 $arr$ 中每个元素的出现次数。
+We can use a hash table or an array $cnt$ of length $101$ to count the occurrence of each element in the array $arr$.
 
-然后，我们枚举数组 $arr$ 中的每个元素 $arr[j]$，先将 $cnt[arr[j]]$ 减一，然后再枚举 $arr[j]$ 之前的元素 $arr[i]$，计算 $c = target - arr[i] - arr[j]$，如果 $c$ 在 $[0, 100]$ 的范围内，那么答案就加上 $cnt[c]$，最后返回答案。
+Then, we enumerate each element $arr[j]$ in the array $arr$, first subtract one from $cnt[arr[j]]$, and then enumerate the elements $arr[i]$ before $arr[j]$, calculate $c = target - arr[i] - arr[j]$. If $c$ is in the range of $[0, 100]$, then the answer is increased by $cnt[c]$, and finally return the answer.
 
-注意，这里的答案可能会超过 ${10}^9 + 7$，所以在每次加法操作后都要取模。
+Note that the answer may exceed ${10}^9 + 7$, so take the modulus after each addition operation.
 
-时间复杂度 $O(n^2)$，其中 $n$ 为数组 $arr$ 的长度。空间复杂度 $O(C)$，其中 $C$ 为数组 $arr$ 中元素的最大值，本题中 $C = 100$。
+The time complexity is $O(n^2)$, where $n$ is the length of the array $arr$. The space complexity is $O(C)$, where $C$ is the maximum value of the elements in the array $arr$, in this problem $C = 100$.
 
 <!-- tabs:start -->
 

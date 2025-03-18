@@ -1,62 +1,73 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1752.Check%20if%20Array%20Is%20Sorted%20and%20Rotated/README.md
+difficulty: Easy
 rating: 1324
-source: 第 227 场周赛 Q1
+source: Weekly Contest 227 Q1
 tags:
-    - 数组
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [1752. 检查数组是否经排序和轮转得到](https://leetcode.cn/problems/check-if-array-is-sorted-and-rotated)
+# [1752. Check if Array Is Sorted and Rotated](https://leetcode.com/problems/check-if-array-is-sorted-and-rotated)
 
-[English Version](/solution/1700-1799/1752.Check%20if%20Array%20Is%20Sorted%20and%20Rotated/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组 <code>nums</code> 。<code>nums</code> 的源数组中，所有元素与 <code>nums</code> 相同，但按非递减顺序排列。</p>
+<p>Given an array <code>nums</code>, return <code>true</code><em> if the array was originally sorted in non-decreasing order, then rotated <strong>some</strong> number of positions (including zero)</em>. Otherwise, return <code>false</code>.</p>
 
-<p>如果&nbsp;<code>nums</code> 能够由源数组轮转若干位置（包括 0 个位置）得到，则返回 <code>true</code><em> </em>；否则，返回 <code>false</code> 。</p>
+<p>There may be <strong>duplicates</strong> in the original array.</p>
 
-<p>源数组中可能存在 <strong>重复项</strong> 。</p>
-
-<p><strong>注意：</strong>数组 <code>A</code> 在轮转 <code>x</code> 个位置后得到长度相同的数组 <code>B</code> ，使得对于每一个有效的下标&nbsp;<code>i</code>，满足&nbsp;<code>B[i] == A[(i+x) % A.length]</code>。</p>
+<p><strong>Note:</strong> An array <code>A</code> rotated by <code>x</code> positions results in an array <code>B</code> of the same length such that <code>B[i] == A[(i+x) % A.length]</code> for every valid index <code>i</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [3,4,5,1,2]
-<strong>输出：</strong>true
-<strong>解释：</strong>[1,2,3,4,5] 为有序的源数组。
-可以轮转 x = 3 个位置，使新数组从值为 3 的元素开始：[3,4,5,1,2] 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2,1,3,4]
-<strong>输出：</strong>false
-<strong>解释：</strong>源数组无法经轮转得到 nums 。
+<strong>Input:</strong> nums = [3,4,5,1,2]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> [1,2,3,4,5] is the original sorted array.
+You can rotate the array by x = 3 positions to begin on the element of value 3: [3,4,5,1,2].
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3]
-<strong>输出：</strong>true
-<strong>解释：</strong>[1,2,3] 为有序的源数组。
-可以轮转 x = 0 个位置（即不轮转）得到 nums 。
+<strong>Input:</strong> nums = [2,1,3,4]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> There is no sorted array once rotated that can make nums.
 </pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,2,3]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> [1,2,3] is the original sorted array.
+You can rotate the array by x = 0 positions (i.e. no rotation) to make nums.
+</pre>
+
+<div class="simple-translate-system-theme" id="simple-translate">
+<div>
+<div class="simple-translate-button " style="background-image: url(&quot;moz-extension://8a9ffb6b-7e69-4e93-aae1-436a1448eff6/icons/512.png&quot;); height: 22px; width: 22px; top: 10px; left: 10px;">&nbsp;</div>
+
+<div class="simple-translate-panel " style="width: 300px; height: 200px; top: 0px; left: 0px; font-size: 13px;">
+<div class="simple-translate-result-wrapper" style="overflow: hidden;">
+<div class="simple-translate-move" draggable="true">&nbsp;</div>
+
+<div class="simple-translate-result-contents">
+<p class="simple-translate-result" dir="auto">&nbsp;</p>
+
+<p class="simple-translate-candidate" dir="auto">&nbsp;</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -65,17 +76,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：一次遍历
-
-要满足题目要求，那么数组 `nums` 中最多只能存在一个元素，其值大于下一个元素，即 $nums[i] \gt nums[i + 1]$。如果存在多个这样的元素，那么数组 `nums` 无法通过轮转得到。
-
-注意，数组 `nums` 最后一个元素的下一个元素是数组 `nums` 的第一个元素。
-
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组 `nums` 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

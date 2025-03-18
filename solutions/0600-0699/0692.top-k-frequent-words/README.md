@@ -1,80 +1,73 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0692.Top%20K%20Frequent%20Words/README.md
+difficulty: Medium
 tags:
-    - 字典树
-    - 数组
-    - 哈希表
-    - 字符串
-    - 桶排序
-    - 计数
-    - 排序
-    - 堆（优先队列）
+    - Trie
+    - Array
+    - Hash Table
+    - String
+    - Bucket Sort
+    - Counting
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [692. 前K个高频单词](https://leetcode.cn/problems/top-k-frequent-words)
+# [692. Top K Frequent Words](https://leetcode.com/problems/top-k-frequent-words)
 
-[English Version](/solution/0600-0699/0692.Top%20K%20Frequent%20Words/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个单词列表&nbsp;<code>words</code>&nbsp;和一个整数 <code>k</code> ，返回前&nbsp;<code>k</code><em>&nbsp;</em>个出现次数最多的单词。</p>
+<p>Given an array of strings <code>words</code> and an integer <code>k</code>, return <em>the </em><code>k</code><em> most frequent strings</em>.</p>
 
-<p>返回的答案应该按单词出现频率由高到低排序。如果不同的单词有相同出现频率， <strong>按字典顺序</strong> 排序。</p>
+<p>Return the answer <strong>sorted</strong> by <strong>the frequency</strong> from highest to lowest. Sort the words with the same frequency by their <strong>lexicographical order</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> words = ["i", "love", "leetcode", "i", "love", "coding"], k = 2
-<strong>输出:</strong> ["i", "love"]
-<strong>解析:</strong> "i" 和 "love" 为出现次数最多的两个单词，均为2次。
-    注意，按字母顺序 "i" 在 "love" 之前。
+<strong>Input:</strong> words = [&quot;i&quot;,&quot;love&quot;,&quot;leetcode&quot;,&quot;i&quot;,&quot;love&quot;,&quot;coding&quot;], k = 2
+<strong>Output:</strong> [&quot;i&quot;,&quot;love&quot;]
+<strong>Explanation:</strong> &quot;i&quot; and &quot;love&quot; are the two most frequent words.
+Note that &quot;i&quot; comes before &quot;love&quot; due to a lower alphabetical order.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> ["the", "day", "is", "sunny", "the", "the", "the", "sunny", "is", "is"], k = 4
-<strong>输出:</strong> ["the", "is", "sunny", "day"]
-<strong>解析:</strong> "the", "is", "sunny" 和 "day" 是出现次数最多的四个单词，
-    出现次数依次为 4, 3, 2 和 1 次。
+<strong>Input:</strong> words = [&quot;the&quot;,&quot;day&quot;,&quot;is&quot;,&quot;sunny&quot;,&quot;the&quot;,&quot;the&quot;,&quot;the&quot;,&quot;sunny&quot;,&quot;is&quot;,&quot;is&quot;], k = 4
+<strong>Output:</strong> [&quot;the&quot;,&quot;is&quot;,&quot;sunny&quot;,&quot;day&quot;]
+<strong>Explanation:</strong> &quot;the&quot;, &quot;is&quot;, &quot;sunny&quot; and &quot;day&quot; are the four most frequent words, with the number of occurrence being 4, 3, 2 and 1 respectively.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>注意：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 500</code></li>
-	<li><code>1 &lt;= words[i] &lt;= 10</code></li>
-	<li><code>words[i]</code>&nbsp;由小写英文字母组成。</li>
-	<li><code>k</code> 的取值范围是&nbsp;<code>[1, <strong>不同</strong> words[i] 的数量]</code></li>
+	<li><code>1 &lt;= words[i].length &lt;= 10</code></li>
+	<li><code>words[i]</code> consists of lowercase English letters.</li>
+	<li><code>k</code> is in the range <code>[1, The number of <strong>unique</strong> words[i]]</code></li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>尝试以&nbsp;<code>O(n log k)</code> 时间复杂度和&nbsp;<code>O(n)</code> 空间复杂度解决。</p>
+<p><strong>Follow-up:</strong> Could you solve it in <code>O(n log(k))</code> time and <code>O(n)</code> extra space?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 排序
+### Solution 1: Hash Table + Sorting
 
-我们可以用一个哈希表 $\textit{cnt}$ 记录每一个单词出现的次数，然后对哈希表中的键值对按照值进行排序，如果值相同，按照键进行排序。
+We can use a hash table $\textit{cnt}$ to record the frequency of each word. Then, we sort the key-value pairs in the hash table by value, and if the values are the same, we sort by key.
 
-最后取出前 $k$ 个键即可。
+Finally, we take the first $k$ keys.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为单词的个数。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of words.
 
 <!-- tabs:start -->
 

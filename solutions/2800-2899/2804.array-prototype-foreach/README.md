@@ -1,95 +1,90 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2804.Array%20Prototype%20ForEach/README.md
+difficulty: Easy
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2804. 数组原型的 forEach 方法 🔒](https://leetcode.cn/problems/array-prototype-foreach)
+# [2804. Array Prototype ForEach 🔒](https://leetcode.com/problems/array-prototype-foreach)
 
-[English Version](/solution/2800-2899/2804.Array%20Prototype%20ForEach/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>编写一个数组方法 <code>forEach</code>，使其可以在任何数组上调用 <code>array.forEach(callback, context)</code> 方法，它将在数组的每个元素上执行回调函数。<code>forEach</code> 方法不应该返回任何内容。</p>
+<p>Write your version of method&nbsp;<code>forEach</code>&nbsp;that enhances all arrays such that you can call the&nbsp;<code>array.forEach(callback, context)</code>&nbsp;method on any array and it will execute <code>callback</code> on each element of the array.&nbsp;Method&nbsp;<code>forEach</code> should not return anything.</p>
 
-<p>回调函数 <code>callback</code> 接受以下参数：</p>
+<p><code>callback</code> accepts the following arguments:</p>
 
 <ul>
-	<li><code>value</code> - 表示数组中当前正在处理的元素的值。</li>
-	<li><code>index</code> - 表示数组中当前正在处理的元素的索引。</li>
-	<li><code>array</code> - 表示数组本身，在回调函数内部可以访问整个数组。</li>
+	<li><code>currentValue</code> -&nbsp;represents the current element being processed in the array. It is the value of the element in the current iteration.</li>
+	<li><code>index</code> -&nbsp;represents the index of the current element being processed in the array.</li>
+	<li><code>array</code> -&nbsp;represents the array itself, allowing access to the entire array within the callback function.</li>
 </ul>
 
-<p>上下文 <code>context</code> 应该是作为函数上下文参数传递给回调函数 <code>callback</code> 的对象，确保回调函数 <code>callback</code> 内部的 <code>this</code> 关键字引用此上下文对象。</p>
+<p>The <code>context</code> is the object that should be passed as the function context parameter to the <code>callback</code> function, ensuring that the <code>this</code>&nbsp;keyword within the <code>callback</code> function refers to this <code>context</code> object.</p>
 
-<p>尝试在不使用内置数组方法的情况下实现这个方法。</p>
+<p>Try to implement it without using the built-in array methods.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1：</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 arr = [1,2,3], 
 callback = (val, i, arr) =&gt; arr[i] = val * 2, 
-context = {"context":true}
-<strong>输出：</strong>[2,4,6]
-<strong>解释：</strong>
+context = {&quot;context&quot;:true}
+<strong>Output:</strong> [2,4,6]
+<strong>Explanation:</strong> 
 arr.forEach(callback, context)&nbsp; 
 console.log(arr) // [2,4,6]
 
-回调函数在数组的每个元素上执行。
+The callback is executed on each element of the array.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 arr = [true, true, false, false], 
 callback = (val, i, arr) =&gt; arr[i] = this, 
-context = {"context": false}
-<strong>输出：</strong>[{"context":false},{"context":false},{"context":false},{"context":false}]
-<strong>解释：</strong>
+context = {&quot;context&quot;: false}
+<strong>Output:</strong> [{&quot;context&quot;:false},{&quot;context&quot;:false},{&quot;context&quot;:false},{&quot;context&quot;:false}]
+<strong>Explanation:</strong> 
 arr.forEach(callback, context)&nbsp;
-console.log(arr) // [{"context":false},{"context":false},{"context":false},{"context":false}]
+console.log(arr) // [{&quot;context&quot;:false},{&quot;context&quot;:false},{&quot;context&quot;:false},{&quot;context&quot;:false}]
 
-回调函数在数组的每个元素上以正确的上下文执行。
+The callback is executed on each element of the array with the right context.
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 arr = [true, true, false, false], 
 callback = (val, i, arr) =&gt; arr[i] = !val, 
-context = {"context": 5}
-<strong>输出：</strong>[false,false,true,true]
+context = {&quot;context&quot;: 5}
+<strong>Output:</strong> [false,false,true,true]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>arr</code> 是一个有效的 JSON 数组</li>
-	<li><code>context</code> 是一个有效的 JSON 对象</li>
-	<li><code>fn</code>&nbsp;是一个函数</li>
+	<li><code>arr</code> is a valid JSON array</li>
+	<li><code>context</code> is a valid JSON object</li>
+	<li><code>fn</code> is a function</li>
 	<li><code>0 &lt;= arr.length &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

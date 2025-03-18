@@ -1,68 +1,64 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0523.Continuous%20Subarray%20Sum/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
-    - 数学
-    - 前缀和
+    - Array
+    - Hash Table
+    - Math
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [523. 连续的子数组和](https://leetcode.cn/problems/continuous-subarray-sum)
+# [523. Continuous Subarray Sum](https://leetcode.com/problems/continuous-subarray-sum)
 
-[English Version](/solution/0500-0599/0523.Continuous%20Subarray%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 和一个整数&nbsp;<code>k</code> ，如果&nbsp;<code>nums</code>&nbsp;有一个 <strong>好的子数组</strong>&nbsp;返回&nbsp;<code>true</code>&nbsp;，否则返回 <code>false</code>：</p>
+<p>Given an integer array nums and an integer k, return <code>true</code> <em>if </em><code>nums</code><em> has a <strong>good subarray</strong> or </em><code>false</code><em> otherwise</em>.</p>
 
-<p>一个&nbsp;<strong>好的子数组</strong>&nbsp;是：</p>
+<p>A <strong>good subarray</strong> is a subarray where:</p>
 
 <ul>
-	<li>长度&nbsp;<strong>至少为 2</strong> ，且</li>
-	<li>子数组元素总和为 <code>k</code> 的倍数。</li>
+	<li>its length is <strong>at least two</strong>, and</li>
+	<li>the sum of the elements of the subarray is a multiple of <code>k</code>.</li>
 </ul>
 
-<p><strong>注意</strong>：</p>
+<p><strong>Note</strong> that:</p>
 
 <ul>
-	<li><strong>子数组</strong> 是数组中 <strong>连续</strong> 的部分。</li>
-	<li>如果存在一个整数 <code>n</code> ，令整数 <code>x</code> 符合 <code>x = n * k</code> ，则称 <code>x</code> 是 <code>k</code> 的一个倍数。<code>0</code> <strong>始终</strong> 视为 <code>k</code> 的一个倍数。</li>
+	<li>A <strong>subarray</strong> is a contiguous part of the array.</li>
+	<li>An integer <code>x</code> is a multiple of <code>k</code> if there exists an integer <code>n</code> such that <code>x = n * k</code>. <code>0</code> is <strong>always</strong> a multiple of <code>k</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [23<u>,2,4</u>,6,7], k = 6
-<strong>输出：</strong>true
-<strong>解释：</strong>[2,4] 是一个大小为 2 的子数组，并且和为 6 。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [<u>23,2,6,4,7</u>], k = 6
-<strong>输出：</strong>true
-<strong>解释：</strong>[23, 2, 6, 4, 7] 是大小为 5 的子数组，并且和为 42 。 
-42 是 6 的倍数，因为 42 = 7 * 6 且 7 是一个整数。
+<strong>Input:</strong> nums = [23,<u>2,4</u>,6,7], k = 6
+<strong>Output:</strong> true
+<strong>Explanation:</strong> [2, 4] is a continuous subarray of size 2 whose elements sum up to 6.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [23,2,6,4,7], k = 13
-<strong>输出：</strong>false
+<strong>Input:</strong> nums = [<u>23,2,6,4,7</u>], k = 6
+<strong>Output:</strong> true
+<strong>Explanation:</strong> [23, 2, 6, 4, 7] is an continuous subarray of size 5 whose elements sum up to 42.
+42 is a multiple of 6 because 42 = 7 * 6 and 7 is an integer.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [23,2,6,4,7], k = 13
+<strong>Output:</strong> false
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -73,21 +69,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和 + 哈希表
+### Solution 1: Prefix Sum + Hash Table
 
-根据题目描述，如果存在两个前缀和模 $k$ 的余数相同的位置 $i$ 和 $j$（不妨设 $j < i$），那么 $\textit{nums}[j+1..i]$ 这个子数组的和是 $k$ 的倍数。
+According to the problem description, if there exist two positions $i$ and $j$ ($j < i$) where the remainders of the prefix sums modulo $k$ are the same, then the sum of the subarray $\textit{nums}[j+1..i]$ is a multiple of $k$.
 
-因此，我们可以使用哈希表存储每个前缀和模 $k$ 的余数第一次出现的位置。初始时，我们在哈希表中存入一对键值对 $(0, -1)$，表示前缀和为 $0$ 的余数 $0$ 出现在位置 $-1$。
+Therefore, we can use a hash table to store the first occurrence of each remainder of the prefix sum modulo $k$. Initially, we store a key-value pair $(0, -1)$ in the hash table, indicating that the remainder $0$ of the prefix sum $0$ appears at position $-1$.
 
-遍历数组时，我们计算当前前缀和的模 $k$ 的余数，如果当前前缀和的模 $k$ 的余数没有在哈希表中出现过，我们就将当前前缀和的模 $k$ 的余数和对应的位置存入哈希表中。否则，如果当前前缀和的模 $k$ 的余数在哈希表中已经出现过，位置为 $j$，那么我们就找到了一个满足条件的子数组 $\textit{nums}[j+1..i]$，因此返回 $\textit{True}$。
+As we iterate through the array, we calculate the current prefix sum's remainder modulo $k$. If the current prefix sum's remainder modulo $k$ has not appeared in the hash table, we store the current prefix sum's remainder modulo $k$ and its corresponding position in the hash table. Otherwise, if the current prefix sum's remainder modulo $k$ has already appeared in the hash table at position $j$, then we have found a subarray $\textit{nums}[j+1..i]$ that meets the conditions, and thus return $\textit{True}$.
 
-遍历结束后，如果没有找到满足条件的子数组，我们返回 $\textit{False}$。
+After completing the iteration, if no subarray meeting the conditions is found, we return $\textit{False}$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

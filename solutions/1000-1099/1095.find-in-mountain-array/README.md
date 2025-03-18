@@ -1,32 +1,29 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1095.Find%20in%20Mountain%20Array/README.md
+difficulty: Hard
 rating: 1827
-source: 第 142 场周赛 Q3
+source: Weekly Contest 142 Q3
 tags:
-    - 数组
-    - 二分查找
-    - 交互
+    - Array
+    - Binary Search
+    - Interactive
 ---
 
 <!-- problem:start -->
 
-# [1095. 山脉数组中查找目标值](https://leetcode.cn/problems/find-in-mountain-array)
+# [1095. Find in Mountain Array](https://leetcode.com/problems/find-in-mountain-array)
 
-[English Version](/solution/1000-1099/1095.Find%20in%20Mountain%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>（这是一个 <strong>交互式问题&nbsp;</strong>）</p>
+<p><em>(This problem is an <strong>interactive problem</strong>.)</em></p>
 
-<p>你可以将一个数组&nbsp;<code>arr</code>&nbsp;称为&nbsp;<strong>山脉数组&nbsp;</strong>当且仅当：</p>
+<p>You may recall that an array <code>arr</code> is a <strong>mountain array</strong> if and only if:</p>
 
 <ul>
 	<li><code>arr.length &gt;= 3</code></li>
-	<li>存在一些&nbsp;<code>0 &lt; i &lt; arr.length - 1</code>&nbsp;的&nbsp;<code>i</code>&nbsp;使得：
+	<li>There exists some <code>i</code> with <code>0 &lt; i &lt; arr.length - 1</code> such that:
 	<ul>
 		<li><code>arr[0] &lt; arr[1] &lt; ... &lt; arr[i - 1] &lt; arr[i]</code></li>
 		<li><code>arr[i] &gt; arr[i + 1] &gt; ... &gt; arr[arr.length - 1]</code></li>
@@ -34,60 +31,49 @@ tags:
 	</li>
 </ul>
 
-<p>给定一个山脉数组&nbsp;<code>mountainArr</code>&nbsp;，返回&nbsp;<strong>最小</strong> 的&nbsp;<code>index</code>&nbsp;使得&nbsp;<code>mountainArr.get(index) == target</code>。如果不存在这样的&nbsp;<code>index</code>，返回&nbsp;<code>-1</code>&nbsp;。</p>
+<p>Given a mountain array <code>mountainArr</code>, return the <strong>minimum</strong> <code>index</code> such that <code>mountainArr.get(index) == target</code>. If such an <code>index</code> does not exist, return <code>-1</code>.</p>
 
-<p><strong>你无法直接访问山脉数组</strong>。你只能使用&nbsp;<code>MountainArray</code>&nbsp;接口来访问数组：</p>
+<p><strong>You cannot access the mountain array directly.</strong> You may only access the array using a <code>MountainArray</code> interface:</p>
 
 <ul>
-	<li><code>MountainArray.get(k)</code>&nbsp;返回数组中下标为&nbsp;<code>k</code>&nbsp;的元素（从 0 开始）。</li>
-	<li><code>MountainArray.length()</code>&nbsp;返回数组的长度。</li>
+	<li><code>MountainArray.get(k)</code> returns the element of the array at index <code>k</code> (0-indexed).</li>
+	<li><code>MountainArray.length()</code> returns the length of the array.</li>
 </ul>
 
-<p>调用&nbsp;<code>MountainArray.get</code>&nbsp;超过&nbsp;<code>100</code>&nbsp;次的提交会被判定为错误答案。此外，任何试图绕过在线评测的解决方案都将导致取消资格。</p>
-
-<ol>
-</ol>
+<p>Submissions making more than <code>100</code> calls to <code>MountainArray.get</code> will be judged <em>Wrong Answer</em>. Also, any solutions that attempt to circumvent the judge will result in disqualification.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>mountainArr = [1,2,3,4,5,3,1], target = 3
-<strong>输出：</strong>2
-<strong>解释：</strong>3 在数组中出现了两次，下标分别为 2 和 5，我们返回最小的下标 2。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>mountainArr = [0,1,2,4,2,1], target = 3
-<strong>输出：</strong>-1
-<strong>解释：</strong>3 在数组中没有出现，返回 -1。
+<strong>Input:</strong> mountainArr = [1,2,3,4,5,3,1], target = 3
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 3 exists in the array, at index=2 and index=5. Return the minimum index, which is 2.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> mountainArr = [0,1,2,4,2,1], target = 3
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> 3 does not exist in <code>the array,</code> so we return -1.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= mountainArr.length() &lt;= 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= target &lt;= 10<sup>9</sup></code></li>
-	<li><code>0 &lt;= mountainArr.get(index) &lt;=&nbsp;10<sup>9</sup></code></li>
+	<li><code>0 &lt;= mountainArr.get(index) &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
-
-我们先通过二分查找，找到数组中的最大值所在的下标 $l$，那么数组就可以被分成两段，前半段是递增的，后半段是递减的。
-
-然后我们在前半段中使用二分查找，查找目标值所在的下标，如果找不到，再在后半段中使用二分查找，查找目标值所在的下标。
-
-时间复杂度 $O(\log n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 

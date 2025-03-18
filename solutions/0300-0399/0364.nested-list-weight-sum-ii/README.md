@@ -1,97 +1,92 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0364.Nested%20List%20Weight%20Sum%20II/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 深度优先搜索
-    - 广度优先搜索
+    - Stack
+    - Depth-First Search
+    - Breadth-First Search
 ---
 
 <!-- problem:start -->
 
-# [364. 嵌套列表加权和 II 🔒](https://leetcode.cn/problems/nested-list-weight-sum-ii)
+# [364. Nested List Weight Sum II 🔒](https://leetcode.com/problems/nested-list-weight-sum-ii)
 
-[English Version](/solution/0300-0399/0364.Nested%20List%20Weight%20Sum%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数嵌套列表&nbsp;<code>nestedList</code> ，每一个元素要么是一个整数，要么是一个列表（这个列表中的每个元素也同样是整数或列表）。</p>
+<p>You are given a nested list of integers <code>nestedList</code>. Each element is either an integer or a list whose elements may also be integers or other lists.</p>
 
-<p>整数的 <strong>深度</strong> 取决于它位于多少个列表内部。例如，嵌套列表 <code>[1,[2,2],[[3],2],1]</code> 的每个整数的值都等于它的 <strong>深度</strong> 。令 <code>maxDepth</code> 是任意整数的 <strong>最大深度</strong> 。</p>
+<p>The <strong>depth</strong> of an integer is the number of lists that it is inside of. For example, the nested list <code>[1,[2,2],[[3],2],1]</code> has each integer&#39;s value set to its <strong>depth</strong>. Let <code>maxDepth</code> be the <strong>maximum depth</strong> of any integer.</p>
 
-<p>整数的 <strong>权重</strong> 为 <code>maxDepth - (整数的深度) + 1</code> 。</p>
+<p>The <strong>weight</strong> of an integer is <code>maxDepth - (the depth of the integer) + 1</code>.</p>
 
-<p>将 <code>nestedList</code> 列表中每个整数先乘权重再求和，返回该加权和。</p>
+<p>Return <em>the sum of each integer in </em><code>nestedList</code><em> multiplied by its <strong>weight</strong></em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0364.Nested%20List%20Weight%20Sum%20II/images/nestedlistweightsumiiex1.png" style="width: 426px; height: 181px;" />
 <pre>
-<strong>输入：</strong>nestedList = [[1,1],2,[1,1]]
-<strong>输出：</strong>8
-<strong>解释：</strong>4<strong> </strong>个 1 在深度为 1 的位置， 一个 2 在深度为 2 的位置。
+<strong>Input:</strong> nestedList = [[1,1],2,[1,1]]
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> Four 1&#39;s with a weight of 1, one 2 with a weight of 2.
 1*1 + 1*1 + 2*2 + 1*1 + 1*1 = 8
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0364.Nested%20List%20Weight%20Sum%20II/images/nestedlistweightsumiiex2.png" style="width: 349px; height: 192px;" />
 <pre>
-<strong>输入：</strong>nestedList = [1,[4,[6]]]
-<strong>输出：</strong>17
-<strong>解释：</strong>一个 1 在深度为 3 的位置， 一个 4 在深度为 2 的位置，一个 6 在深度为 1 的位置。 
+<strong>Input:</strong> nestedList = [1,[4,[6]]]
+<strong>Output:</strong> 17
+<strong>Explanation:</strong> One 1 at depth 3, one 4 at depth 2, and one 6 at depth 1.
 1*3 + 4*2 + 6*1 = 17
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nestedList.length &lt;= 50</code></li>
-	<li>嵌套列表中整数的值在范围 <code>[-100, 100]</code></li>
-	<li>任意整数的最大 <strong>深度</strong> 小于等于 <code>50</code></li>
-	<li>没有空列表</li>
+	<li>The values of the integers in the nested list is in the range <code>[-100, 100]</code>.</li>
+	<li>The maximum <strong>depth</strong> of any integer is less than or equal to <code>50</code>.</li>
+	<li>There are no empty lists.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
+### Solution 1: DFS
 
-我们不妨假设整数分别为 $a_1, a_2, \cdots, a_n$，它们的深度分别为 $d_1, d_2, \cdots, d_n$，最大深度为 $\textit{maxDepth}$，那么答案就是：
+Let's assume the integers are $a_1, a_2, \cdots, a_n$, their depths are $d_1, d_2, \cdots, d_n$, the maximum depth is $\textit{maxDepth}$, then the answer is:
 
 $$
 a_1 \times \textit{maxDepth} - a_1 \times d_1 + a_1 + a_2 \times \textit{maxDepth} - a_2 \times d_2 + a_2 + \cdots + a_n \times \textit{maxDepth} - a_n \times d_n + a_n
 $$
 
-即：
+which is:
 
 $$
 (\textit{maxDepth} + 1) \times (a_1 + a_2 + \cdots + a_n) - (a_1 \times d_1 + a_2 \times d_2 + \cdots + a_n \times d_n)
 $$
 
-如果我们记所有整数的和为 $s$，所有整数乘以深度的和为 $ws$，那么答案就是：
+If we denote the sum of all integers as $s$, and the sum of each integer multiplied by its depth as $ws$, then the answer is:
 
 $$
 (\textit{maxDepth} + 1) \times s - ws
 $$
 
-因此，我们设计一个函数 $dfs(x, d)$，表示从 $x$ 开始，深度为 $d$ 开始搜索，函数 $dfs(x, d)$ 的执行过程如下：
+Therefore, we design a function $dfs(x, d)$, which starts searching from $x$ with depth $d$. The execution process of $dfs(x, d)$ is as follows:
 
--   我们先更新 $\textit{maxDepth} = \max(\textit{maxDepth}, d)$；
--   如果 $x$ 是一个整数，那么我们更新 $s = s + x$, $ws = ws + x \times d$；
--   否则，我们递归地遍历 $x$ 的每一个元素 $y$，调用 $dfs(y, d + 1)$。
+-   We first update $\textit{maxDepth} = \max(\textit{maxDepth}, d)$;
+-   If $x$ is an integer, then we update $s = s + x$, $ws = ws + x \times d$;
+-   Otherwise, we recursively traverse each element $y$ of $x$, and call $dfs(y, d + 1)$.
 
-我们遍历整个列表，对于每一个元素 $x$，我们调用 $dfs(x, 1)$，最终返回 $(\textit{maxDepth} + 1) \times s - ws$ 即可。
+We traverse the entire list, for each element $x$, we call $dfs(x, 1)$, and finally return $(\textit{maxDepth} + 1) \times s - ws$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为整数的个数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the number of integers.
 
 <!-- tabs:start -->
 

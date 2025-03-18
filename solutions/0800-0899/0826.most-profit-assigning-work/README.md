@@ -1,58 +1,55 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0826.Most%20Profit%20Assigning%20Work/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数组
-    - 双指针
-    - 二分查找
-    - 排序
+    - Greedy
+    - Array
+    - Two Pointers
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [826. 安排工作以达到最大收益](https://leetcode.cn/problems/most-profit-assigning-work)
+# [826. Most Profit Assigning Work](https://leetcode.com/problems/most-profit-assigning-work)
 
-[English Version](/solution/0800-0899/0826.Most%20Profit%20Assigning%20Work/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有 <code>n</code>&nbsp;个工作和 <code>m</code> 个工人。给定三个数组：&nbsp;<code>difficulty</code>,&nbsp;<code>profit</code>&nbsp;和&nbsp;<code>worker</code>&nbsp;，其中:</p>
+<p>You have <code>n</code> jobs and <code>m</code> workers. You are given three arrays: <code>difficulty</code>, <code>profit</code>, and <code>worker</code> where:</p>
 
 <ul>
-	<li><code>difficulty[i]</code>&nbsp;表示第 <code>i</code> 个工作的难度，<code>profit[i]</code> 表示第 <code>i</code> 个工作的收益。</li>
-	<li><code>worker[i]</code> 是第 <code>i</code> 个工人的能力，即该工人只能完成难度小于等于 <code>worker[i]</code> 的工作。</li>
+	<li><code>difficulty[i]</code> and <code>profit[i]</code> are the difficulty and the profit of the <code>i<sup>th</sup></code> job, and</li>
+	<li><code>worker[j]</code> is the ability of <code>j<sup>th</sup></code> worker (i.e., the <code>j<sup>th</sup></code> worker can only complete a job with difficulty at most <code>worker[j]</code>).</li>
 </ul>
 
-<p>每个工人&nbsp;<strong>最多</strong> 只能安排 <strong>一个</strong> 工作，但是一个工作可以 <strong>完成多次</strong> 。</p>
+<p>Every worker can be assigned <strong>at most one job</strong>, but one job can be <strong>completed multiple times</strong>.</p>
 
 <ul>
-	<li>举个例子，如果 3 个工人都尝试完成一份报酬为 <code>$1</code> 的同样工作，那么总收益为 <code>$3</code>&nbsp;。如果一个工人不能完成任何工作，他的收益为 <code>$0</code> 。</li>
+	<li>For example, if three workers attempt the same job that pays <code>$1</code>, then the total profit will be <code>$3</code>. If a worker cannot complete any job, their profit is <code>$0</code>.</li>
 </ul>
 
-<p>返回 <em>在把工人分配到工作岗位后，我们所能获得的最大利润&nbsp;</em>。</p>
+<p>Return the maximum profit we can achieve after assigning the workers to the jobs.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入: </strong>difficulty = [2,4,6,8,10], profit = [10,20,30,40,50], worker = [4,5,6,7]
-<strong>输出: </strong>100 
-<strong>解释: </strong>工人被分配的工作难度是 [4,4,6,6] ，分别获得 [20,20,30,30] 的收益。</pre>
-
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> difficulty = [85,47,57], profit = [24,66,99], worker = [40,25,25]
-<strong>输出:</strong> 0</pre>
+<strong>Input:</strong> difficulty = [2,4,6,8,10], profit = [10,20,30,40,50], worker = [4,5,6,7]
+<strong>Output:</strong> 100
+<strong>Explanation:</strong> Workers are assigned jobs of difficulty [4,4,6,6] and they get a profit of [20,20,30,30] separately.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> difficulty = [85,47,57], profit = [24,66,99], worker = [40,25,25]
+<strong>Output:</strong> 0
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == difficulty.length</code></li>
@@ -64,17 +61,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 双指针
+### Solution 1: Sorting + Two Pointers
 
-我们可以将工作按照能力升序排列，然后将工作按照难度升序排列。
+We can sort the jobs in ascending order of ability, and then sort the jobs in ascending order of difficulty.
 
-然后我们遍历工人，对于每个工人，我们找出他能完成的工作中收益最大的那个，然后将这个收益加到答案中。
+Then we traverse the workers. For each worker, we find the job with the maximum profit that he can complete, and then add this profit to the answer.
 
-时间复杂度 $O(n \times \log n + m \times \log m)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别是数组 `profit` 和 `worker` 的长度。
+The time complexity is $O(n \times \log n + m \times \log m)$, and the space complexity is $O(n)$. Where $n$ and $m$ are the lengths of the arrays `profit` and `worker` respectively.
 
 <!-- tabs:start -->
 
@@ -192,17 +189,17 @@ function maxProfitAssignment(difficulty: number[], profit: number[], worker: num
 
 <!-- solution:start -->
 
-### 方法二：动态规划
+### Solution 2: Dynamic Programming
 
-我们不妨记 $m = \max(\textit{difficulty})$，定义一个长度为 $m + 1$ 的数组 $f$，其中 $f[i]$ 表示难度小于等于 $i$ 的工作中收益的最大值，初始时 $f[i] = 0$。
+Let's denote $m = \max(\textit{difficulty})$ and define an array $f$ of length $m + 1$, where $f[i]$ represents the maximum profit among jobs with difficulty less than or equal to $i$, initially $f[i] = 0$.
 
-然后我们遍历工作，对于每个工作 $(d, p)$，我们更新 $f[d] = \max(f[d], p)$。
+Then, we iterate over the jobs, and for each job $(d, p)$, if $d \leq m$, we update $f[d] = \max(f[d], p)$.
 
-接下来，我们从 $1$ 到 $m$ 遍历，对于每个 $i$，我们更新 $f[i] = \max(f[i], f[i - 1])$。
+Next, we iterate from $1$ to $m$, and for each $i$, we update $f[i] = \max(f[i], f[i - 1])$.
 
-最后，我们遍历工人，对于每个工人 $w$，我们将 $f[\min(w, m)]$ 加到答案中。
+Finally, we iterate over the workers, and for each worker $w$, we add $f[w]$ to the answer.
 
-时间复杂度 $O(n + M)$，空间复杂度 $O(M)$。其中 $n$ 是数组 `profit` 的长度，而 $M$ 是数组 `difficulty` 中的最大值。
+The time complexity is $O(n + M)$, and the space complexity is $O(M)$. Here, $n$ is the length of the `profit` array, and $M$ is the maximum value in the `difficulty` array.
 
 <!-- tabs:start -->
 

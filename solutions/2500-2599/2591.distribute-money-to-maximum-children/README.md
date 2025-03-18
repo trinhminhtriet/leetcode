@@ -1,60 +1,57 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2591.Distribute%20Money%20to%20Maximum%20Children/README.md
+difficulty: Easy
 rating: 1530
-source: 第 100 场双周赛 Q1
+source: Biweekly Contest 100 Q1
 tags:
-    - 贪心
-    - 数学
+    - Greedy
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [2591. 将钱分给最多的儿童](https://leetcode.cn/problems/distribute-money-to-maximum-children)
+# [2591. Distribute Money to Maximum Children](https://leetcode.com/problems/distribute-money-to-maximum-children)
 
-[English Version](/solution/2500-2599/2591.Distribute%20Money%20to%20Maximum%20Children/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>money</code>&nbsp;，表示你总共有的钱数（单位为美元）和另一个整数&nbsp;<code>children</code>&nbsp;，表示你要将钱分配给多少个儿童。</p>
+<p>You are given an integer <code>money</code> denoting the amount of money (in dollars) that you have and another integer <code>children</code> denoting the number of children that you must distribute the money to.</p>
 
-<p>你需要按照如下规则分配：</p>
+<p>You have to distribute the money according to the following rules:</p>
 
 <ul>
-	<li>所有的钱都必须被分配。</li>
-	<li>每个儿童至少获得&nbsp;<code>1</code>&nbsp;美元。</li>
-	<li>没有人获得 <code>4</code>&nbsp;美元。</li>
+	<li>All money must be distributed.</li>
+	<li>Everyone must receive at least <code>1</code> dollar.</li>
+	<li>Nobody receives <code>4</code> dollars.</li>
 </ul>
 
-<p>请你按照上述规则分配金钱，并返回 <strong>最多</strong>&nbsp;有多少个儿童获得 <strong>恰好</strong><em>&nbsp;</em><code>8</code>&nbsp;美元。如果没有任何分配方案，返回&nbsp;<code>-1</code>&nbsp;。</p>
+<p>Return <em>the <strong>maximum</strong> number of children who may receive <strong>exactly</strong> </em><code>8</code> <em>dollars if you distribute the money according to the aforementioned rules</em>. If there is no way to distribute the money, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>money = 20, children = 3
-<b>输出：</b>1
-<b>解释：</b>
-最多获得 8 美元的儿童数为 1 。一种分配方案为：
-- 给第一个儿童分配 8 美元。
-- 给第二个儿童分配 9 美元。
-- 给第三个儿童分配 3 美元。
-没有分配方案能让获得 8 美元的儿童数超过 1 。
+<pre>
+<strong>Input:</strong> money = 20, children = 3
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> 
+The maximum number of children with 8 dollars will be 1. One of the ways to distribute the money is:
+- 8 dollars to the first child.
+- 9 dollars to the second child. 
+- 3 dollars to the third child.
+It can be proven that no distribution exists such that number of children getting 8 dollars is greater than 1.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>money = 16, children = 2
-<b>输出：</b>2
-<b>解释：</b>每个儿童都可以获得 8 美元。
+<pre>
+<strong>Input:</strong> money = 16, children = 2
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> Each child can be given 8 dollars.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= money &lt;= 200</code></li>
@@ -63,21 +60,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分类讨论
+### Solution 1: Case analysis
 
-如果 $money \lt children$，那么一定存在儿童没有分到钱，返回 $-1$。
+If $money \lt children$, then there must be a child who did not receive money, return $-1$.
 
-如果 $money \gt 8 \times children$，那么有 $children-1$ 个儿童获得了 $8$ 美元，剩下的一个儿童获得了 $money - 8 \times (children-1)$ 美元，返回 $children-1$。
+If $money \gt 8 \times children$, then there are $children-1$ children who received $8$ dollars, and the remaining child received $money - 8 \times (children-1)$ dollars, return $children-1$.
 
-如果 $money = 8 \times children - 4$，那么有 $children-2$ 个儿童获得了 $8$ 美元，剩下的两个儿童分摊剩下的 $12$ 美元（只要不是 $4$, $8$ 美元就行），返回 $children-2$。
+If $money = 8 \times children - 4$, then there are $children-2$ children who received $8$ dollars, and the remaining two children shared the remaining $12$ dollars (as long as it is not $4$, $8$ dollars is fine), return $children-2$.
 
-如果，我们假设有 $x$ 个儿童获得了 $8$ 美元，那么剩下的钱为 $money- 8 \times x$，只要保证大于等于剩下的儿童数 $children-x$，就可以满足题意。因此，我们只需要求出 $x$ 的最大值，即为答案。
+If we assume that there are $x$ children who received $8$ dollars, then the remaining money is $money- 8 \times x$, as long as it is greater than or equal to the number of remaining children $children-x$, it can meet the requirements. Therefore, we only need to find the maximum value of $x$, which is the answer.
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+Time complexity $O(1)$, space complexity $O(1)$.
 
 <!-- tabs:start -->
 

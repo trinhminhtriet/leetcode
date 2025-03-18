@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0584.Find%20Customer%20Referee/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [584. 寻找用户推荐人](https://leetcode.cn/problems/find-customer-referee)
+# [584. Find Customer Referee](https://leetcode.com/problems/find-customer-referee)
 
-[English Version](/solution/0500-0599/0584.Find%20Customer%20Referee/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表:&nbsp;<code>Customer</code></p>
+<p>Table: <code>Customer</code></p>
 
 <pre>
 +-------------+---------+
@@ -26,22 +23,24 @@ tags:
 | name        | varchar |
 | referee_id  | int     |
 +-------------+---------+
-在 SQL 中，id 是该表的主键列。
-该表的每一行表示一个客户的 id、姓名以及推荐他们的客户的 id。</pre>
-
-<p>找出那些 <strong>没有被</strong> <code>id = 2</code> 的客户 <strong>推荐</strong> 的客户的姓名。</p>
-
-<p>以 <strong>任意顺序</strong> 返回结果表。</p>
-
-<p>结果格式如下所示。</p>
+In SQL, id is the primary key column for this table.
+Each row of this table indicates the id of a customer, their name, and the id of the customer who referred them.
+</pre>
 
 <p>&nbsp;</p>
 
-<p><strong>示例 1：</strong></p>
+<p>Find the names of the customer that are <strong>not referred by</strong> the customer with <code>id = 2</code>.</p>
+
+<p>Return the result table in <strong>any order</strong>.</p>
+
+<p>The result format is in the following example.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b> 
-Customer 表:
+<strong>Input:</strong> 
+Customer table:
 +----+------+------------+
 | id | name | referee_id |
 +----+------+------------+
@@ -52,7 +51,7 @@ Customer 表:
 | 5  | Zack | 1          |
 | 6  | Mark | 2          |
 +----+------+------------+
-<b>输出：</b>
+<strong>Output:</strong> 
 +------+
 | name |
 +------+
@@ -60,17 +59,18 @@ Customer 表:
 | Jane |
 | Bill |
 | Zack |
-+------+</pre>
++------+
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：条件过滤
+### Solution 1: Conditional Filtering
 
-我们可以直接筛选出 `referee_id` 不为 `2` 的客户姓名。注意，`referee_id` 为 `NULL` 的客户也应该被筛选出来。
+We can directly filter out the customer names whose `referee_id` is not `2`. Note that the customers whose `referee_id` is `NULL` should also be filtered out.
 
 <!-- tabs:start -->
 

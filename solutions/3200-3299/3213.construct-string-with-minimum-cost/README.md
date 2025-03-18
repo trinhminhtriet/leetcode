@@ -1,102 +1,99 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3213.Construct%20String%20with%20Minimum%20Cost/README.md
+difficulty: Hard
 rating: 2170
-source: 第 405 场周赛 Q4
+source: Weekly Contest 405 Q4
 tags:
-    - 数组
-    - 字符串
-    - 动态规划
-    - 后缀数组
+    - Array
+    - String
+    - Dynamic Programming
+    - Suffix Array
 ---
 
 <!-- problem:start -->
 
-# [3213. 最小代价构造字符串](https://leetcode.cn/problems/construct-string-with-minimum-cost)
+# [3213. Construct String with Minimum Cost](https://leetcode.com/problems/construct-string-with-minimum-cost)
 
-[English Version](/solution/3200-3299/3213.Construct%20String%20with%20Minimum%20Cost/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>target</code>、一个字符串数组 <code>words</code> 以及一个整数数组 <code>costs</code>，这两个数组长度相同。</p>
+<p>You are given a string <code>target</code>, an array of strings <code>words</code>, and an integer array <code>costs</code>, both arrays of the same length.</p>
 
-<p>设想一个空字符串 <code>s</code>。</p>
+<p>Imagine an empty string <code>s</code>.</p>
 
-<p>你可以执行以下操作任意次数（包括&nbsp;<strong>零&nbsp;</strong>次）：</p>
+<p>You can perform the following operation any number of times (including <strong>zero</strong>):</p>
 
 <ul>
-	<li>选择一个在范围&nbsp; <code>[0, words.length - 1]</code> 的索引 <code>i</code>。</li>
-	<li>将 <code>words[i]</code> 追加到 <code>s</code>。</li>
-	<li>该操作的成本是 <code>costs[i]</code>。</li>
+	<li>Choose an index <code>i</code> in the range <code>[0, words.length - 1]</code>.</li>
+	<li>Append <code>words[i]</code> to <code>s</code>.</li>
+	<li>The cost of operation is <code>costs[i]</code>.</li>
 </ul>
 
-<p>返回使 <code>s</code> 等于 <code>target</code> 的 <strong>最小</strong> 成本。如果不可能，返回 <code>-1</code>。</p>
+<p>Return the <strong>minimum</strong> cost to make <code>s</code> equal to <code>target</code>. If it&#39;s not possible, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">target = "abcdef", words = ["abdef","abc","d","def","ef"], costs = [100,1,1,10,5]</span></p>
+<p><strong>Input:</strong> <span class="example-io">target = &quot;abcdef&quot;, words = [&quot;abdef&quot;,&quot;abc&quot;,&quot;d&quot;,&quot;def&quot;,&quot;ef&quot;], costs = [100,1,1,10,5]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">7</span></p>
+<p><strong>Output:</strong> <span class="example-io">7</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
+
+<p>The minimum cost can be achieved by performing the following operations:</p>
 
 <ul>
-	<li>选择索引 1 并以成本 1 将 <code>"abc"</code> 追加到 <code>s</code>，得到 <code>s = "abc"</code>。</li>
-	<li>选择索引 2 并以成本 1 将 <code>"d"</code> 追加到 <code>s</code>，得到 <code>s = "abcd"</code>。</li>
-	<li>选择索引 4 并以成本 5 将 <code>"ef"</code> 追加到 <code>s</code>，得到 <code>s = "abcdef"</code>。</li>
+	<li>Select index 1 and append <code>&quot;abc&quot;</code> to <code>s</code> at a cost of 1, resulting in <code>s = &quot;abc&quot;</code>.</li>
+	<li>Select index 2 and append <code>&quot;d&quot;</code> to <code>s</code> at a cost of 1, resulting in <code>s = &quot;abcd&quot;</code>.</li>
+	<li>Select index 4 and append <code>&quot;ef&quot;</code> to <code>s</code> at a cost of 5, resulting in <code>s = &quot;abcdef&quot;</code>.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">target = "aaaa", words = ["z","zz","zzz"], costs = [1,10,100]</span></p>
+<p><strong>Input:</strong> <span class="example-io">target = &quot;aaaa&quot;, words = [&quot;z&quot;,&quot;zz&quot;,&quot;zzz&quot;], costs = [1,10,100]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">-1</span></p>
+<p><strong>Output:</strong> <span class="example-io">-1</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>无法使 <code>s</code> 等于 <code>target</code>，因此返回 -1。</p>
+<p>It is impossible to make <code>s</code> equal to <code>target</code>, so we return -1.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= target.length &lt;= 5 * 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= words.length == costs.length &lt;= 5 * 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= words[i].length &lt;= target.length</code></li>
-	<li>所有 <code>words[i].length</code> 的总和小于或等于 <code>5 * 10<sup>4</sup></code></li>
-	<li><code>target</code> 和 <code>words[i]</code> 仅由小写英文字母组成。</li>
+	<li>The total sum of <code>words[i].length</code> is less than or equal to <code>5 * 10<sup>4</sup></code>.</li>
+	<li><code>target</code> and <code>words[i]</code> consist only of lowercase English letters.</li>
 	<li><code>1 &lt;= costs[i] &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：字符串哈希 + 动态规划 + 枚举长度
+### Solution 1: String Hashing + Dynamic Programming + Enumerating Length
 
-我们定义 $f[i]$ 表示构造 $\textit{target}$ 前 $i$ 个字符的最小代价，初始时 $f[0] = 0$，其余值均为无穷大。答案为 $f[n]$，其中 $n$ 是 $\textit{target}$ 的长度。
+We define $f[i]$ as the minimum cost to construct the first $i$ characters of $\textit{target}$, with the initial condition $f[0] = 0$ and all other values set to infinity. The answer is $f[n]$, where $n$ is the length of $\textit{target}$.
 
-对于当前 $f[i]$，考虑枚举单词的长度 $j$，如果 $j \leq i$，那么我们可以考虑从 $i - j + 1$ 到 $i$ 这段区间的哈希值，如果这个哈希值对应的单词存在，那么我们可以转移从 $f[i - j]$ 转移到 $f[i]$。状态转移方程如下：
+For the current $f[i]$, consider enumerating the length $j$ of the word. If $j \leq i$, then we can consider the hash value of the segment from $i - j + 1$ to $i$. If this hash value corresponds to an existing word, then we can transition from $f[i - j]$ to $f[i]$. The state transition equation is as follows:
 
 $$
 f[i] = \min(f[i], f[i - j] + \textit{cost}[k])
 $$
 
-其中 $\textit{cost}[k]$ 表示长度为 $j$ 的单词且哈希值与 $\textit{target}[i - j + 1, i]$ 相同的单词的最小代价。
+where $\textit{cost}[k]$ represents the minimum cost of a word of length $j$ whose hash value matches $\textit{target}[i - j + 1, i]$.
 
-时间复杂度 $O(n \times \sqrt{L})$，空间复杂度 $O(n)$。其中 $n$ 是 $\textit{target}$ 的长度，而 $L$ 是数组 $\textit{words}$ 中所有单词的长度之和。
+The time complexity is $O(n \times \sqrt{L})$, and the space complexity is $O(n)$. Here, $n$ is the length of $\textit{target}$, and $L$ is the sum of the lengths of all words in the array $\textit{words}$.
 
 <!-- tabs:start -->
 

@@ -1,102 +1,94 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2146.K%20Highest%20Ranked%20Items%20Within%20a%20Price%20Range/README.md
+difficulty: Medium
 rating: 1836
-source: 第 70 场双周赛 Q3
+source: Biweekly Contest 70 Q3
 tags:
-    - 广度优先搜索
-    - 数组
-    - 矩阵
-    - 排序
-    - 堆（优先队列）
+    - Breadth-First Search
+    - Array
+    - Matrix
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2146. 价格范围内最高排名的 K 样物品](https://leetcode.cn/problems/k-highest-ranked-items-within-a-price-range)
+# [2146. K Highest Ranked Items Within a Price Range](https://leetcode.com/problems/k-highest-ranked-items-within-a-price-range)
 
-[English Version](/solution/2100-2199/2146.K%20Highest%20Ranked%20Items%20Within%20a%20Price%20Range/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的二维整数数组&nbsp;<code>grid</code>&nbsp;，它的大小为&nbsp;<code>m x n</code>&nbsp;，表示一个商店中物品的分布图。数组中的整数含义为：</p>
+<p>You are given a <strong>0-indexed</strong> 2D integer array <code>grid</code> of size <code>m x n</code> that represents a map of the items in a shop. The integers in the grid represent the following:</p>
 
 <ul>
-	<li><code>0</code>&nbsp;表示无法穿越的一堵墙。</li>
-	<li><code>1</code>&nbsp;表示可以自由通过的一个空格子。</li>
-	<li>所有其他正整数表示该格子内的一样物品的价格。你可以自由经过这些格子。</li>
+	<li><code>0</code> represents a wall that you cannot pass through.</li>
+	<li><code>1</code> represents an empty cell that you can freely move to and from.</li>
+	<li>All other positive integers represent the price of an item in that cell. You may also freely move to and from these item cells.</li>
 </ul>
 
-<p>从一个格子走到上下左右相邻格子花费&nbsp;<code>1</code>&nbsp;步。</p>
+<p>It takes <code>1</code> step to travel between adjacent grid cells.</p>
 
-<p>同时给你一个整数数组&nbsp;<code>pricing</code> 和&nbsp;<code>start</code>&nbsp;，其中&nbsp;<code>pricing = [low, high]</code> 且&nbsp;<code>start = [row, col]</code>&nbsp;，表示你开始位置为&nbsp;<code>(row, col)</code>&nbsp;，同时你只对物品价格在<strong>&nbsp;闭区间</strong>&nbsp;<code>[low, high]</code>&nbsp;之内的物品感兴趣。同时给你一个整数&nbsp;<code>k</code>&nbsp;。</p>
+<p>You are also given integer arrays <code>pricing</code> and <code>start</code> where <code>pricing = [low, high]</code> and <code>start = [row, col]</code> indicates that you start at the position <code>(row, col)</code> and are interested only in items with a price in the range of <code>[low, high]</code> (<strong>inclusive</strong>). You are further given an integer <code>k</code>.</p>
 
-<p>你想知道给定范围 <strong>内</strong>&nbsp;且 <strong>排名最高</strong>&nbsp;的 <code>k</code>&nbsp;件物品的 <strong>位置</strong>&nbsp;。排名按照优先级从高到低的以下规则制定：</p>
+<p>You are interested in the <strong>positions</strong> of the <code>k</code> <strong>highest-ranked</strong> items whose prices are <strong>within</strong> the given price range. The rank is determined by the <strong>first</strong> of these criteria that is different:</p>
 
 <ol>
-	<li>距离：定义为从&nbsp;<code>start</code>&nbsp;到一件物品的最短路径需要的步数（<strong>较近</strong>&nbsp;距离的排名更高）。</li>
-	<li>价格：<strong>较低</strong>&nbsp;价格的物品有更高优先级，但只考虑在给定范围之内的价格。</li>
-	<li>行坐标：<strong>较小</strong>&nbsp;行坐标的有更高优先级。</li>
-	<li>列坐标：<strong>较小</strong>&nbsp;列坐标的有更高优先级。</li>
+	<li>Distance, defined as the length of the shortest path from the <code>start</code> (<strong>shorter</strong> distance has a higher rank).</li>
+	<li>Price (<strong>lower</strong> price has a higher rank, but it must be <strong>in the price range</strong>).</li>
+	<li>The row number (<strong>smaller</strong> row number has a higher rank).</li>
+	<li>The column number (<strong>smaller</strong> column number has a higher rank).</li>
 </ol>
 
-<p>请你返回给定价格内排名最高的 <code>k</code>&nbsp;件物品的坐标，将它们按照排名排序后返回。如果给定价格内少于 <code>k</code>&nbsp;件物品，那么请将它们的坐标&nbsp;<strong>全部</strong>&nbsp;返回。</p>
+<p>Return <em>the </em><code>k</code><em> highest-ranked items within the price range <strong>sorted</strong> by their rank (highest to lowest)</em>. If there are fewer than <code>k</code> reachable items within the price range, return <em><strong>all</strong> of them</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2146.K%20Highest%20Ranked%20Items%20Within%20a%20Price%20Range/images/example1drawio.png" style="width: 200px; height: 151px;"></p>
-
-<pre><b>输入：</b>grid = [[1,2,0,1],[1,3,0,1],[0,2,5,1]], pricing = [2,5], start = [0,0], k = 3
-<b>输出：</b>[[0,1],[1,1],[2,1]]
-<b>解释：</b>起点为 (0,0) 。
-价格范围为 [2,5] ，我们可以选择的物品坐标为 (0,1)，(1,1)，(2,1) 和 (2,2) 。
-这些物品的排名为：
-- (0,1) 距离为 1
-- (1,1) 距离为 2
-- (2,1) 距离为 3
-- (2,2) 距离为 4
-所以，给定价格范围内排名最高的 3 件物品的坐标为 (0,1)，(1,1) 和 (2,1) 。
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2146.K%20Highest%20Ranked%20Items%20Within%20a%20Price%20Range/images/example1drawio.png" style="width: 200px; height: 151px;" />
+<pre>
+<strong>Input:</strong> grid = [[1,2,0,1],[1,3,0,1],[0,2,5,1]], pricing = [2,5], start = [0,0], k = 3
+<strong>Output:</strong> [[0,1],[1,1],[2,1]]
+<strong>Explanation:</strong> You start at (0,0).
+With a price range of [2,5], we can take items from (0,1), (1,1), (2,1) and (2,2).
+The ranks of these items are:
+- (0,1) with distance 1
+- (1,1) with distance 2
+- (2,1) with distance 3
+- (2,2) with distance 4
+Thus, the 3 highest ranked items in the price range are (0,1), (1,1), and (2,1).
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2146.K%20Highest%20Ranked%20Items%20Within%20a%20Price%20Range/images/example2drawio1.png" style="width: 200px; height: 151px;"></p>
-
-<pre><b>输入：</b>grid = [[1,2,0,1],[1,3,3,1],[0,2,5,1]], pricing = [2,3], start = [2,3], k = 2
-<b>输出：</b>[[2,1],[1,2]]
-<b>解释：</b>起点为 (2,3) 。
-价格范围为 [2,3] ，我们可以选择的物品坐标为 (0,1)，(1,1)，(1,2) 和 (2,1) 。
-这些物品的排名为： 
-- (2,1) 距离为 2 ，价格为 2
-- (1,2) 距离为 2 ，价格为 3
-- (1,1) 距离为 3
-- (0,1) 距离为 4
-所以，给定价格范围内排名最高的 2 件物品的坐标为 (2,1) 和 (1,2) 。
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2146.K%20Highest%20Ranked%20Items%20Within%20a%20Price%20Range/images/example2drawio1.png" style="width: 200px; height: 151px;" />
+<pre>
+<strong>Input:</strong> grid = [[1,2,0,1],[1,3,3,1],[0,2,5,1]], pricing = [2,3], start = [2,3], k = 2
+<strong>Output:</strong> [[2,1],[1,2]]
+<strong>Explanation:</strong> You start at (2,3).
+With a price range of [2,3], we can take items from (0,1), (1,1), (1,2) and (2,1).
+The ranks of these items are:
+- (2,1) with distance 2, price 2
+- (1,2) with distance 2, price 3
+- (1,1) with distance 3
+- (0,1) with distance 4
+Thus, the 2 highest ranked items in the price range are (2,1) and (1,2).
 </pre>
 
-<p><strong>示例 3：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2146.K%20Highest%20Ranked%20Items%20Within%20a%20Price%20Range/images/example3.png" style="width: 149px; height: 150px;"></p>
-
-<pre><b>输入：</b>grid = [[1,1,1],[0,0,1],[2,3,4]], pricing = [2,3], start = [0,0], k = 3
-<b>输出：</b>[[2,1],[2,0]]
-<b>解释：</b>起点为 (0,0) 。
-价格范围为 [2,3] ，我们可以选择的物品坐标为 (2,0) 和 (2,1) 。
-这些物品的排名为：
-- (2,1) 距离为 5
-- (2,0) 距离为 6
-所以，给定价格范围内排名最高的 2 件物品的坐标为 (2,1) 和 (2,0) 。
-注意，k = 3 但给定价格范围内只有 2 件物品。
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2146.K%20Highest%20Ranked%20Items%20Within%20a%20Price%20Range/images/example3.png" style="width: 149px; height: 150px;" />
+<pre>
+<strong>Input:</strong> grid = [[1,1,1],[0,0,1],[2,3,4]], pricing = [2,3], start = [0,0], k = 3
+<strong>Output:</strong> [[2,1],[2,0]]
+<strong>Explanation:</strong> You start at (0,0).
+With a price range of [2,3], we can take items from (2,0) and (2,1). 
+The ranks of these items are: 
+- (2,1) with distance 5
+- (2,0) with distance 6
+Thus, the 2 highest ranked items in the price range are (2,1) and (2,0). 
+Note that k = 3 but there are only 2 reachable items within the price range.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
@@ -115,17 +107,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS + 排序
+### Solution 1: BFS + Sorting
 
-我们可以从 $(\textit{row}, \textit{col})$ 出发，使用广度优先搜索找到所有价格在 $[\textit{low}, \textit{high}]$ 范围内的物品，将这些物品的距离、价格、行坐标和列坐标存入数组 $\textit{pq}$ 中。
+We can start from $(\textit{row}, \textit{col})$ and use breadth-first search to find all items with prices in the range $[\textit{low}, \textit{high}]$. Store the distance, price, row coordinate, and column coordinate of these items in the array $\textit{pq}$.
 
-最后对 $\textit{pq}$ 按照距离、价格、行坐标和列坐标的顺序排序，取前 $k$ 个物品的坐标返回。
+Finally, sort $\textit{pq}$ by distance, price, row coordinate, and column coordinate, and return the coordinates of the first $k$ items.
 
-时间复杂度 $O(m \times n \times \log (m \times n))$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是二维数组 $\textit{grid}$ 的行数和列数。
+The time complexity is $O(m \times n \times \log (m \times n))$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the number of rows and columns of the 2D array $\textit{grid}$, respectively.
 
 <!-- tabs:start -->
 

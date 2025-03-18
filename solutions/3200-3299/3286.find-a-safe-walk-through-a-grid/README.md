@@ -1,110 +1,103 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3286.Find%20a%20Safe%20Walk%20Through%20a%20Grid/README.md
+difficulty: Medium
 rating: 1607
-source: 第 139 场双周赛 Q2
+source: Biweekly Contest 139 Q2
 tags:
-    - 广度优先搜索
-    - 图
-    - 数组
-    - 矩阵
-    - 最短路
-    - 堆（优先队列）
+    - Breadth-First Search
+    - Graph
+    - Array
+    - Matrix
+    - Shortest Path
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [3286. 穿越网格图的安全路径](https://leetcode.cn/problems/find-a-safe-walk-through-a-grid)
+# [3286. Find a Safe Walk Through a Grid](https://leetcode.com/problems/find-a-safe-walk-through-a-grid)
 
-[English Version](/solution/3200-3299/3286.Find%20a%20Safe%20Walk%20Through%20a%20Grid/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个&nbsp;<code>m x n</code>&nbsp;的二进制矩形&nbsp;<code>grid</code>&nbsp;和一个整数&nbsp;<code>health</code>&nbsp;表示你的健康值。</p>
+<p>You are given an <code>m x n</code> binary matrix <code>grid</code> and an integer <code>health</code>.</p>
 
-<p>你开始于矩形的左上角&nbsp;<code>(0, 0)</code>&nbsp;，你的目标是矩形的右下角&nbsp;<code>(m - 1, n - 1)</code>&nbsp;。</p>
+<p>You start on the upper-left corner <code>(0, 0)</code> and would like to get to the lower-right corner <code>(m - 1, n - 1)</code>.</p>
 
-<p>你可以在矩形中往上下左右相邻格子移动，但前提是你的健康值始终是 <b>正数</b>&nbsp;。</p>
+<p>You can move up, down, left, or right from one cell to another adjacent cell as long as your health <em>remains</em> <strong>positive</strong>.</p>
 
-<p>对于格子&nbsp;<code>(i, j)</code>&nbsp;，如果&nbsp;<code>grid[i][j] = 1</code>&nbsp;，那么这个格子视为 <strong>不安全</strong>&nbsp;的，会使你的健康值减少 1 。</p>
+<p>Cells <code>(i, j)</code> with <code>grid[i][j] = 1</code> are considered <strong>unsafe</strong> and reduce your health by 1.</p>
 
-<p>如果你可以到达最终的格子，请你返回&nbsp;<code>true</code>&nbsp;，否则返回 <code>false</code>&nbsp;。</p>
-
-<p><b>注意</b>&nbsp;，当你在最终格子的时候，你的健康值也必须为<strong>&nbsp;正数</strong>&nbsp;。</p>
+<p>Return <code>true</code> if you can reach the final cell with a health value of 1 or more, and <code>false</code> otherwise.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>grid = [[0,1,0,0,0],[0,1,0,1,0],[0,0,0,1,0]], health = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">grid = [[0,1,0,0,0],[0,1,0,1,0],[0,0,0,1,0]], health = 1</span></p>
 
-<p><span class="example-io"><b>输出：</b>true</span></p>
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>沿着下图中灰色格子走，可以安全到达最终的格子。</p>
+<p>The final cell can be reached safely by walking along the gray cells below.</p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3286.Find%20a%20Safe%20Walk%20Through%20a%20Grid/images/3868_examples_1drawio.png" style="width: 301px; height: 121px;" /></div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>grid = [[0,1,1,0,0,0],[1,0,1,0,0,0],[0,1,1,1,0,1],[0,0,1,0,1,0]], health = 3</span></p>
+<p><strong>Input:</strong> <span class="example-io">grid = [[0,1,1,0,0,0],[1,0,1,0,0,0],[0,1,1,1,0,1],[0,0,1,0,1,0]], health = 3</span></p>
 
-<p><span class="example-io"><b>输出：</b>false</span></p>
+<p><strong>Output:</strong> <span class="example-io">false</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>健康值最少为 4 才能安全到达最后的格子。</p>
+<p>A minimum of 4 health points is needed to reach the final cell safely.</p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3286.Find%20a%20Safe%20Walk%20Through%20a%20Grid/images/3868_examples_2drawio.png" style="width: 361px; height: 161px;" /></div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>grid = [[1,1,1],[1,0,1],[1,1,1]], health = 5</span></p>
+<p><strong>Input:</strong> <span class="example-io">grid = [[1,1,1],[1,0,1],[1,1,1]], health = 5</span></p>
 
-<p><span class="example-io"><b>输出：</b>true</span></p>
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>沿着下图中灰色格子走，可以安全到达最终的格子。</p>
+<p>The final cell can be reached safely by walking along the gray cells below.</p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3286.Find%20a%20Safe%20Walk%20Through%20a%20Grid/images/3868_examples_3drawio.png" style="width: 181px; height: 121px;" /></p>
 
-<p>任何不经过格子&nbsp;<code>(1, 1)</code>&nbsp;的路径都是不安全的，因为你的健康值到达最终格子时，都会小于等于 0 。</p>
+<p>Any path that does not go through the cell <code>(1, 1)</code> is unsafe since your health will drop to 0 when reaching the final cell.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 50</code></li>
-<li><code>2 <= m * n</code></li>
+	<li><code><font face="monospace">2 &lt;= m * n</font></code></li>
 	<li><code>1 &lt;= health &lt;= m + n</code></li>
-	<li><code>grid[i][j]</code>&nbsp;要么是 0 ，要么是 1 。</li>
+	<li><code>grid[i][j]</code> is either 0 or 1.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
+### Solution 1: BFS
 
-我们定义一个二维数组 $\textit{dist}$，其中 $\textit{dist}[i][j]$ 表示从左上角到达 $(i, j)$ 位置的最小健康值。初始时，我们将 $\textit{dist}[0][0]$ 设为 $\textit{grid}[0][0]$，并将 $(0, 0)$ 加入队列 $\textit{q}$ 中。
+We define a 2D array $\textit{dist}$, where $\textit{dist}[i][j]$ represents the minimum health value required to reach position $(i, j)$ from the top-left corner. Initially, we set $\textit{dist}[0][0]$ to $\textit{grid}[0][0]$ and add $(0, 0)$ to the queue $\textit{q}$.
 
-随后我们不断取出队列中的元素 $(x, y)$，并尝试向四个方向移动。如果移动到了一个合法的位置 $(nx, ny)$，且从 $(x, y)$ 移动到 $(nx, ny)$ 的健康值消耗更小，那么我们就可以更新 $\textit{dist}[nx][ny] = \textit{dist}[x][y] + \textit{grid}[nx][ny]$，并将 $(nx, ny)$ 加入队列 $\textit{q}$ 中。
+Then, we continuously take elements $(x, y)$ from the queue and try to move in four directions. If we move to a valid position $(nx, ny)$ and the health value required to move from $(x, y)$ to $(nx, ny)$ is smaller, we update $\textit{dist}[nx][ny] = \textit{dist}[x][y] + \textit{grid}[nx][ny]$ and add $(nx, ny)$ to the queue $\textit{q}$.
 
-最终，当队列为空时，我们就可以得到 $\textit{dist}[m-1][n-1]$，即从左上角到达右下角的最小健康值。如果这个值小于 $\textit{health}$，那么我们就可以到达右下角，否则我们无法到达。
+Finally, when the queue is empty, we obtain $\textit{dist}[m-1][n-1]$, which is the minimum health value required to reach the bottom-right corner from the top-left corner. If this value is less than $\textit{health}$, then we can reach the bottom-right corner; otherwise, we cannot.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是矩形的行数和列数。
+The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the number of rows and columns of the grid, respectively.
 
 <!-- tabs:start -->
 

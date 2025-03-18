@@ -1,100 +1,91 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1483.Kth%20Ancestor%20of%20a%20Tree%20Node/README.md
+difficulty: Hard
 rating: 2115
-source: 第 193 场周赛 Q4
+source: Weekly Contest 193 Q4
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 设计
-    - 二分查找
-    - 动态规划
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
+    - Design
+    - Binary Search
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1483. 树节点的第 K 个祖先](https://leetcode.cn/problems/kth-ancestor-of-a-tree-node)
+# [1483. Kth Ancestor of a Tree Node](https://leetcode.com/problems/kth-ancestor-of-a-tree-node)
 
-[English Version](/solution/1400-1499/1483.Kth%20Ancestor%20of%20a%20Tree%20Node/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一棵树，树上有 <code>n</code> 个节点，按从 <code>0</code> 到 <code>n-1</code> 编号。树以父节点数组的形式给出，其中 <code>parent[i]</code> 是节点 <code>i</code> 的父节点。树的根节点是编号为 <code>0</code> 的节点。</p>
+<p>You are given a tree with <code>n</code> nodes numbered from <code>0</code> to <code>n - 1</code> in the form of a parent array <code>parent</code> where <code>parent[i]</code> is the parent of <code>i<sup>th</sup></code> node. The root of the tree is node <code>0</code>. Find the <code>k<sup>th</sup></code> ancestor of a given node.</p>
 
-<p>树节点的第 <em><code>k</code> </em>个祖先节点是从该节点到根节点路径上的第 <code>k</code> 个节点。</p>
+<p>The <code>k<sup>th</sup></code> ancestor of a tree node is the <code>k<sup>th</sup></code> node in the path from that node to the root node.</p>
 
-<p>实现 <code>TreeAncestor</code> 类：</p>
+<p>Implement the <code>TreeAncestor</code> class:</p>
 
 <ul>
-	<li><code>TreeAncestor（int n， int[] parent）</code> 对树和父数组中的节点数初始化对象。</li>
-	<li><code>getKthAncestor</code><code>(int node, int k)</code> 返回节点 <code>node</code> 的第 <code>k</code> 个祖先节点。如果不存在这样的祖先节点，返回 <code>-1</code>&nbsp;。</li>
+	<li><code>TreeAncestor(int n, int[] parent)</code> Initializes the object with the number of nodes in the tree and the parent array.</li>
+	<li><code>int getKthAncestor(int node, int k)</code> return the <code>k<sup>th</sup></code> ancestor of the given node <code>node</code>. If there is no such ancestor, return <code>-1</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1483.Kth%20Ancestor%20of%20a%20Tree%20Node/images/1528_ex1.png" /></strong></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1483.Kth%20Ancestor%20of%20a%20Tree%20Node/images/1528_ex1.png" style="width: 396px; height: 262px;" />
 <pre>
-<strong>输入：</strong>
-["TreeAncestor","getKthAncestor","getKthAncestor","getKthAncestor"]
-[[7,[-1,0,0,1,1,2,2]],[3,1],[5,2],[6,3]]
+<strong>Input</strong>
+[&quot;TreeAncestor&quot;, &quot;getKthAncestor&quot;, &quot;getKthAncestor&quot;, &quot;getKthAncestor&quot;]
+[[7, [-1, 0, 0, 1, 1, 2, 2]], [3, 1], [5, 2], [6, 3]]
+<strong>Output</strong>
+[null, 1, 0, -1]
 
-<strong>输出：</strong>
-[null,1,0,-1]
-
-<strong>解释：</strong>
+<strong>Explanation</strong>
 TreeAncestor treeAncestor = new TreeAncestor(7, [-1, 0, 0, 1, 1, 2, 2]);
-
-treeAncestor.getKthAncestor(3, 1);  // 返回 1 ，它是 3 的父节点
-treeAncestor.getKthAncestor(5, 2);  // 返回 0 ，它是 5 的祖父节点
-treeAncestor.getKthAncestor(6, 3);  // 返回 -1 因为不存在满足要求的祖先节点
-</pre>
+treeAncestor.getKthAncestor(3, 1); // returns 1 which is the parent of 3
+treeAncestor.getKthAncestor(5, 2); // returns 0 which is the grandparent of 5
+treeAncestor.getKthAncestor(6, 3); // returns -1 because there is no such ancestor</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= n &lt;= 5 * 10<sup>4</sup></code></li>
-	<li><code>parent[0] == -1</code> 表示编号为 <code>0</code> 的节点是根节点。</li>
-	<li>对于所有的 <code>0 &lt;&nbsp;i &lt; n</code> ，<code>0 &lt;= parent[i] &lt; n</code> 总成立</li>
+	<li><code>parent.length == n</code></li>
+	<li><code>parent[0] == -1</code></li>
+	<li><code>0 &lt;= parent[i] &lt; n</code> for all <code>0 &lt; i &lt; n</code></li>
 	<li><code>0 &lt;= node &lt; n</code></li>
-	<li>至多查询&nbsp;<code>5 * 10<sup>4</sup></code> 次</li>
+	<li>There will be at most <code>5 * 10<sup>4</sup></code> queries.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划 + 倍增
+### Solution 1: Dynamic Programming + Binary Lifting
 
-题目要我们寻找节点 $node$ 的第 $k$ 个祖先节点，如果暴力求解，需要从 $node$ 开始向上遍历 $k$ 次，时间复杂度为 $O(k)$，显然会超时。
+The problem asks us to find the $k$-th ancestor node of a node $node$. If we solve it by brute force, we need to traverse upwards from $node$ for $k$ times, which has a time complexity of $O(k)$ and will obviously exceed the time limit.
 
-我们可以使用动态规划，结合倍增的思想来处理。
+We can use dynamic programming combined with the idea of binary lifting to handle this.
 
-我们定义 $p[i][j]$ 表示节点 $i$ 的第 $2^j$ 个祖先节点，即 $p[i][j]$ 表示节点 $i$ 向上走 $2^j$ 步的节点。那么我们可以得到状态转移方程：
+We define $p[i][j]$ as the $2^j$-th ancestor node of node $i$, i.e., the node reached by moving $2^j$ steps upwards from node $i$. Then we can get the state transition equation:
 
 $$
 p[i][j] = p[p[i][j-1]][j-1]
 $$
 
-即：要想找到节点 $i$ 的第 $2^j$ 个祖先节点，我们可以先找到节点 $i$ 的第 $2^{j-1}$ 个祖先节点，然后再找到该节点的第 $2^{j-1}$ 个祖先节点即可。所以，我们要找到每个节点的距离为 $2^j$ 的祖先节点，直到达到树的最大高度。
+That is, to find the $2^j$-th ancestor node of node $i$, we can first find the $2^{j-1}$-th ancestor node of node $i$, and then find the $2^{j-1}$-th ancestor node of this node. Therefore, we need to find the ancestor node of each node at a distance of $2^j$, until we reach the maximum height of the tree.
 
-之后对于每次查询，我们可以把 $k$ 拆成二进制的表示形式，然后根据二进制中 $1$ 的位置，累计向上查询，最终得到节点 $node$ 的第 $k$ 个祖先节点。
+For each query later, we can decompose $k$ into its binary representation, and then according to the positions of $1$ in the binary, we accumulate the queries upwards, and finally get the $k$-th ancestor node of node $node$.
 
-时间复杂度方面，初始化为 $O(n \times \log n)$，查询为 $O(\log n)$。空间复杂度 $O(n \times \log n)$。其中 $n$ 为树的节点数。
+In terms of time complexity, the initialization is $O(n \times \log n)$, and the query is $O(\log n)$. The space complexity is $O(n \times \log n)$, where $n$ is the number of nodes in the tree.
 
-相似题目：
+Similar problems:
 
--   [2836. 在传球游戏中最大化函数值](https://github.com/doocs/leetcode/blob/main/solution/2800-2899/2836.Maximize%20Value%20of%20Function%20in%20a%20Ball%20Passing%20Game/README.md)
+-   [2836. Maximize Value of Function in a Ball Passing Game](https://github.com/doocs/leetcode/blob/main/solution/2800-2899/2836.Maximize%20Value%20of%20Function%20in%20a%20Ball%20Passing%20Game/README_EN.md)
 
 <!-- tabs:start -->
 

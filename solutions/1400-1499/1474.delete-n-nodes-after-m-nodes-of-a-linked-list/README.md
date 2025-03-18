@@ -1,94 +1,74 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1474.Delete%20N%20Nodes%20After%20M%20Nodes%20of%20a%20Linked%20List/README.md
+difficulty: Easy
 tags:
-    - 链表
+    - Linked List
 ---
 
 <!-- problem:start -->
 
-# [1474. 删除链表 M 个节点之后的 N 个节点 🔒](https://leetcode.cn/problems/delete-n-nodes-after-m-nodes-of-a-linked-list)
+# [1474. Delete N Nodes After M Nodes of a Linked List 🔒](https://leetcode.com/problems/delete-n-nodes-after-m-nodes-of-a-linked-list)
 
-[English Version](/solution/1400-1499/1474.Delete%20N%20Nodes%20After%20M%20Nodes%20of%20a%20Linked%20List/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定链表&nbsp;<code>head</code>&nbsp;和两个整数&nbsp;<code>m</code>&nbsp;和&nbsp;<code>n</code>. 遍历该链表并按照如下方式删除节点:</p>
+<p>You are given the <code>head</code> of a linked list and two integers <code>m</code> and <code>n</code>.</p>
+
+<p>Traverse the linked list and remove some nodes in the following way:</p>
 
 <ul>
-	<li>开始时以头节点作为当前节点.</li>
-	<li>保留以当前节点开始的前&nbsp;<code>m</code>&nbsp;个节点.</li>
-	<li>删除接下来的&nbsp;<code>n</code>&nbsp;个节点.</li>
-	<li>重复步骤 2 和 3,&nbsp;直到到达链表结尾.</li>
+	<li>Start with the head as the current node.</li>
+	<li>Keep the first <code>m</code> nodes starting with the current node.</li>
+	<li>Remove the next <code>n</code> nodes</li>
+	<li>Keep repeating steps 2 and 3 until you reach the end of the list.</li>
 </ul>
 
-<p>在删除了指定结点之后,&nbsp;返回修改过后的链表的头节点.</p>
+<p>Return <em>the head of the modified list after removing the mentioned nodes</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1474.Delete%20N%20Nodes%20After%20M%20Nodes%20of%20a%20Linked%20List/images/sample_1_1848.png" style="height: 95px; width: 620px;" /></strong></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1474.Delete%20N%20Nodes%20After%20M%20Nodes%20of%20a%20Linked%20List/images/sample_1_1848.png" style="width: 600px; height: 95px;" />
 <pre>
-<strong>输入:</strong> head = [1,2,3,4,5,6,7,8,9,10,11,12,13], m = 2, n = 3
-<strong>输出:</strong> [1,2,6,7,11,12]
-<strong>解析: </strong>保留前(m = 2)个结点,  也就是以黑色节点表示的从链表头结点开始的结点(1 -&gt;2).
-删除接下来的(n = 3)个结点(3 -&gt; 4 -&gt; 5), 在图中以红色结点表示.
-继续相同的操作, 直到链表的末尾.
-返回删除结点之后的链表的头结点.</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1474.Delete%20N%20Nodes%20After%20M%20Nodes%20of%20a%20Linked%20List/images/sample_2_1848.png" style="height: 123px; width: 620px;" /></strong></p>
-
-<pre>
-<strong>输入:</strong> head = [1,2,3,4,5,6,7,8,9,10,11], m = 1, n = 3
-<strong>输出:</strong> [1,5,9]
-<strong>解析:</strong> 返回删除结点之后的链表的头结点.</pre>
-
-<p><strong>示例 3:</strong></p>
-
-<pre>
-<strong>输入:</strong> head = [1,2,3,4,5,6,7,8,9,10,11], m = 3, n = 1
-<strong>输出:</strong> [1,2,3,5,6,7,9,10,11]
+<strong>Input:</strong> head = [1,2,3,4,5,6,7,8,9,10,11,12,13], m = 2, n = 3
+<strong>Output:</strong> [1,2,6,7,11,12]
+<strong>Explanation:</strong> Keep the first (m = 2) nodes starting from the head of the linked List  (1 -&gt;2) show in black nodes.
+Delete the next (n = 3) nodes (3 -&gt; 4 -&gt; 5) show in read nodes.
+Continue with the same procedure until reaching the tail of the Linked List.
+Head of the linked list after removing nodes is returned.
 </pre>
 
-<p><strong>示例&nbsp;4:</strong></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1474.Delete%20N%20Nodes%20After%20M%20Nodes%20of%20a%20Linked%20List/images/sample_2_1848.png" style="width: 600px; height: 123px;" />
 <pre>
-<strong>输入:</strong> head = [9,3,7,7,9,10,8,2], m = 1, n = 2
-<strong>输出:</strong> [9,7,8]
+<strong>Input:</strong> head = [1,2,3,4,5,6,7,8,9,10,11], m = 1, n = 3
+<strong>Output:</strong> [1,5,9]
+<strong>Explanation:</strong> Head of linked list after removing nodes is returned.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>链表中节点数目在范围 <code>[1, 10<sup>4</sup>]</code> 内</li>
+	<li>The number of nodes in the list is in the range <code>[1, 10<sup>4</sup>]</code>.</li>
 	<li><code>1 &lt;= Node.val &lt;= 10<sup>6</sup></code></li>
 	<li><code>1 &lt;= m, n &lt;= 1000</code></li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶:</strong> 你能通过<strong> 就地 </strong>修改链表的方式解决这个问题吗?</p>
+<p><strong>Follow up:</strong> Could you solve this problem by modifying the list in-place?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以模拟整个删除过程，首先用 $\textit{pre}$ 指针指向链表头部，然后遍历链表，移动 $m - 1$ 步，如果 $\textit{pre}$ 为空，说明从当前节点开始的节点个数小于 $m$，直接返回头部；否则，用 $\textit{cur}$ 指针指向 $\textit{pre}$，然后移动 $n$ 步，如果 $\textit{cur}$ 为空，说明从 $\textit{pre}$ 开始的节点个数小于 $m + n$，直接将 $\textit{pre}$ 的 $\textit{next}$ 指向 $\text{null}$；否则，将 $\textit{pre}$ 的 $\textit{next}$ 指向 $\textit{cur}$ 的 $\textit{next}$，然后将 $\textit{pre}$ 移动到 $\textit{pre}$ 的 $\textit{next}$。继续遍历链表，直到 $\textit{pre}$ 为空，返回头部。
+We can simulate the entire deletion process. First, use a pointer $\textit{pre}$ to point to the head of the linked list, then traverse the linked list, moving $m - 1$ steps. If $\textit{pre}$ is null, it means the number of nodes from the current node is less than $m$, so we directly return the head. Otherwise, use a pointer $\textit{cur}$ to point to $\textit{pre}$, then move $n$ steps. If $\textit{cur}$ is null, it means the number of nodes from $\textit{pre}$ is less than $m + n$, so we directly set the $\textit{next}$ of $\textit{pre}$ to null. Otherwise, set the $\textit{next}$ of $\textit{pre}$ to the $\textit{next}$ of $\textit{cur}$, then move $\textit{pre}$ to its $\textit{next}$. Continue traversing the linked list until $\textit{pre}$ is null, then return the head.
 
-时间复杂度 $O(n)$，其中 $n$ 是链表中节点的个数。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the number of nodes in the linked list. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

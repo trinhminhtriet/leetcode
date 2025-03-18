@@ -1,52 +1,48 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0070.Climbing%20Stairs/README.md
+difficulty: Easy
 tags:
-    - 记忆化搜索
-    - 数学
-    - 动态规划
+    - Memoization
+    - Math
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [70. 爬楼梯](https://leetcode.cn/problems/climbing-stairs)
+# [70. Climbing Stairs](https://leetcode.com/problems/climbing-stairs)
 
-[English Version](/solution/0000-0099/0070.Climbing%20Stairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>假设你正在爬楼梯。需要 <code>n</code>&nbsp;阶你才能到达楼顶。</p>
+<p>You are climbing a staircase. It takes <code>n</code> steps to reach the top.</p>
 
-<p>每次你可以爬 <code>1</code> 或 <code>2</code> 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p>
+<p>Each time you can either climb <code>1</code> or <code>2</code> steps. In how many distinct ways can you climb to the top?</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 2
-<strong>输出：</strong>2
-<strong>解释：</strong>有两种方法可以爬到楼顶。
-1. 1 阶 + 1 阶
-2. 2 阶</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 3
-<strong>输出：</strong>3
-<strong>解释：</strong>有三种方法可以爬到楼顶。
-1. 1 阶 + 1 阶 + 1 阶
-2. 1 阶 + 2 阶
-3. 2 阶 + 1 阶
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> There are two ways to climb to the top.
+1. 1 step + 1 step
+2. 2 steps
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 3
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> There are three ways to climb to the top.
+1. 1 step + 1 step + 1 step
+2. 1 step + 2 steps
+3. 2 steps + 1 step
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 45</code></li>
@@ -54,25 +50,25 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递推
+### Solution 1: Recursion
 
-我们定义 $f[i]$ 表示爬到第 $i$ 阶楼梯的方法数，那么 $f[i]$ 可以由 $f[i - 1]$ 和 $f[i - 2]$ 转移而来，即：
+We define $f[i]$ to represent the number of ways to climb to the $i$-th step, then $f[i]$ can be transferred from $f[i - 1]$ and $f[i - 2]$, that is:
 
 $$
 f[i] = f[i - 1] + f[i - 2]
 $$
 
-初始条件为 $f[0] = 1$，$f[1] = 1$，即爬到第 0 阶楼梯的方法数为 1，爬到第 1 阶楼梯的方法数也为 1。
+The initial conditions are $f[0] = 1$ and $f[1] = 1$, that is, the number of ways to climb to the 0th step is 1, and the number of ways to climb to the 1st step is also 1.
 
-答案即为 $f[n]$。
+The answer is $f[n]$.
 
-由于 $f[i]$ 只与 $f[i - 1]$ 和 $f[i - 2]$ 有关，因此我们可以只用两个变量 $a$ 和 $b$ 来维护当前的方法数，空间复杂度降低为 $O(1)$。
+Since $f[i]$ is only related to $f[i - 1]$ and $f[i - 2]$, we can use two variables $a$ and $b$ to maintain the current number of ways, reducing the space complexity to $O(1)$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -207,11 +203,11 @@ class Solution {
 
 <!-- solution:start -->
 
-### 方法二：矩阵快速幂加速递推
+### Solution 2: Matrix Quick Power to Accelerate Recursion
 
-我们设 $Fib(n)$ 表示一个 $1 \times 2$ 的矩阵 $\begin{bmatrix} F_n & F_{n - 1} \end{bmatrix}$，其中 $F_n$ 和 $F_{n - 1}$ 分别是第 $n$ 个和第 $n - 1$ 个斐波那契数。
+We set $Fib(n)$ to represent a $1 \times 2$ matrix $\begin{bmatrix} F_n & F_{n - 1} \end{bmatrix}$, where $F_n$ and $F_{n - 1}$ are the $n$-th and $(n - 1)$-th Fibonacci numbers respectively.
 
-我们希望根据 $Fib(n-1) = \begin{bmatrix} F_{n - 1} & F_{n - 2} \end{bmatrix}$ 推出 $Fib(n)$。也即是说，我们需要一个矩阵 $base$，使得 $Fib(n - 1) \times base = Fib(n)$，即：
+We hope to derive $Fib(n)$ based on $Fib(n-1) = \begin{bmatrix} F_{n - 1} & F_{n - 2} \end{bmatrix}$. That is to say, we need a matrix $base$, so that $Fib(n - 1) \times base = Fib(n)$, that is:
 
 $$
 \begin{bmatrix}
@@ -219,7 +215,7 @@ F_{n - 1} & F_{n - 2}
 \end{bmatrix} \times base = \begin{bmatrix} F_n & F_{n - 1} \end{bmatrix}
 $$
 
-由于 $F_n = F_{n - 1} + F_{n - 2}$，所以矩阵 $base$ 的第一列为：
+Since $F_n = F_{n - 1} + F_{n - 2}$, the first column of the matrix $base$ is:
 
 $$
 \begin{bmatrix}
@@ -228,7 +224,7 @@ $$
 \end{bmatrix}
 $$
 
-第二列为：
+The second column is:
 
 $$
 \begin{bmatrix}
@@ -237,15 +233,15 @@ $$
 \end{bmatrix}
 $$
 
-因此有：
+Therefore:
 
 $$
 \begin{bmatrix} F_{n - 1} & F_{n - 2} \end{bmatrix} \times \begin{bmatrix}1 & 1 \\ 1 & 0\end{bmatrix} = \begin{bmatrix} F_n & F_{n - 1} \end{bmatrix}
 $$
 
-我们定义初始矩阵 $res = \begin{bmatrix} 1 & 1 \end{bmatrix}$，那么 $F_n$ 等于 $res$ 乘以 $base^{n - 1}$ 的结果矩阵中第一行的第一个元素。使用矩阵快速幂求解即可。
+We define the initial matrix $res = \begin{bmatrix} 1 & 1 \end{bmatrix}$, then $F_n$ is equal to the first element of the first row of the result matrix of $res$ multiplied by $base^{n - 1}$. We can solve it using matrix quick power.
 
-时间复杂度 $O(\log n)$，空间复杂度 $O(1)$。
+The time complexity is $O(\log n)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

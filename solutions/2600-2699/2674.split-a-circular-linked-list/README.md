@@ -1,67 +1,62 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2674.Split%20a%20Circular%20Linked%20List/README.md
+difficulty: Medium
 tags:
-    - 链表
-    - 双指针
+    - Linked List
+    - Two Pointers
 ---
 
 <!-- problem:start -->
 
-# [2674. 拆分循环链表 🔒](https://leetcode.cn/problems/split-a-circular-linked-list)
+# [2674. Split a Circular Linked List 🔒](https://leetcode.com/problems/split-a-circular-linked-list)
 
-[English Version](/solution/2600-2699/2674.Split%20a%20Circular%20Linked%20List/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>现给定一个由正整数组成的 <strong>循环链表</strong> <code>list</code> ，你的任务是将其拆分为 2 个 <strong>循环链表</strong> ，使得第一个链表包含 <code>list</code> <strong>前半部分&nbsp;</strong>的节点（即 <code>ceil(list.length / 2)</code> 个节点），顺序与 list 中的顺序相同，而第二个链表包含 <code>list</code> 中 <strong>剩余</strong> 的节点，顺序也与 <code>list</code> 中的顺序相同。</p>
+<p>Given a <strong>circular linked list</strong> <code>list</code> of positive integers, your task is to split it into 2 <strong>circular linked lists</strong> so that the first one contains the <strong>first half</strong> of the nodes in <code>list</code> (exactly <code>ceil(list.length / 2)</code> nodes) in the same order they appeared in <code>list</code>, and the second one contains <strong>the rest</strong> of the nodes in <code>list</code> in the same order they appeared in <code>list</code>.</p>
 
-<p>返回一个长度为 2 的数组，其中第一个元素是表示 <strong>前半部分</strong> 链表的<strong> 循环链表</strong> ，第二个元素是表示 <strong>后半部分</strong> 链表的 <strong>循环链表</strong> 。</p>
+<p>Return <em>an array answer of length 2 in which the first element is a <strong>circular linked list</strong> representing the <strong>first half</strong> and the second element is a <strong>circular linked list</strong> representing the <strong>second half</strong>.</em></p>
 
-<p><strong>循环链表</strong> 是一个普通的链表，唯一的区别是最后一个节点的下一个节点是头节点。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [1,5,7]
-<b>输出：</b>[[1,5],[7]]
-<b>解释：</b>初始链表有3个节点，因此前半部分是前两个元素，剩下的 1 个节点在后半部分。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [2,6,1,5]
-<b>输出：</b>[[2,6],[1,5]]
-<b>解释：</b>初始链表有4个节点，因此前半部分是前两个元素，剩下的 2 个节点在后半部分。
-</pre>
+<div>A <strong>circular linked list</strong> is a normal linked list with the only difference being that the last node&#39;s next node, is the first node.</div>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,5,7]
+<strong>Output:</strong> [[1,5],[7]]
+<strong>Explanation:</strong> The initial list has 3 nodes so the first half would be the first 2 elements since ceil(3 / 2) = 2 and the rest which is 1 node is in the second half.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,6,1,5]
+<strong>Output:</strong> [[2,6],[1,5]]
+<strong>Explanation:</strong> The initial list has 4 nodes so the first half would be the first 2 elements since ceil(4 / 2) = 2 and the rest which is 2 nodes are in the second half.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>list</code> 中的节点数范围为 <code>[2, 10<sup>5</sup>]</code></li>
+	<li>The number of nodes in <code>list</code>&nbsp;is in the range <code>[2, 10<sup>5</sup>]</code></li>
 	<li><code>0 &lt;= Node.val &lt;= 10<sup>9</sup></code></li>
-	<li><code>LastNode.next = FirstNode</code> ，其中 <code>LastNode</code> 是链表的最后一个节点，<code>FirstNode</code> 是第一个节点。</li>
+	<li><font face="monospace"><code>LastNode.next = FirstNode</code></font> where <code>LastNode</code> is the last node of the list and <code>FirstNode</code> is the first one</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：快慢指针
+### Solution 1: Fast and Slow Pointers
 
-我们定义两个指针 $a$ 和 $b$，初始时都指向链表的头节点。每次迭代时，指针 $a$ 向前移动一步，指针 $b$ 向前移动两步，直到指针 $b$ 到达链表的末尾。此时，指针 $a$ 指向链表节点数的一半，我们将链表从指针 $a$ 处断开，即可得到两个链表的头节点。
+We define two pointers $a$ and $b$, both initially pointing to the head of the linked list. Each iteration, pointer $a$ moves forward one step, and pointer $b$ moves forward two steps, until pointer $b$ reaches the end of the linked list. At this point, pointer $a$ points to half of the linked list nodes, and we break the linked list from pointer $a$, thus obtaining the head nodes of the two linked lists.
 
-时间复杂度 $O(n)$，其中 $n$ 是链表的长度。需要遍历链表一次。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the linked list. It requires one traversal of the linked list. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

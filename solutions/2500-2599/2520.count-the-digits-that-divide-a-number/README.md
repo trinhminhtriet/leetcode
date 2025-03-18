@@ -1,72 +1,70 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2520.Count%20the%20Digits%20That%20Divide%20a%20Number/README.md
+difficulty: Easy
 rating: 1260
-source: 第 326 场周赛 Q1
+source: Weekly Contest 326 Q1
 tags:
-    - 数学
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [2520. 统计能整除数字的位数](https://leetcode.cn/problems/count-the-digits-that-divide-a-number)
+# [2520. Count the Digits That Divide a Number](https://leetcode.com/problems/count-the-digits-that-divide-a-number)
 
-[English Version](/solution/2500-2599/2520.Count%20the%20Digits%20That%20Divide%20a%20Number/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>num</code> ，返回 <code>num</code> 中能整除 <code>num</code> 的数位的数目。</p>
+<p>Given an integer <code>num</code>, return <em>the number of digits in <code>num</code> that divide </em><code>num</code>.</p>
 
-<p>如果满足&nbsp;<code>nums % val == 0</code> ，则认为整数 <code>val</code> 可以整除 <code>nums</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>num = 7
-<strong>输出：</strong>1
-<strong>解释：</strong>7 被自己整除，因此答案是 1 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>num = 121
-<strong>输出：</strong>2
-<strong>解释：</strong>121 可以被 1 整除，但无法被 2 整除。由于 1 出现两次，所以返回 2 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>num = 1248
-<strong>输出：</strong>4
-<strong>解释：</strong>1248 可以被它每一位上的数字整除，因此答案是 4 。
-</pre>
+<p>An integer <code>val</code> divides <code>nums</code> if <code>nums % val == 0</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong>Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> num = 7
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> 7 divides itself, hence the answer is 1.
+</pre>
+
+<p><strong>Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> num = 121
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 121 is divisible by 1, but not 2. Since 1 occurs twice as a digit, we return 2.
+</pre>
+
+<p><strong>Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> num = 1248
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> 1248 is divisible by all of its digits, hence the answer is 4.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num &lt;= 10<sup>9</sup></code></li>
-	<li><code>num</code> 的数位中不含 <code>0</code></li>
+	<li><code>num</code> does not contain <code>0</code> as one of its digits.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们直接枚举整数 $num$ 的每一位上的数 $val$，若 $val$ 能够整除 $num$，那么答案加一。
+We directly enumerate each digit $val$ of the integer $num$, and if $val$ can divide $num$, we add one to the answer.
 
-枚举结束后，返回答案即可。
+After the enumeration, we return the answer.
 
-时间复杂度 $O(\log num)$，空间复杂度 $O(1)$。
+The time complexity is $O(\log num)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -182,7 +180,7 @@ int countDigits(int num) {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

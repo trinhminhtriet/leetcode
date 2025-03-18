@@ -1,25 +1,20 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0262.Trips%20and%20Users/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [262. 行程和用户](https://leetcode.cn/problems/trips-and-users)
+# [262. Trips and Users](https://leetcode.com/problems/trips-and-users)
 
-[English Version](/solution/0200-0299/0262.Trips%20and%20Users/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-表：<code>Trips</code>
+<p>Table: <code>Trips</code></p>
 
-<div class="original__bRMd">
-<div>
 <pre>
 +-------------+----------+
 | Column Name | Type     |
@@ -31,18 +26,14 @@ tags:
 | status      | enum     |
 | request_at  | varchar  |     
 +-------------+----------+
-id 是这张表的主键（具有唯一值的列）。
-这张表中存所有出租车的行程信息。每段行程有唯一 id ，其中 client_id 和 driver_id 是 Users 表中 users_id 的外键。
-status 是一个表示行程状态的枚举类型，枚举成员为(‘completed’, ‘cancelled_by_driver’, ‘cancelled_by_client’) 。
+id is the primary key (column with unique values) for this table.
+The table holds all taxi trips. Each trip has a unique id, while client_id and driver_id are foreign keys to the users_id at the Users table.
+Status is an ENUM (category) type of (&#39;completed&#39;, &#39;cancelled_by_driver&#39;, &#39;cancelled_by_client&#39;).
 </pre>
 
 <p>&nbsp;</p>
 
-<div class="original__bRMd">
-<div>
-<p>表：<code>Users</code></p>
-</div>
-</div>
+<p>Table: <code>Users</code></p>
 
 <pre>
 +-------------+----------+
@@ -52,28 +43,27 @@ status 是一个表示行程状态的枚举类型，枚举成员为(‘completed
 | banned      | enum     |
 | role        | enum     |
 +-------------+----------+
-users_id 是这张表的主键（具有唯一值的列）。
-这张表中存所有用户，每个用户都有一个唯一的 users_id ，role 是一个表示用户身份的枚举类型，枚举成员为 (‘client’, ‘driver’, ‘partner’) 。
-banned 是一个表示用户是否被禁止的枚举类型，枚举成员为 (‘Yes’, ‘No’) 。
+users_id is the primary key (column with unique values) for this table.
+The table holds all users. Each user has a unique users_id, and role is an ENUM type of (&#39;client&#39;, &#39;driver&#39;, &#39;partner&#39;).
+banned is an ENUM (category) type of (&#39;Yes&#39;, &#39;No&#39;).
 </pre>
 
 <p>&nbsp;</p>
 
-<p><strong>取消率</strong> 的计算方式如下：(被司机或乘客取消的非禁止用户生成的订单数量) / (非禁止用户生成的订单总数)。</p>
+<p>The <strong>cancellation rate</strong> is computed by dividing the number of canceled (by client or driver) requests with unbanned users by the total number of requests with unbanned users on that day.</p>
 
-<p>编写解决方案找出&nbsp;<code>"2013-10-01"</code><strong>&nbsp;</strong>至&nbsp;<code>"2013-10-03"</code><strong>&nbsp;</strong>期间有&nbsp;<strong>至少&nbsp;</strong>一次行程的非禁止用户（<strong>乘客和司机都必须未被禁止</strong>）的 <strong>取消率</strong>。非禁止用户即 banned 为 No 的用户，禁止用户即 banned 为 Yes 的用户。其中取消率 <code>Cancellation Rate</code> 需要四舍五入保留 <strong>两位小数</strong> 。</p>
+<p>Write a solution to find the <strong>cancellation rate</strong> of requests with unbanned users (<strong>both client and driver must not be banned</strong>) each day between <code>&quot;2013-10-01&quot;</code> and <code>&quot;2013-10-03&quot;</code> with <strong>at least</strong> one trip. Round <code>Cancellation Rate</code> to <strong>two decimal</strong> points.</p>
 
-<p>返回结果表中的数据 <strong>无顺序要求</strong> 。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果格式如下例所示。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong> 
-Trips 表：
+<strong>Input:</strong> 
+Trips table:
 +----+-----------+-----------+---------+---------------------+------------+
 | id | client_id | driver_id | city_id | status              | request_at |
 +----+-----------+-----------+---------+---------------------+------------+
@@ -88,7 +78,7 @@ Trips 表：
 | 9  | 3         | 10        | 12      | completed           | 2013-10-03 |
 | 10 | 4         | 13        | 12      | cancelled_by_driver | 2013-10-03 |
 +----+-----------+-----------+---------+---------------------+------------+
-Users 表：
+Users table:
 +----------+--------+--------+
 | users_id | banned | role   |
 +----------+--------+--------+
@@ -101,7 +91,7 @@ Users 表：
 | 12       | No     | driver |
 | 13       | No     | driver |
 +----------+--------+--------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +------------+-------------------+
 | Day        | Cancellation Rate |
 +------------+-------------------+
@@ -109,33 +99,31 @@ Users 表：
 | 2013-10-02 | 0.00              |
 | 2013-10-03 | 0.50              |
 +------------+-------------------+
-<strong>解释：</strong>
-2013-10-01：
-  - 共有 4 条请求，其中 2 条取消。
-  - 然而，id=2 的请求是由禁止用户（user_id=2）发出的，所以计算时应当忽略它。
-  - 因此，总共有 3 条非禁止请求参与计算，其中 1 条取消。
-  - 取消率为 (1 / 3) = 0.33
-2013-10-02：
-  - 共有 3 条请求，其中 0 条取消。
-  - 然而，id=6 的请求是由禁止用户发出的，所以计算时应当忽略它。
-  - 因此，总共有 2 条非禁止请求参与计算，其中 0 条取消。
-  - 取消率为 (0 / 2) = 0.00
-2013-10-03：
-  - 共有 3 条请求，其中 1 条取消。
-  - 然而，id=8 的请求是由禁止用户发出的，所以计算时应当忽略它。
-  - 因此，总共有 2 条非禁止请求参与计算，其中 1 条取消。
-  - 取消率为 (1 / 2) = 0.50
+<strong>Explanation:</strong> 
+On 2013-10-01:
+  - There were 4 requests in total, 2 of which were canceled.
+  - However, the request with Id=2 was made by a banned client (User_Id=2), so it is ignored in the calculation.
+  - Hence there are 3 unbanned requests in total, 1 of which was canceled.
+  - The Cancellation Rate is (1 / 3) = 0.33
+On 2013-10-02:
+  - There were 3 requests in total, 0 of which were canceled.
+  - The request with Id=6 was made by a banned client, so it is ignored.
+  - Hence there are 2 unbanned requests in total, 0 of which were canceled.
+  - The Cancellation Rate is (0 / 2) = 0.00
+On 2013-10-03:
+  - There were 3 requests in total, 1 of which was canceled.
+  - The request with Id=8 was made by a banned client, so it is ignored.
+  - Hence there are 2 unbanned request in total, 1 of which were canceled.
+  - The Cancellation Rate is (1 / 2) = 0.50
 </pre>
-</div>
-</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

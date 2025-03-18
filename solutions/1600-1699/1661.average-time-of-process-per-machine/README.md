@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1661.Average%20Time%20of%20Process%20per%20Machine/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1661. 每台机器的进程平均运行时间](https://leetcode.cn/problems/average-time-of-process-per-machine)
+# [1661. Average Time of Process per Machine](https://leetcode.com/problems/average-time-of-process-per-machine)
 
-[English Version](/solution/1600-1699/1661.Average%20Time%20of%20Process%20per%20Machine/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Activity</code></p>
+<p>Table: <code>Activity</code></p>
 
 <pre>
 +----------------+---------+
@@ -27,33 +24,34 @@ tags:
 | activity_type  | enum    |
 | timestamp      | float   |
 +----------------+---------+
-该表展示了一家工厂网站的用户活动。
-(machine_id, process_id, activity_type) 是当前表的主键（具有唯一值的列的组合）。
-machine_id 是一台机器的ID号。
-process_id 是运行在各机器上的进程ID号。
-activity_type 是枚举类型 ('start', 'end')。
-timestamp 是浮点类型,代表当前时间(以秒为单位)。
-'start' 代表该进程在这台机器上的开始运行时间戳 , 'end' 代表该进程在这台机器上的终止运行时间戳。
-同一台机器，同一个进程都有一对开始时间戳和结束时间戳，而且开始时间戳永远在结束时间戳前面。</pre>
+The table shows the user activities for a factory website.
+(machine_id, process_id, activity_type) is the primary key (combination of columns with unique values) of this table.
+machine_id is the ID of a machine.
+process_id is the ID of a process running on the machine with ID machine_id.
+activity_type is an ENUM (category) of type (&#39;start&#39;, &#39;end&#39;).
+timestamp is a float representing the current time in seconds.
+&#39;start&#39; means the machine starts the process at the given timestamp and &#39;end&#39; means the machine ends the process at the given timestamp.
+The &#39;start&#39; timestamp will always be before the &#39;end&#39; timestamp for every (machine_id, process_id) pair.
+It is guaranteed that each (machine_id, process_id) pair has a &#39;start&#39; and &#39;end&#39; timestamp.
+</pre>
 
 <p>&nbsp;</p>
 
-<p>现在有一个工厂网站由几台机器运行，每台机器上运行着 <strong>相同数量的进程</strong> 。编写解决方案，计算每台机器各自完成一个进程任务的平均耗时。</p>
+<p>There is a factory website that has several machines each running the <strong>same number of processes</strong>. Write a solution&nbsp;to find the <strong>average time</strong> each machine takes to complete a process.</p>
 
-<p>完成一个进程任务的时间指进程的<code>'end' 时间戳</code> 减去&nbsp;<code>'start' 时间戳</code>。平均耗时通过计算每台机器上所有进程任务的总耗费时间除以机器上的总进程数量获得。</p>
+<p>The time to complete a process is the <code>&#39;end&#39; timestamp</code> minus the <code>&#39;start&#39; timestamp</code>. The average time is calculated by the total time to complete every process on the machine divided by the number of processes that were run.</p>
 
-<p>结果表必须包含<code>machine_id（机器ID）</code> 和对应的&nbsp;<strong>average time（平均耗时）</strong>&nbsp;别名&nbsp;<code>processing_time</code>，且<strong>四舍五入保留3位小数。</strong></p>
+<p>The resulting table should have the <code>machine_id</code> along with the <strong>average time</strong> as <code>processing_time</code>, which should be <strong>rounded to 3 decimal places</strong>.</p>
 
-<p>以 <strong>任意顺序</strong> 返回表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>具体参考例子如下。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 Activity table:
 +------------+------------+---------------+-----------+
 | machine_id | process_id | activity_type | timestamp |
@@ -71,7 +69,7 @@ Activity table:
 | 2          | 1          | start         | 2.500     |
 | 2          | 1          | end           | 5.000     |
 +------------+------------+---------------+-----------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +------------+-----------------+
 | machine_id | processing_time |
 +------------+-----------------+
@@ -79,23 +77,24 @@ Activity table:
 | 1          | 0.995           |
 | 2          | 1.456           |
 +------------+-----------------+
-<strong>解释：</strong>
-一共有3台机器,每台机器运行着两个进程.
-机器 0 的平均耗时: ((1.520 - 0.712) + (4.120 - 3.140)) / 2 = 0.894
-机器 1 的平均耗时: ((1.550 - 0.550) + (1.420 - 0.430)) / 2 = 0.995
-机器 2 的平均耗时: ((4.512 - 4.100) + (5.000 - 2.500)) / 2 = 1.456</pre>
+<strong>Explanation:</strong> 
+There are 3 machines running 2 processes each.
+Machine 0&#39;s average time is ((1.520 - 0.712) + (4.120 - 3.140)) / 2 = 0.894
+Machine 1&#39;s average time is ((1.550 - 0.550) + (1.420 - 0.430)) / 2 = 0.995
+Machine 2&#39;s average time is ((4.512 - 4.100) + (5.000 - 2.500)) / 2 = 1.456
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组统计
+### Solution 1: Grouping and Aggregation
 
-我们可以根据 `machine_id` 分组，然后利用 `AVG` 函数计算每台机器上所有进程任务的平均耗时。由于机器上的每个进程任务都有一对开始时间戳和结束时间戳，完成一个进程任务的时间指进程的 `end` 时间戳 减去 `start` 时间戳，因此我们可以利用 `CASE WHEN` 或者 `IF` 函数来计算每个进程任务的耗时，最后再利用 `AVG` 函数计算每台机器上所有进程任务的平均耗时。
+We can group by `machine_id` and use the `AVG` function to calculate the average time consumption of all process tasks on each machine. Since each process task on the machine has a pair of start and end timestamps, the time consumption of each process task can be calculated by subtracting the `start` timestamp from the `end` timestamp. Therefore, we can use the `CASE WHEN` or `IF` function to calculate the time consumption of each process task, and then use the `AVG` function to calculate the average time consumption of all process tasks on each machine.
 
-注意，每台机器有 $2$ 个进程任务，因此我们需要将计算出的平均耗时乘以 $2$。
+Note that each machine has $2$ process tasks, so we need to multiply the calculated average time consumption by $2$.
 
 <!-- tabs:start -->
 
@@ -124,7 +123,7 @@ GROUP BY 1;
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

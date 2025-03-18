@@ -1,65 +1,65 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2341.Maximum%20Number%20of%20Pairs%20in%20Array/README.md
+difficulty: Easy
 rating: 1184
-source: 第 302 场周赛 Q1
+source: Weekly Contest 302 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 计数
+    - Array
+    - Hash Table
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [2341. 数组能形成多少数对](https://leetcode.cn/problems/maximum-number-of-pairs-in-array)
+# [2341. Maximum Number of Pairs in Array](https://leetcode.com/problems/maximum-number-of-pairs-in-array)
 
-[English Version](/solution/2300-2399/2341.Maximum%20Number%20of%20Pairs%20in%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 。在一步操作中，你可以执行以下步骤：</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. In one operation, you may do the following:</p>
 
 <ul>
-	<li>从 <code>nums</code> 选出 <strong>两个</strong> <strong>相等的</strong> 整数</li>
-	<li>从 <code>nums</code> 中移除这两个整数，形成一个 <strong>数对</strong></li>
+	<li>Choose <strong>two</strong> integers in <code>nums</code> that are <strong>equal</strong>.</li>
+	<li>Remove both integers from <code>nums</code>, forming a <strong>pair</strong>.</li>
 </ul>
 
-<p>请你在 <code>nums</code> 上多次执行此操作直到无法继续执行。</p>
+<p>The operation is done on <code>nums</code> as many times as possible.</p>
 
-<p>返回一个下标从 <strong>0</strong> 开始、长度为 <code>2</code> 的整数数组 <code>answer</code> 作为答案，其中<em> </em><code>answer[0]</code><em> </em>是形成的数对数目，<code>answer[1]</code> 是对 <code>nums</code> 尽可能执行上述操作后剩下的整数数目。</p>
+<p>Return <em>a <strong>0-indexed</strong> integer array </em><code>answer</code><em> of size </em><code>2</code><em> where </em><code>answer[0]</code><em> is the number of pairs that are formed and </em><code>answer[1]</code><em> is the number of leftover integers in </em><code>nums</code><em> after doing the operation as many times as possible</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,3,2,1,3,2,2]
+<strong>Output:</strong> [3,1]
+<strong>Explanation:</strong>
+Form a pair with nums[0] and nums[3] and remove them from nums. Now, nums = [3,2,3,2,2].
+Form a pair with nums[0] and nums[2] and remove them from nums. Now, nums = [2,2,2].
+Form a pair with nums[0] and nums[1] and remove them from nums. Now, nums = [2].
+No more pairs can be formed. A total of 3 pairs have been formed, and there is 1 number leftover in nums.
+</pre>
 
-<pre><strong>输入：</strong>nums = [1,3,2,1,3,2,2]
-<strong>输出：</strong>[3,1]
-<strong>解释：</strong>
-nums[0] 和 nums[3] 形成一个数对，并从 nums 中移除，nums = [3,2,3,2,2] 。
-nums[0] 和 nums[2] 形成一个数对，并从 nums 中移除，nums = [2,2,2] 。
-nums[0] 和 nums[1] 形成一个数对，并从 nums 中移除，nums = [2] 。
-无法形成更多数对。总共形成 3 个数对，nums 中剩下 1 个数字。</pre>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>示例 2：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,1]
+<strong>Output:</strong> [1,0]
+<strong>Explanation:</strong> Form a pair with nums[0] and nums[1] and remove them from nums. Now, nums = [].
+No more pairs can be formed. A total of 1 pair has been formed, and there are 0 numbers leftover in nums.
+</pre>
 
-<pre><strong>输入：</strong>nums = [1,1]
-<strong>输出：</strong>[1,0]
-<strong>解释：</strong>nums[0] 和 nums[1] 形成一个数对，并从 nums 中移除，nums = [] 。
-无法形成更多数对。总共形成 1 个数对，nums 中剩下 0 个数字。</pre>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>nums = [0]
-<strong>输出：</strong>[0,1]
-<strong>解释：</strong>无法形成数对，nums 中剩下 1 个数字。
+<pre>
+<strong>Input:</strong> nums = [0]
+<strong>Output:</strong> [0,1]
+<strong>Explanation:</strong> No pairs can be formed, and there is 1 number leftover in nums.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -68,21 +68,21 @@ nums[0] 和 nums[1] 形成一个数对，并从 nums 中移除，nums = [2] 。
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们可以统计数组 $\textit{nums}$ 中每个数字 $x$ 出现的次数，记录在哈希表或数组 $\textit{cnt}$ 中。
+We can count the occurrences of each number $x$ in the array $\textit{nums}$ and record them in a hash table or array $\textit{cnt}$.
 
-然后遍历 $\textit{cnt}$，对于每个数字 $x$，如果 $x$ 出现的次数 $v$ 大于 $1$，则可以从数组中选出两个 $x$ 形成一个数对，我们将 $v$ 除以 $2$ 向下取整，即可得到当前数字 $x$ 可以形成的数对数目，然后我们累加这个数目到变量 $s$ 中。
+Then, we traverse $\textit{cnt}$. For each number $x$, if the occurrence count $v$ of $x$ is greater than $1$, we can select two $x$'s from the array to form a pair. We divide $v$ by $2$ and take the floor value to get the number of pairs that can be formed by the current number $x$. We then add this number to the variable $s$.
 
-最后剩余的个数为数组 $\textit{nums}$ 的长度减去可以形成的数对数目乘以 $2$，即 $n - s \times 2$。
+The remaining count is the length of the array $\textit{nums}$ minus the number of pairs formed multiplied by $2$, i.e., $n - s \times 2$.
 
-答案为 $[s, n - s \times 2]$。
+The answer is $[s, n - s \times 2]$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 为数组 $\textit{nums}$ 的长度；而 $C$ 为数组 $\textit{nums}$ 中数字的范围，本题中 $C = 101$。
+The time complexity is $O(n)$, and the space complexity is $O(C)$. Here, $n$ is the length of the array $\textit{nums}$, and $C$ is the range of numbers in the array $\textit{nums}$, which is $101$ in this problem.
 
 <!-- tabs:start -->
 

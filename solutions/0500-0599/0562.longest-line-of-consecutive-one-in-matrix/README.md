@@ -1,74 +1,65 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0562.Longest%20Line%20of%20Consecutive%20One%20in%20Matrix/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 动态规划
-    - 矩阵
+    - Array
+    - Dynamic Programming
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [562. 矩阵中最长的连续1线段 🔒](https://leetcode.cn/problems/longest-line-of-consecutive-one-in-matrix)
+# [562. Longest Line of Consecutive One in Matrix 🔒](https://leetcode.com/problems/longest-line-of-consecutive-one-in-matrix)
 
-[English Version](/solution/0500-0599/0562.Longest%20Line%20of%20Consecutive%20One%20in%20Matrix/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个&nbsp;<code>m x n</code>&nbsp;的二进制矩阵 <code>mat</code><b>&nbsp;</b>，返回矩阵中最长的连续1线段。</p>
+<p>Given an <code>m x n</code> binary matrix <code>mat</code>, return <em>the length of the longest line of consecutive one in the matrix</em>.</p>
 
-<p>这条线段可以是水平的、垂直的、对角线的或者反对角线的。</p>
+<p>The line could be horizontal, vertical, diagonal, or anti-diagonal.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0562.Longest%20Line%20of%20Consecutive%20One%20in%20Matrix/images/long1-grid.jpg" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0562.Longest%20Line%20of%20Consecutive%20One%20in%20Matrix/images/long1-grid.jpg" style="width: 333px; height: 253px;" />
 <pre>
-<strong>输入:</strong>&nbsp;mat = [[0,1,1,0],[0,1,1,0],[0,0,0,1]]
-<strong>输出:</strong> 3
+<strong>Input:</strong> mat = [[0,1,1,0],[0,1,1,0],[0,0,0,1]]
+<strong>Output:</strong> 3
 </pre>
 
-<p><strong>示例 2:</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0562.Longest%20Line%20of%20Consecutive%20One%20in%20Matrix/images/long2-grid.jpg" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0562.Longest%20Line%20of%20Consecutive%20One%20in%20Matrix/images/long2-grid.jpg" style="width: 333px; height: 253px;" />
 <pre>
-<strong>输入:</strong> mat = [[1,1,1,1],[0,1,1,0],[0,0,0,1]]
-<strong>输出:</strong> 4
+<strong>Input:</strong> mat = [[1,1,1,1],[0,1,1,0],[0,0,0,1]]
+<strong>Output:</strong> 4
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == mat.length</code></li>
 	<li><code>n == mat[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= m * n &lt;= 10<sup>4</sup></code></li>
-	<li><code>mat[i][j]</code>&nbsp;不是&nbsp;<code>0</code>&nbsp;就是&nbsp;<code>1</code>.</li>
+	<li><code>mat[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][j][k]$ 表示方向为 $k$，且以 $(i, j)$ 结尾的最长连续 $1$ 的长度。其中 $k$ 的取值范围为 $0, 1, 2, 3$，分别表示水平、垂直、对角线、反对角线。
+We define $f[i][j][k]$ to represent the length of the longest consecutive $1$s ending at $(i, j)$ in direction $k$. The value range of $k$ is $0, 1, 2, 3$, representing horizontal, vertical, diagonal, and anti-diagonal directions, respectively.
 
-> 我们也可以用四个二维数组分别表示四个方向的最长连续 $1$ 的长度。
+> We can also use four 2D arrays to represent the length of the longest consecutive $1$s in the four directions.
 
-遍历矩阵，当遇到 $1$ 时，更新 $f[i][j][k]$ 的值。对于每个位置 $(i, j)$，我们只需要更新其四个方向的值即可。然后更新答案。
+We traverse the matrix, and when we encounter $1$, we update the value of $f[i][j][k]$. For each position $(i, j)$, we only need to update the values in its four directions. Then we update the answer.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别为矩阵的行数和列数。
+The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$, where $m$ and $n$ are the number of rows and columns in the matrix, respectively.
 
 <!-- tabs:start -->
 

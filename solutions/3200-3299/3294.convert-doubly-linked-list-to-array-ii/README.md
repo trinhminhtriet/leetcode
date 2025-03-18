@@ -1,68 +1,63 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3294.Convert%20Doubly%20Linked%20List%20to%20Array%20II/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 链表
-    - 双向链表
+    - Array
+    - Linked List
+    - Doubly-Linked List
 ---
 
 <!-- problem:start -->
 
-# [3294. 将双链表转换为数组 II 🔒](https://leetcode.cn/problems/convert-doubly-linked-list-to-array-ii)
+# [3294. Convert Doubly Linked List to Array II 🔒](https://leetcode.com/problems/convert-doubly-linked-list-to-array-ii)
 
-[English Version](/solution/3200-3299/3294.Convert%20Doubly%20Linked%20List%20to%20Array%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个 <strong>双链表&nbsp;</strong>的&nbsp;<b>任意</b>&nbsp;<code>node</code>，其中的节点具有指向下一个节点的指针和上一个节点的指针。</p>
+<p>You are given an <strong>arbitrary</strong> <code>node</code> from a <strong>doubly linked list</strong>, which contains nodes that have a next pointer and a previous pointer.</p>
 
-<p>返回一个 <strong>按顺序</strong> 包含链表中元素的整数数组。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong><span class="example-io">head = [1,2,3,4,5], node = 5</span></p>
-
-<p><span class="example-io"><b>输出：</b>[1,2,3,4,5]</span></p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>head = [4,5,6,7,8], node = 8</span></p>
-
-<p><span class="example-io"><b>输出：</b>[4,5,6,7,8]</span></p>
-</div>
+<p>Return an integer array which contains the elements of the linked list <strong>in order</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">head = [1,2,3,4,5], node = 5</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[1,2,3,4,5]</span></p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">head = [4,5,6,7,8], node = 8</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[4,5,6,7,8]</span></p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>给定列表中的节点数在范围&nbsp;<code>[1, 500]</code>&nbsp;内。</li>
+	<li>The number of nodes in the given list is in the range <code>[1, 500]</code>.</li>
 	<li><code>1 &lt;= Node.val &lt;= 1000</code></li>
-	<li>所有节点的&nbsp;<code>Node.val</code>&nbsp;互不相同。</li>
+	<li>All nodes have unique <code>Node.val</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：遍历链表
+### Solution 1: Traverse the Linked List
 
-我们可以从给定的节点开始，往前遍历链表，直到遍历到头节点，然后再从头节点开始往后遍历链表，将遍历到的节点的值添加到答案数组中。
+We can start from the given node and traverse the linked list backward until we reach the head node. Then, we traverse the linked list forward from the head node, adding the values of the nodes we encounter to the answer array.
 
-遍历结束后，返回答案数组即可。
+After the traversal is complete, return the answer array.
 
-时间复杂度 $O(n)$，其中 $n$ 为链表的节点个数。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the number of nodes in the linked list. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

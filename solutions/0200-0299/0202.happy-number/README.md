@@ -1,59 +1,54 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0202.Happy%20Number/README.md
+difficulty: Easy
 tags:
-    - 哈希表
-    - 数学
-    - 双指针
+    - Hash Table
+    - Math
+    - Two Pointers
 ---
 
 <!-- problem:start -->
 
-# [202. 快乐数](https://leetcode.cn/problems/happy-number)
+# [202. Happy Number](https://leetcode.com/problems/happy-number)
 
-[English Version](/solution/0200-0299/0202.Happy%20Number/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>编写一个算法来判断一个数 <code>n</code> 是不是快乐数。</p>
+<p>Write an algorithm to determine if a number <code>n</code> is happy.</p>
 
-<p><strong>「快乐数」</strong>&nbsp;定义为：</p>
+<p>A <strong>happy number</strong> is a number defined by the following process:</p>
 
 <ul>
-	<li>对于一个正整数，每一次将该数替换为它每个位置上的数字的平方和。</li>
-	<li>然后重复这个过程直到这个数变为 1，也可能是 <strong>无限循环</strong> 但始终变不到 1。</li>
-	<li>如果这个过程 <strong>结果为</strong>&nbsp;1，那么这个数就是快乐数。</li>
+	<li>Starting with any positive integer, replace the number by the sum of the squares of its digits.</li>
+	<li>Repeat the process until the number equals 1 (where it will stay), or it <strong>loops endlessly in a cycle</strong> which does not include 1.</li>
+	<li>Those numbers for which this process <strong>ends in 1</strong> are happy.</li>
 </ul>
 
-<p>如果 <code>n</code> 是 <em>快乐数</em> 就返回 <code>true</code> ；不是，则返回 <code>false</code> 。</p>
+<p>Return <code>true</code> <em>if</em> <code>n</code> <em>is a happy number, and</em> <code>false</code> <em>if not</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 19
-<strong>输出：</strong>true
-<strong>解释：
-</strong>1<sup>2</sup> + 9<sup>2</sup> = 82
+<strong>Input:</strong> n = 19
+<strong>Output:</strong> true
+<strong>Explanation:</strong>
+1<sup>2</sup> + 9<sup>2</sup> = 82
 8<sup>2</sup> + 2<sup>2</sup> = 68
 6<sup>2</sup> + 8<sup>2</sup> = 100
 1<sup>2</sup> + 0<sup>2</sup> + 0<sup>2</sup> = 1
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 2
-<strong>输出：</strong>false
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> false
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 2<sup>31</sup> - 1</code></li>
@@ -61,15 +56,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 模拟
-
-将每次转换后的数字存入哈希表，如果出现重复数字，说明进入了循环，不是快乐数。否则，如果转换后的数字为 $1$，说明是快乐数。
-
-时间复杂度 $O(\log n)$，空间复杂度 $O(\log n)$。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -229,13 +220,7 @@ bool isHappy(int n) {
 
 <!-- solution:start -->
 
-### 方法二：快慢指针
-
-与判断链表是否存在环原理一致。如果 $n$ 是快乐数，那么快指针最终会与慢指针相遇，且相遇时的数字为 $1$；否则，快指针最终会与慢指针相遇，且相遇时的数字不为 $1$。
-
-因此，最后判断快慢指针相遇时的数字是否为 $1$ 即可。
-
-时间复杂度 $O(\log n)$，空间复杂度 $O(1)$。
+### Solution 2
 
 <!-- tabs:start -->
 

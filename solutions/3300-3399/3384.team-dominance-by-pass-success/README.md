@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3384.Team%20Dominance%20by%20Pass%20Success/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3384. 球队传球成功的优势得分 🔒](https://leetcode.cn/problems/team-dominance-by-pass-success)
+# [3384. Team Dominance by Pass Success 🔒](https://leetcode.com/problems/team-dominance-by-pass-success)
 
-[English Version](/solution/3300-3399/3384.Team%20Dominance%20by%20Pass%20Success/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Teams</code></p>
+<p>Table: <code>Teams</code></p>
 
 <pre>
 +-------------+---------+
@@ -25,12 +22,12 @@ tags:
 | player_id   | int     |
 | team_name   | varchar | 
 +-------------+---------+
-player_id 是这张表的唯一主键。
-每一行包含队员的唯一标识以及在该场比赛中参赛的某支队伍的名称。
+player_id is the unique key for this table.
+Each row contains the unique identifier for player and the name of one of the teams participating in that match.
 
 </pre>
 
-<p>表：<code>Passes</code></p>
+<p>Table: <code>Passes</code></p>
 
 <pre>
 +-------------+---------+
@@ -40,38 +37,37 @@ player_id 是这张表的唯一主键。
 | time_stamp  | varchar |
 | pass_to     | int     |
 +-------------+---------+
-(pass_from, time_stamp) 是这张表的主键。
-pass_from 是指向 Teams 表 player_id 字段的外键。
-每一行代表比赛期间的一次传球，time_stamp 表示传球发生的分钟时间（00:00-90:00），
-pass_to 表示 player_id 对应队员接球。
+(pass_from, time_stamp) is the primary key for this table.
+pass_from is a foreign key to player_id from Teams table.
+Each row represents a pass made during a match, time_stamp represents the time in minutes (00:00-90:00) when the pass was made,
+pass_to is the player_id of the player receiving the pass.
 
 </pre>
 
-<p>编写一个解决方案来计算每支球队&nbsp;<strong>在上半场的优势得分</strong>。规则如下：</p>
+<p>Write a solution to calculate the <strong>dominance score</strong> for each team in<strong> both halves of the match</strong>. The rules are as follows:</p>
 
 <ul>
-	<li>一场比赛分为两个半场：<strong>上半场</strong>（<code>00:00</code>-<code><font face="monospace">45:00</font></code>&nbsp;分钟）和&nbsp;<strong>下半场</strong>（<code>45:01</code>-<code>90:00</code>&nbsp;分钟）</li>
-	<li>优势得分是根据成功和截获的传球来计算的：
+	<li>A match is divided into two halves: <strong>first half</strong> (<code>00:00</code>-<code><font face="monospace">45:00</font></code>&nbsp;minutes) and <strong>second half </strong>(<code>45:01</code>-<code>90:00</code> minutes)</li>
+	<li>The dominance score is calculated based on successful and intercepted passes:
 	<ul>
-		<li>当 pass_to 是 <strong>同球队</strong>&nbsp;的队员：+<code>1</code> 分</li>
-		<li>当 pass_to 是 <strong>对方球队</strong>&nbsp;的队员（截获）：<code>-1</code> 分</li>
+		<li>When pass_to is a player from the <strong>same team</strong>: +<code>1</code> point</li>
+		<li>When pass_to is a player from the <strong>opposing team</strong> (interception): <code>-1</code> point</li>
 	</ul>
 	</li>
-	<li>更高的优势得分表明传球表现更好</li>
+	<li>A higher dominance score indicates better passing performance</li>
 </ul>
 
-<p>返回结果表以&nbsp;<code>team_name</code> 和&nbsp;<code>half_number</code> <strong>升序</strong>&nbsp;排序。</p>
+<p>Return <em>the result table ordered </em><em>by</em>&nbsp;<code>team_name</code> and&nbsp;<code>half_number</code> <em>in <strong>ascending</strong> order</em>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p>Teams 表：</p>
+<p>Teams table:</p>
 
 <pre class="example-io">
 +------------+-----------+
@@ -86,7 +82,7 @@ pass_to 表示 player_id 对应队员接球。
 +------------+-----------+
 </pre>
 
-<p>Passes 表：</p>
+<p>Passes table:</p>
 
 <pre class="example-io">
 +-----------+------------+---------+
@@ -103,7 +99,7 @@ pass_to 表示 player_id 对应队员接球。
 +-----------+------------+---------+
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +-----------+-------------+-----------+
@@ -116,56 +112,56 @@ pass_to 表示 player_id 对应队员接球。
 +-----------+-------------+-----------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li><strong>前半场（00:00-45:00）：</strong>
+	<li><strong>First Half (00:00-45:00):</strong>
 
     <ul>
-    	<li>阿森纳的传球：
+    	<li>Arsenal&#39;s passes:
     	<ul>
-    		<li>1 → 2 (00:15)：成功传球（+1）</li>
-    		<li>2 → 3 (00:45)：成功传球（+1）</li>
-    		<li>3 → 1 (01:15)：成功传球（+1）</li>
+    		<li>1 &rarr; 2 (00:15): Successful pass (+1)</li>
+    		<li>2 &rarr; 3 (00:45): Successful pass (+1)</li>
+    		<li>3 &rarr; 1 (01:15): Successful pass (+1)</li>
     	</ul>
     	</li>
-    	<li>切尔西的传球：
+    	<li>Chelsea&#39;s passes:
     	<ul>
-    		<li>4 → 1 (00:30): 被阿森纳截获（-1）</li>
+    		<li>4 &rarr; 1 (00:30): Intercepted by Arsenal (-1)</li>
     	</ul>
     	</li>
     </ul>
     </li>
-    <li><strong>下半场（45:01-90:00）：</strong>
+    <li><strong>Second Half (45:01-90:00):</strong>
     <ul>
-    	<li>阿森纳的传球：
+    	<li>Arsenal&#39;s passes:
     	<ul>
-    		<li>2 → 3 (46:00)：成功传球（+1）</li>
-    		<li>3 → 4 (46:15)：被切尔西截获&nbsp;(-1)</li>
-    		<li>1 → 2 (46:45)：成功传球（+1）</li>
+    		<li>2 &rarr; 3 (46:00): Successful pass (+1)</li>
+    		<li>3 &rarr; 4 (46:15): Intercepted by Chelsea (-1)</li>
+    		<li>1 &rarr; 2 (46:45): Successful pass (+1)</li>
     	</ul>
     	</li>
-    	<li>切尔西的传球：
+    	<li>Chelsea&#39;s passes:
     	<ul>
-    		<li>5 → 6 (46:30)：成功传球（+1）</li>
+    		<li>5 &rarr; 6 (46:30): Successful pass (+1)</li>
     	</ul>
     	</li>
     </ul>
     </li>
-    <li>结果以 team_name 和 half_number 升序排序</li>
+    <li>The results are ordered by team_name and then half_number</li>
 
 </ul>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：等值连接 + 分组求和
+### Solution 1: Equi-Join + Group By and Sum
 
-我们可以通过等值连接，找到每次传球的发起方和接收方所在的球队，然后根据传球的时间戳判断传球发生在上半场还是下半场，根据传球的发起方和接收方所在的球队是否相同，计算出每次传球的优势值，最后按照球队名称和半场编号进行分组求和，得到每支球队在上半场和下半场的优势值。
+We can use an equi-join to find the teams of both the passer and the receiver for each pass. Then, based on the timestamp, we determine whether the pass occurred in the first half or the second half. By checking if the passer and receiver belong to the same team, we calculate the advantage value for each pass. Finally, we group by team name and half number, and sum the advantage values to get the advantage value for each team in the first and second halves.
 
 <!-- tabs:start -->
 

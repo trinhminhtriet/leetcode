@@ -1,83 +1,78 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3284.Sum%20of%20Consecutive%20Subarrays/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 双指针
-    - 动态规划
+    - Array
+    - Two Pointers
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3284. 连续子数组的和 🔒](https://leetcode.cn/problems/sum-of-consecutive-subarrays)
+# [3284. Sum of Consecutive Subarrays 🔒](https://leetcode.com/problems/sum-of-consecutive-subarrays)
 
-[English Version](/solution/3200-3299/3284.Sum%20of%20Consecutive%20Subarrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>如果一个长度为&nbsp;<code>n</code>&nbsp;的数组&nbsp;<code>arr</code>&nbsp;符合下面其中一个条件，可以称它 <strong>连续</strong>：</p>
+<p>We call an array <code>arr</code> of length <code>n</code> <strong>consecutive</strong> if one of the following holds:</p>
 
 <ul>
-	<li>对于所有的&nbsp;<code>1 &lt;= i &lt; n</code>，<code>arr[i] - arr[i - 1] == 1</code>。</li>
-	<li>对于所有的&nbsp;<code>1 &lt;= i &lt; n</code>，<code>arr[i] - arr[i - 1] == -1</code>。</li>
+	<li><code>arr[i] - arr[i - 1] == 1</code> for <em>all</em> <code>1 &lt;= i &lt; n</code>.</li>
+	<li><code>arr[i] - arr[i - 1] == -1</code> for <em>all</em> <code>1 &lt;= i &lt; n</code>.</li>
 </ul>
 
-<p>数组的 <strong>值</strong> 是其元素的和。</p>
+<p>The <strong>value</strong> of an array is the sum of its elements.</p>
 
-<p>例如，<code>[3, 4, 5]</code>&nbsp;是一个值为 12 的连续数组，并且&nbsp;<code>[9, 8]</code>&nbsp;是另一个值为 17 的连续数组。而&nbsp;<code>[3, 4, 3]</code> 和&nbsp;<code>[8, 6]</code>&nbsp;都不连续。</p>
+<p>For example, <code>[3, 4, 5]</code> is a consecutive array of value 12 and <code>[9, 8]</code> is another of value 17. While <code>[3, 4, 3]</code> and <code>[8, 6]</code> are not consecutive.</p>
 
-<p>给定一个整数数组&nbsp;<code>nums</code>，返回所有 <strong>连续</strong> <span data-keyword="subarray-nonempty">子数组</span> 的 <strong>值</strong> 之和。</p>
+<p>Given an array of integers <code>nums</code>, return the <em>sum</em> of the <strong>values</strong> of all <strong>consecutive </strong><span data-keyword="subarray-nonempty">subarrays</span>.</p>
 
-<p>由于答案可能很大，返回它对&nbsp;<code>10<sup>9 </sup>+ 7</code>&nbsp;<strong>取模</strong>&nbsp;的值。</p>
+<p>Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9 </sup>+ 7.</code></p>
 
-<p><strong>注意</strong>&nbsp;长度为 1 的数组也被认为是连续的。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,2,3]</span></p>
-
-<p><span class="example-io"><b>输出：</b>20</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>连续子数组为：<code>[1]</code>，<code>[2]</code>，<code>[3]</code>，<code>[1, 2]</code>，<code>[2, 3]</code>，<code>[1, 2, 3]</code>。<br />
-它们的值之和为：<code>1 + 2 + 3 + 3 + 5 + 6 = 20</code>。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong><span class="example-io">nums = [1,3,5,7]</span></p>
-
-<p><span class="example-io"><b>输出：</b>16</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>连续子数组为：<code>[1]</code>，<code>[3]</code>，<code>[5]</code>，<code>[7]</code>。<br />
-它们的值之和为：<code>1 + 3 + 5 + 7 = 16</code>。</p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [7,6,1,2]</span></p>
-
-<p><strong>输出：</strong><span class="example-io">32</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>连续子数组为：<code>[7]</code>，<code>[6]</code>，<code>[1]</code>，<code>[2]</code>，<code>[7, 6]</code>，<code>[1, 2]</code>。<br />
-它们的值之和为&nbsp;<code>7 + 6 + 1 + 2 + 13 + 3 = 32</code>。</p>
-</div>
+<p><strong>Note</strong> that an array of length 1 is also considered consecutive.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">20</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The consecutive subarrays are: <code>[1]</code>, <code>[2]</code>, <code>[3]</code>, <code>[1, 2]</code>, <code>[2, 3]</code>, <code>[1, 2, 3]</code>.<br />
+Sum of their values would be: <code>1 + 2 + 3 + 3 + 5 + 6 = 20</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,3,5,7]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">16</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The consecutive subarrays are: <code>[1]</code>, <code>[3]</code>, <code>[5]</code>, <code>[7]</code>.<br />
+Sum of their values would be: <code>1 + 3 + 5 + 7 = 16</code>.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [7,6,1,2]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">32</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The consecutive subarrays are: <code>[7]</code>, <code>[6]</code>, <code>[1]</code>, <code>[2]</code>, <code>[7, 6]</code>, <code>[1, 2]</code>.<br />
+Sum of their values would be: <code>7 + 6 + 1 + 2 + 13 + 3 = 32</code>.</p>
+</div>
+
+<p>&nbsp;</p>
 <p><strong>Constraints:</strong></p>
 
 <ul>
@@ -87,25 +82,25 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递推
+### Solution 1: Recurrence
 
-我们定义两个变量 $f$ 和 $g$，分别表示以当前元素结尾的递增子数组的长度和以当前元素结尾的递减子数组的长度，用另外两个变量 $s$ 和 $t$ 分别表示以当前元素结尾的递增子数组的和和以当前元素结尾的递减子数组的和。初始时 $f = g = 1$，而 $s = t = \textit{nums}[0]$。
+We define two variables $f$ and $g$, representing the length of the increasing subarray ending at the current element and the length of the decreasing subarray ending at the current element, respectively. We use two other variables $s$ and $t$ to represent the sum of the increasing subarray ending at the current element and the sum of the decreasing subarray ending at the current element, respectively. Initially, $f = g = 1$, and $s = t = \textit{nums}[0]$.
 
-接下来，我们从第二个元素开始遍历数组，对于当前元素 $\textit{nums}[i]$，我们分别考虑以 $\textit{nums}[i]$ 结尾的递增子数组和递减子数组。
+Next, we traverse the array starting from the second element. For the current element $\textit{nums}[i]$, we consider the increasing subarray and the decreasing subarray ending at $\textit{nums}[i]$.
 
-如果 $\textit{nums}[i] - \textit{nums}[i - 1] = 1$，那么 $\textit{nums}[i]$ 可以加入到以 $\textit{nums}[i - 1]$ 结尾的递增子数组中，此时我们更新 $f$ 和 $s$，并将 $s$ 加到答案中；
+If $\textit{nums}[i] - \textit{nums}[i - 1] = 1$, then $\textit{nums}[i]$ can be added to the increasing subarray ending at $\textit{nums}[i - 1]$. In this case, we update $f$ and $s$, and add $s$ to the answer.
 
-如果 $\textit{nums}[i] - \textit{nums}[i - 1] = -1$，那么 $\textit{nums}[i]$ 可以加入到以 $\textit{nums}[i - 1]$ 结尾的递减子数组中，此时我们更新 $g$ 和 $t$，并将 $t$ 加到答案中。
+If $\textit{nums}[i] - \textit{nums}[i - 1] = -1$, then $\textit{nums}[i]$ can be added to the decreasing subarray ending at $\textit{nums}[i - 1]$. In this case, we update $g$ and $t$, and add $t$ to the answer.
 
-否则，$\textit{nums}[i]$ 无法加入到以 $\textit{nums}[i - 1]$ 结尾的递增子数组或递减子数组中，我们将 $\textit{nums}[i]$ 加到答案中。
+Otherwise, $\textit{nums}[i]$ cannot be added to the increasing or decreasing subarray ending at $\textit{nums}[i - 1]$. We add $\textit{nums}[i]$ to the answer.
 
-遍历结束后，返回答案即可。
+After the traversal, return the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

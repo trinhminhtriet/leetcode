@@ -1,53 +1,48 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2829.Determine%20the%20Minimum%20Sum%20of%20a%20k-avoiding%20Array/README.md
+difficulty: Medium
 rating: 1347
-source: 第 359 场周赛 Q2
+source: Weekly Contest 359 Q2
 tags:
-    - 贪心
-    - 数学
+    - Greedy
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [2829. k-avoiding 数组的最小总和](https://leetcode.cn/problems/determine-the-minimum-sum-of-a-k-avoiding-array)
+# [2829. Determine the Minimum Sum of a k-avoiding Array](https://leetcode.com/problems/determine-the-minimum-sum-of-a-k-avoiding-array)
 
-[English Version](/solution/2800-2899/2829.Determine%20the%20Minimum%20Sum%20of%20a%20k-avoiding%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数 <code>n</code> 和 <code>k</code> 。</p>
+<p>You are given two integers,&nbsp;<code>n</code> and <code>k</code>.</p>
 
-<p>对于一个由 <strong>不同</strong> 正整数组成的数组，如果其中不存在任何求和等于 k 的不同元素对，则称其为 <strong>k-avoiding</strong> 数组。</p>
+<p>An array of <strong>distinct</strong> positive integers is called a <b>k-avoiding</b> array if there does not exist any pair of distinct elements that sum to <code>k</code>.</p>
 
-<p>返回长度为 <code>n</code> 的 <strong>k-avoiding</strong> 数组的可能的最小总和。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 5, k = 4
-<strong>输出：</strong>18
-<strong>解释：</strong>设若 k-avoiding 数组为 [1,2,4,5,6] ，其元素总和为 18 。
-可以证明不存在总和小于 18 的 k-avoiding 数组。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 2, k = 6
-<strong>输出：</strong>3
-<strong>解释：</strong>可以构造数组 [1,2] ，其元素总和为 3 。
-可以证明不存在总和小于 3 的 k-avoiding 数组。 
-</pre>
+<p>Return <em>the <strong>minimum</strong> possible sum of a k-avoiding array of length </em><code>n</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 5, k = 4
+<strong>Output:</strong> 18
+<strong>Explanation:</strong> Consider the k-avoiding array [1,2,4,5,6], which has a sum of 18.
+It can be proven that there is no k-avoiding array with a sum less than 18.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 2, k = 6
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We can construct the array [1,2], which has a sum of 3.
+It can be proven that there is no k-avoiding array with a sum less than 3.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n, k &lt;= 50</code></li>
@@ -55,15 +50,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 模拟
+### Solution 1: Greedy + Simulation
 
-我们从正整数 $i=1$ 开始，依次判断 $i$ 是否可以加入数组中，如果可以加入，则将 $i$ 加入数组中，累加到答案中，然后将 $k-i$ 置为已访问，表示 $k-i$ 不能加入数组中。循环直到数组长度为 $n$。
+We start from the positive integer $i=1$, and judge whether $i$ can be added to the array in turn. If it can be added, we add $i$ to the array, accumulate it to the answer, and then mark $k-i$ as visited, indicating that $k-i$ cannot be added to the array. The loop continues until the length of the array is $n$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为数组长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

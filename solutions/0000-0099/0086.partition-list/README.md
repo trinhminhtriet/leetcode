@@ -1,63 +1,58 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0086.Partition%20List/README.md
+difficulty: Medium
 tags:
-    - 链表
-    - 双指针
+    - Linked List
+    - Two Pointers
 ---
 
 <!-- problem:start -->
 
-# [86. 分隔链表](https://leetcode.cn/problems/partition-list)
+# [86. Partition List](https://leetcode.com/problems/partition-list)
 
-[English Version](/solution/0000-0099/0086.Partition%20List/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个链表的头节点 <code>head</code> 和一个特定值<em> </em><code>x</code> ，请你对链表进行分隔，使得所有 <strong>小于</strong> <code>x</code> 的节点都出现在 <strong>大于或等于</strong> <code>x</code> 的节点之前。</p>
+<p>Given the <code>head</code> of a linked list and a value <code>x</code>, partition it such that all nodes <strong>less than</strong> <code>x</code> come before nodes <strong>greater than or equal</strong> to <code>x</code>.</p>
 
-<p>你应当 <strong>保留</strong> 两个分区中每个节点的初始相对位置。</p>
+<p>You should <strong>preserve</strong> the original relative order of the nodes in each of the two partitions.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0086.Partition%20List/images/partition.jpg" style="width: 662px; height: 222px;" />
 <pre>
-<strong>输入：</strong>head = [1,4,3,2,5,2], x = 3
-<strong>输出</strong>：[1,2,2,4,3,5]
+<strong>Input:</strong> head = [1,4,3,2,5,2], x = 3
+<strong>Output:</strong> [1,2,2,4,3,5]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>head = [2,1], x = 2
-<strong>输出</strong>：[1,2]
+<strong>Input:</strong> head = [2,1], x = 2
+<strong>Output:</strong> [1,2]
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>链表中节点的数目在范围 <code>[0, 200]</code> 内</li>
-	<li><code>-100 <= Node.val <= 100</code></li>
-	<li><code>-200 <= x <= 200</code></li>
+	<li>The number of nodes in the list is in the range <code>[0, 200]</code>.</li>
+	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
+	<li><code>-200 &lt;= x &lt;= 200</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们创建两个链表 $l$ 和 $r$，一个用来存储小于 $x$ 的节点，另一个用来存储大于等于 $x$ 的节点。然后我们将它们拼接起来。
+We create two linked lists $l$ and $r$, one to store nodes less than $x$ and the other to store nodes greater than or equal to $x$. Then we concatenate them.
 
-时间复杂度 $O(n)$，其中 $n$ 是原链表的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the original linked list. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

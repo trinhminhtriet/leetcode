@@ -1,63 +1,70 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0493.Reverse%20Pairs/README.md
+difficulty: Hard
 tags:
-    - 树状数组
-    - 线段树
-    - 数组
-    - 二分查找
-    - 分治
-    - 有序集合
-    - 归并排序
+    - Binary Indexed Tree
+    - Segment Tree
+    - Array
+    - Binary Search
+    - Divide and Conquer
+    - Ordered Set
+    - Merge Sort
 ---
 
 <!-- problem:start -->
 
-# [493. 翻转对](https://leetcode.cn/problems/reverse-pairs)
+# [493. Reverse Pairs](https://leetcode.com/problems/reverse-pairs)
 
-[English Version](/solution/0400-0499/0493.Reverse%20Pairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个数组&nbsp;<code>nums</code>&nbsp;，如果&nbsp;<code>i &lt; j</code>&nbsp;且&nbsp;<code>nums[i] &gt; 2*nums[j]</code>&nbsp;我们就将&nbsp;<code>(i, j)</code>&nbsp;称作一个<strong><em>重要翻转对</em></strong>。</p>
+<p>Given an integer array <code>nums</code>, return <em>the number of <strong>reverse pairs</strong> in the array</em>.</p>
 
-<p>你需要返回给定数组中的重要翻转对的数量。</p>
+<p>A <strong>reverse pair</strong> is a pair <code>(i, j)</code> where:</p>
 
-<p><strong>示例 1:</strong></p>
+<ul>
+	<li><code>0 &lt;= i &lt; j &lt; nums.length</code> and</li>
+	<li><code>nums[i] &gt; 2 * nums[j]</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>: [1,3,2,3,1]
-<strong>输出</strong>: 2
+<strong>Input:</strong> nums = [1,3,2,3,1]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The reverse pairs are:
+(1, 4) --&gt; nums[1] = 3, nums[4] = 1, 3 &gt; 2 * 1
+(3, 4) --&gt; nums[3] = 3, nums[4] = 1, 3 &gt; 2 * 1
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入</strong>: [2,4,3,5,1]
-<strong>输出</strong>: 3
+<strong>Input:</strong> nums = [2,4,3,5,1]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The reverse pairs are:
+(1, 4) --&gt; nums[1] = 4, nums[4] = 1, 4 &gt; 2 * 1
+(2, 4) --&gt; nums[2] = 3, nums[4] = 1, 3 &gt; 2 * 1
+(3, 4) --&gt; nums[3] = 5, nums[4] = 1, 5 &gt; 2 * 1
 </pre>
 
-<p><strong>注意:</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
-<ol>
-	<li>给定数组的长度不会超过<code>50000</code>。</li>
-	<li>输入数组中的所有数字都在32位整数的表示范围内。</li>
-</ol>
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 5 * 10<sup>4</sup></code></li>
+	<li><code>-2<sup>31</sup> &lt;= nums[i] &lt;= 2<sup>31</sup> - 1</code></li>
+</ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：归并排序
-
-归并排序的过程中，如果左边的数大于右边的数，则右边的数与左边的数之后的数都构成逆序对。
-
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -248,20 +255,7 @@ func reversePairs(nums []int) int {
 
 <!-- solution:start -->
 
-### 方法二：树状数组
-
-树状数组，也称作“二叉索引树”（Binary Indexed Tree）或 Fenwick 树。 它可以高效地实现如下两个操作：
-
-1. **单点更新** `update(x, delta)`： 把序列 x 位置的数加上一个值 delta；
-1. **前缀和查询** `query(x)`：查询序列 `[1,...x]` 区间的区间和，即位置 x 的前缀和。
-
-这两个操作的时间复杂度均为 $O(\log n)$。
-
-树状数组最基本的功能就是求比某点 x 小的点的个数（这里的比较是抽象的概念，可以是数的大小、坐标的大小、质量的大小等等）。
-
-比如给定数组 `a[5] = {2, 5, 3, 4, 1}`，求 `b[i] = 位置 i 左边小于等于 a[i] 的数的个数`。对于此例，`b[5] = {0, 1, 1, 2, 0}`。
-
-解决方案是直接遍历数组，每个位置先求出 `query(a[i])`，然后再修改树状数组 `update(a[i], 1)` 即可。当数的范围比较大时，需要进行离散化，即先进行去重并排序，然后对每个数字进行编号。
+### Solution 2
 
 <!-- tabs:start -->
 
@@ -482,14 +476,7 @@ func reversePairs(nums []int) int {
 
 <!-- solution:start -->
 
-### 方法三：线段树
-
-线段树将整个区间分割为多个不连续的子区间，子区间的数量不超过 `log(width)`。更新某个元素的值，只需要更新 `log(width)` 个区间，并且这些区间都包含在一个包含该元素的大区间内。
-
--   线段树的每个节点代表一个区间；
--   线段树具有唯一的根节点，代表的区间是整个统计范围，如 `[1, N]`；
--   线段树的每个叶子节点代表一个长度为 1 的元区间 `[x, x]`；
--   对于每个内部节点 `[l, r]`，它的左儿子是 `[l, mid]`，右儿子是 `[mid + 1, r]`, 其中 `mid = ⌊(l + r) / 2⌋` (即向下取整)。
+### Solution 3
 
 <!-- tabs:start -->
 

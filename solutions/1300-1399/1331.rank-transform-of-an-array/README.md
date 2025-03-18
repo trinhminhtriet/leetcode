@@ -1,59 +1,57 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1331.Rank%20Transform%20of%20an%20Array/README.md
+difficulty: Easy
 rating: 1355
-source: 第 18 场双周赛 Q1
+source: Biweekly Contest 18 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 排序
+    - Array
+    - Hash Table
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1331. 数组序号转换](https://leetcode.cn/problems/rank-transform-of-an-array)
+# [1331. Rank Transform of an Array](https://leetcode.com/problems/rank-transform-of-an-array)
 
-[English Version](/solution/1300-1399/1331.Rank%20Transform%20of%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>arr</code> ，请你将数组中的每个元素替换为它们排序后的序号。</p>
+<p>Given an array of integers&nbsp;<code>arr</code>, replace each element with its rank.</p>
 
-<p>序号代表了一个元素有多大。序号编号的规则如下：</p>
+<p>The rank represents how large the element is. The rank has the following rules:</p>
 
 <ul>
-	<li>序号从 1 开始编号。</li>
-	<li>一个元素越大，那么序号越大。如果两个元素相等，那么它们的序号相同。</li>
-	<li>每个数字的序号都应该尽可能地小。</li>
+	<li>Rank is an integer starting from 1.</li>
+	<li>The larger the element, the larger the rank. If two elements are equal, their rank must be the same.</li>
+	<li>Rank should be as small as possible.</li>
 </ul>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<pre>
+<strong>Input:</strong> arr = [40,10,20,30]
+<strong>Output:</strong> [4,1,2,3]
+<strong>Explanation</strong>: 40 is the largest element. 10 is the smallest. 20 is the second smallest. 30 is the third smallest.</pre>
 
-<pre><strong>输入：</strong>arr = [40,10,20,30]
-<strong>输出：</strong>[4,1,2,3]
-<strong>解释：</strong>40 是最大的元素。 10 是最小的元素。 20 是第二小的数字。 30 是第三小的数字。</pre>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>arr = [100,100,100]
-<strong>输出：</strong>[1,1,1]
-<strong>解释：</strong>所有元素有相同的序号。
+<pre>
+<strong>Input:</strong> arr = [100,100,100]
+<strong>Output:</strong> [1,1,1]
+<strong>Explanation</strong>: Same elements share the same rank.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>arr = [37,12,28,9,100,56,80,5,12]
-<strong>输出：</strong>[5,3,4,2,8,6,7,1,3]
+<pre>
+<strong>Input:</strong> arr = [37,12,28,9,100,56,80,5,12]
+<strong>Output:</strong> [5,3,4,2,8,6,7,1,3]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= arr.length &lt;= 10<sup>5</sup></code></li>
@@ -62,17 +60,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：离散化
+### Solution 1: Discretization
 
-我们先复制一个数组 $t$，然后对其进行排序并去重，得到一个长度为 $m$ 且严格单调递增的数组。
+First, we copy an array $t$, then sort and deduplicate it to obtain an array of length $m$ that is strictly monotonically increasing.
 
-然后我们遍历原数组 $arr$，对于其中的每个元素 $x$，我们利用二分查找得到 $x$ 在 $t$ 中的位置，那么该位置加一就是 $x$ 的排名。
+Next, we traverse the original array $arr$. For each element $x$ in the array, we use binary search to find the position of $x$ in $t$. The position plus one is the rank of $x$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $arr$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $arr$.
 
 <!-- tabs:start -->
 
@@ -185,7 +183,7 @@ function arrayRankTransform(arr: number[]): number[] {
 
 <!-- solution:start -->
 
-### 方法二：排序 + 哈希表
+### Solution 2: Sorting + Hash Map
 
 <!-- tabs:start -->
 

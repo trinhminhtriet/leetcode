@@ -1,81 +1,76 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1679.Max%20Number%20of%20K-Sum%20Pairs/README.md
+difficulty: Medium
 rating: 1345
-source: 第 218 场周赛 Q2
+source: Weekly Contest 218 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 双指针
-    - 排序
+    - Array
+    - Hash Table
+    - Two Pointers
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1679. K 和数对的最大数目](https://leetcode.cn/problems/max-number-of-k-sum-pairs)
+# [1679. Max Number of K-Sum Pairs](https://leetcode.com/problems/max-number-of-k-sum-pairs)
 
-[English Version](/solution/1600-1699/1679.Max%20Number%20of%20K-Sum%20Pairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> 。</p>
+<p>You are given an integer array <code>nums</code> and an integer <code>k</code>.</p>
 
-<p>每一步操作中，你需要从数组中选出和为 <code>k</code> 的两个整数，并将它们移出数组。</p>
+<p>In one operation, you can pick two numbers from the array whose sum equals <code>k</code> and remove them from the array.</p>
 
-<p>返回你可以对数组执行的最大操作数。</p>
+<p>Return <em>the maximum number of operations you can perform on the array</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,3,4], k = 5
-<strong>输出：</strong>2
-<strong>解释：</strong>开始时 nums = [1,2,3,4]：
-- 移出 1 和 4 ，之后 nums = [2,3]
-- 移出 2 和 3 ，之后 nums = []
-不再有和为 5 的数对，因此最多执行 2 次操作。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,1,3,4,3], k = 6
-<strong>输出：</strong>1
-<strong>解释：</strong>开始时 nums = [3,1,3,4,3]：
-- 移出前两个 3 ，之后nums = [1,4,3]
-不再有和为 6 的数对，因此最多执行 1 次操作。</pre>
+<strong>Input:</strong> nums = [1,2,3,4], k = 5
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> Starting with nums = [1,2,3,4]:
+- Remove numbers 1 and 4, then nums = [2,3]
+- Remove numbers 2 and 3, then nums = []
+There are no more pairs that sum up to 5, hence a total of 2 operations.</pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [3,1,3,4,3], k = 6
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> Starting with nums = [3,1,3,4,3]:
+- Remove the first two 3&#39;s, then nums = [1,4,3]
+There are no more pairs that sum up to 6, hence a total of 1 operation.</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= nums.length <= 10<sup>5</sup></code></li>
-	<li><code>1 <= nums[i] <= 10<sup>9</sup></code></li>
-	<li><code>1 <= k <= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= k &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序
+### Solution 1: Sorting
 
-我们对 $nums$ 进行排序。然后 $l$, $r$ 分别指向 $nums$ 首尾元素，判断两整数之和 $s$ 与 $k$ 的大小关系。
+We sort $nums$. Then $l$ and $r$ point to the first and last elements of $nums$ respectively, and we compare the sum $s$ of the two integers with $k$.
 
--   若 $s = k$，说明找到了两个整数，满足和为 $k$，答案加一，然后 $l$, $r$ 向中间移动；
--   若 $s \gt k$，则 $r$ 指针向左移动；
--   若 $s \lt k$，则 $l$ 指针向右移动；
--   继续循环判断，直至 $l \geq r$。
+-   If $s = k$, it means that we have found two integers whose sum is $k$. We increment the answer and then move $l$ and $r$ towards the middle;
+-   If $s > k$, then we move the $r$ pointer to the left;
+-   If $s < k$, then we move the $l$ pointer to the right;
+-   We continue the loop until $l \geq r$.
 
-循环结束，返回答案。
+After the loop ends, we return the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为 $nums$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of $nums$.
 
 <!-- tabs:start -->
 
@@ -222,15 +217,15 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：哈希表
+### Solution 2: Hash Table
 
-我们使用哈希表 $cnt$ 记录当前剩余整数及其出现的次数。
+We use a hash table $cnt$ to record the current remaining integers and their occurrence counts.
 
-遍历 $nums$，对于当前整数 $x$，判断 $k - x$ 是否在 $cnt$ 中，若存在，则说明找到了两个整数，满足和为 $k$，答案加一，然后将 $k - x$ 的出现次数减一；否则，将 $x$ 的出现次数加一。
+We iterate over $nums$. For the current integer $x$, we check if $k - x$ is in $cnt$. If it exists, it means that we have found two integers whose sum is $k$. We increment the answer and then decrement the occurrence count of $k - x$; otherwise, we increment the occurrence count of $x$.
 
-遍历结束，返回答案。
+After the iteration ends, we return the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of $nums$.
 
 <!-- tabs:start -->
 

@@ -1,54 +1,48 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0912.Sort%20an%20Array/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 分治
-    - 桶排序
-    - 计数排序
-    - 基数排序
-    - 排序
-    - 堆（优先队列）
-    - 归并排序
+    - Array
+    - Divide and Conquer
+    - Bucket Sort
+    - Counting Sort
+    - Radix Sort
+    - Sorting
+    - Heap (Priority Queue)
+    - Merge Sort
 ---
 
 <!-- problem:start -->
 
-# [912. 排序数组](https://leetcode.cn/problems/sort-an-array)
+# [912. Sort an Array](https://leetcode.com/problems/sort-an-array)
 
-[English Version](/solution/0900-0999/0912.Sort%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code>，请你将该数组升序排列。</p>
+<p>Given an array of integers <code>nums</code>, sort the array in ascending order and return it.</p>
 
-<p>你必须在 <strong>不使用任何内置函数</strong> 的情况下解决问题，时间复杂度为 <code>O(nlog(n))</code>，并且空间复杂度尽可能小。</p>
+<p>You must solve the problem <strong>without using any built-in</strong> functions in <code>O(nlog(n))</code> time complexity and with the smallest space complexity possible.</p>
 
 <p>&nbsp;</p>
-
-<ol>
-</ol>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [5,2,3,1]
-<strong>输出：</strong>[1,2,3,5]
+<strong>Input:</strong> nums = [5,2,3,1]
+<strong>Output:</strong> [1,2,3,5]
+<strong>Explanation:</strong> After sorting the array, the positions of some numbers are not changed (for example, 2 and 3), while the positions of other numbers are changed (for example, 1 and 5).
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [5,1,1,2,0,0]
-<strong>输出：</strong>[0,0,1,1,2,5]
+<strong>Input:</strong> nums = [5,1,1,2,0,0]
+<strong>Output:</strong> [0,0,1,1,2,5]
+<strong>Explanation:</strong> Note that the values of nums are not necessairly unique.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 5 * 10<sup>4</sup></code></li>
@@ -57,15 +51,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：快速排序
-
-快速排序是一种高效的排序算法。它的基本思想是通过一趟排序将待排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。
-
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组长度。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -330,11 +320,7 @@ class Solution {
 
 <!-- solution:start -->
 
-### 方法二：归并排序
-
-归并排序是一种分治算法，其思想是将待排序的数据序列不断地折半拆分，直到每个数据块只有一个元素为止，然后再按照拆分的顺序将每个数据块两两合并，在合并的过程中进行排序，最终得到一个有序的数据序列。
-
-归并排序是一种稳定的排序算法，时间复杂度为 $O(n \times \log n)$，空间复杂度为 $O(n)$。其中 $n$ 为数组长度。
+### Solution 2
 
 <!-- tabs:start -->
 
@@ -569,7 +555,7 @@ var sortArray = function (nums) {
 
 <!-- solution:start -->
 
-### 方法三
+### Solution 3
 
 <!-- tabs:start -->
 

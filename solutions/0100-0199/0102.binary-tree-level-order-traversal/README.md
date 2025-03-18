@@ -1,73 +1,68 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0102.Binary%20Tree%20Level%20Order%20Traversal/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 广度优先搜索
-    - 二叉树
+    - Tree
+    - Breadth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [102. 二叉树的层序遍历](https://leetcode.cn/problems/binary-tree-level-order-traversal)
+# [102. Binary Tree Level Order Traversal](https://leetcode.com/problems/binary-tree-level-order-traversal)
 
-[English Version](/solution/0100-0199/0102.Binary%20Tree%20Level%20Order%20Traversal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你二叉树的根节点 <code>root</code> ，返回其节点值的 <strong>层序遍历</strong> 。 （即逐层地，从左到右访问所有节点）。</p>
+<p>Given the <code>root</code> of a binary tree, return <em>the level order traversal of its nodes&#39; values</em>. (i.e., from left to right, level by level).</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0102.Binary%20Tree%20Level%20Order%20Traversal/images/tree1.jpg" style="width: 277px; height: 302px;" />
 <pre>
-<strong>输入：</strong>root = [3,9,20,null,null,15,7]
-<strong>输出：</strong>[[3],[9,20],[15,7]]
+<strong>Input:</strong> root = [3,9,20,null,null,15,7]
+<strong>Output:</strong> [[3],[9,20],[15,7]]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>root = [1]
-<strong>输出：</strong>[[1]]
+<strong>Input:</strong> root = [1]
+<strong>Output:</strong> [[1]]
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>root = []
-<strong>输出：</strong>[]
+<strong>Input:</strong> root = []
+<strong>Output:</strong> []
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点数目在范围 <code>[0, 2000]</code> 内</li>
+	<li>The number of nodes in the tree is in the range <code>[0, 2000]</code>.</li>
 	<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
+### Solution 1: BFS
 
-我们可以使用 BFS 的方法来解决这道题。首先将根节点入队，然后不断地进行以下操作，直到队列为空：
+We can use the BFS method to solve this problem. First, enqueue the root node, then continuously perform the following operations until the queue is empty:
 
--   遍历当前队列中的所有节点，将它们的值存储到一个临时数组 $t$ 中，然后将它们的孩子节点入队。
--   将临时数组 $t$ 存储到答案数组中。
+-   Traverse all nodes in the current queue, store their values in a temporary array $t$, and then enqueue their child nodes.
+-   Store the temporary array $t$ in the answer array.
 
-最后返回答案数组即可。
+Finally, return the answer array.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点个数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 

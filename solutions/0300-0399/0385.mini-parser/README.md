@@ -1,74 +1,69 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0385.Mini%20Parser/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 深度优先搜索
-    - 字符串
+    - Stack
+    - Depth-First Search
+    - String
 ---
 
 <!-- problem:start -->
 
-# [385. 迷你语法分析器](https://leetcode.cn/problems/mini-parser)
+# [385. Mini Parser](https://leetcode.com/problems/mini-parser)
 
-[English Version](/solution/0300-0399/0385.Mini%20Parser/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个字符串 s 表示一个整数嵌套列表，实现一个解析它的语法分析器并返回解析的结果&nbsp;<code>NestedInteger</code> 。</p>
+<p>Given a string s represents the serialization of a nested list, implement a parser to deserialize it and return <em>the deserialized</em> <code>NestedInteger</code>.</p>
 
-<p>列表中的每个元素只可能是整数或整数嵌套列表</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "324",
-<strong>输出：</strong>324
-<strong>解释：</strong>你应该返回一个 NestedInteger 对象，其中只包含整数值 324。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "[123,[456,[789]]]",
-<strong>输出：</strong>[123,[456,[789]]]
-<strong>解释：</strong>返回一个 NestedInteger 对象包含一个有两个元素的嵌套列表：
-1. 一个 integer 包含值 123
-2. 一个包含两个元素的嵌套列表：
-    i.  一个 integer 包含值 456
-    ii. 一个包含一个元素的嵌套列表
-         a. 一个 integer 包含值 789
-</pre>
+<p>Each element is either an integer or a list whose elements may also be integers or other lists.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;324&quot;
+<strong>Output:</strong> 324
+<strong>Explanation:</strong> You should return a NestedInteger object which contains a single integer 324.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;[123,[456,[789]]]&quot;
+<strong>Output:</strong> [123,[456,[789]]]
+<strong>Explanation:</strong> Return a NestedInteger object containing a nested list with 2 elements:
+1. An integer containing value 123.
+2. A nested list containing two elements:
+    i.  An integer containing value 456.
+    ii. A nested list with one element:
+         a. An integer containing value 789
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 5 * 10<sup>4</sup></code></li>
-	<li><code>s</code> 由数字、方括号&nbsp;<code>"[]"</code>、负号&nbsp;<code>'-'</code>&nbsp;、逗号&nbsp;<code>','</code>组成</li>
-	<li>用例保证&nbsp;<code>s</code> 是可解析的&nbsp;<code>NestedInteger</code></li>
-	<li>输入中的所有值的范围是&nbsp;<code>[-10<sup>6</sup>, 10<sup>6</sup>]</code></li>
+	<li><code>s</code> consists of digits, square brackets <code>&quot;[]&quot;</code>, negative sign <code>&#39;-&#39;</code>, and commas <code>&#39;,&#39;</code>.</li>
+	<li><code>s</code> is the serialization of valid <code>NestedInteger</code>.</li>
+	<li>All the values in the input are in the range <code>[-10<sup>6</sup>, 10<sup>6</sup>]</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
+### Solution 1: Recursion
 
-我们首先判断字符串 $s$ 是否为空或是一个空列表，如果是的话，直接返回一个空的 `NestedInteger` 即可。如果 $s$ 是一个整数，我们直接返回一个包含这个整数的 `NestedInteger`。否则，我们从左到右遍历字符串 $s$，如果当前深度为 $0$，并且遇到了逗号或者字符串 $s$ 的末尾，则我们截取出一个子串并递归调用函数解析该子串，将返回值加入到列表中。否则，如果当前遇到了左括号，我们将深度加 $1$，并继续遍历。如果遇到了右括号，我们将深度减 $1$，继续遍历。
+We first judge whether the string $s$ is empty or an empty list. If so, simply return an empty `NestedInteger`. If $s$ is an integer, we simply return a `NestedInteger` containing this integer. Otherwise, we traverse the string $s$ from left to right. If the current depth is $0$ and we encounter a comma or the end of the string $s$, we take a substring and recursively call the function to parse the substring and add the return value to the list. Otherwise, if the current encounter is a left parenthesis, we increase the depth by $1$ and continue to traverse. If we encounter a right parenthesis, we decrease the depth by $1$ and continue to traverse.
 
-遍历结束后，返回答案。
+After the traversal is over, return the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 
@@ -374,20 +369,20 @@ function deserialize(s: string): NestedInteger {
 
 <!-- solution:start -->
 
-### 方法二：栈
+### Solution 2: Stack
 
-我们可以使用栈来模拟递归的过程。
+We can use a stack to simulate the recursive process.
 
-我们首先判断字符串 $s$ 是否是一个整数，如果是，直接返回一个包含这个整数的 `NestedInteger`。否则，我们从左到右遍历字符串 $s$，对于当前遍历到的字符 $c$：
+We first judge whether the string $s$ is an integer. If so, we simply return a `NestedInteger` containing this integer. Otherwise, we traverse the string $s$ from left to right. For the character $c$ currently traversed:
 
--   如果 $c$ 是负号，我们将负号标识置为 `true`；
--   如果 $c$ 是数字，我们将数字加入到当前数字 $x$ 中，其中 $x$ 的初始值为 $0$；
--   如果 $c$ 是左括号，我们将一个新的 `NestedInteger` 压入栈中；
--   如果 $c$ 是右括号或者逗号，我们判断当前字符的前一个字符是否是数字，如果是，我们根据负号标识将当前数字 $x$ 加入到栈顶的 `NestedInteger` 中，然后将负号标识置为 `false`，当前数字 $x$ 重置为 $0$。如果 $c$ 是右括号，并且当前栈的大小大于 $1$，我们将栈顶的 `NestedInteger` 出栈，将其加入到栈顶的 `NestedInteger` 中。
+-   If $c$ is a negative sign, we set the negative sign to `true`;
+-   If $c$ is a number, we add the number to the current number $x$, where the initial value of $x$ is $0$;
+-   If $c$ is a left parenthesis, we push a new `NestedInteger` onto the stack;
+-   If $c$ is a right parenthesis or comma, we judge whether the previous character of the current character is a number. If so, we add the current number $x$ to the top `NestedInteger` of the stack according to the negative sign, and then reset the negative sign to `false` and the current number $x$ to $0$. If $c$ is a right parenthesis and the size of the current stack is greater than $1$, we pop the top `NestedInteger` of the stack and add it to the top `NestedInteger` of the stack.
 
-遍历结束后，返回栈顶的 `NestedInteger` 即可。
+After the traversal is over, return the top `NestedInteger` of the stack.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

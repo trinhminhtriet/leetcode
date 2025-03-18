@@ -1,68 +1,63 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3467.Transform%20Array%20by%20Parity/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 计数
-    - 排序
+    - Array
+    - Counting
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [3467. 将数组按照奇偶性转化](https://leetcode.cn/problems/transform-array-by-parity)
+# [3467. Transform Array by Parity](https://leetcode.com/problems/transform-array-by-parity)
 
-[English Version](/solution/3400-3499/3467.Transform%20Array%20by%20Parity/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code>。请你按照以下顺序 <strong>依次</strong>&nbsp;执行操作，转换 <code>nums</code>：</p>
+<p>You are given an integer array <code>nums</code>. Transform <code>nums</code> by performing the following operations in the <strong>exact</strong> order specified:</p>
 
 <ol>
-	<li>将每个偶数替换为 0。</li>
-	<li>将每个奇数替换为 1。</li>
-	<li>按&nbsp;<strong>非递减&nbsp;</strong>顺序排序修改后的数组。</li>
+	<li>Replace each even number with 0.</li>
+	<li>Replace each odd numbers with 1.</li>
+	<li>Sort the modified array in <strong>non-decreasing</strong> order.</li>
 </ol>
 
-<p>执行完这些操作后，返回结果数组。</p>
+<p>Return the resulting array after performing these operations.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">nums = [4,3,2,1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [4,3,2,1]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">[0,0,1,1]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[0,0,1,1]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>将偶数（4 和 2）替换为 0，将奇数（3 和 1）替换为 1。现在，<code>nums = [0, 1, 0, 1]</code>。</li>
-	<li>按非递减顺序排序 <code>nums</code>，得到 <code>nums = [0, 0, 1, 1]</code>。</li>
+	<li>Replace the even numbers (4 and 2) with 0 and the odd numbers (3 and 1) with 1. Now, <code>nums = [0, 1, 0, 1]</code>.</li>
+	<li>After sorting <code>nums</code> in non-descending order, <code>nums = [0, 0, 1, 1]</code>.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">nums = [1,5,1,4,2]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,5,1,4,2]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">[0,0,1,1,1]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[0,0,1,1,1]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>将偶数（4 和 2）替换为 0，将奇数（1, 5 和 1）替换为 1。现在，<code>nums = [1, 1, 1, 0, 0]</code>。</li>
-	<li>按非递减顺序排序&nbsp;<code>nums</code>，得到 <code>nums = [0, 0, 1, 1, 1]</code>。</li>
+	<li>Replace the even numbers (4 and 2) with 0 and the odd numbers (1, 5 and 1) with 1. Now, <code>nums = [1, 1, 1, 0, 0]</code>.</li>
+	<li>After sorting <code>nums</code> in non-descending order, <code>nums = [0, 0, 1, 1, 1]</code>.</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -71,15 +66,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们可以遍历数组 $\textit{nums}$，统计其中偶数的个数 $\textit{even}$。然后我们将数组的前 $\textit{even}$ 个元素置为 $0$，剩余的元素置为 $1$。
+We can traverse the array $\textit{nums}$ and count the number of even elements $\textit{even}$. Then, we set the first $\textit{even}$ elements of the array to $0$ and the remaining elements to $1$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

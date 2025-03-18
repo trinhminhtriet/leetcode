@@ -1,56 +1,49 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1289.Minimum%20Falling%20Path%20Sum%20II/README.md
+difficulty: Hard
 rating: 1697
-source: 第 15 场双周赛 Q4
+source: Biweekly Contest 15 Q4
 tags:
-    - 数组
-    - 动态规划
-    - 矩阵
+    - Array
+    - Dynamic Programming
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [1289. 下降路径最小和 II](https://leetcode.cn/problems/minimum-falling-path-sum-ii)
+# [1289. Minimum Falling Path Sum II](https://leetcode.com/problems/minimum-falling-path-sum-ii)
 
-[English Version](/solution/1200-1299/1289.Minimum%20Falling%20Path%20Sum%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个&nbsp;<code>n x n</code> 整数矩阵&nbsp;<code>grid</code>&nbsp;，请你返回 <strong>非零偏移下降路径</strong> 数字和的最小值。</p>
+<p>Given an <code>n x n</code> integer matrix <code>grid</code>, return <em>the minimum sum of a <strong>falling path with non-zero shifts</strong></em>.</p>
 
-<p><strong>非零偏移下降路径</strong> 定义为：从&nbsp;<code>grid</code> 数组中的每一行选择一个数字，且按顺序选出来的数字中，相邻数字不在原数组的同一列。</p>
+<p>A <strong>falling path with non-zero shifts</strong> is a choice of exactly one element from each row of <code>grid</code> such that no two elements chosen in adjacent rows are in the same column.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1289.Minimum%20Falling%20Path%20Sum%20II/images/falling-grid.jpg" style="width: 244px; height: 245px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1289.Minimum%20Falling%20Path%20Sum%20II/images/falling-grid.jpg" style="width: 244px; height: 245px;" />
 <pre>
-<strong>输入：</strong>grid = [[1,2,3],[4,5,6],[7,8,9]]
-<strong>输出：</strong>13
-<strong>解释：</strong>
-所有非零偏移下降路径包括：
+<strong>Input:</strong> grid = [[1,2,3],[4,5,6],[7,8,9]]
+<strong>Output:</strong> 13
+<strong>Explanation:</strong> 
+The possible falling paths are:
 [1,5,9], [1,5,7], [1,6,7], [1,6,8],
 [2,4,8], [2,4,9], [2,6,7], [2,6,8],
 [3,4,8], [3,4,9], [3,5,7], [3,5,9]
-下降路径中数字和最小的是&nbsp;[1,5,7] ，所以答案是&nbsp;13 。
+The falling path with the smallest sum is&nbsp;[1,5,7], so the answer is&nbsp;13.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>grid = [[7]]
-<strong>输出：</strong>7
+<strong>Input:</strong> grid = [[7]]
+<strong>Output:</strong> 7
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == grid.length == grid[i].length</code></li>
@@ -60,25 +53,25 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][j]$ 表示前 $i$ 行，且最后一个数字在第 $j$ 列的最小数字和。那么状态转移方程为：
+We define $f[i][j]$ to represent the minimum sum of the first $i$ rows, with the last number in the $j$-th column. The state transition equation is:
 
 $$
 f[i][j] = \min_{k \neq j} f[i - 1][k] + grid[i - 1][j]
 $$
 
-其中 $k$ 表示第 $i - 1$ 行的数字在第 $k$ 列，第 $i$ 行第 $j$ 列的数字为 $grid[i - 1][j]$。
+where $k$ represents the column of the number in the $(i - 1)$-th row, and the number in the $i$-th row and $j$-th column is $grid[i - 1][j]$.
 
-最后答案为 $f[n]$ 中的最小值。
+The final answer is the minimum value in $f[n]$.
 
-时间复杂度 $O(n^3)$，空间复杂度 $O(n^2)$。其中 $n$ 为矩阵的行数。
+The time complexity is $O(n^3)$, and the space complexity is $O(n^2)$. Here, $n$ is the number of rows in the matrix.
 
-我们注意到，状态 $f[i][j]$ 只与 $f[i - 1][k]$ 有关，因此我们可以使用滚动数组优化空间复杂度，将空间复杂度优化到 $O(n)$。
+We note that the state $f[i][j]$ only depends on $f[i - 1][k]$, so we can use a rolling array to optimize the space complexity to $O(n)$.
 
 <!-- tabs:start -->
 

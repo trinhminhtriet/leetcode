@@ -1,72 +1,69 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2652.Sum%20Multiples/README.md
+difficulty: Easy
 rating: 1182
-source: 第 342 场周赛 Q2
+source: Weekly Contest 342 Q2
 tags:
-    - 数学
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [2652. 倍数求和](https://leetcode.cn/problems/sum-multiples)
+# [2652. Sum Multiples](https://leetcode.com/problems/sum-multiples)
 
-[English Version](/solution/2600-2699/2652.Sum%20Multiples/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数 <code>n</code> ，请你计算在 <code>[1，n]</code> 范围内能被 <code>3</code>、<code>5</code>、<code>7</code> 整除的所有整数之和。</p>
+<p>Given a positive integer <code>n</code>, find the sum of all integers in the range <code>[1, n]</code> <strong>inclusive</strong> that are divisible by <code>3</code>, <code>5</code>, or <code>7</code>.</p>
 
-<p>返回一个整数，用于表示给定范围内所有满足约束条件的数字之和。</p>
+<p>Return <em>an integer denoting the sum of all numbers in the given range satisfying&nbsp;the constraint.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 7
-<strong>输出：</strong>21
-<strong>解释：</strong>在 <code>[1, 7]</code> 范围内能被 <code>3</code>、<code>5</code>、<code>7</code> 整除的所有整数分别是 <code>3</code>、<code>5</code>、<code>6</code>、<code>7</code> 。数字之和为 <code>21</code>。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 10
-<strong>输出：</strong>40
-<strong>解释：</strong>在 <code>[1, 10]</code> 范围内能被 <code>3</code>、<code>5</code>、<code>7</code> 整除的所有整数分别是 <code>3</code>、<code>5</code>、<code>6</code>、<code>7</code>、<code>9</code>、<code>10</code> 。数字之和为 <code>40</code>。
+<strong>Input:</strong> n = 7
+<strong>Output:</strong> 21
+<strong>Explanation:</strong> Numbers in the range <code>[1, 7]</code> that are divisible by <code>3</code>, <code>5,</code> or <code>7 </code>are <code>3, 5, 6, 7</code>. The sum of these numbers is <code>21</code>.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 9
-<strong>输出：</strong>30
-<strong>解释：</strong>在 <code>[1, 9]</code> 范围内能被 <code>3</code>、<code>5</code>、<code>7</code> 整除的所有整数分别是 <code>3</code>、<code>5</code>、<code>6</code>、<code>7</code>、<code>9</code> 。数字之和为 <code>30</code>。
+<strong>Input:</strong> n = 10
+<strong>Output:</strong> 40
+<strong>Explanation:</strong> Numbers in the range <code>[1, 10] that are</code> divisible by <code>3</code>, <code>5,</code> or <code>7</code> are <code>3, 5, 6, 7, 9, 10</code>. The sum of these numbers is 40.
 </pre>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 9
+<strong>Output:</strong> 30
+<strong>Explanation:</strong> Numbers in the range <code>[1, 9]</code> that are divisible by <code>3</code>, <code>5</code>, or <code>7</code> are <code>3, 5, 6, 7, 9</code>. The sum of these numbers is <code>30</code>.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>1 &lt;= n &lt;= 10<sup>3</sup></li>
+	<li><code>1 &lt;= n &lt;= 10<sup>3</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们直接枚举 $[1,..n]$ 中的每一个数 $x$，如果 $x$ 能被 $3$, $5$, $7$ 整除，那么就将 $x$ 累加到答案中。
+We directly enumerate every number $x$ in $[1,..n]$, and if $x$ is divisible by $3$, $5$, and $7$, we add $x$ to the answer.
 
-枚举结束后，返回答案即可。
+After the enumeration, we return the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 为题目给定的整数。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the given integer. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -162,17 +159,17 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：数学（容斥原理）
+### Solution 2: Mathematics (Inclusion-Exclusion Principle)
 
-我们定义函数 $f(x)$ 表示 $[1,..n]$ 中能被 $x$ 整除的数之和，那么一共有 $m = \left\lfloor \frac{n}{x} \right\rfloor$ 个数能被 $x$ 整除，这些数字分别为 $x$, $2x$, $3x$, $\cdots$, $mx$，构成一个等差数列，首项为 $x$，末项为 $mx$，项数为 $m$，因此 $f(x) = \frac{(x + mx) \times m}{2}$。
+We define a function $f(x)$ to represent the sum of numbers in $[1,..n]$ that are divisible by $x$. There are $m = \left\lfloor \frac{n}{x} \right\rfloor$ numbers that are divisible by $x$, which are $x$, $2x$, $3x$, $\cdots$, $mx$, forming an arithmetic sequence with the first term $x$, the last term $mx$, and the number of terms $m$. Therefore, $f(x) = \frac{(x + mx) \times m}{2}$.
 
-根据容斥原理，我们可以得到答案为：
+According to the inclusion-exclusion principle, we can obtain the answer as:
 
 $$
 f(3) + f(5) + f(7) - f(3 \times 5) - f(3 \times 7) - f(5 \times 7) + f(3 \times 5 \times 7)
 $$
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+The time complexity is $O(1)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -263,7 +260,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法三
+### Solution 3
 
 <!-- tabs:start -->
 

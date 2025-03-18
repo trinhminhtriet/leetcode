@@ -1,70 +1,65 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3422.Minimum%20Operations%20to%20Make%20Subarray%20Elements%20Equal/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
-    - 数学
-    - 滑动窗口
-    - 堆（优先队列）
+    - Array
+    - Hash Table
+    - Math
+    - Sliding Window
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [3422. 将子数组元素变为相等所需的最小操作数 🔒](https://leetcode.cn/problems/minimum-operations-to-make-subarray-elements-equal)
+# [3422. Minimum Operations to Make Subarray Elements Equal 🔒](https://leetcode.com/problems/minimum-operations-to-make-subarray-elements-equal)
 
-[English Version](/solution/3400-3499/3422.Minimum%20Operations%20to%20Make%20Subarray%20Elements%20Equal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>k</code>。你可以进行任意次以下操作：</p>
+<p>You are given an integer array <code>nums</code> and an integer <code>k</code>. You can perform the following operation any number of times:</p>
 
 <ul>
-	<li>给&nbsp;<code>nums</code>&nbsp;的任何元素增加或减少 1。</li>
+	<li>Increase or decrease any element of <code>nums</code> by 1.</li>
 </ul>
 
-<p>返回确保&nbsp;<strong>至少</strong> 有一个大小为 <code>k</code> 的&nbsp;<code>nums</code>&nbsp;中的 <span data-keyword="subarray">子数组</span> 的所有元素都相等的所需的 <strong>最小</strong> 操作数。</p>
+<p>Return the <strong>minimum</strong> number of operations required to ensure that <strong>at least</strong> one <span data-keyword="subarray">subarray</span> of size <code>k</code> in <code>nums</code> has all elements equal.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [4,-3,2,1,-4,6], k = 3</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [4,-3,2,1,-4,6], k = 3</span></p>
 
-<p><span class="example-io"><b>输出：</b>5</span></p>
+<p><strong>Output:</strong> <span class="example-io">5</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>使用 4 次操作来给&nbsp;<code>nums[1]</code>&nbsp;增加 4。结果数组为&nbsp;<span class="example-io"><code>[4, 1, 2, 1, -4, 6]</code>。</span></li>
-	<li><span class="example-io">使用 1 次操作来给&nbsp;<code>nums[2]</code>&nbsp;减少 1。结果数组为&nbsp;<code>[4, 1, 1, 1, -4, 6]</code>。</span></li>
-	<li><span class="example-io">现在数组包含一个大小为&nbsp;<code>k = 3</code>&nbsp;的子数组&nbsp;<code>[1, 1, 1]</code>，所有元素都想等。因此，答案为 5。</span></li>
+	<li>Use 4 operations to add 4 to <code>nums[1]</code>. The resulting array is <span class="example-io"><code>[4, 1, 2, 1, -4, 6]</code>.</span></li>
+	<li><span class="example-io">Use 1 operation to subtract 1 from <code>nums[2]</code>. The resulting array is <code>[4, 1, 1, 1, -4, 6]</code>.</span></li>
+	<li><span class="example-io">The array now contains a subarray <code>[1, 1, 1]</code> of size <code>k = 3</code> with all elements equal. Hence, the answer is 5.</span></li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [-2,-2,3,1,4], k = 2</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [-2,-2,3,1,4], k = 2</span></p>
 
-<p><span class="example-io"><b>输出：</b>0</span></p>
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
 	<li>
-	<p>大小为&nbsp;<code>k = 2</code>&nbsp;的子数组&nbsp;<code>[-2, -2]</code> 已经包含了所有相等的元素，所以不需要操作。因此答案为 0。</p>
+	<p>The subarray <code>[-2, -2]</code> of size <code>k = 2</code> already contains all equal elements, so no operations are needed. Hence, the answer is 0.</p>
 	</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -74,17 +69,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：有序集合
+### Solution 1: Ordered Set
 
-根据题目描述，我们需要找到一个长度为 $k$ 的子数组，通过最少的操作使得子数组中的所有元素相等，即我们需要找到一个长度为 $k$ 的子数组，使得子数组中所有元素变成这 $k$ 个元素的中位数所需的操作次数最小。
+According to the problem description, we need to find a subarray of length $k$ and make all elements in the subarray equal with the minimum number of operations. That is, we need to find a subarray of length $k$ such that the minimum number of operations required to make all elements in the subarray equal to the median of these $k$ elements is minimized.
 
-我们可以使用两个有序集合 $l$ 和 $r$ 分别维护 $k$ 个元素的左右两部分，其中 $l$ 用于存储 $k$ 个元素中较小的一部分，$r$ 用于存储 $k$ 个元素中较大的一部分，并且 $l$ 的元素个数要么等于 $r$ 的元素个数，要么比 $r$ 的元素个数少一个，这样 $r$ 的最小值就是 $k$ 个元素中的中位数。
+We can use two ordered sets $l$ and $r$ to maintain the left and right parts of the $k$ elements, respectively. $l$ is used to store the smaller part of the $k$ elements, and $r$ is used to store the larger part of the $k$ elements. The number of elements in $l$ is either equal to the number of elements in $r$ or one less than the number of elements in $r$, so the minimum value in $r$ is the median of the $k$ elements.
 
-时间复杂度 $O(n \times \log k)$，空间复杂度 $O(k)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \times \log k)$, and the space complexity is $O(k)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

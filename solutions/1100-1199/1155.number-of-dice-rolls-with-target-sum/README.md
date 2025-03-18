@@ -1,59 +1,53 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1155.Number%20of%20Dice%20Rolls%20With%20Target%20Sum/README.md
+difficulty: Medium
 rating: 1653
-source: 第 149 场周赛 Q2
+source: Weekly Contest 149 Q2
 tags:
-    - 动态规划
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1155. 掷骰子等于目标和的方法数](https://leetcode.cn/problems/number-of-dice-rolls-with-target-sum)
+# [1155. Number of Dice Rolls With Target Sum](https://leetcode.com/problems/number-of-dice-rolls-with-target-sum)
 
-[English Version](/solution/1100-1199/1155.Number%20of%20Dice%20Rolls%20With%20Target%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>这里有&nbsp;<code>n</code>&nbsp;个一样的骰子，每个骰子上都有&nbsp;<code>k</code>&nbsp;个面，分别标号为&nbsp;<code>1</code>&nbsp;到 <code>k</code> 。</p>
+<p>You have <code>n</code> dice, and each dice has <code>k</code> faces numbered from <code>1</code> to <code>k</code>.</p>
 
-<p>给定三个整数 <code>n</code>、<code>k</code> 和 <code>target</code>，请返回投掷骰子的所有可能得到的结果（共有 <code>k<sup>n</sup></code> 种方式），使得骰子面朝上的数字总和等于 <code>target</code>。</p>
-
-<p>由于答案可能很大，你需要对 <code>10<sup>9</sup> + 7</code> <strong>取模</strong>。</p>
+<p>Given three integers <code>n</code>, <code>k</code>, and <code>target</code>, return <em>the number of possible ways (out of the </em><code>k<sup>n</sup></code><em> total ways) </em><em>to roll the dice, so the sum of the face-up numbers equals </em><code>target</code>. Since the answer may be too large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 1, k = 6, target = 3
-<strong>输出：</strong>1
-<strong>解释：</strong>你掷了一个有 6 个面的骰子。
-得到总和为 3 的结果的方式只有一种。
+<strong>Input:</strong> n = 1, k = 6, target = 3
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> You throw one die with 6 faces.
+There is only one way to get a sum of 3.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 2, k = 6, target = 7
-<strong>输出：</strong>6
-<strong>解释：</strong>你掷了两个骰子，每个骰子有 6 个面。
-有 6 种方式得到总和为 7 的结果: 1+6, 2+5, 3+4, 4+3, 5+2, 6+1。
+<strong>Input:</strong> n = 2, k = 6, target = 7
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> You throw two dice, each with 6 faces.
+There are 6 ways to get a sum of 7: 1+6, 2+5, 3+4, 4+3, 5+2, 6+1.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 30, k = 30, target = 500
-<strong>输出：</strong>222616187
-<strong>解释：</strong>返回的结果必须对 10<sup>9</sup> + 7 取模。</pre>
+<strong>Input:</strong> n = 30, k = 30, target = 500
+<strong>Output:</strong> 222616187
+<strong>Explanation:</strong> The answer must be returned modulo 10<sup>9</sup> + 7.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n, k &lt;= 30</code></li>
@@ -62,25 +56,25 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][j]$ 表示使用 $i$ 个骰子，和为 $j$ 的方案数。那么我们可以得到状态转移方程：
+We define $f[i][j]$ as the number of ways to get a sum of $j$ using $i$ dice. Then, we can obtain the following state transition equation:
 
 $$
 f[i][j] = \sum_{h=1}^{\min(j, k)} f[i-1][j-h]
 $$
 
-其中 $h$ 表示第 $i$ 个骰子的点数。
+where $h$ represents the number of points on the $i$-th die.
 
-初始时 $f[0][0] = 1$，最终的答案即为 $f[n][target]$。
+Initially, we have $f[0][0] = 1$, and the final answer is $f[n][target]$.
 
-时间复杂度 $O(n \times k \times target)$，空间复杂度 $O(n \times target)$。
+The time complexity is $O(n \times k \times target)$, and the space complexity is $O(n \times target)$.
 
-我们注意到，状态 $f[i][j]$ 只和 $f[i-1][]$ 有关，因此我们可以使用滚动数组的方式，将空间复杂度优化到 $O(target)$。
+We notice that the state $f[i][j]$ only depends on $f[i-1][]$, so we can use a rolling array to optimize the space complexity to $O(target)$.
 
 <!-- tabs:start -->
 
@@ -211,7 +205,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

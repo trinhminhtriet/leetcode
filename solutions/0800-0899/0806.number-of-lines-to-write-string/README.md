@@ -1,75 +1,77 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0806.Number%20of%20Lines%20To%20Write%20String/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 字符串
+    - Array
+    - String
 ---
 
 <!-- problem:start -->
 
-# [806. 写字符串需要的行数](https://leetcode.cn/problems/number-of-lines-to-write-string)
+# [806. Number of Lines To Write String](https://leetcode.com/problems/number-of-lines-to-write-string)
 
-[English Version](/solution/0800-0899/0806.Number%20of%20Lines%20To%20Write%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>我们要把给定的字符串 <code>S</code>&nbsp;从左到右写到每一行上，每一行的最大宽度为100个单位，如果我们在写某个字母的时候会使这行超过了100 个单位，那么我们应该把这个字母写到下一行。我们给定了一个数组&nbsp;<code>widths</code>&nbsp;，这个数组&nbsp;widths[0] 代表 &#39;a&#39; 需要的单位，&nbsp;widths[1] 代表 &#39;b&#39; 需要的单位，...，&nbsp;widths[25] 代表 &#39;z&#39; 需要的单位。</p>
+<p>You are given a string <code>s</code> of lowercase English letters and an array <code>widths</code> denoting <strong>how many pixels wide</strong> each lowercase English letter is. Specifically, <code>widths[0]</code> is the width of <code>&#39;a&#39;</code>, <code>widths[1]</code> is the width of <code>&#39;b&#39;</code>, and so on.</p>
 
-<p>现在回答两个问题：至少多少行能放下<code>S</code>，以及最后一行使用的宽度是多少个单位？将你的答案作为长度为2的整数列表返回。</p>
+<p>You are trying to write <code>s</code> across several lines, where <strong>each line is no longer than </strong><code>100</code><strong> pixels</strong>. Starting at the beginning of <code>s</code>, write as many letters on the first line such that the total width does not exceed <code>100</code> pixels. Then, from where you stopped in <code>s</code>, continue writing as many letters as you can on the second line. Continue this process until you have written all of <code>s</code>.</p>
 
-<pre>
-<strong>示例 1:</strong>
-<strong>输入:</strong> 
-widths = [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10]
-S = &quot;abcdefghijklmnopqrstuvwxyz&quot;
-<strong>输出:</strong> [3, 60]
-<strong>解释: 
-</strong>所有的字符拥有相同的占用单位10。所以书写所有的26个字母，
-我们需要2个整行和占用60个单位的一行。
-</pre>
-
-<pre>
-<strong>示例 2:</strong>
-<strong>输入:</strong> 
-widths = [4,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10]
-S = &quot;bbbcccdddaaa&quot;
-<strong>输出:</strong> [2, 4]
-<strong>解释: 
-</strong>除去字母&#39;a&#39;所有的字符都是相同的单位10，并且字符串 &quot;bbbcccdddaa&quot; 将会覆盖 9 * 10 + 2 * 4 = 98 个单位.
-最后一个字母 &#39;a&#39; 将会被写到第二行，因为第一行只剩下2个单位了。
-所以，这个答案是2行，第二行有4个单位宽度。
-</pre>
-
-<p>&nbsp;</p>
-
-<p><strong>注:</strong></p>
+<p>Return <em>an array </em><code>result</code><em> of length 2 where:</em></p>
 
 <ul>
-	<li>字符串&nbsp;<code>S</code> 的长度在&nbsp;[1, 1000] 的范围。</li>
-	<li><code>S</code> 只包含小写字母。</li>
-	<li><code>widths</code> 是长度为&nbsp;<code>26</code>的数组。</li>
-	<li><code>widths[i]</code>&nbsp;值的范围在&nbsp;<code>[2, 10]</code>。</li>
+	<li><code>result[0]</code><em> is the total number of lines.</em></li>
+	<li><code>result[1]</code><em> is the width of the last line in pixels.</em></li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> widths = [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10], s = &quot;abcdefghijklmnopqrstuvwxyz&quot;
+<strong>Output:</strong> [3,60]
+<strong>Explanation:</strong> You can write s as follows:
+abcdefghij  // 100 pixels wide
+klmnopqrst  // 100 pixels wide
+uvwxyz      // 60 pixels wide
+There are a total of 3 lines, and the last line is 60 pixels wide.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> widths = [4,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10], s = &quot;bbbcccdddaaa&quot;
+<strong>Output:</strong> [2,4]
+<strong>Explanation:</strong> You can write s as follows:
+bbbcccdddaa  // 98 pixels wide
+a            // 4 pixels wide
+There are a total of 2 lines, and the last line is 4 pixels wide.</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>widths.length == 26</code></li>
+	<li><code>2 &lt;= widths[i] &lt;= 10</code></li>
+	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
+	<li><code>s</code> contains only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们定义两个变量 `lines` 和 `last`，分别表示行数和最后一行的宽度，初始时 `lines = 1`，`last = 0`。
+We define two variables `lines` and `last`, representing the number of lines and the width of the last line, respectively. Initially, `lines = 1` and `last = 0`.
 
-遍历字符串 $s$，对于每个字符 $c$，计算其宽度 $w$，如果 $last + w \leq 100$，则将 $w$ 加到 `last` 上，否则行数 `lines` 加一，并且 `last` 重置为 $w$。
+We iterate through the string $s$. For each character $c$, we calculate its width $w$. If $last + w \leq 100$, we add $w$ to `last`. Otherwise, we increment `lines` by one and reset `last` to $w$.
 
-最后返回 `lines` 和 `last` 构成的数组。
+Finally, we return an array consisting of `lines` and `last`.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,68 +1,65 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0674.Longest%20Continuous%20Increasing%20Subsequence/README.md
+difficulty: Easy
 tags:
-    - 数组
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [674. 最长连续递增序列](https://leetcode.cn/problems/longest-continuous-increasing-subsequence)
+# [674. Longest Continuous Increasing Subsequence](https://leetcode.com/problems/longest-continuous-increasing-subsequence)
 
-[English Version](/solution/0600-0699/0674.Longest%20Continuous%20Increasing%20Subsequence/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个未经排序的整数数组，找到最长且<strong> 连续递增的子序列</strong>，并返回该序列的长度。</p>
+<p>Given an unsorted array of integers <code>nums</code>, return <em>the length of the longest <strong>continuous increasing subsequence</strong> (i.e. subarray)</em>. The subsequence must be <strong>strictly</strong> increasing.</p>
 
-<p><strong>连续递增的子序列</strong> 可以由两个下标 <code>l</code> 和 <code>r</code>（<code>l < r</code>）确定，如果对于每个 <code>l <= i < r</code>，都有 <code>nums[i] < nums[i + 1]</code> ，那么子序列 <code>[nums[l], nums[l + 1], ..., nums[r - 1], nums[r]]</code> 就是连续递增子序列。</p>
+<p>A <strong>continuous increasing subsequence</strong> is defined by two indices <code>l</code> and <code>r</code> (<code>l &lt; r</code>) such that it is <code>[nums[l], nums[l + 1], ..., nums[r - 1], nums[r]]</code> and for each <code>l &lt;= i &lt; r</code>, <code>nums[i] &lt; nums[i + 1]</code>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,3,5,4,7]
-<strong>输出：</strong>3
-<strong>解释：</strong>最长连续递增序列是 [1,3,5], 长度为3。
-尽管 [1,3,5,7] 也是升序的子序列, 但它不是连续的，因为 5 和 7 在原数组里被 4 隔开。 
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2,2,2,2,2]
-<strong>输出：</strong>1
-<strong>解释：</strong>最长连续递增序列是 [2], 长度为1。
+<strong>Input:</strong> nums = [1,3,5,4,7]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The longest continuous increasing subsequence is [1,3,5] with length 3.
+Even though [1,3,5,7] is an increasing subsequence, it is not continuous as elements 5 and 7 are separated by element
+4.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [2,2,2,2,2]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The longest continuous increasing subsequence is [2] with length 1. Note that it must be strictly
+increasing.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= nums.length <= 10<sup>4</sup></code></li>
-	<li><code>-10<sup>9</sup> <= nums[i] <= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>-10<sup>9</sup> &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：一次遍历
+### Solution 1: One-pass Scan
 
-我们可以遍历数组 $nums$，用变量 $cnt$ 记录当前连续递增序列的长度。初始时 $cnt = 1$。
+We can traverse the array $nums$, using a variable $cnt$ to record the length of the current consecutive increasing sequence. Initially, $cnt = 1$.
 
-然后，我们从下标 $i = 1$ 开始，向右遍历数组 $nums$。每次遍历时，如果 $nums[i - 1] < nums[i]$，则说明当前元素可以加入到连续递增序列中，因此令 $cnt = cnt + 1$，然后更新答案为 $ans = \max(ans, cnt)$。否则，说明当前元素无法加入到连续递增序列中，因此令 $cnt = 1$。
+Then, we start from index $i = 1$ and traverse the array $nums$ to the right. Each time we traverse, if $nums[i - 1] < nums[i]$, it means that the current element can be added to the consecutive increasing sequence, so we set $cnt = cnt + 1$, and then update the answer to $ans = \max(ans, cnt)$. Otherwise, it means that the current element cannot be added to the consecutive increasing sequence, so we set $cnt = 1$.
 
-遍历结束后，返回答案 $ans$ 即可。
+After the traversal ends, we return the answer $ans$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -200,11 +197,11 @@ class Solution {
 
 <!-- solution:start -->
 
-### 方法二：双指针
+### Solution 2: Two Pointers
 
-我们也可以用双指针 $i$ 和 $j$ 找到每一段连续递增序列，找出最长的连续递增序列的长度作为答案。
+We can also use two pointers $i$ and $j$ to find each consecutive increasing sequence, and find the length of the longest consecutive increasing sequence as the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,95 +1,90 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3113.Find%20the%20Number%20of%20Subarrays%20Where%20Boundary%20Elements%20Are%20Maximum/README.md
+difficulty: Hard
 rating: 2046
-source: 第 128 场双周赛 Q4
+source: Biweekly Contest 128 Q4
 tags:
-    - 栈
-    - 数组
-    - 二分查找
-    - 单调栈
+    - Stack
+    - Array
+    - Binary Search
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [3113. 边界元素是最大值的子数组数目](https://leetcode.cn/problems/find-the-number-of-subarrays-where-boundary-elements-are-maximum)
+# [3113. Find the Number of Subarrays Where Boundary Elements Are Maximum](https://leetcode.com/problems/find-the-number-of-subarrays-where-boundary-elements-are-maximum)
 
-[English Version](/solution/3100-3199/3113.Find%20the%20Number%20of%20Subarrays%20Where%20Boundary%20Elements%20Are%20Maximum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <strong>正</strong>&nbsp;整数数组&nbsp;<code>nums</code>&nbsp;。</p>
+<p>You are given an array of <strong>positive</strong> integers <code>nums</code>.</p>
 
-<p>请你求出&nbsp;<code>nums</code>&nbsp;中有多少个子数组，满足子数组中&nbsp;<strong>第一个</strong>&nbsp;和 <strong>最后一个</strong>&nbsp;元素都是这个子数组中的 <strong>最大</strong>&nbsp;值。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,4,3,3,2]</span></p>
-
-<p><span class="example-io"><b>输出：</b>6</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>总共有 6 个子数组满足第一个元素和最后一个元素都是子数组中的最大值：</p>
-
-<ul>
-	<li>子数组&nbsp;<code>[<u><em><strong>1</strong></em></u>,4,3,3,2]</code>&nbsp;，最大元素为 1 ，第一个和最后一个元素都是 1 。</li>
-	<li>子数组&nbsp;<code>[1,<u><em><strong>4</strong></em></u>,3,3,2]</code>&nbsp;，最大元素为 4 ，第一个和最后一个元素都是 4 。</li>
-	<li>子数组&nbsp;<code>[1,4,<u><em><strong>3</strong></em></u>,3,2]</code>&nbsp;，最大元素为 3 ，第一个和最后一个元素都是 3 。</li>
-	<li>子数组&nbsp;<code>[1,4,3,<u><em><strong>3</strong></em></u>,2]</code>&nbsp;，最大元素为 3 ，第一个和最后一个元素都是 3 。</li>
-	<li>子数组&nbsp;<code>[1,4,3,3,<u><em><strong>2</strong></em></u>]</code>&nbsp;，最大元素为 2 ，第一个和最后一个元素都是 2 。</li>
-	<li>子数组&nbsp;<code>[1,4,<u><em><strong>3,3</strong></em></u>,2]</code>&nbsp;，最大元素为 3 ，第一个和最后一个元素都是 3 。</li>
-</ul>
-
-<p>所以我们返回 6 。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [3,3,3]</span></p>
-
-<p><span class="example-io"><b>输出：</b>6</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>总共有 6 个子数组满足第一个元素和最后一个元素都是子数组中的最大值：</p>
-
-<ul>
-	<li>子数组 <code>[<u><em><strong>3</strong></em></u>,3,3]</code>&nbsp;，最大元素为 3&nbsp;，第一个和最后一个元素都是 3&nbsp;。</li>
-	<li>子数组 <code>[3,<u><em><strong>3</strong></em></u>,3]</code>&nbsp;，最大元素为 3&nbsp;，第一个和最后一个元素都是 3&nbsp;。</li>
-	<li>子数组 <code>[3,3,<u><em><strong>3</strong></em></u>]</code>&nbsp;，最大元素为 3&nbsp;，第一个和最后一个元素都是 3&nbsp;。</li>
-	<li>子数组 <code>[<u><em><strong>3,3</strong></em></u>,3]</code>&nbsp;，最大元素为 3&nbsp;，第一个和最后一个元素都是 3&nbsp;。</li>
-	<li>子数组 <code>[3,<u><em><strong>3,3</strong></em></u>]</code>&nbsp;，最大元素为 3&nbsp;，第一个和最后一个元素都是 3&nbsp;。</li>
-	<li>子数组 <code>[<u><em><strong>3,3,3</strong></em></u>]</code>&nbsp;，最大元素为 3&nbsp;，第一个和最后一个元素都是 3&nbsp;。</li>
-</ul>
-
-<p>所以我们返回 6 。</p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1]</span></p>
-
-<p><span class="example-io"><b>输出：</b>1</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p><code>nums</code>&nbsp;中只有一个子数组&nbsp;<code>[<em><strong>1</strong></em>]</code>&nbsp;，最大元素为 1 ，第一个和最后一个元素都是 1 。</p>
-
-<p>所以我们返回 1 。</p>
-</div>
+<p>Return the number of <span data-keyword="subarray-nonempty">subarrays</span> of <code>nums</code>, where the <strong>first</strong> and the <strong>last</strong> elements of the subarray are <em>equal</em> to the <strong>largest</strong> element in the subarray.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,4,3,3,2]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">6</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>There are 6 subarrays which have the first and the last elements equal to the largest element of the subarray:</p>
+
+<ul>
+	<li>subarray <code>[<strong><u>1</u></strong>,4,3,3,2]</code>, with its largest element 1. The first element is 1 and the last element is also 1.</li>
+	<li>subarray <code>[1,<u><strong>4</strong></u>,3,3,2]</code>, with its largest element 4. The first element is 4 and the last element is also 4.</li>
+	<li>subarray <code>[1,4,<u><strong>3</strong></u>,3,2]</code>, with its largest element 3. The first element is 3 and the last element is also 3.</li>
+	<li>subarray <code>[1,4,3,<u><strong>3</strong></u>,2]</code>, with its largest element 3. The first element is 3 and the last element is also 3.</li>
+	<li>subarray <code>[1,4,3,3,<u><strong>2</strong></u>]</code>, with its largest element 2. The first element is 2 and the last element is also 2.</li>
+	<li>subarray <code>[1,4,<u><strong>3,3</strong></u>,2]</code>, with its largest element 3. The first element is 3 and the last element is also 3.</li>
+</ul>
+
+<p>Hence, we return 6.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [3,3,3]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">6</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>There are 6 subarrays which have the first and the last elements equal to the largest element of the subarray:</p>
+
+<ul>
+	<li>subarray <code>[<u><strong>3</strong></u>,3,3]</code>, with its largest element 3. The first element is 3 and the last element is also 3.</li>
+	<li>subarray <code>[3,<strong><u>3</u></strong>,3]</code>, with its largest element 3. The first element is 3 and the last element is also 3.</li>
+	<li>subarray <code>[3,3,<u><strong>3</strong></u>]</code>, with its largest element 3. The first element is 3 and the last element is also 3.</li>
+	<li>subarray <code>[<strong><u>3,3</u></strong>,3]</code>, with its largest element 3. The first element is 3 and the last element is also 3.</li>
+	<li>subarray <code>[3,<u><strong>3,3</strong></u>]</code>, with its largest element 3. The first element is 3 and the last element is also 3.</li>
+	<li>subarray <code>[<u><strong>3,3,3</strong></u>]</code>, with its largest element 3. The first element is 3 and the last element is also 3.</li>
+</ul>
+
+<p>Hence, we return 6.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">1</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>There is a single subarray of <code>nums</code> which is <code>[<strong><u>1</u></strong>]</code>, with its largest element 1. The first element is 1 and the last element is also 1.</p>
+
+<p>Hence, we return 1.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -98,23 +93,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：单调栈
+### Solution 1: Monotonic Stack
 
-我们考虑以数组 $nums$ 中的每个元素 $x$ 作为子数组的边界元素且最大值的情况。
+We consider each element $x$ in the array $nums$ as the boundary element and the maximum value of the subarray.
 
-每个长度为 $1$ 的子数组都满足条件，而对于长度大于 $1$ 的子数组，子数组中的所有元素都不能大于边界元素 $x$，我们可以用单调栈来实现。
+Each subarray of length $1$ meets the condition, and for subarrays with length greater than $1$, all elements in the subarray cannot be greater than the boundary element $x$. We can implement this with a monotonic stack.
 
-我们维护一个从栈底到栈顶单调递减的栈，单调栈的每个元素是一个二元组 $[x, cnt]$，表示元素 $x$ 且以 $x$ 为边界元素且最大值的子数组的个数为 $cnt$。
+We maintain a stack that decreases monotonically from the bottom to the top. Each element in the monotonic stack is a pair $[x, cnt]$, representing the element $x$ and the count $cnt$ of subarrays with $x$ as the boundary element and the maximum value.
 
-我们从左到右遍历数组 $nums$，对于每个元素 $x$，我们不断地将栈顶元素弹出，直到栈为空或者栈顶元素的第一个元素大于等于 $x$。如果栈为空，或者栈顶元素的第一个元素大于 $x$，说明当前遇到第一个边界元素为 $x$ 且最大值的子数组，该子数组的长度为 $1$，所以我们将 $[x, 1]$ 入栈。如果栈顶元素的第一个元素等于 $x$，说明当前遇到的边界元素为 $x$ 且最大值的子数组，我们将栈顶元素的第二个元素加 $1$。然后，我们将栈顶元素的第二个元素加到答案中。
+We traverse the array $nums$ from left to right. For each element $x$, we continuously pop the top element of the stack until the stack is empty or the first element of the top element of the stack is greater than or equal to $x$. If the stack is empty, or the first element of the top element of the stack is greater than $x$, it means that we have encountered the first subarray with $x$ as the boundary element and the maximum value, and the length of this subarray is $1$, so we push $[x, 1]$ into the stack. If the first element of the top element of the stack is equal to $x$, it means that we have encountered a subarray with $x$ as the boundary element and the maximum value, and we add $1$ to the second element of the top element of the stack. Then, we add the second element of the top element of the stack to the answer.
 
-遍历结束后，返回答案即可。
+After the traversal, we return the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

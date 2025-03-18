@@ -1,74 +1,69 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3046.Split%20the%20Array/README.md
+difficulty: Easy
 rating: 1212
-source: 第 386 场周赛 Q1
+source: Weekly Contest 386 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 计数
+    - Array
+    - Hash Table
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [3046. 分割数组](https://leetcode.cn/problems/split-the-array)
+# [3046. Split the Array](https://leetcode.com/problems/split-the-array)
 
-[English Version](/solution/3000-3099/3046.Split%20the%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <strong>偶数 </strong>的整数数组 <code>nums</code> 。你需要将这个数组分割成 <code>nums1</code> 和 <code>nums2</code> 两部分，要求：</p>
+<p>You are given an integer array <code>nums</code> of <strong>even</strong> length. You have to split the array into two parts <code>nums1</code> and <code>nums2</code> such that:</p>
 
 <ul>
-	<li><code>nums1.length == nums2.length == nums.length / 2</code> 。</li>
-	<li><code>nums1</code> 应包含 <strong>互不相同</strong><strong> </strong>的元素。</li>
-	<li><code>nums2</code>也应包含<strong> 互不相同</strong> 的元素。</li>
+	<li><code>nums1.length == nums2.length == nums.length / 2</code>.</li>
+	<li><code>nums1</code> should contain <strong>distinct </strong>elements.</li>
+	<li><code>nums2</code> should also contain <strong>distinct</strong> elements.</li>
 </ul>
 
-<p>如果能够分割数组就返回 <code>true</code> ，否则返回 <code>false</code> 。</p>
+<p>Return <code>true</code><em> if it is possible to split the array, and </em><code>false</code> <em>otherwise</em><em>.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,1,2,2,3,4]
-<strong>输出：</strong>true
-<strong>解释：</strong>分割 nums 的可行方案之一是 nums1 = [1,2,3] 和 nums2 = [1,2,4] 。
+<strong>Input:</strong> nums = [1,1,2,2,3,4]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> One of the possible ways to split nums is nums1 = [1,2,3] and nums2 = [1,2,4].
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,1,1,1]
-<strong>输出：</strong>false
-<strong>解释：</strong>分割 nums 的唯一可行方案是 nums1 = [1,1] 和 nums2 = [1,1] 。但 nums1 和 nums2 都不是由互不相同的元素构成。因此，返回 false 。
+<strong>Input:</strong> nums = [1,1,1,1]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The only possible way to split nums is nums1 = [1,1] and nums2 = [1,1]. Both nums1 and nums2 do not contain distinct elements. Therefore, we return false.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
-	<li><code>nums.length % 2 == 0</code></li>
+	<li><code>nums.length % 2 == 0 </code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-根据题意，我们需要将数组分成两部分，每部分的元素都是互不相同的。因此，我们可以统计数组中每个元素的出现次数，如果某个元素出现的次数大于等于 $3$ 次，那么就无法满足题意。否则，我们可以将数组分成两部分。
+According to the problem, we need to divide the array into two parts, and the elements in each part are all distinct. Therefore, we can count the occurrence of each element in the array. If an element appears three or more times, it cannot satisfy the problem's requirements. Otherwise, we can divide the array into two parts.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

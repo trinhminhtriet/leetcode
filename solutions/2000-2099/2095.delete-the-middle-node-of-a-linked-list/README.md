@@ -1,93 +1,82 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2095.Delete%20the%20Middle%20Node%20of%20a%20Linked%20List/README.md
+difficulty: Medium
 rating: 1324
-source: 第 270 场周赛 Q2
+source: Weekly Contest 270 Q2
 tags:
-    - 链表
-    - 双指针
+    - Linked List
+    - Two Pointers
 ---
 
 <!-- problem:start -->
 
-# [2095. 删除链表的中间节点](https://leetcode.cn/problems/delete-the-middle-node-of-a-linked-list)
+# [2095. Delete the Middle Node of a Linked List](https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list)
 
-[English Version](/solution/2000-2099/2095.Delete%20the%20Middle%20Node%20of%20a%20Linked%20List/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个链表的头节点 <code>head</code> 。<strong>删除</strong> 链表的 <strong>中间节点</strong> ，并返回修改后的链表的头节点 <code>head</code> 。</p>
+<p>You are given the <code>head</code> of a linked list. <strong>Delete</strong> the <strong>middle node</strong>, and return <em>the</em> <code>head</code> <em>of the modified linked list</em>.</p>
 
-<p>长度为 <code>n</code> 链表的中间节点是从头数起第 <code>⌊n / 2⌋</code> 个节点（下标从 <strong>0</strong> 开始），其中 <code>⌊x⌋</code> 表示小于或等于 <code>x</code> 的最大整数。</p>
+<p>The <strong>middle node</strong> of a linked list of size <code>n</code> is the <code>&lfloor;n / 2&rfloor;<sup>th</sup></code> node from the <b>start</b> using <strong>0-based indexing</strong>, where <code>&lfloor;x&rfloor;</code> denotes the largest integer less than or equal to <code>x</code>.</p>
 
 <ul>
-	<li>对于 <code>n</code> = <code>1</code>、<code>2</code>、<code>3</code>、<code>4</code> 和 <code>5</code> 的情况，中间节点的下标分别是 <code>0</code>、<code>1</code>、<code>1</code>、<code>2</code> 和 <code>2</code> 。</li>
+	<li>For <code>n</code> = <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, and <code>5</code>, the middle nodes are <code>0</code>, <code>1</code>, <code>1</code>, <code>2</code>, and <code>2</code>, respectively.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2095.Delete%20the%20Middle%20Node%20of%20a%20Linked%20List/images/eg1drawio.png" style="width: 500px; height: 77px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2095.Delete%20the%20Middle%20Node%20of%20a%20Linked%20List/images/eg1drawio.png" style="width: 500px; height: 77px;" />
 <pre>
-<strong>输入：</strong>head = [1,3,4,7,1,2,6]
-<strong>输出：</strong>[1,3,4,1,2,6]
-<strong>解释：</strong>
-上图表示给出的链表。节点的下标分别标注在每个节点的下方。
-由于 n = 7 ，值为 7 的节点 3 是中间节点，用红色标注。
-返回结果为移除节点后的新链表。 
+<strong>Input:</strong> head = [1,3,4,7,1,2,6]
+<strong>Output:</strong> [1,3,4,1,2,6]
+<strong>Explanation:</strong>
+The above figure represents the given linked list. The indices of the nodes are written below.
+Since n = 7, node 3 with value 7 is the middle node, which is marked in red.
+We return the new list after removing this node. 
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2095.Delete%20the%20Middle%20Node%20of%20a%20Linked%20List/images/eg2drawio.png" style="width: 250px; height: 43px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2095.Delete%20the%20Middle%20Node%20of%20a%20Linked%20List/images/eg2drawio.png" style="width: 250px; height: 43px;" />
 <pre>
-<strong>输入：</strong>head = [1,2,3,4]
-<strong>输出：</strong>[1,2,4]
-<strong>解释：</strong>
-上图表示给出的链表。
-对于 n = 4 ，值为 3 的节点 2 是中间节点，用红色标注。
+<strong>Input:</strong> head = [1,2,3,4]
+<strong>Output:</strong> [1,2,4]
+<strong>Explanation:</strong>
+The above figure represents the given linked list.
+For n = 4, node 2 with value 3 is the middle node, which is marked in red.
 </pre>
 
-<p><strong>示例 3：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2095.Delete%20the%20Middle%20Node%20of%20a%20Linked%20List/images/eg3drawio.png" style="width: 150px; height: 58px;" /></p>
-
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2095.Delete%20the%20Middle%20Node%20of%20a%20Linked%20List/images/eg3drawio.png" style="width: 150px; height: 58px;" />
 <pre>
-<strong>输入：</strong>head = [2,1]
-<strong>输出：</strong>[2]
-<strong>解释：</strong>
-上图表示给出的链表。
-对于 n = 2 ，值为 1 的节点 1 是中间节点，用红色标注。
-值为 2 的节点 0 是移除节点 1 后剩下的唯一一个节点。</pre>
+<strong>Input:</strong> head = [2,1]
+<strong>Output:</strong> [2]
+<strong>Explanation:</strong>
+The above figure represents the given linked list.
+For n = 2, node 1 with value 1 is the middle node, which is marked in red.
+Node 0 with value 2 is the only node remaining after removing node 1.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>链表中节点的数目在范围 <code>[1, 10<sup>5</sup>]</code> 内</li>
+	<li>The number of nodes in the list is in the range <code>[1, 10<sup>5</sup>]</code>.</li>
 	<li><code>1 &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：快慢指针
+### Solution 1: Fast and Slow Pointers
 
-快慢指针法是一种用于解决链表中的问题的常用技巧。我们可以维护两个指针，一个慢指针 $\textit{slow}$ 和一个快指针 $\textit{fast}$。初始时 $\textit{slow}$ 指向一个虚拟节点，该虚拟节点的 $\textit{next}$ 指针指向链表的头节点 $\textit{head}$，而 $\textit{fast}$ 指向链表的头节点 $\textit{head}$。
+The fast and slow pointer technique is a common method used to solve problems related to linked lists. We can maintain two pointers, a slow pointer $\textit{slow}$ and a fast pointer $\textit{fast}$. Initially, $\textit{slow}$ points to a dummy node, whose $\textit{next}$ pointer points to the head node $\textit{head}$ of the list, while $\textit{fast}$ points to the head node $\textit{head}$.
 
-然后，我们每次将慢指针向后移动一个位置，将快指针向后移动两个位置，直到快指针到达链表的末尾。此时，慢指针指向的节点的下一个节点就是链表的中间节点。我们将慢指针指向的节点的 $\textit{next}$ 指针指向下下个节点，即可删除中间节点。
+Then, we move the slow pointer one position backward and the fast pointer two positions backward each time, until the fast pointer reaches the end of the list. At this point, the node next to the node pointed by the slow pointer is the middle node of the list. We can remove the middle node by setting the $\textit{next}$ pointer of the node pointed by the slow pointer to point to the next next node.
 
-时间复杂度 $O(n)$，其中 $n$ 是链表的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the list. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

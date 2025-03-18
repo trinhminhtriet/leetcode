@@ -1,58 +1,54 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1296.Divide%20Array%20in%20Sets%20of%20K%20Consecutive%20Numbers/README.md
+difficulty: Medium
 rating: 1490
-source: 第 168 场周赛 Q2
+source: Weekly Contest 168 Q2
 tags:
-    - 贪心
-    - 数组
-    - 哈希表
-    - 排序
+    - Greedy
+    - Array
+    - Hash Table
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1296. 划分数组为连续数字的集合](https://leetcode.cn/problems/divide-array-in-sets-of-k-consecutive-numbers)
+# [1296. Divide Array in Sets of K Consecutive Numbers](https://leetcode.com/problems/divide-array-in-sets-of-k-consecutive-numbers)
 
-[English Version](/solution/1200-1299/1296.Divide%20Array%20in%20Sets%20of%20K%20Consecutive%20Numbers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;和一个正整数&nbsp;<code>k</code>，请你判断是否可以把这个数组划分成一些由&nbsp;<code>k</code>&nbsp;个连续数字组成的集合。<br />
-如果可以，请返回 <code>true</code>；否则，返回 <code>false</code>。</p>
+<p>Given an array of integers <code>nums</code> and a positive integer <code>k</code>, check whether it is possible to divide this array into sets of <code>k</code> consecutive numbers.</p>
+
+<p>Return <code>true</code> <em>if it is possible</em>.<strong> </strong>Otherwise, return <code>false</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3,3,4,4,5,6], k = 4
-<strong>输出：</strong>true
-<strong>解释：</strong>数组可以分成 [1,2,3,4] 和 [3,4,5,6]。
+<strong>Input:</strong> nums = [1,2,3,3,4,4,5,6], k = 4
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Array can be divided into [1,2,3,4] and [3,4,5,6].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,2,1,2,3,4,3,4,5,9,10,11], k = 3
-<strong>输出：</strong>true
-<strong>解释：</strong>数组可以分成 [1,2,3] , [2,3,4] , [3,4,5] 和 [9,10,11]。
+<strong>Input:</strong> nums = [3,2,1,2,3,4,3,4,5,9,10,11], k = 3
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Array can be divided into [1,2,3] , [2,3,4] , [3,4,5] and [9,10,11].
 </pre>
 
-<p><strong>示例 4：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3,4], k = 3
-<strong>输出：</strong>false
-<strong>解释：</strong>数组不能分成几个大小为 3 的子数组。
+<strong>Input:</strong> nums = [1,2,3,4], k = 3
+<strong>Output:</strong> false
+<strong>Explanation:</strong> Each array should be divided in subarrays of size 3.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -60,22 +56,21 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>注意：</strong>此题目与 846 重复：<a href="https://leetcode.cn/problems/hand-of-straights/" target="_blank">https://leetcode.cn/problems/hand-of-straights/</a></p>
+<strong>Note:</strong> This question is the same as&nbsp;846:&nbsp;<a href="https://leetcode.com/problems/hand-of-straights/" target="_blank">https://leetcode.com/problems/hand-of-straights/</a>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 排序
+### Solution 1: Hash Table + Sorting
 
-我们用一个哈希表 $\textit{cnt}$ 统计数组 $\textit{nums}$ 中每个数字出现的次数，然后对数组 $\textit{nums}$ 进行排序。
+We use a hash table $\textit{cnt}$ to count the occurrences of each number in the array $\textit{nums}$, and then sort the array $\textit{nums}$.
 
-接下来，我们遍历数组 $\textit{nums}$，对于数组中的每个数字 $v$，如果 $v$ 在哈希表 $\textit{cnt}$ 中出现的次数不为 $0$，则我们枚举 $v$ 到 $v+k-1$ 的每个数字，如果这些数字在哈希表 $\textit{cnt}$ 中出现的次数都不为 $0$，则我们将这些数字的出现次数减 $1$，如果减 $1$ 后这些数字的出现次数为 $0$，则我们在哈希表 $\textit{cnt}$ 中删除这些数字。否则说明无法将数组划分成若干个长度为 $k$ 的子数组，返回 `false`。如果可以将数组划分成若干个长度为 $k$ 的子数组，则遍历结束后返回 `true`。
+Next, we traverse the array $\textit{nums}$. For each number $v$ in the array, if the count of $v$ in the hash table $\textit{cnt}$ is not zero, we enumerate each number from $v$ to $v+k-1$. If the counts of these numbers in the hash table $\textit{cnt}$ are all non-zero, we decrement the counts of these numbers by 1. If the count becomes zero after decrementing, we remove these numbers from the hash table $\textit{cnt}$. Otherwise, it means we cannot divide the array into several subarrays of length $k$, and we return `false`. If we can divide the array into several subarrays of length $k$, we return `true` after the traversal.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 
@@ -181,13 +176,13 @@ func isPossibleDivide(nums []int, k int) bool {
 
 <!-- solution:start -->
 
-### 方法二：有序集合
+### Solution 1: Ordered Set
 
-我们也可以使用有序集合统计数组 $\textit{nums}$ 中每个数字出现的次数。
+We can also use an ordered set to count the occurrences of each number in the array $\textit{nums}$.
 
-接下来，循环取出有序集合中的最小值 $v$，然后枚举 $v$ 到 $v+k-1$ 的每个数字，如果这些数字在有序集合中出现的次数都不为 $0$，则我们将这些数字的出现次数减 $1$，如果出现次数减 $1$ 后为 $0$，则将该数字从有序集合中删除，否则说明无法将数组划分成若干个长度为 $k$ 的子数组，返回 `false`。如果可以将数组划分成若干个长度为 $k$ 的子数组，则遍历结束后返回 `true`。
+Next, we loop to extract the minimum value $v$ from the ordered set, then enumerate each number from $v$ to $v+k-1$. If the occurrences of these numbers in the ordered set are all non-zero, we decrement the occurrence count of these numbers by 1. If the occurrence count becomes 0 after decrementing, we remove the number from the ordered set. Otherwise, it means we cannot divide the array into several subarrays of length $k$, and we return `false`. If we can divide the array into several subarrays of length $k$, we return `true` after the traversal.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

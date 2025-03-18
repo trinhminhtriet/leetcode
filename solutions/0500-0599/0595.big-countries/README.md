@@ -1,26 +1,20 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0595.Big%20Countries/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [595. 大的国家](https://leetcode.cn/problems/big-countries)
+# [595. Big Countries](https://leetcode.com/problems/big-countries)
 
-[English Version](/solution/0500-0599/0595.Big%20Countries/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><code>World</code> 表：</p>
+<p>Table: <code>World</code></p>
 
-<div class="top-view__1vxA">
-<div class="original__bRMd">
-<div>
 <pre>
 +-------------+---------+
 | Column Name | Type    |
@@ -31,32 +25,31 @@ tags:
 | population  | int     |
 | gdp         | bigint  |
 +-------------+---------+
-<code>name</code> 是该表的主键（具有唯一值的列）。
-这张表的每一行提供：国家名称、所属大陆、面积、人口和 GDP 值。
+name is the primary key (column with unique values) for this table.
+Each row of this table gives information about the name of a country, the continent to which it belongs, its area, the population, and its GDP value.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>如果一个国家满足下述两个条件之一，则认为该国是 <strong>大国</strong> ：</p>
+<p>A country is <strong>big</strong> if:</p>
 
 <ul>
-	<li>面积至少为 300 万平方公里（即，<code>3000000 km<sup>2</sup></code>），或者</li>
-	<li>人口至少为 2500 万（即 <code>25000000</code>）</li>
+	<li>it has an area of at least&nbsp;three million (i.e., <code>3000000 km<sup>2</sup></code>), or</li>
+	<li>it has a population of at least&nbsp;twenty-five million (i.e., <code>25000000</code>).</li>
 </ul>
 
-<p>编写解决方案找出&nbsp;<strong>大国</strong> 的国家名称、人口和面积。</p>
+<p>Write a solution to find the name, population, and area of the <strong>big countries</strong>.</p>
 
-<p>按 <strong>任意顺序</strong> 返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>返回结果格式如下例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-World 表：
+<strong>Input:</strong> 
+World table:
 +-------------+-----------+---------+------------+--------------+
 | name        | continent | area    | population | gdp          |
 +-------------+-----------+---------+------------+--------------+
@@ -66,7 +59,7 @@ World 表：
 | Andorra     | Europe    | 468     | 78115      | 3712000000   |
 | Angola      | Africa    | 1246700 | 20609294   | 100990000000 |
 +-------------+-----------+---------+------------+--------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-------------+------------+---------+
 | name        | population | area    |
 +-------------+------------+---------+
@@ -74,19 +67,14 @@ World 表：
 | Algeria     | 37100000   | 2381741 |
 +-------------+------------+---------+
 </pre>
-</div>
-</div>
-</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：使用 WHERE + OR
-
-我们可以使用 `WHERE` + `OR` 查询出所有符合条件的国家。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -105,9 +93,7 @@ WHERE area >= 3000000 OR population >= 25000000;
 
 <!-- solution:start -->
 
-### 方法二：使用 UNION
-
-我们可以查询出所有面积大于等于 300 万平方公里的国家，然后再查询出所有人口大于等于 2500 万的国家，最后使用 `UNION` 将两个结果集合并起来。
+### Solution 2
 
 <!-- tabs:start -->
 

@@ -1,73 +1,67 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1601.Maximum%20Number%20of%20Achievable%20Transfer%20Requests/README.md
+difficulty: Hard
 rating: 2118
-source: 第 208 场周赛 Q4
+source: Weekly Contest 208 Q4
 tags:
-    - 位运算
-    - 数组
-    - 回溯
-    - 枚举
+    - Bit Manipulation
+    - Array
+    - Backtracking
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [1601. 最多可达成的换楼请求数目](https://leetcode.cn/problems/maximum-number-of-achievable-transfer-requests)
+# [1601. Maximum Number of Achievable Transfer Requests](https://leetcode.com/problems/maximum-number-of-achievable-transfer-requests)
 
-[English Version](/solution/1600-1699/1601.Maximum%20Number%20of%20Achievable%20Transfer%20Requests/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>我们有&nbsp;<code>n</code>&nbsp;栋楼，编号从&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;。每栋楼有若干员工。由于现在是换楼的季节，部分员工想要换一栋楼居住。</p>
+<p>We have <code>n</code> buildings numbered from <code>0</code> to <code>n - 1</code>. Each building has a number of employees. It&#39;s transfer season, and some employees want to change the building they reside in.</p>
 
-<p>给你一个数组 <code>requests</code>&nbsp;，其中&nbsp;<code>requests[i] = [from<sub>i</sub>, to<sub>i</sub>]</code>&nbsp;，表示一个员工请求从编号为&nbsp;<code>from<sub>i</sub></code>&nbsp;的楼搬到编号为&nbsp;<code>to<sub>i</sub></code><sub>&nbsp;</sub>的楼。</p>
+<p>You are given an array <code>requests</code> where <code>requests[i] = [from<sub>i</sub>, to<sub>i</sub>]</code> represents an employee&#39;s request to transfer from building <code>from<sub>i</sub></code> to building <code>to<sub>i</sub></code>.</p>
 
-<p>一开始&nbsp;<strong>所有楼都是满的</strong>，所以从请求列表中选出的若干个请求是可行的需要满足 <strong>每栋楼员工净变化为 0&nbsp;</strong>。意思是每栋楼 <strong>离开</strong>&nbsp;的员工数目 <strong>等于</strong>&nbsp;该楼 <strong>搬入</strong>&nbsp;的员工数数目。比方说&nbsp;<code>n = 3</code>&nbsp;且两个员工要离开楼&nbsp;<code>0</code>&nbsp;，一个员工要离开楼&nbsp;<code>1</code>&nbsp;，一个员工要离开楼 <code>2</code>&nbsp;，如果该请求列表可行，应该要有两个员工搬入楼&nbsp;<code>0</code>&nbsp;，一个员工搬入楼&nbsp;<code>1</code>&nbsp;，一个员工搬入楼&nbsp;<code>2</code>&nbsp;。</p>
+<p><strong>All buildings are full</strong>, so a list of requests is achievable only if for each building, the <strong>net change in employee transfers is zero</strong>. This means the number of employees <strong>leaving</strong> is <strong>equal</strong> to the number of employees <strong>moving in</strong>. For example if <code>n = 3</code> and two employees are leaving building <code>0</code>, one is leaving building <code>1</code>, and one is leaving building <code>2</code>, there should be two employees moving to building <code>0</code>, one employee moving to building <code>1</code>, and one employee moving to building <code>2</code>.</p>
 
-<p>请你从原请求列表中选出若干个请求，使得它们是一个可行的请求列表，并返回所有可行列表中最大请求数目。</p>
+<p>Return <em>the maximum number of achievable requests</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1601.Maximum%20Number%20of%20Achievable%20Transfer%20Requests/images/move1.jpg" style="width: 600px; height: 406px;" />
+<pre>
+<strong>Input:</strong> n = 5, requests = [[0,1],[1,0],[0,1],[1,2],[2,0],[3,4]]
+<strong>Output:</strong> 5
+<strong>Explantion:</strong> Let&#39;s see the requests:
+From building 0 we have employees x and y and both want to move to building 1.
+From building 1 we have employees a and b and they want to move to buildings 2 and 0 respectively.
+From building 2 we have employee z and they want to move to building 0.
+From building 3 we have employee c and they want to move to building 4.
+From building 4 we don&#39;t have any requests.
+We can achieve the requests of users x and b by swapping their places.
+We can achieve the requests of users y, a and z by swapping the places in the 3 buildings.
+</pre>
 
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1601.Maximum%20Number%20of%20Achievable%20Transfer%20Requests/images/move2.jpg" style="width: 450px; height: 327px;" />
+<pre>
+<strong>Input:</strong> n = 3, requests = [[0,0],[1,2],[2,1]]
+<strong>Output:</strong> 3
+<strong>Explantion:</strong> Let&#39;s see the requests:
+From building 0 we have employee x and they want to stay in the same building 0.
+From building 1 we have employee y and they want to move to building 2.
+From building 2 we have employee z and they want to move to building 1.
+We can achieve all the requests. </pre>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1601.Maximum%20Number%20of%20Achievable%20Transfer%20Requests/images/move1.jpg" style="height: 406px; width: 600px;"></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>n = 5, requests = [[0,1],[1,0],[0,1],[1,2],[2,0],[3,4]]
-<strong>输出：</strong>5
-<strong>解释：</strong>请求列表如下：
-从楼 0 离开的员工为 x 和 y ，且他们都想要搬到楼 1 。
-从楼 1 离开的员工为 a 和 b ，且他们分别想要搬到楼 2 和 0 。
-从楼 2 离开的员工为 z ，且他想要搬到楼 0 。
-从楼 3 离开的员工为 c ，且他想要搬到楼 4 。
-没有员工从楼 4 离开。
-我们可以让 x 和 b 交换他们的楼，以满足他们的请求。
-我们可以让 y，a 和 z 三人在三栋楼间交换位置，满足他们的要求。
-所以最多可以满足 5 个请求。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1601.Maximum%20Number%20of%20Achievable%20Transfer%20Requests/images/move2.jpg" style="height: 327px; width: 450px;"></p>
-
-<pre><strong>输入：</strong>n = 3, requests = [[0,0],[1,2],[2,1]]
-<strong>输出：</strong>3
-<strong>解释：</strong>请求列表如下：
-从楼 0 离开的员工为 x ，且他想要回到原来的楼 0 。
-从楼 1 离开的员工为 y ，且他想要搬到楼 2 。
-从楼 2 离开的员工为 z ，且他想要搬到楼 1 。
-我们可以满足所有的请求。</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>n = 4, requests = [[0,3],[3,1],[1,2],[2,0]]
-<strong>输出：</strong>4
+<pre>
+<strong>Input:</strong> n = 4, requests = [[0,3],[3,1],[1,2],[2,0]]
+<strong>Output:</strong> 4
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 20</code></li>
@@ -78,17 +72,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二进制枚举
+### Solution 1: Binary Enumeration
 
-我们注意到，换楼请求列表长度不超过 $16$，因此我们可以使用二进制枚举的方法枚举所有的换楼请求列表。具体地，我们可以使用一个长度为 $16$ 的二进制数来表示一种换楼请求列表，其中第 $i$ 位为 $1$ 表示第 $i$ 个换楼请求被选中，为 $0$ 表示第 $i$ 个换楼请求不被选中。
+We note that the length of the room change request list does not exceed $16$. Therefore, we can use the method of binary enumeration to enumerate all room change request lists. Specifically, we can use a binary number of length $16$ to represent a room change request list, where the $i$-th bit being $1$ means the $i$-th room change request is selected, and $0$ means the $i$-th room change request is not selected.
 
-我们在 $[1, 2^{m})$ 的范围内枚举所有的二进制数，对于每个二进制数 $mask$，我们先算出它的二进制表示中有多少个 $1$，记为 $cnt$，如果 $cnt$ 比当前答案 $ans$ 大，那么我们再判断 $mask$ 是否是一个可行的换楼请求列表。如果是，那么我们就用 $cnt$ 更新答案 $ans$。判断 $mask$ 是否是一个可行的换楼请求列表，只需要判断对于每个楼，它的净流入量是否为 $0$ 即可。
+We enumerate all binary numbers in the range of $[1, 2^{m})$, for each binary number $mask$, we first calculate how many $1$s are in its binary representation, denoted as $cnt$. If $cnt$ is larger than the current answer $ans$, then we judge whether $mask$ is a feasible room change request list. If it is, then we update the answer $ans$ with $cnt$. To judge whether $mask$ is a feasible room change request list, we only need to check whether the net inflow of each room is $0$.
 
-时间复杂度 $O(2^m \times (m + n))$，空间复杂度 $O(n)$。其中 $m$ 和 $n$ 分别是换楼请求列表的长度和楼的数量。
+The time complexity is $O(2^m \times (m + n))$, and the space complexity is $O(n)$, where $m$ and $n$ are the lengths of the room change request list and the number of rooms, respectively.
 
 <!-- tabs:start -->
 

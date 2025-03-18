@@ -1,78 +1,67 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0051.N-Queens/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 回溯
+    - Array
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [51. N 皇后](https://leetcode.cn/problems/n-queens)
+# [51. N-Queens](https://leetcode.com/problems/n-queens)
 
-[English Version](/solution/0000-0099/0051.N-Queens/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>按照国际象棋的规则，皇后可以攻击与之处在同一行或同一列或同一斜线上的棋子。</p>
+<p>The <strong>n-queens</strong> puzzle is the problem of placing <code>n</code> queens on an <code>n x n</code> chessboard such that no two queens attack each other.</p>
 
-<p><strong>n&nbsp;皇后问题</strong> 研究的是如何将 <code>n</code>&nbsp;个皇后放置在 <code>n×n</code> 的棋盘上，并且使皇后彼此之间不能相互攻击。</p>
+<p>Given an integer <code>n</code>, return <em>all distinct solutions to the <strong>n-queens puzzle</strong></em>. You may return the answer in <strong>any order</strong>.</p>
 
-<p>给你一个整数 <code>n</code> ，返回所有不同的&nbsp;<strong>n<em>&nbsp;</em>皇后问题</strong> 的解决方案。</p>
-
-<div class="original__bRMd">
-<div>
-<p>每一种解法包含一个不同的&nbsp;<strong>n 皇后问题</strong> 的棋子放置方案，该方案中 <code>'Q'</code> 和 <code>'.'</code> 分别代表了皇后和空位。</p>
+<p>Each solution contains a distinct board configuration of the n-queens&#39; placement, where <code>&#39;Q&#39;</code> and <code>&#39;.&#39;</code> both indicate a queen and an empty space, respectively.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0051.N-Queens/images/queens.jpg" style="width: 600px; height: 268px;" />
 <pre>
-<strong>输入：</strong>n = 4
-<strong>输出：</strong>[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
-<strong>解释：</strong>如上图所示，4 皇后问题存在两个不同的解法。
+<strong>Input:</strong> n = 4
+<strong>Output:</strong> [[&quot;.Q..&quot;,&quot;...Q&quot;,&quot;Q...&quot;,&quot;..Q.&quot;],[&quot;..Q.&quot;,&quot;Q...&quot;,&quot;...Q&quot;,&quot;.Q..&quot;]]
+<strong>Explanation:</strong> There exist two distinct solutions to the 4-queens puzzle as shown above
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 1
-<strong>输出：</strong>[["Q"]]
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> [[&quot;Q&quot;]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 9</code></li>
 </ul>
-</div>
-</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS(回溯)
+### Solution 1: DFS (Backtracking)
 
-我们定义三个数组 $col$, $dg$ 和 $udg$，分别表示列、正对角线和反对角线上的是否有皇后，如果位置 $(i, j)$ 有皇后，那么 $col[j]$, $dg[i + j]$ 和 $udg[n - i + j]$ 都为 $1$。另外，我们用一个数组 $g$ 记录当前棋盘的状态，初始时 $g$ 中的所有元素都是 `'.'`。
+We define three arrays $col$, $dg$, and $udg$ to represent whether there is a queen in the column, the main diagonal, and the anti-diagonal, respectively. If there is a queen at position $(i, j)$, then $col[j]$, $dg[i + j]$, and $udg[n - i + j]$ are all $1$. In addition, we use an array $g$ to record the current state of the chessboard, where all elements in $g$ are initially `'.'`.
 
-接下来，我们定义一个函数 $dfs(i)$，表示从第 $i$ 行开始放置皇后。
+Next, we define a function $dfs(i)$, which represents placing queens starting from the $i$th row.
 
-在 $dfs(i)$ 中，如果 $i=n$，说明我们已经完成了所有皇后的放置，我们将当前 $g$ 放入答案数组中，递归结束。
+In $dfs(i)$, if $i = n$, it means that we have completed the placement of all queens. We put the current $g$ into the answer array and end the recursion.
 
-否则，我们枚举当前行的每一列 $j$，如果位置 $(i, j)$ 没有皇后，即 $col[j]$, $dg[i + j]$ 和 $udg[n - i + j]$ 都为 $0$，那么我们可以放置皇后，即把 $g[i][j]$ 改为 `'Q'`，并将 $col[j]$, $dg[i + j]$ 和 $udg[n - i + j]$ 都置为 $1$，然后继续搜索下一行，即调用 $dfs(i + 1)$，递归结束后，我们需要将 $g[i][j]$ 改回 `'.'` 并将 $col[j]$, $dg[i + j]$ 和 $udg[n - i + j]$ 都置为 $0$。
+Otherwise, we enumerate each column $j$ of the current row. If there is no queen at position $(i, j)$, that is, $col[j]$, $dg[i + j]$, and $udg[n - i + j]$ are all $0$, then we can place a queen, that is, change $g[i][j]$ to `'Q'`, and set $col[j]$, $dg[i + j]$, and $udg[n - i + j]$ to $1$. Then we continue to search the next row, that is, call $dfs(i + 1)$. After the recursion ends, we need to change $g[i][j]$ back to `'.'` and set $col[j]$, $dg[i + j]$, and $udg[n - i + j]$ to $0$.
 
-在主函数中，我们调用 $dfs(0)$ 开始递归，最后返回答案数组即可。
+In the main function, we call $dfs(0)$ to start recursion, and finally return the answer array.
 
-时间复杂度 $(n^2 \times n!)$，空间复杂度 $O(n)$。其中 $n$ 是题目给定的整数。
+The time complexity is $O(n^2 \times n!)$, and the space complexity is $O(n)$. Here, $n$ is the integer given in the problem.
 
 <!-- tabs:start -->
 

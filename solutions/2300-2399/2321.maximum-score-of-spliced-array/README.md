@@ -1,71 +1,66 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2321.Maximum%20Score%20Of%20Spliced%20Array/README.md
+difficulty: Hard
 rating: 1790
-source: 第 299 场周赛 Q3
+source: Weekly Contest 299 Q3
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2321. 拼接数组的最大分数](https://leetcode.cn/problems/maximum-score-of-spliced-array)
+# [2321. Maximum Score Of Spliced Array](https://leetcode.com/problems/maximum-score-of-spliced-array)
 
-[English Version](/solution/2300-2399/2321.Maximum%20Score%20Of%20Spliced%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个下标从 <strong>0</strong> 开始的整数数组 <code>nums1</code> 和 <code>nums2</code> ，长度都是 <code>n</code> 。</p>
+<p>You are given two <strong>0-indexed</strong> integer arrays <code>nums1</code> and <code>nums2</code>, both of length <code>n</code>.</p>
 
-<p>你可以选择两个整数 <code>left</code> 和 <code>right</code> ，其中 <code>0 &lt;= left &lt;= right &lt; n</code> ，接着 <strong>交换</strong> 两个子数组 <code>nums1[left...right]</code> 和 <code>nums2[left...right]</code> 。</p>
+<p>You can choose two integers <code>left</code> and <code>right</code> where <code>0 &lt;= left &lt;= right &lt; n</code> and <strong>swap</strong> the subarray <code>nums1[left...right]</code> with the subarray <code>nums2[left...right]</code>.</p>
 
 <ul>
-	<li>例如，设 <code>nums1 = [1,2,3,4,5]</code> 和 <code>nums2 = [11,12,13,14,15]</code> ，整数选择 <code>left = 1</code> 和 <code>right = 2</code>，那么 <code>nums1</code> 会变为 <code>[1,<strong><em>12</em>,<em>13</em></strong>,4,5]</code> 而 <code>nums2</code> 会变为 <code>[11,<em><strong>2,3</strong></em>,14,15]</code> 。</li>
+	<li>For example, if <code>nums1 = [1,2,3,4,5]</code> and <code>nums2 = [11,12,13,14,15]</code> and you choose <code>left = 1</code> and <code>right = 2</code>, <code>nums1</code> becomes <code>[1,<strong><u>12,13</u></strong>,4,5]</code> and <code>nums2</code> becomes <code>[11,<strong><u>2,3</u></strong>,14,15]</code>.</li>
 </ul>
 
-<p>你可以选择执行上述操作 <strong>一次</strong> 或不执行任何操作。</p>
+<p>You may choose to apply the mentioned operation <strong>once</strong> or not do anything.</p>
 
-<p>数组的 <strong>分数</strong> 取 <code>sum(nums1)</code> 和 <code>sum(nums2)</code> 中的最大值，其中 <code>sum(arr)</code> 是数组 <code>arr</code> 中所有元素之和。</p>
+<p>The <strong>score</strong> of the arrays is the <strong>maximum</strong> of <code>sum(nums1)</code> and <code>sum(nums2)</code>, where <code>sum(arr)</code> is the sum of all the elements in the array <code>arr</code>.</p>
 
-<p>返回 <strong>可能的最大分数</strong> 。</p>
+<p>Return <em>the <strong>maximum possible score</strong></em>.</p>
 
-<p><strong>子数组 </strong>是数组中连续的一个元素序列。<code>arr[left...right]</code> 表示子数组包含 <code>nums</code> 中下标 <code>left</code> 和 <code>right</code> 之间的元素<strong>（含</strong> 下标 <code>left</code> 和 <code>right</code> 对应元素<strong>）</strong>。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums1 = [60,60,60], nums2 = [10,90,10]
-<strong>输出：</strong>210
-<strong>解释：</strong>选择 left = 1 和 right = 1 ，得到 nums1 = [60,<em><strong>90</strong></em>,60] 和 nums2 = [10,<em><strong>60</strong></em>,10] 。
-分数为 max(sum(nums1), sum(nums2)) = max(210, 80) = 210 。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums1 = [20,40,20,70,30], nums2 = [50,20,50,40,20]
-<strong>输出：</strong>220
-<strong>解释：</strong>选择 left = 3 和 right = 4 ，得到 nums1 = [20,40,20,<em><strong>40,20</strong></em>] 和 nums2 = [50,20,50,<em><strong>70,30</strong></em>] 。
-分数为 max(sum(nums1), sum(nums2)) = max(140, 220) = 220 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums1 = [7,11,13], nums2 = [1,1,1]
-<strong>输出：</strong>31
-<strong>解释：</strong>选择不交换任何子数组。
-分数为 max(sum(nums1), sum(nums2)) = max(31, 3) = 31 。
-</pre>
+<p>A <strong>subarray</strong> is a contiguous sequence of elements within an array. <code>arr[left...right]</code> denotes the subarray that contains the elements of <code>nums</code> between indices <code>left</code> and <code>right</code> (<strong>inclusive</strong>).</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums1 = [60,60,60], nums2 = [10,90,10]
+<strong>Output:</strong> 210
+<strong>Explanation:</strong> Choosing left = 1 and right = 1, we have nums1 = [60,<u><strong>90</strong></u>,60] and nums2 = [10,<u><strong>60</strong></u>,10].
+The score is max(sum(nums1), sum(nums2)) = max(210, 80) = 210.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [20,40,20,70,30], nums2 = [50,20,50,40,20]
+<strong>Output:</strong> 220
+<strong>Explanation:</strong> Choosing left = 3, right = 4, we have nums1 = [20,40,20,<u><strong>40,20</strong></u>] and nums2 = [50,20,50,<u><strong>70,30</strong></u>].
+The score is max(sum(nums1), sum(nums2)) = max(140, 220) = 220.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [7,11,13], nums2 = [1,1,1]
+<strong>Output:</strong> 31
+<strong>Explanation:</strong> We choose not to swap any subarray.
+The score is max(sum(nums1), sum(nums2)) = max(31, 3) = 31.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums1.length == nums2.length</code></li>
@@ -75,11 +70,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

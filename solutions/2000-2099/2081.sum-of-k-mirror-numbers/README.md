@@ -1,57 +1,55 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2081.Sum%20of%20k-Mirror%20Numbers/README.md
+difficulty: Hard
 rating: 2209
-source: 第 268 场周赛 Q4
+source: Weekly Contest 268 Q4
 tags:
-    - 数学
-    - 枚举
+    - Math
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [2081. k 镜像数字的和](https://leetcode.cn/problems/sum-of-k-mirror-numbers)
+# [2081. Sum of k-Mirror Numbers](https://leetcode.com/problems/sum-of-k-mirror-numbers)
 
-[English Version](/solution/2000-2099/2081.Sum%20of%20k-Mirror%20Numbers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个 <strong>k 镜像数字</strong>&nbsp;指的是一个在十进制和 k 进制下从前往后读和从后往前读都一样的&nbsp;<strong>没有前导 0</strong>&nbsp;的&nbsp;<strong>正</strong>&nbsp;整数。</p>
+<p>A <strong>k-mirror number</strong> is a <strong>positive</strong> integer <strong>without leading zeros</strong> that reads the same both forward and backward in base-10 <strong>as well as</strong> in base-k.</p>
 
 <ul>
-	<li>比方说，<code>9</code>&nbsp;是一个 2 镜像数字。<code>9</code>&nbsp;在十进制下为&nbsp;<code>9</code>&nbsp;，二进制下为&nbsp;<code>1001</code>&nbsp;，两者从前往后读和从后往前读都一样。</li>
-	<li>相反地，<code>4</code>&nbsp;不是一个 2 镜像数字。<code>4</code>&nbsp;在二进制下为&nbsp;<code>100</code>&nbsp;，从前往后和从后往前读不相同。</li>
+	<li>For example, <code>9</code> is a 2-mirror number. The representation of <code>9</code> in base-10 and base-2 are <code>9</code> and <code>1001</code> respectively, which read the same both forward and backward.</li>
+	<li>On the contrary, <code>4</code> is not a 2-mirror number. The representation of <code>4</code> in base-2 is <code>100</code>, which does not read the same both forward and backward.</li>
 </ul>
 
-<p>给你进制&nbsp;<code>k</code>&nbsp;和一个数字&nbsp;<code>n</code>&nbsp;，请你返回 k 镜像数字中 <strong>最小</strong> 的 <code>n</code>&nbsp;个数 <strong>之和</strong>&nbsp;。</p>
+<p>Given the base <code>k</code> and the number <code>n</code>, return <em>the <strong>sum</strong> of the</em> <code>n</code> <em><strong>smallest</strong> k-mirror numbers</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><b>示例 1：</b></p>
-
-<pre><b>输入：</b>k = 2, n = 5
-<b>输出：</b>25
-<strong>解释：
-</strong>最小的 5 个 2 镜像数字和它们的二进制表示如下：
-  十进制       二进制
+<pre>
+<strong>Input:</strong> k = 2, n = 5
+<strong>Output:</strong> 25
+<strong>Explanation:
+</strong>The 5 smallest 2-mirror numbers and their representations in base-2 are listed as follows:
+  base-10    base-2
     1          1
     3          11
     5          101
     7          111
     9          1001
-它们的和为 1 + 3 + 5 + 7 + 9 = 25 。
+Their sum = 1 + 3 + 5 + 7 + 9 = 25. 
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>k = 3, n = 7
-<b>输出：</b>499
-<strong>解释：
-</strong>7 个最小的 3 镜像数字和它们的三进制表示如下：
-  十进制       三进制
+<pre>
+<strong>Input:</strong> k = 3, n = 7
+<strong>Output:</strong> 499
+<strong>Explanation:
+</strong>The 7 smallest 3-mirror numbers are and their representations in base-3 are listed as follows:
+  base-10    base-3
     1          1
     2          2
     4          11
@@ -59,20 +57,20 @@ tags:
     121        11111
     151        12121
     212        21212
-它们的和为 1 + 2 + 4 + 8 + 121 + 151 + 212 = 499 。
+Their sum = 1 + 2 + 4 + 8 + 121 + 151 + 212 = 499.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><b>输入：</b>k = 7, n = 17
-<b>输出：</b>20379000
-<b>解释：</b>17 个最小的 7 镜像数字分别为：
+<pre>
+<strong>Input:</strong> k = 7, n = 17
+<strong>Output:</strong> 20379000
+<strong>Explanation:</strong> The 17 smallest 7-mirror numbers are:
 1, 2, 3, 4, 5, 6, 8, 121, 171, 242, 292, 16561, 65656, 2137312, 4602064, 6597956, 6958596
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= k &lt;= 9</code></li>
@@ -81,11 +79,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

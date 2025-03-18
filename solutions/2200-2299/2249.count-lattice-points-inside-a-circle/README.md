@@ -1,67 +1,58 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2249.Count%20Lattice%20Points%20Inside%20a%20Circle/README.md
+difficulty: Medium
 rating: 1602
-source: 第 290 场周赛 Q2
+source: Weekly Contest 290 Q2
 tags:
-    - 几何
-    - 数组
-    - 哈希表
-    - 数学
-    - 枚举
+    - Geometry
+    - Array
+    - Hash Table
+    - Math
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [2249. 统计圆内格点数目](https://leetcode.cn/problems/count-lattice-points-inside-a-circle)
+# [2249. Count Lattice Points Inside a Circle](https://leetcode.com/problems/count-lattice-points-inside-a-circle)
 
-[English Version](/solution/2200-2299/2249.Count%20Lattice%20Points%20Inside%20a%20Circle/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二维整数数组 <code>circles</code> ，其中 <code>circles[i] = [x<sub>i</sub>, y<sub>i</sub>, r<sub>i</sub>]</code> 表示网格上圆心为 <code>(x<sub>i</sub>, y<sub>i</sub>)</code> 且半径为 <code>r<sub>i</sub></code> 的第 <code>i</code> 个圆，返回出现在<strong> 至少一个 </strong>圆内的 <strong>格点数目</strong> 。</p>
+<p>Given a 2D integer array <code>circles</code> where <code>circles[i] = [x<sub>i</sub>, y<sub>i</sub>, r<sub>i</sub>]</code> represents the center <code>(x<sub>i</sub>, y<sub>i</sub>)</code> and radius <code>r<sub>i</sub></code> of the <code>i<sup>th</sup></code> circle drawn on a grid, return <em>the <strong>number of lattice points</strong> </em><em>that are present inside <strong>at least one</strong> circle</em>.</p>
 
-<p><strong>注意：</strong></p>
+<p><strong>Note:</strong></p>
 
 <ul>
-	<li><strong>格点</strong> 是指整数坐标对应的点。</li>
-	<li><strong>圆周上的点</strong> 也被视为出现在圆内的点。</li>
+	<li>A <strong>lattice point</strong> is a point with integer coordinates.</li>
+	<li>Points that lie <strong>on the circumference of a circle</strong> are also considered to be inside it.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2249.Count%20Lattice%20Points%20Inside%20a%20Circle/images/exa-11.png" style="width: 300px; height: 300px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2249.Count%20Lattice%20Points%20Inside%20a%20Circle/images/exa-11.png" style="width: 300px; height: 300px;" />
 <pre>
-<strong>输入：</strong>circles = [[2,2,1]]
-<strong>输出：</strong>5
-<strong>解释：</strong>
-给定的圆如上图所示。
-出现在圆内的格点为 (1, 2)、(2, 1)、(2, 2)、(2, 3) 和 (3, 2)，在图中用绿色标识。
-像 (1, 1) 和 (1, 3) 这样用红色标识的点，并未出现在圆内。
-因此，出现在至少一个圆内的格点数目是 5 。</pre>
+<strong>Input:</strong> circles = [[2,2,1]]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong>
+The figure above shows the given circle.
+The lattice points present inside the circle are (1, 2), (2, 1), (2, 2), (2, 3), and (3, 2) and are shown in green.
+Other points such as (1, 1) and (1, 3), which are shown in red, are not considered inside the circle.
+Hence, the number of lattice points present inside at least one circle is 5.</pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2249.Count%20Lattice%20Points%20Inside%20a%20Circle/images/exa-22.png" style="width: 300px; height: 300px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2249.Count%20Lattice%20Points%20Inside%20a%20Circle/images/exa-22.png" style="width: 300px; height: 300px;" />
 <pre>
-<strong>输入：</strong>circles = [[2,2,2],[3,4,1]]
-<strong>输出：</strong>16
-<strong>解释：</strong>
-给定的圆如上图所示。
-共有 16 个格点出现在至少一个圆内。
-其中部分点的坐标是 (0, 2)、(2, 0)、(2, 4)、(3, 2) 和 (4, 4) 。
+<strong>Input:</strong> circles = [[2,2,2],[3,4,1]]
+<strong>Output:</strong> 16
+<strong>Explanation:</strong>
+The figure above shows the given circles.
+There are exactly 16 lattice points which are present inside at least one circle. 
+Some of them are (0, 2), (2, 0), (2, 4), (3, 2), and (4, 4).
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= circles.length &lt;= 200</code></li>
@@ -72,17 +63,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
-
-枚举所有的格点，判断其是否在圆内，如果在圆内，则答案加一。
-
-枚举的时候，可以将所有圆的最大横纵坐标求出来，作为枚举的上界。
-
-时间复杂度 $O(X \times Y \times n)$，空间复杂度 $O(1)$。其中 $X$ 和 $Y$ 分别为所有圆的最大横纵坐标，而 $n$ 为圆的个数。
+### Solution 1
 
 <!-- tabs:start -->
 

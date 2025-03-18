@@ -1,95 +1,90 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2795.Parallel%20Execution%20of%20Promises%20for%20Individual%20Results%20Retrieval/README.md
+difficulty: Medium
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2795. 并行执行 Promise 以获取独有的结果 🔒](https://leetcode.cn/problems/parallel-execution-of-promises-for-individual-results-retrieval)
+# [2795. Parallel Execution of Promises for Individual Results Retrieval 🔒](https://leetcode.com/problems/parallel-execution-of-promises-for-individual-results-retrieval)
 
-[English Version](/solution/2700-2799/2795.Parallel%20Execution%20of%20Promises%20for%20Individual%20Results%20Retrieval/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个数组 <code>functions</code>，返回一个 promise 对象 <code>promise</code>。<code>functions</code> 是一个返回多个 promise&nbsp;对象 <code>fnPromise</code> 的函数数组。每个 <code>fnPromise</code> 可以被解析（resolved）或拒绝（rejected）。</p>
+<p>Given an array&nbsp;<code>functions</code>, return a promise <code>promise</code>. <code>functions</code>&nbsp;is an array of functions that return promises <code>fnPromise.</code>&nbsp;Each <code>fnPromise</code>&nbsp;can be resolved or rejected.&nbsp;&nbsp;</p>
 
-<p>如果 <code>fnPromise</code> 被解析：</p>
+<p>If&nbsp;<code>fnPromise</code> is resolved:</p>
 
-<p>&nbsp; &nbsp; <code>obj = { status: "fulfilled", value:&nbsp;<em>resolved value</em>}</code></p>
+<p>&nbsp; &nbsp; <code>obj = { status: &quot;fulfilled&quot;, value: <em>resolved value</em>}</code></p>
 
-<p>如果 <code>fnPromise</code> 被拒绝：</p>
+<p>If&nbsp;<code>fnPromise</code> is rejected:</p>
 
-<p>&nbsp; &nbsp;&nbsp;<code>obj = { status: "rejected", reason: 拒绝的原因（捕获的错误消息）}</code></p>
+<p>&nbsp; &nbsp;&nbsp;<code>obj = { status: &quot;rejected&quot;, reason: <em>reason of rejection (catched error message)</em>}</code></p>
 
-<p>该 <code>promise</code> 应该返回一个包含这些对象 <code>obj</code> 的数组。数组中的每个 <code>obj</code> 应该对应原始函数数组中的多个 promise 对象，并保持相同的顺序。</p>
+<p>The <code>promise</code>&nbsp;should resolve with an array of these objects <code>obj</code>.&nbsp;Each <code>obj</code> in the array should correspond&nbsp;to the promises in the original array function, <strong>maintaining the same order</strong>.</p>
 
-<p>请在不使用内置方法 <code>Promise.allSettled()</code> 的情况下实现它。</p>
+<p>Try to implement it without using the built-in method&nbsp;<code>Promise.allSettled()</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>functions = [
+<strong>Input:</strong> functions = [
     () =&gt; new Promise(resolve =&gt; setTimeout(() =&gt; resolve(15), 100))
 ]
-<strong>输出：</strong>{"t":100,"values":[{"status":"fulfilled","value":15}]}
-<b>解释：</b>
+<strong>Output: </strong>{&quot;t&quot;:100,&quot;values&quot;:[{&quot;status&quot;:&quot;fulfilled&quot;,&quot;value&quot;:15}]}
+<strong>Explanation:</strong> 
 const time = performance.now()
 const promise = promiseAllSettled(functions);
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 promise.then(res =&gt; {
     const out = {t: Math.floor(performance.now() - time), values: res}
-    console.log(out) // {"t":100,"values":[{"status":"fulfilled","value":15}]}
+    console.log(out) // {&quot;t&quot;:100,&quot;values&quot;:[{&quot;status&quot;:&quot;fulfilled&quot;,&quot;value&quot;:15}]}
 })
 
-返回的 promise 在 100 毫秒内解析。由于函数数组中的 promise 被解析，返回的 promise 的解析值设置为[{"status":"fulfilled","value":15}]。
+The returned promise resolves within 100 milliseconds. Since promise from the array functions is fulfilled, the resolved value of the returned promise is set to [{&quot;status&quot;:&quot;fulfilled&quot;,&quot;value&quot;:15}].
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>functions = [
+<strong>Input:</strong> functions = [
     () =&gt; new Promise(resolve =&gt; setTimeout(() =&gt; resolve(20), 100)), 
     () =&gt; new Promise(resolve =&gt; setTimeout(() =&gt; resolve(15), 100))
 ]
-<strong>输出：
+<strong>Output: 
 </strong>{
-    "t":100,
-    "values": [
-&nbsp;       {"status":"fulfilled","value":20},
-&nbsp;       {"status":"fulfilled","value":15}
+    &quot;t&quot;:100,
+    &quot;values&quot;: [
+&nbsp;       {&quot;status&quot;:&quot;fulfilled&quot;,&quot;value&quot;:20},
+&nbsp;       {&quot;status&quot;:&quot;fulfilled&quot;,&quot;value&quot;:15}
     ]
 }
-<b>解释：</b>返回的 promise 在 100 毫秒内解析，因为解析时间取决于需要最长时间来解析的 promise。由于函数数组中的 promises 被解析，返回的 promise 的解析值设置为[{"status":"fulfilled","value":20},{"status":"fulfilled","value":15}]。
+<strong>Explanation:</strong> The returned promise resolves within 100 milliseconds, because the resolution time is determined by the promise that takes the longest time to fulfill. Since promises from the array functions are fulfilled, the resolved value of the returned promise is set to [{&quot;status&quot;:&quot;fulfilled&quot;,&quot;value&quot;:20},{&quot;status&quot;:&quot;fulfilled&quot;,&quot;value&quot;:15}].
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>functions = [
+<strong>Input:</strong> functions = [
 &nbsp;   () =&gt; new Promise(resolve =&gt; setTimeout(() =&gt; resolve(30), 200)), 
-&nbsp;   () =&gt; new Promise((resolve, reject) =&gt; setTimeout(() =&gt; reject("Error"), 100))
+&nbsp;   () =&gt; new Promise((resolve, reject) =&gt; setTimeout(() =&gt; reject(&quot;Error&quot;), 100))
 ]
-<strong>输出：</strong>
+<strong>Output:</strong>
 {
-    "t":200,
-    "values": [
-        {"status":"fulfilled","value":30},
-        {"status":"rejected","reason":"Error"}
+    &quot;t&quot;:200,
+    &quot;values&quot;: [
+        {&quot;status&quot;:&quot;fulfilled&quot;,&quot;value&quot;:30},
+        {&quot;status&quot;:&quot;rejected&quot;,&quot;reason&quot;:&quot;Error&quot;}
     ]
 }
-<b>解释：</b>返回的 promise 在 200 毫秒内解析，因为解析时间取决于需要最长时间来解析的 promise。由于函数数组中的一个 promise 被解析，另一个被拒绝，返回的 promise 的解析值设置为[{"status":"fulfilled","value":30},{"status":"rejected","reason":"Error"}]。数组中的每个对象对应原始函数数组中的 promise，并保持相同的顺序。
+<strong>Explanation:</strong> The returned promise resolves within 200 milliseconds, as its resolution time is determined by the promise that takes the longest time to fulfill. Since one promise from the array function is fulfilled and another is rejected, the resolved value of the returned promise is set to an array containing objects in the following order: [{&quot;status&quot;:&quot;fulfilled&quot;,&quot;value&quot;:30}, {&quot;status&quot;:&quot;rejected&quot;,&quot;reason&quot;:&quot;Error&quot;}]. Each object in the array corresponds to the promises in the original array function, maintaining the same order.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= functions.length &lt;= 10</code></li>
@@ -97,11 +92,11 @@ promise.then(res =&gt; {
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

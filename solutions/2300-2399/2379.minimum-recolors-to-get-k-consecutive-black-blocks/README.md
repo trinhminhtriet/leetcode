@@ -1,82 +1,77 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2379.Minimum%20Recolors%20to%20Get%20K%20Consecutive%20Black%20Blocks/README.md
+difficulty: Easy
 rating: 1360
-source: 第 85 场双周赛 Q1
+source: Biweekly Contest 85 Q1
 tags:
-    - 字符串
-    - 滑动窗口
+    - String
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [2379. 得到 K 个黑块的最少涂色次数](https://leetcode.cn/problems/minimum-recolors-to-get-k-consecutive-black-blocks)
+# [2379. Minimum Recolors to Get K Consecutive Black Blocks](https://leetcode.com/problems/minimum-recolors-to-get-k-consecutive-black-blocks)
 
-[English Version](/solution/2300-2399/2379.Minimum%20Recolors%20to%20Get%20K%20Consecutive%20Black%20Blocks/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code>&nbsp;下标从 <strong>0</strong>&nbsp;开始的字符串&nbsp;<code>blocks</code>&nbsp;，<code>blocks[i]</code>&nbsp;要么是&nbsp;<code>'W'</code>&nbsp;要么是&nbsp;<code>'B'</code>&nbsp;，表示第&nbsp;<code>i</code>&nbsp;块的颜色。字符&nbsp;<code>'W'</code> 和&nbsp;<code>'B'</code>&nbsp;分别表示白色和黑色。</p>
+<p>You are given a <strong>0-indexed</strong> string <code>blocks</code> of length <code>n</code>, where <code>blocks[i]</code> is either <code>&#39;W&#39;</code> or <code>&#39;B&#39;</code>, representing the color of the <code>i<sup>th</sup></code> block. The characters <code>&#39;W&#39;</code> and <code>&#39;B&#39;</code> denote the colors white and black, respectively.</p>
 
-<p>给你一个整数&nbsp;<code>k</code>&nbsp;，表示想要&nbsp;<strong>连续</strong>&nbsp;黑色块的数目。</p>
+<p>You are also given an integer <code>k</code>, which is the desired number of <strong>consecutive</strong> black blocks.</p>
 
-<p>每一次操作中，你可以选择一个白色块将它 <strong>涂成</strong>&nbsp;黑色块。</p>
+<p>In one operation, you can <strong>recolor</strong> a white block such that it becomes a black block.</p>
 
-<p>请你返回至少出现 <strong>一次</strong>&nbsp;连续 <code>k</code>&nbsp;个黑色块的 <strong>最少</strong>&nbsp;操作次数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>blocks = "WBBWWBBWBW", k = 7
-<b>输出：</b>3
-<strong>解释：</strong>
-一种得到 7 个连续黑色块的方法是把第 0 ，3 和 4 个块涂成黑色。
-得到 blocks = "BBBBBBBWBW" 。
-可以证明无法用少于 3 次操作得到 7 个连续的黑块。
-所以我们返回 3 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>blocks = "WBWBBBW", k = 2
-<b>输出：</b>0
-<strong>解释：</strong>
-不需要任何操作，因为已经有 2 个连续的黑块。
-所以我们返回 0 。
-</pre>
+<p>Return<em> the <strong>minimum</strong> number of operations needed such that there is at least <strong>one</strong> occurrence of </em><code>k</code><em> consecutive black blocks.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><b>提示：</b></p>
+<pre>
+<strong>Input:</strong> blocks = &quot;WBBWWBBWBW&quot;, k = 7
+<strong>Output:</strong> 3
+<strong>Explanation:</strong>
+One way to achieve 7 consecutive black blocks is to recolor the 0th, 3rd, and 4th blocks
+so that blocks = &quot;BBBBBBBWBW&quot;. 
+It can be shown that there is no way to achieve 7 consecutive black blocks in less than 3 operations.
+Therefore, we return 3.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> blocks = &quot;WBWBBBW&quot;, k = 2
+<strong>Output:</strong> 0
+<strong>Explanation:</strong>
+No changes need to be made, since 2 consecutive black blocks already exist.
+Therefore, we return 0.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == blocks.length</code></li>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
-	<li><code>blocks[i]</code>&nbsp;要么是&nbsp;<code>'W'</code>&nbsp;，要么是&nbsp;<code>'B'</code> 。</li>
+	<li><code>blocks[i]</code> is either <code>&#39;W&#39;</code> or <code>&#39;B&#39;</code>.</li>
 	<li><code>1 &lt;= k &lt;= n</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：滑动窗口
+### Solution 1: Sliding Window
 
-我们观察发现，题目实际上求的是一个 $k$ 大小的滑动窗口中白色块的最小数量。
+We observe that what the problem actually asks for is the minimum number of white blocks in a sliding window of size $k$.
 
-因此，我们只需要遍历字符串 $blocks$，用一个变量 $cnt$ 统计当前窗口中白色块的数量，然后用一个变量 $ans$ 维护最小值即可。
+Therefore, we only need to traverse the string $blocks$, use a variable $cnt$ to count the number of white blocks in the current window, and then use a variable $ans$ to maintain the minimum value.
 
-遍历结束后即可得到答案。
+After the traversal ends, we can get the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $blocks$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $blocks$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

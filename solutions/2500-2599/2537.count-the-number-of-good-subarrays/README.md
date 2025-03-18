@@ -1,54 +1,51 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2537.Count%20the%20Number%20of%20Good%20Subarrays/README.md
+difficulty: Medium
 rating: 1891
-source: 第 328 场周赛 Q3
+source: Weekly Contest 328 Q3
 tags:
-    - 数组
-    - 哈希表
-    - 滑动窗口
+    - Array
+    - Hash Table
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [2537. 统计好子数组的数目](https://leetcode.cn/problems/count-the-number-of-good-subarrays)
+# [2537. Count the Number of Good Subarrays](https://leetcode.com/problems/count-the-number-of-good-subarrays)
 
-[English Version](/solution/2500-2599/2537.Count%20the%20Number%20of%20Good%20Subarrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code>&nbsp;和一个整数 <code>k</code>&nbsp;，请你返回 <code>nums</code>&nbsp;中 <strong>好</strong>&nbsp;子数组的数目。</p>
+<p>Given an integer array <code>nums</code> and an integer <code>k</code>, return <em>the number of <strong>good</strong> subarrays of</em> <code>nums</code>.</p>
 
-<p>一个子数组 <code>arr</code>&nbsp;如果有 <strong>至少</strong>&nbsp;<code>k</code>&nbsp;对下标 <code>(i, j)</code>&nbsp;满足 <code>i &lt; j</code>&nbsp;且 <code>arr[i] == arr[j]</code>&nbsp;，那么称它是一个 <strong>好</strong>&nbsp;子数组。</p>
+<p>A subarray <code>arr</code> is <strong>good</strong> if there are <strong>at least </strong><code>k</code> pairs of indices <code>(i, j)</code> such that <code>i &lt; j</code> and <code>arr[i] == arr[j]</code>.</p>
 
-<p><strong>子数组</strong>&nbsp;是原数组中一段连续 <strong>非空</strong>&nbsp;的元素序列。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [1,1,1,1,1], k = 10
-<b>输出：</b>1
-<b>解释：</b>唯一的好子数组是这个数组本身。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>nums = [3,1,4,3,2,2,4], k = 2
-<b>输出：</b>4
-<b>解释：</b>总共有 4 个不同的好子数组：
-- [3,1,4,3,2,2] 有 2 对。
-- [3,1,4,3,2,2,4] 有 3 对。
-- [1,4,3,2,2,4] 有 2 对。
-- [4,3,2,2,4] 有 2 对。
-</pre>
+<p>A <strong>subarray</strong> is a contiguous <strong>non-empty</strong> sequence of elements within an array.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,1,1,1,1], k = 10
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The only good subarray is the array nums itself.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [3,1,4,3,2,2,4], k = 2
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> There are 4 different good subarrays:
+- [3,1,4,3,2,2] that has 2 pairs.
+- [3,1,4,3,2,2,4] that has 3 pairs.
+- [1,4,3,2,2,4] that has 2 pairs.
+- [4,3,2,2,4] that has 2 pairs.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -57,21 +54,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 双指针
+### Solution 1: Hash Table + Two Pointers
 
-如果一个子数组中包含 $k$ 对相同的元素，那么包含这个子数组的数组一定至少包含 $k$ 对相同的元素。
+If a subarray contains $k$ pairs of identical elements, then an array that contains this subarray must contain at least $k$ pairs of identical elements.
 
-我们用一个哈希表 $cnt$ 统计窗口内数组元素出现的次数，用 $cur$ 统计窗口内相同元素的对数，用 $i$ 维护窗口的左端点。
+We use a hash table $cnt$ to count the number of occurrences of each element in the window, use $cur$ to count the number of pairs of identical elements in the window, and use $i$ to maintain the left endpoint of the window.
 
-遍历数组 $nums$，我们将当前元素 $x$ 作为右端点，那么窗口内相同元素的对数将增加 $cnt[x]$，同时将 $x$ 的出现次数加一，即 $cnt[x] \leftarrow cnt[x] + 1$。接下来，我们循环判断移出左端点后窗口内相同元素的对数是否大于等于 $k$，如果大于等于 $k$，那么我们将左端点元素的出现次数减一，即 $cnt[nums[i]] \leftarrow cnt[nums[i]] - 1$，同时将窗口内相同元素的对数减去 $cnt[nums[i]]$，即 $cur \leftarrow cur - cnt[nums[i]]$，同时将左端点右移，即 $i \leftarrow i + 1$。此时窗口左端点以及左侧的所有元素都可以作为当前右端点的左端点，因此答案加上 $i + 1$。
+We traverse the array $nums$, take the current element $x$ as the right endpoint, then the number of pairs of identical elements in the window will increase by $cnt[x]$, and the occurrence times of $x$ will be increased by one, i.e., $cnt[x] \leftarrow cnt[x] + 1$. Next, we loop to judge whether the number of pairs of identical elements in the window is greater than or equal to $k$ after removing the left endpoint. If it is greater than or equal to $k$, then we decrease the occurrence times of the left endpoint element by one, i.e., $cnt[nums[i]] \leftarrow cnt[nums[i]] - 1$, and decrease the number of pairs of identical elements in the window by $cnt[nums[i]]$, i.e., $cur \leftarrow cur - cnt[nums[i]]$, and move the left endpoint to the right, i.e., $i \leftarrow i + 1$. At this time, all elements to the left of the window left endpoint and the left endpoint itself can be used as the left endpoint of the current right endpoint, so the answer is increased by $i + 1$.
 
-最后，我们返回答案即可。
+Finally, we return the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

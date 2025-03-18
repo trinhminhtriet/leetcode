@@ -1,89 +1,89 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2636.Promise%20Pool/README.md
+difficulty: Medium
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2636. Promise 对象池 🔒](https://leetcode.cn/problems/promise-pool)
+# [2636. Promise Pool 🔒](https://leetcode.com/problems/promise-pool)
 
-[English Version](/solution/2600-2699/2636.Promise%20Pool/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你编写一个异步函数 <code>promisePool</code> ，它接收一个异步函数数组 <code>functions</code> 和 <strong>池限制</strong> <code>n</code>。它应该返回一个 promise 对象，当所有输入函数都执行完毕后，promise 对象就执行完毕。</p>
+<p>Given an array&nbsp;of asynchronous functions&nbsp;<code>functions</code>&nbsp;and a <strong>pool limit</strong>&nbsp;<code>n</code>, return an asynchronous function&nbsp;<code>promisePool</code>. It should return&nbsp;a promise that resolves when all the input&nbsp;functions resolve.</p>
 
-<p><strong>池限制</strong> 定义是一次可以挂起的最多 promise 对象的数量。<code>promisePool</code> 应该开始执行尽可能多的函数，并在旧的 promise 执行完毕后继续执行新函数。<code>promisePool</code> 应该先执行 <code>functions[i]</code>，再执行 <code>functions[i + 1]</code>，然后执行&nbsp;<code>functions[i + 2]</code>，等等。当最后一个 promise 执行完毕时，<code>promisePool</code> 也应该执行完毕。</p>
+<p><b>Pool limit</b> is defined as the maximum number promises that can be pending at once.&nbsp;<code>promisePool</code>&nbsp;should begin execution of as many functions as possible and continue executing new functions when old promises&nbsp;resolve.&nbsp;<code>promisePool</code>&nbsp;should execute <code>functions[i]</code>&nbsp;then <code>functions[i + 1]</code>&nbsp;then <code>functions[i + 2]</code>, etc. When the last promise resolves,&nbsp;<code>promisePool</code>&nbsp;should also resolve.</p>
 
-<p>例如，如果 <code>n = 1</code> , <code>promisePool</code>&nbsp;在序列中每次执行一个函数。然而，如果 <code>n = 2</code> ，它首先执行两个函数。当两个函数中的任何一个执行完毕后，再执行第三个函数(如果它是可用的)，依此类推，直到没有函数要执行为止。</p>
+<p>For example, if&nbsp;<code>n = 1</code>, <code>promisePool</code>&nbsp;will execute one function at&nbsp;a time in&nbsp;series. However, if&nbsp;<code>n = 2</code>, it first executes two functions. When either of the two functions resolve, a 3rd function should be executed (if available), and so on until there are no functions left to execute.</p>
 
-<p>你可以假设所有的 <code>functions</code> 都不会被拒绝。对于 <code>promisePool</code> 来说，返回一个可以解析任何值的 promise 都是可以接受的。</p>
+<p>You can assume all&nbsp;<code>functions</code>&nbsp;never reject. It is acceptable for&nbsp;<code>promisePool</code>&nbsp;to return a promise that resolves any value.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>
+<strong>Input:</strong> 
 functions = [
 &nbsp; () =&gt; new Promise(res =&gt; setTimeout(res, 300)),
 &nbsp; () =&gt; new Promise(res =&gt; setTimeout(res, 400)),
 &nbsp; () =&gt; new Promise(res =&gt; setTimeout(res, 200))
 ]
 n = 2
-<b>输出：</b>[[300,400,500],500]
-<strong>解释</strong>
-传递了三个函数。它们的睡眠时间分别为 300ms、 400ms 和 200ms。
-在 t=0 时，执行前两个函数。池大小限制达到 2。
-当 t=300 时，第一个函数执行完毕后，执行第3个函数。池大小为 2。
-在 t=400 时，第二个函数执行完毕后。没有什么可执行的了。池大小为 1。
-在 t=500 时，第三个函数执行完毕后。池大小为 0，因此返回的 promise 也执行完成。
+<strong>Output:</strong> [[300,400,500],500]
+<strong>Explanation:</strong>
+Three functions are passed in. They sleep for 300ms, 400ms, and 200ms respectively.
+They resolve at 300ms, 400ms, and 500ms respectively. The returned promise resolves at 500ms.
+At t=0, the first 2 functions are executed. The pool size limit of 2 is reached.
+At t=300, the 1st function resolves, and the 3rd function is executed. Pool size is 2.
+At t=400, the 2nd function resolves. There is nothing left to execute. Pool size is 1.
+At t=500, the 3rd function resolves. Pool size is zero so the returned promise also resolves.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：
+<strong>Input:
 </strong>functions = [
 &nbsp; () =&gt; new Promise(res =&gt; setTimeout(res, 300)),
 &nbsp; () =&gt; new Promise(res =&gt; setTimeout(res, 400)),
 &nbsp; () =&gt; new Promise(res =&gt; setTimeout(res, 200))
 ]
 n = 5
-<b>输出：</b>[[300,400,200],400]
-<strong>解释：</strong>
-在 t=0 时，所有3个函数都被执行。池的限制大小 5 永远不会满足。
-在 t=200 时，第三个函数执行完毕后。池大小为 2。
-在 t=300 时，第一个函数执行完毕后。池大小为 1。
-在 t=400 时，第二个函数执行完毕后。池大小为 0，因此返回的 promise 也执行完成。
+<strong>Output:</strong> [[300,400,200],400]
+<strong>Explanation:</strong>
+The three input promises resolve at 300ms, 400ms, and 200ms respectively.
+The returned promise resolves at 400ms.
+At t=0, all 3 functions are executed. The pool limit of 5 is never met.
+At t=200, the 3rd function resolves. Pool size is 2.
+At t=300, the 1st function resolved. Pool size is 1.
+At t=400, the 2nd function resolves. Pool size is 0, so the returned promise also resolves.
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong>
 functions = [
 &nbsp; () =&gt; new Promise(res =&gt; setTimeout(res, 300)),
 &nbsp; () =&gt; new Promise(res =&gt; setTimeout(res, 400)),
 &nbsp; () =&gt; new Promise(res =&gt; setTimeout(res, 200))
 ]
 n = 1
-<b>输出：</b>[[300,700,900],900]
-<strong>解释：</strong>
-在 t=0 时，执行第一个函数。池大小为1。
-当 t=300 时，第一个函数执行完毕后，执行第二个函数。池大小为 1。
-当 t=700 时，第二个函数执行完毕后，执行第三个函数。池大小为 1。
-在 t=900 时，第三个函数执行完毕后。池大小为 0，因此返回的 Promise 也执行完成。
+<strong>Output:</strong> [[300,700,900],900]
+<strong>Explanation:
+</strong>The three input promises resolve at 300ms, 700ms, and 900ms respectively.
+The returned promise resolves at 900ms.
+At t=0, the 1st function is executed. Pool size is 1.
+At t=300, the 1st function resolves and the 2nd function is executed. Pool size is 1.
+At t=700, the 2nd function resolves and the 3rd function is executed. Pool size is 1.
+At t=900, the 3rd function resolves. Pool size is 0 so the returned promise resolves.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= functions.length &lt;= 10</code></li>
@@ -92,11 +92,11 @@ n = 1
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

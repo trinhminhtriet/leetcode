@@ -1,86 +1,81 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3146.Permutation%20Difference%20between%20Two%20Strings/README.md
+difficulty: Easy
 rating: 1152
-source: 第 397 场周赛 Q1
+source: Weekly Contest 397 Q1
 tags:
-    - 哈希表
-    - 字符串
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [3146. 两个字符串的排列差](https://leetcode.cn/problems/permutation-difference-between-two-strings)
+# [3146. Permutation Difference between Two Strings](https://leetcode.com/problems/permutation-difference-between-two-strings)
 
-[English Version](/solution/3100-3199/3146.Permutation%20Difference%20between%20Two%20Strings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串 <code>s</code> 和 <code>t</code>，每个字符串中的字符都不重复，且 <code>t</code> 是 <code>s</code> 的一个排列。</p>
+<p>You are given two strings <code>s</code> and <code>t</code> such that every character occurs at most once in <code>s</code> and <code>t</code> is a permutation of <code>s</code>.</p>
 
-<p><strong>排列差</strong> 定义为 <code>s</code> 和 <code>t</code> 中每个字符在两个字符串中位置的绝对差值之和。</p>
+<p>The <strong>permutation difference</strong> between <code>s</code> and <code>t</code> is defined as the <strong>sum</strong> of the absolute difference between the index of the occurrence of each character in <code>s</code> and the index of the occurrence of the same character in <code>t</code>.</p>
 
-<p>返回 <code>s</code> 和 <code>t</code> 之间的<strong> 排列差 </strong>。</p>
+<p>Return the <strong>permutation difference</strong> between <code>s</code> and <code>t</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">s = "abc", t = "bac"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;abc&quot;, t = &quot;bac&quot;</span></p>
 
-<p><strong>输出：</strong><span class="example-io">2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>对于 <code>s = "abc"</code> 和 <code>t = "bac"</code>，排列差是：</p>
+<p>For <code>s = &quot;abc&quot;</code> and <code>t = &quot;bac&quot;</code>, the permutation difference of <code>s</code> and <code>t</code> is equal to the sum of:</p>
 
 <ul>
-	<li><code>"a"</code> 在 <code>s</code> 中的位置与在 <code>t</code> 中的位置之差的绝对值。</li>
-	<li><code>"b"</code> 在 <code>s</code> 中的位置与在 <code>t</code> 中的位置之差的绝对值。</li>
-	<li><code>"c"</code> 在 <code>s</code> 中的位置与在 <code>t</code> 中的位置之差的绝对值。</li>
+	<li>The absolute difference between the index of the occurrence of <code>&quot;a&quot;</code> in <code>s</code> and the index of the occurrence of <code>&quot;a&quot;</code> in <code>t</code>.</li>
+	<li>The absolute difference between the index of the occurrence of <code>&quot;b&quot;</code> in <code>s</code> and the index of the occurrence of <code>&quot;b&quot;</code> in <code>t</code>.</li>
+	<li>The absolute difference between the index of the occurrence of <code>&quot;c&quot;</code> in <code>s</code> and the index of the occurrence of <code>&quot;c&quot;</code> in <code>t</code>.</li>
 </ul>
 
-<p>即，<code>s</code> 和 <code>t</code> 的排列差等于 <code>|0 - 1| + |1 - 0| + |2&nbsp;- 2| = 2</code>。</p>
+<p>That is, the permutation difference between <code>s</code> and <code>t</code> is equal to <code>|0 - 1| + |1 - 0| + |2 - 2| = 2</code>.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">s = "abcde", t = "edbac"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;abcde&quot;, t = &quot;edbac&quot;</span></p>
 
-<p><strong>输出：</strong><span class="example-io">12</span></p>
+<p><strong>Output:</strong> <span class="example-io">12</span></p>
 
-<p><strong>解释：</strong> <code>s</code> 和 <code>t</code> 的排列差等于 <code>|0 - 3| + |1 - 2| + |2 - 4| + |3 - 1| + |4 - 0| = 12</code>。</p>
+<p><strong>Explanation:</strong> The permutation difference between <code>s</code> and <code>t</code> is equal to <code>|0 - 3| + |1 - 2| + |2 - 4| + |3 - 1| + |4 - 0| = 12</code>.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 26</code></li>
-	<li>每个字符在 <code>s</code> 中最多出现一次。</li>
-	<li><code>t</code> 是 <code>s</code> 的一个排列。</li>
-	<li><code>s</code> 仅由小写英文字母组成。</li>
+	<li>Each character occurs at most once in <code>s</code>.</li>
+	<li><code>t</code> is a permutation of <code>s</code>.</li>
+	<li><code>s</code> consists only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表或数组
+### Solution 1: Hash Table or Array
 
-我们可以使用哈希表或者一个长度为 $26$ 的数组 $\textit{d}$ 来存储字符串 $\textit{s}$ 中每个字符的位置。
+We can use a hash table or an array of length $26$, denoted as $\textit{d}$, to store the positions of each character in the string $\textit{s}$.
 
-然后遍历字符串 $\textit{t}$，计算每个字符在字符串 $\textit{t}$ 中的位置与在字符串 $\textit{s}$ 中的位置之差的绝对值之和即可。
+Then, we traverse the string $\textit{t}$ and calculate the sum of the absolute differences between the positions of each character in the string $\textit{t}$ and the positions in the string $\textit{s}$.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $\textit{s}$ 的长度。空间复杂度 $O(|\Sigma|)$，其中 $\Sigma$ 为字符集，这里是小写英文字母，所以 $|\Sigma| \leq 26$。
+The time complexity is $O(n)$, where $n$ is the length of the string $\textit{s}$. The space complexity is $O(|\Sigma|)$, where $\Sigma$ is the character set. Here, it is lowercase English letters, so $|\Sigma| \leq 26$.
 
 <!-- tabs:start -->
 

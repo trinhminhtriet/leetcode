@@ -1,83 +1,76 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0249.Group%20Shifted%20Strings/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
+    - Array
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [249. 移位字符串分组 🔒](https://leetcode.cn/problems/group-shifted-strings)
+# [249. Group Shifted Strings 🔒](https://leetcode.com/problems/group-shifted-strings)
 
-[English Version](/solution/0200-0299/0249.Group%20Shifted%20Strings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>对字符串进行 “移位” 的操作：</p>
+<p>Perform the following shift operations on a string:</p>
 
 <ul>
-	<li><strong>右移</strong>：将字符串中每个字母都变为其在字母表中 <strong>后续</strong> 的字母，其中用 'a' 替换 'z'。比如，<code>"abc"</code>&nbsp;能够右移为&nbsp;<code>"bcd"</code>，<code>"xyz"</code>&nbsp;能够右移为&nbsp;<code>"yza"</code>。</li>
-	<li><strong>左移</strong>：将字符串中每个字母都变为其在字母表中 <b>之前</b>&nbsp;的字母，其中用 'z' 替换 'a'。比如，<code>"bcd"</code>&nbsp;能够左移为&nbsp;<code>"abc"</code>，<code>"yza"</code>&nbsp;能够左移为&nbsp;<code>"xyz"</code>。</li>
+	<li><strong>Right shift</strong>: Replace every letter with the <strong>successive</strong> letter of the English alphabet, where &#39;z&#39; is replaced by &#39;a&#39;. For example, <code>&quot;abc&quot;</code> can be right-shifted to <code>&quot;bcd&quot; </code>or <code>&quot;xyz&quot;</code> can be right-shifted to <code>&quot;yza&quot;</code>.</li>
+	<li><strong>Left shift</strong>: Replace every letter with the <strong>preceding</strong> letter of the English alphabet, where &#39;a&#39; is replaced by &#39;z&#39;. For example, <code>&quot;bcd&quot;</code> can be left-shifted to <code>&quot;abc&quot;<font face="Times New Roman"> or </font></code><code>&quot;yza&quot;</code> can be left-shifted to <code>&quot;xyz&quot;</code>.</li>
 </ul>
 
-<p>我们可以不断地向两个方向移动字符串，形成 <strong>无限的移位序列</strong>。</p>
+<p>We can keep shifting the string in both directions to form an <strong>endless</strong> <strong>shifting sequence</strong>.</p>
 
 <ul>
-	<li>例如，移动&nbsp;<code>"abc"</code>&nbsp;来形成序列：<code>... &lt;-&gt; "abc" &lt;-&gt; "bcd" &lt;-&gt; ... &lt;-&gt; "xyz" &lt;-&gt; "yza" &lt;-&gt; ... &lt;-&gt; "zab" &lt;-&gt; "abc" &lt;-&gt; ...</code></li>
+	<li>For example, shift <code>&quot;abc&quot;</code> to form the sequence: <code>... &lt;-&gt; &quot;abc&quot; &lt;-&gt; &quot;bcd&quot; &lt;-&gt; ... &lt;-&gt; &quot;xyz&quot; &lt;-&gt; &quot;yza&quot; &lt;-&gt; ...</code>.<code> &lt;-&gt; &quot;zab&quot; &lt;-&gt; &quot;abc&quot; &lt;-&gt; ...</code></li>
 </ul>
 
-<p>给定一个字符串数组&nbsp;<code>strings</code>，将属于相同移位序列的所有&nbsp;<code>strings[i]</code>&nbsp;进行分组。你可以以 <strong>任意顺序</strong> 返回答案。</p>
+<p>You are given an array of strings <code>strings</code>, group together all <code>strings[i]</code> that belong to the same shifting sequence. You may return the answer in <strong>any order</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">strings = ["abc","bcd","acef","xyz","az","ba","a","z"]</span></p>
+<p><strong>Input:</strong> <span class="example-io">strings = [&quot;abc&quot;,&quot;bcd&quot;,&quot;acef&quot;,&quot;xyz&quot;,&quot;az&quot;,&quot;ba&quot;,&quot;a&quot;,&quot;z&quot;]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">[["acef"],["a","z"],["abc","bcd","xyz"],["az","ba"]]</span></p>
-
-<p>&nbsp;</p>
+<p><strong>Output:</strong> <span class="example-io">[[&quot;acef&quot;],[&quot;a&quot;,&quot;z&quot;],[&quot;abc&quot;,&quot;bcd&quot;,&quot;xyz&quot;],[&quot;az&quot;,&quot;ba&quot;]]</span></p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">strings = ["a"]</span></p>
+<p><strong>Input:</strong> <span class="example-io">strings = [&quot;a&quot;]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">[["a"]]</span></p>
-
-<p>&nbsp;</p>
+<p><strong>Output:</strong> <span class="example-io">[[&quot;a&quot;]]</span></p>
 </div>
 
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= strings.length &lt;= 200</code></li>
 	<li><code>1 &lt;= strings[i].length &lt;= 50</code></li>
-	<li><code>strings[i]</code>&nbsp;只包含小写英文字母。</li>
+	<li><code>strings[i]</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们用一个哈希表 $g$ 来存储每个字符串移位后且首位为 '`a`' 的字符串。即 $g[t]$ 表示所有字符串移位后字符串为 $t$ 的字符串集合。
+We use a hash table $g$ to store each string after shifting and with the first character as '`a`'. That is, $g[t]$ represents the set of all strings that become $t$ after shifting.
 
-我们遍历每个字符串，对于每个字符串，我们计算其移位后的字符串 $t$，然后将其加入到 $g[t]$ 中。
+We iterate through each string. For each string, we calculate its shifted string $t$, and then add it to $g[t]$.
 
-最后，我们将 $g$ 中的所有值取出来，即为答案。
+Finally, we take out all the values in $g$, which is the answer.
 
-时间复杂度 $O(L)$，空间复杂度 $O(L)$，其中 $L$ 为所有字符串的长度之和。
+The time complexity is $O(L)$ and the space complexity is $O(L)$, where $L$ is the sum of the lengths of all strings.
 
 <!-- tabs:start -->
 

@@ -1,64 +1,59 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3287.Find%20the%20Maximum%20Sequence%20Value%20of%20Array/README.md
+difficulty: Hard
 rating: 2545
-source: 第 139 场双周赛 Q3
+source: Biweekly Contest 139 Q3
 tags:
-    - 位运算
-    - 数组
-    - 动态规划
+    - Bit Manipulation
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3287. 求出数组中最大序列值](https://leetcode.cn/problems/find-the-maximum-sequence-value-of-array)
+# [3287. Find the Maximum Sequence Value of Array](https://leetcode.com/problems/find-the-maximum-sequence-value-of-array)
 
-[English Version](/solution/3200-3299/3287.Find%20the%20Maximum%20Sequence%20Value%20of%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;和一个 <strong>正</strong>&nbsp;整数&nbsp;<code>k</code>&nbsp;。</p>
+<p>You are given an integer array <code>nums</code> and a <strong>positive</strong> integer <code>k</code>.</p>
 
-<p>定义长度为 <code>2 * x</code>&nbsp;的序列 <code>seq</code>&nbsp;的 <strong>值</strong>&nbsp;为：</p>
+<p>The <strong>value</strong> of a sequence <code>seq</code> of size <code>2 * x</code> is defined as:</p>
 
 <ul>
 	<li><code>(seq[0] OR seq[1] OR ... OR seq[x - 1]) XOR (seq[x] OR seq[x + 1] OR ... OR seq[2 * x - 1])</code>.</li>
 </ul>
 
-<p>请你求出 <code>nums</code>&nbsp;中所有长度为 <code>2 * k</code>&nbsp;的 <span data-keyword="subsequence-array">子序列</span> 的 <strong>最大值</strong>&nbsp;。</p>
+<p>Return the <strong>maximum</strong> <strong>value</strong> of any <span data-keyword="subsequence-array">subsequence</span> of <code>nums</code> having size <code>2 * k</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [2,6,7], k = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [2,6,7], k = 1</span></p>
 
-<p><span class="example-io"><b>输出：</b>5</span></p>
+<p><strong>Output:</strong> <span class="example-io">5</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>子序列&nbsp;<code>[2, 7]</code>&nbsp;的值最大，为&nbsp;<code>2 XOR 7 = 5</code>&nbsp;。</p>
+<p>The subsequence <code>[2, 7]</code> has the maximum value of <code>2 XOR 7 = 5</code>.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [4,2,5,6,7], k = 2</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [4,2,5,6,7], k = 2</span></p>
 
-<p><span class="example-io"><b>输出：</b>2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>子序列&nbsp;<code>[4, 5, 6, 7]</code>&nbsp;的值最大，为&nbsp;<code>(4 OR 5) XOR (6 OR 7) = 2</code>&nbsp;。</p>
+<p>The subsequence <code>[4, 5, 6, 7]</code> has the maximum value of <code>(4 OR 5) XOR (6 OR 7) = 2</code>.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 400</code></li>
@@ -68,33 +63,33 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划 + 前后缀分解 + 枚举
+### Solution 1: Dynamic Programming + Prefix and Suffix Decomposition + Enumeration
 
-我们考虑将序列分成两部分，前 $k$ 个元素和后 $k$ 个元素，分别计算前后缀的所有可能的异或值。
+We consider dividing the sequence into two parts, the first $k$ elements and the last $k$ elements, and calculate all possible XOR values for the prefixes and suffixes.
 
-定义 $f[i][j][x]$ 表示前 $i$ 个元素中取 $j$ 个元素，是否存在一个子集的异或值为 $x$，定义 $g[i][j][y]$ 表示从下标 $i$ 开始取 $j$ 个元素，是否存在一个子集的异或值为 $y$。
+Define $f[i][j][x]$ to represent whether there exists a subset with an XOR value of $x$ by taking $j$ elements from the first $i$ elements. Define $g[i][j][y]$ to represent whether there exists a subset with an XOR value of $y$ by taking $j$ elements starting from index $i$.
 
-考虑 $f[i][j][x]$ 的转移方程，对于第 $i$ 个元素（从 $0$ 开始），我们可以选择不取，也可以选择取，因此有：
+Consider the transition equation for $f[i][j][x]$. For the $i$-th element (starting from $0$), we can choose to take it or not, so we have:
 
 $$
 f[i + 1][j][x] = f[i + 1][j][x] \lor f[i][j][x] \\
 f[i + 1][j + 1][x \lor \text{nums}[i]] = f[i + 1][j + 1][x \lor \text{nums}[i]] \lor f[i][j][x]
 $$
 
-对于 $g[i][j][y]$ 的转移方程，同样对于第 $i$ 个元素（从 $n - 1$ 开始），我们可以选择不取，也可以选择取，因此有：
+For the transition equation of $g[i][j][y]$, similarly for the $i$-th element (starting from $n - 1$), we can choose to take it or not, so we have:
 
 $$
 g[i - 1][j][y] = g[i - 1][j][y] \lor g[i][j][y] \\
 g[i - 1][j + 1][y \lor \text{nums}[i - 1]] = g[i - 1][j + 1][y \lor \text{nums}[i - 1]] \lor g[i][j][y]
 $$
 
-最后，我们在 $[k, n - k]$ 的范围内枚举 $i$，对于每一个 $i$，我们枚举 $x$ 和 $y$，其中 $0 \leq x, y < 2^7$，如果 $f[i][k][x]$ 和 $g[i][k][y]$ 均为真，那么我们更新答案 $\text{ans} = \max(\text{ans}, x \oplus y)$。
+Finally, we enumerate $i$ in the range $[k, n - k]$. For each $i$, we enumerate $x$ and $y$, where $0 \leq x, y < 2^7$. If both $f[i][k][x]$ and $g[i][k][y]$ are true, we update the answer $\text{ans} = \max(\text{ans}, x \oplus y)$.
 
-时间复杂度 $O(n \times m \times k)$，空间复杂度 $O(n \times m \times k)$，其中 $n$ 为数组长度，而 $m = 2^7$。
+The time complexity is $O(n \times m \times k)$, and the space complexity is $O(n \times m \times k)$, where $n$ is the length of the array, and $m = 2^7$.
 
 <!-- tabs:start -->
 

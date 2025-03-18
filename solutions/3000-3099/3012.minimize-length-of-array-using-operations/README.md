@@ -1,86 +1,81 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3012.Minimize%20Length%20of%20Array%20Using%20Operations/README.md
+difficulty: Medium
 rating: 1832
-source: 第 122 场双周赛 Q3
+source: Biweekly Contest 122 Q3
 tags:
-    - 贪心
-    - 数组
-    - 数学
-    - 数论
+    - Greedy
+    - Array
+    - Math
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [3012. 通过操作使数组长度最小](https://leetcode.cn/problems/minimize-length-of-array-using-operations)
+# [3012. Minimize Length of Array Using Operations](https://leetcode.com/problems/minimize-length-of-array-using-operations)
 
-[English Version](/solution/3000-3099/3012.Minimize%20Length%20of%20Array%20Using%20Operations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;，它只包含 <strong>正</strong>&nbsp;整数。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> containing <strong>positive</strong> integers.</p>
 
-<p>你的任务是通过进行以下操作&nbsp;<strong>任意次</strong>&nbsp;（可以是 0 次）&nbsp;<strong>最小化</strong>&nbsp;<code>nums</code>&nbsp;的长度：</p>
+<p>Your task is to <strong>minimize</strong> the length of <code>nums</code> by performing the following operations <strong>any</strong> number of times (including zero):</p>
 
 <ul>
-	<li>在 <code>nums</code>&nbsp;中选择 <strong>两个不同</strong>&nbsp;的下标&nbsp;<code>i</code>&nbsp;和&nbsp;<code>j</code>&nbsp;，满足&nbsp;<code>nums[i] &gt; 0</code>&nbsp;且&nbsp;<code>nums[j] &gt; 0</code>&nbsp;。</li>
-	<li>将结果&nbsp;<code>nums[i] % nums[j]</code>&nbsp;插入&nbsp;<code>nums</code>&nbsp;的结尾。</li>
-	<li>将 <code>nums</code>&nbsp;中下标为&nbsp;<code>i</code>&nbsp;和&nbsp;<code>j</code>&nbsp;的元素删除。</li>
+	<li>Select <strong>two</strong> <strong>distinct</strong> indices <code>i</code> and <code>j</code> from <code>nums</code>, such that <code>nums[i] &gt; 0</code> and <code>nums[j] &gt; 0</code>.</li>
+	<li>Insert the result of <code>nums[i] % nums[j]</code> at the end of <code>nums</code>.</li>
+	<li>Delete the elements at indices <code>i</code> and <code>j</code> from <code>nums</code>.</li>
 </ul>
 
-<p>请你返回一个整数，它表示进行任意次操作以后<em>&nbsp;</em><code>nums</code>&nbsp;的 <strong>最小长度</strong>&nbsp;。</p>
+<p>Return <em>an integer denoting the <strong>minimum</strong> <strong>length</strong> of </em><code>nums</code><em> after performing the operation any number of times.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [1,4,3,1]
-<b>输出：</b>1
-<b>解释：</b>使数组长度最小的一种方法是：
-操作 1 ：选择下标 2 和 1 ，插入 nums[2] % nums[1] 到数组末尾，得到 [1,4,3,1,3] ，然后删除下标为 2 和 1 的元素。
-nums 变为 [1,1,3] 。
-操作 2 ：选择下标 1 和 2 ，插入 nums[1] % nums[2] 到数组末尾，得到 [1,1,3,1] ，然后删除下标为 1 和 2 的元素。
-nums 变为 [1,1] 。
-操作 3 ：选择下标 1 和 0 ，插入 nums[1] % nums[0] 到数组末尾，得到 [1,1,0] ，然后删除下标为 1 和 0 的元素。
-nums 变为 [0] 。
-nums 的长度无法进一步减小，所以答案为 1 。
-1 是可以得到的最小长度。</pre>
-
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [5,5,5,10,5]
-<b>输出：</b>2
-<b>解释：</b>使数组长度最小的一种方法是：
-操作 1 ：选择下标 0 和 3 ，插入 nums[0] % nums[3] 到数组末尾，得到 [5,5,5,10,5,5] ，然后删除下标为 0 和 3 的元素。
-nums 变为 [5,5,5,5] 。
-操作 2 ：选择下标 2 和 3 ，插入 nums[2] % nums[3] 到数组末尾，得到 [5,5,5,5,0] ，然后删除下标为 2 和 3 的元素。
-nums 变为 [5,5,0] 。
-操作 3 ：选择下标 0 和 1 ，插入 nums[0] % nums[1] 到数组末尾，得到 [5,5,0,0] ，然后删除下标为 0 和 1 的元素。
-nums 变为 [0,0] 。
-nums 的长度无法进一步减小，所以答案为 2 。
-2 是可以得到的最小长度。</pre>
+<strong>Input:</strong> nums = [1,4,3,1]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> One way to minimize the length of the array is as follows:
+Operation 1: Select indices 2 and 1, insert nums[2] % nums[1] at the end and it becomes [1,4,3,1,3], then delete elements at indices 2 and 1.
+nums becomes [1,1,3].
+Operation 2: Select indices 1 and 2, insert nums[1] % nums[2] at the end and it becomes [1,1,3,1], then delete elements at indices 1 and 2.
+nums becomes [1,1].
+Operation 3: Select indices 1 and 0, insert nums[1] % nums[0] at the end and it becomes [1,1,0], then delete elements at indices 1 and 0.
+nums becomes [0].
+The length of nums cannot be reduced further. Hence, the answer is 1.
+It can be shown that 1 is the minimum achievable length. </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [2,3,4]
-<b>输出：</b>1
-<b>解释：</b>使数组长度最小的一种方法是：
-操作 1 ：选择下标 1 和 2 ，插入 nums[1] % nums[2] 到数组末尾，得到 [2,3,4,3] ，然后删除下标为 1 和 2 的元素。
-nums 变为 [2,3] 。
-操作 2 ：选择下标 1 和 0 ，插入 nums[1] % nums[0] 到数组末尾，得到 [2,3,1] ，然后删除下标为 1 和 0 的元素。
-nums 变为 [1] 。
-nums 的长度无法进一步减小，所以答案为 1 。
-1 是可以得到的最小长度。</pre>
+<strong>Input:</strong> nums = [5,5,5,10,5]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> One way to minimize the length of the array is as follows:
+Operation 1: Select indices 0 and 3, insert nums[0] % nums[3] at the end and it becomes [5,5,5,10,5,5], then delete elements at indices 0 and 3.
+nums becomes [5,5,5,5]. 
+Operation 2: Select indices 2 and 3, insert nums[2] % nums[3] at the end and it becomes [5,5,5,5,0], then delete elements at indices 2 and 3. 
+nums becomes [5,5,0]. 
+Operation 3: Select indices 0 and 1, insert nums[0] % nums[1] at the end and it becomes [5,5,0,0], then delete elements at indices 0 and 1.
+nums becomes [0,0].
+The length of nums cannot be reduced further. Hence, the answer is 2.
+It can be shown that 2 is the minimum achievable length. </pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,3,4]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> One way to minimize the length of the array is as follows: 
+Operation 1: Select indices 1 and 2, insert nums[1] % nums[2] at the end and it becomes [2,3,4,3], then delete elements at indices 1 and 2.
+nums becomes [2,3].
+Operation 2: Select indices 1 and 0, insert nums[1] % nums[0] at the end and it becomes [2,3,1], then delete elements at indices 1 and 0.
+nums becomes [1].
+The length of nums cannot be reduced further. Hence, the answer is 1.
+It can be shown that 1 is the minimum achievable length.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -89,19 +84,19 @@ nums 的长度无法进一步减小，所以答案为 1 。
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分情况讨论
+### Solution 1: Case Discussion
 
-我们不妨记数组 $nums$ 的最小的元素为 $mi$。
+Let's denote the smallest element in the array $nums$ as $mi$.
 
-如果 $mi$ 只出现一次，那么我们将 $mi$ 与数组 $nums$ 的其他元素进行操作，可以将其他元素全部消去，最终剩下 $mi$ 一个元素，答案为 $1$。
+If $mi$ appears only once, we can perform operations with $mi$ and the other elements in the array $nums$ to eliminate all other elements, leaving only $mi$. The answer is $1$.
 
-如果 $mi$ 出现多次，我们判断数组 $nums$ 中的元素是否都是 $mi$ 的倍数。如果不是，即存在至少一个元素 $x$，使得 $0 \lt x \bmod mi \lt mi$，说明我们可以通过操作，构造出一个小于 $mi$ 的元素，那么这个小于 $mi$ 的元素与其他元素进行操作，可以将其他元素全部消去，最终剩下这个小于 $mi$ 的元素，答案为 $1$；如果都是 $mi$ 的倍数，我们可以先借助 $mi$，将所有大于 $mi$ 的元素消去，最终剩下的元素都是 $mi$，个数为 $cnt$，两两配对，每两个元素进行一次操作，最终剩下 $\lceil cnt / 2 \rceil$ 个元素，答案为 $\lceil cnt / 2 \rceil$。
+If $mi$ appears multiple times, we need to check whether all elements in the array $nums$ are multiples of $mi$. If not, there exists at least one element $x$ such that $0 < x \bmod mi < mi$. This means we can construct an element smaller than $mi$ through operations. This smaller element can eliminate all other elements through operations, leaving only this smaller element. The answer is $1$. If all elements are multiples of $mi$, we can first use $mi$ to eliminate all elements larger than $mi$. The remaining elements are all $mi$, with a count of $cnt$. Pair them up, and perform an operation for each pair. Finally, there will be $\lceil cnt / 2 \rceil$ elements left, so the answer is $\lceil cnt / 2 \rceil$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

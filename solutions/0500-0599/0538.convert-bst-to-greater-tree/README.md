@@ -1,86 +1,66 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0538.Convert%20BST%20to%20Greater%20Tree/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉搜索树
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Binary Search Tree
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [538. 把二叉搜索树转换为累加树](https://leetcode.cn/problems/convert-bst-to-greater-tree)
+# [538. Convert BST to Greater Tree](https://leetcode.com/problems/convert-bst-to-greater-tree)
 
-[English Version](/solution/0500-0599/0538.Convert%20BST%20to%20Greater%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给出二叉<strong> 搜索 </strong>树的根节点，该树的节点值各不相同，请你将其转换为累加树（Greater Sum Tree），使每个节点 <code>node</code>&nbsp;的新值等于原树中大于或等于&nbsp;<code>node.val</code>&nbsp;的值之和。</p>
+<p>Given the <code>root</code> of a Binary Search Tree (BST), convert it to a Greater Tree such that every key of the original BST is changed to the original key plus the sum of all keys greater than the original key in BST.</p>
 
-<p>提醒一下，二叉搜索树满足下列约束条件：</p>
+<p>As a reminder, a <em>binary search tree</em> is a tree that satisfies these constraints:</p>
 
 <ul>
-	<li>节点的左子树仅包含键<strong> 小于 </strong>节点键的节点。</li>
-	<li>节点的右子树仅包含键<strong> 大于</strong> 节点键的节点。</li>
-	<li>左右子树也必须是二叉搜索树。</li>
+	<li>The left subtree of a node contains only nodes with keys <strong>less than</strong> the node&#39;s key.</li>
+	<li>The right subtree of a node contains only nodes with keys <strong>greater than</strong> the node&#39;s key.</li>
+	<li>Both the left and right subtrees must also be binary search trees.</li>
 </ul>
 
-<p><strong>注意：</strong>本题和 1038:&nbsp;<a href="https://leetcode.cn/problems/binary-search-tree-to-greater-sum-tree/">https://leetcode.cn/problems/binary-search-tree-to-greater-sum-tree/</a> 相同</p>
-
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0538.Convert%20BST%20to%20Greater%20Tree/images/tree.png" style="height: 364px; width: 534px;"></strong></p>
-
-<pre><strong>输入：</strong>[4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]
-<strong>输出：</strong>[30,36,21,36,35,26,15,null,null,null,33,null,null,null,8]
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0538.Convert%20BST%20to%20Greater%20Tree/images/tree.png" style="width: 500px; height: 341px;" />
+<pre>
+<strong>Input:</strong> root = [4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]
+<strong>Output:</strong> [30,36,21,36,35,26,15,null,null,null,33,null,null,null,8]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>root = [0,null,1]
-<strong>输出：</strong>[1,null,1]
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>root = [1,0,2]
-<strong>输出：</strong>[3,3,2]
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><strong>输入：</strong>root = [3,2,4,1]
-<strong>输出：</strong>[7,9,4,10]
+<pre>
+<strong>Input:</strong> root = [0,null,1]
+<strong>Output:</strong> [1,null,1]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中的节点数介于 <code>0</code>&nbsp;和 <code>10<sup>4</sup></code><sup>&nbsp;</sup>之间。</li>
-	<li>每个节点的值介于 <code>-10<sup>4</sup></code>&nbsp;和&nbsp;<code>10<sup>4</sup></code>&nbsp;之间。</li>
-	<li>树中的所有值 <strong>互不相同</strong> 。</li>
-	<li>给定的树为二叉搜索树。</li>
+	<li>The number of nodes in the tree is in the range <code>[0, 10<sup>4</sup>]</code>.</li>
+	<li><code>-10<sup>4</sup> &lt;= Node.val &lt;= 10<sup>4</sup></code></li>
+	<li>All the values in the tree are <strong>unique</strong>.</li>
+	<li><code>root</code> is guaranteed to be a valid binary search tree.</li>
 </ul>
+
+<p>&nbsp;</p>
+<p><strong>Note:</strong> This question is the same as 1038: <a href="https://leetcode.com/problems/binary-search-tree-to-greater-sum-tree/" target="_blank">https://leetcode.com/problems/binary-search-tree-to-greater-sum-tree/</a></p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
-
-按照“右根左”的顺序，递归遍历二叉搜索树，累加遍历到的所有节点值到 $s$ 中，然后每次赋值给对应的 `node` 节点。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉搜索树的节点数。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -245,20 +225,7 @@ var convertBST = function (root) {
 
 <!-- solution:start -->
 
-### 方法二：Morris 遍历
-
-Morris 遍历无需使用栈，时间复杂度 $O(n)$，空间复杂度为 $O(1)$。核心思想是：
-
-定义 s 表示二叉搜索树节点值累加和。遍历二叉树节点：
-
-1. 若当前节点 root 的右子树为空，**将当前节点值添加至 s** 中，更新当前节点值为 s，并将当前节点更新为 `root.left`。
-2. 若当前节点 root 的右子树不为空，找到右子树的最左节点 next（也即是 root 节点在中序遍历下的后继节点）：
-    - 若后继节点 next 的左子树为空，将后继节点的左子树指向当前节点 root，并将当前节点更新为 `root.right`。
-    - 若后继节点 next 的左子树不为空，**将当前节点值添加 s** 中，更新当前节点值为 s，然后将后继节点左子树指向空（即解除 next 与 root 的指向关系），并将当前节点更新为 `root.left`。
-3. 循环以上步骤，直至二叉树节点为空，遍历结束。
-4. 最后返回二叉搜索树根节点即可。
-
-> Morris 反序中序遍历跟 Morris 中序遍历思路一致，只是将中序遍历的“左根右”变为“右根左”。
+### Solution 2
 
 <!-- tabs:start -->
 

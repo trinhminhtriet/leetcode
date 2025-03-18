@@ -1,45 +1,42 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0350.Intersection%20of%20Two%20Arrays%20II/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 哈希表
-    - 双指针
-    - 二分查找
-    - 排序
+    - Array
+    - Hash Table
+    - Two Pointers
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [350. 两个数组的交集 II](https://leetcode.cn/problems/intersection-of-two-arrays-ii)
+# [350. Intersection of Two Arrays II](https://leetcode.com/problems/intersection-of-two-arrays-ii)
 
-[English Version](/solution/0300-0399/0350.Intersection%20of%20Two%20Arrays%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数数组&nbsp;<code>nums1</code> 和 <code>nums2</code> ，请你以数组形式返回两数组的交集。返回结果中每个元素出现的次数，应与元素在两个数组中都出现的次数一致（如果出现次数不一致，则考虑取较小值）。可以不考虑输出结果的顺序。</p>
+<p>Given two integer arrays <code>nums1</code> and <code>nums2</code>, return <em>an array of their intersection</em>. Each element in the result must appear as many times as it shows in both arrays and you may return the result in <strong>any order</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums1 = [1,2,2,1], nums2 = [2,2]
-<strong>输出：</strong>[2,2]
+<strong>Input:</strong> nums1 = [1,2,2,1], nums2 = [2,2]
+<strong>Output:</strong> [2,2]
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums1 = [4,9,5], nums2 = [9,4,9,8,4]
-<strong>输出：</strong>[4,9]</pre>
+<strong>Input:</strong> nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+<strong>Output:</strong> [4,9]
+<strong>Explanation:</strong> [9,4] is also accepted.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length, nums2.length &lt;= 1000</code></li>
@@ -47,28 +44,27 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong><strong>进阶</strong>：</strong></p>
+<p><strong>Follow up:</strong></p>
 
 <ul>
-	<li>如果给定的数组已经排好序呢？你将如何优化你的算法？</li>
-	<li>如果&nbsp;<code>nums1</code><em>&nbsp;</em>的大小比&nbsp;<code>nums2</code> 小，哪种方法更优？</li>
-	<li>如果&nbsp;<code>nums2</code><em>&nbsp;</em>的元素存储在磁盘上，内存是有限的，并且你不能一次加载所有的元素到内存中，你该怎么办？</li>
+	<li>What if the given array is already sorted? How would you optimize your algorithm?</li>
+	<li>What if <code>nums1</code>&#39;s size is small compared to <code>nums2</code>&#39;s size? Which algorithm is better?</li>
+	<li>What if elements of <code>nums2</code> are stored on disk, and the memory is limited such that you cannot load all elements into the memory at once?</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们可以用一个哈希表 $\textit{cnt}$ 统计数组 $\textit{nums1}$ 中每个元素出现的次数，然后遍历数组 $\textit{nums2}$，如果元素 $x$ 在 $\textit{cnt}$ 中，并且 $x$ 的出现次数大于 $0$，那么将 $x$ 加入答案，然后将 $x$ 的出现次数减一。
+We can use a hash table $\textit{cnt}$ to count the occurrences of each element in the array $\textit{nums1}$. Then, we iterate through the array $\textit{nums2}$. If an element $x$ is in $\textit{cnt}$ and the occurrence of $x$ is greater than $0$, we add $x$ to the answer and then decrement the occurrence of $x$ by one.
 
-遍历结束后，返回答案数组即可。
+After the iteration is finished, we return the answer array.
 
-时间复杂度 $O(m + n)$，空间复杂度 $O(m)$。其中 $m$ 和 $n$ 分别是数组 $\textit{nums1}$ 和 $\textit{nums2}$ 的长度。
+The time complexity is $O(m + n)$, and the space complexity is $O(m)$. Here, $m$ and $n$ are the lengths of the arrays $\textit{nums1}$ and $\textit{nums2}$, respectively.
 
 <!-- tabs:start -->
 

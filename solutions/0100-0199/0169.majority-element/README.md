@@ -1,46 +1,36 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0169.Majority%20Element/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 哈希表
-    - 分治
-    - 计数
-    - 排序
+    - Array
+    - Hash Table
+    - Divide and Conquer
+    - Counting
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [169. 多数元素](https://leetcode.cn/problems/majority-element)
+# [169. Majority Element](https://leetcode.com/problems/majority-element)
 
-[English Version](/solution/0100-0199/0169.Majority%20Element/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个大小为 <code>n</code><em> </em>的数组&nbsp;<code>nums</code> ，返回其中的多数元素。多数元素是指在数组中出现次数 <strong>大于</strong>&nbsp;<code>⌊ n/2 ⌋</code>&nbsp;的元素。</p>
+<p>Given an array <code>nums</code> of size <code>n</code>, return <em>the majority element</em>.</p>
 
-<p>你可以假设数组是非空的，并且给定的数组总是存在多数元素。</p>
+<p>The majority element is the element that appears more than <code>&lfloor;n / 2&rfloor;</code> times. You may assume that the majority element always exists in the array.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [3,2,3]
-<strong>输出：</strong>3</pre>
-
-<p><strong>示例&nbsp;2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [2,2,1,1,1,2,2]
-<strong>输出：</strong>2
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> nums = [3,2,3]
+<strong>Output:</strong> 3
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> nums = [2,2,1,1,1,2,2]
+<strong>Output:</strong> 2
 </pre>
-
 <p>&nbsp;</p>
-<strong>提示：</strong>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -49,27 +39,26 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>尝试设计时间复杂度为 O(n)、空间复杂度为 O(1) 的算法解决此问题。</p>
+<strong>Follow-up:</strong> Could you solve the problem in linear time and in <code>O(1)</code> space?
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：摩尔投票法
+### Solution 1: Moore Voting Algorithm
 
-摩尔投票法的基本步骤如下：
+The basic steps of the Moore voting algorithm are as follows:
 
-初始化元素 $m$，并初始化计数器 $cnt=0$。接下来，对于输入列表中每一个元素 $x$：
+Initialize the element $m$ and initialize the counter $cnt = 0$. Then, for each element $x$ in the input list:
 
-1. 如果 $cnt=0$，那么 $m=x$ 并且 $cnt=1$；
-1. 否则，如果 $m=x$，那么 $cnt = cnt + 1$，否则 $cnt = cnt - 1$。
+1. If $cnt = 0$, then $m = x$ and $cnt = 1$;
+1. Otherwise, if $m = x$, then $cnt = cnt + 1$, otherwise $cnt = cnt - 1$.
 
-一般而言，摩尔投票法需要对输入的列表进行**两次遍历**。在第一次遍历中，我们生成候选值 $m$，如果存在多数，那么该候选值就是多数值。在第二次遍历中，只需要简单地计算候选值的频率，以确认是否是多数值。由于本题已经明确说明存在多数值，所以第一次遍历结束后，直接返回 $m$ 即可，无需二次遍历确认是否是多数值。
+In general, the Moore voting algorithm requires **two passes** over the input list. In the first pass, we generate the candidate value $m$, and if there is a majority, the candidate value is the majority value. In the second pass, we simply compute the frequency of the candidate value to confirm whether it is the majority value. Since this problem has clearly stated that there is a majority value, we can directly return $m$ after the first pass, without the need for a second pass to confirm whether it is the majority value.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

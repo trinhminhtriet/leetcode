@@ -1,73 +1,60 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0459.Repeated%20Substring%20Pattern/README.md
+difficulty: Easy
 tags:
-    - 字符串
-    - 字符串匹配
+    - String
+    - String Matching
 ---
 
 <!-- problem:start -->
 
-# [459. 重复的子字符串](https://leetcode.cn/problems/repeated-substring-pattern)
+# [459. Repeated Substring Pattern](https://leetcode.com/problems/repeated-substring-pattern)
 
-[English Version](/solution/0400-0499/0459.Repeated%20Substring%20Pattern/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个非空的字符串<meta charset="UTF-8" />&nbsp;<code>s</code>&nbsp;，检查是否可以通过由它的一个子串重复多次构成。</p>
+<p>Given a string <code>s</code>, check if it can be constructed by taking a substring of it and appending multiple copies of the substring together.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> s = "abab"
-<strong>输出:</strong> true
-<strong>解释:</strong> 可由子串 "ab" 重复两次构成。
+<strong>Input:</strong> s = &quot;abab&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> It is the substring &quot;ab&quot; twice.
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> s = "aba"
-<strong>输出:</strong> false
+<strong>Input:</strong> s = &quot;aba&quot;
+<strong>Output:</strong> false
 </pre>
 
-<p><strong>示例 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入:</strong> s = "abcabcabcabc"
-<strong>输出:</strong> true
-<strong>解释:</strong> 可由子串 "abc" 重复四次构成。 (或子串 "abcabc" 重复两次构成。)
+<strong>Input:</strong> s = &quot;abcabcabcabc&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> It is the substring &quot;abc&quot; four times or the substring &quot;abcabc&quot; twice.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
-
-<p><meta charset="UTF-8" /></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>s</code>&nbsp;由小写英文字母组成</li>
+	<li><code>s</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双倍字符串
-
-若长度为 $n$ 的字符串 $s$ 由 $m$ 个重复子串组成，将 $s$ 拼接在自身上，得到字符串 $ss$，长度为 $2n$，此时若从下标 $1$ 开始查找 $s$，那么查找到的下标一定小于 $s$ 的长度。
-
-若长度为 $n$ 的字符串 $s$ 不由重复子串组成，将 $s$ 拼接在自身上，得到字符串 $ss$，长度为 $2n$，此时若从下标 $1$ 开始查找 $s$，那么查找到的下标一定等于 $s$ 的长度。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

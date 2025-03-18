@@ -1,18 +1,15 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2879.Display%20the%20First%20Three%20Rows/README.md
+difficulty: Easy
 tags:
     - Pandas
 ---
 
 <!-- problem:start -->
 
-# [2879. 显示前三行](https://leetcode.cn/problems/display-the-first-three-rows)
+# [2879. Display the First Three Rows](https://leetcode.com/problems/display-the-first-three-rows)
 
-[English Version](/solution/2800-2899/2879.Display%20the%20First%20Three%20Rows/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
@@ -28,14 +25,13 @@ DataFrame: <code>employees</code>
 +-------------+--------+
 </pre>
 
-<p>编写一个解决方案，显示这个 DataFrame 的<strong> 前&nbsp;&nbsp;<code>3</code>&nbsp;</strong>行。</p>
+<p>Write a solution to display the <strong>first <code>3</code> </strong>rows<strong> </strong>of this DataFrame.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1:</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：
+<strong>Input:
 </strong>DataFrame employees
 +-------------+-----------+-----------------------+--------+
 | employee_id | name      | department            | salary |
@@ -47,7 +43,7 @@ DataFrame: <code>employees</code>
 | 49          | Jonathan  | HumanResources        | 23793  |
 | 43          | Khaled    | Administration        | 40454  |
 +-------------+-----------+-----------------------+--------+
-<b>输出：</b>
+<strong>Output:</strong>
 +-------------+---------+-------------+--------+
 | employee_id | name    | department  | salary |
 +-------------+---------+-------------+--------+
@@ -55,16 +51,16 @@ DataFrame: <code>employees</code>
 | 90          | Alice   | Sales       | 11096  |
 | 9           | Tatiana | Engineering | 33805  |
 +-------------+---------+-------------+--------+
-<b>解释：</b>
-只有前 3 行被显示。</pre>
+<strong>Explanation:</strong> 
+Only the first 3 rows are displayed.</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

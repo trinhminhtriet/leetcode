@@ -1,111 +1,106 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3365.Rearrange%20K%20Substrings%20to%20Form%20Target%20String/README.md
+difficulty: Medium
 rating: 1513
-source: 第 425 场周赛 Q2
+source: Weekly Contest 425 Q2
 tags:
-    - 哈希表
-    - 字符串
-    - 排序
+    - Hash Table
+    - String
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [3365. 重排子字符串以形成目标字符串](https://leetcode.cn/problems/rearrange-k-substrings-to-form-target-string)
+# [3365. Rearrange K Substrings to Form Target String](https://leetcode.com/problems/rearrange-k-substrings-to-form-target-string)
 
-[English Version](/solution/3300-3399/3365.Rearrange%20K%20Substrings%20to%20Form%20Target%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串 <code>s</code> 和 <code>t</code>（它们互为字母异位词），以及一个整数 <code>k</code>。</p>
+<p>You are given two strings <code>s</code> and <code>t</code>, both of which are anagrams of each other, and an integer <code>k</code>.</p>
 
-<p>你的任务是判断是否可以将字符串 <code>s</code> 分割成 <code>k</code> 个等长的子字符串，然后重新排列这些子字符串，并以任意顺序连接它们，使得最终得到的新字符串与给定的字符串 <code>t</code> 相匹配。</p>
+<p>Your task is to determine whether it is possible to split the string <code>s</code> into <code>k</code> equal-sized substrings, rearrange the substrings, and concatenate them in <em>any order</em> to create a new string that matches the given string <code>t</code>.</p>
 
-<p>如果可以做到，返回 <code>true</code>；否则，返回 <code>false</code>。</p>
+<p>Return <code>true</code> if this is possible, otherwise, return <code>false</code>.</p>
 
-<p><strong>字母异位词&nbsp;</strong>是指由另一个单词或短语的所有字母重新排列形成的单词或短语，使用所有原始字母恰好一次。</p>
+<p>An <strong>anagram</strong> is a word or phrase formed by rearranging the letters of a different word or phrase, using all the original letters exactly once.</p>
 
-<p><strong>子字符串&nbsp;</strong>是字符串中的一个连续&nbsp;<b>非空&nbsp;</b>字符序列。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">s = "abcd", t = "cdab", k = 2</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">true</span></p>
-
-<p><strong>解释：</strong></p>
-
-<ul>
-	<li>将 <code>s</code> 分割成 2 个长度为 2 的子字符串：<code>["ab", "cd"]</code>。</li>
-	<li>重新排列这些子字符串为 <code>["cd", "ab"]</code>，然后连接它们得到 <code>"cdab"</code>，与 <code>t</code> 相匹配。</li>
-</ul>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">s = "aabbcc", t = "bbaacc", k = 3</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">true</span></p>
-
-<p><strong>解释：</strong></p>
-
-<ul>
-	<li>将 <code>s</code> 分割成 3 个长度为 2 的子字符串：<code>["aa", "bb", "cc"]</code>。</li>
-	<li>重新排列这些子字符串为 <code>["bb", "aa", "cc"]</code>，然后连接它们得到 <code>"bbaacc"</code>，与 <code>t</code> 相匹配。</li>
-</ul>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">s = "aabbcc", t = "bbaacc", k = 2</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">false</span></p>
-
-<p><strong>解释：</strong></p>
-
-<ul>
-	<li>将 <code>s</code> 分割成 2 个长度为 3 的子字符串：<code>["aab", "bcc"]</code>。</li>
-	<li>这些子字符串无法重新排列形成 <code>t = "bbaacc"</code>，所以输出 <code>false</code>。</li>
-</ul>
-</div>
+<p>A <strong>substring</strong> is a contiguous <b>non-empty</b> sequence of characters within a string.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;abcd&quot;, t = &quot;cdab&quot;, k = 2</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<ul>
+	<li>Split <code>s</code> into 2 substrings of length 2: <code>[&quot;ab&quot;, &quot;cd&quot;]</code>.</li>
+	<li>Rearranging these substrings as <code>[&quot;cd&quot;, &quot;ab&quot;]</code>, and then concatenating them results in <code>&quot;cdab&quot;</code>, which matches <code>t</code>.</li>
+</ul>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;aabbcc&quot;, t = &quot;bbaacc&quot;, k = 3</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<ul>
+	<li>Split <code>s</code> into 3 substrings of length 2: <code>[&quot;aa&quot;, &quot;bb&quot;, &quot;cc&quot;]</code>.</li>
+	<li>Rearranging these substrings as <code>[&quot;bb&quot;, &quot;aa&quot;, &quot;cc&quot;]</code>, and then concatenating them results in <code>&quot;bbaacc&quot;</code>, which matches <code>t</code>.</li>
+</ul>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;aabbcc&quot;, t = &quot;bbaacc&quot;, k = 2</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">false</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<ul>
+	<li>Split <code>s</code> into 2 substrings of length 3: <code>[&quot;aab&quot;, &quot;bcc&quot;]</code>.</li>
+	<li>These substrings cannot be rearranged to form <code>t = &quot;bbaacc&quot;</code>, so the output is <code>false</code>.</li>
+</ul>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length == t.length &lt;= 2 * 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= k &lt;= s.length</code></li>
-	<li><code>s.length</code> 能被 <code>k</code> 整除。</li>
-	<li><code>s</code> 和 <code>t</code> 仅由小写英文字母组成。</li>
-	<li>输入保证 <code>s</code> 和 <code>t</code> 互为字母异位词。</li>
+	<li><code>s.length</code> is divisible by <code>k</code>.</li>
+	<li><code>s</code> and <code>t</code> consist only of lowercase English letters.</li>
+	<li>The input is generated such that<!-- notionvc: 53e485fc-71ce-4032-aed1-f712dd3822ba --> <code>s</code> and <code>t</code> are anagrams of each other.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们记字符串 $s$ 的长度为 $n$，那么每个子字符串的长度为 $m = n / k$。
+Let the length of the string $s$ be $n$, then the length of each substring is $m = n / k$.
 
-用一个哈希表 $\textit{cnt}$ 记录每个长度为 $m$ 的子字符串在字符串 $s$ 中出现的次数与在字符串 $t$ 中出现的次数之差。
+We use a hash table $\textit{cnt}$ to record the difference between the number of occurrences of each substring of length $m$ in string $s$ and in string $t$.
 
-遍历字符串 $s$，每次取出长度为 $m$ 的子字符串，更新哈希表 $\textit{cnt}$。
+We traverse the string $s$, extracting substrings of length $m$ each time, and update the hash table $\textit{cnt}$.
 
-最后判断哈希表 $\textit{cnt}$ 中的所有值是否都为 $0$。
+Finally, we check whether all values in the hash table $\textit{cnt}$ are $0$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

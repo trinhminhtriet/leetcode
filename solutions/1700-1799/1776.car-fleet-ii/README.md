@@ -1,82 +1,67 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1776.Car%20Fleet%20II/README.md
+difficulty: Hard
 rating: 2530
-source: 第 230 场周赛 Q4
+source: Weekly Contest 230 Q4
 tags:
-    - 栈
-    - 数组
-    - 数学
-    - 单调栈
-    - 堆（优先队列）
+    - Stack
+    - Array
+    - Math
+    - Monotonic Stack
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1776. 车队 II](https://leetcode.cn/problems/car-fleet-ii)
+# [1776. Car Fleet II](https://leetcode.com/problems/car-fleet-ii)
 
-[English Version](/solution/1700-1799/1776.Car%20Fleet%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在一条单车道上有 <code>n</code> 辆车，它们朝着同样的方向行驶。给你一个长度为 <code>n</code> 的数组 <code>cars</code> ，其中 <code>cars[i] = [position<sub>i</sub>, speed<sub>i</sub>]</code> ，它表示：</p>
+<p>There are <code>n</code> cars traveling at different speeds in the same direction along a one-lane road. You are given an array <code>cars</code> of length <code>n</code>, where <code>cars[i] = [position<sub>i</sub>, speed<sub>i</sub>]</code> represents:</p>
 
 <ul>
-	<li><code>position<sub>i</sub></code> 是第 <code>i</code> 辆车和道路起点之间的距离（单位：米）。题目保证 <code>position<sub>i</sub> < position<sub>i+1</sub></code><sub> </sub>。</li>
-	<li><code>speed<sub>i</sub></code> 是第 <code>i</code> 辆车的初始速度（单位：米/秒）。</li>
+	<li><code>position<sub>i</sub></code> is the distance between the <code>i<sup>th</sup></code> car and the beginning of the road in meters. It is guaranteed that <code>position<sub>i</sub> &lt; position<sub>i+1</sub></code>.</li>
+	<li><code>speed<sub>i</sub></code> is the initial speed of the <code>i<sup>th</sup></code> car in meters per second.</li>
 </ul>
 
-<p>简单起见，所有车子可以视为在数轴上移动的点。当两辆车占据同一个位置时，我们称它们相遇了。一旦两辆车相遇，它们会合并成一个车队，这个车队里的车有着同样的位置和相同的速度，速度为这个车队里 <strong>最慢</strong> 一辆车的速度。</p>
+<p>For simplicity, cars can be considered as points moving along the number line. Two cars collide when they occupy the same position. Once a car collides with another car, they unite and form a single car fleet. The cars in the formed fleet will have the same position and the same speed, which is the initial speed of the <strong>slowest</strong> car in the fleet.</p>
 
-<p>请你返回一个数组 <code>answer</code> ，其中 <code>answer[i]</code> 是第 <code>i</code> 辆车与下一辆车相遇的时间（单位：秒），如果这辆车不会与下一辆车相遇，则 <code>answer[i]</code> 为 <code>-1</code> 。答案精度误差需在 <code>10<sup>-5</sup></code> 以内。</p>
+<p>Return an array <code>answer</code>, where <code>answer[i]</code> is the time, in seconds, at which the <code>i<sup>th</sup></code> car collides with the next car, or <code>-1</code> if the car does not collide with the next car. Answers within <code>10<sup>-5</sup></code> of the actual answers are accepted.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>cars = [[1,2],[2,1],[4,3],[7,2]]
-<b>输出：</b>[1.00000,-1.00000,3.00000,-1.00000]
-<b>解释：</b>经过恰好 1 秒以后，第一辆车会与第二辆车相遇，并形成一个 1 m/s 的车队。经过恰好 3 秒以后，第三辆车会与第四辆车相遇，并形成一个 2 m/s 的车队。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>cars = [[3,4],[5,4],[6,3],[9,1]]
-<b>输出：</b>[2.00000,1.00000,1.50000,-1.00000]
+<strong>Input:</strong> cars = [[1,2],[2,1],[4,3],[7,2]]
+<strong>Output:</strong> [1.00000,-1.00000,3.00000,-1.00000]
+<strong>Explanation:</strong> After exactly one second, the first car will collide with the second car, and form a car fleet with speed 1 m/s. After exactly 3 seconds, the third car will collide with the fourth car, and form a car fleet with speed 2 m/s.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> cars = [[3,4],[5,4],[6,3],[9,1]]
+<strong>Output:</strong> [2.00000,1.00000,1.50000,-1.00000]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= cars.length <= 10<sup>5</sup></code></li>
-	<li><code>1 <= position<sub>i</sub>, speed<sub>i</sub> <= 10<sup>6</sup></code></li>
-	<li><code>position<sub>i</sub> < position<sub>i+1</sub></code></li>
+	<li><code>1 &lt;= cars.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= position<sub>i</sub>, speed<sub>i</sub> &lt;= 10<sup>6</sup></code></li>
+	<li><code>position<sub>i</sub> &lt; position<sub>i+1</sub></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：栈
-
-由于每一辆车最终追上其右边第一辆车的时间与其左边的车没有关系，因此，我们可以从右往左遍历，计算每辆车与其右边第一辆车相遇的时间。
-
-具体地，我们维护一个栈，栈中存放的是车辆的编号，栈顶元素表示当前最慢的车辆编号，栈底元素表示当前最快的车辆编号。
-
-当我们遍历到第 $i$ 辆车时，如果第 $i$ 辆车的速度大于栈顶元素对应的车辆 $j$ 的速度，此时我们计算两车相遇的时间，记为 $t$。如果车辆 $j$ 与右边车辆不会相遇，或者 $t$ 小于等于 $j$ 与右辆车相遇的时间，说明车辆 $i$ 可以在 $t$ 时间追上车辆 $j$，更新答案。否则，说明车辆 $i$ 不会与车辆 $j$ 相遇，我们将车辆 $j$ 出栈，继续判断车辆 $i$ 与栈顶元素对应的车辆相遇的时间。如果栈为空，说明车辆 $i$ 不会与任何车辆相遇，更新答案为 $-1$。最后，将车辆 $i$ 入栈。
-
-遍历完所有车辆后，即可得到答案。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为车辆数量。
+### Solution 1
 
 <!-- tabs:start -->
 

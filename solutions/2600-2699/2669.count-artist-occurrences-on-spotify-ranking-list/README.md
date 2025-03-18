@@ -1,58 +1,54 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2669.Count%20Artist%20Occurrences%20On%20Spotify%20Ranking%20List/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2669. 统计 Spotify 排行榜上艺术家出现次数 🔒](https://leetcode.cn/problems/count-artist-occurrences-on-spotify-ranking-list)
+# [2669. Count Artist Occurrences On Spotify Ranking List 🔒](https://leetcode.com/problems/count-artist-occurrences-on-spotify-ranking-list)
 
-[English Version](/solution/2600-2699/2669.Count%20Artist%20Occurrences%20On%20Spotify%20Ranking%20List/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：&nbsp;<code><font face="monospace">Spotify</font></code></p>
+<p>Table: <code><font face="monospace">Spotify</font></code></p>
 
 <pre>
 +-------------+---------+ 
-| 列名        | 类型    | 
+| Column Name | Type    | 
 +-------------+---------+ 
 | id          | int     | 
 | track_name  | varchar |
 | artist      | varchar |
 +-------------+---------+
-id 是该表的主键(具有唯一值的列)。
-每行包含 id、track_name 和 artist。
+<code>id</code> is the primary key (column with unique values) for this table.
+Each row contains an id, track_name, and artist.
 </pre>
 
-<p>编写解决方案来查找每个艺术家在Spotify排行榜上出现的次数。</p>
+<p>Write a solution to find how many times each artist appeared on the Spotify ranking list.</p>
 
-<p>返回结果表，其中包含艺术家的名称以及相应的出现次数，按出现次数&nbsp;<strong>降序&nbsp;</strong>排列。如果出现次数相等，则按艺术家名称&nbsp;<strong>升序&nbsp;</strong>排列。</p>
+<p>Return the result table having the artist&#39;s name along with the corresponding number of occurrences&nbsp;ordered by occurrence count in&nbsp;<strong>descending </strong>order. If the occurrences are equal, then it&rsquo;s ordered by the artist&rsquo;s name in <strong>ascending</strong> order.</p>
 
-<p>返回结果格式如下所示：</p>
+<p>The result format is in the following example​​​​​.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：
-</strong>Spotify 表: 
+<strong>Input:
+</strong>Spotify table: 
 +---------+--------------------+------------+ 
 | id      | track_name         | artist     |  
 +---------+--------------------+------------+
-| 303651  | Heart Won't Forget | Sia        |
+| 303651  | Heart Won&#39;t Forget | Sia        |
 | 1046089 | Shape of you       | Ed Sheeran |
-| 33445   | I'm the one        | DJ Khalid  |
+| 33445   | I&#39;m the one        | DJ Khalid  |
 | 811266  | Young Dumb &amp; Broke | DJ Khalid  | 
 | 505727  | Happier            | Ed Sheeran |
 +---------+--------------------+------------+ 
-<strong>输出：
+<strong>Output:
 </strong>+------------+-------------+
 | artist     | occurrences | 
 +------------+-------------+
@@ -61,16 +57,16 @@ id 是该表的主键(具有唯一值的列)。
 | Sia        | 1           | 
 +------------+-------------+ 
 
-<strong>解释：</strong>"occurrences" 列下按降序列出了出现次数的计数。如果出现次数相同，则艺术家名称按升序排序。
+<strong>Explanation: </strong>The count of occurrences is listed in descending order under the column name &quot;occurrences&quot;. If the number of occurrences is the same, the artist&#39;s names are sorted in ascending order.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

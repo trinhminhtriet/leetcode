@@ -1,100 +1,92 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1585.Check%20If%20String%20Is%20Transformable%20With%20Substring%20Sort%20Operations/README.md
+difficulty: Hard
 rating: 2333
-source: 第 206 场周赛 Q4
+source: Weekly Contest 206 Q4
 tags:
-    - 贪心
-    - 字符串
-    - 排序
+    - Greedy
+    - String
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1585. 检查字符串是否可以通过排序子字符串得到另一个字符串](https://leetcode.cn/problems/check-if-string-is-transformable-with-substring-sort-operations)
+# [1585. Check If String Is Transformable With Substring Sort Operations](https://leetcode.com/problems/check-if-string-is-transformable-with-substring-sort-operations)
 
-[English Version](/solution/1500-1599/1585.Check%20If%20String%20Is%20Transformable%20With%20Substring%20Sort%20Operations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串&nbsp;<code>s</code> 和&nbsp;<code>t</code>&nbsp;，请你通过若干次以下操作将字符串&nbsp;<code>s</code>&nbsp;转化成字符串&nbsp;<code>t</code>&nbsp;：</p>
+<p>Given two strings <code>s</code> and <code>t</code>, transform string <code>s</code> into string <code>t</code> using the following operation any number of times:</p>
 
 <ul>
-	<li>选择 <code>s</code>&nbsp;中一个 <strong>非空</strong>&nbsp;子字符串并将它包含的字符就地 <strong>升序</strong>&nbsp;排序。</li>
+	<li>Choose a <strong>non-empty</strong> substring in <code>s</code> and sort it in place so the characters are in <strong>ascending order</strong>.
+
+    <ul>
+    	<li>For example, applying the operation on the underlined substring in <code>&quot;1<u>4234</u>&quot;</code> results in <code>&quot;1<u>2344</u>&quot;</code>.</li>
+    </ul>
+    </li>
+
 </ul>
 
-<p>比方说，对下划线所示的子字符串进行操作可以由&nbsp;<code>&quot;1<strong>4234</strong>&quot;</code>&nbsp;得到&nbsp;<code>&quot;1<strong>2344</strong>&quot;</code>&nbsp;。</p>
+<p>Return <code>true</code> if <em>it is possible to transform <code>s</code> into <code>t</code></em>. Otherwise, return <code>false</code>.</p>
 
-<p>如果可以将字符串 <code>s</code>&nbsp;变成 <code>t</code>&nbsp;，返回 <code>true</code>&nbsp;。否则，返回 <code>false</code>&nbsp;。</p>
-
-<p>一个 <strong>子字符串</strong>&nbsp;定义为一个字符串中连续的若干字符。</p>
+<p>A <strong>substring</strong> is a contiguous sequence of characters within a string.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = &quot;84532&quot;, t = &quot;34852&quot;
-<strong>输出：</strong>true
-<strong>解释：</strong>你可以按以下操作将 s 转变为 t ：
-&quot;84<strong>53</strong>2&quot; （从下标 2 到下标 3）-&gt; &quot;84<strong>35</strong>2&quot;
-&quot;<strong>843</strong>52&quot; （从下标 0 到下标 2） -&gt; &quot;<strong>348</strong>52&quot;
+<strong>Input:</strong> s = &quot;84532&quot;, t = &quot;34852&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> You can transform s into t using the following sort operations:
+&quot;84<u>53</u>2&quot; (from index 2 to 3) -&gt; &quot;84<u>35</u>2&quot;
+&quot;<u>843</u>52&quot; (from index 0 to 2) -&gt; &quot;<u>348</u>52&quot;
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = &quot;34521&quot;, t = &quot;23415&quot;
-<strong>输出：</strong>true
-<strong>解释：</strong>你可以按以下操作将 s 转变为 t ：
-&quot;<strong>3452</strong>1&quot; -&gt; &quot;<strong>2345</strong>1&quot;
-&quot;234<strong>51</strong>&quot; -&gt; &quot;234<strong>15</strong>&quot;
+<strong>Input:</strong> s = &quot;34521&quot;, t = &quot;23415&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> You can transform s into t using the following sort operations:
+&quot;<u>3452</u>1&quot; -&gt; &quot;<u>2345</u>1&quot;
+&quot;234<u>51</u>&quot; -&gt; &quot;234<u>15</u>&quot;
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = &quot;12345&quot;, t = &quot;12435&quot;
-<strong>输出：</strong>false
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = &quot;1&quot;, t = &quot;2&quot;
-<strong>输出：</strong>false
+<strong>Input:</strong> s = &quot;12345&quot;, t = &quot;12435&quot;
+<strong>Output:</strong> false
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>s.length == t.length</code></li>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> 和&nbsp;<code>t</code>&nbsp;都只包含数字字符，即&nbsp;<code>&#39;0&#39;</code>&nbsp;到&nbsp;<code>&#39;9&#39;</code> 。</li>
+	<li><code>s</code> and <code>t</code> consist of only digits.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：冒泡排序
+### Solution 1: Bubble Sort
 
-题目实际上等价于判断：将字符串 $s$ 中任意长度为 $2$ 的子字符串采用冒泡排序交换，是否能得到 $t$。
+The problem is essentially equivalent to determining whether any substring of length 2 in string $s$ can be swapped using bubble sort to obtain $t$.
 
-因此我们用一个长度为 $10$ 的数组 $pos$ 记录字符串 $s$ 中每个字符数字的下标，其中 $pos[i]$ 表示数字 $i$ 出现的下标列表，按从小到大排序。
+Therefore, we use an array $pos$ of length 10 to record the indices of each digit in string $s$, where $pos[i]$ represents the list of indices where digit $i$ appears, sorted in ascending order.
 
-接下来，我们遍历字符串 $t$，对于 $t$ 中的每个字符 $t[i]$，我们转为数字 $x$，我们判断 $pos[x]$ 是否为空，若是，说明字符串 $s$ 中不存在 $t$ 中的数字，直接返回 `false`。否则，若要将 $pos[x]$ 的第一个位置下标的字符交换到下标 $i$ 的位置，需要满足小于 $x$ 的所有数字的下标均不小于 $pos[x]$ 的第一个位置下标，若不满足，返回 `false`。否则，我们将 $pos[x]$ 的第一个位置下标弹出，然后继续遍历字符串 $t$。
+Next, we iterate through string $t$. For each character $t[i]$ in $t$, we convert it to the digit $x$. We check if $pos[x]$ is empty. If it is, it means that the digit in $t$ does not exist in $s$, so we return `false`. Otherwise, to swap the character at the first index of $pos[x]$ to index $i$, all indices of digits less than $x$ must be greater than or equal to the first index of $pos[x]. If this condition is not met, we return `false`. Otherwise, we pop the first index from $pos[x]$ and continue iterating through string $t$.
 
-遍历结束，返回 `true`。
+After the iteration, we return `true`.
 
-时间复杂度 $O(n \times C)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度，而 $C$ 是数字集的大小，本题中 $C=10$。
+The time complexity is $O(n \times C)$, and the space complexity is $O(n)$. Here, $n$ is the length of string $s$, and $C$ is the size of the digit set, which is 10 in this problem.
 
 <!-- tabs:start -->
 

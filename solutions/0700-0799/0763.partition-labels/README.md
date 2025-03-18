@@ -1,78 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0763.Partition%20Labels/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 哈希表
-    - 双指针
-    - 字符串
+    - Greedy
+    - Hash Table
+    - Two Pointers
+    - String
 ---
 
 <!-- problem:start -->
 
-# [763. 划分字母区间](https://leetcode.cn/problems/partition-labels)
+# [763. Partition Labels](https://leetcode.com/problems/partition-labels)
 
-[English Version](/solution/0700-0799/0763.Partition%20Labels/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> 。我们要把这个字符串划分为尽可能多的片段，同一字母最多出现在一个片段中。例如，字符串&nbsp;<code>"ababcc"</code> 能够被分为 <code>["abab", "cc"]</code>，但类似&nbsp;<code>["aba", "bcc"]</code> 或&nbsp;<code>["ab", "ab", "cc"]</code> 的划分是非法的。</p>
+<p>You are given a string <code>s</code>. We want to partition the string into as many parts as possible so that each letter appears in at most one part. For example, the string <code>&quot;ababcc&quot;</code> can be partitioned into <code>[&quot;abab&quot;, &quot;cc&quot;]</code>, but partitions such as <code>[&quot;aba&quot;, &quot;bcc&quot;]</code> or <code>[&quot;ab&quot;, &quot;ab&quot;, &quot;cc&quot;]</code> are invalid.</p>
 
-<p>注意，划分结果需要满足：将所有划分结果按顺序连接，得到的字符串仍然是 <code>s</code> 。</p>
+<p>Note that the partition is done so that after concatenating all the parts in order, the resultant string should be <code>s</code>.</p>
 
-<p>返回一个表示每个字符串片段的长度的列表。</p>
+<p>Return <em>a list of integers representing the size of these parts</em>.</p>
 
 <p>&nbsp;</p>
-<strong class="example">示例 1：</strong>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "ababcbacadefegdehijhklij"
-<strong>输出：</strong>[9,7,8]
-<strong>解释：</strong>
-划分结果为 "ababcbaca"、"defegde"、"hijhklij" 。
-每个字母最多出现在一个片段中。
-像 "ababcbacadefegde", "hijhklij" 这样的划分是错误的，因为划分的片段数较少。 </pre>
+<strong>Input:</strong> s = &quot;ababcbacadefegdehijhklij&quot;
+<strong>Output:</strong> [9,7,8]
+<strong>Explanation:</strong>
+The partition is &quot;ababcbaca&quot;, &quot;defegde&quot;, &quot;hijhklij&quot;.
+This is a partition so that each letter appears in at most one part.
+A partition like &quot;ababcbacadefegde&quot;, &quot;hijhklij&quot; is incorrect, because it splits s into less parts.
+</pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "eccbbbbdec"
-<strong>输出：</strong>[10]
+<strong>Input:</strong> s = &quot;eccbbbbdec&quot;
+<strong>Output:</strong> [10]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 500</code></li>
-	<li><code>s</code> 仅由小写英文字母组成</li>
+	<li><code>s</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy
 
-我们先用数组或哈希表 $\textit{last}$ 记录字符串 $s$ 中每个字母最后一次出现的位置。
+We first use an array or hash table $\textit{last}$ to record the last occurrence of each letter in the string $s$.
 
-接下来我们使用贪心的方法，将字符串划分为尽可能多的片段。
+Next, we use a greedy approach to partition the string into as many segments as possible.
 
-从左到右遍历字符串 $s$，遍历的同时维护当前片段的开始下标 $j$ 和结束下标 $i$，初始均为 $0$。
+Traverse the string $s$ from left to right, while maintaining the start index $j$ and end index $i$ of the current segment, both initially set to $0$.
 
-对于每个访问到的字母 $c$，获取到最后一次出现的位置 $\textit{last}[c]$。由于当前片段的结束下标一定不会小于 $\textit{last}[c]$，因此令 $\textit{mx} = \max(\textit{mx}, \textit{last}[c])$。
+For each letter $c$ visited, get the last occurrence position $\textit{last}[c]$. Since the end index of the current segment must not be less than $\textit{last}[c]$, let $\textit{mx} = \max(\textit{mx}, \textit{last}[c])$.
 
-当访问到下标 $\textit{mx}$ 时，意味着当前片段访问结束，当前片段的下标范围是 $[j,.. i]$，长度为 $i - j + 1$，我们将其添加到结果数组中。然后令 $j = i + 1$, 继续寻找下一个片段。
+When visiting the index $\textit{mx}$, it means the current segment ends. The index range of the current segment is $[j,.. i]$, and the length is $i - j + 1$. We add this length to the result array. Then set $j = i + 1$ and continue to find the next segment.
 
-重复上述过程，直至字符串遍历结束，即可得到所有片段的长度。
+Repeat the above process until the string traversal is complete to get the lengths of all segments.
 
-时间复杂度 $O(n)$，空间复杂度 $O(|\Sigma|)$。其中 $n$ 为字符串 $s$ 的长度，而 $|\Sigma|$ 为字符集的大小。本题中 $|\Sigma| = 26$。
+Time complexity is $O(n)$, and space complexity is $O(|\Sigma|)$. Where $n$ is the length of the string $s$, and $|\Sigma|$ is the size of the character set. In this problem, $|\Sigma| = 26$.
 
 <!-- tabs:start -->
 

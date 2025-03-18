@@ -1,99 +1,90 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3472.Longest%20Palindromic%20Subsequence%20After%20at%20Most%20K%20Operations/README.md
+difficulty: Medium
 tags:
-    - 字符串
-    - 动态规划
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3472. 至多 K 次操作后的最长回文子序列](https://leetcode.cn/problems/longest-palindromic-subsequence-after-at-most-k-operations)
+# [3472. Longest Palindromic Subsequence After at Most K Operations](https://leetcode.com/problems/longest-palindromic-subsequence-after-at-most-k-operations)
 
-[English Version](/solution/3400-3499/3472.Longest%20Palindromic%20Subsequence%20After%20at%20Most%20K%20Operations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> 和一个整数 <code>k</code>。</p>
+<p>You are given a string <code>s</code> and an integer <code>k</code>.</p>
 
-<p>在一次操作中，你可以将任意位置的字符替换为字母表中相邻的字符（字母表是循环的，因此&nbsp;<code>'z'</code>&nbsp;的下一个字母是&nbsp;<code>'a'</code>）。例如，将 <code>'a'</code> 替换为下一个字母结果是 <code>'b'</code>，将 <code>'a'</code> 替换为上一个字母结果是 <code>'z'</code>；同样，将 <code>'z'</code> 替换为下一个字母结果是 <code>'a'</code>，替换为上一个字母结果是 <code>'y'</code>。</p>
+<p>In one operation, you can replace the character at any position with the next or previous letter in the alphabet (wrapping around so that <code>&#39;a&#39;</code> is after <code>&#39;z&#39;</code>). For example, replacing <code>&#39;a&#39;</code> with the next letter results in <code>&#39;b&#39;</code>, and replacing <code>&#39;a&#39;</code> with the previous letter results in <code>&#39;z&#39;</code>. Similarly, replacing <code>&#39;z&#39;</code> with the next letter results in <code>&#39;a&#39;</code>, and replacing <code>&#39;z&#39;</code> with the previous letter results in <code>&#39;y&#39;</code>.</p>
 
-<p>返回在进行&nbsp;<strong>最多</strong> <code>k</code> 次操作后，<code>s</code> 的&nbsp;<strong>最长回文子序列&nbsp;</strong>的长度。</p>
-
-<p><strong>子序列&nbsp;</strong>是一个&nbsp;<strong>非空&nbsp;</strong>字符串，可以通过删除原字符串中的某些字符（或不删除任何字符）并保持剩余字符的相对顺序得到。</p>
-
-<p><strong>回文&nbsp;</strong>是正着读和反着读都相同的字符串。</p>
+<p>Return the length of the <strong>longest <span data-keyword="palindrome-string">palindromic</span> <span data-keyword="subsequence-string-nonempty">subsequence</span></strong> of <code>s</code> that can be obtained after performing <strong>at most</strong> <code>k</code> operations.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入:</strong> <span class="example-io">s = "abced", k = 2</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;abced&quot;, k = 2</span></p>
 
-<p><strong>输出:</strong> <span class="example-io">3</span></p>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><strong>解释:</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>将 <code>s[1]</code> 替换为下一个字母，得到 <code>"acced"</code>。</li>
-	<li>将 <code>s[4]</code> 替换为上一个字母，得到 <code>"accec"</code>。</li>
+	<li>Replace <code>s[1]</code> with the next letter, and <code>s</code> becomes <code>&quot;acced&quot;</code>.</li>
+	<li>Replace <code>s[4]</code> with the previous letter, and <code>s</code> becomes <code>&quot;accec&quot;</code>.</li>
 </ul>
 
-<p>子序列 <code>"ccc"</code> 形成一个长度为 3 的回文，这是最长的回文子序列。</p>
+<p>The subsequence <code>&quot;ccc&quot;</code> forms a palindrome of length 3, which is the maximum.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入:</strong> <span class="example-io">s = "aaazzz", k = 4</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;</span>aaazzz<span class="example-io">&quot;, k = 4</span></p>
 
-<p><strong>输出:</strong> 6</p>
+<p><strong>Output:</strong> 6</p>
 
-<p><strong>解释:</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>将 <code>s[0]</code> 替换为上一个字母，得到 <code>"zaazzz"</code>。</li>
-	<li>将 <code>s[4]</code> 替换为下一个字母，得到 <code>"zaazaz"</code>。</li>
-	<li>将 <code>s[3]</code> 替换为下一个字母，得到 <code>"zaaaaz"</code>。</li>
+	<li>Replace <code>s[0]</code> with the previous letter, and <code>s</code> becomes <code>&quot;zaazzz&quot;</code>.</li>
+	<li>Replace <code>s[4]</code> with the next letter, and <code>s</code> becomes <code>&quot;zaazaz&quot;</code>.</li>
+	<li>Replace <code>s[3]</code> with the next letter, and <code>s</code> becomes <code>&quot;zaaaaz&quot;</code>.</li>
 </ul>
 
-<p>整个字符串形成一个长度为 6 的回文。</p>
+<p>The entire string forms a palindrome of length 6.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 200</code></li>
 	<li><code>1 &lt;= k &lt;= 200</code></li>
-	<li><code>s</code> 仅由小写英文字母组成。</li>
+	<li><code>s</code> consists of only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoized Search
 
-我们设计一个函数 $\textit{dfs}(i, j, k)$，表示在字符串 $s[i..j]$ 中最多可以进行 $k$ 次操作，得到的最长回文子序列的长度。那么答案为 $\textit{dfs}(0, n - 1, k)$。
+We design a function $\textit{dfs}(i, j, k)$, which represents the length of the longest palindromic subsequence that can be obtained in the substring $s[i..j]$ with at most $k$ operations. The answer is $\textit{dfs}(0, n - 1, k)$.
 
-函数 $\textit{dfs}(i, j, k)$ 的计算过程如下：
+The calculation process of the function $\textit{dfs}(i, j, k)$ is as follows:
 
--   如果 $i > j$，返回 $0$；
--   如果 $i = j$，返回 $1$；
--   否则，我们可以忽略 $s[i]$ 或 $s[j]$，分别计算 $\textit{dfs}(i + 1, j, k)$ 和 $\textit{dfs}(i, j - 1, k)$；或者我们可以将 $s[i]$ 和 $s[j]$ 变成相同的字符，计算 $\textit{dfs}(i + 1, j - 1, k - t) + 2$，其中 $t$ 是 $s[i]$ 和 $s[j]$ 的 ASCII 码差值。
--   返回上述三种情况的最大值。
+-   If $i > j$, return $0$;
+-   If $i = j$, return $1$;
+-   Otherwise, we can ignore $s[i]$ or $s[j]$ and calculate $\textit{dfs}(i + 1, j, k)$ and $\textit{dfs}(i, j - 1, k)$ respectively; or we can change $s[i]$ and $s[j]$ to the same character and calculate $\textit{dfs}(i + 1, j - 1, k - t) + 2$, where $t$ is the ASCII code difference between $s[i]$ and $s[j]$.
+-   Return the maximum value of the above three cases.
 
-为了避免重复计算，我们使用记忆化搜索的方法。
+To avoid repeated calculations, we use memoized search.
 
-时间复杂度 $O(n^2 \times k)$，空间复杂度 $O(n^2 \times k)$。其中 $n$ 是字符串 $s$ 的长度。
+The time complexity is $O(n^2 \times k)$, and the space complexity is $O(n^2 \times k)$. Where $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

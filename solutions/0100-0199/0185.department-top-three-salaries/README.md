@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0185.Department%20Top%20Three%20Salaries/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [185. 部门工资前三高的所有员工](https://leetcode.cn/problems/department-top-three-salaries)
+# [185. Department Top Three Salaries](https://leetcode.com/problems/department-top-three-salaries)
 
-[English Version](/solution/0100-0199/0185.Department%20Top%20Three%20Salaries/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表:&nbsp;<code>Employee</code></p>
+<p>Table: <code>Employee</code></p>
 
 <pre>
 +--------------+---------+
@@ -27,14 +24,14 @@ tags:
 | salary       | int     |
 | departmentId | int     |
 +--------------+---------+
-id 是该表的主键列(具有唯一值的列)。
-departmentId 是 Department 表中 ID 的外键（reference 列）。
-该表的每一行都表示员工的ID、姓名和工资。它还包含了他们部门的ID。
+id is the primary key (column with unique values) for this table.
+departmentId is a foreign key (reference column) of the ID from the <code>Department </code>table.
+Each row of this table indicates the ID, name, and salary of an employee. It also contains the ID of their department.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>表:&nbsp;<code>Department</code></p>
+<p>Table: <code>Department</code></p>
 
 <pre>
 +-------------+---------+
@@ -43,27 +40,26 @@ departmentId 是 Department 表中 ID 的外键（reference 列）。
 | id          | int     |
 | name        | varchar |
 +-------------+---------+
-id 是该表的主键列(具有唯一值的列)。
-该表的每一行表示部门ID和部门名。
+id is the primary key (column with unique values) for this table.
+Each row of this table indicates the ID of a department and its name.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>公司的主管们感兴趣的是公司每个部门中谁赚的钱最多。一个部门的 <strong>高收入者</strong> 是指一个员工的工资在该部门的 <strong>不同</strong> 工资中 <strong>排名前三</strong> 。</p>
+<p>A company&#39;s executives are interested in seeing who earns the most money in each of the company&#39;s departments. A <strong>high earner</strong> in a department is an employee who has a salary in the <strong>top three unique</strong> salaries for that department.</p>
 
-<p>编写解决方案，找出每个部门中 <strong>收入高的员工</strong> 。</p>
+<p>Write a solution to find the employees who are <strong>high earners</strong> in each of the departments.</p>
 
-<p>以 <strong>任意顺序</strong> 返回结果表。</p>
+<p>Return the result table <strong>in any order</strong>.</p>
 
-<p>返回结果格式如下所示。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
-Employee 表:
+<strong>Input:</strong> 
+Employee table:
 +----+-------+--------+--------------+
 | id | name  | salary | departmentId |
 +----+-------+--------+--------------+
@@ -75,14 +71,14 @@ Employee 表:
 | 6  | Randy | 85000  | 1            |
 | 7  | Will  | 70000  | 1            |
 +----+-------+--------+--------------+
-Department  表:
+Department table:
 +----+-------+
 | id | name  |
 +----+-------+
 | 1  | IT    |
 | 2  | Sales |
 +----+-------+
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +------------+----------+--------+
 | Department | Employee | Salary |
 +------------+----------+--------+
@@ -93,32 +89,32 @@ Department  表:
 | Sales      | Henry    | 80000  |
 | Sales      | Sam      | 60000  |
 +------------+----------+--------+
-<strong>解释:
-</strong>在IT部门:
-- Max的工资最高
-- 兰迪和乔都赚取第二高的独特的薪水
-- 威尔的薪水是第三高的
+<strong>Explanation:</strong> 
+In the IT department:
+- Max earns the highest unique salary
+- Both Randy and Joe earn the second-highest unique salary
+- Will earns the third-highest unique salary
 
-在销售部:
-- 亨利的工资最高
-- 山姆的薪水第二高
-- 没有第三高的工资，因为只有两名员工</pre>
+In the Sales department:
+- Henry earns the highest salary
+- Sam earns the second-highest salary
+- There is no third-highest salary as there are only two employees
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>没有姓名、薪资和部门 <strong>完全</strong> 相同的员工。</li>
+	<li>There are no employees with the <strong>exact</strong> same name, salary <em>and</em> department.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -173,7 +169,7 @@ WHERE
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

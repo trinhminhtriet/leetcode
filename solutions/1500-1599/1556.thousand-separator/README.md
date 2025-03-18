@@ -1,70 +1,51 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1556.Thousand%20Separator/README.md
+difficulty: Easy
 rating: 1271
-source: 第 33 场双周赛 Q1
+source: Biweekly Contest 33 Q1
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1556. 千位分隔数](https://leetcode.cn/problems/thousand-separator)
+# [1556. Thousand Separator](https://leetcode.com/problems/thousand-separator)
 
-[English Version](/solution/1500-1599/1556.Thousand%20Separator/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>n</code>，请你每隔三位添加点（即 &quot;.&quot; 符号）作为千位分隔符，并将结果以字符串格式返回。</p>
+<p>Given an integer <code>n</code>, add a dot (&quot;.&quot;) as the thousands separator and return it in string format.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>n = 987
-<strong>输出：</strong>&quot;987&quot;
+<pre>
+<strong>Input:</strong> n = 987
+<strong>Output:</strong> &quot;987&quot;
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>n = 1234
-<strong>输出：</strong>&quot;1.234&quot;
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>n = 123456789
-<strong>输出：</strong>&quot;123.456.789&quot;
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><strong>输入：</strong>n = 0
-<strong>输出：</strong>&quot;0&quot;
+<pre>
+<strong>Input:</strong> n = 1234
+<strong>Output:</strong> &quot;1.234&quot;
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>0 &lt;= n &lt; 2^31</code></li>
+	<li><code>0 &lt;= n &lt;= 2<sup>31</sup> - 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
-
-直接按照题目要求模拟即可。
-
-时间复杂度 $O(\log n)$，忽略答案的空间消耗，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 

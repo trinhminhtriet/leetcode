@@ -1,50 +1,46 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1873.Calculate%20Special%20Bonus/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1873. 计算特殊奖金](https://leetcode.cn/problems/calculate-special-bonus)
+# [1873. Calculate Special Bonus](https://leetcode.com/problems/calculate-special-bonus)
 
-[English Version](/solution/1800-1899/1873.Calculate%20Special%20Bonus/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Employees</code></p>
+<p>Table: <code>Employees</code></p>
 
 <pre>
 +-------------+---------+
-| 列名        | 类型     |
+| Column Name | Type    |
 +-------------+---------+
 | employee_id | int     |
 | name        | varchar |
 | salary      | int     |
 +-------------+---------+
-employee_id 是这个表的主键(具有唯一值的列)。
-此表的每一行给出了雇员id ，名字和薪水。
+employee_id is the primary key (column with unique values) for this table.
+Each row of this table indicates the employee ID, employee name, and salary.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案，计算每个雇员的奖金。如果一个雇员的 id 是 <strong>奇数</strong> 并且他的名字不是以 <code>'M'</code> <strong>开头</strong>，那么他的奖金是他工资的 <code>100%</code> ，否则奖金为 <code>0</code> 。</p>
+<p>Write a solution to calculate the bonus of each employee. The bonus of an employee is <code>100%</code> of their salary if the ID of the employee is <strong>an odd number</strong> and <strong>the employee&#39;s name does not start with the character </strong><code>&#39;M&#39;</code>. The bonus of an employee is <code>0</code> otherwise.</p>
 
-<p>返回的结果按照&nbsp;<code>employee_id</code>&nbsp;排序。</p>
+<p>Return the result table ordered by <code>employee_id</code>.</p>
 
-<p>返回结果格式如下面的例子所示。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Employees 表:
+<strong>Input:</strong> 
+Employees table:
 +-------------+---------+--------+
 | employee_id | name    | salary |
 +-------------+---------+--------+
@@ -54,7 +50,7 @@ Employees 表:
 | 8           | Juan    | 6100   |
 | 9           | Kannon  | 7700   |
 +-------------+---------+--------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-------------+-------+
 | employee_id | bonus |
 +-------------+-------+
@@ -64,20 +60,21 @@ Employees 表:
 | 8           | 0     |
 | 9           | 7700  |
 +-------------+-------+
-<strong>解释：</strong>
-因为雇员id是偶数，所以雇员id 是2和8的两个雇员得到的奖金是0。
-雇员id为3的因为他的名字以'M'开头，所以，奖金是0。
-其他的雇员得到了百分之百的奖金。</pre>
+<strong>Explanation:</strong> 
+The employees with IDs 2 and 8 get 0 bonus because they have an even employee_id.
+The employee with ID 3 gets 0 bonus because their name starts with &#39;M&#39;.
+The rest of the employees get a 100% bonus.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：IF 语句 + ORDER BY 子句
+### Solution 1: IF Statement + ORDER BY Clause
 
-我们可以使用 `IF` 语句来判断奖金的计算方式，然后使用 `ORDER BY` 将结果按照 `employee_id` 排序。
+We can use the `IF` statement to determine the calculation method of the bonus, and then use `ORDER BY` to sort the results by `employee_id`.
 
 <!-- tabs:start -->
 

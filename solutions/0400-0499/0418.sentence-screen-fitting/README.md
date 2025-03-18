@@ -1,97 +1,78 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0418.Sentence%20Screen%20Fitting/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 字符串
-    - 动态规划
+    - Array
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [418. 屏幕可显示句子的数量 🔒](https://leetcode.cn/problems/sentence-screen-fitting)
+# [418. Sentence Screen Fitting 🔒](https://leetcode.com/problems/sentence-screen-fitting)
 
-[English Version](/solution/0400-0499/0418.Sentence%20Screen%20Fitting/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>rows x cols</code> 的屏幕和一个用 <strong>非空 </strong>的单词列表组成的句子，请你计算出给定句子可以在屏幕上完整显示的次数。</p>
+<p>Given a&nbsp;<code>rows x cols</code> screen and a <code>sentence</code> represented as a list of strings, return <em>the number of&nbsp;times the given sentence can be fitted on the screen</em>.</p>
 
-<p>句子中的单词顺序必须保持不变，并且不能将一个单词分成两行。一行中的两个连续单词必须用空白分开。</p>
+<p>The order of words in the sentence must remain unchanged, and a word cannot be split into two lines. A single space must separate two consecutive words in a line.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>sentence = ["hello", "world"], rows = 2, cols = 8
-<strong>输出：</strong>1
-<strong>解释：</strong>
+<strong>Input:</strong> sentence = [&quot;hello&quot;,&quot;world&quot;], rows = 2, cols = 8
+<strong>Output:</strong> 1
+<strong>Explanation:</strong>
 hello---
 world---
-字符 '-' 表示屏幕上的一个空白位置。
+The character &#39;-&#39; signifies an empty space on the screen.
 </pre>
 
-<p>&nbsp;</p>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>sentence = ["a", "bcd", "e"], rows = 3, cols = 6
-<strong>输出：</strong>2
-<strong>解释：</strong>
+<strong>Input:</strong> sentence = [&quot;a&quot;, &quot;bcd&quot;, &quot;e&quot;], rows = 3, cols = 6
+<strong>Output:</strong> 2
+<strong>Explanation:</strong>
 a-bcd- 
 e-a---
 bcd-e-
-字符 '-' 表示屏幕上的一个空白位置。
+The character &#39;-&#39; signifies an empty space on the screen.
 </pre>
 
-<p>&nbsp;</p>
-
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>sentence = ["I", "had", "apple", "pie"], rows = 4, cols = 5
-<strong>输出：</strong>1
-<strong>解释：</strong>
-I-had
+<strong>Input:</strong> sentence = [&quot;i&quot;,&quot;had&quot;,&quot;apple&quot;,&quot;pie&quot;], rows = 4, cols = 5
+<strong>Output:</strong> 1
+<strong>Explanation:</strong>
+i-had
 apple
-pie-I
+pie-i
 had--
-字符 '-' 表示屏幕上的一个空白位置。
+The character &#39;-&#39; signifies an empty space on the screen.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= sentence.length &lt;= 100</code></li>
 	<li><code>1 &lt;= sentence[i].length &lt;= 10</code></li>
-	<li><code>sentence[i]</code>&nbsp;由小写英文字母组成。</li>
+	<li><code>sentence[i]</code> consists of lowercase English letters.</li>
 	<li><code>1 &lt;= rows, cols &lt;= 2 * 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
-
-我们将句子的每个单词拼接上一个空格，然后把句子拼接起来，得到字符串 $s$。例如，对于句子 `["hello", "world"]`，得到的字符串为 `"hello world "`。记 $s$ 的长度为 $m$。
-
-接下来，我们使用贪心的方法，找到最大的可显示句子数。定义一个变量 $cur$，表示当前已经在屏幕上显示的字符串的长度，初始时 $cur=0$。
-
-我们循环 $rows$ 次，每次循环中，我们首先将 $cur$ 增加 $cols$，如果 $s[cur \bmod m]$ 是一个空格，说明我们可以将完整的若干个单词放置到当前行，因此我们将 $cur$ 增加一个额外的 $1$；否则，说明我们需要回退 $cur$，直到 $cur$ 指向的字符是一个空格为止。然后继续下一次循环。
-
-循环结束，返回 $\lfloor \frac{cur}{m} \rfloor$ 即可。
-
-时间复杂度 $O(rows \times M)$，空间复杂度 $O(L)$。其中 $M$ 是单词的最大长度，而 $L$ 是单词的总长度。
+### Solution 1
 
 <!-- tabs:start -->
 

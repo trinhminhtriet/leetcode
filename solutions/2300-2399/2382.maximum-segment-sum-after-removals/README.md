@@ -1,91 +1,76 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2382.Maximum%20Segment%20Sum%20After%20Removals/README.md
+difficulty: Hard
 rating: 2136
-source: 第 85 场双周赛 Q4
+source: Biweekly Contest 85 Q4
 tags:
-    - 并查集
-    - 数组
-    - 有序集合
-    - 前缀和
+    - Union Find
+    - Array
+    - Ordered Set
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [2382. 删除操作后的最大子段和](https://leetcode.cn/problems/maximum-segment-sum-after-removals)
+# [2382. Maximum Segment Sum After Removals](https://leetcode.com/problems/maximum-segment-sum-after-removals)
 
-[English Version](/solution/2300-2399/2382.Maximum%20Segment%20Sum%20After%20Removals/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code> 和&nbsp;<code>removeQueries</code>&nbsp;，两者长度都为&nbsp;<code>n</code>&nbsp;。对于第&nbsp;<code>i</code>&nbsp;个查询，<code>nums</code>&nbsp;中位于下标&nbsp;<code>removeQueries[i]</code>&nbsp;处的元素被删除，将 <code>nums</code>&nbsp;分割成更小的子段。</p>
+<p>You are given two <strong>0-indexed</strong> integer arrays <code>nums</code> and <code>removeQueries</code>, both of length <code>n</code>. For the <code>i<sup>th</sup></code> query, the element in <code>nums</code> at the index <code>removeQueries[i]</code> is removed, splitting <code>nums</code> into different segments.</p>
 
-<p>一个 <strong>子段</strong>&nbsp;是 <code>nums</code>&nbsp;中连续 <strong>正</strong>&nbsp;整数形成的序列。<strong>子段和</strong>&nbsp;是子段中所有元素的和。</p>
+<p>A <strong>segment</strong> is a contiguous sequence of <strong>positive</strong> integers in <code>nums</code>. A <strong>segment sum</strong> is the sum of every element in a segment.</p>
 
-<p>请你返回一个长度为 <code>n</code>&nbsp;的整数数组<em>&nbsp;</em><code>answer</code>&nbsp;，其中<em>&nbsp;</em><code>answer[i]</code>是第&nbsp;<code>i</code>&nbsp;次删除操作以后的&nbsp;<strong>最大</strong>&nbsp;子段和。</p>
+<p>Return<em> an integer array </em><code>answer</code><em>, of length </em><code>n</code><em>, where </em><code>answer[i]</code><em> is the <strong>maximum</strong> segment sum after applying the </em><code>i<sup>th</sup></code> <em>removal.</em></p>
 
-<p><strong>注意：</strong>一个下标至多只会被删除一次。</p>
+<p><strong>Note:</strong> The same index will <strong>not</strong> be removed more than once.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,2,5,6,1], removeQueries = [0,3,2,4,1]
+<strong>Output:</strong> [14,7,2,2,0]
+<strong>Explanation:</strong> Using 0 to indicate a removed element, the answer is as follows:
+Query 1: Remove the 0th element, nums becomes [0,2,5,6,1] and the maximum segment sum is 14 for segment [2,5,6,1].
+Query 2: Remove the 3rd element, nums becomes [0,2,5,0,1] and the maximum segment sum is 7 for segment [2,5].
+Query 3: Remove the 2nd element, nums becomes [0,2,0,0,1] and the maximum segment sum is 2 for segment [2]. 
+Query 4: Remove the 4th element, nums becomes [0,2,0,0,0] and the maximum segment sum is 2 for segment [2]. 
+Query 5: Remove the 1st element, nums becomes [0,0,0,0,0] and the maximum segment sum is 0, since there are no segments.
+Finally, we return [14,7,2,2,0].</pre>
 
-<pre><b>输入：</b>nums = [1,2,5,6,1], removeQueries = [0,3,2,4,1]
-<b>输出：</b>[14,7,2,2,0]
-<b>解释：</b>用 0 表示被删除的元素，答案如下所示：
-查询 1 ：删除第 0 个元素，nums 变成 [0,2,5,6,1] ，最大子段和为子段 [2,5,6,1] 的和 14 。
-查询 2 ：删除第 3 个元素，nums 变成 [0,2,5,0,1] ，最大子段和为子段 [2,5] 的和 7 。
-查询 3 ：删除第 2 个元素，nums 变成 [0,2,0,0,1] ，最大子段和为子段 [2] 的和 2 。
-查询 4 ：删除第 4 个元素，nums 变成 [0,2,0,0,0] ，最大子段和为子段 [2] 的和 2 。
-查询 5 ：删除第 1 个元素，nums 变成 [0,0,0,0,0] ，最大子段和为 0 ，因为没有任何子段存在。
-所以，我们返回 [14,7,2,2,0] 。</pre>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>nums = [3,2,11,1], removeQueries = [3,2,1,0]
-<b>输出：</b>[16,5,3,0]
-<b>解释：</b>用 0 表示被删除的元素，答案如下所示：
-查询 1 ：删除第 3 个元素，nums 变成 [3,2,11,0] ，最大子段和为子段 [3,2,11] 的和 16 。
-查询 2 ：删除第 2 个元素，nums 变成 [3,2,0,0] ，最大子段和为子段 [3,2] 的和 5 。
-查询 3 ：删除第 1 个元素，nums 变成 [3,0,0,0] ，最大子段和为子段 [3] 的和 3 。
-查询 5 ：删除第 0 个元素，nums 变成 [0,0,0,0] ，最大子段和为 0 ，因为没有任何子段存在。
-所以，我们返回 [16,5,3,0] 。
+<pre>
+<strong>Input:</strong> nums = [3,2,11,1], removeQueries = [3,2,1,0]
+<strong>Output:</strong> [16,5,3,0]
+<strong>Explanation:</strong> Using 0 to indicate a removed element, the answer is as follows:
+Query 1: Remove the 3rd element, nums becomes [3,2,11,0] and the maximum segment sum is 16 for segment [3,2,11].
+Query 2: Remove the 2nd element, nums becomes [3,2,0,0] and the maximum segment sum is 5 for segment [3,2].
+Query 3: Remove the 1st element, nums becomes [3,0,0,0] and the maximum segment sum is 3 for segment [3].
+Query 4: Remove the 0th element, nums becomes [0,0,0,0] and the maximum segment sum is 0, since there are no segments.
+Finally, we return [16,5,3,0].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length == removeQueries.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
 	<li><code>0 &lt;= removeQueries[i] &lt; n</code></li>
-	<li><code>removeQueries</code>&nbsp;中所有数字 <strong>互不相同</strong>&nbsp;。</li>
+	<li>All the values of <code>removeQueries</code> are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：逆向思维 + 并查集
-
-考虑**从后往前遍历**数组 $removeQueries$ 中的每个元素 $i$，用并查集来维护以 $nums[i]$ 所在的连续子数组的和。
-
-遍历过程中：
-
-对于 $removeQueries$ 中的每一个 $i$，若下标 $i-1$ 对应的元素遍历过，可以将 $i-1$ 与 $i$ 进行合并，同理，若下标 $i+1$ 对应的元素也遍历过了，将 $i$ 与 $i+1$ 合并。合并过程中更新连通块的元素和。
-
-时间复杂度 $O(nlogn)$。其中 $n$ 是 $nums$ 中的元素个数。
-
-相似题目：
-
--   [2334. 元素值大于变化阈值的子数组](https://github.com/doocs/leetcode/blob/main/solution/2300-2399/2334.Subarray%20With%20Elements%20Greater%20Than%20Varying%20Threshold/README.md)
+### Solution 1
 
 <!-- tabs:start -->
 

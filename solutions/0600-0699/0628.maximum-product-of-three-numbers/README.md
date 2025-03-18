@@ -1,73 +1,57 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0628.Maximum%20Product%20of%20Three%20Numbers/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 数学
-    - 排序
+    - Array
+    - Math
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [628. 三个数的最大乘积](https://leetcode.cn/problems/maximum-product-of-three-numbers)
+# [628. Maximum Product of Three Numbers](https://leetcode.com/problems/maximum-product-of-three-numbers)
 
-[English Version](/solution/0600-0699/0628.Maximum%20Product%20of%20Three%20Numbers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整型数组 <code>nums</code> ，在数组中找出由三个数组成的最大乘积，并输出这个乘积。</p>
+<p>Given an integer array <code>nums</code>, <em>find three numbers whose product is maximum and return the maximum product</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,3]
-<strong>输出：</strong>6
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> nums = [1,2,3]
+<strong>Output:</strong> 6
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> nums = [1,2,3,4]
+<strong>Output:</strong> 24
+</pre><p><strong class="example">Example 3:</strong></p>
+<pre><strong>Input:</strong> nums = [-1,-2,-3]
+<strong>Output:</strong> -6
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,3,4]
-<strong>输出：</strong>24
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [-1,-2,-3]
-<strong>输出：</strong>-6
-</pre>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>3 <= nums.length <= 10<sup>4</sup></code></li>
-	<li><code>-1000 <= nums[i] <= 1000</code></li>
+	<li><code>3 &lt;= nums.length &lt;=&nbsp;10<sup>4</sup></code></li>
+	<li><code>-1000 &lt;= nums[i] &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 分类讨论
+### Solution 1: Sorting + Case Analysis
 
-我们先对数组 $\textit{nums}$ 进行排序，接下来分两种情况讨论：
+First, we sort the array $\textit{nums}$, and then discuss two cases:
 
--   如果 $\textit{nums}$ 中全是非负数或者全是非正数，那么答案即为最后三个数的乘积，即 $\textit{nums}[n-1] \times \textit{nums}[n-2] \times \textit{nums}[n-3]$；
--   如果 $\textit{nums}$ 中既有正数也有负数，那么答案可能是两个最小负数和一个最大整数的乘积，即 $\textit{nums}[n-1] \times \textit{nums}[0] \times \textit{nums}[1]$；也可能是最后三个数的乘积，即 $\textit{nums}[n-1] \times \textit{nums}[n-2] \times \textit{nums}[n-3]$。
+-   If $\textit{nums}$ contains all non-negative or all non-positive numbers, the answer is the product of the last three numbers, i.e., $\textit{nums}[n-1] \times \textit{nums}[n-2] \times \textit{nums}[n-3]$;
+-   If $\textit{nums}$ contains both positive and negative numbers, the answer could be the product of the two smallest negative numbers and the largest positive number, i.e., $\textit{nums}[n-1] \times \textit{nums}[0] \times \textit{nums}[1]$, or the product of the last three numbers, i.e., $\textit{nums}[n-1] \times \textit{nums}[n-2] \times \textit{nums}[n-3]$.
 
-最后返回两种情况的最大值即可。
+Finally, return the maximum of the two cases.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 
@@ -144,13 +128,13 @@ function maximumProduct(nums: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二：一次遍历
+### Solution 2: Single Pass
 
-我们可以不用对数组进行排序，而是维护五个变量，其中 $\textit{mi1}$ 和 $\textit{mi2}$ 表示数组中最小的两个数，而 $\textit{mx1}$, $\textit{mx2}$ 和 $\textit{mx3}$ 表示数组中最大的三个数。
+We can avoid sorting the array by maintaining five variables: $\textit{mi1}$ and $\textit{mi2}$ represent the two smallest numbers in the array, while $\textit{mx1}$, $\textit{mx2}$, and $\textit{mx3}$ represent the three largest numbers in the array.
 
-最后返回 $\max(\textit{mi1} \times \textit{mi2} \times \textit{mx1}, \textit{mx1} \times \textit{mx2} \times \textit{mx3})$ 即可。
+Finally, return $\max(\textit{mi1} \times \textit{mi2} \times \textit{mx1}, \textit{mx1} \times \textit{mx2} \times \textit{mx3})$.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

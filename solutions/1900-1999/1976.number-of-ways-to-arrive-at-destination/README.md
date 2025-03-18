@@ -1,58 +1,53 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1976.Number%20of%20Ways%20to%20Arrive%20at%20Destination/README.md
+difficulty: Medium
 rating: 2094
-source: 第 59 场双周赛 Q3
+source: Biweekly Contest 59 Q3
 tags:
-    - 图
-    - 拓扑排序
-    - 动态规划
-    - 最短路
+    - Graph
+    - Topological Sort
+    - Dynamic Programming
+    - Shortest Path
 ---
 
 <!-- problem:start -->
 
-# [1976. 到达目的地的方案数](https://leetcode.cn/problems/number-of-ways-to-arrive-at-destination)
+# [1976. Number of Ways to Arrive at Destination](https://leetcode.com/problems/number-of-ways-to-arrive-at-destination)
 
-[English Version](/solution/1900-1999/1976.Number%20of%20Ways%20to%20Arrive%20at%20Destination/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你在一个城市里，城市由 <code>n</code>&nbsp;个路口组成，路口编号为&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;，某些路口之间有 <strong>双向</strong>&nbsp;道路。输入保证你可以从任意路口出发到达其他任意路口，且任意两个路口之间最多有一条路。</p>
+<p>You are in a city that consists of <code>n</code> intersections numbered from <code>0</code> to <code>n - 1</code> with <strong>bi-directional</strong> roads between some intersections. The inputs are generated such that you can reach any intersection from any other intersection and that there is at most one road between any two intersections.</p>
 
-<p>给你一个整数&nbsp;<code>n</code>&nbsp;和二维整数数组&nbsp;<code>roads</code>&nbsp;，其中&nbsp;<code>roads[i] = [u<sub>i</sub>, v<sub>i</sub>, time<sub>i</sub>]</code>&nbsp;表示在路口&nbsp;<code>u<sub>i</sub></code>&nbsp;和&nbsp;<code>v<sub>i</sub></code>&nbsp;之间有一条需要花费&nbsp;<code>time<sub>i</sub></code>&nbsp;时间才能通过的道路。你想知道花费 <strong>最少时间</strong>&nbsp;从路口&nbsp;<code>0</code>&nbsp;出发到达路口&nbsp;<code>n - 1</code>&nbsp;的方案数。</p>
+<p>You are given an integer <code>n</code> and a 2D integer array <code>roads</code> where <code>roads[i] = [u<sub>i</sub>, v<sub>i</sub>, time<sub>i</sub>]</code> means that there is a road between intersections <code>u<sub>i</sub></code> and <code>v<sub>i</sub></code> that takes <code>time<sub>i</sub></code> minutes to travel. You want to know in how many ways you can travel from intersection <code>0</code> to intersection <code>n - 1</code> in the <strong>shortest amount of time</strong>.</p>
 
-<p>请返回花费 <strong>最少时间</strong>&nbsp;到达目的地的 <strong>路径数目</strong>&nbsp;。由于答案可能很大，将结果对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
+<p>Return <em>the <strong>number of ways</strong> you can arrive at your destination in the <strong>shortest amount of time</strong></em>. Since the answer may be large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1976.Number%20of%20Ways%20to%20Arrive%20at%20Destination/images/1976_corrected.png" style="width: 255px; height: 400px;" />
 <pre>
-<b>输入：</b>n = 7, roads = [[0,6,7],[0,1,2],[1,2,3],[1,3,3],[6,3,3],[3,5,1],[6,5,1],[2,5,1],[0,4,5],[4,6,2]]
-<b>输出：</b>4
-<b>解释：</b>从路口 0 出发到路口 6 花费的最少时间是 7 分钟。
-四条花费 7 分钟的路径分别为：
+<strong>Input:</strong> n = 7, roads = [[0,6,7],[0,1,2],[1,2,3],[1,3,3],[6,3,3],[3,5,1],[6,5,1],[2,5,1],[0,4,5],[4,6,2]]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The shortest amount of time it takes to go from intersection 0 to intersection 6 is 7 minutes.
+The four ways to get there in 7 minutes are:
 - 0 ➝ 6
 - 0 ➝ 4 ➝ 6
 - 0 ➝ 1 ➝ 2 ➝ 5 ➝ 6
 - 0 ➝ 1 ➝ 3 ➝ 5 ➝ 6
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>n = 2, roads = [[1,0,10]]
-<b>输出：</b>1
-<b>解释：</b>只有一条从路口 0 到路口 1 的路，花费 10 分钟。
+<strong>Input:</strong> n = 2, roads = [[1,0,10]]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> There is only one way to go from intersection 0 to intersection 1, and it takes 10 minutes.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 200</code></li>
@@ -61,30 +56,30 @@ tags:
 	<li><code>0 &lt;= u<sub>i</sub>, v<sub>i</sub> &lt;= n - 1</code></li>
 	<li><code>1 &lt;= time<sub>i</sub> &lt;= 10<sup>9</sup></code></li>
 	<li><code>u<sub>i </sub>!= v<sub>i</sub></code></li>
-	<li>任意两个路口之间至多有一条路。</li>
-	<li>从任意路口出发，你能够到达其他任意路口。</li>
+	<li>There is at most one road connecting any two intersections.</li>
+	<li>You can reach any intersection from any other intersection.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：朴素 Dijkstra 算法
+### Solution 1: Naive Dijkstra Algorithm
 
-我们定义以下几个数组，其中：
+We define the following arrays:
 
--   `g` 表示图的邻接矩阵，`g[i][j]` 表示点 `i` 到点 `j` 的最短路径长度，初始时全部为 $\infty$，而 `g[0][0]` 为 $0$；然后我们遍历 `roads`，将 `g[u][v]` 和 `g[v][u]` 更新为 `t`；
--   `dist[i]` 表示从起点到点 `i` 的最短路径长度，初始时全部为 $\infty$，而 `dist[0]` 为 $0$；
--   `f[i]` 表示从起点到点 `i` 的最短路径的条数，初始时全部为 $0$，而 `f[0]` 为 $1$；
--   `vis[i]` 表示点 `i` 是否已经被访问过，初始时全部为 `False`。
+-   `g` represents the adjacency matrix of the graph. `g[i][j]` represents the shortest path length from point `i` to point `j`. Initially, all are infinity, while `g[0][0]` is 0. Then we traverse `roads` and update `g[u][v]` and `g[v][u]` to `t`.
+-   `dist[i]` represents the shortest path length from the starting point to point `i`. Initially, all are infinity, while `dist[0]` is 0.
+-   `f[i]` represents the number of shortest paths from the starting point to point `i`. Initially, all are 0, while `f[0]` is 1.
+-   `vis[i]` represents whether point `i` has been visited. Initially, all are `False`.
 
-然后，我们使用朴素 Dijkstra 算法求出从起点到终点的最短路径长度，过程中同时记录下每个点的最短路径的条数。
+Then, we use the naive Dijkstra algorithm to find the shortest path length from the starting point to the end point, and record the number of shortest paths for each point during the process.
 
-最后，我们返回 `f[n - 1]` 即可。由于答案可能很大，我们需要对 $10^9 + 7$ 取模。
+Finally, we return `f[n - 1]`. Since the answer may be very large, we need to take the modulus of $10^9 + 7$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为点的个数。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$, where $n$ is the number of points.
 
 <!-- tabs:start -->
 

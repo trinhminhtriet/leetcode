@@ -1,97 +1,92 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2363.Merge%20Similar%20Items/README.md
+difficulty: Easy
 rating: 1270
-source: 第 84 场双周赛 Q1
+source: Biweekly Contest 84 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 有序集合
-    - 排序
+    - Array
+    - Hash Table
+    - Ordered Set
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2363. 合并相似的物品](https://leetcode.cn/problems/merge-similar-items)
+# [2363. Merge Similar Items](https://leetcode.com/problems/merge-similar-items)
 
-[English Version](/solution/2300-2399/2363.Merge%20Similar%20Items/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个二维整数数组&nbsp;<code>items1</code> 和&nbsp;<code>items2</code>&nbsp;，表示两个物品集合。每个数组&nbsp;<code>items</code>&nbsp;有以下特质：</p>
+<p>You are given two 2D integer arrays, <code>items1</code> and <code>items2</code>, representing two sets of items. Each array <code>items</code> has the following properties:</p>
 
 <ul>
-	<li><code>items[i] = [value<sub>i</sub>, weight<sub>i</sub>]</code> 其中&nbsp;<code>value<sub>i</sub></code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;件物品的&nbsp;<strong>价值</strong>&nbsp;，<code>weight<sub>i</sub></code>&nbsp;表示第 <code>i</code>&nbsp;件物品的 <strong>重量</strong>&nbsp;。</li>
-	<li><code>items</code>&nbsp;中每件物品的价值都是 <strong>唯一的</strong>&nbsp;。</li>
+	<li><code>items[i] = [value<sub>i</sub>, weight<sub>i</sub>]</code> where <code>value<sub>i</sub></code> represents the <strong>value</strong> and <code>weight<sub>i</sub></code> represents the <strong>weight </strong>of the <code>i<sup>th</sup></code> item.</li>
+	<li>The value of each item in <code>items</code> is <strong>unique</strong>.</li>
 </ul>
 
-<p>请你返回一个二维数组&nbsp;<code>ret</code>，其中&nbsp;<code>ret[i] = [value<sub>i</sub>, weight<sub>i</sub>]</code>，&nbsp;<code>weight<sub>i</sub></code>&nbsp;是所有价值为&nbsp;<code>value<sub>i</sub></code><sub>&nbsp;</sub>物品的&nbsp;<strong>重量之和</strong>&nbsp;。</p>
+<p>Return <em>a 2D integer array</em> <code>ret</code> <em>where</em> <code>ret[i] = [value<sub>i</sub>, weight<sub>i</sub>]</code><em>,</em> <em>with</em> <code>weight<sub>i</sub></code> <em>being the <strong>sum of weights</strong> of all items with value</em> <code>value<sub>i</sub></code>.</p>
 
-<p><strong>注意：</strong><code>ret</code>&nbsp;应该按价值 <strong>升序</strong>&nbsp;排序后返回。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>items1 = [[1,1],[4,5],[3,8]], items2 = [[3,1],[1,5]]
-<b>输出：</b>[[1,6],[3,9],[4,5]]
-<b>解释：</b>
-value = 1 的物品在 items1 中 weight = 1 ，在 items2 中 weight = 5 ，总重量为 1 + 5 = 6 。
-value = 3 的物品再 items1 中 weight = 8 ，在 items2 中 weight = 1 ，总重量为 8 + 1 = 9 。
-value = 4 的物品在 items1 中 weight = 5 ，总重量为 5 。
-所以，我们返回 [[1,6],[3,9],[4,5]] 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>items1 = [[1,1],[3,2],[2,3]], items2 = [[2,1],[3,2],[1,3]]
-<b>输出：</b>[[1,4],[2,4],[3,4]]
-<b>解释：</b>
-value = 1 的物品在 items1 中 weight = 1 ，在 items2 中 weight = 3 ，总重量为 1 + 3 = 4 。
-value = 2 的物品在 items1 中 weight = 3 ，在 items2 中 weight = 1 ，总重量为 3 + 1 = 4 。
-value = 3 的物品在 items1 中 weight = 2 ，在 items2 中 weight = 2 ，总重量为 2 + 2 = 4 。
-所以，我们返回 [[1,4],[2,4],[3,4]] 。</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>items1 = [[1,3],[2,2]], items2 = [[7,1],[2,2],[1,4]]
-<b>输出：</b>[[1,7],[2,4],[7,1]]
-<strong>解释：
-</strong>value = 1 的物品在 items1 中 weight = 3 ，在 items2 中 weight = 4 ，总重量为 3 + 4 = 7 。
-value = 2 的物品在 items1 中 weight = 2 ，在 items2 中 weight = 2 ，总重量为 2 + 2 = 4 。
-value = 7 的物品在 items2 中 weight = 1 ，总重量为 1 。
-所以，我们返回 [[1,7],[2,4],[7,1]] 。
-</pre>
+<p><strong>Note:</strong> <code>ret</code> should be returned in <strong>ascending</strong> order by value.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> items1 = [[1,1],[4,5],[3,8]], items2 = [[3,1],[1,5]]
+<strong>Output:</strong> [[1,6],[3,9],[4,5]]
+<strong>Explanation:</strong> 
+The item with value = 1 occurs in items1 with weight = 1 and in items2 with weight = 5, total weight = 1 + 5 = 6.
+The item with value = 3 occurs in items1 with weight = 8 and in items2 with weight = 1, total weight = 8 + 1 = 9.
+The item with value = 4 occurs in items1 with weight = 5, total weight = 5.  
+Therefore, we return [[1,6],[3,9],[4,5]].
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> items1 = [[1,1],[3,2],[2,3]], items2 = [[2,1],[3,2],[1,3]]
+<strong>Output:</strong> [[1,4],[2,4],[3,4]]
+<strong>Explanation:</strong> 
+The item with value = 1 occurs in items1 with weight = 1 and in items2 with weight = 3, total weight = 1 + 3 = 4.
+The item with value = 2 occurs in items1 with weight = 3 and in items2 with weight = 1, total weight = 3 + 1 = 4.
+The item with value = 3 occurs in items1 with weight = 2 and in items2 with weight = 2, total weight = 2 + 2 = 4.
+Therefore, we return [[1,4],[2,4],[3,4]].</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> items1 = [[1,3],[2,2]], items2 = [[7,1],[2,2],[1,4]]
+<strong>Output:</strong> [[1,7],[2,4],[7,1]]
+<strong>Explanation:
+</strong>The item with value = 1 occurs in items1 with weight = 3 and in items2 with weight = 4, total weight = 3 + 4 = 7. 
+The item with value = 2 occurs in items1 with weight = 2 and in items2 with weight = 2, total weight = 2 + 2 = 4. 
+The item with value = 7 occurs in items2 with weight = 1, total weight = 1.
+Therefore, we return [[1,7],[2,4],[7,1]].
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= items1.length, items2.length &lt;= 1000</code></li>
 	<li><code>items1[i].length == items2[i].length == 2</code></li>
 	<li><code>1 &lt;= value<sub>i</sub>, weight<sub>i</sub> &lt;= 1000</code></li>
-	<li><code>items1</code>&nbsp;中每个 <code>value<sub>i</sub></code>&nbsp;都是 <b>唯一的</b>&nbsp;。</li>
-	<li><code>items2</code>&nbsp;中每个 <code>value<sub>i</sub></code>&nbsp;都是 <b>唯一的</b>&nbsp;。</li>
+	<li>Each <code>value<sub>i</sub></code> in <code>items1</code> is <strong>unique</strong>.</li>
+	<li>Each <code>value<sub>i</sub></code> in <code>items2</code> is <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表或数组
+### Solution 1: Hash Table or Array
 
-我们可以用哈希表或数组 `cnt` 统计 `items1` 和 `items2` 中每个物品的总重量，然后从小到大遍历价值，将每个价值以及对应的总重量加入结果数组即可。
+We can use a hash table or array `cnt` to count the total weight of each item in `items1` and `items2`. Then, we traverse the values in ascending order, adding each value and its corresponding total weight to the result array.
 
-时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别是 `items1` 和 `items2` 的长度。
+The time complexity is $O(n + m)$ and the space complexity is $O(n + m)$, where $n$ and $m$ are the lengths of `items1` and `items2` respectively.
 
 <!-- tabs:start -->
 

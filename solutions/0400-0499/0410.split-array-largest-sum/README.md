@@ -1,60 +1,49 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0410.Split%20Array%20Largest%20Sum/README.md
+difficulty: Hard
 tags:
-    - 贪心
-    - 数组
-    - 二分查找
-    - 动态规划
-    - 前缀和
+    - Greedy
+    - Array
+    - Binary Search
+    - Dynamic Programming
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [410. 分割数组的最大值](https://leetcode.cn/problems/split-array-largest-sum)
+# [410. Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum)
 
-[English Version](/solution/0400-0499/0410.Split%20Array%20Largest%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个非负整数数组 <code>nums</code> 和一个整数&nbsp;<code>k</code> ，你需要将这个数组分成&nbsp;<code>k</code><em>&nbsp;</em>个非空的连续子数组，使得这&nbsp;<code>k</code><em>&nbsp;</em>个子数组各自和的最大值 <strong>最小</strong>。</p>
+<p>Given an integer array <code>nums</code> and an integer <code>k</code>, split <code>nums</code> into <code>k</code> non-empty subarrays such that the largest sum of any subarray is <strong>minimized</strong>.</p>
 
-<p>返回分割后最小的和的最大值。</p>
+<p>Return <em>the minimized largest sum of the split</em>.</p>
 
-<p><strong>子数组</strong> 是数组中连续的部份。</p>
+<p>A <strong>subarray</strong> is a contiguous part of the array.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [7,2,5,10,8], k = 2
-<strong>输出：</strong>18
-<strong>解释：</strong>
-一共有四种方法将 nums 分割为 2 个子数组。 
-其中最好的方式是将其分为 [7,2,5] 和 [10,8] 。
-因为此时这两个子数组各自的和的最大值为18，在所有情况中最小。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3,4,5], k = 2
-<strong>输出：</strong>9
+<strong>Input:</strong> nums = [7,2,5,10,8], k = 2
+<strong>Output:</strong> 18
+<strong>Explanation:</strong> There are four ways to split nums into two subarrays.
+The best way is to split it into [7,2,5] and [10,8], where the largest sum among the two subarrays is only 18.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,4,4], k = 3
-<strong>输出：</strong>4
+<strong>Input:</strong> nums = [1,2,3,4,5], k = 2
+<strong>Output:</strong> 9
+<strong>Explanation:</strong> There are four ways to split nums into two subarrays.
+The best way is to split it into [1,2,3] and [4,5], where the largest sum among the two subarrays is only 9.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -64,19 +53,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-我们注意到，当子数组的和的最大值越大，子数组的个数越少，当存在一个满足条件的子数组和的最大值时，那么比这个最大值更大的子数组和的最大值一定也满足条件。也就是说，我们可以对子数组和的最大值进行二分查找，找到满足条件的最小值。
+We notice that the larger the maximum sum of the subarrays, the fewer the number of subarrays. When there is a maximum sum of the subarrays that meets the condition, then a larger maximum sum of the subarrays will definitely meet the condition. This means that we can perform a binary search for the maximum sum of the subarrays to find the smallest value that meets the condition.
 
-我们定义二分查找的左边界 $left = \max(nums)$，右边界 $right = sum(nums)$，然后对于二分查找的每一步，我们取中间值 $mid = \lfloor \frac{left + right}{2} \rfloor$，然后判断是否存在一个分割方式，使得子数组的和的最大值不超过 $mid$，如果存在，则说明 $mid$ 可能是满足条件的最小值，因此我们将右边界调整为 $mid$，否则我们将左边界调整为 $mid + 1$。
+We define the left boundary of the binary search as $left = \max(nums)$, and the right boundary as $right = sum(nums)$. Then for each step of the binary search, we take the middle value $mid = \lfloor \frac{left + right}{2} \rfloor$, and then determine whether there is a way to split the array so that the maximum sum of the subarrays does not exceed $mid$. If there is, it means that $mid$ might be the smallest value that meets the condition, so we adjust the right boundary to $mid$. Otherwise, we adjust the left boundary to $mid + 1$.
 
-我们如何判断是否存在一个分割方式，使得子数组的和的最大值不超过 $mid$ 呢？我们可以使用贪心的方法，从左到右遍历数组，将数组中的元素依次加入到子数组中，如果当前子数组的和大于 $mid$，则我们将当前元素加入到下一个子数组中。如果我们能够将数组分割成不超过 $k$ 个子数组，且每个子数组的和的最大值不超过 $mid$，则说明 $mid$ 是满足条件的最小值，否则 $mid$ 不是满足条件的最小值。
+How do we determine whether there is a way to split the array so that the maximum sum of the subarrays does not exceed $mid$? We can use a greedy method, traverse the array from left to right, and add the elements of the array to the subarray one by one. If the current sum of the subarray is greater than $mid$, then we add the current element to the next subarray. If we can split the array into no more than $k$ subarrays, and the maximum sum of each subarray does not exceed $mid$, then $mid$ is the smallest value that meets the condition. Otherwise, $mid$ does not meet the condition.
 
-时间复杂度 $O(n \times \log m)$，空间复杂度 $O(1)$。其中 $n$ 和 $m$ 分别是数组的长度和数组所有元素的和。
+The time complexity is $O(n \times \log m)$, and the space complexity is $O(1)$. Here, $n$ and $m$ are the length of the array and the sum of all elements in the array, respectively.
 
 <!-- tabs:start -->
 

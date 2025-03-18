@@ -1,55 +1,50 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2442.Count%20Number%20of%20Distinct%20Integers%20After%20Reverse%20Operations/README.md
+difficulty: Medium
 rating: 1218
-source: 第 315 场周赛 Q2
+source: Weekly Contest 315 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 数学
-    - 计数
+    - Array
+    - Hash Table
+    - Math
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [2442. 反转之后不同整数的数目](https://leetcode.cn/problems/count-number-of-distinct-integers-after-reverse-operations)
+# [2442. Count Number of Distinct Integers After Reverse Operations](https://leetcode.com/problems/count-number-of-distinct-integers-after-reverse-operations)
 
-[English Version](/solution/2400-2499/2442.Count%20Number%20of%20Distinct%20Integers%20After%20Reverse%20Operations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个由 <strong>正</strong> 整数组成的数组 <code>nums</code> 。</p>
+<p>You are given an array <code>nums</code> consisting of <strong>positive</strong> integers.</p>
 
-<p>你必须取出数组中的每个整数，<strong>反转其中每个数位</strong>，并将反转后得到的数字添加到数组的末尾。这一操作只针对 <code>nums</code> 中原有的整数执行。</p>
+<p>You have to take each integer in the array, <strong>reverse its digits</strong>, and add it to the end of the array. You should apply this operation to the original integers in <code>nums</code>.</p>
 
-<p>返回结果数组中 <strong>不同</strong> 整数的数目。</p>
+<p>Return <em>the number of <strong>distinct</strong> integers in the final array</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,13,10,12,31]
-<strong>输出：</strong>6
-<strong>解释：</strong>反转每个数字后，结果数组是 [1,13,10,12,31,<em><strong>1,31,1,21,13</strong></em>] 。
-反转后得到的数字添加到数组的末尾并按斜体加粗表示。注意对于整数 10 ，反转之后会变成 01 ，即 1 。
-数组中不同整数的数目为 6（数字 1、10、12、13、21 和 31）。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2,2,2]
-<strong>输出：</strong>1
-<strong>解释：</strong>反转每个数字后，结果数组是 [2,2,2,<em><strong>2,2,2</strong></em>] 。
-数组中不同整数的数目为 1（数字 2）。
+<strong>Input:</strong> nums = [1,13,10,12,31]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> After including the reverse of each number, the resulting array is [1,13,10,12,31,<u>1,31,1,21,13</u>].
+The reversed integers that were added to the end of the array are underlined. Note that for the integer 10, after reversing it, it becomes 01 which is just 1.
+The number of distinct integers in this array is 6 (The numbers 1, 10, 12, 13, 21, and 31).</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,2,2]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> After including the reverse of each number, the resulting array is [2,2,2,<u>2,2,2</u>].
+The number of distinct integers in this array is 1 (The number 2).
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -58,15 +53,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们先用哈希表记录数组中的所有整数，然后遍历数组中的每个整数，对其进行反转，将反转后的整数添加到哈希表中，最后返回哈希表的大小即可。
+First, we use a hash table to record all integers in the array. Then, we traverse each integer in the array, reverse it, and add the reversed integer to the hash table. Finally, we return the size of the hash table.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

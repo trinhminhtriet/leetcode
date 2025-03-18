@@ -1,89 +1,84 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3082.Find%20the%20Sum%20of%20the%20Power%20of%20All%20Subsequences/README.md
+difficulty: Hard
 rating: 2241
-source: 第 126 场双周赛 Q4
+source: Biweekly Contest 126 Q4
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3082. 求出所有子序列的能量和](https://leetcode.cn/problems/find-the-sum-of-the-power-of-all-subsequences)
+# [3082. Find the Sum of the Power of All Subsequences](https://leetcode.com/problems/find-the-sum-of-the-power-of-all-subsequences)
 
-[English Version](/solution/3000-3099/3082.Find%20the%20Sum%20of%20the%20Power%20of%20All%20Subsequences/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;和一个 <strong>正</strong>&nbsp;整数&nbsp;<code>k</code>&nbsp;。</p>
+<p>You are given an integer array <code>nums</code> of length <code>n</code> and a <strong>positive</strong> integer <code>k</code>.</p>
 
-<p>一个整数数组的 <strong>能量</strong>&nbsp;定义为和 <strong>等于</strong>&nbsp;<code>k</code>&nbsp;的子序列的数目。</p>
+<p>The <strong>power</strong> of an array of integers is defined as the number of <span data-keyword="subsequence-array">subsequences</span> with their sum <strong>equal</strong> to <code>k</code>.</p>
 
-<p>请你返回 <code>nums</code>&nbsp;中所有子序列的 <strong>能量和</strong>&nbsp;。</p>
+<p>Return <em>the <strong>sum</strong> of <strong>power</strong> of all subsequences of</em> <code>nums</code><em>.</em></p>
 
-<p>由于答案可能很大，请你将它对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
-<p><strong>输入：</strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> nums = [1,2,3], k = 3 </span></p>
-
-<p><strong>输出：</strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> 6 </span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>总共有&nbsp;<code>5</code>&nbsp;个能量不为 0 的子序列：</p>
-
-<ul>
-	<li>子序列&nbsp;<code>[<u><em><strong>1</strong></em></u>,<u><em><strong>2</strong></em></u>,<u><em><strong>3</strong></em></u>]</code> 有&nbsp;<code>2</code>&nbsp;个和为&nbsp;<code>3</code>&nbsp;的子序列：<code>[1,2,<u><strong><em>3</em></strong></u>]</code> 和 <code>[<u><strong><em>1</em></strong></u>,<u><strong><em>2</em></strong></u>,3]</code>&nbsp;。</li>
-	<li>子序列&nbsp;<code>[<u><em><strong>1</strong></em></u>,2,<u><em><strong>3</strong></em></u>]</code>&nbsp;有 <code>1</code>&nbsp;个和为&nbsp;<code>3</code>&nbsp;的子序列：<code>[1,2,<u><strong><em>3</em></strong></u>]</code>&nbsp;。</li>
-	<li>子序列&nbsp;<code>[1,<u><em><strong>2</strong></em></u>,<u><em><strong>3</strong></em></u>]</code> 有&nbsp;<code>1</code>&nbsp;个和为&nbsp;<code>3</code>&nbsp;的子序列：<code>[1,2,<u><strong><em>3</em></strong></u>]</code>&nbsp;。</li>
-	<li>子序列&nbsp;<code>[<u><em><strong>1</strong></em></u>,<u><em><strong>2</strong></em></u>,3]</code>&nbsp;有&nbsp;<code>1</code>&nbsp;个和为&nbsp;<code>3</code>&nbsp;的子序列：<code>[<u><strong><em>1</em></strong></u>,<u><strong><em>2</em></strong></u>,3]</code>&nbsp;。</li>
-	<li>子序列&nbsp;<code>[1,2,<u><em><strong>3</strong></em></u>]</code>&nbsp;有&nbsp;<code>1</code>&nbsp;个和为&nbsp;<code>3</code>&nbsp;的子序列：<code>[1,2,<u><strong><em>3</em></strong></u>]</code>&nbsp;。</li>
-</ul>
-
-<p>所以答案为&nbsp;<code>2 + 1 + 1 + 1 + 1 = 6</code>&nbsp;。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
-<p><strong>输入：</strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> nums = [2,3,3], k = 5 </span></p>
-
-<p><strong>输出：</strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> 4 </span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>总共有&nbsp;<code>3</code>&nbsp;个能量不为 0 的子序列：</p>
-
-<ul>
-	<li>子序列&nbsp;<code>[<u><em><strong>2</strong></em></u>,<u><em><strong>3</strong></em></u>,<u><em><strong>3</strong></em></u>]</code>&nbsp;有 2 个子序列和为&nbsp;<code>5</code>&nbsp;：<code>[<u><strong><em>2</em></strong></u>,3,<u><strong><em>3</em></strong></u>]</code> 和&nbsp;<code>[<u><strong><em>2</em></strong></u>,<u><strong><em>3</em></strong></u>,3]</code>&nbsp;。</li>
-	<li>子序列&nbsp;<code>[<u><em><strong>2</strong></em></u>,3,<u><em><strong>3</strong></em></u>]</code>&nbsp;有 1 个子序列和为&nbsp;<code>5</code>&nbsp;：<code>[<u><strong><em>2</em></strong></u>,3,<u><strong><em>3</em></strong></u>]</code>&nbsp;。</li>
-	<li>子序列&nbsp;<code>[<u><em><strong>2</strong></em></u>,<u><em><strong>3</strong></em></u>,3]</code>&nbsp;有 1 个子序列和为 <code>5</code>&nbsp;：<code>[<u><strong><em>2</em></strong></u>,<u><strong><em>3</em></strong></u>,3]</code>&nbsp;。</li>
-</ul>
-
-<p>所以答案为&nbsp;<code>2 + 1 + 1 = 4</code>&nbsp;。</p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
-<p><strong>输入：</strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> nums = [1,2,3], k = 7 </span></p>
-
-<p><strong>输出：</strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> 0 </span></p>
-
-<p><strong>解释：</strong>不存在和为 <code>7</code>&nbsp;的子序列，所以 <code>nums</code>&nbsp;的能量和为&nbsp;<code>0</code>&nbsp;。</p>
-</div>
+<p>Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> nums = [1,2,3], k = 3 </span></p>
+
+<p><strong>Output: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> 6 </span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>There are <code>5</code> subsequences of nums with non-zero power:</p>
+
+<ul>
+	<li>The subsequence <code>[<u><strong>1</strong></u>,<u><strong>2</strong></u>,<u><strong>3</strong></u>]</code> has <code>2</code> subsequences with <code>sum == 3</code>: <code>[1,2,<u>3</u>]</code> and <code>[<u>1</u>,<u>2</u>,3]</code>.</li>
+	<li>The subsequence <code>[<u><strong>1</strong></u>,2,<u><strong>3</strong></u>]</code> has <code>1</code> subsequence with <code>sum == 3</code>: <code>[1,2,<u>3</u>]</code>.</li>
+	<li>The subsequence <code>[1,<u><strong>2</strong></u>,<u><strong>3</strong></u>]</code> has <code>1</code> subsequence with <code>sum == 3</code>: <code>[1,2,<u>3</u>]</code>.</li>
+	<li>The subsequence <code>[<u><strong>1</strong></u>,<u><strong>2</strong></u>,3]</code> has <code>1</code> subsequence with <code>sum == 3</code>: <code>[<u>1</u>,<u>2</u>,3]</code>.</li>
+	<li>The subsequence <code>[1,2,<u><strong>3</strong></u>]</code> has <code>1</code> subsequence with <code>sum == 3</code>: <code>[1,2,<u>3</u>]</code>.</li>
+</ul>
+
+<p>Hence the answer is <code>2 + 1 + 1 + 1 + 1 = 6</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> nums = [2,3,3], k = 5 </span></p>
+
+<p><strong>Output: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> 4 </span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>There are <code>3</code> subsequences of nums with non-zero power:</p>
+
+<ul>
+	<li>The subsequence <code>[<u><strong>2</strong></u>,<u><strong>3</strong></u>,<u><strong>3</strong></u>]</code> has 2 subsequences with <code>sum == 5</code>: <code>[<u>2</u>,3,<u>3</u>]</code> and <code>[<u>2</u>,<u>3</u>,3]</code>.</li>
+	<li>The subsequence <code>[<u><strong>2</strong></u>,3,<u><strong>3</strong></u>]</code> has 1 subsequence with <code>sum == 5</code>: <code>[<u>2</u>,3,<u>3</u>]</code>.</li>
+	<li>The subsequence <code>[<u><strong>2</strong></u>,<u><strong>3</strong></u>,3]</code> has 1 subsequence with <code>sum == 5</code>: <code>[<u>2</u>,<u>3</u>,3]</code>.</li>
+</ul>
+
+<p>Hence the answer is <code>2 + 1 + 1 = 4</code>.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> nums = [1,2,3], k = 7 </span></p>
+
+<p><strong>Output: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> 0 </span></p>
+
+<p><strong>Explanation:&nbsp;</strong>There exists no subsequence with sum <code>7</code>. Hence all subsequences of nums have <code>power = 0</code>.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
@@ -93,31 +88,31 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-题目需要我们在给定数组 $\textit{nums}$ 中找到所有子序列 $\textit{S}$，然后计算每个 $\textit{S}$ 的每个子序列 $\textit{T}$ 的和等于 $\textit{k}$ 的方案数。
+The problem requires us to find all subsequences $\textit{S}$ in the given array $\textit{nums}$, and then calculate the number of ways for each subsequence $\textit{T}$ such that the sum of $\textit{T}$ equals $\textit{k}$.
 
-我们定义 $f[i][j]$ 表示前 $i$ 个数构成的若干个子序列中，每个子序列的子序列和等于 $j$ 的方案数。初始时 $f[0][0] = 1$，其余位置均为 $0$。
+We define $f[i][j]$ to represent the number of ways to form subsequences with the first $i$ numbers such that the sum of each subsequence equals $j$. Initially, $f[0][0] = 1$, and all other positions are $0$.
 
-对于第 $i$ 个数 $x$，有以下三种情况：
+For the $i$-th number $x$, there are three cases:
 
-1. 不在子序列 $\textit{S}$ 中，此时 $f[i][j] = f[i-1][j]$；
-1. 在子序列 $\textit{S}$，但不在子序列 $\textit{T}$ 中，此时 $f[i][j] = f[i-1][j]$；
-1. 在子序列 $\textit{S}$，且在子序列 $\textit{T}$ 中，此时 $f[i][j] = f[i-1][j-x]$。
+1. Not in the subsequence $\textit{S}$, in which case $f[i][j] = f[i-1][j]$;
+2. In the subsequence $\textit{S}$, but not in the subsequence $\textit{T}$, in which case $f[i][j] = f[i-1][j]$;
+3. In the subsequence $\textit{S}$, and in the subsequence $\textit{T}$, in which case $f[i][j] = f[i-1][j-x]$.
 
-综上，状态转移方程为：
+In summary, the state transition equation is:
 
 $$
 f[i][j] = f[i-1][j] \times 2 + f[i-1][j-x]
 $$
 
-最终答案为 $f[n][k]$。
+The final answer is $f[n][k]$.
 
-时间复杂度 $O(n \times k)$，空间复杂度 $O(n \times k)$。其中 $n$ 为数组 $\textit{nums}$ 的长度，而 $k$ 为给定的正整数。
+The time complexity is $O(n \times k)$, and the space complexity is $O(n \times k)$. Here, $n$ is the length of the array $\textit{nums}$, and $k$ is the given positive integer.
 
 <!-- tabs:start -->
 
@@ -233,11 +228,11 @@ function sumOfPower(nums: number[], k: number): number {
 
 <!-- solution:start -->
 
-### 方法二：动态规划（优化）
+### Solution 2: Dynamic Programming (Optimization)
 
-方法一中的状态转移方程中，$f[i][j]$ 的值只与 $f[i-1][j]$ 和 $f[i-1][j-x]$ 有关，因此我们可以优化第一维空间，从而将空间复杂度优化为 $O(k)$。
+In the state transition equation from Solution 1, the value of $f[i][j]$ only depends on $f[i-1][j]$ and $f[i-1][j-x]$. Therefore, we can optimize the first dimension of the space, reducing the space complexity to $O(k)$.
 
-时间复杂度 $O(n \times k)$，空间复杂度 $O(k)$。其中 $n$ 为数组 $\textit{nums}$ 的长度，而 $k$ 为给定的正整数。
+Time complexity is $O(n \times k)$, and space complexity is $O(k)$. Here, $n$ is the length of the array $\textit{nums}$, and $k$ is the given positive integer.
 
 <!-- tabs:start -->
 

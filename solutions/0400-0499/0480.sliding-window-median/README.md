@@ -1,92 +1,93 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0480.Sliding%20Window%20Median/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 哈希表
-    - 滑动窗口
-    - 堆（优先队列）
+    - Array
+    - Hash Table
+    - Sliding Window
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [480. 滑动窗口中位数](https://leetcode.cn/problems/sliding-window-median)
+# [480. Sliding Window Median](https://leetcode.com/problems/sliding-window-median)
 
-[English Version](/solution/0400-0499/0480.Sliding%20Window%20Median/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>中位数是有序序列最中间的那个数。如果序列的长度是偶数，则没有最中间的数；此时中位数是最中间的两个数的平均数。</p>
-
-<p>例如：</p>
+<p>The <strong>median</strong> is the middle value in an ordered integer list. If the size of the list is even, there is no middle value. So the median is the mean of the two middle values.</p>
 
 <ul>
-	<li><code>[2,3,4]</code>，中位数是 <code>3</code></li>
-	<li><code>[2,3]</code>，中位数是 <code>(2 + 3) / 2 = 2.5</code></li>
+	<li>For examples, if <code>arr = [2,<u>3</u>,4]</code>, the median is <code>3</code>.</li>
+	<li>For examples, if <code>arr = [1,<u>2,3</u>,4]</code>, the median is <code>(2 + 3) / 2 = 2.5</code>.</li>
 </ul>
 
-<p>给你一个数组 <em>nums</em>，有一个长度为 <em>k</em> 的窗口从最左端滑动到最右端。窗口中有 <em>k</em> 个数，每次窗口向右移动 <em>1</em> 位。你的任务是找出每次窗口移动后得到的新窗口中元素的中位数，并输出由它们组成的数组。</p>
+<p>You are given an integer array <code>nums</code> and an integer <code>k</code>. There is a sliding window of size <code>k</code> which is moving from the very left of the array to the very right. You can only see the <code>k</code> numbers in the window. Each time the sliding window moves right by one position.</p>
 
-<p> </p>
+<p>Return <em>the median array for each window in the original array</em>. Answers within <code>10<sup>-5</sup></code> of the actual value will be accepted.</p>
 
-<p><strong>示例：</strong></p>
-
-<p>给出 <em>nums</em> = <code>[1,3,-1,-3,5,3,6,7]</code>，以及 <em>k</em> = 3。</p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-窗口位置                      中位数
----------------               -----
-[1  3  -1] -3  5  3  6  7       1
- 1 [3  -1  -3] 5  3  6  7      -1
- 1  3 [-1  -3  5] 3  6  7      -1
- 1  3  -1 [-3  5  3] 6  7       3
- 1  3  -1  -3 [5  3  6] 7       5
- 1  3  -1  -3  5 [3  6  7]      6
+<strong>Input:</strong> nums = [1,3,-1,-3,5,3,6,7], k = 3
+<strong>Output:</strong> [1.00000,-1.00000,-1.00000,3.00000,5.00000,6.00000]
+<strong>Explanation:</strong> 
+Window position                Median
+---------------                -----
+[<strong>1  3  -1</strong>] -3  5  3  6  7        1
+ 1 [<strong>3  -1  -3</strong>] 5  3  6  7       -1
+ 1  3 [<strong>-1  -3  5</strong>] 3  6  7       -1
+ 1  3  -1 [<strong>-3  5  3</strong>] 6  7        3
+ 1  3  -1  -3 [<strong>5  3  6</strong>] 7        5
+ 1  3  -1  -3  5 [<strong>3  6  7</strong>]       6
 </pre>
 
-<p> 因此，返回该滑动窗口的中位数数组 <code>[1,-1,-1,3,5,6]</code>。</p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p> </p>
+<pre>
+<strong>Input:</strong> nums = [1,2,3,4,2,3,1,4,2], k = 3
+<strong>Output:</strong> [2.00000,3.00000,3.00000,3.00000,2.00000,3.00000,2.00000]
+</pre>
 
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>你可以假设 <code>k</code> 始终有效，即：<code>k</code> 始终小于等于输入的非空数组的元素个数。</li>
-	<li>与真实值误差在 <code>10 ^ -5</code> 以内的答案将被视作正确答案。</li>
+	<li><code>1 &lt;= k &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>-2<sup>31</sup> &lt;= nums[i] &lt;= 2<sup>31</sup> - 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双优先队列（大小根堆） + 延迟删除
+### Solution 1: Dual Priority Queues (Min-Heap and Max-Heap) + Lazy Deletion
 
-我们可以使用两个优先队列（大小根堆）维护当前窗口中的元素，其中一个优先队列存储当前窗口中较小的一半元素，另一个优先队列存储当前窗口中较大的一半元素。这样，当前窗口的中位数就是两个优先队列的堆顶元素的平均值或其中的一个。
+We can use two priority queues (min-heap and max-heap) to maintain the elements in the current window. One priority queue stores the smaller half of the elements, and the other priority queue stores the larger half of the elements. This way, the median of the current window is either the average of the top elements of the two heaps or one of the top elements.
 
-我们设计一个类 $\textit{MedianFinder}$，用于维护当前窗口中的元素。该类包含以下方法：
+We design a class $\textit{MedianFinder}$ to maintain the elements in the current window. This class includes the following methods:
 
--   `add_num(num)`：将 $\textit{num}$ 加入当前窗口中。
--   `find_median()`：返回当前窗口中元素的中位数。
--   `remove_num(num)`：将 $\textit{num}$ 从当前窗口中移除。
--   `prune(pq)`：如果堆顶元素在延迟删除字典 $\textit{delayed}$ 中，则将其从堆顶弹出，并从该元素的延迟删除次数中减一。如果该元素的延迟删除次数为零，则将其从延迟删除字典中删除。
--   `rebalance()`：如果较小的一半元素的数量比较大的一半元素的数量多 $2$ 个，则将较大的一半元素的堆顶元素加入较小的一半元素中；如果较小的一半元素的数量比较大的一半元素的数量少，则将较大的一半元素的堆顶元素加入较小的一半元素中。
+-   `add_num(num)`: Adds $\textit{num}$ to the current window.
+-   `find_median()`: Returns the median of the elements in the current window.
+-   `remove_num(num)`: Removes $\textit{num}$ from the current window.
+-   `prune(pq)`: If the top element of the heap is in the lazy deletion dictionary $\textit{delayed}$, it pops the top element from the heap and decrements its lazy deletion count. If the lazy deletion count of the element becomes zero, it removes the element from the lazy deletion dictionary.
+-   `rebalance()`: If the number of elements in the smaller half exceeds the number of elements in the larger half by $2$, it moves the top element of the larger half to the smaller half. If the number of elements in the smaller half is less than the number of elements in the larger half, it moves the top element of the larger half to the smaller half.
 
-在 `add_num(num)` 方法中，我们先考虑将 $\textit{num}$ 加入较小的一半元素中，如果 $\textit{num}$ 大于较大的一半元素的堆顶元素，则将 $\textit{num}$ 加入较大的一半元素中。然后我们调用 `rebalance()` 方法，使得两个优先队列的大小之差不超过 $1$。
+In the `add_num(num)` method, we first consider adding $\textit{num}$ to the smaller half. If $\textit{num}$ is greater than the top element of the larger half, we add $\textit{num}$ to the larger half. Then we call the `rebalance()` method to ensure that the size difference between the two priority queues does not exceed $1$.
 
-在 `remove_num(num)` 方法中，我们将 $\textit{num}$ 的延迟删除次数加一。然后我们将 $\textit{num}$ 与较小的一半元素的堆顶元素进行比较，如果 $\textit{num}$ 小于等于较小的一半元素的堆顶元素，则更新较小的一半元素的大小，并且调用 `prune()` 方法，使得较小的一半元素的堆顶元素不在延迟删除字典中。否则，我们更新较大的一半元素的大小，并且调用 `prune()` 方法，使得较大的一半元素的堆顶元素不在延迟删除字典中。
+In the `remove_num(num)` method, we increment the lazy deletion count of $\textit{num}$. Then we compare $\textit{num}$ with the top element of the smaller half. If $\textit{num}$ is less than or equal to the top element of the smaller half, we update the size of the smaller half and call the `prune()` method to ensure that the top element of the smaller half is not in the lazy deletion dictionary. Otherwise, we update the size of the larger half and call the `prune()` method to ensure that the top element of the larger half is not in the lazy deletion dictionary.
 
-在 `find_median()` 方法中，如果当前窗口的大小为奇数，则返回较小的一半元素的堆顶元素；否则，返回较小的一半元素的堆顶元素与较大的一半元素的堆顶元素的平均值。
+In the `find_median()` method, if the current window size is odd, we return the top element of the smaller half; otherwise, we return the average of the top elements of the smaller half and the larger half.
 
-在 `prune(pq)` 方法中，如果堆顶元素在延迟删除字典中，则将其从堆顶弹出，并从该元素的延迟删除次数中减一。如果该元素的延迟删除次数为零，则将其从延迟删除字典中删除。
+In the `prune(pq)` method, if the top element of the heap is in the lazy deletion dictionary, it pops the top element from the heap and decrements its lazy deletion count. If the lazy deletion count of the element becomes zero, it removes the element from the lazy deletion dictionary.
 
-在 `rebalance()` 方法中，如果较小的一半元素的数量比较大的一半元素的数量多 $2$ 个，则将较大的一半元素的堆顶元素加入较小的一半元素中；如果较小的一半元素的数量比较大的一半元素的数量少，则将较大的一半元素的堆顶元素加入较小的一半元素中。
+In the `rebalance()` method, if the number of elements in the smaller half exceeds the number of elements in the larger half by $2$, it moves the top element of the larger half to the smaller half. If the number of elements in the smaller half is less than the number of elements in the larger half, it moves the top element of the larger half to the smaller half.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 
@@ -451,15 +452,15 @@ func (h *hp) Pop() any {
 
 <!-- solution:start -->
 
-### 方法二：有序集合
+### Solution 2: Ordered Set
 
-我们可以用两个有序集合来维护当前窗口中的元素，其中有序集合 $l$ 存储当前窗口中较小的一半元素，有序集合 $r$ 存储当前窗口中较大的一半元素。
+We can use two ordered sets to maintain the elements in the current window. The ordered set $l$ stores the smaller half of the elements in the current window, and the ordered set $r$ stores the larger half of the elements.
 
-遍历数组 $\textit{nums}$，对于每个元素 $x$，我们将其加入有序集合 $r$，然后将有序集合 $r$ 的最小值加入有序集合 $l$。如果有序集合 $l$ 的大小比有序集合 $r$ 的大小大于 $1$，我们将有序集合 $l$ 的最大值加入有序集合 $r$。
+We traverse the array $\textit{nums}$. For each element $x$, we add it to the ordered set $r$, then move the smallest element in the ordered set $r$ to the ordered set $l$. If the size of the ordered set $l$ is greater than the size of the ordered set $r$ by more than $1$, we move the largest element in the ordered set $l$ to the ordered set $r$.
 
-如果当前窗口元素总数为 $k$，大小为奇数，则有序集合 $l$ 的最大值就是中位数；如果当前窗口的大小为偶数，则有序集合 $l$ 的最大值和有序集合 $r$ 的最小值的平均值就是中位数。然后，我们将窗口的最左边元素移除，继续遍历数组。
+If the total number of elements in the current window is $k$ and the size is odd, the maximum value in the ordered set $l$ is the median. If the size of the current window is even, the average of the maximum value in the ordered set $l$ and the minimum value in the ordered set $r$ is the median. Then, we remove the leftmost element of the window and continue traversing the array.
 
-时间复杂度 $O(n \log k)$，空间复杂度 $O(k)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \log k)$, and the space complexity is $O(k)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

@@ -1,74 +1,56 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0383.Ransom%20Note/README.md
+difficulty: Easy
 tags:
-    - 哈希表
-    - 字符串
-    - 计数
+    - Hash Table
+    - String
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [383. 赎金信](https://leetcode.cn/problems/ransom-note)
+# [383. Ransom Note](https://leetcode.com/problems/ransom-note)
 
-[English Version](/solution/0300-0399/0383.Ransom%20Note/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串：<code>ransomNote</code> 和 <code>magazine</code> ，判断 <code>ransomNote</code> 能不能由 <code>magazine</code> 里面的字符构成。</p>
+<p>Given two strings <code>ransomNote</code> and <code>magazine</code>, return <code>true</code><em> if </em><code>ransomNote</code><em> can be constructed by using the letters from </em><code>magazine</code><em> and </em><code>false</code><em> otherwise</em>.</p>
 
-<p>如果可以，返回 <code>true</code> ；否则返回 <code>false</code> 。</p>
-
-<p><code>magazine</code> 中的每个字符只能在 <code>ransomNote</code> 中使用一次。</p>
+<p>Each letter in <code>magazine</code> can only be used once in <code>ransomNote</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>ransomNote = "a", magazine = "b"
-<strong>输出：</strong>false
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> ransomNote = "a", magazine = "b"
+<strong>Output:</strong> false
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> ransomNote = "aa", magazine = "ab"
+<strong>Output:</strong> false
+</pre><p><strong class="example">Example 3:</strong></p>
+<pre><strong>Input:</strong> ransomNote = "aa", magazine = "aab"
+<strong>Output:</strong> true
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>ransomNote = "aa", magazine = "ab"
-<strong>输出：</strong>false
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>ransomNote = "aa", magazine = "aab"
-<strong>输出：</strong>true
-</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= ransomNote.length, magazine.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>ransomNote</code> 和 <code>magazine</code> 由小写英文字母组成</li>
+	<li><code>ransomNote</code> and <code>magazine</code> consist of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表或数组
+### Solution 1: Hash Table or Array
 
-我们可以用一个哈希表或长度为 $26$ 的数组 $cnt$ 记录字符串 `magazine` 中所有字符出现的次数。然后遍历字符串 `ransomNote`，对于其中的每个字符 $c$，我们将其从 $cnt$ 的次数减 $1$，如果减 $1$ 之后的次数小于 $0$，说明 $c$ 在 `magazine` 中出现的次数不够，因此无法构成 `ransomNote`，返回 $false$ 即可。
+We can use a hash table or an array $cnt$ of length $26$ to record the number of times each character appears in the string `magazine`. Then traverse the string `ransomNote`, for each character $c$ in it, we decrease the number of $c$ by $1$ in $cnt$. If the number of $c$ is less than $0$ after the decrease, it means that the number of $c$ in `magazine` is not enough, so it cannot be composed of `ransomNote`, just return $false$.
 
-否则，遍历结束后，说明 `ransomNote` 中的每个字符都可以在 `magazine` 中找到对应的字符，因此返回 $true$。
+Otherwise, after the traversal, it means that each character in `ransomNote` can be found in `magazine`. Therefore, return $true$.
 
-时间复杂度 $O(m + n)$，空间复杂度 $O(C)$。其中 $m$ 和 $n$ 分别为字符串 `ransomNote` 和 `magazine` 的长度；而 $C$ 为字符集的大小，本题中 $C = 26$。
+The time complexity is $O(m + n)$, and the space complexity is $O(C)$. Where $m$ and $n$ are the lengths of the strings `ransomNote` and `magazine` respectively; and $C$ is the size of the character set, which is $26$ in this question.
 
 <!-- tabs:start -->
 

@@ -1,73 +1,65 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0323.Number%20of%20Connected%20Components%20in%20an%20Undirected%20Graph/README.md
+difficulty: Medium
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 并查集
-    - 图
+    - Depth-First Search
+    - Breadth-First Search
+    - Union Find
+    - Graph
 ---
 
 <!-- problem:start -->
 
-# [323. 无向图中连通分量的数目 🔒](https://leetcode.cn/problems/number-of-connected-components-in-an-undirected-graph)
+# [323. Number of Connected Components in an Undirected Graph 🔒](https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph)
 
-[English Version](/solution/0300-0399/0323.Number%20of%20Connected%20Components%20in%20an%20Undirected%20Graph/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有一个包含&nbsp;<code>n</code> 个节点的图。给定一个整数 <code>n</code> 和一个数组&nbsp;<code>edges</code>&nbsp;，其中&nbsp;<code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;表示图中&nbsp;<code>a<sub>i</sub></code>&nbsp;和&nbsp;<code>b<sub>i</sub></code>&nbsp;之间有一条边。</p>
+<p>You have a graph of <code>n</code> nodes. You are given an integer <code>n</code> and an array <code>edges</code> where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an edge between <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the graph.</p>
 
-<p>返回 <em>图中已连接分量的数目</em>&nbsp;。</p>
+<p>Return <em>the number of connected components in the graph</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0323.Number%20of%20Connected%20Components%20in%20an%20Undirected%20Graph/images/conn1-graph.jpg" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0323.Number%20of%20Connected%20Components%20in%20an%20Undirected%20Graph/images/conn1-graph.jpg" style="width: 382px; height: 222px;" />
 <pre>
-<strong>输入: </strong><code>n = 5</code>, <code>edges = [[0, 1], [1, 2], [3, 4]]</code>
-<strong>输出: </strong>2
+<strong>Input:</strong> n = 5, edges = [[0,1],[1,2],[3,4]]
+<strong>Output:</strong> 2
 </pre>
 
-<p><strong>示例 2:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0323.Number%20of%20Connected%20Components%20in%20an%20Undirected%20Graph/images/conn2-graph.jpg" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0323.Number%20of%20Connected%20Components%20in%20an%20Undirected%20Graph/images/conn2-graph.jpg" style="width: 382px; height: 222px;" />
 <pre>
-<strong>输入: </strong><code>n = 5,</code> <code>edges = [[0,1], [1,2], [2,3], [3,4]]</code>
-<strong>输出:&nbsp;&nbsp;</strong>1</pre>
+<strong>Input:</strong> n = 5, edges = [[0,1],[1,2],[2,3],[3,4]]
+<strong>Output:</strong> 1
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 2000</code></li>
 	<li><code>1 &lt;= edges.length &lt;= 5000</code></li>
 	<li><code>edges[i].length == 2</code></li>
-	<li><code>0 &lt;= a<sub>i</sub>&nbsp;&lt;= b<sub>i</sub>&nbsp;&lt; n</code></li>
-	<li><code>a<sub>i</sub>&nbsp;!= b<sub>i</sub></code></li>
-	<li><code>edges</code> 中不会出现重复的边</li>
+	<li><code>0 &lt;= a<sub>i</sub> &lt;= b<sub>i</sub> &lt; n</code></li>
+	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
+	<li>There are no repeated edges.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
+### Solution 1: DFS
 
-我们先根据给定的边构建一个邻接表 $g$，其中 $g[i]$ 表示节点 $i$ 的所有邻居节点。
+First, we construct an adjacency list $g$ based on the given edges, where $g[i]$ represents all neighbor nodes of node $i$.
 
-然后我们遍历所有节点，对于每个节点，我们使用 DFS 遍历所有与其相邻的节点，并将其标记为已访问，直到所有与其相邻的节点都被访问过，这样我们就找到了一个连通分量，答案加一。然后我们继续遍历下一个未访问的节点，直到所有节点都被访问过。
+Then we traverse all nodes. For each node, we use DFS to traverse all its adjacent nodes and mark them as visited until all its adjacent nodes have been visited. In this way, we have found a connected component, and the answer is incremented by one. Then we continue to traverse the next unvisited node until all nodes have been visited.
 
-时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别是节点数和边数。
+The time complexity is $O(n + m)$, and the space complexity is $O(n + m)$. Where $n$ and $m$ are the number of nodes and edges, respectively.
 
 <!-- tabs:start -->
 
@@ -248,15 +240,15 @@ var countComponents = function (n, edges) {
 
 <!-- solution:start -->
 
-### 方法二：并查集
+### Solution 2: Union-Find
 
-我们可以使用并查集来维护图中的连通分量。
+We can use a union-find set to maintain the connected components in the graph.
 
-我们首先初始化一个并查集，然后遍历所有的边，对于每条边 $(a, b)$，我们将节点 $a$ 和节点 $b$ 合并到同一个连通分量中，如果连接成功，说明节点 $a$ 和节点 $b$ 之前不在同一个连通分量中，连通分量数目减一。
+First, we initialize a union-find set, then traverse all the edges. For each edge $(a, b)$, we merge nodes $a$ and $b$ into the same connected component. If the merge is successful, it means that nodes $a$ and $b$ were not in the same connected component before, and the number of connected components decreases by one.
 
-最后我们返回连通分量的数目。
+Finally, we return the number of connected components.
 
-时间复杂度 $O(n + m \times \alpha(n))$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别是节点数和边数，而 $\alpha(n)$ 是 Ackermann 函数的反函数，可以看作是一个很小的常数。
+The time complexity is $O(n + m \times \alpha(n))$, and the space complexity is $O(n)$. Where $n$ and $m$ are the number of nodes and edges, respectively, and $\alpha(n)$ is the inverse of the Ackermann function, which can be regarded as a very small constant.
 
 <!-- tabs:start -->
 
@@ -494,15 +486,15 @@ function countComponents(n: number, edges: number[][]): number {
 
 <!-- solution:start -->
 
-### 方法三：BFS
+### Solution 3: BFS
 
-我们也可以使用 BFS 来统计图中的连通分量。
+We can also use BFS (Breadth-First Search) to count the number of connected components in the graph.
 
-与方法一类似，我们首先根据给定的边构建一个邻接表 $g$，然后遍历所有节点，对于每个节点，如果它没有被访问过，我们就从该节点开始进行 BFS 遍历，将所有与其相邻的节点都标记为已访问，直到所有与其相邻的节点都被访问过，这样我们就找到了一个连通分量，答案加一。
+Similar to Solution 1, we first construct an adjacency list $g$ based on the given edges. Then we traverse all nodes. For each node, if it has not been visited, we start BFS traversal from this node, marking all its adjacent nodes as visited, until all its adjacent nodes have been visited. In this way, we have found a connected component, and the answer is incremented by one.
 
-遍历所有节点后，我们就得到了图中连通分量的数目。
+After traversing all nodes, we get the number of connected components in the graph.
 
-时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别是节点数和边数。
+The time complexity is $O(n + m)$, and the space complexity is $O(n + m)$. Where $n$ and $m$ are the number of nodes and edges, respectively.
 
 <!-- tabs:start -->
 

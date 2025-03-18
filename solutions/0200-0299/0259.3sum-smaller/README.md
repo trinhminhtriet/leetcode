@@ -1,53 +1,49 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0259.3Sum%20Smaller/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 双指针
-    - 二分查找
-    - 排序
+    - Array
+    - Two Pointers
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [259. 较小的三数之和 🔒](https://leetcode.cn/problems/3sum-smaller)
+# [259. 3Sum Smaller 🔒](https://leetcode.com/problems/3sum-smaller)
 
-[English Version](/solution/0200-0299/0259.3Sum%20Smaller/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个长度为 <code>n</code> 的整数数组和一个目标值 <code>target</code>&nbsp;，寻找能够使条件&nbsp;<code>nums[i] + nums[j] + nums[k] &lt; target</code>&nbsp;成立的三元组&nbsp; <code>i, j, k</code>&nbsp;个数（<code>0 &lt;= i &lt; j &lt; k &lt; n</code>）。</p>
-
+<p>Given an array of <code>n</code> integers <code>nums</code> and an integer&nbsp;<code>target</code>, find the number of index triplets <code>i</code>, <code>j</code>, <code>k</code> with <code>0 &lt;= i &lt; j &lt; k &lt; n</code> that satisfy the condition <code>nums[i] + nums[j] + nums[k] &lt; target</code>.</p>
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入: </strong><em>nums</em> = <code>[-2,0,1,3]</code>, <em>target</em> = 2
-<strong>输出: </strong>2 
-<strong>解释: </strong>因为一共有两个三元组满足累加和小于 2:
-&nbsp;    [-2,0,1]
-     [-2,0,3]
+<strong>Input:</strong> nums = [-2,0,1,3], target = 2
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> Because there are two triplets which sums are less than 2:
+[-2,0,1]
+[-2,0,3]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入: </strong><em>nums</em> = <code>[]</code>, <em>target</em> = 0
-<strong>输出: </strong>0 </pre>
+<strong>Input:</strong> nums = [], target = 0
+<strong>Output:</strong> 0
+</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入: </strong><em>nums</em> = <code>[0]</code>, <em>target</em> = 0
-<strong>输出: </strong>0 </pre>
+<strong>Input:</strong> nums = [0], target = 0
+<strong>Output:</strong> 0
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -58,22 +54,22 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 双指针 + 枚举
+### Solution 1: Sorting + Two Pointers + Enumeration
 
-由于元素的顺序不影响结果，我们可以先对数组进行排序，然后使用双指针的方法来解决这个问题。
+Since the order of elements does not affect the result, we can sort the array first and then use the two-pointer method to solve this problem.
 
-我们先将数组排序，然后枚举第一个元素 $\textit{nums}[i]$，并在 $\textit{nums}[i+1:n-1]$ 的区间内使用双指针分别指向 $\textit{nums}[j]$ 和 $\textit{nums}[k]$，其中 $j$ 是 $\textit{nums}[i]$ 的下一个元素，而 $k$ 是数组的最后一个元素。
+First, we sort the array and then enumerate the first element $\textit{nums}[i]$. Within the range $\textit{nums}[i+1:n-1]$, we use two pointers pointing to $\textit{nums}[j]$ and $\textit{nums}[k]$, where $j$ is the next element of $\textit{nums}[i]$ and $k$ is the last element of the array.
 
--   如果 $\textit{nums}[i] + \textit{nums}[j] + \textit{nums}[k] < \textit{target}$，那么对于任意 $j \lt k' \leq k$ 的元素，都有 $\textit{nums}[i] + \textit{nums}[j] + \textit{nums}[k'] \lt \textit{target}$，一共有 $k - j$ 个这样的 $k'$，我们将 $k - j$ 累加到答案中。接下来，将 $j$ 右移一个位置，继续寻找下一个满足条件的 $k$，直到 $j \geq k$ 为止。
--   如果 $\textit{nums}[i] + \textit{nums}[j] + \textit{nums}[k] \geq \textit{target}$，那么对于任意 $j \leq j' \lt k$ 的元素，都不可能使得 $\textit{nums}[i] + \textit{nums}[j'] + \textit{nums}[k] \lt \textit{target}$，因此我们将 $k$ 左移一个位置，继续寻找下一个满足条件的 $k$，直到 $j \geq k$ 为止。
+-   If $\textit{nums}[i] + \textit{nums}[j] + \textit{nums}[k] < \textit{target}$, then for any element $j \lt k' \leq k$, we have $\textit{nums}[i] + \textit{nums}[j] + \textit{nums}[k'] < \textit{target}$. There are $k - j$ such $k'$, and we add $k - j$ to the answer. Next, move $j$ one position to the right and continue to find the next $k$ that meets the condition until $j \geq k$.
+-   If $\textit{nums}[i] + \textit{nums}[j] + \textit{nums}[k] \geq \textit{target}$, then for any element $j \leq j' \lt k$, it is impossible to make $\textit{nums}[i] + \textit{nums}[j'] + \textit{nums}[k] < \textit{target}$. Therefore, we move $k$ one position to the left and continue to find the next $k$ that meets the condition until $j \geq k$.
 
-枚举完所有的 $i$ 后，我们就得到了满足条件的三元组的个数。
+After enumerating all $i$, we get the number of triplets that meet the condition.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

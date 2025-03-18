@@ -1,72 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2653.Sliding%20Subarray%20Beauty/README.md
+difficulty: Medium
 rating: 1785
-source: 第 342 场周赛 Q3
+source: Weekly Contest 342 Q3
 tags:
-    - 数组
-    - 哈希表
-    - 滑动窗口
+    - Array
+    - Hash Table
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [2653. 滑动子数组的美丽值](https://leetcode.cn/problems/sliding-subarray-beauty)
+# [2653. Sliding Subarray Beauty](https://leetcode.com/problems/sliding-subarray-beauty)
 
-[English Version](/solution/2600-2699/2653.Sliding%20Subarray%20Beauty/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;，请你求出每个长度为&nbsp;<code>k</code>&nbsp;的子数组的 <b>美丽值</b>&nbsp;。</p>
+<p>Given an integer array <code>nums</code> containing <code>n</code> integers, find the <strong>beauty</strong> of each subarray of size <code>k</code>.</p>
 
-<p>一个子数组的 <strong>美丽值</strong>&nbsp;定义为：如果子数组中第 <code>x</code>&nbsp;<strong>小整数</strong>&nbsp;是 <strong>负数</strong>&nbsp;，那么美丽值为第 <code>x</code>&nbsp;小的数，否则美丽值为 <code>0</code>&nbsp;。</p>
+<p>The <strong>beauty</strong> of a subarray is the <code>x<sup>th</sup></code><strong> smallest integer </strong>in the subarray if it is <strong>negative</strong>, or <code>0</code> if there are fewer than <code>x</code> negative integers.</p>
 
-<p>请你返回一个包含<em>&nbsp;</em><code>n - k + 1</code>&nbsp;个整数的数组，<strong>依次</strong>&nbsp;表示数组中从第一个下标开始，每个长度为&nbsp;<code>k</code>&nbsp;的子数组的<strong>&nbsp;美丽值</strong>&nbsp;。</p>
+<p>Return <em>an integer array containing </em><code>n - k + 1</code> <em>integers, which denote the </em><strong>beauty</strong><em> of the subarrays <strong>in order</strong> from the first index in the array.</em></p>
 
 <ul>
 	<li>
-	<p>子数组指的是数组中一段连续 <strong>非空</strong>&nbsp;的元素序列。</p>
+	<p>A subarray is a contiguous <strong>non-empty</strong> sequence of elements within an array.</p>
 	</li>
 </ul>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,-1,-3,-2,3], k = 3, x = 2
+<strong>Output:</strong> [-1,-2,-2]
+<strong>Explanation:</strong> There are 3 subarrays with size k = 3. 
+The first subarray is <code>[1, -1, -3]</code> and the 2<sup>nd</sup> smallest negative integer is -1.&nbsp;
+The second subarray is <code>[-1, -3, -2]</code> and the 2<sup>nd</sup> smallest negative integer is -2.&nbsp;
+The third subarray is <code>[-3, -2, 3]&nbsp;</code>and the 2<sup>nd</sup> smallest negative integer is -2.</pre>
 
-<pre><b>输入：</b>nums = [1,-1,-3,-2,3], k = 3, x = 2
-<b>输出：</b>[-1,-2,-2]
-<b>解释：</b>总共有 3 个 k = 3 的子数组。
-第一个子数组是 <code>[1, -1, -3]</code> ，第二小的数是负数 -1 。
-第二个子数组是 <code>[-1, -3, -2]</code> ，第二小的数是负数 -2 。
-第三个子数组是 <code>[-3, -2, 3]&nbsp;，第二小的数是负数 -2 。</code></pre>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>示例 2：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [-1,-2,-3,-4,-5], k = 2, x = 2
+<strong>Output:</strong> [-1,-2,-3,-4]
+<strong>Explanation:</strong> There are 4 subarrays with size k = 2.
+For <code>[-1, -2]</code>, the 2<sup>nd</sup> smallest negative integer is -1.
+For <code>[-2, -3]</code>, the 2<sup>nd</sup> smallest negative integer is -2.
+For <code>[-3, -4]</code>, the 2<sup>nd</sup> smallest negative integer is -3.
+For <code>[-4, -5]</code>, the 2<sup>nd</sup> smallest negative integer is -4.&nbsp;</pre>
 
-<pre><b>输入：</b>nums = [-1,-2,-3,-4,-5], k = 2, x = 2
-<b>输出：</b>[-1,-2,-3,-4]
-<b>解释：</b>总共有 4 个 k = 2 的子数组。
-<code>[-1, -2] 中第二小的数是负数 -1 。</code>
-<code>[-2, -3] 中第二小的数是负数 -2 。</code>
-<code>[-3, -4] 中第二小的数是负数 -3 。</code>
-<code>[-4, -5] 中第二小的数是负数 -4 。</code></pre>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>示例 3：</strong></p>
-
-<pre><b>输入：</b>nums = [-3,1,2,-3,0,-3], k = 2, x = 1
-<b>输出：</b>[-3,0,-3,-3,-3]
-<b>解释：</b>总共有 5 个 k = 2 的子数组。
-<code>[-3, 1] 中最小的数是负数 -3 。</code>
-<code>[1, 2] 中最小的数不是负数，所以美丽值为 0 。</code>
-<code>[2, -3] 中最小的数是负数 -3 。</code>
-<code>[-3, 0] 中最小的数是负数 -3 。</code>
-<code>[0, -3] 中最小的数是负数 -3 。</code></pre>
+<pre>
+<strong>Input:</strong> nums = [-3,1,2,-3,0,-3], k = 2, x = 1
+<strong>Output:</strong> [-3,0,-3,-3,-3]
+<strong>Explanation:</strong> There are 5 subarrays with size k = 2<strong>.</strong>
+For <code>[-3, 1]</code>, the 1<sup>st</sup> smallest negative integer is -3.
+For <code>[1, 2]</code>, there is no negative integer so the beauty is 0.
+For <code>[2, -3]</code>, the 1<sup>st</sup> smallest negative integer is -3.
+For <code>[-3, 0]</code>, the 1<sup>st</sup> smallest negative integer is -3.
+For <code>[0, -3]</code>, the 1<sup>st</sup> smallest negative integer is -3.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length&nbsp;</code></li>
@@ -78,17 +76,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：滑动窗口
+### Solution 1: Sliding Window
 
-我们注意到，数组 $nums$ 中元素的范围为 $[-50,50]$，因此，我们可以用一个数组长度为 $101$ 的数组 $cnt$ 统计 $[-50,50]$ 中每个数出现的次数。由于负数的存在，我们可以将每个数加上 $50$，使得每个数都变成非负数，这样就可以用数组 $cnt$ 统计每个数出现的次数了。
+We notice that the range of elements in the array $nums$ is $[-50,50]$. Therefore, we can use an array of length $101$, denoted as $cnt$, to count the occurrences of each number in $[-50,50]$. Due to the presence of negative numbers, we can add $50$ to each number to make them all non-negative, so we can use the array $cnt$ to count the occurrences of each number.
 
-接下来，我们遍历数组 $nums$，维护一个长度为 $k$ 的滑动窗口，窗口中所有元素出现的次记数录在数组 $cnt$ 中，然后我们遍历数组 $cnt$，找到第 $x$ 小的负数，即为当前滑动窗口的美丽值。如果不存在第 $x$ 小的负数，那么美丽值为 $0$。
+Next, we traverse the array $nums$, maintaining a sliding window of length $k$. The occurrence times of all elements in the window are recorded in the array $cnt$. Then we traverse the array $cnt$ to find the $x$-th smallest number, which is the beauty value of the current sliding window. If there is no $x$-th smallest number, then the beauty value is $0$.
 
-时间复杂度 $O(n \times 50)$，空间复杂度 $O(100)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n \times 50)$, and the space complexity is $O(100)$. Where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 
@@ -262,33 +260,33 @@ function getSubarrayBeauty(nums: number[], k: number, x: number): number[] {
 
 <!-- solution:start -->
 
-### 方法二：双优先队列（大小根堆） + 延迟删除
+### Solution 2: Double Priority Queue (Min-Max Heap) + Delayed Deletion
 
-我们可以使用两个优先队列（大小根堆）维护当前窗口中的元素，其中一个优先队列存储当前窗口中较小的 $x$ 个元素，另一个优先队列存储当前窗口中较大的 $k - x$ 个元素。我们还需要一个延迟删除字典 `delayed`，用于记录当前窗口中的元素是否需要删除。
+We can use two priority queues (min-max heap) to maintain the elements in the current window, one priority queue stores the smaller $x$ elements in the current window, and the other priority queue stores the larger $k - x$ elements in the current window. We also need a delayed deletion dictionary `delayed` to record whether the elements in the current window need to be deleted.
 
-我们设计一个类 `MedianFinder`，用于维护当前窗口中的元素。该类包含以下方法：
+We design a class `MedianFinder` to maintain the elements in the current window. This class includes the following methods:
 
--   `add_num(num)`：将 `num` 加入当前窗口中。
--   `find()`：返回当前窗口的美丽值。
--   `remove_num(num)`：将 `num` 从当前窗口中移除。
--   `prune(pq)`：如果堆顶元素在延迟删除字典 `delayed` 中，则将其从堆顶弹出，并从该元素的延迟删除次数中减一。如果该元素的延迟删除次数为零，则将其从延迟删除字典中删除。
--   `rebalance()`：平衡两个优先队列的大小。
+-   `add_num(num)`: Add `num` to the current window.
+-   `find()`: Return the beauty value of the current window.
+-   `remove_num(num)`: Remove `num` from the current window.
+-   `prune(pq)`: If the top element of the heap is in the delayed deletion dictionary `delayed`, pop it from the top of the heap and subtract one from its delayed deletion count. If the delayed deletion count of the element is zero, delete it from the delayed deletion dictionary.
+-   `rebalance()`: Balance the size of the two priority queues.
 
-在 `add_num(num)` 方法中，我们先考虑将 `num` 加入较小的队列中，如果数量大于 $x$ 或者 `num` 小于等于较小的队列的堆顶元素，则将 `num` 加入较小的队列中；否则，将 `num` 加入较大的队列中。然后我们调用 `rebalance()` 方法，使得较小的队列中的元素数量不超过 $x$。
+In the `add_num(num)` method, we first consider adding `num` to the smaller queue. If the count is greater than $x$ or `num` is less than or equal to the top element of the smaller queue, add `num` to the smaller queue; otherwise, add `num` to the larger queue. Then we call the `rebalance()` method to ensure that the number of elements in the smaller queue does not exceed $x$.
 
-在 `remove_num(num)` 方法中，我们将 `num` 的延迟删除次数加一。然后我们将 `num` 与较小的队列的堆顶元素进行比较，如果 `num` 小于等于较小的队列的堆顶元素，则更新较小的队列的大小，并且调用 `prune()` 方法，使得较小的队列的堆顶元素不在延迟删除字典中。否则，我们更新较大的队列的大小，并且调用 `prune()` 方法，使得较大的队列的堆顶元素不在延迟删除字典中。
+In the `remove_num(num)` method, we increase the delayed deletion count of `num` by one. Then we compare `num` with the top element of the smaller queue. If `num` is less than or equal to the top element of the smaller queue, update the size of the smaller queue and call the `prune()` method to ensure that the top element of the smaller queue is not in the delayed deletion dictionary. Otherwise, we update the size of the larger queue and call the `prune()` method to ensure that the top element of the larger queue is not in the delayed deletion dictionary.
 
-在 `find()` 方法中，如果较小的队列的大小等于 $x$，则返回较小的队列的堆顶元素，否则返回 $0$。
+In the `find()` method, if the size of the smaller queue is equal to $x$, return the top element of the smaller queue, otherwise return $0$.
 
-在 `prune(pq)` 方法中，如果堆顶元素在延迟删除字典中，则将其从堆顶弹出，并从该元素的延迟删除次数中减一。如果该元素的延迟删除次数为零，则将其从延迟删除字典中删除。
+In the `prune(pq)` method, if the top element of the heap is in the delayed deletion dictionary, pop it from the top of the heap and subtract one from its delayed deletion count. If the delayed deletion count of the element is zero, delete it from the delayed deletion dictionary.
 
-在 `rebalance()` 方法中，如果较小的队列的大小大于 $x$，则将较小的队列的堆顶元素加入较大的队列中，并调用 `prune()` 方法，使得较小的队列的堆顶元素不在延迟删除字典中。如果较小的队列的大小小于 $x$ 且较大的队列的大小大于 $0$，则将较大的队列的堆顶元素加入较小的队列中，并调用 `prune()` 方法，使得较大的队列的堆顶元素不在延迟删除字典中。
+In the `rebalance()` method, if the size of the smaller queue is greater than $x$, add the top element of the smaller queue to the larger queue and call the `prune()` method to ensure that the top element of the smaller queue is not in the delayed deletion dictionary. If the size of the smaller queue is less than $x$ and the size of the larger queue is greater than $0$, add the top element of the larger queue to the smaller queue and call the `prune()` method to ensure that the top element of the larger queue is not in the delayed deletion dictionary.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `nums` 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array `nums`.
 
-相似题目：
+Similar problems:
 
--   [480. 滑动窗口中位数](https://github.com/doocs/leetcode/blob/main/solution/0400-0499/0480.Sliding%20Window%20Median/README.md)
+-   [480. Sliding Window Median](https://github.com/doocs/leetcode/blob/main/solution/0400-0499/0480.Sliding%20Window%20Median/README.md)
 
 <!-- tabs:start -->
 

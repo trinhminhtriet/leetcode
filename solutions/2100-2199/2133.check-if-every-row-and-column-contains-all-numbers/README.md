@@ -1,56 +1,47 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2133.Check%20if%20Every%20Row%20and%20Column%20Contains%20All%20Numbers/README.md
+difficulty: Easy
 rating: 1264
-source: 第 275 场周赛 Q1
+source: Weekly Contest 275 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 矩阵
+    - Array
+    - Hash Table
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [2133. 检查是否每一行每一列都包含全部整数](https://leetcode.cn/problems/check-if-every-row-and-column-contains-all-numbers)
+# [2133. Check if Every Row and Column Contains All Numbers](https://leetcode.com/problems/check-if-every-row-and-column-contains-all-numbers)
 
-[English Version](/solution/2100-2199/2133.Check%20if%20Every%20Row%20and%20Column%20Contains%20All%20Numbers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>对一个大小为 <code>n x n</code> 的矩阵而言，如果其每一行和每一列都包含从 <code>1</code> 到 <code>n</code> 的 <strong>全部</strong> 整数（含 <code>1</code> 和 <code>n</code>），则认为该矩阵是一个 <strong>有效</strong> 矩阵。</p>
+<p>An <code>n x n</code> matrix is <strong>valid</strong> if every row and every column contains <strong>all</strong> the integers from <code>1</code> to <code>n</code> (<strong>inclusive</strong>).</p>
 
-<p>给你一个大小为 <code>n x n</code> 的整数矩阵 <code>matrix</code> ，请你判断矩阵是否为一个有效矩阵：如果是，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
+<p>Given an <code>n x n</code> integer matrix <code>matrix</code>, return <code>true</code> <em>if the matrix is <strong>valid</strong>.</em> Otherwise, return <code>false</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2133.Check%20if%20Every%20Row%20and%20Column%20Contains%20All%20Numbers/images/example1drawio.png" style="width: 250px; height: 251px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2133.Check%20if%20Every%20Row%20and%20Column%20Contains%20All%20Numbers/images/example1drawio.png" style="width: 250px; height: 251px;" />
 <pre>
-<strong>输入：</strong>matrix = [[1,2,3],[3,1,2],[2,3,1]]
-<strong>输出：</strong>true
-<strong>解释：</strong>在此例中，n = 3 ，每一行和每一列都包含数字 1、2、3 。
-因此，返回 true 。
+<strong>Input:</strong> matrix = [[1,2,3],[3,1,2],[2,3,1]]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> In this case, n = 3, and every row and column contains the numbers 1, 2, and 3.
+Hence, we return true.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2133.Check%20if%20Every%20Row%20and%20Column%20Contains%20All%20Numbers/images/example2drawio.png" style="width: 250px; height: 251px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2133.Check%20if%20Every%20Row%20and%20Column%20Contains%20All%20Numbers/images/example2drawio.png" style="width: 250px; height: 251px;" />
 <pre>
-<strong>输入：</strong>matrix = [[1,1,1],[1,2,3],[1,2,3]]
-<strong>输出：</strong>false
-<strong>解释：</strong>在此例中，n = 3 ，但第一行和第一列不包含数字 2 和 3 。
-因此，返回 false 。
+<strong>Input:</strong> matrix = [[1,1,1],[1,2,3],[1,2,3]]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> In this case, n = 3, but the first row and the first column do not contain the numbers 2 or 3.
+Hence, we return false.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == matrix.length == matrix[i].length</code></li>
@@ -60,15 +51,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-遍历矩阵的每一行和每一列，使用哈希表记录每个数字是否出现过，如果某一行或某一列中有数字重复出现，则返回 `false`，否则返回 `true`。
+Traverse each row and column of the matrix, using a hash table to record whether each number has appeared. If any number appears more than once in a row or column, return `false`; otherwise, return `true`
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为矩阵的大小。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the size of the matrix.
 
 <!-- tabs:start -->
 

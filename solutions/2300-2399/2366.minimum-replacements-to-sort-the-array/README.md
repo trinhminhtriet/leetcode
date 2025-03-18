@@ -1,57 +1,53 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2366.Minimum%20Replacements%20to%20Sort%20the%20Array/README.md
+difficulty: Hard
 rating: 2060
-source: 第 84 场双周赛 Q4
+source: Biweekly Contest 84 Q4
 tags:
-    - 贪心
-    - 数组
-    - 数学
+    - Greedy
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [2366. 将数组排序的最少替换次数](https://leetcode.cn/problems/minimum-replacements-to-sort-the-array)
+# [2366. Minimum Replacements to Sort the Array](https://leetcode.com/problems/minimum-replacements-to-sort-the-array)
 
-[English Version](/solution/2300-2399/2366.Minimum%20Replacements%20to%20Sort%20the%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;。每次操作中，你可以将数组中任何一个元素替换为&nbsp;<strong>任意两个</strong>&nbsp;和为该元素的数字。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. In one operation you can replace any element of the array with <strong>any two</strong> elements that <strong>sum</strong> to it.</p>
 
 <ul>
-	<li>比方说，<code>nums = [5,6,7]</code>&nbsp;。一次操作中，我们可以将&nbsp;<code>nums[1]</code> 替换成&nbsp;<code>2</code> 和&nbsp;<code>4</code>&nbsp;，将&nbsp;<code>nums</code>&nbsp;转变成&nbsp;<code>[5,2,4,7]</code>&nbsp;。</li>
+	<li>For example, consider <code>nums = [5,6,7]</code>. In one operation, we can replace <code>nums[1]</code> with <code>2</code> and <code>4</code> and convert <code>nums</code> to <code>[5,2,4,7]</code>.</li>
 </ul>
 
-<p>请你执行上述操作，将数组变成元素按 <strong>非递减</strong> 顺序排列的数组，并返回所需的最少操作次数。</p>
+<p>Return <em>the minimum number of operations to make an array that is sorted in <strong>non-decreasing</strong> order</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [3,9,3]
-<b>输出：</b>2
-<b>解释：</b>以下是将数组变成非递减顺序的步骤：
-- [3,9,3] ，将9 变成 3 和 6 ，得到数组 [3,3,6,3] 
-- [3,3,6,3] ，将 6 变成 3 和 3 ，得到数组 [3,3,3,3,3] 
-总共需要 2 步将数组变成非递减有序，所以我们返回 2 。
+<strong>Input:</strong> nums = [3,9,3]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> Here are the steps to sort the array in non-decreasing order:
+- From [3,9,3], replace the 9 with 3 and 6 so the array becomes [3,3,6,3]
+- From [3,3,6,3], replace the 6 with 3 and 3 so the array becomes [3,3,3,3,3]
+There are 2 steps to sort the array in non-decreasing order. Therefore, we return 2.
+
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,2,3,4,5]
-<b>输出：</b>0
-<b>解释：</b>数组已经是非递减顺序，所以我们返回 0 。
+<strong>Input:</strong> nums = [1,2,3,4,5]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The array is already in non-decreasing order. Therefore, we return 0. 
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -60,22 +56,22 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy Approach
 
-我们观察发现，要使得数组 $nums$ 变成非递减有序，也即单调递增，那么数组后面的元素应该尽可能大，所以，将数组 $nums$ 的最后一个元素 $nums[n-1]$ 替换成多个更小的数是没有必要的。
+We observe that to make the array $nums$ non-decreasing or monotonically increasing, the elements towards the end of the array should be as large as possible. Therefore, it is unnecessary to replace the last element $nums[n-1]$ of the array $nums$ with multiple smaller numbers.
 
-也即是说，我们可以从后往前遍历数组 $nums$，并且维护当前的最大值 $mx$，初始时 $mx = nums[n-1]$。
+In other words, we can traverse the array $nums$ from the end to the beginning, maintaining the current maximum value $mx$, initially $mx = nums[n-1]$.
 
--   若当前遍历到的元素 $nums[i] \leq mx$，此时不需要将 $nums[i]$ 进行替换，我们直接更新 $mx = nums[i]$ 即可。
--   否则，我们需要将 $nums[i]$ 替换成多个和为 $nums[i]$ 的数，这些数的最大值为 $mx$，总共替换成 $k=\left \lceil \frac{nums[i]}{mx} \right \rceil$ 个数，所以需要进行 $k-1$ 次操作，累加到答案中。这 $k$ 个数中，最小的数为 $\left \lfloor \frac{nums[i]}{k} \right \rfloor$，因此，我们更新 $mx = \left \lfloor \frac{nums[i]}{k} \right \rfloor$。
+-   If the current element $nums[i] \leq mx$, there is no need to replace $nums[i]$. We simply update $mx = nums[i]$.
+-   Otherwise, we need to replace $nums[i]$ with multiple numbers that sum to $nums[i]$. The maximum of these numbers is $mx$, and the total number of replacements is $k=\left \lceil \frac{nums[i]}{mx} \right \rceil$. Therefore, we need to perform $k-1$ operations, which are added to the answer. Among these $k$ numbers, the smallest number is $\left \lfloor \frac{nums[i]}{k} \right \rfloor$. Therefore, we update $mx = \left \lfloor \frac{nums[i]}{k} \right \rfloor$.
 
-遍历结束，返回总的操作次数即可。
+After the traversal, we return the total number of operations.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

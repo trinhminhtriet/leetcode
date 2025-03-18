@@ -1,85 +1,77 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1451.Rearrange%20Words%20in%20a%20Sentence/README.md
+difficulty: Medium
 rating: 1309
-source: 第 189 场周赛 Q2
+source: Weekly Contest 189 Q2
 tags:
-    - 字符串
-    - 排序
+    - String
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1451. 重新排列句子中的单词](https://leetcode.cn/problems/rearrange-words-in-a-sentence)
+# [1451. Rearrange Words in a Sentence](https://leetcode.com/problems/rearrange-words-in-a-sentence)
 
-[English Version](/solution/1400-1499/1451.Rearrange%20Words%20in%20a%20Sentence/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>「句子」是一个用空格分隔单词的字符串。给你一个满足下述格式的句子 <code>text</code> :</p>
+<p>Given a sentence&nbsp;<code>text</code> (A&nbsp;<em>sentence</em>&nbsp;is a string of space-separated words) in the following format:</p>
 
 <ul>
-	<li>句子的首字母大写</li>
-	<li><code>text</code> 中的每个单词都用单个空格分隔。</li>
+	<li>First letter is in upper case.</li>
+	<li>Each word in <code>text</code> are separated by a single space.</li>
 </ul>
 
-<p>请你重新排列 <code>text</code> 中的单词，使所有单词按其长度的升序排列。如果两个单词的长度相同，则保留其在原句子中的相对顺序。</p>
+<p>Your task is to rearrange the words in text such that&nbsp;all words are rearranged in an increasing order of their lengths. If two words have the same length, arrange them in their original order.</p>
 
-<p>请同样按上述格式返回新的句子。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>text = &quot;Leetcode is cool&quot;
-<strong>输出：</strong>&quot;Is cool leetcode&quot;
-<strong>解释：</strong>句子中共有 3 个单词，长度为 8 的 &quot;Leetcode&quot; ，长度为 2 的 &quot;is&quot; 以及长度为 4 的 &quot;cool&quot; 。
-输出需要按单词的长度升序排列，新句子中的第一个单词首字母需要大写。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>text = &quot;Keep calm and code on&quot;
-<strong>输出：</strong>&quot;On and keep calm code&quot;
-<strong>解释：</strong>输出的排序情况如下：
-&quot;On&quot; 2 个字母。
-&quot;and&quot; 3 个字母。
-&quot;keep&quot; 4 个字母，因为存在长度相同的其他单词，所以它们之间需要保留在原句子中的相对顺序。
-&quot;calm&quot; 4 个字母。
-&quot;code&quot; 4 个字母。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>text = &quot;To be or not to be&quot;
-<strong>输出：</strong>&quot;To be or to be not&quot;
-</pre>
+<p>Return the new text&nbsp;following the format shown above.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> text = &quot;Leetcode is cool&quot;
+<strong>Output:</strong> &quot;Is cool leetcode&quot;
+<strong>Explanation: </strong>There are 3 words, &quot;Leetcode&quot; of length 8, &quot;is&quot; of length 2 and &quot;cool&quot; of length 4.
+Output is ordered by length and the new first word starts with capital letter.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> text = &quot;Keep calm and code on&quot;
+<strong>Output:</strong> &quot;On and keep calm code&quot;
+<strong>Explanation: </strong>Output is ordered as follows:
+&quot;On&quot; 2 letters.
+&quot;and&quot; 3 letters.
+&quot;keep&quot; 4 letters in case of tie order by position in original text.
+&quot;calm&quot; 4 letters.
+&quot;code&quot; 4 letters.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> text = &quot;To be or not to be&quot;
+<strong>Output:</strong> &quot;To be or to be not&quot;
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>text</code> 以大写字母开头，然后包含若干小写字母以及单词间的单个空格。</li>
+	<li><code>text</code> begins with a capital letter and then contains lowercase letters and single space between words.</li>
 	<li><code>1 &lt;= text.length &lt;= 10^5</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序
-
-将 `text` 按空格切分为字符串数组 `words`，并将 `words[0]` 转为小写。然后对 `words` 进行排序（这里需要确保长度相同的情况下，相对顺序保持不变，因此是一种稳定排序）。
-
-排完序后，对 `words[0]` 首字母转为大写。最后将 `words` 所有字符串用空格拼接成一个字符串。
-
-时间复杂度 $O(n\log n)$。
+### Solution 1
 
 <!-- tabs:start -->
 

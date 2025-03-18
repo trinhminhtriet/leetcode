@@ -1,80 +1,74 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1599.Maximum%20Profit%20of%20Operating%20a%20Centennial%20Wheel/README.md
+difficulty: Medium
 rating: 1548
-source: 第 208 场周赛 Q2
+source: Weekly Contest 208 Q2
 tags:
-    - 数组
-    - 模拟
+    - Array
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [1599. 经营摩天轮的最大利润](https://leetcode.cn/problems/maximum-profit-of-operating-a-centennial-wheel)
+# [1599. Maximum Profit of Operating a Centennial Wheel](https://leetcode.com/problems/maximum-profit-of-operating-a-centennial-wheel)
 
-[English Version](/solution/1500-1599/1599.Maximum%20Profit%20of%20Operating%20a%20Centennial%20Wheel/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你正在经营一座摩天轮，该摩天轮共有 <strong>4 个座舱</strong> ，每个座舱<strong> 最多可以容纳 4 位游客</strong> 。你可以 <strong>逆时针</strong>&nbsp;轮转座舱，但每次轮转都需要支付一定的运行成本 <code>runningCost</code> 。</p>
+<p>You are the operator of a Centennial Wheel that has <strong>four gondolas</strong>, and each gondola has room for <strong>up</strong> <strong>to</strong> <strong>four people</strong>. You have the ability to rotate the gondolas <strong>counterclockwise</strong>, which costs you <code>runningCost</code> dollars.</p>
 
-<p>给你一个长度为 <code>n</code> 的数组 <code>customers</code> ， <code>customers[i]</code> 是在第 <code>i</code> 次轮转（下标从 0 开始）之前到达的新游客的数量。这也意味着你必须在新游客到来前轮转 <code>i</code> 次。<strong>如果有座舱空闲就不能让游客等待。</strong>每位游客在登上离地面最近的座舱前都会支付登舱成本 <code>boardingCost</code> ，一旦该座舱再次抵达地面，他们就会离开座舱结束游玩。</p>
+<p>You are given an array <code>customers</code> of length <code>n</code> where <code>customers[i]</code> is the number of new customers arriving just before the <code>i<sup>th</sup></code> rotation (0-indexed). This means you <strong>must rotate the wheel </strong><code>i</code><strong> times before the </strong><code>customers[i]</code><strong> customers arrive</strong>. <strong>You cannot make customers wait if there is room in the gondola</strong>. Each customer pays <code>boardingCost</code> dollars when they board on the gondola closest to the ground and will exit once that gondola reaches the ground again.</p>
 
-<p>你可以随时停下摩天轮，即便是 <strong>在服务所有游客之前</strong> 。如果你决定停止运营摩天轮，为了保证所有游客安全着陆，<strong>将免费进行</strong><strong>所有后续轮转</strong>&nbsp;。注意，如果有超过 4 位游客在等摩天轮，那么只有 4 位游客可以登上摩天轮，其余的需要等待 <strong>下一次轮转</strong> 。</p>
+<p>You can stop the wheel at any time, including <strong>before</strong> <strong>serving</strong> <strong>all</strong> <strong>customers</strong>. If you decide to stop serving customers, <strong>all subsequent rotations are free</strong> in order to get all the customers down safely. Note that if there are currently more than four customers waiting at the wheel, only four will board the gondola, and the rest will wait <strong>for the next rotation</strong>.</p>
 
-<p>返回最大化利润所需执行的 <strong>最小轮转次数</strong> 。 如果不存在利润为正的方案，则返回 <code>-1</code> 。</p>
+<p>Return<em> the minimum number of rotations you need to perform to maximize your profit.</em> If there is <strong>no scenario</strong> where the profit is positive, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1599.Maximum%20Profit%20of%20Operating%20a%20Centennial%20Wheel/images/wheeldiagram12.png" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1599.Maximum%20Profit%20of%20Operating%20a%20Centennial%20Wheel/images/wheeldiagram12.png" style="width: 700px; height: 225px;" />
 <pre>
-<strong>输入：</strong>customers = [8,3], boardingCost = 5, runningCost = 6
-<strong>输出：</strong>3
-<strong>解释：</strong>座舱上标注的数字是该座舱的当前游客数。
-1. 8 位游客抵达，4 位登舱，4 位等待下一舱，摩天轮轮转。当前利润为 4 * $5 - 1 * $6 = $14 。
-2. 3 位游客抵达，4 位在等待的游客登舱，其他 3 位等待，摩天轮轮转。当前利润为 8 * $5 - 2 * $6 = $28 。
-3. 最后 3 位游客登舱，摩天轮轮转。当前利润为 11 * $5 - 3 * $6 = $37 。
-轮转 3 次得到最大利润，最大利润为 $37 。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>customers = [10,9,6], boardingCost = 6, runningCost = 4
-<strong>输出：</strong>7
-<strong>解释：</strong>
-1. 10 位游客抵达，4 位登舱，6 位等待下一舱，摩天轮轮转。当前利润为 4 * $6 - 1 * $4 = $20 。
-2. 9 位游客抵达，4 位登舱，11 位等待（2 位是先前就在等待的，9 位新加入等待的），摩天轮轮转。当前利润为 8 * $6 - 2 * $4 = $40 。
-3. 最后 6 位游客抵达，4 位登舱，13 位等待，摩天轮轮转。当前利润为 12 * $6 - 3 * $4 = $60 。
-4. 4 位登舱，9 位等待，摩天轮轮转。当前利润为 * $6 - 4 * $4 = $80 。
-5. 4 位登舱，5 位等待，摩天轮轮转。当前利润为 20 * $6 - 5 * $4 = $100 。
-6. 4 位登舱，1 位等待，摩天轮轮转。当前利润为 24 * $6 - 6 * $4 = $120 。
-7. 1 位登舱，摩天轮轮转。当前利润为 25 * $6 - 7 * $4 = $122 。
-轮转 7 次得到最大利润，最大利润为$122 。
+<strong>Input:</strong> customers = [8,3], boardingCost = 5, runningCost = 6
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The numbers written on the gondolas are the number of people currently there.
+1. 8 customers arrive, 4 board and 4 wait for the next gondola, the wheel rotates. Current profit is 4 * $5 - 1 * $6 = $14.
+2. 3 customers arrive, the 4 waiting board the wheel and the other 3 wait, the wheel rotates. Current profit is 8 * $5 - 2 * $6 = $28.
+3. The final 3 customers board the gondola, the wheel rotates. Current profit is 11 * $5 - 3 * $6 = $37.
+The highest profit was $37 after rotating the wheel 3 times.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>customers = [3,4,0,5,1], boardingCost = 1, runningCost = 92
-<strong>输出：</strong>-1
-<strong>解释：</strong>
-1. 3 位游客抵达，3 位登舱，0 位等待，摩天轮轮转。当前利润为 3 * $1 - 1 * $92 = -$89 。
-2. 4 位游客抵达，4 位登舱，0 位等待，摩天轮轮转。当前利润为 7 * $1 - 2 * $92 = -$177 。
-3. 0 位游客抵达，0 位登舱，0 位等待，摩天轮轮转。当前利润为 7 * $1 - 3 * $92 = -$269 。
-4. 5 位游客抵达，4 位登舱，1 位等待，摩天轮轮转。当前利润为 11 * $1 - 4 * $92 = -$357 。
-5. 1 位游客抵达，2 位登舱，0 位等待，摩天轮轮转。当前利润为 13 * $1 - 5 * $92 = -$447 。
-利润永不为正，所以返回 -1 。
+<strong>Input:</strong> customers = [10,9,6], boardingCost = 6, runningCost = 4
+<strong>Output:</strong> 7
+<strong>Explanation:</strong>
+1. 10 customers arrive, 4 board and 6 wait for the next gondola, the wheel rotates. Current profit is 4 * $6 - 1 * $4 = $20.
+2. 9 customers arrive, 4 board and 11 wait (2 originally waiting, 9 newly waiting), the wheel rotates. Current profit is 8 * $6 - 2 * $4 = $40.
+3. The final 6 customers arrive, 4 board and 13 wait, the wheel rotates. Current profit is 12 * $6 - 3 * $4 = $60.
+4. 4 board and 9 wait, the wheel rotates. Current profit is 16 * $6 - 4 * $4 = $80.
+5. 4 board and 5 wait, the wheel rotates. Current profit is 20 * $6 - 5 * $4 = $100.
+6. 4 board and 1 waits, the wheel rotates. Current profit is 24 * $6 - 6 * $4 = $120.
+7. 1 boards, the wheel rotates. Current profit is 25 * $6 - 7 * $4 = $122.
+The highest profit was $122 after rotating the wheel 7 times.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> customers = [3,4,0,5,1], boardingCost = 1, runningCost = 92
+<strong>Output:</strong> -1
+<strong>Explanation:</strong>
+1. 3 customers arrive, 3 board and 0 wait, the wheel rotates. Current profit is 3 * $1 - 1 * $92 = -$89.
+2. 4 customers arrive, 4 board and 0 wait, the wheel rotates. Current profit is 7 * $1 - 2 * $92 = -$177.
+3. 0 customers arrive, 0 board and 0 wait, the wheel rotates. Current profit is 7 * $1 - 3 * $92 = -$269.
+4. 5 customers arrive, 4 board and 1 waits, the wheel rotates. Current profit is 11 * $1 - 4 * $92 = -$357.
+5. 1 customer arrives, 2 board and 0 wait, the wheel rotates. Current profit is 13 * $1 - 5 * $92 = -$447.
+The profit was never positive, so return -1.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == customers.length</code></li>
@@ -85,15 +79,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们直接模拟摩天轮的轮转过程，每次轮转时，累加等待的游客以及新到达的游客，然后最多 $4$ 个人上船，更新等待的游客数和利润，记录最大利润与其对应的轮转次数。
+We directly simulate the rotation process of the Ferris wheel. Each time it rotates, we add up the waiting customers and the newly arrived customers, then at most $4$ people get on the ride, update the number of waiting customers and profit, and record the maximum profit and its corresponding number of rotations.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 `customers` 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the `customers` array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

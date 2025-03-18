@@ -1,98 +1,68 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0208.Implement%20Trie%20%28Prefix%20Tree%29/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 字典树
-    - 哈希表
-    - 字符串
+    - Design
+    - Trie
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [208. 实现 Trie (前缀树)](https://leetcode.cn/problems/implement-trie-prefix-tree)
+# [208. Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree)
 
-[English Version](/solution/0200-0299/0208.Implement%20Trie%20%28Prefix%20Tree%29/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong><a href="https://baike.baidu.com/item/字典树/9825209?fr=aladdin" target="_blank">Trie</a></strong>（发音类似 "try"）或者说 <strong>前缀树</strong> 是一种树形数据结构，用于高效地存储和检索字符串数据集中的键。这一数据结构有相当多的应用情景，例如自动补全和拼写检查。</p>
+<p>A <a href="https://en.wikipedia.org/wiki/Trie" target="_blank"><strong>trie</strong></a> (pronounced as &quot;try&quot;) or <strong>prefix tree</strong> is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. There are various applications of this data structure, such as autocomplete and spellchecker.</p>
 
-<p>请你实现 Trie 类：</p>
+<p>Implement the Trie class:</p>
 
 <ul>
-	<li><code>Trie()</code> 初始化前缀树对象。</li>
-	<li><code>void insert(String word)</code> 向前缀树中插入字符串 <code>word</code> 。</li>
-	<li><code>boolean search(String word)</code> 如果字符串 <code>word</code> 在前缀树中，返回 <code>true</code>（即，在检索之前已经插入）；否则，返回 <code>false</code> 。</li>
-	<li><code>boolean startsWith(String prefix)</code> 如果之前已经插入的字符串&nbsp;<code>word</code> 的前缀之一为 <code>prefix</code> ，返回 <code>true</code> ；否则，返回 <code>false</code> 。</li>
+	<li><code>Trie()</code> Initializes the trie object.</li>
+	<li><code>void insert(String word)</code> Inserts the string <code>word</code> into the trie.</li>
+	<li><code>boolean search(String word)</code> Returns <code>true</code> if the string <code>word</code> is in the trie (i.e., was inserted before), and <code>false</code> otherwise.</li>
+	<li><code>boolean startsWith(String prefix)</code> Returns <code>true</code> if there is a previously inserted string <code>word</code> that has the prefix <code>prefix</code>, and <code>false</code> otherwise.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["Trie", "insert", "search", "search", "startsWith", "insert", "search"]
-[[], ["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]]
-<strong>输出</strong>
+<strong>Input</strong>
+[&quot;Trie&quot;, &quot;insert&quot;, &quot;search&quot;, &quot;search&quot;, &quot;startsWith&quot;, &quot;insert&quot;, &quot;search&quot;]
+[[], [&quot;apple&quot;], [&quot;apple&quot;], [&quot;app&quot;], [&quot;app&quot;], [&quot;app&quot;], [&quot;app&quot;]]
+<strong>Output</strong>
 [null, null, true, false, true, null, true]
 
-<strong>解释</strong>
+<strong>Explanation</strong>
 Trie trie = new Trie();
-trie.insert("apple");
-trie.search("apple");   // 返回 True
-trie.search("app");     // 返回 False
-trie.startsWith("app"); // 返回 True
-trie.insert("app");
-trie.search("app");     // 返回 True
+trie.insert(&quot;apple&quot;);
+trie.search(&quot;apple&quot;);   // return True
+trie.search(&quot;app&quot;);     // return False
+trie.startsWith(&quot;app&quot;); // return True
+trie.insert(&quot;app&quot;);
+trie.search(&quot;app&quot;);     // return True
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= word.length, prefix.length &lt;= 2000</code></li>
-	<li><code>word</code> 和 <code>prefix</code> 仅由小写英文字母组成</li>
-	<li><code>insert</code>、<code>search</code> 和 <code>startsWith</code> 调用次数 <strong>总计</strong> 不超过 <code>3 * 10<sup>4</sup></code> 次</li>
+	<li><code>word</code> and <code>prefix</code> consist only of lowercase English letters.</li>
+	<li>At most <code>3 * 10<sup>4</sup></code> calls <strong>in total</strong> will be made to <code>insert</code>, <code>search</code>, and <code>startsWith</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀树
-
-前缀树每个节点包括两部分：
-
-1. 指向子节点的指针数组 $children$，对于本题而言，数组长度为 $26$，即小写英文字母的数量。$children[0]$ 对应小写字母 $a$，...，$children[25]$ 对应小写字母 $z$。
-1. 布尔字段 $isEnd$，表示该节点是否为字符串的结尾。
-
-### 1. 插入字符串
-
-我们从字典树的根开始，插入字符串。对于当前字符对应的子节点，有两种情况：
-
--   子节点存在。沿着指针移动到子节点，继续处理下一个字符。
--   子节点不存在。创建一个新的子节点，记录在 $children$ 数组的对应位置上，然后沿着指针移动到子节点，继续搜索下一个字符。
-
-重复以上步骤，直到处理字符串的最后一个字符，然后将当前节点标记为字符串的结尾。
-
-### 2. 查找前缀
-
-我们从字典树的根开始，查找前缀。对于当前字符对应的子节点，有两种情况：
-
--   子节点存在。沿着指针移动到子节点，继续搜索下一个字符。
--   子节点不存在。说明字典树中不包含该前缀，返回空指针。
-
-重复以上步骤，直到返回空指针或搜索完前缀的最后一个字符。
-
-若搜索到了前缀的末尾，就说明字典树中存在该前缀。此外，若前缀末尾对应节点的 $isEnd$ 为真，则说明字典树中存在该字符串。
+### Solution 1
 
 <!-- tabs:start -->
 

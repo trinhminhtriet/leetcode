@@ -1,69 +1,60 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1305.All%20Elements%20in%20Two%20Binary%20Search%20Trees/README.md
+difficulty: Medium
 rating: 1260
-source: 第 169 场周赛 Q2
+source: Weekly Contest 169 Q2
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉搜索树
-    - 二叉树
-    - 排序
+    - Tree
+    - Depth-First Search
+    - Binary Search Tree
+    - Binary Tree
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1305. 两棵二叉搜索树中的所有元素](https://leetcode.cn/problems/all-elements-in-two-binary-search-trees)
+# [1305. All Elements in Two Binary Search Trees](https://leetcode.com/problems/all-elements-in-two-binary-search-trees)
 
-[English Version](/solution/1300-1399/1305.All%20Elements%20in%20Two%20Binary%20Search%20Trees/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你&nbsp;<code>root1</code> 和 <code>root2</code>&nbsp;这两棵二叉搜索树。请你返回一个列表，其中包含&nbsp;<strong>两棵树&nbsp;</strong>中的所有整数并按 <strong>升序</strong> 排序。.</p>
+<p>Given two binary search trees <code>root1</code> and <code>root2</code>, return <em>a list containing all the integers from both trees sorted in <strong>ascending</strong> order</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1305.All%20Elements%20in%20Two%20Binary%20Search%20Trees/images/q2-e1.png" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1305.All%20Elements%20in%20Two%20Binary%20Search%20Trees/images/q2-e1.png" style="width: 457px; height: 207px;" />
 <pre>
-<strong>输入：</strong>root1 = [2,1,4], root2 = [1,0,3]
-<strong>输出：</strong>[0,1,1,2,3,4]
+<strong>Input:</strong> root1 = [2,1,4], root2 = [1,0,3]
+<strong>Output:</strong> [0,1,1,2,3,4]
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1305.All%20Elements%20in%20Two%20Binary%20Search%20Trees/images/q2-e5-.png" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1305.All%20Elements%20in%20Two%20Binary%20Search%20Trees/images/q2-e5-.png" style="width: 352px; height: 197px;" />
 <pre>
-<strong>输入：</strong>root1 = [1,null,8], root2 = [8,1]
-<strong>输出：</strong>[1,1,8,8]
+<strong>Input:</strong> root1 = [1,null,8], root2 = [8,1]
+<strong>Output:</strong> [1,1,8,8]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>每棵树的节点数在&nbsp;<code>[0, 5000]</code> 范围内</li>
-	<li><code>-10<sup>5</sup>&nbsp;&lt;= Node.val &lt;= 10<sup>5</sup></code></li>
+	<li>The number of nodes in each tree is in the range <code>[0, 5000]</code>.</li>
+	<li><code>-10<sup>5</sup> &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS + 归并
+### Solution 1: DFS + Merge
 
-由于两棵树都是二叉搜索树，所以我们可以通过中序遍历得到两棵树的节点值序列 $\textit{a}$ 和 $\textit{b}$，然后使用双指针归并两个有序数组，得到最终的答案。
+Since both trees are binary search trees, we can obtain the node value sequences $\textit{a}$ and $\textit{b}$ of the two trees through in-order traversal. Then, we use two pointers to merge the two sorted arrays to get the final answer.
 
-时间复杂度 $O(n+m)$，空间复杂度 $O(n+m)$。其中 $n$ 和 $m$ 分别是两棵树的节点数。
+The time complexity is $O(n+m)$, and the space complexity is $O(n+m)$. Here, $n$ and $m$ are the number of nodes in the two trees, respectively.
 
 <!-- tabs:start -->
 

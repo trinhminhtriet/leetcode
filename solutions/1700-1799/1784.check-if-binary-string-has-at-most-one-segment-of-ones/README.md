@@ -1,70 +1,63 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1784.Check%20if%20Binary%20String%20Has%20at%20Most%20One%20Segment%20of%20Ones/README.md
+difficulty: Easy
 rating: 1206
-source: 第 231 场周赛 Q1
+source: Weekly Contest 231 Q1
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1784. 检查二进制字符串字段](https://leetcode.cn/problems/check-if-binary-string-has-at-most-one-segment-of-ones)
+# [1784. Check if Binary String Has at Most One Segment of Ones](https://leetcode.com/problems/check-if-binary-string-has-at-most-one-segment-of-ones)
 
-[English Version](/solution/1700-1799/1784.Check%20if%20Binary%20String%20Has%20at%20Most%20One%20Segment%20of%20Ones/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二进制字符串 <code>s</code> ，该字符串 <strong>不含前导零</strong> 。</p>
-
-<p>如果 <code>s</code> 包含 <strong>零个或一个由连续的 <code>'1'</code> 组成的字段</strong> ，返回 <code>true</code>​​​ 。否则，返回 <code>false</code> 。</p>
+<p>Given a binary string <code>s</code> <strong>​​​​​without leading zeros</strong>, return <code>true</code>​​​ <em>if </em><code>s</code><em> contains <strong>at most one contiguous segment of ones</strong></em>. Otherwise, return <code>false</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "1001"
-<strong>输出：</strong>false
-<strong>解释：</strong>由连续若干个&nbsp;<code>'1'</code> 组成的字段数量为 2，返回 false
+<strong>Input:</strong> s = &quot;1001&quot;
+<strong>Output:</strong> false
+<strong>Explanation: </strong>The ones do not form a contiguous segment.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "110"
-<strong>输出：</strong>true</pre>
+<strong>Input:</strong> s = &quot;110&quot;
+<strong>Output:</strong> true</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s[i]</code>​​​​ 为 <code>'0'</code> 或 <code>'1'</code></li>
-	<li><code>s[0]</code> 为 <code>'1'</code></li>
+	<li><code>s[i]</code>​​​​ is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+	<li><code>s[0]</code> is&nbsp;<code>&#39;1&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：0 后面不能有 1
+### Solution 1: No '1' After '0'
 
-注意到字符串 $s$ 不含前导零，说明 $s$ 以 '1' 开头。
+Notice that the string $s$ does not contain leading zeros, which means $s$ starts with '1'.
 
-若字符串 $s$ 存在 "01" 串，那么 $s$ 就是形如 "1...01..." 的字符串，此时 $s$ 出现了至少两个连续的 '1' 片段，不满足题意，返回 `false`。
+If the string $s$ contains the substring "01", then $s$ must be a string like "1...01...", in which case $s$ has at least two consecutive '1' segments, which does not satisfy the problem condition, so we return `false`.
 
-若字符串 $s$ 不存在 "01" 串，那么 $s$ 只能是形如 "1..1000..." 的字符串，此时 $s$ 只有一个连续的 '1' 片段，满足题意，返回 `true`。
+If the string $s$ does not contain the substring "01", then $s$ can only be a string like "1..1000...", in which case $s$ has only one consecutive '1' segment, which satisfies the problem condition, so we return `true`.
 
-因此，只需要判断字符串 $s$ 是否存在 "01" 串即可。
+Therefore, we only need to judge whether the string $s$ contains the substring "01".
 
-时间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -136,7 +129,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

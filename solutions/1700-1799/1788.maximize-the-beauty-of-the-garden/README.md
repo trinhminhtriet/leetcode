@@ -1,85 +1,100 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1788.Maximize%20the%20Beauty%20of%20the%20Garden/README.md
+difficulty: Hard
 tags:
-    - 贪心
-    - 数组
-    - 哈希表
-    - 前缀和
+    - Greedy
+    - Array
+    - Hash Table
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [1788. 最大化花园的美观度 🔒](https://leetcode.cn/problems/maximize-the-beauty-of-the-garden)
+# [1788. Maximize the Beauty of the Garden 🔒](https://leetcode.com/problems/maximize-the-beauty-of-the-garden)
 
-[English Version](/solution/1700-1799/1788.Maximize%20the%20Beauty%20of%20the%20Garden/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有一个花园，有&nbsp;<code>n</code>&nbsp;朵花，这些花都有一个用整数表示的美观度。这些花被种在一条线上。给定一个长度为 <code>n</code> 的整数类型数组&nbsp;<code>flowers</code>&nbsp;，每一个&nbsp;<code>flowers[i]</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;朵花的美观度。</p>
+<p>There is a garden of <code>n</code> flowers, and each flower has an integer beauty value. The flowers are arranged in a line. You are given an integer array <code>flowers</code> of size <code>n</code> and each <code>flowers[i]</code> represents the beauty of the <code>i<sup>th</sup></code> flower.</p>
 
-<p>一个花园满足下列条件时，该花园是<strong>有效</strong>的。</p>
+<p>A garden is <strong>valid</strong> if it meets these conditions:</p>
 
 <ul>
-	<li>花园中至少包含两朵花。</li>
-	<li>第一朵花和最后一朵花的美观度相同。</li>
+
+    <li>The garden has at least two flowers.</li>
+
+    <li>The first and the last flower of the garden have the same beauty value.</li>
+
 </ul>
 
-<p>作为一个被钦定的园丁，你可以从花园中<strong>去除</strong>任意朵花（也可以不去除任意一朵）。你想要通过一种方法移除某些花朵，使得剩下的花园变得<strong>有效</strong>。花园的美观度是其中所有剩余的花朵美观度之和。</p>
+<p>As the appointed gardener, you have the ability to <strong>remove</strong> any (possibly none) flowers from the garden. You want to remove flowers in a way that makes the remaining garden <strong>valid</strong>. The beauty of the garden is the sum of the beauty of all the remaining flowers.</p>
 
-<p>返回你去除了任意朵花（也可以不去除任意一朵）之后形成的<strong>有效</strong>花园中最大可能的美观度。</p>
-
-<p>&nbsp;</p>
-
-<p><b class="example">示例 1：</b></p>
-
-<pre>
-<strong>输入:</strong> flowers = [1,2,3,1,2]
-<strong>输出:</strong> 8
-<strong>解释:</strong> 你可以修整为有效花园 [2,3,1,2] 来达到总美观度 2 + 3 + 1 + 2 = 8。</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入:</strong> flowers = [100,1,1,-3,1]
-<strong>输出:</strong> 3
-<strong>解释:</strong> 你可以修整为有效花园 [1,1,1] 来达到总美观度 1 + 1 + 1 = 3。
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<strong>输入:</strong> flowers = [-1,-2,0,-1]
-<strong>输出:</strong> -2
-<strong>解释:</strong> 你可以修整为有效花园 [-1,-1] 来达到总美观度 -1 + -1 = -2。
-</pre>
+<p>Return the maximum possible beauty of some <strong>valid</strong> garden after you have removed any (possibly none) flowers.</p>
 
 <p>&nbsp;</p>
 
-<p><b>提示：</b></p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+
+<strong>Input:</strong> flowers = [1,2,3,1,2]
+
+<strong>Output:</strong> 8
+
+<strong>Explanation:</strong> You can produce the valid garden [2,3,1,2] to have a total beauty of 2 + 3 + 1 + 2 = 8.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+
+<strong>Input:</strong> flowers = [100,1,1,-3,1]
+
+<strong>Output:</strong> 3
+
+<strong>Explanation:</strong> You can produce the valid garden [1,1,1] to have a total beauty of 1 + 1 + 1 = 3.
+
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+
+<strong>Input:</strong> flowers = [-1,-2,0,-1]
+
+<strong>Output:</strong> -2
+
+<strong>Explanation:</strong> You can produce the valid garden [-1,-1] to have a total beauty of -1 + -1 = -2.
+
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>2 &lt;= flowers.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>-10<sup>4</sup> &lt;= flowers[i] &lt;= 10<sup>4</sup></code></li>
-	<li>去除一些花朵（可能没有）后，是有可能形成一个有效花园的。</li>
+
+    <li><code>2 &lt;= flowers.length &lt;= 10<sup>5</sup></code></li>
+
+    <li><code>-10<sup>4</sup> &lt;= flowers[i] &lt;= 10<sup>4</sup></code></li>
+
+    <li>It is possible to create a valid garden by removing some (possibly none) flowers.</li>
+
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 前缀和
+### Solution 1: Hash Table + Prefix Sum
 
-我们用哈希表 $d$ 记录每个美观度第一次出现的位置，用前缀和数组 $s$ 记录当前位置之前的美观度之和。如果一个美观度 $v$ 在位置 $i$ 和 $j$ 出现过（其中 $i \lt j$），那么我们可以得到一个有效的花园 $[i+1,j]$，其美观度为 $s[i] - s[j + 1] + v \times 2$，我们用这个值更新答案。否则，我们将当前美观度所在的位置 $i$ 记录到哈希表 $d$ 中。接下来，我们更新前缀和，如果美观度 $v$ 为负数，我们将其视为 $0$。
+We use a hash table $d$ to record the first occurrence of each aesthetic value, and a prefix sum array $s$ to record the sum of the aesthetic values before the current position. If an aesthetic value $v$ appears at positions $i$ and $j$ (where $i \lt j$), then we can get a valid garden $[i+1,j]$, whose aesthetic value is $s[i] - s[j + 1] + v \times 2$. We use this value to update the answer. Otherwise, we record the current position $i$ of the aesthetic value in the hash table $d$. Next, we update the prefix sum. If the aesthetic value $v$ is negative, we treat it as $0$.
 
-遍历完所有的美观度之后，我们就可以得到答案。
+After traversing all the aesthetic values, we can get the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为花朵的数量。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of flowers.
 
 <!-- tabs:start -->
 

@@ -1,80 +1,63 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0296.Best%20Meeting%20Point/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 数学
-    - 矩阵
-    - 排序
+    - Array
+    - Math
+    - Matrix
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [296. 最佳的碰头地点 🔒](https://leetcode.cn/problems/best-meeting-point)
+# [296. Best Meeting Point 🔒](https://leetcode.com/problems/best-meeting-point)
 
-[English Version](/solution/0200-0299/0296.Best%20Meeting%20Point/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个&nbsp;<code>m x n</code>&nbsp;&nbsp;的二进制网格&nbsp;<code>grid</code>&nbsp;，其中 <code>1</code> 表示某个朋友的家所处的位置。返回 <em>最小的 <strong>总行走距离</strong></em> 。</p>
+<p>Given an <code>m x n</code> binary grid <code>grid</code> where each <code>1</code> marks the home of one friend, return <em>the minimal <strong>total travel distance</strong></em>.</p>
 
-<p><strong>总行走距离</strong> 是朋友们家到碰头地点的距离之和。</p>
+<p>The <strong>total travel distance</strong> is the sum of the distances between the houses of the friends and the meeting point.</p>
 
-<p>我们将使用&nbsp;<a href="https://baike.baidu.com/item/%E6%9B%BC%E5%93%88%E9%A1%BF%E8%B7%9D%E7%A6%BB" target="_blank">曼哈顿距离</a>&nbsp;来计算，其中&nbsp;<code>distance(p1, p2) = |p2.x - p1.x| + |p2.y - p1.y|</code>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0296.Best%20Meeting%20Point/images/meetingpoint-grid.jpg" /></p>
-
-<pre>
-<strong>输入:</strong> grid = [[1,0,0,0,1],[0,0,0,0,0],[0,0,1,0,0]]
-<strong>输出: </strong>6 <strong>
-解释: </strong>给定的三个人分别住在<code>(0,0)，</code><code>(0,4) </code>和 <code>(2,2)</code>:
-&nbsp;    <code>(0,2)</code> 是一个最佳的碰面点，其总行走距离为 2 + 2 + 2 = 6，最小，因此返回 6。</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> grid = [[1,1]]
-<strong>输出:</strong> 1</pre>
+<p>The distance is calculated using <a href="http://en.wikipedia.org/wiki/Taxicab_geometry" target="_blank">Manhattan Distance</a>, where <code>distance(p1, p2) = |p2.x - p1.x| + |p2.y - p1.y|</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0296.Best%20Meeting%20Point/images/meetingpoint-grid.jpg" style="width: 413px; height: 253px;" />
+<pre>
+<strong>Input:</strong> grid = [[1,0,0,0,1],[0,0,0,0,0],[0,0,1,0,0]]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> Given three friends living at (0,0), (0,4), and (2,2).
+The point (0,2) is an ideal meeting point, as the total travel distance of 2 + 2 + 2 = 6 is minimal.
+So return 6.
+</pre>
 
-<p><strong>提示:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> grid = [[1,1]]
+<strong>Output:</strong> 1
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 200</code></li>
-	<li><code>grid[i][j] ==</code>&nbsp;<code>0</code>&nbsp;or&nbsp;<code>1</code>.</li>
-	<li><code>grid</code>&nbsp;中 <strong>至少</strong> 有两个朋友</li>
+	<li><code>grid[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
+	<li>There will be <strong>at least two</strong> friends in the <code>grid</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 中位数
-
-对于每一行，我们可以将所有的 $1$ 的下标排序，然后取中位数 $i$ 作为碰头地点的横坐标。
-
-对于每一列，我们可以将所有的 $1$ 的下标排序，然后取中位数 $i$ 作为碰头地点的纵坐标。
-
-最后，我们计算所有 $1$ 到碰头地点 $(i, j)$ 的曼哈顿距离之和即可。
-
-时间复杂度 $O(m\times n\times \log(m\times n))$。最多有 $m\times n$ 个 $1$，排序的时间复杂度为 $\log(m\times n)$。
-
-相似题目：
-
--   [462. 最少移动次数使数组元素相等 II](https://github.com/doocs/leetcode/blob/main/solution/0400-0499/0462.Minimum%20Moves%20to%20Equal%20Array%20Elements%20II/README.md)
--   [2448. 使数组相等的最小开销](https://github.com/doocs/leetcode/blob/main/solution/2400-2499/2448.Minimum%20Cost%20to%20Make%20Array%20Equal/README.md)
+### Solution 1
 
 <!-- tabs:start -->
 

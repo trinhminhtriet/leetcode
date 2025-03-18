@@ -1,78 +1,73 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2423.Remove%20Letter%20To%20Equalize%20Frequency/README.md
+difficulty: Easy
 rating: 1648
-source: 第 88 场双周赛 Q1
+source: Biweekly Contest 88 Q1
 tags:
-    - 哈希表
-    - 字符串
-    - 计数
+    - Hash Table
+    - String
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [2423. 删除字符使频率相同](https://leetcode.cn/problems/remove-letter-to-equalize-frequency)
+# [2423. Remove Letter To Equalize Frequency](https://leetcode.com/problems/remove-letter-to-equalize-frequency)
 
-[English Version](/solution/2400-2499/2423.Remove%20Letter%20To%20Equalize%20Frequency/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的字符串&nbsp;<code>word</code>&nbsp;，字符串只包含小写英文字母。你需要选择 <strong>一个</strong>&nbsp;下标并 <strong>删除</strong>&nbsp;下标处的字符，使得 <code>word</code>&nbsp;中剩余每个字母出现 <strong>频率</strong>&nbsp;相同。</p>
+<p>You are given a <strong>0-indexed</strong> string <code>word</code>, consisting of lowercase English letters. You need to select <strong>one</strong> index and <strong>remove</strong> the letter at that index from <code>word</code> so that the <strong>frequency</strong> of every letter present in <code>word</code> is equal.</p>
 
-<p>如果删除一个字母后，<code>word</code>&nbsp;中剩余所有字母的出现频率都相同，那么返回 <code>true</code>&nbsp;，否则返回 <code>false</code>&nbsp;。</p>
+<p>Return<em> </em><code>true</code><em> if it is possible to remove one letter so that the frequency of all letters in </em><code>word</code><em> are equal, and </em><code>false</code><em> otherwise</em>.</p>
 
-<p><strong>注意：</strong></p>
+<p><strong>Note:</strong></p>
 
 <ul>
-	<li>字母&nbsp;<code>x</code>&nbsp;的 <strong>频率</strong><strong>&nbsp;</strong>是这个字母在字符串中出现的次数。</li>
-	<li>你 <strong>必须</strong>&nbsp;恰好删除一个字母，不能一个字母都不删除。</li>
+	<li>The <b>frequency</b> of a letter <code>x</code> is the number of times it occurs in the string.</li>
+	<li>You <strong>must</strong> remove exactly one letter and cannot choose to do nothing.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>word = "abcc"
-<b>输出：</b>true
-<b>解释：</b>选择下标 3 并删除该字母：word 变成 "abc" 且每个字母出现频率都为 1 。
+<strong>Input:</strong> word = &quot;abcc&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Select index 3 and delete it: word becomes &quot;abc&quot; and each character has a frequency of 1.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>word = "aazz"
-<b>输出：</b>false
-<b>解释：</b>我们必须删除一个字母，所以要么 "a" 的频率变为 1 且 "z" 的频率为 2 ，要么两个字母频率反过来。所以不可能让剩余所有字母出现频率相同。
+<strong>Input:</strong> word = &quot;aazz&quot;
+<strong>Output:</strong> false
+<strong>Explanation:</strong> We must delete a character, so either the frequency of &quot;a&quot; is 1 and the frequency of &quot;z&quot; is 2, or vice versa. It is impossible to make all present letters have equal frequency.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= word.length &lt;= 100</code></li>
-	<li><code>word</code>&nbsp;只包含小写英文字母。</li>
+	<li><code>word</code> consists of lowercase English letters only.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数 + 枚举
+### Solution 1: Counting + Enumeration
 
-我们先用哈希表或者一个长度为 $26$ 的数组 $cnt$ 统计字符串中每个字母出现的次数。
+First, we use a hash table or an array of length $26$ named $cnt$ to count the number of occurrences of each letter in the string.
 
-接下来，枚举 $26$ 个字母，如果字母 $c$ 在字符串中出现过，我们将其出现次数减一，然后判断剩余的字母出现次数是否相同。如果相同，返回 `true`，否则将 $c$ 的出现次数加一，继续枚举下一个字母。
+Next, we enumerate the $26$ letters. If letter $c$ appears in the string, we decrement its count by one, then check whether the counts of the remaining letters are the same. If they are, return `true`. Otherwise, increment the count of $c$ by one and continue to enumerate the next letter.
 
-枚举结束，说明无法通过删除一个字母使得剩余字母出现次数相同，返回 `false`。
+If the enumeration ends, it means that it is impossible to make the counts of the remaining letters the same by deleting one letter, so return `false`.
 
-时间复杂度 $O(n + C^2)$，空间复杂度 $O(C)$，其中 $n$ 为字符串 $word$ 的长度，而 $C$ 为字符集的大小，本题中 $C = 26$。
+The time complexity is $O(n + C^2)$, and the space complexity is $O(C)$. Here, $n$ is the length of the string $word$, and $C$ is the size of the character set. In this problem, $C = 26$.
 
 <!-- tabs:start -->
 

@@ -1,75 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2664.The%20Knight%E2%80%99s%20Tour/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 回溯
-    - 矩阵
+    - Array
+    - Backtracking
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [2664. 巡逻的骑士 🔒](https://leetcode.cn/problems/the-knights-tour)
+# [2664. The Knight’s Tour 🔒](https://leetcode.com/problems/the-knights-tour)
 
-[English Version](/solution/2600-2699/2664.The%20Knight%E2%80%99s%20Tour/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个正整数 <code>m</code> 和 <code>n</code>&nbsp;，它们是一个 <strong>下标从 0 开始</strong> 的二维数组 <code>board</code> 的高度和宽度。还有一对正整数 <code>(r, c)</code> ，它们是骑士在棋盘上的起始位置。</p>
+<p>Given two positive integers <code>m</code> and <code>n</code> which are the height and width of a <strong>0-indexed</strong> 2D-array <code>board</code>, a pair of positive integers <code>(r, c)</code> which is the starting position of the knight on the board.</p>
 
-<p>你的任务是找到一个骑士的移动顺序，使得&nbsp;<code>board</code>&nbsp;中每个单元格都 <strong>恰好</strong> 被访问一次（起始单元格已被访问，<strong>不应</strong> 再次访问）。</p>
+<p>Your task is to find an order of movements for the knight, in a manner that every cell of the&nbsp;<code>board</code> gets visited <strong>exactly</strong> once (the starting cell is considered visited and you <strong>shouldn&#39;t</strong> visit it again).</p>
 
-<p>返回数组 <code>board</code> ，其中单元格的值显示从 0 开始访问该单元格的顺序（骑士的初始位置为 0）。</p>
+<p>Return <em>the array</em> <code>board</code> <em>in which the cells&#39; values show the order of visiting the cell starting from 0 (the initial place of the knight).</em></p>
 
-<p>注意，如果 <code>0 &lt;= r2 &lt;= m-1 且 0 &lt;= c2 &lt;= n-1</code>&nbsp;，并且 <code>min(abs(r1-r2), abs(c1-c2)) = 1</code> 且 <code>max(abs(r1-r2), abs(c1-c2)) = 2</code>&nbsp;，则骑士可以从单元格 <code>(r1, c1)</code> 移动到单元格 <code>(r2, c2)</code> 。</p>
+<p>Note that a <strong>knight</strong> can <strong>move</strong> from cell <code>(r1, c1)</code> to cell <code>(r2, c2)</code> if <code>0 &lt;= r2 &lt;= m - 1</code> and <code>0 &lt;= c2 &lt;= n - 1</code> and <code>min(abs(r1 - r2), abs(c1 - c2)) = 1</code> and <code>max(abs(r1 - r2), abs(c1 - c2)) = 2</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1 ：</strong></p>
+<p><strong>Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>m = 1, n = 1, r = 0, c = 0
-<b>输出：</b>[[0]]
-<b>解释</b>只有一个单元格，骑士最初在其中，因此 1x1 网格中只有一个 0。
+<strong>Input:</strong> m = 1, n = 1, r = 0, c = 0
+<strong>Output:</strong> [[0]]
+<strong>Explanation:</strong> There is only 1 cell and the knight is initially on it so there is only a 0 inside the 1x1 grid.
 </pre>
 
-<p><strong>示例 2 ：</strong></p>
+<p><strong>Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>m = 3, n = 4, r = 0, c = 0
-<b>输出：</b>[[0,3,6,9],[11,8,1,4],[2,5,10,7]]
-<b>解释：</b>按照以下移动顺序，我们可以访问整个棋盘。 
+<strong>Input:</strong> m = 3, n = 4, r = 0, c = 0
+<strong>Output:</strong> [[0,3,6,9],[11,8,1,4],[2,5,10,7]]
+<strong>Explanation:</strong> By the following order of movements we can visit the entire board.
 (0,0)-&gt;(1,2)-&gt;(2,0)-&gt;(0,1)-&gt;(1,3)-&gt;(2,1)-&gt;(0,2)-&gt;(2,3)-&gt;(1,1)-&gt;(0,3)-&gt;(2,2)-&gt;(1,0)</pre>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= m,&nbsp;n &lt;= 5</code></li>
 	<li><code>0 &lt;= r &lt;= m - 1</code></li>
 	<li><code>0 &lt;= c &lt;= n - 1</code></li>
-	<li>输入的数据保证在给定条件下至少存在一种访问所有单元格的移动顺序。</li>
+	<li>The inputs will be generated such that there exists at least one&nbsp;possible order of movements with the given condition</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：回溯
+### Solution 1: Backtracking
 
-我们创建一个二维数组 $g$，用于记录骑士的移动顺序，初始时 $g[r][c] = -1$，其余位置均为 $-1$。另外，我们还需要一个变量 $ok$，用于记录是否找到了一种方案。
+We create a two-dimensional array $g$, used to record the knight's movement order, initially $g[r][c] = -1$, and all other positions are set to $-1$ as well. Additionally, we need a variable $ok$ to record whether a solution has been found.
 
-接下来，我们从 $(r, c)$ 开始进行深度优先搜索，每次搜索位置 $(i, j)$ 时，我们先判断 $g[i][j]$ 是否等于 $m \times n - 1$，若是，说明我们已经找到了一种方案，此时将 $ok$ 置为 `true` 并且返回。否则我们枚举骑士的八个移动方向对应的位置 $(x, y)$，若满足 $0 \leq x \lt m$, $0 \leq y \lt n$，并且 $g[x][y]=-1$，那么我们将 $g[x][y]$ 更新为 $g[i][j]+1$，然后递归搜索位置 $(x, y)$。如果搜索结束后，变量 $ok$ 为 `true`，则直接返回。否则，我们将 $g[x][y]$ 重置为 $-1$，继续搜索其他方向。
+Next, we start depth-first search from $(r, c)$. Each time we search position $(i, j)$, we first check if $g[i][j]$ equals $m \times n - 1$. If so, it means we have found a solution, then we set $ok$ to `true` and return. Otherwise, we enumerate the knight's eight possible movement directions to position $(x, y)$. If $0 \leq x < m$, $0 \leq y < n$, and $g[x][y]=-1$, then we update $g[x][y]$ to $g[i][j]+1$, and recursively search position $(x, y)$. If after the search, the variable $ok$ is `true`, we return directly. Otherwise, we reset $g[x][y]$ to $-1$ and continue searching in other directions.
 
-最后返回二维数组 $g$ 即可。
+Finally, return the two-dimensional array $g$.
 
-时间复杂度 $O(8^{m \times n})$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 为题目给定的整数。
+The time complexity is $O(8^{m \times n})$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the integers given in the problem.
 
 <!-- tabs:start -->
 

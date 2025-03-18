@@ -1,82 +1,74 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1284.Minimum%20Number%20of%20Flips%20to%20Convert%20Binary%20Matrix%20to%20Zero%20Matrix/README.md
+difficulty: Hard
 rating: 1810
-source: 第 166 场周赛 Q4
+source: Weekly Contest 166 Q4
 tags:
-    - 位运算
-    - 广度优先搜索
-    - 数组
-    - 哈希表
-    - 矩阵
+    - Bit Manipulation
+    - Breadth-First Search
+    - Array
+    - Hash Table
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [1284. 转化为全零矩阵的最少反转次数](https://leetcode.cn/problems/minimum-number-of-flips-to-convert-binary-matrix-to-zero-matrix)
+# [1284. Minimum Number of Flips to Convert Binary Matrix to Zero Matrix](https://leetcode.com/problems/minimum-number-of-flips-to-convert-binary-matrix-to-zero-matrix)
 
-[English Version](/solution/1200-1299/1284.Minimum%20Number%20of%20Flips%20to%20Convert%20Binary%20Matrix%20to%20Zero%20Matrix/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个&nbsp;<code>m x n</code>&nbsp;的二进制矩阵&nbsp;<code>mat</code>。每一步，你可以选择一个单元格并将它反转（反转表示 <code>0</code> 变 <code>1</code> ，<code>1</code> 变 <code>0</code> ）。如果存在和它相邻的单元格，那么这些相邻的单元格也会被反转。相邻的两个单元格共享同一条边。</p>
+<p>Given a <code>m x n</code> binary matrix <code>mat</code>. In one step, you can choose one cell and flip it and all the four neighbors of it if they exist (Flip is changing <code>1</code> to <code>0</code> and <code>0</code> to <code>1</code>). A pair of cells are called neighbors if they share one edge.</p>
 
-<p>请你返回将矩阵&nbsp;<code>mat</code> 转化为全零矩阵的<em>最少反转次数</em>，如果无法转化为全零矩阵，请返回&nbsp;<code>-1</code>&nbsp;。</p>
+<p>Return the <em>minimum number of steps</em> required to convert <code>mat</code> to a zero matrix or <code>-1</code> if you cannot.</p>
 
-<p><strong>二进制矩阵</strong>&nbsp;的每一个格子要么是 <code>0</code> 要么是 <code>1</code> 。</p>
+<p>A <strong>binary matrix</strong> is a matrix with all cells equal to <code>0</code> or <code>1</code> only.</p>
 
-<p><strong>全零矩阵</strong>&nbsp;是所有格子都为 <code>0</code> 的矩阵。</p>
+<p>A <strong>zero matrix</strong> is a matrix with all cells equal to <code>0</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1284.Minimum%20Number%20of%20Flips%20to%20Convert%20Binary%20Matrix%20to%20Zero%20Matrix/images/matrix.png" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1284.Minimum%20Number%20of%20Flips%20to%20Convert%20Binary%20Matrix%20to%20Zero%20Matrix/images/matrix.png" style="width: 409px; height: 86px;" />
 <pre>
-<strong>输入：</strong>mat = [[0,0],[0,1]]
-<strong>输出：</strong>3
-<strong>解释：</strong>一个可能的解是反转 (1, 0)，然后 (0, 1) ，最后是 (1, 1) 。
+<strong>Input:</strong> mat = [[0,0],[0,1]]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> One possible solution is to flip (1, 0) then (0, 1) and finally (1, 1) as shown.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>mat = [[0]]
-<strong>输出：</strong>0
-<strong>解释：</strong>给出的矩阵是全零矩阵，所以你不需要改变它。
+<strong>Input:</strong> mat = [[0]]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> Given matrix is a zero matrix. We do not need to change it.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>mat = [[1,0,0],[1,0,0]]
-<strong>输出：</strong>-1
-<strong>解释：</strong>该矩阵无法转变成全零矩阵
+<strong>Input:</strong> mat = [[1,0,0],[1,0,0]]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> Given matrix cannot be a zero matrix.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>m ==&nbsp;mat.length</code></li>
-	<li><code>n ==&nbsp;mat[0].length</code></li>
-	<li><code>1 &lt;= m&nbsp;&lt;= 3</code></li>
-	<li><code>1 &lt;= n&nbsp;&lt;= 3</code></li>
-	<li><code>mat[i][j]</code>&nbsp;是 0 或 1 。</li>
+	<li><code>m == mat.length</code></li>
+	<li><code>n == mat[i].length</code></li>
+	<li><code>1 &lt;= m, n &lt;= 3</code></li>
+	<li><code>mat[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：状态压缩 + BFS
+### Solution 1
 
 <!-- tabs:start -->
 

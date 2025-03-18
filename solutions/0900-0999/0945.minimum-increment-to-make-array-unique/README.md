@@ -1,54 +1,47 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0945.Minimum%20Increment%20to%20Make%20Array%20Unique/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数组
-    - 计数
-    - 排序
+    - Greedy
+    - Array
+    - Counting
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [945. 使数组唯一的最小增量](https://leetcode.cn/problems/minimum-increment-to-make-array-unique)
+# [945. Minimum Increment to Make Array Unique](https://leetcode.com/problems/minimum-increment-to-make-array-unique)
 
-[English Version](/solution/0900-0999/0945.Minimum%20Increment%20to%20Make%20Array%20Unique/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 。每次 move 操作将会选择任意一个满足 <code>0 &lt;= i &lt; nums.length</code> 的下标 <code>i</code>，并将&nbsp;<code>nums[i]</code> 递增&nbsp;<code>1</code>。</p>
+<p>You are given an integer array <code>nums</code>. In one move, you can pick an index <code>i</code> where <code>0 &lt;= i &lt; nums.length</code> and increment <code>nums[i]</code> by <code>1</code>.</p>
 
-<p>返回使 <code>nums</code> 中的每个值都变成唯一的所需要的最少操作次数。</p>
+<p>Return <em>the minimum number of moves to make every value in </em><code>nums</code><em> <strong>unique</strong></em>.</p>
 
-<p>生成的测试用例保证答案在 32 位整数范围内。</p>
+<p>The test cases are generated so that the answer fits in a 32-bit integer.</p>
 
-<div class="original__bRMd">
-<div>
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,2]
-<strong>输出：</strong>1
-<strong>解释：</strong>经过一次 <em>move</em> 操作，数组将变为 [1, 2, 3]。
+<strong>Input:</strong> nums = [1,2,2]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> After 1 move, the array could be [1, 2, 3].
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,2,1,2,1,7]
-<strong>输出：</strong>6
-<strong>解释：</strong>经过 6 次 <em>move</em> 操作，数组将变为 [3, 4, 1, 2, 5, 7]。
-可以看出 5 次或 5 次以下的 <em>move</em> 操作是不能让数组的每个值唯一的。</pre>
-</div>
-</div>
+<strong>Input:</strong> nums = [3,2,1,2,1,7]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> After 6 moves, the array could be [3, 4, 1, 2, 5, 7].
+It can be shown that it is impossible for the array to have all unique values with 5 or less moves.
+</pre>
 
 <p>&nbsp;</p>
-<strong>提示：</strong>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -57,19 +50,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 贪心
+### Solution 1: Sorting + Greedy
 
-我们首先对数组 $\textit{nums}$ 进行排序，用一个变量 $\textit{y}$ 记录当前的最大值，初始时 $\textit{y} = -1$。
+First, we sort the array $\textit{nums}$, and use a variable $\textit{y}$ to record the current maximum value, initially $\textit{y} = -1$.
 
-然后遍历数组 $\textit{nums}$，对于每个元素 $x$，我们将 $y$ 更新为 $\max(y + 1, x)$，并将操作次数 $y - x$ 累加到结果中。
+Then, we iterate through the array $\textit{nums}$. For each element $x$, we update $y$ to $\max(y + 1, x)$, and accumulate the operation count $y - x$ into the result.
 
-遍历完成后，返回结果即可。
+After completing the iteration, we return the result.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 
@@ -151,17 +144,17 @@ function minIncrementForUnique(nums: number[]): number {
 
 <!-- solution:end -->
 
-<!-- solution:start -->
+<!-- source:start -->
 
-### 方法二：计数 + 贪心
+### Solution 2: Counting + Greedy
 
-根据题目描述，结果数组的最大值 $m = \max(\textit{nums}) + \textit{len}(\textit{nums})$，我们可以使用一个计数数组 $\textit{cnt}$ 来记录每个元素出现的次数。
+According to the problem description, the maximum value of the result array $m = \max(\textit{nums}) + \textit{len}(\textit{nums})$. We can use a counting array $\textit{cnt}$ to record the occurrence count of each element.
 
-然后从 $0$ 到 $m - 1$ 遍历，对于每个元素 $i$，如果它出现的次数 $\textit{cnt}[i]$ 大于 $1$，那么我们将 $\textit{cnt}[i] - 1$ 个元素增加到 $i + 1$，并将操作次数累加到结果中。
+Then, we iterate from $0$ to $m - 1$. For each element $i$, if its occurrence count $\textit{cnt}[i]$ is greater than $1$, then we add $\textit{cnt}[i] - 1$ elements to $i + 1$, and accumulate the operation count into the result.
 
-遍历完成后，返回结果即可。
+After completing the iteration, we return the result.
 
-时间复杂度 $O(m)$，空间复杂度 $O(m)$。其中 $m$ 是数组 $\textit{nums}$ 的长度加上数组的最大值。
+The time complexity is $O(m)$, and the space complexity is $O(m)$. Here, $m$ is the length of the array $\textit{nums}$ plus the maximum value in the array.
 
 <!-- tabs:start -->
 

@@ -1,98 +1,87 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2120.Execution%20of%20All%20Suffix%20Instructions%20Staying%20in%20a%20Grid/README.md
+difficulty: Medium
 rating: 1379
-source: 第 273 场周赛 Q2
+source: Weekly Contest 273 Q2
 tags:
-    - 字符串
-    - 模拟
+    - String
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2120. 执行所有后缀指令](https://leetcode.cn/problems/execution-of-all-suffix-instructions-staying-in-a-grid)
+# [2120. Execution of All Suffix Instructions Staying in a Grid](https://leetcode.com/problems/execution-of-all-suffix-instructions-staying-in-a-grid)
 
-[English Version](/solution/2100-2199/2120.Execution%20of%20All%20Suffix%20Instructions%20Staying%20in%20a%20Grid/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>现有一个 <code>n x n</code> 大小的网格，左上角单元格坐标 <code>(0, 0)</code> ，右下角单元格坐标 <code>(n - 1, n - 1)</code> 。给你整数 <code>n</code> 和一个整数数组 <code>startPos</code> ，其中 <code>startPos = [start<sub>row</sub>, start<sub>col</sub>]</code> 表示机器人最开始在坐标为 <code>(start<sub>row</sub>, start<sub>col</sub>)</code> 的单元格上。</p>
+<p>There is an <code>n x n</code> grid, with the top-left cell at <code>(0, 0)</code> and the bottom-right cell at <code>(n - 1, n - 1)</code>. You are given the integer <code>n</code> and an integer array <code>startPos</code> where <code>startPos = [start<sub>row</sub>, start<sub>col</sub>]</code> indicates that a robot is initially at cell <code>(start<sub>row</sub>, start<sub>col</sub>)</code>.</p>
 
-<p>另给你一个长度为 <code>m</code> 、下标从 <strong>0</strong> 开始的字符串 <code>s</code> ，其中 <code>s[i]</code> 是对机器人的第 <code>i</code> 条指令：<code>'L'</code>（向左移动），<code>'R'</code>（向右移动），<code>'U'</code>（向上移动）和 <code>'D'</code>（向下移动）。</p>
+<p>You are also given a <strong>0-indexed</strong> string <code>s</code> of length <code>m</code> where <code>s[i]</code> is the <code>i<sup>th</sup></code> instruction for the robot: <code>&#39;L&#39;</code> (move left), <code>&#39;R&#39;</code> (move right), <code>&#39;U&#39;</code> (move up), and <code>&#39;D&#39;</code> (move down).</p>
 
-<p>机器人可以从 <code>s</code> 中的任一第 <code>i</code> 条指令开始执行。它将会逐条执行指令直到 <code>s</code> 的末尾，但在满足下述条件之一时，机器人将会停止：</p>
+<p>The robot can begin executing from any <code>i<sup>th</sup></code> instruction in <code>s</code>. It executes the instructions one by one towards the end of <code>s</code> but it stops if either of these conditions is met:</p>
 
 <ul>
-	<li>下一条指令将会导致机器人移动到网格外。</li>
-	<li>没有指令可以执行。</li>
+	<li>The next instruction will move the robot off the grid.</li>
+	<li>There are no more instructions left to execute.</li>
 </ul>
 
-<p>返回一个长度为 <code>m</code> 的数组 <code>answer</code> ，其中 <code>answer[i]</code> 是机器人从第 <code>i</code>&nbsp;条指令 <strong>开始</strong>&nbsp;，可以执行的 <strong>指令数目</strong> 。</p>
+<p>Return <em>an array</em> <code>answer</code> <em>of length</em> <code>m</code> <em>where</em> <code>answer[i]</code> <em>is <strong>the number of instructions</strong> the robot can execute if the robot <strong>begins executing from</strong> the</em> <code>i<sup>th</sup></code> <em>instruction in</em> <code>s</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2120.Execution%20of%20All%20Suffix%20Instructions%20Staying%20in%20a%20Grid/images/1.png" style="width: 145px; height: 142px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2120.Execution%20of%20All%20Suffix%20Instructions%20Staying%20in%20a%20Grid/images/1.png" style="width: 145px; height: 142px;" />
 <pre>
-<strong>输入：</strong>n = 3, startPos = [0,1], s = "RRDDLU"
-<strong>输出：</strong>[1,5,4,3,1,0]
-<strong>解释：</strong>机器人从 startPos 出发，并从第 i 条指令开始执行：
-- 0: "<em><strong>R</strong></em>RDDLU" 在移动到网格外之前，只能执行一条 "R" 指令。
-- 1:  "<em><strong>RDDLU</strong></em>" 可以执行全部五条指令，机器人仍在网格内，最终到达 (0, 0) 。
-- 2:   "<em><strong>DDLU</strong></em>" 可以执行全部四条指令，机器人仍在网格内，最终到达 (0, 0) 。
-- 3:    "<em><strong>DLU</strong></em>" 可以执行全部三条指令，机器人仍在网格内，最终到达 (0, 0) 。
-- 4:     "<em><strong>L</strong></em>U" 在移动到网格外之前，只能执行一条 "L" 指令。
-- 5:      "U" 如果向上移动，将会移动到网格外。
+<strong>Input:</strong> n = 3, startPos = [0,1], s = &quot;RRDDLU&quot;
+<strong>Output:</strong> [1,5,4,3,1,0]
+<strong>Explanation:</strong> Starting from startPos and beginning execution from the i<sup>th</sup> instruction:
+- 0<sup>th</sup>: &quot;<u><strong>R</strong></u>RDDLU&quot;. Only one instruction &quot;R&quot; can be executed before it moves off the grid.
+- 1<sup>st</sup>:  &quot;<u><strong>RDDLU</strong></u>&quot;. All five instructions can be executed while it stays in the grid and ends at (1, 1).
+- 2<sup>nd</sup>:   &quot;<u><strong>DDLU</strong></u>&quot;. All four instructions can be executed while it stays in the grid and ends at (1, 0).
+- 3<sup>rd</sup>:    &quot;<u><strong>DLU</strong></u>&quot;. All three instructions can be executed while it stays in the grid and ends at (0, 0).
+- 4<sup>th</sup>:     &quot;<u><strong>L</strong></u>U&quot;. Only one instruction &quot;L&quot; can be executed before it moves off the grid.
+- 5<sup>th</sup>:      &quot;U&quot;. If moving up, it would move off the grid.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2120.Execution%20of%20All%20Suffix%20Instructions%20Staying%20in%20a%20Grid/images/2.png" style="width: 106px; height: 103px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2120.Execution%20of%20All%20Suffix%20Instructions%20Staying%20in%20a%20Grid/images/2.png" style="width: 106px; height: 103px;" />
 <pre>
-<strong>输入：</strong>n = 2, startPos = [1,1], s = "LURD"
-<strong>输出：</strong>[4,1,0,0]
-<strong>解释：</strong>
-- 0: "<em><strong>LURD</strong></em>"
-- 1:  "<em><strong>U</strong></em>RD"
-- 2:   "RD"
-- 3:    "D"
+<strong>Input:</strong> n = 2, startPos = [1,1], s = &quot;LURD&quot;
+<strong>Output:</strong> [4,1,0,0]
+<strong>Explanation:</strong>
+- 0<sup>th</sup>: &quot;<u><strong>LURD</strong></u>&quot;.
+- 1<sup>st</sup>:  &quot;<u><strong>U</strong></u>RD&quot;.
+- 2<sup>nd</sup>:   &quot;RD&quot;.
+- 3<sup>rd</sup>:    &quot;D&quot;.
 </pre>
 
-<p><strong>示例 3：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2120.Execution%20of%20All%20Suffix%20Instructions%20Staying%20in%20a%20Grid/images/3.png" style="width: 67px; height: 64px;" /></p>
-
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2120.Execution%20of%20All%20Suffix%20Instructions%20Staying%20in%20a%20Grid/images/3.png" style="width: 67px; height: 64px;" />
 <pre>
-<strong>输入：</strong>n = 1, startPos = [0,0], s = "LRUD"
-<strong>输出：</strong>[0,0,0,0]
-<strong>解释：</strong>无论机器人从哪条指令开始执行，都会移动到网格外。
+<strong>Input:</strong> n = 1, startPos = [0,0], s = &quot;LRUD&quot;
+<strong>Output:</strong> [0,0,0,0]
+<strong>Explanation:</strong> No matter which instruction the robot begins execution from, it would move off the grid.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == s.length</code></li>
 	<li><code>1 &lt;= n, m &lt;= 500</code></li>
 	<li><code>startPos.length == 2</code></li>
 	<li><code>0 &lt;= start<sub>row</sub>, start<sub>col</sub> &lt; n</code></li>
-	<li><code>s</code> 由 <code>'L'</code>、<code>'R'</code>、<code>'U'</code> 和 <code>'D'</code> 组成</li>
+	<li><code>s</code> consists of <code>&#39;L&#39;</code>, <code>&#39;R&#39;</code>, <code>&#39;U&#39;</code>, and <code>&#39;D&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

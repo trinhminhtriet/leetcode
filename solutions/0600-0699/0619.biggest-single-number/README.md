@@ -1,51 +1,44 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0619.Biggest%20Single%20Number/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [619. 只出现一次的最大数字](https://leetcode.cn/problems/biggest-single-number)
+# [619. Biggest Single Number](https://leetcode.com/problems/biggest-single-number)
 
-[English Version](/solution/0600-0699/0619.Biggest%20Single%20Number/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><code>MyNumbers</code> 表：</p>
+<p>Table: <code>MyNumbers</code></p>
 
-<div class="original__bRMd">
-<div>
 <pre>
 +-------------+------+
 | Column Name | Type |
 +-------------+------+
 | num         | int  |
 +-------------+------+
-该表可能包含重复项（换句话说，在SQL中，该表没有主键）。
-这张表的每一行都含有一个整数。
+This table may contain duplicates (In other words, there is no primary key for this table in SQL).
+Each row of this table contains an integer.
 </pre>
 
 <p>&nbsp;</p>
 
-<p><strong>单一数字</strong> 是在 <code>MyNumbers</code> 表中只出现一次的数字。</p>
+<p>A <strong>single number</strong> is a number that appeared only once in the <code>MyNumbers</code> table.</p>
 
-<p>找出最大的 <strong>单一数字</strong> 。如果不存在 <strong>单一数字</strong> ，则返回&nbsp;<code>null</code> 。</p>
+<p>Find the largest <strong>single number</strong>. If there is no <strong>single number</strong>, report <code>null</code>.</p>
 
-<p>查询结果如下例所示。</p>
+<p>The result format is in the following example.</p>
 <ptable> </ptable>
-
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-MyNumbers 表：
+<strong>Input:</strong> 
+MyNumbers table:
 +-----+
 | num |
 +-----+
@@ -58,20 +51,20 @@ MyNumbers 表：
 | 5   |
 | 6   |
 +-----+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-----+
 | num |
 +-----+
 | 6   |
 +-----+
-<strong>解释：</strong>单一数字有 1、4、5 和 6 。
-6 是最大的单一数字，返回 6 。
+<strong>Explanation:</strong> The single numbers are 1, 4, 5, and 6.
+Since 6 is the largest single number, we return it.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 MyNumbers table:
 +-----+
 | num |
@@ -84,28 +77,24 @@ MyNumbers table:
 | 3   |
 | 3   |
 +-----+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +------+
 | num  |
 +------+
 | null |
 +------+
-<strong>解释：</strong>输入的表中不存在单一数字，所以返回 null 。
+<strong>Explanation:</strong> There are no single numbers in the input table so we return null.
 </pre>
-</div>
-</div>
-
-<p>&nbsp;</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组 + 子查询
+### Solution 1: Grouping and Subquery
 
-我们可以先将 `MyNumbers` 表按照 `num` 进行分组统计，找出只出现一次的数字，然后使用子查询找出最大的数字即可。
+We can first group the `MyNumbers` table by `num` and count the number of occurrences of each number. Then, we can use a subquery to find the maximum number among the numbers that appear only once.
 
 <!-- tabs:start -->
 
@@ -129,9 +118,9 @@ FROM
 
 <!-- solution:start -->
 
-### 方法二：分组 + `CASE` 表达式
+### Solution 2: Grouping and `CASE` Expression
 
-与方法一类似，我们可以先将 `MyNumbers` 表按照 `num` 进行分组统计，然后使用 `CASE` 表达式，找出只出现一次的数字，然后按数字降序排序，取第一个即可。
+Similar to Solution 1, we can first group the `MyNumbers` table by `num` and count the number of occurrences of each number. Then, we can use a `CASE` expression to find the numbers that appear only once, sort them in descending order by number, and take the first one.
 
 <!-- tabs:start -->
 

@@ -1,81 +1,77 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1560.Most%20Visited%20Sector%20in%20%20a%20Circular%20Track/README.md
+difficulty: Easy
 rating: 1443
-source: 第 203 场周赛 Q1
+source: Weekly Contest 203 Q1
 tags:
-    - 数组
-    - 模拟
+    - Array
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [1560. 圆形赛道上经过次数最多的扇区](https://leetcode.cn/problems/most-visited-sector-in-a-circular-track)
+# [1560. Most Visited Sector in a Circular Track](https://leetcode.com/problems/most-visited-sector-in-a-circular-track)
 
-[English Version](/solution/1500-1599/1560.Most%20Visited%20Sector%20in%20%20a%20Circular%20Track/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>n</code> 和一个整数数组 <code>rounds</code> 。有一条圆形赛道由 <code>n</code> 个扇区组成，扇区编号从 <code>1</code> 到 <code>n</code> 。现将在这条赛道上举办一场马拉松比赛，该马拉松全程由 <code>m</code> 个阶段组成。其中，第 <code>i</code> 个阶段将会从扇区 <code>rounds[i - 1]</code> 开始，到扇区 <code>rounds[i]</code> 结束。举例来说，第 <code>1</code> 阶段从&nbsp;<code>rounds[0]</code>&nbsp;开始，到&nbsp;<code>rounds[1]</code>&nbsp;结束。</p>
+<p>Given an integer <code>n</code> and an integer array <code>rounds</code>. We have a circular track which consists of <code>n</code> sectors labeled from <code>1</code> to <code>n</code>. A marathon will be held on this track, the marathon consists of <code>m</code> rounds. The <code>i<sup>th</sup></code> round starts at sector <code>rounds[i - 1]</code> and ends at sector <code>rounds[i]</code>. For example, round 1 starts at sector <code>rounds[0]</code> and ends at sector <code>rounds[1]</code></p>
 
-<p>请你以数组形式返回经过次数最多的那几个扇区，按扇区编号 <strong>升序</strong> 排列。</p>
+<p>Return <em>an array of the most visited sectors</em> sorted in <strong>ascending</strong> order.</p>
 
-<p>注意，赛道按扇区编号升序逆时针形成一个圆（请参见第一个示例）。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1560.Most%20Visited%20Sector%20in%20%20a%20Circular%20Track/images/3rd45e.jpg" style="height: 341px; width: 433px;"></p>
-
-<pre><strong>输入：</strong>n = 4, rounds = [1,3,1,2]
-<strong>输出：</strong>[1,2]
-<strong>解释：</strong>本场马拉松比赛从扇区 1 开始。经过各个扇区的次序如下所示：
-1 --&gt; 2 --&gt; 3（阶段 1 结束）--&gt; 4 --&gt; 1（阶段 2 结束）--&gt; 2（阶段 3 结束，即本场马拉松结束）
-其中，扇区 1 和 2 都经过了两次，它们是经过次数最多的两个扇区。扇区 3 和 4 都只经过了一次。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>n = 2, rounds = [2,1,2,1,2,1,2,1,2]
-<strong>输出：</strong>[2]
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>n = 7, rounds = [1,3,5,7]
-<strong>输出：</strong>[1,2,3,4,5,6,7]
-</pre>
+<p>Notice that you circulate the track in ascending order of sector numbers in the counter-clockwise direction (See the first example).</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1560.Most%20Visited%20Sector%20in%20%20a%20Circular%20Track/images/tmp.jpg" style="width: 433px; height: 341px;" />
+<pre>
+<strong>Input:</strong> n = 4, rounds = [1,3,1,2]
+<strong>Output:</strong> [1,2]
+<strong>Explanation:</strong> The marathon starts at sector 1. The order of the visited sectors is as follows:
+1 --&gt; 2 --&gt; 3 (end of round 1) --&gt; 4 --&gt; 1 (end of round 2) --&gt; 2 (end of round 3 and the marathon)
+We can see that both sectors 1 and 2 are visited twice and they are the most visited sectors. Sectors 3 and 4 are visited only once.</pre>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 2, rounds = [2,1,2,1,2,1,2,1,2]
+<strong>Output:</strong> [2]
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 7, rounds = [1,3,5,7]
+<strong>Output:</strong> [1,2,3,4,5,6,7]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 100</code></li>
 	<li><code>1 &lt;= m &lt;= 100</code></li>
 	<li><code>rounds.length == m + 1</code></li>
 	<li><code>1 &lt;= rounds[i] &lt;= n</code></li>
-	<li><code>rounds[i] != rounds[i + 1]</code> ，其中 <code>0 &lt;= i &lt; m</code></li>
+	<li><code>rounds[i] != rounds[i + 1]</code> for <code>0 &lt;= i &lt; m</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：考虑开始、结束的位置关系
+### Solution 1: Considering the Relationship Between Start and End Positions
 
-由于每个阶段的结束位置是下一个阶段的开始位置，并且每个阶段都是逆时针方向的，所以我们可以根据开始和结束的位置关系来确定每个扇区的经过次数。
+Since the end position of each stage is the start position of the next stage, and each stage is in a counterclockwise direction, we can determine the number of times each sector is passed based on the relationship between the start and end positions.
 
-如果 $\textit{rounds}[0] \leq \textit{rounds}[m]$，那么从 $\textit{rounds}[0]$ 开始，到 $\textit{rounds}[m]$ 结束的所有扇区经过的次数是最多的，我们可以直接返回这个区间内的所有扇区。
+If $\textit{rounds}[0] \leq \textit{rounds}[m]$, then the sectors from $\textit{rounds}[0]$ to $\textit{rounds}[m]$ are passed the most times, and we can directly return all sectors within this interval.
 
-否则，从 $1$ 开始，到 $\textit{rounds}[m]$ 结束的所有扇区和从 $\textit{rounds}[0]$ 开始，到 $n$ 结束的所有扇区的并集是经过次数最多的，我们可以返回这两个区间的并集。
+Otherwise, the sectors from $1$ to $\textit{rounds}[m]$ and the sectors from $\textit{rounds}[0]$ to $n$ form the union of the most passed sectors, and we can return the union of these two intervals.
 
-时间复杂度 $O(n)$，其中 $n$ 是扇区的个数。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the number of sectors. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

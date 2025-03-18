@@ -1,84 +1,76 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1977.Number%20of%20Ways%20to%20Separate%20Numbers/README.md
+difficulty: Hard
 rating: 2817
-source: 第 59 场双周赛 Q4
+source: Biweekly Contest 59 Q4
 tags:
-    - 字符串
-    - 动态规划
-    - 后缀数组
+    - String
+    - Dynamic Programming
+    - Suffix Array
 ---
 
 <!-- problem:start -->
 
-# [1977. 划分数字的方案数](https://leetcode.cn/problems/number-of-ways-to-separate-numbers)
+# [1977. Number of Ways to Separate Numbers](https://leetcode.com/problems/number-of-ways-to-separate-numbers)
 
-[English Version](/solution/1900-1999/1977.Number%20of%20Ways%20to%20Separate%20Numbers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你写下了若干 <strong>正整数</strong>&nbsp;，并将它们连接成了一个字符串&nbsp;<code>num</code>&nbsp;。但是你忘记给这些数字之间加逗号了。你只记得这一列数字是 <strong>非递减</strong>&nbsp;的且&nbsp;<strong>没有</strong> 任何数字有前导 0 。</p>
+<p>You wrote down many <strong>positive</strong> integers in a string called <code>num</code>. However, you realized that you forgot to add commas to seperate the different numbers. You remember that the list of integers was <strong>non-decreasing</strong> and that <strong>no</strong> integer had leading zeros.</p>
 
-<p>请你返回有多少种可能的 <strong>正整数数组</strong>&nbsp;可以得到字符串&nbsp;<code>num</code>&nbsp;。由于答案可能很大，将结果对 <code>10<sup>9</sup> + 7</code>&nbsp;<b>取余</b>&nbsp;后返回。</p>
+<p>Return <em>the <strong>number of possible lists of integers</strong> that you could have written down to get the string </em><code>num</code>. Since the answer may be large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>num = "327"
-<b>输出：</b>2
-<b>解释：</b>以下为可能的方案：
+<pre>
+<strong>Input:</strong> num = &quot;327&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> You could have written down the numbers:
 3, 27
 327
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>num = "094"
-<b>输出：</b>0
-<b>解释：</b>不能有数字有前导 0 ，且所有数字均为正数。
+<pre>
+<strong>Input:</strong> num = &quot;094&quot;
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> No numbers can have leading zeros and all numbers must be positive.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><b>输入：</b>num = "0"
-<b>输出：</b>0
-<strong>解释：</strong>不能有数字有前导 0 ，且所有数字均为正数。
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><b>输入：</b>num = "9999999999999"
-<b>输出：</b>101
+<pre>
+<strong>Input:</strong> num = &quot;0&quot;
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> No numbers can have leading zeros and all numbers must be positive.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num.length &lt;= 3500</code></li>
-	<li><code>num</code>&nbsp;只含有数字&nbsp;<code>'0'</code> 到&nbsp;<code>'9'</code>&nbsp;。</li>
+	<li><code>num</code> consists of digits <code>&#39;0&#39;</code> through <code>&#39;9&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划 + 前缀和
+### Solution 1: Dynamic Programming + Prefix Sum
 
-定义 $dp[i][j]$ 表示字符串 `num` 的前 $i$ 个字符，且最后一个数字的长度为 $j$ 时的方案数。显然答案为 $\sum_{j=0}^{n} dp[n][j]$。初始值 $dp[0][0] = 1$。
+Define $dp[i][j]$ to represent the number of ways to partition the first $i$ characters of the string `num` such that the length of the last number is $j$. Clearly, the answer is $\sum_{j=0}^{n} dp[n][j]$. The initial value is $dp[0][0] = 1$.
 
-对于 $dp[i][j]$，对应的上一个数的结尾应该是 $i-j$，我们可以枚举 $dp[i-j][k]$，其中 $k\le j$。对于 $k \lt j$ 的部分，即长度小于 $j$ 的方案数可以直接加给 $dp[i][j]$，即 $dp[i][j] = \sum_{k=0}^{j-1} dp[i-j][k]$。因为前一个数字更短，也就意味着它比当前数更小。这里可以用前缀和优化。
+For $dp[i][j]$, the end of the previous number should be $i-j$. We can enumerate $dp[i-j][k]$, where $k \le j$. For the part where $k < j$, i.e., the number of ways with a length less than $j$ can be directly added to $dp[i][j]$, i.e., $dp[i][j] = \sum_{k=0}^{j-1} dp[i-j][k]$. Because the previous number is shorter, it means it is smaller than the current number. Here, prefix sum can be used for optimization.
 
-但是当 $k=j$ 时，我们需要判断同样长度的两个数字的大小关系。如果前一个数字比当前数字大，那么这种情况是不合法的，我们不应该将其加给 $dp[i][j]$。否则，我们可以将其加给 $dp[i][j]$。这里我们可以先用 $O(n^2)$ 的时间预处理得到“最长公共前缀”，然后用 $O(1)$ 的时间判断两个同样长度的数字的大小关系。
+However, when $k = j$, we need to compare the sizes of the two numbers of the same length. If the previous number is larger than the current number, this situation is invalid, and we should not add it to $dp[i][j]$. Otherwise, we can add it to $dp[i][j]$. Here, we can preprocess the "longest common prefix" in $O(n^2)$ time, and then compare the sizes of two numbers of the same length in $O(1)$ time.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为字符串 `num` 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Where $n$ is the length of the string `num`.
 
 <!-- tabs:start -->
 

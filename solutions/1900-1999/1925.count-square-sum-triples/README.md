@@ -1,47 +1,44 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1925.Count%20Square%20Sum%20Triples/README.md
+difficulty: Easy
 rating: 1323
-source: 第 56 场双周赛 Q1
+source: Biweekly Contest 56 Q1
 tags:
-    - 数学
-    - 枚举
+    - Math
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [1925. 统计平方和三元组的数目](https://leetcode.cn/problems/count-square-sum-triples)
+# [1925. Count Square Sum Triples](https://leetcode.com/problems/count-square-sum-triples)
 
-[English Version](/solution/1900-1999/1925.Count%20Square%20Sum%20Triples/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个 <strong>平方和三元组</strong> <code>(a,b,c)</code> 指的是满足 <code>a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup></code> 的 <strong>整数 </strong>三元组 <code>a</code>，<code>b</code> 和 <code>c</code> 。</p>
+<p>A <strong>square triple</strong> <code>(a,b,c)</code> is a triple where <code>a</code>, <code>b</code>, and <code>c</code> are <strong>integers</strong> and <code>a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup></code>.</p>
 
-<p>给你一个整数 <code>n</code> ，请你返回满足<em> </em><code>1 &lt;= a, b, c &lt;= n</code> 的 <strong>平方和三元组</strong> 的数目。</p>
+<p>Given an integer <code>n</code>, return <em>the number of <strong>square triples</strong> such that </em><code>1 &lt;= a, b, c &lt;= n</code>.</p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>n = 5
-<b>输出：</b>2
-<b>解释：</b>平方和三元组为 (3,4,5) 和 (4,3,5) 。
+<pre>
+<strong>Input:</strong> n = 5
+<strong>Output:</strong> 2
+<strong>Explanation</strong>: The square triples are (3,4,5) and (4,3,5).
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>n = 10
-<b>输出：</b>4
-<b>解释：</b>平方和三元组为 (3,4,5)，(4,3,5)，(6,8,10) 和 (8,6,10) 。
+<pre>
+<strong>Input:</strong> n = 10
+<strong>Output:</strong> 4
+<strong>Explanation</strong>: The square triples are (3,4,5), (4,3,5), (6,8,10), and (8,6,10).
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 250</code></li>
@@ -49,17 +46,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们在 $[1, n)$ 的范围内枚举 $a$ 和 $b$，然后计算 $c = \sqrt{a^2 + b^2}$，如果 $c$ 是整数且 $c \leq n$，那么就找到了一个平方和三元组，答案加一。
+We enumerate $a$ and $b$ in the range $[1, n)$, then calculate $c = \sqrt{a^2 + b^2}$. If $c$ is an integer and $c \leq n$, then we have found a Pythagorean triplet, and we increment the answer by one.
 
-枚举结束后，返回答案即可。
+After the enumeration is complete, return the answer.
 
-时间复杂度 $O(n^2)$，其中 $n$ 是给定的整数。空间复杂度 $O(1)$。
+The time complexity is $O(n^2)$, where $n$ is the given integer. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

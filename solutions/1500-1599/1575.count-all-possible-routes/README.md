@@ -1,101 +1,95 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1575.Count%20All%20Possible%20Routes/README.md
+difficulty: Hard
 rating: 2055
-source: 第 34 场双周赛 Q4
+source: Biweekly Contest 34 Q4
 tags:
-    - 记忆化搜索
-    - 数组
-    - 动态规划
+    - Memoization
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1575. 统计所有可行路径](https://leetcode.cn/problems/count-all-possible-routes)
+# [1575. Count All Possible Routes](https://leetcode.com/problems/count-all-possible-routes)
 
-[English Version](/solution/1500-1599/1575.Count%20All%20Possible%20Routes/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <strong>互不相同</strong>&nbsp;的整数数组，其中&nbsp;<code>locations[i]</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;个城市的位置。同时给你&nbsp;<code>start</code>，<code>finish</code>&nbsp;和&nbsp;<code>fuel</code>&nbsp;分别表示出发城市、目的地城市和你初始拥有的汽油总量</p>
+<p>You are given an array of <strong>distinct</strong> positive integers locations where <code>locations[i]</code> represents the position of city <code>i</code>. You are also given integers <code>start</code>, <code>finish</code> and <code>fuel</code> representing the starting city, ending city, and the initial amount of fuel you have, respectively.</p>
 
-<p>每一步中，如果你在城市 <code>i</code>&nbsp;，你可以选择任意一个城市 <code>j</code>&nbsp;，满足 &nbsp;<code>j != i</code>&nbsp;且&nbsp;<code>0 &lt;= j &lt; locations.length</code>&nbsp;，并移动到城市&nbsp;<code>j</code>&nbsp;。从城市&nbsp;<code>i</code>&nbsp;移动到&nbsp;<code>j</code>&nbsp;消耗的汽油量为&nbsp;<code>|locations[i] - locations[j]|</code>，<code>|x|</code>&nbsp;表示&nbsp;<code>x</code>&nbsp;的绝对值。</p>
+<p>At each step, if you are at city <code>i</code>, you can pick any city <code>j</code> such that <code>j != i</code> and <code>0 &lt;= j &lt; locations.length</code> and move to city <code>j</code>. Moving from city <code>i</code> to city <code>j</code> reduces the amount of fuel you have by <code>|locations[i] - locations[j]|</code>. Please notice that <code>|x|</code> denotes the absolute value of <code>x</code>.</p>
 
-<p>请注意，&nbsp;<code>fuel</code>&nbsp;任何时刻都&nbsp;<strong>不能</strong>&nbsp;为负，且你&nbsp;<strong>可以</strong>&nbsp;经过任意城市超过一次（包括&nbsp;<code>start</code>&nbsp;和&nbsp;<code>finish</code>&nbsp;）。</p>
+<p>Notice that <code>fuel</code> <strong>cannot</strong> become negative at any point in time, and that you are <strong>allowed</strong> to visit any city more than once (including <code>start</code> and <code>finish</code>).</p>
 
-<p>请你返回从<em>&nbsp;</em><code>start</code>&nbsp;到&nbsp;<code>finish</code>&nbsp;所有可能路径的数目。</p>
-
-<p>由于答案可能很大， 请将它对&nbsp;<code>10^9 + 7</code>&nbsp;取余后返回。</p>
+<p>Return <em>the count of all possible routes from </em><code>start</code> <em>to</em> <code>finish</code>. Since the answer may be too large, return it modulo <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>locations = [2,3,6,8,4], start = 1, finish = 3, fuel = 5
-<strong>输出：</strong>4
-<strong>解释：</strong>以下为所有可能路径，每一条都用了 5 单位的汽油：
+<strong>Input:</strong> locations = [2,3,6,8,4], start = 1, finish = 3, fuel = 5
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The following are all possible routes, each uses 5 units of fuel:
 1 -&gt; 3
 1 -&gt; 2 -&gt; 3
 1 -&gt; 4 -&gt; 3
 1 -&gt; 4 -&gt; 2 -&gt; 3
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>locations = [4,3,1], start = 1, finish = 0, fuel = 6
-<strong>输出：</strong>5
-<strong>解释：</strong>以下为所有可能的路径：
-1 -&gt; 0，使用汽油量为 fuel = 1
-1 -&gt; 2 -&gt; 0，使用汽油量为 fuel = 5
-1 -&gt; 2 -&gt; 1 -&gt; 0，使用汽油量为 fuel = 5
-1 -&gt; 0 -&gt; 1 -&gt; 0，使用汽油量为 fuel = 3
-1 -&gt; 0 -&gt; 1 -&gt; 0 -&gt; 1 -&gt; 0，使用汽油量为 fuel = 5
+<strong>Input:</strong> locations = [4,3,1], start = 1, finish = 0, fuel = 6
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The following are all possible routes:
+1 -&gt; 0, used fuel = 1
+1 -&gt; 2 -&gt; 0, used fuel = 5
+1 -&gt; 2 -&gt; 1 -&gt; 0, used fuel = 5
+1 -&gt; 0 -&gt; 1 -&gt; 0, used fuel = 3
+1 -&gt; 0 -&gt; 1 -&gt; 0 -&gt; 1 -&gt; 0, used fuel = 5
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>locations = [5,2,1], start = 0, finish = 2, fuel = 3
-<strong>输出：</strong>0
-<strong>解释：</strong>没有办法只用 3 单位的汽油从 0 到达 2 。因为最短路径需要 4 单位的汽油。</pre>
+<strong>Input:</strong> locations = [5,2,1], start = 0, finish = 2, fuel = 3
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> It is impossible to get from 0 to 2 using only 3 units of fuel since the shortest route needs 4 units of fuel.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= locations.length &lt;= 100</code></li>
 	<li><code>1 &lt;= locations[i] &lt;= 10<sup>9</sup></code></li>
-	<li>所有&nbsp;<code>locations</code>&nbsp;中的整数 <strong>互不相同</strong>&nbsp;。</li>
-	<li><code>0 &lt;= start, finish &lt;&nbsp;locations.length</code></li>
+	<li>All integers in <code>locations</code> are <strong>distinct</strong>.</li>
+	<li><code>0 &lt;= start, finish &lt; locations.length</code></li>
 	<li><code>1 &lt;= fuel &lt;= 200</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization
 
-我们设计一个函数 $dfs(i, k)$，表示从城市 $i$ 出发，剩余汽油量为 $k$ 时，到达目的地 $finish$ 的路径数。那么答案就是 $dfs(start, fuel)$。
+We design a function $dfs(i, k)$, which represents the number of paths from city $i$ with $k$ remaining fuel to the destination $finish$. So the answer is $dfs(start, fuel)$.
 
-函数 $dfs(i, k)$ 的计算过程如下：
+The process of calculating the function $dfs(i, k)$ is as follows:
 
--   如果 $k \lt |locations[i] - locations[finish]|$，那么返回 $0$。
--   如果 $i = finish$，那么答案路径数初始时为 $1$，否则为 $0$。
--   然后，我们遍历所有城市 $j$，如果 $j \ne i$，那么我们可以从城市 $i$ 移动到城市 $j$，此时剩余汽油量为 $k - |locations[i] - locations[j]|$，那么我们可以将答案路径数加上 $dfs(j, k - |locations[i] - locations[j]|)$。
--   最后，我们返回答案路径数。
+-   If $k \lt |locations[i] - locations[finish]|$, then return $0$.
+-   If $i = finish$, then the number of paths is $1$ at the beginning, otherwise it is $0$.
+-   Then, we traverse all cities $j$. If $j \ne i$, then we can move from city $i$ to city $j$, and the remaining fuel is $k - |locations[i] - locations[j]|$. Then we can add the number of paths to the answer $dfs(j, k - |locations[i] - locations[j]|)$.
+-   Finally, we return the number of paths to the answer.
 
-为了避免重复计算，我们可以使用记忆化搜索。
+To avoid repeated calculations, we can use memoization.
 
-时间复杂度 $O(n^2 \times m)$，空间复杂度 $O(n \times m)$。其中 $n$ 和 $m$ 分别是数组 $locations$ 和 $fuel$ 的大小。
+The time complexity is $O(n^2 \times m)$, and the space complexity is $O(n \times m)$. Where $n$ and $m$ are the size of the array $locations$ and $fuel$ respectively.
 
 <!-- tabs:start -->
 
@@ -262,17 +256,17 @@ function countRoutes(locations: number[], start: number, finish: number, fuel: n
 
 <!-- solution:start -->
 
-### 方法二：动态规划
+### Solution 2: Dynamic Programming
 
-我们也可以将方法一的记忆化搜索转换为动态规划。
+We can also convert the memoization of solution 1 into dynamic programming.
 
-我们定义 $f[i][k]$ 表示从城市 $i$ 出发，剩余汽油量为 $k$ 时，到达目的地 $finish$ 的路径数。那么答案就是 $f[start][fuel]$。初始时 $f[finish][k]=1$，其余均为 $0$。
+We define $f[i][k]$ represents the number of paths from city $i$ with $k$ remaining fuel to the destination $finish$. So the answer is $f[start][fuel]$. Initially $f[finish][k]=1$, others are $0$.
 
-接下来，我们从小到大枚举剩余汽油量 $k$，然后枚举所有的城市 $i$，对于每个城市 $i$，我们枚举所有的城市 $j$，如果 $j \ne i$，并且 $|locations[i] - locations[j]| \le k$，那么我们可以从城市 $i$ 移动到城市 $j$，此时剩余汽油量为 $k - |locations[i] - locations[j]|$，那么我们可以将答案路径数加上 $f[j][k - |locations[i] - locations[j]|]$。
+Next, we enumerate the remaining fuel $k$ from small to large, and then enumerate all cities $i$. For each city $i$, we enumerate all cities $j$. If $j \ne i$, and $|locations[i] - locations[j]| \le k$, then we can move from city $i$ to city $j$, and the remaining fuel is $k - |locations[i] - locations[j]|$. Then we can add the number of paths to the answer $f[j][k - |locations[i] - locations[j]|]$.
 
-最后，我们返回答案路径数 $f[start][fuel]$ 即可。
+Finally, we return the number of paths to the answer $f[start][fuel]$.
 
-时间复杂度 $O(n^2 \times m)$，空间复杂度 $O(n \times m)$。其中 $n$ 和 $m$ 分别是数组 $locations$ 和 $fuel$ 的大小。
+The time complexity is $O(n^2 \times m)$, and the space complexity is $O(n \times m)$. Where $n$ and $m$ are the size of the array $locations$ and $fuel$ respectively.
 
 <!-- tabs:start -->
 

@@ -1,72 +1,67 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0393.UTF-8%20Validation/README.md
+difficulty: Medium
 tags:
-    - 位运算
-    - 数组
+    - Bit Manipulation
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [393. UTF-8 编码验证](https://leetcode.cn/problems/utf-8-validation)
+# [393. UTF-8 Validation](https://leetcode.com/problems/utf-8-validation)
 
-[English Version](/solution/0300-0399/0393.UTF-8%20Validation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个表示数据的整数数组&nbsp;<code>data</code>&nbsp;，返回它是否为有效的 <strong>UTF-8</strong> 编码。</p>
+<p>Given an integer array <code>data</code> representing the data, return whether it is a valid <strong>UTF-8</strong> encoding (i.e. it translates to a sequence of valid UTF-8 encoded characters).</p>
 
-<p><strong>UTF-8</strong> 中的一个字符可能的长度为 <strong>1 到 4 字节</strong>，遵循以下的规则：</p>
+<p>A character in <strong>UTF8</strong> can be from <strong>1 to 4 bytes</strong> long, subjected to the following rules:</p>
 
 <ol>
-	<li>对于 <strong>1 字节</strong>&nbsp;的字符，字节的第一位设为 0 ，后面 7 位为这个符号的 unicode 码。</li>
-	<li>对于 <strong>n 字节</strong>&nbsp;的字符 (n &gt; 1)，第一个字节的前 n 位都设为1，第 n+1 位设为 0 ，后面字节的前两位一律设为 10 。剩下的没有提及的二进制位，全部为这个符号的 unicode 码。</li>
+	<li>For a <strong>1-byte</strong> character, the first bit is a <code>0</code>, followed by its Unicode code.</li>
+	<li>For an <strong>n-bytes</strong> character, the first <code>n</code> bits are all one&#39;s, the <code>n + 1</code> bit is <code>0</code>, followed by <code>n - 1</code> bytes with the most significant <code>2</code> bits being <code>10</code>.</li>
 </ol>
 
-<p>这是 UTF-8 编码的工作方式：</p>
+<p>This is how the UTF-8 encoding would work:</p>
 
 <pre>
-<code>      </code>Number of Bytes<code>  |        UTF-8 octet sequence
+     Number of Bytes   |        UTF-8 Octet Sequence
                        |              (binary)
-   --------------------+---------------------------------------------
-            1          | 0xxxxxxx
-            2          | 110xxxxx 10xxxxxx
-            3          | 1110xxxx 10xxxxxx 10xxxxxx
-            4          | 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-</code></pre>
-
-<p><code>x</code>&nbsp;表示二进制形式的一位，可以是 <code>0</code>&nbsp;或 <code>1</code>。</p>
-
-<p><strong>注意：</strong>输入是整数数组。只有每个整数的 <strong>最低 8 个有效位</strong> 用来存储数据。这意味着每个整数只表示 1 字节的数据。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>data = [197,130,1]
-<strong>输出：</strong>true
-<strong>解释：</strong>数据表示字节序列:<strong>11000101 10000010 00000001</strong>。
-这是有效的 utf-8 编码，为一个 2 字节字符，跟着一个 1 字节字符。
+   --------------------+-----------------------------------------
+            1          |   0xxxxxxx
+            2          |   110xxxxx 10xxxxxx
+            3          |   1110xxxx 10xxxxxx 10xxxxxx
+            4          |   11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><code>x</code> denotes a bit in the binary form of a byte that may be either <code>0</code> or <code>1</code>.</p>
+
+<p><strong>Note: </strong>The input is an array of integers. Only the <strong>least significant 8 bits</strong> of each integer is used to store the data. This means each integer represents only 1 byte of data.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>data = [235,140,4]
-<strong>输出：</strong>false
-<strong>解释：</strong>数据表示 8 位的序列: <strong>11101011 10001100 00000100</strong>.
-前 3 位都是 1 ，第 4 位为 0 表示它是一个 3 字节字符。
-下一个字节是开头为 10 的延续字节，这是正确的。
-但第二个延续字节不以 10 开头，所以是不符合规则的。
+<strong>Input:</strong> data = [197,130,1]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> data represents the octet sequence: 11000101 10000010 00000001.
+It is a valid utf-8 encoding for a 2-bytes character followed by a 1-byte character.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> data = [235,140,4]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> data represented the octet sequence: 11101011 10001100 00000100.
+The first 3 bits are all one&#39;s and the 4th bit is 0 means it is a 3-bytes character.
+The next byte is a continuation byte which starts with 10 and that&#39;s correct.
+But the second continuation byte does not start with 10, so it is invalid.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= data.length &lt;= 2 * 10<sup>4</sup></code></li>
@@ -75,26 +70,26 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：一次遍历
+### Solution 1: Single Pass
 
-我们用一个变量 $cnt$ 记录当前需要填充的以 $10$ 开头的字节的个数，初始时 $cnt = 0$。
+We use a variable $cnt$ to record the current number of bytes that need to be filled starting with $10$, initially $cnt = 0$.
 
-遍历数组中的每个整数，对于每个整数 $v$：
+For each integer $v$ in the array:
 
--   如果 $cnt > 0$，则判断 $v$ 是否以 $10$ 开头，如果不是，则返回 `false`，否则 $cnt$ 减一。
--   如果 $v$ 的最高位为 $0$，则 $cnt = 0$。
--   如果 $v$ 的最高两位为 $110$，则 $cnt = 1$。
--   如果 $v$ 的最高三位为 $1110$，则 $cnt = 2$。
--   如果 $v$ 的最高四位为 $11110$，则 $cnt = 3$。
--   否则，返回 `false`。
+-   If $cnt > 0$, then check if $v$ starts with $10$. If not, return `false`, otherwise decrement $cnt$.
+-   If the highest bit of $v$ is $0$, then $cnt = 0$.
+-   If the highest two bits of $v$ are $110$, then $cnt = 1$.
+-   If the highest three bits of $v$ are $1110$, then $cnt = 2$.
+-   If the highest four bits of $v$ are $11110$, then $cnt = 3$.
+-   Otherwise, return `false`.
 
-最后，如果 $cnt = 0$，则返回 `true`，否则返回 `false`。
+Finally, if $cnt = 0$, return `true`, otherwise return `false`.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 `data` 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array `data`. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

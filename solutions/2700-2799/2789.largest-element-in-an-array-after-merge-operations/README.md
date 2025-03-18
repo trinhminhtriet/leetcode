@@ -1,60 +1,57 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2789.Largest%20Element%20in%20an%20Array%20after%20Merge%20Operations/README.md
+difficulty: Medium
 rating: 1484
-source: 第 355 场周赛 Q2
+source: Weekly Contest 355 Q2
 tags:
-    - 贪心
-    - 数组
+    - Greedy
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2789. 合并后数组中的最大元素](https://leetcode.cn/problems/largest-element-in-an-array-after-merge-operations)
+# [2789. Largest Element in an Array after Merge Operations](https://leetcode.com/problems/largest-element-in-an-array-after-merge-operations)
 
-[English Version](/solution/2700-2799/2789.Largest%20Element%20in%20an%20Array%20after%20Merge%20Operations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始、由正整数组成的数组 <code>nums</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> array <code>nums</code> consisting of positive integers.</p>
 
-<p>你可以在数组上执行下述操作 <strong>任意</strong> 次：</p>
+<p>You can do the following operation on the array <strong>any</strong> number of times:</p>
 
 <ul>
-	<li>选中一个同时满足&nbsp;<code>0 &lt;= i &lt; nums.length - 1</code> 和 <code>nums[i] &lt;= nums[i + 1]</code> 的整数 <code>i</code> 。将元素 <code>nums[i + 1]</code> 替换为 <code>nums[i] + nums[i + 1]</code> ，并从数组中删除元素 <code>nums[i]</code> 。</li>
+	<li>Choose an integer <code>i</code> such that <code>0 &lt;= i &lt; nums.length - 1</code> and <code>nums[i] &lt;= nums[i + 1]</code>. Replace the element <code>nums[i + 1]</code> with <code>nums[i] + nums[i + 1]</code> and delete the element <code>nums[i]</code> from the array.</li>
 </ul>
 
-<p>返回你可以从最终数组中获得的 <strong>最大</strong> 元素的值。</p>
+<p>Return <em>the value of the <b>largest</b> element that you can possibly obtain in the final array.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>nums = [2,3,7,9,3]
-<strong>输出：</strong>21
-<strong>解释：</strong>我们可以在数组上执行下述操作：
-- 选中 i = 0 ，得到数组 nums = [<strong><em>5</em></strong>,7,9,3] 。
-- 选中 i = 1 ，得到数组 nums = [5,<em><strong>16</strong></em>,3] 。
-- 选中 i = 0 ，得到数组 nums = [<em><strong>21</strong></em>,3] 。
-最终数组中的最大元素是 21 。可以证明我们无法获得更大的元素。
+<pre>
+<strong>Input:</strong> nums = [2,3,7,9,3]
+<strong>Output:</strong> 21
+<strong>Explanation:</strong> We can apply the following operations on the array:
+- Choose i = 0. The resulting array will be nums = [<u>5</u>,7,9,3].
+- Choose i = 1. The resulting array will be nums = [5,<u>16</u>,3].
+- Choose i = 0. The resulting array will be nums = [<u>21</u>,3].
+The largest element in the final array is 21. It can be shown that we cannot obtain a larger element.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>nums = [5,3,3]
-<strong>输出：</strong>11
-<strong>解释：</strong>我们可以在数组上执行下述操作：
-- 选中 i = 1 ，得到数组 nums = [5,<em><strong>6</strong></em>] 。
-- 选中 i = 0 ，得到数组 nums = [<em><strong>11</strong></em>] 。
-最终数组中只有一个元素，即 11 。
+<pre>
+<strong>Input:</strong> nums = [5,3,3]
+<strong>Output:</strong> 11
+<strong>Explanation:</strong> We can do the following operations on the array:
+- Choose i = 1. The resulting array will be nums = [5,<u>6</u>].
+- Choose i = 0. The resulting array will be nums = [<u>11</u>].
+There is only one element in the final array, which is 11.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -63,19 +60,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：倒序合并
+### Solution 1: Merge in Reverse Order
 
-根据题目描述，为了最大化合并后的数组中的最大元素，我们应该先合并右侧的元素，使得右侧的元素尽可能大，从而尽可能多地执行合并操作，最终得到最大的元素。
+According to the problem description, in order to maximize the maximum element in the merged array, we should merge the elements on the right first, making the elements on the right as large as possible, so as to perform as many merge operations as possible and finally get the maximum element.
 
-因此，我们可以从右向左遍历数组，对于每个位置 $i$，其中 $i \in [0, n - 2]$，如果 $nums[i] \leq nums[i + 1]$，我们就将 $nums[i]$ 更新为 $nums[i] + nums[i + 1]$。这样做，相当于将 $nums[i]$ 与 $nums[i + 1]$ 合并，并且删掉 $nums[i]$。
+Therefore, we can traverse the array from right to left. For each position $i$, where $i \in [0, n - 2]$, if $nums[i] \leq nums[i + 1]$, we update $nums[i]$ to $nums[i] + nums[i + 1]$. Doing so is equivalent to merging $nums[i]$ and $nums[i + 1]$ and deleting $nums[i]$.
 
-最终，数组中的最大元素就是合并后的数组中的最大元素。
+In the end, the maximum element in the array is the maximum element in the merged array.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,88 +1,85 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2295.Replace%20Elements%20in%20an%20Array/README.md
+difficulty: Medium
 rating: 1445
-source: 第 296 场周赛 Q3
+source: Weekly Contest 296 Q3
 tags:
-    - 数组
-    - 哈希表
-    - 模拟
+    - Array
+    - Hash Table
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2295. 替换数组中的元素](https://leetcode.cn/problems/replace-elements-in-an-array)
+# [2295. Replace Elements in an Array](https://leetcode.com/problems/replace-elements-in-an-array)
 
-[English Version](/solution/2200-2299/2295.Replace%20Elements%20in%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的数组&nbsp;<code>nums</code>&nbsp;，它包含 <code>n</code>&nbsp;个 <strong>互不相同</strong>&nbsp;的正整数。请你对这个数组执行 <code>m</code>&nbsp;个操作，在第 <code>i</code>&nbsp;个操作中，你需要将数字&nbsp;<code>operations[i][0]</code> 替换成&nbsp;<code>operations[i][1]</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> array <code>nums</code> that consists of <code>n</code> <strong>distinct</strong> positive integers. Apply <code>m</code> operations to this array, where in the <code>i<sup>th</sup></code> operation you replace the number <code>operations[i][0]</code> with <code>operations[i][1]</code>.</p>
 
-<p>题目保证在第 <code>i</code>&nbsp;个操作中：</p>
+<p>It is guaranteed that in the <code>i<sup>th</sup></code> operation:</p>
 
 <ul>
-	<li><code>operations[i][0]</code>&nbsp;在&nbsp;<code>nums</code>&nbsp;中存在。</li>
-	<li><code>operations[i][1]</code>&nbsp;在&nbsp;<code>nums</code>&nbsp;中不存在。</li>
+	<li><code>operations[i][0]</code> <strong>exists</strong> in <code>nums</code>.</li>
+	<li><code>operations[i][1]</code> does <strong>not</strong> exist in <code>nums</code>.</li>
 </ul>
 
-<p>请你返回执行完所有操作后的数组。</p>
+<p>Return <em>the array obtained after applying all the operations</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [1,2,4,6], operations = [[1,3],[4,7],[6,1]]
-<b>输出：</b>[3,2,7,1]
-<b>解释：</b>我们对 nums 执行以下操作：
-- 将数字 1 替换为 3 。nums 变为 [<em><strong>3</strong></em>,2,4,6] 。
-- 将数字 4 替换为 7 。nums 变为 [3,2,<em><strong>7</strong></em>,6] 。
-- 将数字 6 替换为 1 。nums 变为 [3,2,7,<em><strong>1</strong></em>] 。
-返回最终数组 [3,2,7,1] 。
+<pre>
+<strong>Input:</strong> nums = [1,2,4,6], operations = [[1,3],[4,7],[6,1]]
+<strong>Output:</strong> [3,2,7,1]
+<strong>Explanation:</strong> We perform the following operations on nums:
+- Replace the number 1 with 3. nums becomes [<u><strong>3</strong></u>,2,4,6].
+- Replace the number 4 with 7. nums becomes [3,2,<u><strong>7</strong></u>,6].
+- Replace the number 6 with 1. nums becomes [3,2,7,<u><strong>1</strong></u>].
+We return the final array [3,2,7,1].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>nums = [1,2], operations = [[1,3],[2,1],[3,2]]
-<b>输出：</b>[2,1]
-<b>解释：</b>我们对 nums 执行以下操作：
-- 将数字 1 替换为 3 。nums 变为 [<em><strong>3</strong></em>,2] 。
-- 将数字 2 替换为 1 。nums 变为 [3,<em><strong>1</strong></em>] 。
-- 将数字 3 替换为 2 。nums 变为 [<em><strong>2</strong></em>,1] 。
-返回最终数组 [2,1] 。
+<pre>
+<strong>Input:</strong> nums = [1,2], operations = [[1,3],[2,1],[3,2]]
+<strong>Output:</strong> [2,1]
+<strong>Explanation:</strong> We perform the following operations to nums:
+- Replace the number 1 with 3. nums becomes [<u><strong>3</strong></u>,2].
+- Replace the number 2 with 1. nums becomes [3,<u><strong>1</strong></u>].
+- Replace the number 3 with 2. nums becomes [<u><strong>2</strong></u>,1].
+We return the array [2,1].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
 	<li><code>m == operations.length</code></li>
 	<li><code>1 &lt;= n, m &lt;= 10<sup>5</sup></code></li>
-	<li><code>nums</code>&nbsp;中所有数字 <strong>互不相同</strong>&nbsp;。</li>
+	<li>All the values of <code>nums</code> are <strong>distinct</strong>.</li>
 	<li><code>operations[i].length == 2</code></li>
 	<li><code>1 &lt;= nums[i], operations[i][0], operations[i][1] &lt;= 10<sup>6</sup></code></li>
-	<li>在执行第&nbsp;<code>i</code> 个操作时，<code>operations[i][0]</code>&nbsp;在&nbsp;<code>nums</code>&nbsp;中存在。</li>
-	<li>在执行第&nbsp;<code>i</code>&nbsp;个操作时，<code>operations[i][1]</code>&nbsp;在&nbsp;<code>nums</code>&nbsp;中不存在。</li>
+	<li><code>operations[i][0]</code> will exist in <code>nums</code> when applying the <code>i<sup>th</sup></code> operation.</li>
+	<li><code>operations[i][1]</code> will not exist in <code>nums</code> when applying the <code>i<sup>th</sup></code> operation.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们先用哈希表 $d$ 记录数组 $\textit{nums}$ 中每个数字的下标，然后遍历操作数组 $\textit{operations}$，对于每个操作 $[x, y]$，我们将 $x$ 在 $\textit{nums}$ 中的下标 $d[x]$ 对应的数字替换为 $y$，并更新 $d$ 中 $y$ 的下标为 $d[x]$。
+First, we use a hash table $d$ to record the indices of each number in the array $\textit{nums}$. Then, we iterate through the operation array $\textit{operations}$. For each operation $[x, y]$, we replace the number at index $d[x]$ in $\textit{nums}$ with $y$, and update the index of $y$ in $d$ to $d[x]$.
 
-最后返回 $\textit{nums}$ 即可。
+Finally, we return $\textit{nums}$.
 
-时间复杂度 $O(n + m)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别是数组 $\textit{nums}$ 的长度和操作数组 $\textit{operations}$ 的长度。
+The time complexity is $O(n + m)$, and the space complexity is $O(n)$. Here, $n$ and $m$ are the lengths of the array $\textit{nums}$ and the operation array $\textit{operations}$, respectively.
 
 <!-- tabs:start -->
 

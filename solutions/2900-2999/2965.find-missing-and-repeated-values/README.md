@@ -1,75 +1,68 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2965.Find%20Missing%20and%20Repeated%20Values/README.md
+difficulty: Easy
 rating: 1244
-source: 第 376 场周赛 Q1
+source: Weekly Contest 376 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 数学
-    - 矩阵
+    - Array
+    - Hash Table
+    - Math
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [2965. 找出缺失和重复的数字](https://leetcode.cn/problems/find-missing-and-repeated-values)
+# [2965. Find Missing and Repeated Values](https://leetcode.com/problems/find-missing-and-repeated-values)
 
-[English Version](/solution/2900-2999/2965.Find%20Missing%20and%20Repeated%20Values/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从<strong> 0 </strong>开始的二维整数矩阵 <code><font face="monospace">grid</font></code>，大小为 <code>n * n</code> ，其中的值在 <code>[1, n<sup>2</sup>]</code> 范围内。除了 <code>a</code> 出现 <strong>两次</strong>，<code>b</code> <strong>缺失</strong> 之外，每个整数都<strong> 恰好出现一次</strong> 。</p>
+<p>You are given a <strong>0-indexed</strong> 2D integer matrix <code><font face="monospace">grid</font></code> of size <code>n * n</code> with values in the range <code>[1, n<sup>2</sup>]</code>. Each integer appears <strong>exactly once</strong> except <code>a</code> which appears <strong>twice</strong> and <code>b</code> which is <strong>missing</strong>. The task is to find the repeating and missing numbers <code>a</code> and <code>b</code>.</p>
 
-<p>任务是找出重复的数字<code>a</code> 和缺失的数字 <code>b</code> 。</p>
-
-<p>返回一个下标从 0 开始、长度为 <code>2</code> 的整数数组 <code>ans</code> ，其中 <code>ans[0]</code> 等于 <code>a</code> ，<code>ans[1]</code> 等于 <code>b</code> 。</p>
+<p>Return <em>a <strong>0-indexed </strong>integer array </em><code>ans</code><em> of size </em><code>2</code><em> where </em><code>ans[0]</code><em> equals to </em><code>a</code><em> and </em><code>ans[1]</code><em> equals to </em><code>b</code><em>.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>grid = [[1,3],[2,2]]
-<strong>输出：</strong>[2,4]
-<strong>解释：</strong>数字 2 重复，数字 4 缺失，所以答案是 [2,4] 。
+<strong>Input:</strong> grid = [[1,3],[2,2]]
+<strong>Output:</strong> [2,4]
+<strong>Explanation:</strong> Number 2 is repeated and number 4 is missing so the answer is [2,4].
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>grid = [[9,1,7],[8,9,2],[3,4,6]]
-<strong>输出：</strong>[9,5]
-<strong>解释：</strong>数字 9 重复，数字 5 缺失，所以答案是 [9,5] 。
+<strong>Input:</strong> grid = [[9,1,7],[8,9,2],[3,4,6]]
+<strong>Output:</strong> [9,5]
+<strong>Explanation:</strong> Number 9 is repeated and number 5 is missing so the answer is [9,5].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n == grid.length == grid[i].length &lt;= 50</code></li>
 	<li><code>1 &lt;= grid[i][j] &lt;= n * n</code></li>
-	<li>对于所有满足<code>1 &lt;= x &lt;= n * n</code> 的 <code>x</code> ，恰好存在一个 <code>x</code> 与矩阵中的任何成员都不相等。</li>
-	<li>对于所有满足<code>1 &lt;= x &lt;= n * n</code> 的 <code>x</code> ，恰好存在一个 <code>x</code> 与矩阵中的两个成员相等。</li>
-	<li>除上述的两个之外，对于所有满足<code>1 &lt;= x &lt;= n * n</code> 的 <code>x</code> ，都恰好存在一对 <code>i, j</code> 满足 <code>0 &lt;= i, j &lt;= n - 1</code> 且 <code>grid[i][j] == x</code> 。</li>
+	<li>For all <code>x</code> that <code>1 &lt;= x &lt;= n * n</code> there is exactly one <code>x</code> that is not equal to any of the grid members.</li>
+	<li>For all <code>x</code> that <code>1 &lt;= x &lt;= n * n</code> there is exactly one <code>x</code> that is equal to exactly two of the grid members.</li>
+	<li>For all <code>x</code> that <code>1 &lt;= x &lt;= n * n</code> except two of them there is exatly one pair of <code>i, j</code> that <code>0 &lt;= i, j &lt;= n - 1</code> and <code>grid[i][j] == x</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们创建一个长度为 $n^2 + 1$ 的数组 $cnt$，统计矩阵中每个数字出现的次数。
+We create an array $cnt$ of length $n^2 + 1$ to count the frequency of each number in the matrix.
 
-接下来遍历 $i \in [1, n^2]$，如果 $cnt[i] = 2$，则 $i$ 是重复的数字，我们将答案的第一个元素设为 $i$；如果 $cnt[i] = 0$，则 $i$ 是缺失的数字，我们将答案的第二个元素设为 $i$。
+Next, we traverse $i \in [1, n^2]$. If $cnt[i] = 2$, then $i$ is the duplicated number, and we set the first element of the answer to $i$. If $cnt[i] = 0$, then $i$ is the missing number, and we set the second element of the answer to $i$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是矩阵的边长。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the side length of the matrix.
 
 <!-- tabs:start -->
 

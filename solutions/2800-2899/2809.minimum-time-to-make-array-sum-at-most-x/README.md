@@ -1,63 +1,59 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2809.Minimum%20Time%20to%20Make%20Array%20Sum%20At%20Most%20x/README.md
+difficulty: Hard
 rating: 2978
-source: 第 110 场双周赛 Q4
+source: Biweekly Contest 110 Q4
 tags:
-    - 数组
-    - 动态规划
-    - 排序
+    - Array
+    - Dynamic Programming
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2809. 使数组和小于等于 x 的最少时间](https://leetcode.cn/problems/minimum-time-to-make-array-sum-at-most-x)
+# [2809. Minimum Time to Make Array Sum At Most x](https://leetcode.com/problems/minimum-time-to-make-array-sum-at-most-x)
 
-[English Version](/solution/2800-2899/2809.Minimum%20Time%20to%20Make%20Array%20Sum%20At%20Most%20x/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个长度相等下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums1</code> 和&nbsp;<code>nums2</code>&nbsp;。每一秒，对于所有下标&nbsp;<code>0 &lt;= i &lt; nums1.length</code>&nbsp;，<code>nums1[i]</code>&nbsp;的值都增加&nbsp;<code>nums2[i]</code>&nbsp;。操作&nbsp;<strong>完成后</strong>&nbsp;，你可以进行如下操作：</p>
+<p>You are given two <strong>0-indexed</strong> integer arrays <code>nums1</code> and <code>nums2</code> of equal length. Every second, for all indices <code>0 &lt;= i &lt; nums1.length</code>, value of <code>nums1[i]</code> is incremented by <code>nums2[i]</code>. <strong>After</strong> this is done, you can do the following operation:</p>
 
 <ul>
-	<li>选择任一满足&nbsp;<code>0 &lt;= i &lt; nums1.length</code>&nbsp;的下标 <code>i</code>&nbsp;，并使&nbsp;<code>nums1[i] = 0</code>&nbsp;。</li>
+	<li>Choose an index <code>0 &lt;= i &lt; nums1.length</code> and make <code>nums1[i] = 0</code>.</li>
 </ul>
 
-<p>同时给你一个整数&nbsp;<code>x</code>&nbsp;。</p>
+<p>You are also given an integer <code>x</code>.</p>
 
-<p>请你返回使&nbsp;<code>nums1</code>&nbsp;中所有元素之和 <strong>小于等于</strong>&nbsp;<code>x</code>&nbsp;所需要的 <strong>最少</strong>&nbsp;时间，如果无法实现，那么返回 <code>-1</code>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums1 = [1,2,3], nums2 = [1,2,3], x = 4
-<b>输出：</b>3
-<b>解释：</b>
-第 1 秒，我们对 i = 0 进行操作，得到 nums1 = [0,2+2,3+3] = [0,4,6] 。
-第 2 秒，我们对 i = 1 进行操作，得到 nums1 = [0+1,0,6+3] = [1,0,9] 。
-第 3 秒，我们对 i = 2 进行操作，得到 nums1 = [1+1,0+2,0] = [2,2,0] 。
-现在 nums1 的和为 4 。不存在更少次数的操作，所以我们返回 3 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>nums1 = [1,2,3], nums2 = [3,3,3], x = 4
-<b>输出：</b>-1
-<b>解释：</b>不管如何操作，nums1 的和总是会超过 x 。
-</pre>
+<p>Return <em>the <strong>minimum</strong> time in which you can make the sum of all elements of </em><code>nums1</code><em> to be<strong> less than or equal</strong> to </em><code>x</code>, <em>or </em><code>-1</code><em> if this is not possible.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums1 = [1,2,3], nums2 = [1,2,3], x = 4
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 
+For the 1st second, we apply the operation on i = 0. Therefore nums1 = [0,2+2,3+3] = [0,4,6]. 
+For the 2nd second, we apply the operation on i = 1. Therefore nums1 = [0+1,0,6+3] = [1,0,9]. 
+For the 3rd second, we apply the operation on i = 2. Therefore nums1 = [1+1,0+2,0] = [2,2,0]. 
+Now sum of nums1 = 4. It can be shown that these operations are optimal, so we return 3.
+
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [1,2,3], nums2 = [3,3,3], x = 4
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> It can be shown that the sum of nums1 will always be greater than x, no matter which operations are performed.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums1.length &lt;= 10<sup>3</sup></code></li>
+	<li><code><font face="monospace">1 &lt;= nums1.length &lt;= 10<sup>3</sup></font></code></li>
 	<li><code>1 &lt;= nums1[i] &lt;= 10<sup>3</sup></code></li>
 	<li><code>0 &lt;= nums2[i] &lt;= 10<sup>3</sup></code></li>
 	<li><code>nums1.length == nums2.length</code></li>
@@ -66,15 +62,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 动态规划
+### Solution 1: Sorting + Dynamic Programming
 
-我们注意到，如果我们多次操作同一个数，那么只有最后一次操作是有意义的，其余的对该数的操作，只会使得其它数字增大。因此，我们最多对每个数操作一次，也即是说，操作次数在 $[0,..n]$ 之间。
+We notice that if we operate on the same number multiple times, only the last operation is meaningful, and the rest of the operations on that number will only increase the other numbers. Therefore, we operate on each number at most once, that is to say, the number of operations is within $[0,..n]$.
 
-我们不妨假设进行了 $j$ 次操作，操作的数字下标分别为 $i_1, i_2, \cdots, i_j$，那么对于这 $j$ 次操作，每一次可以使得数组元素和减少的值为：
+Let's assume that we have performed $j$ operations, and the indices of the numbers operated on are $i_1, i_2, \cdots, i_j$. For these $j$ operations, the value that each operation can reduce the sum of array elements is:
 
 $$
 \begin{aligned}
@@ -85,17 +81,17 @@ $$
 \end{aligned}
 $$
 
-从贪心的角度考虑，为了使得数组元素和的减少量最大，我们应当让 $nums_2$ 中的较大元素尽可能放在后面操作。因此，我们可以对 $nums_1$ 和 $nums_2$ 按照 $nums_2$ 的元素值从小到大进行排序。
+From a greedy perspective, in order to maximize the reduction of the sum of array elements, we should let the larger elements in $nums_2$ be operated on as late as possible. Therefore, we can sort $nums_1$ and $nums_2$ in ascending order of the element values in $nums_2$.
 
-接下来，我们考虑动态规划的实现。我们用 $f[i][j]$ 表示对于数组 $nums_1$ 的前 $i$ 个元素，进行 $j$ 次操作，所能减少的数组元素和的最大值。我们可以得到如下的状态转移方程：
+Next, we consider the implementation of dynamic programming. We use $f[i][j]$ to represent the maximum value that can reduce the sum of array elements for the first $i$ elements of the array $nums_1$ with $j$ operations. We can get the following state transition equation:
 
 $$
 f[i][j] = \max \{f[i-1][j], f[i-1][j-1] + nums_1[i] + nums_2[i] \times j\}
 $$
 
-最后，我们枚举 $j$，找到最小的满足 $s_1 + s_2 \times j - f[n][j] \le x$ 的 $j$ 即可。
+Finally, we enumerate $j$ and find the smallest $j$ that satisfies $s_1 + s_2 \times j - f[n][j] \le x$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$, where $n$ is the length of the array.
 
 <!-- tabs:start -->
 
@@ -264,7 +260,7 @@ function minimumTime(nums1: number[], nums2: number[], x: number): number {
 
 <!-- tabs:end -->
 
-我们注意到，状态 $f[i][j]$ 只与 $f[i-1][j]$ 和 $f[i-1][j-1]$ 有关，因此我们可以优化掉第一维，将空间复杂度降低到 $O(n)$。
+We notice that the state $f[i][j]$ is only related to $f[i-1][j]$ and $f[i-1][j-1]$, so we can optimize the first dimension and reduce the space complexity to $O(n)$.
 
 <!-- tabs:start -->
 

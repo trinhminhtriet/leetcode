@@ -1,95 +1,100 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0365.Water%20and%20Jug%20Problem/README.md
+difficulty: Medium
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 数学
+    - Depth-First Search
+    - Breadth-First Search
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [365. 水壶问题](https://leetcode.cn/problems/water-and-jug-problem)
+# [365. Water and Jug Problem](https://leetcode.com/problems/water-and-jug-problem)
 
-[English Version](/solution/0300-0399/0365.Water%20and%20Jug%20Problem/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有两个水壶，容量分别为&nbsp;<code>x</code>&nbsp;和 <code>y</code> 升。水的供应是无限的。确定是否有可能使用这两个壶准确得到&nbsp;<code>target</code>&nbsp;升。</p>
-
-<p>你可以：</p>
+<p>You are given two jugs with capacities <code>x</code> liters and <code>y</code> liters. You have an infinite water supply. Return whether the total amount of water in both jugs may reach <code>target</code> using the following operations:</p>
 
 <ul>
-	<li>装满任意一个水壶</li>
-	<li>清空任意一个水壶</li>
-	<li>将水从一个水壶倒入另一个水壶，直到接水壶已满，或倒水壶已空。</li>
+	<li>Fill either jug completely with water.</li>
+	<li>Completely empty either jug.</li>
+	<li>Pour water from one jug into another until the receiving jug is full, or the transferring jug is empty.</li>
 </ul>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1: </strong></p>
 
-<p><strong>示例 1:</strong>&nbsp;</p>
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> x = 3, y = 5, target = 4 </span></p>
 
-<pre>
-<strong>输入:</strong> x = 3,y = 5,target = 4
-<strong>输出:</strong> true
-<strong>解释：
-</strong>按照以下步骤操作，以达到总共 4 升水：
-1. 装满 5 升的水壶(0, 5)。
-2. 把 5 升的水壶倒进 3 升的水壶，留下 2 升(3, 2)。
-3. 倒空 3 升的水壶(0, 2)。
-4. 把 2 升水从 5 升的水壶转移到 3 升的水壶(2, 0)。
-5. 再次加满 5 升的水壶(2, 5)。
-6. 从 5 升的水壶向 3 升的水壶倒水直到 3 升的水壶倒满。5 升的水壶里留下了 4 升水(3, 4)。
-7. 倒空 3 升的水壶。现在，5 升的水壶里正好有 4 升水(0, 4)。
-参考：来自著名的&nbsp;<a href="https://www.youtube.com/watch?v=BVtQNK_ZUJg"><em>"Die Hard"</em></a></pre>
+<p><strong>Output: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> true </span></p>
 
-<p><strong>示例 2:</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<pre>
-<strong>输入:</strong> x = 2, y = 6, target = 5
-<strong>输出:</strong> false
-</pre>
+<p>Follow these steps to reach a total of 4 liters:</p>
 
-<p><strong>示例 3:</strong></p>
+<ol>
+	<li>Fill the 5-liter jug (0, 5).</li>
+	<li>Pour from the 5-liter jug into the 3-liter jug, leaving 2 liters (3, 2).</li>
+	<li>Empty the 3-liter jug (0, 2).</li>
+	<li>Transfer the 2 liters from the 5-liter jug to the 3-liter jug (2, 0).</li>
+	<li>Fill the 5-liter jug again (2, 5).</li>
+	<li>Pour from the 5-liter jug into the 3-liter jug until the 3-liter jug is full. This leaves 4 liters in the 5-liter jug (3, 4).</li>
+	<li>Empty the 3-liter jug. Now, you have exactly 4 liters in the 5-liter jug (0, 4).</li>
+</ol>
 
-<pre>
-<strong>输入:</strong> x = 1, y = 2, target = 3
-<strong>输出:</strong> true
-<b>解释：</b>同时倒满两个水壶。现在两个水壶中水的总量等于 3。</pre>
+<p>Reference: The <a href="https://www.youtube.com/watch?v=BVtQNK_ZUJg&amp;ab_channel=notnek01" target="_blank">Die Hard</a> example.</p>
+</div>
+
+<p><strong class="example">Example 2: </strong></p>
+
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> x = 2, y = 6, target = 5 </span></p>
+
+<p><strong>Output: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> false </span></p>
+</div>
+
+<p><strong class="example">Example 3: </strong></p>
+
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> x = 1, y = 2, target = 3 </span></p>
+
+<p><strong>Output: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> true </span></p>
+
+<p><strong>Explanation:</strong> Fill both jugs. The total amount of water in both jugs is equal to 3 now.</p>
+</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= x, y, target &lt;= 10<sup>3</sup></code></li>
+	<li><code>1 &lt;= x, y, target&nbsp;&lt;= 10<sup>3</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
+### Solution 1: DFS
 
-我们不妨记 $\textit{jug1Capacity}$ 为 $x$, $\textit{jug2Capacity}$ 为 $y$, $\textit{targetCapacity}$ 为 $z$。
+Let's denote $jug1Capacity$ as $x$, $jug2Capacity$ as $y$, and $targetCapacity$ as $z$.
 
-接下来，我们设计一个函数 $dfs(i, j)$，表示当前 $jug1$ 中有 $i$ 升水，$jug2$ 中有 $j$ 升水，是否可以得到 $z$ 升水。
+Next, we design a function $dfs(i, j)$, which represents whether we can get $z$ liters of water when there are $i$ liters of water in $jug1$ and $j$ liters of water in $jug2$.
 
-函数 $dfs(i, j)$ 的执行过程如下：
+The execution process of the function $dfs(i, j)$ is as follows:
 
--   如果 $(i, j)$ 已经被访问过，返回 $false$。
--   如果 $i = z$ 或者 $j = z$ 或者 $i + j = z$，返回 $true$。
--   如果我们给 $jug1$ 倒满水，或者给 $jug2$ 倒满水，或者将 $jug1$ 清空，或者将 $jug2$ 清空，可以得到 $z$ 升水，返回 $true$。
--   如果我们将 $jug1$ 中的水倒入 $jug2$，或者将 $jug2$ 中的水倒入 $jug1$，可以得到 $z$ 升水，返回 $true$。
+-   If $(i, j)$ has been visited, return $false$.
+-   If $i = z$ or $j = z$ or $i + j = z$, return $true$.
+-   If we can get $z$ liters of water by filling $jug1$ or $jug2$, or emptying $jug1$ or $jug2$, return $true$.
+-   If we can get $z$ liters of water by pouring water from $jug1$ into $jug2$, or pouring water from $jug2$ into $jug1$, return $true$.
 
-答案即为 $dfs(0, 0)$。
+The answer is $dfs(0, 0)$.
 
-时间复杂度 $O(x + y)$，空间复杂度 $O(x + y)$。其中 $x$ 和 $y$ 分别为 $\textit{jug1Capacity}$ 和 $\textit{jug2Capacity}$。
+The time complexity is $O(x + y)$, and the space complexity is $O(x + y)$. Here, $x$ and $y$ are the sizes of $jug1Capacity$ and $jug2Capacity$ respectively.
 
 <!-- tabs:start -->
 

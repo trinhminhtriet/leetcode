@@ -1,107 +1,94 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0489.Robot%20Room%20Cleaner/README.md
+difficulty: Hard
 tags:
-    - 回溯
-    - 交互
+    - Backtracking
+    - Interactive
 ---
 
 <!-- problem:start -->
 
-# [489. 扫地机器人 🔒](https://leetcode.cn/problems/robot-room-cleaner)
+# [489. Robot Room Cleaner 🔒](https://leetcode.com/problems/robot-room-cleaner)
 
-[English Version](/solution/0400-0499/0489.Robot%20Room%20Cleaner/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>房间中的某个位置上有一个机器人，你需要控制它清扫房间。房间被建模为一个 <code>m x n</code> 的二进制网格，其中 <code>0</code> 表示单元格中有障碍物，<code>1</code> 表示空单元格。</p>
+<p>You are controlling a robot that is located somewhere in a room. The room is modeled as an <code>m x n</code> binary grid where <code>0</code> represents a wall and <code>1</code> represents an empty slot.</p>
 
-<p>机器人从一个未知的空单元格开始出发，并且你无法访问网格，但你可以使用给定的 API <code>Robot</code> 控制机器人。</p>
+<p>The robot starts at an unknown location in the room that is guaranteed to be empty, and you do not have access to the grid, but you can move the robot using the given API <code>Robot</code>.</p>
 
-<p>你的任务是使用机器人清扫整个房间（即清理房间中的每个空单元格）。机器人具有四个给定的API，可以前进、向左转或向右转。每次转弯 <code>90</code> 度。</p>
+<p>You are tasked to use the robot to clean the entire room (i.e., clean every empty cell in the room). The robot with the four given APIs can move forward, turn left, or turn right. Each turn is <code>90</code> degrees.</p>
 
-<p>当机器人试图移动到一个存在障碍物的单元格时，它的碰撞传感器会检测到障碍物，并停留在当前单元格。</p>
+<p>When the robot tries to move into a wall cell, its bumper sensor detects the obstacle, and it stays on the current cell.</p>
 
-<p>设计一个算法，使用下述 API 清扫整个房间：</p>
+<p>Design an algorithm to clean the entire room using the following APIs:</p>
 
 <pre>
 interface Robot {
-&nbsp; // 若下一个单元格为空，则返回 true ，并移动至该单元格。
-&nbsp; // 若下一个单元格为障碍物，则返回 false ，并停留在当前单元格。
-&nbsp; boolean move();
+  // returns true if next cell is open and robot moves into the cell.
+  // returns false if next cell is obstacle and robot stays on the current cell.
+  boolean move();
 
-  // 在调用 turnLeft/turnRight 后机器人会停留在当前单元格。
-&nbsp; // 每次转弯 90 度。
-&nbsp; void turnLeft();
-&nbsp; void turnRight();
+  // Robot will stay on the same cell after calling turnLeft/turnRight.
+  // Each turn will be 90 degrees.
+  void turnLeft();
+  void turnRight();
 
-  // 清理当前单元格。
+  // Clean the current cell.
   void clean();
 }
 </pre>
 
-<p><strong>注意</strong> 扫地机器人的初始方向向上。你可以假定网格的四周都被墙包围。</p>
+<p><strong>Note</strong> that the initial direction of the robot will be facing up. You can assume all four edges of the grid are all surrounded by a wall.</p>
 
 <p>&nbsp;</p>
 
-<p><strong>自定义测试：</strong></p>
+<p><strong>Custom testing:</strong></p>
 
-<p>输入只用于初始化房间和机器人的位置。你需要「盲解」这个问题。换而言之，你必须在对房间和机器人位置一无所知的情况下，只使用 4 个给出的 API 解决问题。&nbsp;</p>
+<p>The input is only given to initialize the room and the robot&#39;s position internally. You must solve this problem &quot;blindfolded&quot;. In other words, you must control the robot using only the four mentioned APIs without knowing the room layout and the initial robot&#39;s position.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0489.Robot%20Room%20Cleaner/images/lc-grid.jpg" style="width: 500px; height: 314px;" />
 <pre>
-<strong>输入：</strong>room = [[1,1,1,1,1,0,1,1],[1,1,1,1,1,0,1,1],[1,0,1,1,1,1,1,1],[0,0,0,1,0,0,0,0],[1,1,1,1,1,1,1,1]], row = 1, col = 3
-<strong>输出：</strong>Robot cleaned all rooms.
-<strong>解释：</strong>
-房间内的所有单元格用 0 或 1 填充。
-0 表示障碍物，1 表示可以通过。 
-机器人从 row=1, col=3 的初始位置出发。
-在左上角的一行以下，三列以右。
+<strong>Input:</strong> room = [[1,1,1,1,1,0,1,1],[1,1,1,1,1,0,1,1],[1,0,1,1,1,1,1,1],[0,0,0,1,0,0,0,0],[1,1,1,1,1,1,1,1]], row = 1, col = 3
+<strong>Output:</strong> Robot cleaned all rooms.
+<strong>Explanation:</strong> All grids in the room are marked by either 0 or 1.
+0 means the cell is blocked, while 1 means the cell is accessible.
+The robot initially starts at the position of row=1, col=3.
+From the top left corner, its position is one row below and three columns right.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>room = [[1]], row = 0, col = 0
-<strong>输出：</strong>Robot cleaned all rooms.
+<strong>Input:</strong> room = [[1]], row = 0, col = 0
+<strong>Output:</strong> Robot cleaned all rooms.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == room.length</code></li>
 	<li><code>n == room[i].length</code></li>
 	<li><code>1 &lt;= m &lt;= 100</code></li>
 	<li><code>1 &lt;= n &lt;= 200</code></li>
-	<li><code>room[i][j]</code> 为 <code>0</code> 或 <code>1</code>.</li>
+	<li><code>room[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
 	<li><code>0 &lt;= row &lt;&nbsp;m</code></li>
 	<li><code>0 &lt;= col &lt; n</code></li>
 	<li><code>room[row][col] == 1</code></li>
-	<li>所有空单元格都可以从起始位置出发访问到。</li>
+	<li>All the empty cells can be visited from the starting position.</li>
 </ul>
-
-<ol>
-</ol>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
-
-我们不妨假设机器人的初始位置为 $(0, 0)$，方向为 $d=0$。我们将初始位置进行打扫，并标记为已访问。然后，我们依次选择上、右、下、左四个方向进行探索，每次探索前都先判断是否已经访问过，如果没有访问过，我们就朝着该方向前进一步，然后递归探索。如果已经访问过，我们就顺时针旋转 $90^\circ$，然后继续探索下一个方向。当我们探索完所有的方向后，我们需要回到上一个位置，这时我们只需要顺时针旋转 $180^\circ$，然后前进一步，再顺时针旋转 $180^\circ$ 即可。
-
-时间复杂度 $O(4^{n-m})$，空间复杂度 $O(n-m)$。其中 $n$ 和 $m$ 分别是房间的数量以及障碍物的数量。
+### Solution 1
 
 <!-- tabs:start -->
 

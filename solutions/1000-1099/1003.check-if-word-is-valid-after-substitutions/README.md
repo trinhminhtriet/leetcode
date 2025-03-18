@@ -1,85 +1,82 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1003.Check%20If%20Word%20Is%20Valid%20After%20Substitutions/README.md
+difficulty: Medium
 rating: 1426
-source: 第 126 场周赛 Q2
+source: Weekly Contest 126 Q2
 tags:
-    - 栈
-    - 字符串
+    - Stack
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1003. 检查替换后的词是否有效](https://leetcode.cn/problems/check-if-word-is-valid-after-substitutions)
+# [1003. Check If Word Is Valid After Substitutions](https://leetcode.com/problems/check-if-word-is-valid-after-substitutions)
 
-[English Version](/solution/1000-1099/1003.Check%20If%20Word%20Is%20Valid%20After%20Substitutions/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-给你一个字符串 <code>s</code> ，请你判断它是否 <strong>有效</strong> 。
+<p>Given a string <code>s</code>, determine if it is <strong>valid</strong>.</p>
 
-<p>字符串 <code>s</code> <strong>有效</strong> 需要满足：假设开始有一个空字符串 <code>t = ""</code> ，你可以执行 <strong>任意次</strong> 下述操作将<strong> </strong><code>t</code><strong> 转换为 </strong><code>s</code> ：</p>
+<p>A string <code>s</code> is <strong>valid</strong> if, starting with an empty string <code>t = &quot;&quot;</code>, you can <strong>transform </strong><code>t</code><strong> into </strong><code>s</code> after performing the following operation <strong>any number of times</strong>:</p>
 
 <ul>
-	<li>将字符串 <code>"abc"</code> 插入到 <code>t</code> 中的任意位置。形式上，<code>t</code> 变为 <code>t<sub>left</sub> + "abc" + t<sub>right</sub></code>，其中 <code>t == t<sub>left</sub> + t<sub>right</sub></code> 。注意，<code>t<sub>left</sub></code> 和 <code>t<sub>right</sub></code> 可能为 <strong>空</strong> 。</li>
+	<li>Insert string <code>&quot;abc&quot;</code> into any position in <code>t</code>. More formally, <code>t</code> becomes <code>t<sub>left</sub> + &quot;abc&quot; + t<sub>right</sub></code>, where <code>t == t<sub>left</sub> + t<sub>right</sub></code>. Note that <code>t<sub>left</sub></code> and <code>t<sub>right</sub></code> may be <strong>empty</strong>.</li>
 </ul>
 
-<p>如果字符串 <code>s</code> 有效，则返回 <code>true</code>；否则，返回 <code>false</code>。</p>
+<p>Return <code>true</code> <em>if </em><code>s</code><em> is a <strong>valid</strong> string, otherwise, return</em> <code>false</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "aabcbc"
-<strong>输出：</strong>true
-<strong>解释：</strong>
-"" -&gt; "<strong>abc</strong>" -&gt; "a<strong>abc</strong>bc"
-因此，"aabcbc" 有效。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "abcabcababcc"
-<strong>输出：</strong>true
-<strong>解释：</strong>
-"" -&gt; "<strong>abc</strong>" -&gt; "abc<strong>abc</strong>" -&gt; "abcabc<strong>abc</strong>" -&gt; "abcabcab<strong>abc</strong>c"
-因此，"abcabcababcc" 有效。</pre>
+<strong>Input:</strong> s = &quot;aabcbc&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong>
+&quot;&quot; -&gt; &quot;<u>abc</u>&quot; -&gt; &quot;a<u>abc</u>bc&quot;
+Thus, &quot;aabcbc&quot; is valid.</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "abccba"
-<strong>输出：</strong>false
-<strong>解释：</strong>执行操作无法得到 "abccba" 。</pre>
+<strong>Input:</strong> s = &quot;abcabcababcc&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong>
+&quot;&quot; -&gt; &quot;<u>abc</u>&quot; -&gt; &quot;abc<u>abc</u>&quot; -&gt; &quot;abcabc<u>abc</u>&quot; -&gt; &quot;abcabcab<u>abc</u>c&quot;
+Thus, &quot;abcabcababcc&quot; is valid.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;abccba&quot;
+<strong>Output:</strong> false
+<strong>Explanation:</strong> It is impossible to get &quot;abccba&quot; using the operation.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 2 * 10<sup>4</sup></code></li>
-	<li><code>s</code> 由字母 <code>'a'</code>、<code>'b'</code> 和 <code>'c'</code> 组成</li>
+	<li><code>s</code> consists of letters <code>&#39;a&#39;</code>, <code>&#39;b&#39;</code>, and <code>&#39;c&#39;</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：栈
+### Solution 1: Stack
 
-我们观察题目中的操作，可以发现，每一次都会在字符串的任意位置插入字符串 $\textit{"abc"}$，所以每次插入操作之后，字符串的长度都会增加 $3$。如果字符串 $s$ 有效，那么它的长度一定是 $3$ 的倍数。因此，我们先对字符串 $s$ 的长度进行判断，如果不是 $3$ 的倍数，那么 $s$ 一定无效，可以直接返回 $\textit{false}$。
+We observe the operations in the problem and find that each time a string $\textit{"abc"}$ is inserted at any position in the string. Therefore, after each insertion operation, the length of the string increases by $3$. If the string $s$ is valid, its length must be a multiple of $3$. Thus, we first check the length of the string $s$. If it is not a multiple of $3$, then $s$ must be invalid, and we can directly return $\textit{false}$.
 
-接下来我们遍历字符串 $s$ 的每个字符 $c$，我们先将字符 $c$ 压入栈 $t$ 中。如果此时栈 $t$ 的长度大于等于 $3$，并且栈顶的三个元素组成了字符串 $\textit{"abc"}$，那么我们就将栈顶的三个元素弹出。然后继续遍历字符串 $s$ 的下一个字符。
+Next, we traverse each character $c$ in the string $s$. We first push the character $c$ onto the stack $t$. If the length of the stack $t$ is greater than or equal to $3$, and the top three elements of the stack form the string $\textit{"abc"}$, then we pop the top three elements from the stack. We then continue to traverse the next character in the string $s$.
 
-遍历结束之后，如果栈 $t$ 为空，那么说明字符串 $s$ 有效，返回 $\textit{true}$；否则，返回 $\textit{false}$。
+After the traversal, if the stack $t$ is empty, it means the string $s$ is valid, and we return $\textit{true}$; otherwise, we return $\textit{false}$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

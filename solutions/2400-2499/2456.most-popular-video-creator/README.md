@@ -1,89 +1,92 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2456.Most%20Popular%20Video%20Creator/README.md
+difficulty: Medium
 rating: 1548
-source: 第 317 场周赛 Q2
+source: Weekly Contest 317 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
-    - 排序
-    - 堆（优先队列）
+    - Array
+    - Hash Table
+    - String
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2456. 最流行的视频创作者](https://leetcode.cn/problems/most-popular-video-creator)
+# [2456. Most Popular Video Creator](https://leetcode.com/problems/most-popular-video-creator)
 
-[English Version](/solution/2400-2499/2456.Most%20Popular%20Video%20Creator/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串数组 <code>creators</code> 和 <code>ids</code> ，和一个整数数组 <code>views</code> ，所有数组的长度都是 <code>n</code> 。平台上第 <code>i</code> 个视频者是&nbsp;<code>creator[i]</code> ，视频分配的 id 是 <code>ids[i]</code> ，且播放量为 <code>views[i]</code> 。</p>
+<p>You are given two string arrays <code>creators</code> and <code>ids</code>, and an integer array <code>views</code>, all of length <code>n</code>. The <code>i<sup>th</sup></code> video on a platform was created by <code>creators[i]</code>, has an id of <code>ids[i]</code>, and has <code>views[i]</code> views.</p>
 
-<p>视频创作者的 <strong>流行度</strong> 是该创作者的 <strong>所有</strong> 视频的播放量的 <strong>总和</strong> 。请找出流行度 <strong>最高</strong> 创作者以及该创作者播放量 <strong>最大</strong> 的视频的 id 。</p>
+<p>The <strong>popularity</strong> of a creator is the <strong>sum</strong> of the number of views on <strong>all</strong> of the creator&#39;s videos. Find the creator with the <strong>highest</strong> popularity and the id of their <strong>most</strong> viewed video.</p>
 
 <ul>
-	<li>如果存在多个创作者流行度都最高，则需要找出所有符合条件的创作者。</li>
-	<li>如果某个创作者存在多个播放量最高的视频，则只需要找出字典序最小的 <code>id</code> 。</li>
+	<li>If multiple creators have the highest popularity, find all of them.</li>
+	<li>If multiple videos have the highest view count for a creator, find the lexicographically <strong>smallest</strong> id.</li>
 </ul>
 
-<p>返回一个二维字符串数组<em> </em><code>answer</code><em> </em>，其中<em> </em><code>answer[i] = [creator<sub>i</sub>, id<sub>i</sub>]</code><em> </em>表示<em> </em><code>creator<sub>i</sub></code> 的流行度 <strong>最高</strong> 且其最流行的视频 id 是<em> </em><code>id<sub>i</sub></code><em> </em>，可以按任何顺序返回该结果<em>。</em></p>
+<p>Note: It is possible for different videos to have the same <code>id</code>, meaning that <code>id</code>s do not uniquely identify a video. For example, two videos with the same ID are considered as distinct videos with their own viewcount.</p>
+
+<p>Return<em> </em>a <strong>2D array</strong> of <strong>strings</strong> <code>answer</code> where <code>answer[i] = [creators<sub>i</sub>, id<sub>i</sub>]</code> means that <code>creators<sub>i</sub></code> has the <strong>highest</strong> popularity and <code>id<sub>i</sub></code> is the <strong>id</strong> of their most <strong>popular</strong> video. The answer can be returned in any order.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">creators = [&quot;alice&quot;,&quot;bob&quot;,&quot;alice&quot;,&quot;chris&quot;], ids = [&quot;one&quot;,&quot;two&quot;,&quot;three&quot;,&quot;four&quot;], views = [5,10,5,4]</span></p>
 
-<pre>
-<strong>输入：</strong>creators = ["alice","bob","alice","chris"], ids = ["one","two","three","four"], views = [5,10,5,4]
-<strong>输出：</strong>[["alice","one"],["bob","two"]]
-<strong>解释：</strong>
-alice 的流行度是 5 + 5 = 10 。
-bob 的流行度是 10 。
-chris 的流行度是 4 。
-alice 和 bob 是流行度最高的创作者。
-bob 播放量最高的视频 id 为 "two" 。
-alice 播放量最高的视频 id 是 "one" 和 "three" 。由于 "one" 的字典序比 "three" 更小，所以结果中返回的 id 是 "one" 。
-</pre>
+<p><strong>Output:</strong> <span class="example-io">[[&quot;alice&quot;,&quot;one&quot;],[&quot;bob&quot;,&quot;two&quot;]]</span></p>
 
-<p><strong>示例 2：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<pre>
-<strong>输入：</strong>creators = ["alice","alice","alice"], ids = ["a","b","c"], views = [1,2,2]
-<strong>输出：</strong>[["alice","b"]]
-<strong>解释：</strong>
-id 为 "b" 和 "c" 的视频都满足播放量最高的条件。
-由于 "b" 的字典序比 "c" 更小，所以结果中返回的 id 是 "b" 。
-</pre>
+<p>The popularity of alice is 5 + 5 = 10.<br />
+The popularity of bob is 10.<br />
+The popularity of chris is 4.<br />
+alice and bob are the most popular creators.<br />
+For bob, the video with the highest view count is &quot;two&quot;.<br />
+For alice, the videos with the highest view count are &quot;one&quot; and &quot;three&quot;. Since &quot;one&quot; is lexicographically smaller than &quot;three&quot;, it is included in the answer.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">creators = [&quot;alice&quot;,&quot;alice&quot;,&quot;alice&quot;], ids = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;], views = [1,2,2]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[[&quot;alice&quot;,&quot;b&quot;]]</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The videos with id &quot;b&quot; and &quot;c&quot; have the highest view count.<br />
+Since &quot;b&quot; is lexicographically smaller than &quot;c&quot;, it is included in the answer.</p>
+</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == creators.length == ids.length == views.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= creators[i].length, ids[i].length &lt;= 5</code></li>
-	<li><code>creators[i]</code> 和 <code>ids[i]</code> 仅由小写英文字母组成</li>
+	<li><code>creators[i]</code> and <code>ids[i]</code> consist only of lowercase English letters.</li>
 	<li><code>0 &lt;= views[i] &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们遍历三个数组，用哈希表 $cnt$ 统计每个创作者的播放量总和，用哈希表 $d$ 记录每个创作者播放量最大的视频的下标。
+We traverse the three arrays, use a hash table $cnt$ to count the total play count for each creator, and use a hash table $d$ to record the index of the video with the highest play count for each creator.
 
-然后，我们遍历哈希表 $cnt$，找出最大的播放量 $mx$；接着再次遍历哈希表 $cnt$，找出播放量为 $mx$ 的创作者，将其加入答案数组中。
+Then, we traverse the hash table $cnt$ to find the maximum play count $mx$; then we traverse the hash table $cnt$ again to find the creators with a play count of $mx$, and add them to the answer array.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为视频数量。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of videos.
 
 <!-- tabs:start -->
 

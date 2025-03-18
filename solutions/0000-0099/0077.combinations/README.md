@@ -1,83 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0077.Combinations/README.md
+difficulty: Medium
 tags:
-    - 回溯
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [77. 组合](https://leetcode.cn/problems/combinations)
+# [77. Combinations](https://leetcode.com/problems/combinations)
 
-[English Version](/solution/0000-0099/0077.Combinations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个整数 <code>n</code> 和 <code>k</code>，返回范围 <code>[1, n]</code> 中所有可能的 <code>k</code> 个数的组合。</p>
+<p>Given two integers <code>n</code> and <code>k</code>, return <em>all possible combinations of</em> <code>k</code> <em>numbers chosen from the range</em> <code>[1, n]</code>.</p>
 
-<p>你可以按 <strong>任何顺序</strong> 返回答案。</p>
+<p>You may return the answer in <strong>any order</strong>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 4, k = 2
-<strong>输出：</strong>
-[
-  [2,4],
-  [3,4],
-  [2,3],
-  [1,2],
-  [1,3],
-  [1,4],
-]</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 1, k = 1
-<strong>输出：</strong>[[1]]</pre>
+<strong>Input:</strong> n = 4, k = 2
+<strong>Output:</strong> [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
+<strong>Explanation:</strong> There are 4 choose 2 = 6 total combinations.
+Note that combinations are unordered, i.e., [1,2] and [2,1] are considered to be the same combination.
+</pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 1, k = 1
+<strong>Output:</strong> [[1]]
+<strong>Explanation:</strong> There is 1 choose 1 = 1 total combination.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= n <= 20</code></li>
-	<li><code>1 <= k <= n</code></li>
+	<li><code>1 &lt;= n &lt;= 20</code></li>
+	<li><code>1 &lt;= k &lt;= n</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：回溯（两种方式）
+### Solution 1: Backtracking (Two Ways)
 
-我们设计一个函数 $dfs(i)$，表示从数字 $i$ 开始搜索，当前搜索路径为 $t$，答案为 $ans$。
+We design a function $dfs(i)$, which represents starting the search from number $i$, with the current search path as $t$, and the answer as $ans$.
 
-函数 $dfs(i)$ 的执行逻辑如下：
+The execution logic of the function $dfs(i)$ is as follows:
 
--   如果当前搜索路径 $t$ 的长度等于 $k$，则将当前搜索路径加入答案，然后返回。
--   如果 $i \gt n$，则说明搜索已经结束，返回。
--   否则，我们可以选择将数字 $i$ 加入搜索路径 $t$，然后继续搜索，即执行 $dfs(i + 1)$，然后将数字 $i$ 从搜索路径 $t$ 中移除；或者不将数字 $i$ 加入搜索路径 $t$，直接执行 $dfs(i + 1)$。
+-   If the length of the current search path $t$ equals $k$, then add the current search path to the answer and return.
+-   If $i \gt n$, it means the search has ended, return.
+-   Otherwise, we can choose to add the number $i$ to the search path $t$, and then continue the search, i.e., execute $dfs(i + 1)$, and then remove the number $i$ from the search path $t$; or we do not add the number $i$ to the search path $t$, and directly execute $dfs(i + 1)$.
 
-以上做法实际上是枚举当前数字选或者不选，然后递归地搜索下一个数字。我们也可以枚举下一个要选择的数字 $j$，其中 $i \leq j \leq n$，如果下一个要选择的数字是 $j$，那么我们将数字 $j$ 加入搜索路径 $t$，然后继续搜索，即执行 $dfs(j + 1)$，接着将数字 $j$ 从搜索路径 $t$ 中移除。
+The above method is actually enumerating whether to select the current number or not, and then recursively searching the next number. We can also enumerate the next number $j$ to be selected, where $i \leq j \leq n$. If the next number to be selected is $j$, then we add the number $j$ to the search path $t$, and then continue the search, i.e., execute $dfs(j + 1)$, and then remove the number $j$ from the search path $t$.
 
-在主函数中，我们从数字 $1$ 开始搜索，即执行 $dfs(1)$。
+In the main function, we start the search from number $1$, i.e., execute $dfs(1)$.
 
-时间复杂度 $(C_n^k \times k)$，空间复杂度 $O(k)$。其中 $C_n^k$ 表示组合数。
+The time complexity is $(C_n^k \times k)$, and the space complexity is $O(k)$. Here, $C_n^k$ represents the combination number.
 
-相似题目：
+Similar problems:
 
--   [39. 组合总和](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0039.Combination%20Sum/README.md)
--   [40. 组合总和 II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0040.Combination%20Sum%20II/README.md)
--   [216. 组合总和 III](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0216.Combination%20Sum%20III/README.md)
+-   [39. Combination Sum](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0039.Combination%20Sum/README_EN.md)
+-   [40. Combination Sum II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0040.Combination%20Sum%20II/README_EN.md)
+-   [216. Combination Sum III](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0216.Combination%20Sum%20III/README_EN.md)
 
 <!-- tabs:start -->
 
@@ -274,7 +266,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

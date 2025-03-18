@@ -1,77 +1,51 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0932.Beautiful%20Array/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 数学
-    - 分治
+    - Array
+    - Math
+    - Divide and Conquer
 ---
 
 <!-- problem:start -->
 
-# [932. 漂亮数组](https://leetcode.cn/problems/beautiful-array)
+# [932. Beautiful Array](https://leetcode.com/problems/beautiful-array)
 
-[English Version](/solution/0900-0999/0932.Beautiful%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>如果长度为 <code>n</code> 的数组 <code>nums</code> 满足下述条件，则认为该数组是一个 <strong>漂亮数组</strong> ：</p>
+<p>An array <code>nums</code> of length <code>n</code> is <strong>beautiful</strong> if:</p>
 
 <ul>
-	<li><code>nums</code> 是由范围 <code>[1, n]</code> 的整数组成的一个排列。</li>
-	<li>对于每个 <code>0 &lt;= i &lt; j &lt; n</code> ，均不存在下标 <code>k</code>（<code>i &lt; k &lt; j</code>）使得 <code>2 * nums[k] == nums[i] + nums[j]</code> 。</li>
+	<li><code>nums</code> is a permutation of the integers in the range <code>[1, n]</code>.</li>
+	<li>For every <code>0 &lt;= i &lt; j &lt; n</code>, there is no index <code>k</code> with <code>i &lt; k &lt; j</code> where <code>2 * nums[k] == nums[i] + nums[j]</code>.</li>
 </ul>
 
-<p>给你整数 <code>n</code> ，返回长度为 <code>n</code> 的任一 <strong>漂亮数组</strong> 。本题保证对于给定的 <code>n</code> 至少存在一个有效答案。</p>
+<p>Given the integer <code>n</code>, return <em>any <strong>beautiful</strong> array </em><code>nums</code><em> of length </em><code>n</code>. There will be at least one valid answer for the given <code>n</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1 ：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 4
-<strong>输出：</strong>[2,1,4,3]
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> n = 4
+<strong>Output:</strong> [2,1,4,3]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> n = 5
+<strong>Output:</strong> [3,1,2,5,4]
 </pre>
-
-<p><strong class="example">示例 2 ：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 5
-<strong>输出：</strong>[3,1,2,5,4]
-</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
 </ul>
 
-<p>&nbsp;</p>
-
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分治
-
-根据题意，漂亮数组 $A$ 需要满足对于任意 $i<k<j$, $A_k*2 \neq A_i+A_j$。
-
-我们可以发现，不等式左侧一定是偶数，那么我们只要保证不等式右侧 $A_i$ 和 $A_j$ 分别是一奇一偶，那么不等式就恒成立。
-
-利用分治，我们将 $n$ 缩小规模为原来的一半，递归调用，可以得到两个漂亮数组 $left$, $right$。我们将 $left$ 中每个元素 $x_i$ 变为 $x_i*2-1$ 可以得到一个奇数数组；将 $right$ 中每个元素 $x_i$ 变为 $x_i*2$，可以得到一个偶数数组。这两个数组仍然是漂亮数组。
-
-> 基于一个性质，将漂亮数组中的每个元素 $x_i$ 变换为 $kx_i+b$，得到的数组仍然是漂亮数组。
-
-将这两个漂亮数组合并在一起，由于满足一奇一偶，那么合并后的数组也是漂亮数组，从而得到了答案。
-
-时间复杂度 $O(nlogn)$。
+### Solution 1
 
 <!-- tabs:start -->
 

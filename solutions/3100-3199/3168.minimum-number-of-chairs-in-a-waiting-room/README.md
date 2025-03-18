@@ -1,65 +1,62 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3168.Minimum%20Number%20of%20Chairs%20in%20a%20Waiting%20Room/README.md
+difficulty: Easy
 rating: 1211
-source: 第 400 场周赛 Q1
+source: Weekly Contest 400 Q1
 tags:
-    - 字符串
-    - 模拟
+    - String
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [3168. 候诊室中的最少椅子数](https://leetcode.cn/problems/minimum-number-of-chairs-in-a-waiting-room)
+# [3168. Minimum Number of Chairs in a Waiting Room](https://leetcode.com/problems/minimum-number-of-chairs-in-a-waiting-room)
 
-[English Version](/solution/3100-3199/3168.Minimum%20Number%20of%20Chairs%20in%20a%20Waiting%20Room/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code>，模拟每秒钟的事件 <code>i</code>：</p>
+<p>You are given a string <code>s</code>. Simulate events at each second <code>i</code>:</p>
 
 <ul>
-	<li>如果 <code>s[i] == 'E'</code>，表示有一位顾客进入候诊室并占用一把椅子。</li>
-	<li>如果 <code>s[i] == 'L'</code>，表示有一位顾客离开候诊室，从而释放一把椅子。</li>
+	<li>If <code>s[i] == &#39;E&#39;</code>, a person enters the waiting room and takes one of the chairs in it.</li>
+	<li>If <code>s[i] == &#39;L&#39;</code>, a person leaves the waiting room, freeing up a chair.</li>
 </ul>
 
-<p>返回保证每位进入候诊室的顾客都能有椅子坐的<strong> 最少 </strong>椅子数，假设候诊室最初是 <strong>空的 </strong>。</p>
+<p>Return the <strong>minimum </strong>number of chairs needed so that a chair is available for every person who enters the waiting room given that it is initially <strong>empty</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong><span class="example-io">s = "EEEEEEE"</span></p>
-
-<p><strong>输出：</strong><span class="example-io">7</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>每秒后都有一个顾客进入候诊室，没有人离开。因此，至少需要 7 把椅子。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">s = "ELELEEL"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;EEEEEEE&quot;</span></p>
 
-<p><strong>输出：</strong><span class="example-io">2</span></p>
+<p><strong>Output:</strong> <span class="example-io">7</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>假设候诊室里有 2 把椅子。下表显示了每秒钟等候室的状态。</p>
+<p>After each second, a person enters the waiting room and no person leaves it. Therefore, a minimum of 7 chairs is needed.</p>
 </div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;ELELEEL&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>Let&#39;s consider that there are 2 chairs in the waiting room. The table below shows the state of the waiting room at each second.</p>
+</div>
+
 <table>
 	<tbody>
 		<tr>
-			<th>秒</th>
-			<th>事件</th>
-			<th>候诊室的人数</th>
-			<th>可用的椅子数</th>
+			<th>Second</th>
+			<th>Event</th>
+			<th>People in the Waiting Room</th>
+			<th>Available Chairs</th>
 		</tr>
 		<tr>
 			<td>0</td>
@@ -106,24 +103,25 @@ tags:
 	</tbody>
 </table>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">s = "ELEELEELLL"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;ELEELEELLL&quot;</span></p>
 
-<p><strong>输出：</strong><span class="example-io">3</span></p>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>假设候诊室里有 3 把椅子。下表显示了每秒钟等候室的状态。</p>
+<p>Let&#39;s consider that there are 3 chairs in the waiting room. The table below shows the state of the waiting room at each second.</p>
 </div>
+
 <table>
 	<tbody>
 		<tr>
-			<th>秒</th>
-			<th>事件</th>
-			<th>候诊室的人数</th>
-			<th>可用的椅子数</th>
+			<th>Second</th>
+			<th>Event</th>
+			<th>People in the Waiting Room</th>
+			<th>Available Chairs</th>
 		</tr>
 		<tr>
 			<td>0</td>
@@ -189,28 +187,27 @@ tags:
 </table>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 50</code></li>
-	<li><code>s</code> 仅由字母 <code>'E'</code> 和 <code>'L'</code> 组成。</li>
-	<li><code>s</code> 表示一个有效的进出序列。</li>
+	<li><code>s</code> consists only of the letters <code>&#39;E&#39;</code> and <code>&#39;L&#39;</code>.</li>
+	<li><code>s</code> represents a valid sequence of entries and exits.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们用变量 $\textit{cnt}$ 来记录当前需要的椅子数，用变量 $\textit{left}$ 来记录当前剩余的空椅子数。遍历字符串 $\textit{s}$，如果当前字符是 'E'，那么如果有剩余的空椅子，就直接使用一个空椅子，否则需要增加一个椅子；如果当前字符是 'L'，那么剩余的空椅子数加一。
+We use a variable `cnt` to record the current number of chairs needed, and a variable `left` to record the current number of remaining empty chairs. We traverse the string `s`. If the current character is 'E', then if there are remaining empty chairs, we directly use one empty chair, otherwise we need to add a chair; if the current character is 'L', then the number of remaining empty chairs increases by one.
 
-遍历结束后，返回 $\textit{cnt}$ 即可。
+After the traversal, we return `cnt`.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $\textit{s}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string `s`. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

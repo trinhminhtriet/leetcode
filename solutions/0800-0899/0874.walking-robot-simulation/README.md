@@ -1,131 +1,140 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0874.Walking%20Robot%20Simulation/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
-    - 模拟
+    - Array
+    - Hash Table
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [874. 模拟行走机器人](https://leetcode.cn/problems/walking-robot-simulation)
+# [874. Walking Robot Simulation](https://leetcode.com/problems/walking-robot-simulation)
 
-[English Version](/solution/0800-0899/0874.Walking%20Robot%20Simulation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>机器人在一个无限大小的 XY 网格平面上行走，从点&nbsp;<code>(0, 0)</code> 处开始出发，面向北方。该机器人可以接收以下三种类型的命令 <code>commands</code> ：</p>
+<p>A robot on an infinite XY-plane starts at point <code>(0, 0)</code> facing north. The robot receives an array of integers <code>commands</code>, which represents a sequence of moves that it needs to execute. There are only three possible types of instructions the robot can receive:</p>
 
 <ul>
-	<li><code>-2</code> ：向左转&nbsp;<code>90</code> 度</li>
-	<li><code>-1</code> ：向右转 <code>90</code> 度</li>
-	<li><code>1 &lt;= x &lt;= 9</code> ：向前移动&nbsp;<code>x</code>&nbsp;个单位长度</li>
+	<li><code>-2</code>: Turn left <code>90</code> degrees.</li>
+	<li><code>-1</code>: Turn right <code>90</code> degrees.</li>
+	<li><code>1 &lt;= k &lt;= 9</code>: Move forward <code>k</code> units, one unit at a time.</li>
 </ul>
 
-<p>在网格上有一些格子被视为障碍物&nbsp;<code>obstacles</code> 。第 <code>i</code>&nbsp;个障碍物位于网格点 &nbsp;<code>obstacles[i] = (x<sub>i</sub>, y<sub>i</sub>)</code> 。</p>
+<p>Some of the grid squares are <code>obstacles</code>. The <code>i<sup>th</sup></code> obstacle is at grid point <code>obstacles[i] = (x<sub>i</sub>, y<sub>i</sub>)</code>. If the robot runs into an obstacle, it will stay in its current location (on the block adjacent to the obstacle) and move onto the next command.</p>
 
-<p>机器人无法走到障碍物上，它将会停留在障碍物的前一个网格方块上，并继续执行下一个命令。</p>
+<p>Return the <strong>maximum squared Euclidean distance</strong> that the robot reaches at any point in its path (i.e. if the distance is <code>5</code>, return <code>25</code>).</p>
 
-<p>返回机器人距离原点的 <strong>最大欧式距离</strong> 的 <strong>平方</strong> 。（即，如果距离为 <code>5</code> ，则返回 <code>25</code> ）</p>
-
-<div class="d-google dictRoot saladict-panel isAnimate">
-<div>
-<div class="MachineTrans-Text">
-<div class="MachineTrans-Lines">
-<div class="MachineTrans-Lines-collapse MachineTrans-lang-en">&nbsp;</div>
-</div>
-
-<div class="MachineTrans-Lines">
-<p class="MachineTrans-lang-zh-CN"><strong>注意：</strong></p>
+<p><strong>Note:</strong></p>
 
 <ul>
-	<li class="MachineTrans-lang-zh-CN">北方表示 +Y 方向。</li>
-	<li class="MachineTrans-lang-zh-CN">东方表示 +X 方向。</li>
-	<li class="MachineTrans-lang-zh-CN">南方表示 -Y 方向。</li>
-	<li class="MachineTrans-lang-zh-CN">西方表示 -X 方向。</li>
-	<li class="MachineTrans-lang-zh-CN">原点 [0,0] 可能会有障碍物。</li>
+	<li>There can be an obstacle at <code>(0, 0)</code>. If this happens, the robot will ignore the obstacle until it has moved off the origin. However, it will be unable to return to <code>(0, 0)</code> due to the obstacle.</li>
+	<li>North means +Y direction.</li>
+	<li>East means +X direction.</li>
+	<li>South means -Y direction.</li>
+	<li>West means -X direction.</li>
 </ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">commands = [4,-1,3], obstacles = []</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">25</span></p>
+
+<p><strong>Explanation: </strong></p>
+
+<p>The robot starts at <code>(0, 0)</code>:</p>
+
+<ol>
+	<li>Move north 4 units to <code>(0, 4)</code>.</li>
+	<li>Turn right.</li>
+	<li>Move east 3 units to <code>(3, 4)</code>.</li>
+</ol>
+
+<p>The furthest point the robot ever gets from the origin is <code>(3, 4)</code>, which squared is <code>3<sup>2</sup> + 4<sup>2 </sup>= 25</code> units away.</p>
 </div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">commands = [4,-1,4,-2,4], obstacles = [[2,4]]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">65</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The robot starts at <code>(0, 0)</code>:</p>
+
+<ol>
+	<li>Move north 4 units to <code>(0, 4)</code>.</li>
+	<li>Turn right.</li>
+	<li>Move east 1 unit and get blocked by the obstacle at <code>(2, 4)</code>, robot is at <code>(1, 4)</code>.</li>
+	<li>Turn left.</li>
+	<li>Move north 4 units to <code>(1, 8)</code>.</li>
+</ol>
+
+<p>The furthest point the robot ever gets from the origin is <code>(1, 8)</code>, which squared is <code>1<sup>2</sup> + 8<sup>2</sup> = 65</code> units away.</p>
 </div>
-</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">commands = [6,-1,-1,6], obstacles = [[0,0]]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">36</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The robot starts at <code>(0, 0)</code>:</p>
+
+<ol>
+	<li>Move north 6 units to <code>(0, 6)</code>.</li>
+	<li>Turn right.</li>
+	<li>Turn right.</li>
+	<li>Move south 5 units and get blocked by the obstacle at <code>(0,0)</code>, robot is at <code>(0, 1)</code>.</li>
+</ol>
+
+<p>The furthest point the robot ever gets from the origin is <code>(0, 6)</code>, which squared is <code>6<sup>2</sup> = 36</code> units away.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>commands = [4,-1,3], obstacles = []
-<strong>输出：</strong>25
-<strong>解释：
-</strong>机器人开始位于 (0, 0)：
-1. 向北移动 4 个单位，到达 (0, 4)
-2. 右转
-3. 向东移动 3 个单位，到达 (3, 4)
-距离原点最远的是 (3, 4) ，距离为 3<sup>2</sup> + 4<sup>2</sup> = 25</pre>
-
-<p><strong>示例&nbsp;2：</strong></p>
-
-<pre>
-<strong>输入：</strong>commands = [4,-1,4,-2,4], obstacles = [[2,4]]
-<strong>输出：</strong>65
-<strong>解释</strong>：机器人开始位于 (0, 0)：
-1. 向北移动 4 个单位，到达 (0, 4)
-2. 右转
-3. 向东移动 1 个单位，然后被位于 (2, 4) 的障碍物阻挡，机器人停在 (1, 4)
-4. 左转
-5. 向北走 4 个单位，到达 (1, 8)
-距离原点最远的是 (1, 8) ，距离为 1<sup>2</sup> + 8<sup>2</sup> = 65</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>commands = [6,-1,-1,6], obstacles = []
-<b>输出：</b>36
-<b>解释：</b>机器人开始位于 (0, 0):
-1. 向北移动 6 个单位，到达 (0, 6).
-2. 右转
-3. 右转
-4. 向南移动 6 个单位，到达 (0, 0).
-机器人距离原点最远的点是 (0, 6)，其距离的平方是 6<sup>2</sup> = 36 个单位。</pre>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= commands.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>commands[i]</code> 的值可以取 <code>-2</code>、<code>-1</code> 或者是范围 <code>[1, 9]</code> 内的一个整数。</li>
+	<li><code>commands[i]</code> is either <code>-2</code>, <code>-1</code>, or an integer in the range <code>[1, 9]</code>.</li>
 	<li><code>0 &lt;= obstacles.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>-3 * 10<sup>4</sup> &lt;= x<sub>i</sub>, y<sub>i</sub> &lt;= 3 * 10<sup>4</sup></code></li>
-	<li>答案保证小于 <code>2<sup>31</sup></code></li>
+	<li>The answer is guaranteed to be less than <code>2<sup>31</sup></code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 模拟
+### Solution 1: Hash table + simulation
 
-我们定义一个长度为 $5$ 的方向数组 $dirs=[0, 1, 0, -1, 0]$，数组中的相邻两个元素表示一个方向。即 $(dirs[0], dirs[1])$ 表示向北，而 $(dirs[1], dirs[2])$ 表示向东，以此类推。
+We define a direction array $dirs=[0, 1, 0, -1, 0]$ of length $5$, where adjacent elements in the array represent a direction. That is, $(dirs[0], dirs[1])$ represents north, and $(dirs[1], dirs[2])$ represents east, and so on.
 
-我们使用一个哈希表 $s$ 来存储所有障碍物的坐标，这样可以在 $O(1)$ 的时间内判断下一步是否会遇到障碍物。
+We use a hash table $s$ to store the coordinates of all obstacles, so that we can determine in $O(1)$ time whether the next step will encounter an obstacle.
 
-另外，使用两个变量 $x$ 和 $y$ 来表示机器人当前所在的坐标，初始时 $x = y = 0$。变量 $k$ 表示机器人当前的方向，答案变量 $ans$ 表示机器人距离原点的最大欧式距离的平方。
+We use two variables $x$ and $y$ to represent the current coordinates of the robot, initially $x = y = 0$. The variable $k$ represents the current direction of the robot, and the answer variable $ans$ represents the maximum Euclidean distance squared of the robot from the origin.
 
-接下来，我们遍历数组 $commands$ 中的每个元素 $c$：
+Next, we traverse each element $c$ in the array $commands$:
 
--   如果 $c = -2$，表示机器人向左转 $90$ 度，即 $k = (k + 3) \bmod 4$；
--   如果 $c = -1$，表示机器人向右转 $90$ 度，即 $k = (k + 1) \bmod 4$；
--   否则，表示机器人向前移动 $c$ 个单位长度。我们将机器人当前的方向 $k$ 与方向数组 $dirs$ 结合，即可得到机器人在 $x$ 轴和 $y$ 轴上的增量。我们将 $c$ 个单位长度的增量分别累加到 $x$ 和 $y$ 上，并判断每次移动后的新坐标 $(nx, ny)$ 是否在障碍物的坐标中，如果不在，则更新答案 $ans$，否则停止模拟，进行下一条指令的模拟。
+-   If $c = -2$, it means that the robot turns left by $90$ degrees, that is, $k = (k + 3) \bmod 4$;
+-   If $c = -1$, it means that the robot turns right by $90$ degrees, that is, $k = (k + 1) \bmod 4$;
+-   Otherwise, it means that the robot moves forward by $c$ units of length. We combine the robot's current direction $k$ with the direction array $dirs$, and we can get the increment of the robot on the $x$ axis and the $y$ axis. We add the increment of $c$ units of length to $x$ and $y$ respectively, and judge whether the new coordinates $(x, y)$ after each move are in the coordinates of obstacles. If not, update the answer $ans$, otherwise stop simulating and perform the simulation of the next instruction.
 
-最后返回答案 $ans$ 即可。
+Finally return the answer $ans$.
 
-时间复杂度 $O(C \times n + m)$，空间复杂度 $O(m)$。其中 $C$ 表示每次可以移动的最大步数，而 $n$ 和 $m$ 分别表示数组 $commands$ 和数组 $obstacles$ 的长度。
+Time complexity is $O(C \times n + m)$, space complexity is $O(m)$. Where $C$ represents the maximum number of steps that can be moved each time, and $n$ and $m$ respectively represent the lengths of arrays $commands$ and arrays $obstacles$.
 
 <!-- tabs:start -->
 

@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1350.Students%20With%20Invalid%20Departments/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1350. 院系无效的学生 🔒](https://leetcode.cn/problems/students-with-invalid-departments)
+# [1350. Students With Invalid Departments 🔒](https://leetcode.com/problems/students-with-invalid-departments)
 
-[English Version](/solution/1300-1399/1350.Students%20With%20Invalid%20Departments/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>院系表: <code>Departments</code></p>
+<p>Table: <code>Departments</code></p>
 
 <pre>
 +---------------+---------+
@@ -25,13 +22,13 @@ tags:
 | id            | int     |
 | name          | varchar |
 +---------------+---------+
-在 SQL 中，id 是该表的主键
-该表包含一所大学每个院系的 id 信息
+In SQL, id is the primary key of this table.
+The table has information about the id of each department of a university.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>学生表: <code>Students</code></p>
+<p>Table: <code>Students</code></p>
 
 <pre>
 +---------------+---------+
@@ -41,25 +38,24 @@ tags:
 | name          | varchar |
 | department_id | int     |
 +---------------+---------+
-在 SQL 中，id 是该表的主键
-该表包含一所大学每个学生的 id 和他/她就读的院系信息
+In SQL, id is the primary key of this table.
+The table has information about the id of each student at a university and the id of the department he/she studies at.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>找出那些所在院系不存在的学生的 id 和姓名</p>
+<p>Find the id and the name of all students who are enrolled in departments that no longer exist.</p>
 
-<p>可以以 <strong>任何顺序</strong> 返回结果。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>下面是返回结果格式的例子。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Departments 表:
+<strong>Input:</strong> 
+Departments table:
 +------+--------------------------+
 | id   | name                     |
 +------+--------------------------+
@@ -67,7 +63,7 @@ Departments 表:
 | 7    | Computer Engineering     |
 | 13   | Bussiness Administration |
 +------+--------------------------+
-Students 表:
+Students table:
 +------+----------+---------------+
 | id   | name     | department_id |
 +------+----------+---------------+
@@ -82,7 +78,7 @@ Students 表:
 | 7    | Daiana   | 33            |
 | 11   | Madelynn | 1             |
 +------+----------+---------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +------+----------+
 | id   | name     |
 +------+----------+
@@ -91,18 +87,19 @@ Students 表:
 | 4    | Jasmine  |
 | 3    | Steve    |
 +------+----------+
-<strong>解释：</strong>
-John, Daiana, Steve 和 Jasmine 所在的院系分别是 14, 33, 74 和 77， 其中 14, 33, 74 和 77 并不存在于院系表</pre>
+<strong>Explanation:</strong> 
+John, Daiana, Steve, and Jasmine are enrolled in departments 14, 33, 74, and 77 respectively. department 14, 33, 74, and 77 do not exist in the Departments table.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：子查询
+### Solution 1: Subquery
 
-我们直接使用子查询的方式，找出所有不在院系表中的学生即可。
+We can directly use a subquery to find all students who are not in the `Departments` table.
 
 <!-- tabs:start -->
 
@@ -121,9 +118,9 @@ WHERE department_id NOT IN (SELECT id FROM Departments);
 
 <!-- solution:start -->
 
-### 方法二：左连接
+### Solution 2: Left Join
 
-我们也可以使用左连接，将 `Students` 表和 `Departments` 连接，连接条件为 `Students.department_id = Departments.id`，然后筛选出 `Departments.id` 为空的学生即可。
+We can also use a left join to join the `Students` table with the `Departments` table on the condition of `Students.department_id = Departments.id`, and then filter out the students whose `Departments.id` is `NULL`.
 
 <!-- tabs:start -->
 

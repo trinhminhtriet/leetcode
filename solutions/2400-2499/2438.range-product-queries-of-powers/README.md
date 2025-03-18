@@ -1,57 +1,54 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2438.Range%20Product%20Queries%20of%20Powers/README.md
+difficulty: Medium
 rating: 1609
-source: 第 89 场双周赛 Q2
+source: Biweekly Contest 89 Q2
 tags:
-    - 位运算
-    - 数组
-    - 前缀和
+    - Bit Manipulation
+    - Array
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [2438. 二的幂数组中查询范围内的乘积](https://leetcode.cn/problems/range-product-queries-of-powers)
+# [2438. Range Product Queries of Powers](https://leetcode.com/problems/range-product-queries-of-powers)
 
-[English Version](/solution/2400-2499/2438.Range%20Product%20Queries%20of%20Powers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数&nbsp;<code>n</code>&nbsp;，你需要找到一个下标从&nbsp;<strong>0</strong>&nbsp;开始的数组&nbsp;<code>powers</code>&nbsp;，它包含 <strong>最少</strong>&nbsp;数目的 <code>2</code>&nbsp;的幂，且它们的和为&nbsp;<code>n</code>&nbsp;。<code>powers</code>&nbsp;数组是&nbsp;<strong>非递减</strong>&nbsp;顺序的。根据前面描述，构造&nbsp;<code>powers</code>&nbsp;数组的方法是唯一的。</p>
+<p>Given a positive integer <code>n</code>, there exists a <strong>0-indexed</strong> array called <code>powers</code>, composed of the <strong>minimum</strong> number of powers of <code>2</code> that sum to <code>n</code>. The array is sorted in <strong>non-decreasing</strong> order, and there is <strong>only one</strong> way to form the array.</p>
 
-<p>同时给你一个下标从 <strong>0</strong>&nbsp;开始的二维整数数组&nbsp;<code>queries</code>&nbsp;，其中&nbsp;<code>queries[i] = [left<sub>i</sub>, right<sub>i</sub>]</code>&nbsp;，其中&nbsp;<code>queries[i]</code>&nbsp;表示请你求出满足&nbsp;<code>left<sub>i</sub> &lt;= j &lt;= right<sub>i</sub></code>&nbsp;的所有&nbsp;<code>powers[j]</code>&nbsp;的乘积。</p>
+<p>You are also given a <strong>0-indexed</strong> 2D integer array <code>queries</code>, where <code>queries[i] = [left<sub>i</sub>, right<sub>i</sub>]</code>. Each <code>queries[i]</code> represents a query where you have to find the product of all <code>powers[j]</code> with <code>left<sub>i</sub> &lt;= j &lt;= right<sub>i</sub></code>.</p>
 
-<p>请你返回一个数组<em>&nbsp;</em><code>answers</code>&nbsp;，长度与<em>&nbsp;</em><code>queries</code>&nbsp;的长度相同，其中<em>&nbsp;</em><code>answers[i]</code>是第<em>&nbsp;</em><code>i</code>&nbsp;个查询的答案。由于查询的结果可能非常大，请你将每个&nbsp;<code>answers[i]</code>&nbsp;都对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>n = 15, queries = [[0,1],[2,2],[0,3]]
-<b>输出：</b>[2,4,64]
-<strong>解释：</strong>
-对于 n = 15 ，得到 powers = [1,2,4,8] 。没法得到元素数目更少的数组。
-第 1 个查询的答案：powers[0] * powers[1] = 1 * 2 = 2 。
-第 2 个查询的答案：powers[2] = 4 。
-第 3 个查询的答案：powers[0] * powers[1] * powers[2] * powers[3] = 1 * 2 * 4 * 8 = 64 。
-每个答案对 10<sup>9</sup> + 7 得到的结果都相同，所以返回 [2,4,64] 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>n = 2, queries = [[0,0]]
-<b>输出：</b>[2]
-<strong>解释：</strong>
-对于 n = 2, powers = [2] 。
-唯一一个查询的答案是 powers[0] = 2 。答案对 10<sup>9</sup> + 7 取余后结果相同，所以返回 [2] 。
-</pre>
+<p>Return<em> an array </em><code>answers</code><em>, equal in length to </em><code>queries</code><em>, where </em><code>answers[i]</code><em> is the answer to the </em><code>i<sup>th</sup></code><em> query</em>. Since the answer to the <code>i<sup>th</sup></code> query may be too large, each <code>answers[i]</code> should be returned <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 15, queries = [[0,1],[2,2],[0,3]]
+<strong>Output:</strong> [2,4,64]
+<strong>Explanation:</strong>
+For n = 15, powers = [1,2,4,8]. It can be shown that powers cannot be a smaller size.
+Answer to 1st query: powers[0] * powers[1] = 1 * 2 = 2.
+Answer to 2nd query: powers[2] = 4.
+Answer to 3rd query: powers[0] * powers[1] * powers[2] * powers[3] = 1 * 2 * 4 * 8 = 64.
+Each answer modulo 10<sup>9</sup> + 7 yields the same answer, so [2,4,64] is returned.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 2, queries = [[0,0]]
+<strong>Output:</strong> [2]
+<strong>Explanation:</strong>
+For n = 2, powers = [2].
+The answer to the only query is powers[0] = 2. The answer modulo 10<sup>9</sup> + 7 is the same, so [2] is returned.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>9</sup></code></li>
@@ -61,15 +58,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算 + 模拟
+### Solution 1: Bit Manipulation + Simulation
 
-我们先通过位运算（lowbit）得到 powers 数组，然后通过模拟的方式求出每个查询的答案。
+First, we use bit manipulation (lowbit) to get the powers array, and then simulate to get the answer for each query.
 
-时间复杂度 $O(n \times \log n)$，忽略答案的空间消耗，空间复杂度 $O(\log n)$。其中 $n$ 为 $queries$ 的长度。
+The time complexity is $O(n \times \log n)$, ignoring the space consumption of the answer, the space complexity is $O(\log n)$. Here, $n$ is the length of $queries$.
 
 <!-- tabs:start -->
 

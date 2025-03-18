@@ -1,96 +1,84 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0588.Design%20In-Memory%20File%20System/README.md
+difficulty: Hard
 tags:
-    - 设计
-    - 字典树
-    - 哈希表
-    - 字符串
-    - 排序
+    - Design
+    - Trie
+    - Hash Table
+    - String
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [588. 设计内存文件系统 🔒](https://leetcode.cn/problems/design-in-memory-file-system)
+# [588. Design In-Memory File System 🔒](https://leetcode.com/problems/design-in-memory-file-system)
 
-[English Version](/solution/0500-0599/0588.Design%20In-Memory%20File%20System/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>设计一个内存文件系统，模拟以下功能：</p>
+<p>Design a data structure that simulates an in-memory file system.</p>
 
-<p>实现文件系统类:</p>
+<p>Implement the FileSystem class:</p>
 
 <ul>
-	<li><code>FileSystem()</code>&nbsp;初始化系统对象</li>
+	<li><code>FileSystem()</code> Initializes the object of the system.</li>
 	<li><code>List&lt;String&gt; ls(String path)</code>
 	<ul>
-		<li>如果 <code>path</code> 是一个文件路径，则返回一个仅包含该文件名称的列表。</li>
-		<li>如果 <code>path</code> 是一个目录路径，则返回该目录中文件和 <strong>目录名</strong> 的列表。</li>
+		<li>If <code>path</code> is a file path, returns a list that only contains this file&#39;s name.</li>
+		<li>If <code>path</code> is a directory path, returns the list of file and directory names <strong>in this directory</strong>.</li>
 	</ul>
-	</li>
-</ul>
-
-<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 答案应该 按<strong>字典顺序</strong> 排列。</p>
-
-<ul>
-	<li><code>void mkdir(String path)</code>&nbsp;根据给定的路径创建一个新目录。给定的目录路径不存在。如果路径中的中间目录不存在，您也应该创建它们。</li>
+	The answer should in <strong>lexicographic order</strong>.</li>
+	<li><code>void mkdir(String path)</code> Makes a new directory according to the given <code>path</code>. The given directory path does not exist. If the middle directories in the path do not exist, you should create them as well.</li>
 	<li><code>void addContentToFile(String filePath, String content)</code>
 	<ul>
-		<li>如果 <code>filePath</code> 不存在，则创建包含给定内容&nbsp;<code>content</code>的文件。</li>
-		<li>如果 <code>filePath</code> 已经存在，将给定的内容&nbsp;<code>content</code>附加到原始内容。</li>
+		<li>If <code>filePath</code> does not exist, creates that file containing given <code>content</code>.</li>
+		<li>If <code>filePath</code> already exists, appends the given <code>content</code> to original content.</li>
 	</ul>
 	</li>
-	<li><code>String readContentFromFile(String filePath)</code>&nbsp;返回 <code>filePath</code>下的文件内容。</li>
+	<li><code>String readContentFromFile(String filePath)</code> Returns the content in the file at <code>filePath</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0588.Design%20In-Memory%20File%20System/images/filesystem.png" style="height: 315px; width: 650px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0588.Design%20In-Memory%20File%20System/images/filesystem.png" style="width: 650px; height: 315px;" />
 <pre>
-<strong>输入:</strong> 
-["FileSystem","ls","mkdir","addContentToFile","ls","readContentFromFile"]
-[[],["/"],["/a/b/c"],["/a/b/c/d","hello"],["/"],["/a/b/c/d"]]
-<strong>输出:</strong>
-[null,[],null,null,["a"],"hello"]
+<strong>Input</strong>
+[&quot;FileSystem&quot;, &quot;ls&quot;, &quot;mkdir&quot;, &quot;addContentToFile&quot;, &quot;ls&quot;, &quot;readContentFromFile&quot;]
+[[], [&quot;/&quot;], [&quot;/a/b/c&quot;], [&quot;/a/b/c/d&quot;, &quot;hello&quot;], [&quot;/&quot;], [&quot;/a/b/c/d&quot;]]
+<strong>Output</strong>
+[null, [], null, null, [&quot;a&quot;], &quot;hello&quot;]
 
-<strong>解释:</strong>
+<strong>Explanation</strong>
 FileSystem fileSystem = new FileSystem();
-fileSystem.ls("/");                         // 返回 []
-fileSystem.mkdir("/a/b/c");
-fileSystem.addContentToFile("/a/b/c/d", "hello");
-fileSystem.ls("/");                         // 返回 ["a"]
-fileSystem.readContentFromFile("/a/b/c/d"); // 返回 "hello"</pre>
+fileSystem.ls(&quot;/&quot;); // return []
+fileSystem.mkdir(&quot;/a/b/c&quot;);
+fileSystem.addContentToFile(&quot;/a/b/c/d&quot;, &quot;hello&quot;);
+fileSystem.ls(&quot;/&quot;); // return [&quot;a&quot;]
+fileSystem.readContentFromFile(&quot;/a/b/c/d&quot;); // return &quot;hello&quot;
+
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>注意:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= path.length,&nbsp;filePath.length &lt;= 100</code></li>
-	<li><code>path</code>&nbsp;和&nbsp;<code>filePath</code>&nbsp;都是绝对路径，除非是根目录&nbsp;<code>‘/’</code>&nbsp;自身，其他路径都是以&nbsp;<code>‘/’</code>&nbsp;开头且 <strong>不</strong> 以&nbsp;<code>‘/’</code>&nbsp;结束。</li>
-	<li>你可以假定所有操作的参数都是有效的，即用户不会获取不存在文件的内容，或者获取不存在文件夹和文件的列表。</li>
-	<li>你可以假定所有文件夹名字和文件名字都只包含小写字母，且同一文件夹下不会有相同名字的文件夹或文件。</li>
-	<li>你可以假定&nbsp;<code>addContentToFile</code> 中的文件的父目录都存在。</li>
+	<li><code>path</code> and <code>filePath</code>&nbsp;are absolute paths which begin with <code>&#39;/&#39;</code>&nbsp;and do not end with <code>&#39;/&#39;</code>&nbsp;except that the path is just&nbsp;<code>&quot;/&quot;</code>.</li>
+	<li>You can assume that all directory names and file names only contain lowercase letters, and the same names will not exist in the same directory.</li>
+	<li>You can assume that all operations will be passed valid parameters, and users will not attempt to retrieve file content or list a directory or file that does not exist.</li>
+	<li>You can assume that the parent directory for the file in <code>addContentToFile</code> will exist.</li>
 	<li><code>1 &lt;= content.length &lt;= 50</code></li>
-	<li><code>ls</code>,&nbsp;<code>mkdir</code>,&nbsp;<code>addContentToFile</code>, and&nbsp;<code>readContentFromFile</code>&nbsp;最多被调用&nbsp;<code>300</code>&nbsp;次</li>
+	<li>At most <code>300</code> calls will be made to <code>ls</code>, <code>mkdir</code>,&nbsp;<code>addContentToFile</code>, and&nbsp;<code>readContentFromFile</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀树
-
-哈希表实现前缀树。
+### Solution 1
 
 <!-- tabs:start -->
 

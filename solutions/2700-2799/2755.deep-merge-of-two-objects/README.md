@@ -1,87 +1,82 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2755.Deep%20Merge%20of%20Two%20Objects/README.md
+difficulty: Medium
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2755. 深度合并两个对象 🔒](https://leetcode.cn/problems/deep-merge-of-two-objects)
+# [2755. Deep Merge of Two Objects 🔒](https://leetcode.com/problems/deep-merge-of-two-objects)
 
-[English Version](/solution/2700-2799/2755.Deep%20Merge%20of%20Two%20Objects/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个值 <code>obj1</code> 和 <code>obj2</code>，返回一个 <strong>深度合并</strong> 的值。</p>
+<p>Given two values&nbsp;<code>obj1</code> and <code>obj2</code>, return a&nbsp;<strong>deepmerged</strong>&nbsp;value.</p>
 
-<p>你应该遵循以下规则进行值的 <strong>深度合并</strong>：</p>
+<p>Values should be <strong>deepmerged</strong> according to these rules:</p>
 
 <ul>
-	<li>如果两个值都是对象，则结果对象应包含两个对象上存在的所有键。</li>
-	<li>如果一个键同时存在于两个对象中，则 <strong>深度合并</strong> 两个关联的值。否则，将键值对添加到结果对象中。</li>
-	<li>如果两个值都是数组，则结果数组的长度应与较长的数组相同。对于对象的合并逻辑，将索引视为键。</li>
-	<li>否则，结果值为 <code>obj2</code>。</li>
+	<li>If the two values are objects, the resulting object should have all the keys that exist on either object.&nbsp;If a key belongs to both objects, <strong>deepmerge</strong> the two associated values. Otherwise, add the key-value pair to the resulting object.</li>
+	<li>If the two values are arrays, the resulting array should be the same length as the longer array.&nbsp;Apply the same logic as you would with objects, but treat the indices as keys.</li>
+	<li>Otherwise the resulting value is&nbsp;<code>obj2</code>.</li>
 </ul>
 
-<p>你可以假设 <code>obj1</code> 和 <code>obj2</code> 是 <code>JSON.parse()</code> 的输出结果。</p>
+<p>You can assume&nbsp;<code>obj1</code> and <code>obj2</code>&nbsp;are the output of&nbsp;<code>JSON.parse()</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>obj1 = {"a": 1, "c": 3}, obj2 = {"a": 2, "b": 2}
-<b>输出：</b>{"a": 2, "c": 3, "b": 2}
-<b>解释：</b><code>obj1["a"]</code> 的值变为 2，因为如果两个对象具有相同的键且它们的值不是数组或对象，则将 <code>obj1</code> 的值更改为 <code>obj2</code> 的值。键 "b" 和其值被添加到 <code>obj1</code> 中，因为它在 <code>obj1</code> 中不存在。 
+<strong>Input:</strong> obj1 = {&quot;a&quot;: 1, &quot;c&quot;: 3}, obj2 = {&quot;a&quot;: 2, &quot;b&quot;: 2}
+<strong>Output:</strong> {&quot;a&quot;: 2, &quot;c&quot;: 3, &quot;b&quot;: 2}
+<strong>Explanation:</strong> The value of obj1[&quot;a&quot;] changed to 2 because if both objects have the same key and their value is not an array or object then we change the obj1 value to the obj2 value. Key &quot;b&quot; with value was added to obj1 as it doesn&#39;t exist in obj1. 
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>obj1 = [{}, 2, 3], obj2 = [[], 5]
-<b>输出：</b>[[], 5, 3]
-<b>解释：</b><code>result[0] = obj2[0]</code>，因为 <code>obj1[0]</code> 和 <code>obj2[0]</code> 类型不同。<code>result[2] = obj1[2]</code>，因为 <code>obj2[2]</code> 不存在。
+<strong>Input:</strong> obj1 = [{}, 2, 3], obj2 = [[], 5]
+<strong>Output:</strong> [[], 5, 3]
+<strong>Explanation:</strong> result[0] = obj2[0] because obj1[0] and obj2[0] have different types. result[2] = obj1[2] because obj2[2] does not exist.
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>
-obj1 = {"a": 1, "b": {"c": [1 , [2, 7], 5], "d": 2}}, 
-obj2 = {"a": 1, "b": {"c": [6, [6], [9]], "e": 3}}
-<b>输出：</b>{"a": 1, "b": {"c": [6, [6, 7], [9]], "d": 2, "e": 3}}
-<b>解释：</b>
-数组 <code>obj1["b"]["c"]</code> 和 <code>obj2["b"]["c"]</code> 已合并，如果 <code>obj2</code> 的值不是数组或对象，则深度覆盖 <code>obj1</code> 的值。 <code>obj2["b"]["c"]</code> 有键 "e"，而 <code>obj1</code> 中没有，所以将其添加到 <code>obj1</code> 中。
+<strong>Input:</strong> 
+obj1 = {&quot;a&quot;: 1, &quot;b&quot;: {&quot;c&quot;: [1 , [2, 7], 5], &quot;d&quot;: 2}}, 
+obj2 = {&quot;a&quot;: 1, &quot;b&quot;: {&quot;c&quot;: [6, [6], [9]], &quot;e&quot;: 3}}
+<strong>Output:</strong> {&quot;a&quot;: 1, &quot;b&quot;: {&quot;c&quot;: [6, [6, 7], [9]], &quot;d&quot;: 2, &quot;e&quot;: 3}}
+<strong>Explanation:</strong> 
+Arrays obj1[&quot;b&quot;][&quot;c&quot;] and obj2[&quot;b&quot;][&quot;c&quot;] have been merged in way that obj2 values overwrite obj1 values deeply only if they are not arrays or objects.
+obj2[&quot;b&quot;][&quot;c&quot;] has key &quot;e&quot; that obj1 doesn&#39;t have so it&#39;s added to obj1.
 </pre>
 
-<p><strong class="example">示例 4：</strong></p>
+<p><strong class="example">Example 4:</strong></p>
 
 <pre>
-<b>输入：</b>obj1 = true, obj2 = null
-<b>输出：</b>null
+<strong>Input:</strong> obj1 = true, obj2 = null
+<strong>Output:</strong> null
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>解释：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>obj1</code> 和 <code>obj2</code> 都是有效的 JSON 值</li>
+	<li><code>obj1</code> and <code>obj2</code> are valid JSON values</li>
 	<li><code>1 &lt;= JSON.stringify(obj1).length &lt;= 5&nbsp;* 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= JSON.stringify(obj2).length &lt;= 5&nbsp;* 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

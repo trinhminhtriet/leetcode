@@ -1,78 +1,70 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0778.Swim%20in%20Rising%20Water/README.md
+difficulty: Hard
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 并查集
-    - 数组
-    - 二分查找
-    - 矩阵
-    - 堆（优先队列）
+    - Depth-First Search
+    - Breadth-First Search
+    - Union Find
+    - Array
+    - Binary Search
+    - Matrix
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [778. 水位上升的泳池中游泳](https://leetcode.cn/problems/swim-in-rising-water)
+# [778. Swim in Rising Water](https://leetcode.com/problems/swim-in-rising-water)
 
-[English Version](/solution/0700-0799/0778.Swim%20in%20Rising%20Water/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在一个 <code>n x n</code>&nbsp;的整数矩阵&nbsp;<code>grid</code> 中，每一个方格的值 <code>grid[i][j]</code> 表示位置 <code>(i, j)</code> 的平台高度。</p>
+<p>You are given an <code>n x n</code> integer matrix <code>grid</code> where each value <code>grid[i][j]</code> represents the elevation at that point <code>(i, j)</code>.</p>
 
-<p>当开始下雨时，在时间为&nbsp;<code>t</code>&nbsp;时，水池中的水位为&nbsp;<code>t</code>&nbsp;。你可以从一个平台游向四周相邻的任意一个平台，但是前提是此时水位必须同时淹没这两个平台。假定你可以瞬间移动无限距离，也就是默认在方格内部游动是不耗时的。当然，在你游泳的时候你必须待在坐标方格里面。</p>
+<p>The rain starts to fall. At time <code>t</code>, the depth of the water everywhere is <code>t</code>. You can swim from a square to another 4-directionally adjacent square if and only if the elevation of both squares individually are at most <code>t</code>. You can swim infinite distances in zero time. Of course, you must stay within the boundaries of the grid during your swim.</p>
 
-<p>你从坐标方格的左上平台&nbsp;<code>(0，0)</code> 出发。返回 <em>你到达坐标方格的右下平台&nbsp;<code>(n-1, n-1)</code>&nbsp;所需的最少时间 。</em></p>
+<p>Return <em>the least time until you can reach the bottom right square </em><code>(n - 1, n - 1)</code><em> if you start at the top left square </em><code>(0, 0)</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0778.Swim%20in%20Rising%20Water/images/swim1-grid.jpg" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0778.Swim%20in%20Rising%20Water/images/swim1-grid.jpg" style="width: 164px; height: 165px;" />
 <pre>
-<strong>输入:</strong> grid = [[0,2],[1,3]]
-<strong>输出:</strong> 3
-<strong>解释:</strong>
-时间为0时，你位于坐标方格的位置为 <code>(0, 0)。</code>
-此时你不能游向任意方向，因为四个相邻方向平台的高度都大于当前时间为 0 时的水位。
-等时间到达 3 时，你才可以游向平台 (1, 1). 因为此时的水位是 3，坐标方格中的平台没有比水位 3 更高的，所以你可以游向坐标方格中的任意位置
+<strong>Input:</strong> grid = [[0,2],[1,3]]
+<strong>Output:</strong> 3
+Explanation:
+At time 0, you are in grid location (0, 0).
+You cannot go anywhere else because 4-directionally adjacent neighbors have a higher elevation than t = 0.
+You cannot reach point (1, 1) until time 3.
+When the depth of water is 3, we can swim anywhere inside the grid.
 </pre>
 
-<p><strong>示例 2:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0778.Swim%20in%20Rising%20Water/images/swim2-grid-1.jpg" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0778.Swim%20in%20Rising%20Water/images/swim2-grid-1.jpg" style="width: 404px; height: 405px;" />
 <pre>
-<strong>输入:</strong> grid = [[0,1,2,3,4],[24,23,22,21,5],[12,13,14,15,16],[11,17,18,19,20],[10,9,8,7,6]]
-<strong>输出:</strong> 16
-<strong>解释: </strong>最终的路线用加粗进行了标记。
-我们必须等到时间为 16，此时才能保证平台 (0, 0) 和 (4, 4) 是连通的
+<strong>Input:</strong> grid = [[0,1,2,3,4],[24,23,22,21,5],[12,13,14,15,16],[11,17,18,19,20],[10,9,8,7,6]]
+<strong>Output:</strong> 16
+<strong>Explanation:</strong> The final route is shown.
+We need to wait until time 16 so that (0, 0) and (4, 4) are connected.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= n &lt;= 50</code></li>
 	<li><code>0 &lt;= grid[i][j] &lt;&nbsp;n<sup>2</sup></code></li>
-	<li><code>grid[i][j]</code>&nbsp;中每个值&nbsp;<strong>均无重复</strong></li>
+	<li>Each value <code>grid[i][j]</code> is <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

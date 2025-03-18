@@ -1,51 +1,42 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0790.Domino%20and%20Tromino%20Tiling/README.md
+difficulty: Medium
 tags:
-    - 动态规划
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [790. 多米诺和托米诺平铺](https://leetcode.cn/problems/domino-and-tromino-tiling)
+# [790. Domino and Tromino Tiling](https://leetcode.com/problems/domino-and-tromino-tiling)
 
-[English Version](/solution/0700-0799/0790.Domino%20and%20Tromino%20Tiling/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有两种形状的瓷砖：一种是&nbsp;<code>2 x 1</code> 的多米诺形，另一种是形如&nbsp;"L" 的托米诺形。两种形状都可以旋转。</p>
+<p>You have two types of tiles: a <code>2 x 1</code> domino shape and a tromino shape. You may rotate these shapes.</p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0790.Domino%20and%20Tromino%20Tiling/images/lc-domino.jpg" style="width: 362px; height: 195px;" />
+<p>Given an integer n, return <em>the number of ways to tile an</em> <code>2 x n</code> <em>board</em>. Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0790.Domino%20and%20Tromino%20Tiling/images/lc-domino.jpg" style="height: 195px; width: 362px;" /></p>
-
-<p>给定整数 n ，返回可以平铺&nbsp;<code>2 x n</code> 的面板的方法的数量。<strong>返回对</strong>&nbsp;<code>10<sup>9</sup>&nbsp;+ 7</code>&nbsp;<strong>取模&nbsp;</strong>的值。</p>
-
-<p>平铺指的是每个正方形都必须有瓷砖覆盖。两个平铺不同，当且仅当面板上有四个方向上的相邻单元中的两个，使得恰好有一个平铺有一个瓷砖占据两个正方形。</p>
+<p>In a tiling, every square must be covered by a tile. Two tilings are different if and only if there are two 4-directionally adjacent cells on the board such that exactly one of the tilings has both squares occupied by a tile.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0790.Domino%20and%20Tromino%20Tiling/images/lc-domino1.jpg" style="height: 226px; width: 500px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0790.Domino%20and%20Tromino%20Tiling/images/lc-domino1.jpg" style="width: 500px; height: 226px;" />
 <pre>
-<strong>输入:</strong> n = 3
-<strong>输出:</strong> 5
-<strong>解释:</strong> 五种不同的方法如上所示。
+<strong>Input:</strong> n = 3
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The five different ways are show above.
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> n = 1
-<strong>输出:</strong> 1
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
@@ -53,40 +44,40 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们首先要读懂题意，题目实际上是让我们求铺满 $2\times n$ 的面板的方案数，其中面板上的每个正方形只能被一个瓷砖覆盖。
+First, we need to understand the problem. The problem is essentially asking us to find the number of ways to tile a $2 \times n$ board, where each square on the board can only be covered by one tile.
 
-瓷砖的形状有两种，分别是 `2 x 1` 型 和 `L` 型，并且两种瓷砖都可以旋转。我们将旋转后的瓷砖分别记为 `1 x 2` 型 和 `L'` 型。
+There are two types of tiles: `2 x 1` and `L` shapes, and both types of tiles can be rotated. We denote the rotated tiles as `1 x 2` and `L'` shapes.
 
-我们定义 $f[i][j]$ 表示平铺前 $2\times i$ 的面板，其中 $j$ 表示最后一列的状态。最后一列有 $4$ 种状态，分别是：
+We define $f[i][j]$ to represent the number of ways to tile the first $2 \times i$ board, where $j$ represents the state of the last column. The last column has 4 states:
 
--   最后一列铺满，记为 $0$
--   最后一列只铺了上方一个瓷砖，记为 $1$
--   最后一列只铺了下方一个瓷砖，记为 $2$
--   最后一列没有铺瓷砖，记为 $3$
+-   The last column is fully covered, denoted as $0$
+-   The last column has only the top square covered, denoted as $1$
+-   The last column has only the bottom square covered, denoted as $2$
+-   The last column is not covered, denoted as $3$
 
-那么答案就是 $f[n][0]$。初始时 $f[0][0]=1$，其余 $f[0][j]=0$。
+The answer is $f[n][0]$. Initially, $f[0][0] = 1$ and the rest $f[0][j] = 0$.
 
-我们考虑铺到第 $i$ 列，来看看状态转移方程：
+We consider tiling up to the $i$-th column and look at the state transition equations:
 
-当 $j=0$ 时，最后一列铺满，可由前一列的 $0,1,2,3$ 四种状态铺上对应的瓷砖转移而来，即 $f[i-1][0]$ 铺上 `1 x 2` 型瓷砖，或者 $f[i-1][1]$ 铺上 `L'` 型瓷砖，或者 $f[i-1][2]$ 铺上 `L'` 型瓷砖，或者 $f[i-1][3]$ 铺上两块 `2 x 1` 型瓷砖。因此 $f[i][0]=\sum_{j=0}^3f[i-1][j]$。
+When $j = 0$, the last column is fully covered. It can be transitioned from the previous column's states $0, 1, 2, 3$ by placing the corresponding tiles, i.e., $f[i-1][0]$ with a `1 x 2` tile, $f[i-1][1]$ with an `L'` tile, $f[i-1][2]$ with an `L'` tile, or $f[i-1][3]$ with two `2 x 1` tiles. Therefore, $f[i][0] = \sum_{j=0}^3 f[i-1][j]$.
 
-当 $j=1$ 时，最后一列只铺了上方一个瓷砖，可由前一列的 $2,3$ 两种状态转移而来，即 $f[i-1][2]$ 铺上 `2 x 1` 型瓷砖，或者 $f[i-1][3]$ 铺上 `L` 型瓷砖。因此 $f[i][1]=f[i-1][2]+f[i-1][3]$。
+When $j = 1$, the last column has only the top square covered. It can be transitioned from the previous column's states $2, 3$ by placing a `2 x 1` tile or an `L` tile. Therefore, $f[i][1] = f[i-1][2] + f[i-1][3]$.
 
-当 $j=2$ 时，最后一列只铺了下方一个瓷砖，可由前一列的 $1,3$ 两种状态转移而来，即 $f[i-1][1]$ 铺上 `2 x 1` 型瓷砖，或者 $f[i-1][3]$ 铺上 `L'` 型瓷砖。因此 $f[i][2]=f[i-1][1]+f[i-1][3]$。
+When $j = 2$, the last column has only the bottom square covered. It can be transitioned from the previous column's states $1, 3$ by placing a `2 x 1` tile or an `L'` tile. Therefore, $f[i][2] = f[i-1][1] + f[i-1][3]$.
 
-当 $j=3$ 时，最后一列没有铺瓷砖，可由前一列的 $0$ 一种状态转移而来。因此 $f[i][3]=f[i-1][0]$。
+When $j = 3$, the last column is not covered. It can be transitioned from the previous column's state $0$. Therefore, $f[i][3] = f[i-1][0]$.
 
-可以发现，状态转移方程中只涉及到前一列的状态，因此我们可以使用滚动数组优化空间复杂度。
+We can see that the state transition equations only involve the previous column's states, so we can use a rolling array to optimize the space complexity.
 
-注意，过程中的状态数值可能会很大，因此需要对 $10^9+7$ 取模。
+Note that the values of the states can be very large, so we need to take modulo $10^9 + 7$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为面板的列数。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Where $n$ is the number of columns of the board.
 
 <!-- tabs:start -->
 

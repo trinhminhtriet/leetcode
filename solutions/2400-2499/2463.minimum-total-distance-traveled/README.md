@@ -1,103 +1,94 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2463.Minimum%20Total%20Distance%20Traveled/README.md
+difficulty: Hard
 rating: 2453
-source: 第 318 场周赛 Q4
+source: Weekly Contest 318 Q4
 tags:
-    - 数组
-    - 动态规划
-    - 排序
+    - Array
+    - Dynamic Programming
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2463. 最小移动总距离](https://leetcode.cn/problems/minimum-total-distance-traveled)
+# [2463. Minimum Total Distance Traveled](https://leetcode.com/problems/minimum-total-distance-traveled)
 
-[English Version](/solution/2400-2499/2463.Minimum%20Total%20Distance%20Traveled/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>X 轴上有一些机器人和工厂。给你一个整数数组&nbsp;<code>robot</code>&nbsp;，其中&nbsp;<code>robot[i]</code>&nbsp;是第&nbsp;<code>i</code>&nbsp;个机器人的位置。再给你一个二维整数数组&nbsp;<code>factory</code>&nbsp;，其中&nbsp;<code>factory[j] = [position<sub>j</sub>, limit<sub>j</sub>]</code>&nbsp;，表示第 <code>j</code>&nbsp;个工厂的位置在&nbsp;<code>position<sub>j</sub></code>&nbsp;，且第 <code>j</code>&nbsp;个工厂最多可以修理&nbsp;<code>limit<sub>j</sub></code>&nbsp;个机器人。</p>
+<p>There are some robots and factories on the X-axis. You are given an integer array <code>robot</code> where <code>robot[i]</code> is the position of the <code>i<sup>th</sup></code> robot. You are also given a 2D integer array <code>factory</code> where <code>factory[j] = [position<sub>j</sub>, limit<sub>j</sub>]</code> indicates that <code>position<sub>j</sub></code> is the position of the <code>j<sup>th</sup></code> factory and that the <code>j<sup>th</sup></code> factory can repair at most <code>limit<sub>j</sub></code> robots.</p>
 
-<p>每个机器人所在的位置 <strong>互不相同</strong>&nbsp;。每个工厂所在的位置也 <strong>互不相同</strong>&nbsp;。注意一个机器人可能一开始跟一个工厂在 <strong>相同的位置</strong>&nbsp;。</p>
+<p>The positions of each robot are <strong>unique</strong>. The positions of each factory are also <strong>unique</strong>. Note that a robot can be <strong>in the same position</strong> as a factory initially.</p>
 
-<p>所有机器人一开始都是坏的，他们会沿着设定的方向一直移动。设定的方向要么是 X 轴的正方向，要么是 X 轴的负方向。当一个机器人经过一个没达到上限的工厂时，这个工厂会维修这个机器人，且机器人停止移动。</p>
+<p>All the robots are initially broken; they keep moving in one direction. The direction could be the negative or the positive direction of the X-axis. When a robot reaches a factory that did not reach its limit, the factory repairs the robot, and it stops moving.</p>
 
-<p><b>任何时刻</b>，你都可以设置&nbsp;<strong>部分</strong>&nbsp;机器人的移动方向。你的目标是最小化所有机器人总的移动距离。</p>
+<p><strong>At any moment</strong>, you can set the initial direction of moving for <strong>some</strong> robot. Your target is to minimize the total distance traveled by all the robots.</p>
 
-<p>请你返回所有机器人移动的最小总距离。测试数据保证所有机器人都可以被维修。</p>
+<p>Return <em>the minimum total distance traveled by all the robots</em>. The test cases are generated such that all the robots can be repaired.</p>
 
-<p><strong>注意：</strong></p>
+<p><strong>Note that</strong></p>
 
 <ul>
-	<li>所有机器人移动速度相同。</li>
-	<li>如果两个机器人移动方向相同，它们永远不会碰撞。</li>
-	<li>如果两个机器人迎面相遇，它们也不会碰撞，它们彼此之间会擦肩而过。</li>
-	<li>如果一个机器人经过了一个已经达到上限的工厂，机器人会当作工厂不存在，继续移动。</li>
-	<li>机器人从位置&nbsp;<code>x</code> 到位置&nbsp;<code>y</code>&nbsp;的移动距离为&nbsp;<code>|y - x|</code>&nbsp;。</li>
+	<li>All robots move at the same speed.</li>
+	<li>If two robots move in the same direction, they will never collide.</li>
+	<li>If two robots move in opposite directions and they meet at some point, they do not collide. They cross each other.</li>
+	<li>If a robot passes by a factory that reached its limits, it crosses it as if it does not exist.</li>
+	<li>If the robot moved from a position <code>x</code> to a position <code>y</code>, the distance it moved is <code>|y - x|</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2463.Minimum%20Total%20Distance%20Traveled/images/1667542978-utuiPv-image.png" style="width: 500px; height: 320px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2463.Minimum%20Total%20Distance%20Traveled/images/example1.jpg" style="width: 500px; height: 320px;" />
 <pre>
-<b>输入：</b>robot = [0,4,6], factory = [[2,2],[6,2]]
-<b>输出：</b>4
-<b>解释：</b>如上图所示：
-- 第一个机器人从位置 0 沿着正方向移动，在第一个工厂处维修。
-- 第二个机器人从位置 4 沿着负方向移动，在第一个工厂处维修。
-- 第三个机器人在位置 6 被第二个工厂维修，它不需要移动。
-第一个工厂的维修上限是 2 ，它维修了 2 个机器人。
-第二个工厂的维修上限是 2 ，它维修了 1 个机器人。
-总移动距离是 |2 - 0| + |2 - 4| + |6 - 6| = 4 。没有办法得到比 4 更少的总移动距离。
+<strong>Input:</strong> robot = [0,4,6], factory = [[2,2],[6,2]]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> As shown in the figure:
+- The first robot at position 0 moves in the positive direction. It will be repaired at the first factory.
+- The second robot at position 4 moves in the negative direction. It will be repaired at the first factory.
+- The third robot at position 6 will be repaired at the second factory. It does not need to move.
+The limit of the first factory is 2, and it fixed 2 robots.
+The limit of the second factory is 2, and it fixed 1 robot.
+The total distance is |2 - 0| + |2 - 4| + |6 - 6| = 4. It can be shown that we cannot achieve a better total distance than 4.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2463.Minimum%20Total%20Distance%20Traveled/images/1667542984-OAIRFN-image.png" style="width: 500px; height: 329px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2463.Minimum%20Total%20Distance%20Traveled/images/example-2.jpg" style="width: 500px; height: 329px;" />
 <pre>
-<b>输入：</b>robot = [1,-1], factory = [[-2,1],[2,1]]
-<b>输出：</b>2
-<b>解释：</b>如上图所示：
-- 第一个机器人从位置 1 沿着正方向移动，在第二个工厂处维修。
-- 第二个机器人在位置 -1 沿着负方向移动，在第一个工厂处维修。
-第一个工厂的维修上限是 1 ，它维修了 1 个机器人。
-第二个工厂的维修上限是 1 ，它维修了 1 个机器人。
-总移动距离是 |2 - 1| + |(-2) - (-1)| = 2 。没有办法得到比 2 更少的总移动距离。
+<strong>Input:</strong> robot = [1,-1], factory = [[-2,1],[2,1]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> As shown in the figure:
+- The first robot at position 1 moves in the positive direction. It will be repaired at the second factory.
+- The second robot at position -1 moves in the negative direction. It will be repaired at the first factory.
+The limit of the first factory is 1, and it fixed 1 robot.
+The limit of the second factory is 1, and it fixed 1 robot.
+The total distance is |2 - 1| + |(-2) - (-1)| = 2. It can be shown that we cannot achieve a better total distance than 2.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= robot.length, factory.length &lt;= 100</code></li>
 	<li><code>factory[j].length == 2</code></li>
 	<li><code>-10<sup>9</sup> &lt;= robot[i], position<sub>j</sub> &lt;= 10<sup>9</sup></code></li>
 	<li><code>0 &lt;= limit<sub>j</sub> &lt;= robot.length</code></li>
-	<li>测试数据保证所有机器人都可以被维修。</li>
+	<li>The input will be generated such that it is always possible to repair every robot.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们先对机器人和工厂进行升序排列。然后定义函数 $dfs(i, j)$ 表示从第 $i$ 个机器人开始，第 $j$ 个工厂开始维修的最小总移动距离。
+First, we sort the robots and factories in ascending order. Then we define a function $dfs(i, j)$ to represent the minimum total moving distance starting from the $i$-th robot and the $j$-th factory.
 
-对于 $dfs(i, j)$，如果第 $j$ 个工厂不维修机器人，那么 $dfs(i, j)=dfs(i, j+1)$。如果第 $j$ 个工厂维修机器人，我们可以枚举第 $j$ 个工厂维修的机器人的数量，找出最小的总移动距离。即 $dfs(i, j) = min(dfs(i + k + 1, j + 1) + \sum_{t = 0}^{k} |robot[i + t] - factory[j][0|)$。
+For $dfs(i, j)$, if the $j$-th factory does not repair the robot, then $dfs(i, j) = dfs(i, j+1)$. If the $j$-th factory repairs the robot, we can enumerate the number of robots repaired by the $j$-th factory and find the minimum total moving distance. That is, $dfs(i, j) = min(dfs(i + k + 1, j + 1) + \sum_{t = 0}^{k} |robot[i + t] - factory[j][0]|)$.
 
-时间复杂度 $O(m^2\times n)$，空间复杂度 $O(m\times n)$。其中 $m$ 和 $n$ 分别为机器人数量和工厂数量。
+The time complexity is $O(m^2 \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the number of robots and factories, respectively.
 
 <!-- tabs:start -->
 

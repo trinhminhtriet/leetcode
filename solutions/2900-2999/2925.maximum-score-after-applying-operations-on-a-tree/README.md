@@ -1,73 +1,64 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2925.Maximum%20Score%20After%20Applying%20Operations%20on%20a%20Tree/README.md
+difficulty: Medium
 rating: 1939
-source: 第 370 场周赛 Q3
+source: Weekly Contest 370 Q3
 tags:
-    - 树
-    - 深度优先搜索
-    - 动态规划
+    - Tree
+    - Depth-First Search
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2925. 在树上执行操作以后得到的最大分数](https://leetcode.cn/problems/maximum-score-after-applying-operations-on-a-tree)
+# [2925. Maximum Score After Applying Operations on a Tree](https://leetcode.com/problems/maximum-score-after-applying-operations-on-a-tree)
 
-[English Version](/solution/2900-2999/2925.Maximum%20Score%20After%20Applying%20Operations%20on%20a%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有一棵 <code>n</code>&nbsp;个节点的无向树，节点编号为 <code>0</code>&nbsp;到 <code>n - 1</code>&nbsp;，根节点编号为 <code>0</code>&nbsp;。给你一个长度为 <code>n - 1</code>&nbsp;的二维整数数组&nbsp;<code>edges</code>&nbsp;表示这棵树，其中&nbsp;<code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;表示树中节点&nbsp;<code>a<sub>i</sub></code>&nbsp;和&nbsp;<code>b<sub>i</sub></code>&nbsp;有一条边。</p>
+<p>There is an undirected tree with <code>n</code> nodes labeled from <code>0</code> to <code>n - 1</code>, and rooted at node <code>0</code>. You are given&nbsp;a 2D integer array <code>edges</code> of length <code>n - 1</code>, where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the tree.</p>
 
-<p>同时给你一个长度为 <code>n</code>&nbsp;下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>values</code>&nbsp;，其中&nbsp;<code>values[i]</code>&nbsp;表示第 <code>i</code>&nbsp;个节点的值。</p>
+<p>You are also given a <strong>0-indexed</strong> integer array <code>values</code> of length <code>n</code>, where <code>values[i]</code> is the <strong>value</strong> associated with the <code>i<sup>th</sup></code> node.</p>
 
-<p>一开始你的分数为 <code>0</code>&nbsp;，每次操作中，你将执行：</p>
+<p>You start with a score of <code>0</code>. In one operation, you can:</p>
 
 <ul>
-	<li>选择节点&nbsp;<code>i</code>&nbsp;。</li>
-	<li>将&nbsp;<code>values[i]</code>&nbsp;加入你的分数。</li>
-	<li>将&nbsp;<code>values[i]</code>&nbsp;变为&nbsp;<code>0</code>&nbsp;。</li>
+	<li>Pick any node <code>i</code>.</li>
+	<li>Add <code>values[i]</code> to your score.</li>
+	<li>Set <code>values[i]</code> to <code>0</code>.</li>
 </ul>
 
-<p>如果从根节点出发，到任意叶子节点经过的路径上的节点值之和都不等于 0 ，那么我们称这棵树是 <strong>健康的</strong>&nbsp;。</p>
+<p>A tree is <strong>healthy</strong> if the sum of values on the path from the root to any leaf node is different than zero.</p>
 
-<p>你可以对这棵树执行任意次操作，但要求执行完所有操作以后树是&nbsp;<strong>健康的</strong>&nbsp;，请你返回你可以获得的 <strong>最大分数</strong>&nbsp;。</p>
+<p>Return <em>the <strong>maximum score</strong> you can obtain after performing these operations on the tree any number of times so that it remains <strong>healthy</strong>.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2925.Maximum%20Score%20After%20Applying%20Operations%20on%20a%20Tree/images/graph-13-1.png" style="width: 515px; height: 443px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2925.Maximum%20Score%20After%20Applying%20Operations%20on%20a%20Tree/images/graph-13-1.png" style="width: 515px; height: 443px;" />
 <pre>
-<b>输入：</b>edges = [[0,1],[0,2],[0,3],[2,4],[4,5]], values = [5,2,5,2,1,1]
-<b>输出：</b>11
-<b>解释：</b>我们可以选择节点 1 ，2 ，3 ，4 和 5 。根节点的值是非 0 的。所以从根出发到任意叶子节点路径上节点值之和都不为 0 。所以树是健康的。你的得分之和为 values[1] + values[2] + values[3] + values[4] + values[5] = 11 。
-11 是你对树执行任意次操作以后可以获得的最大得分之和。
+<strong>Input:</strong> edges = [[0,1],[0,2],[0,3],[2,4],[4,5]], values = [5,2,5,2,1,1]
+<strong>Output:</strong> 11
+<strong>Explanation:</strong> We can choose nodes 1, 2, 3, 4, and 5. The value of the root is non-zero. Hence, the sum of values on the path from the root to any leaf is different than zero. Therefore, the tree is healthy and the score is values[1] + values[2] + values[3] + values[4] + values[5] = 11.
+It can be shown that 11 is the maximum score obtainable after any number of operations on the tree.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2925.Maximum%20Score%20After%20Applying%20Operations%20on%20a%20Tree/images/graph-14-2.png" style="width: 522px; height: 245px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2900-2999/2925.Maximum%20Score%20After%20Applying%20Operations%20on%20a%20Tree/images/graph-14-2.png" style="width: 522px; height: 245px;" />
 <pre>
-<b>输入：</b>edges = [[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]], values = [20,10,9,7,4,3,5]
-<b>输出：</b>40
-<b>解释：</b>我们选择节点 0 ，2 ，3 和 4 。
-- 从 0 到 4 的节点值之和为 10 。
-- 从 0 到 3 的节点值之和为 10 。
-- 从 0 到 5 的节点值之和为 3 。
-- 从 0 到 6 的节点值之和为 5 。
-所以树是健康的。你的得分之和为 values[0] + values[2] + values[3] + values[4] = 40 。
-40 是你对树执行任意次操作以后可以获得的最大得分之和。
+<strong>Input:</strong> edges = [[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]], values = [20,10,9,7,4,3,5]
+<strong>Output:</strong> 40
+<strong>Explanation:</strong> We can choose nodes 0, 2, 3, and 4.
+- The sum of values on the path from 0 to 4 is equal to 10.
+- The sum of values on the path from 0 to 3 is equal to 10.
+- The sum of values on the path from 0 to 5 is equal to 3.
+- The sum of values on the path from 0 to 6 is equal to 5.
+Therefore, the tree is healthy and the score is values[0] + values[2] + values[3] + values[4] = 40.
+It can be shown that 40 is the maximum score obtainable after any number of operations on the tree.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 2 * 10<sup>4</sup></code></li>
@@ -76,30 +67,30 @@ tags:
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt; n</code></li>
 	<li><code>values.length == n</code></li>
 	<li><code>1 &lt;= values[i] &lt;= 10<sup>9</sup></code></li>
-	<li>输入保证&nbsp;<code>edges</code>&nbsp;构成一棵合法的树。</li>
+	<li>The input is generated such that <code>edges</code> represents a valid tree.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：树形 DP
+### Solution 1: Tree DP
 
-题目实际上是让我们从树的所有节点中选出一些节点，使得这些节点的值之和最大，并且每条从根节点到叶子节点的路径上都有一个点没有被选中。
+The problem is actually asking us to select some nodes from all nodes of the tree so that the sum of these nodes' values is maximized, and there is one node on each path from the root node to the leaf node that is not selected.
 
-我们可以使用树形 DP 的方法解决这个问题。
+We can use the method of tree DP to solve this problem.
 
-我们设计一个函数 $dfs(i, fa)$，其中 $i$ 表示当前以节点 $i$ 作为子树的根节点，且 $fa$ 表示 $i$ 的父节点，函数返回一个长度为 $2$ 的数组，其中 $[0]$ 表示该子树中所有节点的值之和，而 $[1]$ 表示该子树满足每条路径上都有一个点没有被选中的最大值。
+We design a function $dfs(i, fa)$, where $i$ represents the current node with node $i$ as the root of the subtree, and $fa$ represents the parent node of $i$. The function returns an array of length $2$, where $[0]$ represents the sum of the values of all nodes in the subtree, and $[1]$ represents the maximum value of the subtree satisfying that there is one node not selected on each path.
 
-其中 $[0]$ 的值可以直接通过 DFS 累加每个节点的值得到，而 $[1]$ 的值，则需要考虑两种情况，即节点 $i$ 是否被选中。如果被选中，那么节点 $i$ 的每个子树得必须满足每条路径上都有一个点没有被选中；如果没有被选中，那么节点 $i$ 的每个子树可以选取所有节点。我们取这两种情况中的最大值即可。
+The value of $[0]$ can be obtained directly by DFS accumulating the values of each node, while the value of $[1]$ needs to consider two situations, namely whether node $i$ is selected. If it is selected, then each subtree of node $i$ must satisfy that there is one node not selected on each path; if it is not selected, then all nodes of each subtree of node $i$ can be selected. We take the maximum of these two situations.
 
-需要注意的是，叶子节点的 $[1]$ 的值为 $0$，因为叶子节点没有子树，所以不需要考虑每条路径上都有一个点没有被选中的情况。
+It should be noted that the value of $[1]$ of the leaf node is $0$, because the leaf node has no subtree, so there is no need to consider the situation where there is one node not selected on each path.
 
-答案为 $dfs(0, -1)[1]$。
+The answer is $dfs(0, -1)[1]$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes.
 
 <!-- tabs:start -->
 

@@ -1,69 +1,60 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2057.Smallest%20Index%20With%20Equal%20Value/README.md
+difficulty: Easy
 rating: 1167
-source: 第 265 场周赛 Q1
+source: Weekly Contest 265 Q1
 tags:
-    - 数组
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2057. 值相等的最小索引](https://leetcode.cn/problems/smallest-index-with-equal-value)
+# [2057. Smallest Index With Equal Value](https://leetcode.com/problems/smallest-index-with-equal-value)
 
-[English Version](/solution/2000-2099/2057.Smallest%20Index%20With%20Equal%20Value/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 0 开始的整数数组 <code>nums</code> ，返回 <code>nums</code> 中满足<em> </em><code>i mod 10 == nums[i]</code><em> </em>的最小下标 <code>i</code> ；如果不存在这样的下标，返回<em> </em><code>-1</code><em> </em>。</p>
+<p>Given a <strong>0-indexed</strong> integer array <code>nums</code>, return <em>the <strong>smallest</strong> index </em><code>i</code><em> of </em><code>nums</code><em> such that </em><code>i mod 10 == nums[i]</code><em>, or </em><code>-1</code><em> if such index does not exist</em>.</p>
 
-<p><code>x mod y</code> 表示 <code>x</code> 除以 <code>y</code> 的 <strong>余数</strong> 。</p>
+<p><code>x mod y</code> denotes the <strong>remainder</strong> when <code>x</code> is divided by <code>y</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>nums = [0,1,2]
-<strong>输出：</strong>0
-<strong>解释：</strong>
+<pre>
+<strong>Input:</strong> nums = [0,1,2]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> 
 i=0: 0 mod 10 = 0 == nums[0].
 i=1: 1 mod 10 = 1 == nums[1].
 i=2: 2 mod 10 = 2 == nums[2].
-所有下标都满足 i mod 10 == nums[i] ，所以返回最小下标 0
+All indices have i mod 10 == nums[i], so we return the smallest index 0.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>nums = [4,3,2,1]
-<strong>输出：</strong>2
-<strong>解释：</strong>
+<pre>
+<strong>Input:</strong> nums = [4,3,2,1]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 
 i=0: 0 mod 10 = 0 != nums[0].
 i=1: 1 mod 10 = 1 != nums[1].
 i=2: 2 mod 10 = 2 == nums[2].
 i=3: 3 mod 10 = 3 != nums[3].
-2 唯一一个满足 i mod 10 == nums[i] 的下标
+2 is the only index which has i mod 10 == nums[i].
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>nums = [1,2,3,4,5,6,7,8,9,0]
-<strong>输出：</strong>-1
-<strong>解释：</strong>不存在满足 i mod 10 == nums[i] 的下标
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><strong>输入：</strong>nums = [2,1,3,5,2]
-<strong>输出：</strong>1
-<strong>解释：</strong>1 是唯一一个满足 i mod 10 == nums[i] 的下标
+<pre>
+<strong>Input:</strong> nums = [1,2,3,4,5,6,7,8,9,0]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> No index satisfies i mod 10 == nums[i].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -72,17 +63,17 @@ i=3: 3 mod 10 = 3 != nums[3].
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：遍历
+### Solution 1: Traversal
 
-我们直接遍历数组，对于每个下标 $i$，我们判断是否满足 $i \bmod 10 = \textit{nums}[i]$，如果满足则返回当前下标 $i$。
+We directly traverse the array. For each index $i$, we check if it satisfies $i \bmod 10 = \textit{nums}[i]$. If it does, we return the current index $i$.
 
-如果遍历完数组都没有找到满足条件的下标，则返回 $-1$。
+If we traverse the entire array and do not find a satisfying index, we return $-1$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

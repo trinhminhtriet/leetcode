@@ -1,56 +1,54 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2739.Total%20Distance%20Traveled/README.md
+difficulty: Easy
 rating: 1262
-source: 第 350 场周赛 Q1
+source: Weekly Contest 350 Q1
 tags:
-    - 数学
-    - 模拟
+    - Math
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2739. 总行驶距离](https://leetcode.cn/problems/total-distance-traveled)
+# [2739. Total Distance Traveled](https://leetcode.com/problems/total-distance-traveled)
 
-[English Version](/solution/2700-2799/2739.Total%20Distance%20Traveled/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>卡车有两个油箱。给你两个整数，<code>mainTank</code> 表示主油箱中的燃料（以升为单位），<code>additionalTank</code> 表示副油箱中的燃料（以升为单位）。</p>
+<p>A truck has two fuel tanks. You are given two integers, <code>mainTank</code> representing the fuel present in the main tank in liters and <code>additionalTank</code> representing the fuel present in the additional tank in liters.</p>
 
-<p>该卡车每耗费 <code>1</code> 升燃料都可以行驶 <code>10</code> km。每当主油箱使用了 <code>5</code> 升燃料时，如果副油箱至少有 <code>1</code> 升燃料，则会将 <code>1</code> 升燃料从副油箱转移到主油箱。</p>
+<p>The truck has a mileage of <code>10</code> km per liter. Whenever <code>5</code> liters of fuel get&nbsp;used up in the main tank,&nbsp;if the additional tank has at least <code>1</code> liters of fuel, <code>1</code> liters of fuel will be transferred from the additional tank to the main tank.</p>
 
-<p>返回卡车可以行驶的最大距离。</p>
+<p>Return <em>the maximum distance which can be traveled.</em></p>
 
-<p>注意：从副油箱向主油箱注入燃料不是连续行为。这一事件会在每消耗 <code>5</code> 升燃料时突然且立即发生。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>mainTank = 5, additionalTank = 10
-<strong>输出：</strong>60
-<strong>解释：</strong>
-在用掉 5 升燃料后，主油箱中燃料还剩下 (5 - 5 + 1) = 1 升，行驶距离为 50km 。
-在用掉剩下的 1 升燃料后，没有新的燃料注入到主油箱中，主油箱变为空。
-总行驶距离为 60km 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>mainTank = 1, additionalTank = 2
-<strong>输出：</strong>10
-<strong>解释：</strong>
-在用掉 1 升燃料后，主油箱变为空。
-总行驶距离为 10km 。
-</pre>
+<p><strong>Note: </strong>Injection from the additional tank is not continuous. It happens suddenly and immediately for every 5 liters consumed.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> mainTank = 5, additionalTank = 10
+<strong>Output:</strong> 60
+<strong>Explanation:</strong> 
+After spending 5 litre of fuel, fuel remaining is (5 - 5 + 1) = 1 litre and distance traveled is 50km.
+After spending another 1 litre of fuel, no fuel gets injected in the main tank and the main tank becomes empty.
+Total distance traveled is 60km.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> mainTank = 1, additionalTank = 2
+<strong>Output:</strong> 10
+<strong>Explanation:</strong> 
+After spending 1 litre of fuel, the main tank becomes empty.
+Total distance traveled is 10km.
+
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= mainTank, additionalTank &lt;= 100</code></li>
@@ -58,15 +56,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以模拟卡车的行驶过程，每次消耗 $1$ 升主油箱中的燃料，行驶 $10$ 公里。每当主油箱中的燃料消耗 $5$ 升时，如果副油箱中有燃料，则将副油箱中的 $1$ 升燃料转移到主油箱中。一直模拟到主油箱中的燃料消耗完为止。
+We can simulate the process of the truck's movement. Each time, it consumes 1 liter of fuel from the main fuel tank and travels 10 kilometers. Whenever the fuel in the main fuel tank is consumed by 5 liters, if there is fuel in the auxiliary fuel tank, 1 liter of fuel is transferred from the auxiliary fuel tank to the main fuel tank. The simulation continues until the fuel in the main fuel tank is exhausted.
 
-时间复杂度 $O(n + m)$，其中 $n$ 和 $m$ 分别是主油箱和副油箱中的燃料数量。空间复杂度 $O(1)$。
+The time complexity is $O(n + m)$, where $n$ and $m$ are the amounts of fuel in the main and auxiliary fuel tanks, respectively. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

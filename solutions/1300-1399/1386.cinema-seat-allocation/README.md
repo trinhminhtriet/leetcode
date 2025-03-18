@@ -1,63 +1,58 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1386.Cinema%20Seat%20Allocation/README.md
+difficulty: Medium
 rating: 1636
-source: 第 22 场双周赛 Q2
+source: Biweekly Contest 22 Q2
 tags:
-    - 贪心
-    - 位运算
-    - 数组
-    - 哈希表
+    - Greedy
+    - Bit Manipulation
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [1386. 安排电影院座位](https://leetcode.cn/problems/cinema-seat-allocation)
+# [1386. Cinema Seat Allocation](https://leetcode.com/problems/cinema-seat-allocation)
 
-[English Version](/solution/1300-1399/1386.Cinema%20Seat%20Allocation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1386.Cinema%20Seat%20Allocation/images/cinema_seats_1.png" style="height: 149px; width: 400px;" /></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1386.Cinema%20Seat%20Allocation/images/cinema_seats_1.png" style="width: 400px; height: 149px;" /></p>
 
-<p>如上图所示，电影院的观影厅中有 <code>n</code>&nbsp;行座位，行编号从 1&nbsp;到 <code>n</code>&nbsp;，且每一行内总共有 10 个座位，列编号从 1 到 10 。</p>
+<p>A cinema&nbsp;has <code>n</code>&nbsp;rows of seats, numbered from 1 to <code>n</code>&nbsp;and there are ten&nbsp;seats in each row, labelled from 1&nbsp;to 10&nbsp;as shown in the figure above.</p>
 
-<p>给你数组&nbsp;<code>reservedSeats</code>&nbsp;，包含所有已经被预约了的座位。比如说，<code>reservedSeats[i]=[3,8]</code>&nbsp;，它表示第&nbsp;<strong>3</strong>&nbsp;行第&nbsp;<strong>8</strong>&nbsp;个座位被预约了。</p>
+<p>Given the array <code>reservedSeats</code> containing the numbers of seats already reserved, for example, <code>reservedSeats[i] = [3,8]</code>&nbsp;means the seat located in row <strong>3</strong> and labelled with <b>8</b>&nbsp;is already reserved.</p>
 
-<p>请你返回&nbsp;<strong>最多能安排多少个 4 人家庭</strong>&nbsp;。4 人家庭要占据&nbsp;<strong>同一行内连续&nbsp;</strong>的 4 个座位。隔着过道的座位（比方说 [3,3] 和 [3,4]）不是连续的座位，但是如果你可以将 4 人家庭拆成过道两边各坐 2 人，这样子是允许的。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1386.Cinema%20Seat%20Allocation/images/cinema_seats_3.png" style="height: 96px; width: 400px;" /></p>
-
-<pre>
-<strong>输入：</strong>n = 3, reservedSeats = [[1,2],[1,3],[1,8],[2,6],[3,1],[3,10]]
-<strong>输出：</strong>4
-<strong>解释：</strong>上图所示是最优的安排方案，总共可以安排 4 个家庭。蓝色的叉表示被预约的座位，橙色的连续座位表示一个 4 人家庭。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 2, reservedSeats = [[2,1],[1,8],[2,6]]
-<strong>输出：</strong>2
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 4, reservedSeats = [[4,3],[1,4],[4,6],[1,7]]
-<strong>输出：</strong>4
-</pre>
+<p><em>Return the maximum number of four-person groups&nbsp;you can assign on the cinema&nbsp;seats.</em> A four-person group&nbsp;occupies four&nbsp;adjacent seats <strong>in one single row</strong>. Seats across an aisle (such as [3,3]&nbsp;and [3,4]) are not considered to be adjacent, but there is an exceptional case&nbsp;on which an aisle split&nbsp;a four-person group, in that case, the aisle split&nbsp;a four-person group in the middle,&nbsp;which means to have two people on each side.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1386.Cinema%20Seat%20Allocation/images/cinema_seats_3.png" style="width: 400px; height: 96px;" /></p>
+
+<pre>
+<strong>Input:</strong> n = 3, reservedSeats = [[1,2],[1,3],[1,8],[2,6],[3,1],[3,10]]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The figure above shows the optimal allocation for four groups, where seats mark with blue are already reserved and contiguous seats mark with orange are for one group.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 2, reservedSeats = [[2,1],[1,8],[2,6]]
+<strong>Output:</strong> 2
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 4, reservedSeats = [[4,3],[1,4],[4,6],[1,7]]
+<strong>Output:</strong> 4
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10^9</code></li>
@@ -65,28 +60,28 @@ tags:
 	<li><code>reservedSeats[i].length == 2</code></li>
 	<li><code>1&nbsp;&lt;=&nbsp;reservedSeats[i][0] &lt;= n</code></li>
 	<li><code>1 &lt;=&nbsp;reservedSeats[i][1] &lt;= 10</code></li>
-	<li>所有&nbsp;<code>reservedSeats[i]</code> 都是互不相同的。</li>
+	<li>All <code>reservedSeats[i]</code> are distinct.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 状态压缩
+### Solution 1: Hash Table + Bit Manipulation
 
-我们用哈希表 $d$ 来存储所有已经被预约的座位，其中键为行号，值为该行上已经被预约的座位的状态，即一个二进制数，第 $j$ 位为 $1$ 表示第 $j$ 个座位已经被预约，为 $0$ 表示第 $j$ 个座位尚未被预约。
+We use a hash table $d$ to store all the reserved seats, where the key is the row number, and the value is the state of the reserved seats in that row, i.e., a binary number. The $j$-th bit being $1$ means the $j$-th seat is reserved, and $0$ means the $j$-th seat is not reserved.
 
-我们遍历 $reservedSeats$，对于每个座位 $(i, j)$，将第 $j$ 个座位（对应低位的第 $10-j$ 位）的状态加入到 $d[i]$ 中即可。
+We traverse $reservedSeats$, for each seat $(i, j)$, we add the state of the $j$-th seat (corresponding to the $10-j$ bit in the lower bits) to $d[i]$.
 
-对于没有出现在哈希表 $d$ 中的行，我们可以任意安排 $2$ 个家庭，因此，初始答案为 $(n - len(d)) \times 2$。
+For rows that do not appear in the hash table $d$, we can arrange $2$ families arbitrarily, so the initial answer is $(n - len(d)) \times 2$.
 
-接下来，我们遍历哈希表中每一行的状态，对于每一行，我们依次尝试安排 $1234, 5678, 3456$ 这几种情况，如果某种情况可以安排，我们就将答案加 $1$。
+Next, we traverse the state of each row in the hash table. For each row, we try to arrange the situations $1234, 5678, 3456$ in turn. If a situation can be arranged, we add $1$ to the answer.
 
-遍历结束后，我们就得到了最终的答案。
+After the traversal, we get the final answer.
 
-时间复杂度 $O(m)$，空间复杂度 $O(m)$，其中 $m$ 是 $reservedSeats$ 的长度。
+The time complexity is $O(m)$, and the space complexity is $O(m)$. Where $m$ is the length of $reservedSeats$.
 
 <!-- tabs:start -->
 

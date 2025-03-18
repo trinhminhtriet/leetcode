@@ -1,107 +1,102 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2569.Handling%20Sum%20Queries%20After%20Update/README.md
+difficulty: Hard
 rating: 2397
-source: 第 98 场双周赛 Q4
+source: Biweekly Contest 98 Q4
 tags:
-    - 线段树
-    - 数组
+    - Segment Tree
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2569. 更新数组后处理求和查询](https://leetcode.cn/problems/handling-sum-queries-after-update)
+# [2569. Handling Sum Queries After Update](https://leetcode.com/problems/handling-sum-queries-after-update)
 
-[English Version](/solution/2500-2599/2569.Handling%20Sum%20Queries%20After%20Update/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个下标从 <strong>0</strong>&nbsp;开始的数组&nbsp;<code>nums1</code> 和&nbsp;<code>nums2</code>&nbsp;，和一个二维数组&nbsp;<code>queries</code>&nbsp;表示一些操作。总共有 3 种类型的操作：</p>
+<p>You are given two <strong>0-indexed</strong> arrays <code>nums1</code> and <code>nums2</code> and a 2D array <code>queries</code> of queries. There are three types of queries:</p>
 
 <ol>
-	<li>操作类型 1 为&nbsp;<code>queries[i]&nbsp;= [1, l, r]</code>&nbsp;。你需要将 <code>nums1</code>&nbsp;从下标&nbsp;<code>l</code>&nbsp;到下标 <code>r</code>&nbsp;的所有 <code>0</code>&nbsp;反转成 <code>1</code> 并且所有&nbsp;<code>1</code>&nbsp;反转成 <code>0</code>&nbsp;。<code>l</code>&nbsp;和 <code>r</code>&nbsp;下标都从 <strong>0</strong>&nbsp;开始。</li>
-	<li>操作类型 2 为&nbsp;<code>queries[i]&nbsp;= [2, p, 0]</code>&nbsp;。对于&nbsp;<code>0 &lt;= i &lt; n</code>&nbsp;中的所有下标，令&nbsp;<code>nums2[i] =&nbsp;nums2[i]&nbsp;+ nums1[i]&nbsp;* p</code>&nbsp;。</li>
-	<li>操作类型 3 为&nbsp;<code>queries[i]&nbsp;= [3, 0, 0]</code>&nbsp;。求&nbsp;<code>nums2</code>&nbsp;中所有元素的和。</li>
+	<li>For a query of type 1, <code>queries[i]&nbsp;= [1, l, r]</code>. Flip the values from <code>0</code> to <code>1</code> and from <code>1</code> to <code>0</code> in <code>nums1</code>&nbsp;from index <code>l</code> to index <code>r</code>. Both <code>l</code> and <code>r</code> are <strong>0-indexed</strong>.</li>
+	<li>For a query of type 2, <code>queries[i]&nbsp;= [2, p, 0]</code>. For every index <code>0 &lt;= i &lt; n</code>, set&nbsp;<code>nums2[i] =&nbsp;nums2[i]&nbsp;+ nums1[i]&nbsp;* p</code>.</li>
+	<li>For a query of type 3, <code>queries[i]&nbsp;= [3, 0, 0]</code>. Find the sum of the elements in <code>nums2</code>.</li>
 </ol>
 
-<p>请你返回一个&nbsp;<em>数组</em>，包含&nbsp;<em>所有第三种操作类型&nbsp;</em>的答案。</p>
+<p>Return <em>an array containing all the answers to the third type&nbsp;queries.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums1 = [1,0,1], nums2 = [0,0,0], queries = [[1,1,1],[2,1,0],[3,0,0]]
-<b>输出：</b>[3]
-<strong>解释：</strong>第一个操作后 nums1 变为 [1,1,1] 。第二个操作后，nums2 变成 [1,1,1] ，所以第三个操作的答案为 3 。所以返回 [3] 。
+<strong>Input:</strong> nums1 = [1,0,1], nums2 = [0,0,0], queries = [[1,1,1],[2,1,0],[3,0,0]]
+<strong>Output:</strong> [3]
+<strong>Explanation:</strong> After the first query nums1 becomes [1,1,1]. After the second query, nums2 becomes [1,1,1], so the answer to the third query is 3. Thus, [3] is returned.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums1 = [1], nums2 = [5], queries = [[2,0,0],[3,0,0]]
-<b>输出：</b>[5]
-<b>解释：</b>第一个操作后，nums2 保持不变为 [5] ，所以第二个操作的答案是 5 。所以返回 [5] 。
+<strong>Input:</strong> nums1 = [1], nums2 = [5], queries = [[2,0,0],[3,0,0]]
+<strong>Output:</strong> [5]
+<strong>Explanation:</strong> After the first query, nums2 remains [5], so the answer to the second query is 5. Thus, [5] is returned.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length,nums2.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>nums1.length = nums2.length</code></li>
 	<li><code>1 &lt;= queries.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>queries[i].length = 3</code></li>
-	<li><code>0 &lt;= l &lt;= r &lt;= nums1.length - 1</code></li>
-	<li><code>0 &lt;= p &lt;= 10<sup>6</sup></code></li>
+	<li><code><font face="monospace">queries[i].length = 3</font></code></li>
+	<li><code><font face="monospace">0 &lt;= l &lt;= r &lt;= nums1.length - 1</font></code></li>
+	<li><code><font face="monospace">0 &lt;= p &lt;= 10<sup>6</sup></font></code></li>
 	<li><code>0 &lt;= nums1[i] &lt;= 1</code></li>
 	<li><code>0 &lt;= nums2[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：线段树
+### Solution 1: Segment Tree
 
-根据题目描述：
+According to the problem description:
 
--   操作 $1$ 是把数组 `nums1` 的下标区间 $[l,..r]$ 的所有数反转，即把 $0$ 变成 $1$，把 $1$ 变成 $0$。
--   操作 $3$ 是求数组 `nums2` 的所有数之和。
--   操作 $2$ 是把数组 `nums2` 的所有数之和加上 $p$ 乘以数组 `nums1` 所有数之和，即 $sum(nums2) = sum(nums2) + p * sum(nums1)$。
+-   Operation $1$ is to reverse all numbers in the index range $[l,..r]$ of array `nums1`, that is, change $0$ to $1$ and $1$ to $0$.
+-   Operation $3$ is to sum all numbers in array `nums2`.
+-   Operation $2$ is to add the sum of all numbers in array `nums2` with $p$ times the sum of all numbers in array `nums1`, that is, $sum(nums2) = sum(nums2) + p * sum(nums1)$.
 
-因此，我们实际上只需要维护数组 `nums1` 的区间和即可，我们可以通过线段树来实现。
+Therefore, we actually only need to maintain the segment sum of array `nums1`, which can be implemented through a segment tree.
 
-我们定义线段树的每个节点为 `Node`，每个节点包含如下属性：
+We define each node of the segment tree as `Node`, each node contains the following attributes:
 
--   `l`：节点的左端点，下标从 $1$ 开始。
--   `r`：节点的右端点，下标从 $1$ 开始。
--   `s`：节点的区间和。
--   `lazy`：节点的懒标记。
+-   `l`: The left endpoint of the node, the index starts from $1$.
+-   `r`: The right endpoint of the node, the index starts from $1$.
+-   `s`: The segment sum of the node.
+-   `lazy`: The lazy tag of the node.
 
-线段树主要有以下几个操作：
+The segment tree mainly has the following operations:
 
--   `build(u, l, r)`：建立线段树。
--   `pushdown(u)`：下传懒标记。
--   `pushup(u)`：用子节点的信息更新父节点的信息。
--   `modify(u, l, r)`：修改区间和，本题中是反转区间中的每个数，那么区间和 $s = r - l + 1 - s$。
--   `query(u, l, r)`：查询区间和。
+-   `build(u, l, r)`: Build the segment tree.
+-   `pushdown(u)`: Propagate the lazy tag.
+-   `pushup(u)`: Update the information of the parent node with the information of the child nodes.
+-   `modify(u, l, r)`: Modify the segment sum. In this problem, it is to reverse each number in the segment, so the segment sum $s = r - l + 1 - s$.
+-   `query(u, l, r)`: Query the segment sum.
 
-我们先算出数组 `nums2` 的所有数之和，记为 $s$。
+First, calculate the sum of all numbers in array `nums2`, denoted as $s$.
 
-执行操作 $1$ 时，我们只需要调用 `modify(1, l + 1, r + 1)` 即可。
+When executing operation $1$, we only need to call `modify(1, l + 1, r + 1)`.
 
-执行操作 $2$ 时，我们更新 $s = s + p \times query(1, 1, n)$ 即可。
+When executing operation $2$, we update $s = s + p \times query(1, 1, n)$.
 
-执行操作 $3$ 时，我们只需要将 $s$ 加入答案数组即可。
+When executing operation $3$, we just need to add $s$ to the answer array.
 
-时间复杂度 $O(n + m \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别为数组 `nums1` 和 `queries` 的长度。
+The time complexity is $O(n + m \times \log n)$, and the space complexity is $O(n)$. Where $n$ and $m$ are the lengths of arrays `nums1` and `queries` respectively.
 
 <!-- tabs:start -->
 

@@ -1,80 +1,70 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2496.Maximum%20Value%20of%20a%20String%20in%20an%20Array/README.md
+difficulty: Easy
 rating: 1292
-source: 第 93 场双周赛 Q1
+source: Biweekly Contest 93 Q1
 tags:
-    - 数组
-    - 字符串
+    - Array
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2496. 数组中字符串的最大值](https://leetcode.cn/problems/maximum-value-of-a-string-in-an-array)
+# [2496. Maximum Value of a String in an Array](https://leetcode.com/problems/maximum-value-of-a-string-in-an-array)
 
-[English Version](/solution/2400-2499/2496.Maximum%20Value%20of%20a%20String%20in%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个由字母和数字组成的字符串的 <strong>值</strong>&nbsp;定义如下：</p>
+<p>The <strong>value</strong> of an alphanumeric string can be defined as:</p>
 
 <ul>
-	<li>如果字符串 <strong>只</strong> 包含数字，那么值为该字符串在 <code>10</code>&nbsp;进制下的所表示的数字。</li>
-	<li>否则，值为字符串的 <strong>长度&nbsp;</strong>。</li>
+	<li>The <strong>numeric</strong> representation of the string in base <code>10</code>, if it comprises of digits <strong>only</strong>.</li>
+	<li>The <strong>length</strong> of the string, otherwise.</li>
 </ul>
 
-<p>给你一个字符串数组&nbsp;<code>strs</code>&nbsp;，每个字符串都只由字母和数字组成，请你返回 <code>strs</code>&nbsp;中字符串的 <strong>最大值</strong>&nbsp;。</p>
+<p>Given an array <code>strs</code> of alphanumeric strings, return <em>the <strong>maximum value</strong> of any string in </em><code>strs</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>strs = ["alic3","bob","3","4","00000"]
-<b>输出：</b>5
-<b>解释：</b>
-- "alic3" 包含字母和数字，所以值为长度 5 。
-- "bob" 只包含字母，所以值为长度 3 。
-- "3" 只包含数字，所以值为 3 。
-- "4" 只包含数字，所以值为 4 。
-- "00000" 只包含数字，所以值为 0 。
-所以最大的值为 5 ，是字符串 "alic3" 的值。
+<strong>Input:</strong> strs = [&quot;alic3&quot;,&quot;bob&quot;,&quot;3&quot;,&quot;4&quot;,&quot;00000&quot;]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> 
+- &quot;alic3&quot; consists of both letters and digits, so its value is its length, i.e. 5.
+- &quot;bob&quot; consists only of letters, so its value is also its length, i.e. 3.
+- &quot;3&quot; consists only of digits, so its value is its numeric equivalent, i.e. 3.
+- &quot;4&quot; also consists only of digits, so its value is 4.
+- &quot;00000&quot; consists only of digits, so its value is 0.
+Hence, the maximum value is 5, of &quot;alic3&quot;.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>strs = ["1","01","001","0001"]
-<b>输出：</b>1
-<b>解释：</b>
-数组中所有字符串的值都是 1 ，所以我们返回 1 。</pre>
+<strong>Input:</strong> strs = [&quot;1&quot;,&quot;01&quot;,&quot;001&quot;,&quot;0001&quot;]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> 
+Each string in the array has value 1. Hence, we return 1.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= strs.length &lt;= 100</code></li>
 	<li><code>1 &lt;= strs[i].length &lt;= 9</code></li>
-	<li><code>strs[i]</code>&nbsp;只包含小写英文字母和数字。</li>
+	<li><code>strs[i]</code> consists of only lowercase English letters and digits.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
-
-我们定义一个函数 $f(s)$，用于计算字符串 $s$ 的值。如果 $s$ 只包含数字，那么 $f(s)$ 就是 $s$ 在十进制下的值；否则 $f(s)$ 就是 $s$ 的长度。
-
-答案为 $\max\limits_{s \in \textit{strs}} f(s)$。
-
-时间复杂度 $O(n)$，其中 $n$ 是数组 $strs$ 的长度。空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -240,7 +230,7 @@ int maximumValue(char** strs, int strsSize) {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 
@@ -299,7 +289,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法三
+### Solution 3
 
 <!-- tabs:start -->
 

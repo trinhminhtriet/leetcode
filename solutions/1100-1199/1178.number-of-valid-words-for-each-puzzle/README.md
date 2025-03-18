@@ -1,87 +1,87 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1178.Number%20of%20Valid%20Words%20for%20Each%20Puzzle/README.md
+difficulty: Hard
 rating: 2233
-source: 第 152 场周赛 Q4
+source: Weekly Contest 152 Q4
 tags:
-    - 位运算
-    - 字典树
-    - 数组
-    - 哈希表
-    - 字符串
+    - Bit Manipulation
+    - Trie
+    - Array
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1178. 猜字谜](https://leetcode.cn/problems/number-of-valid-words-for-each-puzzle)
+# [1178. Number of Valid Words for Each Puzzle](https://leetcode.com/problems/number-of-valid-words-for-each-puzzle)
 
-[English Version](/solution/1100-1199/1178.Number%20of%20Valid%20Words%20for%20Each%20Puzzle/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>外国友人仿照中国字谜设计了一个英文版猜字谜小游戏，请你来猜猜看吧。</p>
-
-<p>字谜的迷面 <code>puzzle</code> 按字符串形式给出，如果一个单词 <code>word</code> 符合下面两个条件，那么它就可以算作谜底：</p>
+With respect to a given <code>puzzle</code> string, a <code>word</code> is <em>valid</em> if both the following conditions are satisfied:
 
 <ul>
-	<li>单词 <code>word</code> 中包含谜面 <code>puzzle</code> 的第一个字母。</li>
-	<li>单词 <code>word</code> 中的每一个字母都可以在谜面 <code>puzzle</code> 中找到。<br />
-	例如，如果字谜的谜面是 "abcdefg"，那么可以作为谜底的单词有 "faced", "cabbage", 和 "baggage"；而 "beefed"（不含字母 "a"）以及 "based"（其中的 "s" 没有出现在谜面中）都不能作为谜底。</li>
+	<li><code>word</code> contains the first letter of <code>puzzle</code>.</li>
+	<li>For each letter in <code>word</code>, that letter is in <code>puzzle</code>.
+	<ul>
+		<li>For example, if the puzzle is <code>&quot;abcdefg&quot;</code>, then valid words are <code>&quot;faced&quot;</code>, <code>&quot;cabbage&quot;</code>, and <code>&quot;baggage&quot;</code>, while</li>
+		<li>invalid words are <code>&quot;beefed&quot;</code> (does not include <code>&#39;a&#39;</code>) and <code>&quot;based&quot;</code> (includes <code>&#39;s&#39;</code> which is not in the puzzle).</li>
+	</ul>
+	</li>
 </ul>
-
-<p>返回一个答案数组 <code>answer</code>，数组中的每个元素 <code>answer[i]</code> 是在给出的单词列表 <code>words</code> 中可以作为字谜迷面 <code>puzzles[i]</code> 所对应的谜底的单词数目。</p>
-
-<p> </p>
-
-<p><strong>示例：</strong></p>
+Return <em>an array </em><code>answer</code><em>, where </em><code>answer[i]</code><em> is the number of words in the given word list </em><code>words</code><em> that is valid with respect to the puzzle </em><code>puzzles[i]</code>.
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-words = ["aaaa","asas","able","ability","actt","actor","access"], 
-puzzles = ["aboveyz","abrodyz","abslute","absoryz","actresz","gaswxyz"]
-<strong>输出：</strong>[1,1,3,2,4,0]
-<strong>解释：</strong>
-1 个单词可以作为 "aboveyz" 的谜底 : "aaaa" 
-1 个单词可以作为 "abrodyz" 的谜底 : "aaaa"
-3 个单词可以作为 "abslute" 的谜底 : "aaaa", "asas", "able"
-2 个单词可以作为 "absoryz" 的谜底 : "aaaa", "asas"
-4 个单词可以作为 "actresz" 的谜底 : "aaaa", "asas", "actt", "access"
-没有单词可以作为 "gaswxyz" 的谜底，因为列表中的单词都不含字母 'g'。
+<strong>Input:</strong> words = [&quot;aaaa&quot;,&quot;asas&quot;,&quot;able&quot;,&quot;ability&quot;,&quot;actt&quot;,&quot;actor&quot;,&quot;access&quot;], puzzles = [&quot;aboveyz&quot;,&quot;abrodyz&quot;,&quot;abslute&quot;,&quot;absoryz&quot;,&quot;actresz&quot;,&quot;gaswxyz&quot;]
+<strong>Output:</strong> [1,1,3,2,4,0]
+<strong>Explanation:</strong> 
+1 valid word for &quot;aboveyz&quot; : &quot;aaaa&quot; 
+1 valid word for &quot;abrodyz&quot; : &quot;aaaa&quot;
+3 valid words for &quot;abslute&quot; : &quot;aaaa&quot;, &quot;asas&quot;, &quot;able&quot;
+2 valid words for &quot;absoryz&quot; : &quot;aaaa&quot;, &quot;asas&quot;
+4 valid words for &quot;actresz&quot; : &quot;aaaa&quot;, &quot;asas&quot;, &quot;actt&quot;, &quot;access&quot;
+There are no valid words for &quot;gaswxyz&quot; cause none of the words in the list contains letter &#39;g&#39;.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> words = [&quot;apple&quot;,&quot;pleas&quot;,&quot;please&quot;], puzzles = [&quot;aelwxyz&quot;,&quot;aelpxyz&quot;,&quot;aelpsxy&quot;,&quot;saelpxy&quot;,&quot;xaelpsy&quot;]
+<strong>Output:</strong> [0,1,3,2,0]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= words.length <= 10^5</code></li>
-	<li><code>4 <= words[i].length <= 50</code></li>
-	<li><code>1 <= puzzles.length <= 10^4</code></li>
+	<li><code>1 &lt;= words.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>4 &lt;= words[i].length &lt;= 50</code></li>
+	<li><code>1 &lt;= puzzles.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>puzzles[i].length == 7</code></li>
-	<li><code>words[i][j]</code>, <code>puzzles[i][j]</code> 都是小写英文字母。</li>
-	<li>每个 <code>puzzles[i]</code> 所包含的字符都不重复。</li>
+	<li><code>words[i]</code> and <code>puzzles[i]</code> consist of lowercase English letters.</li>
+	<li>Each <code>puzzles[i] </code>does not contain repeated characters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：状态压缩 + 哈希表 + 子集枚举
+### Solution 1: State Compression + Hash Table + Subset Enumeration
 
-根据题目描述，对于字谜数组 $puzzles$ 中的每一个字谜 $p$，我们需要统计有多少个单词 $w$ 包含了字谜 $p$ 的第一个字母，且 $w$ 的每一个字母都可以在 $p$ 中找到。
+According to the problem description, for each puzzle $p$ in the puzzle array $puzzles$, we need to count how many words $w$ contain the first letter of the puzzle $p$, and every letter in $w$ can be found in $p$.
 
-由于每个单词重复的字母只需要统计一次，因此，我们可以使用二进制状态压缩的方法，将每个单词 $w$ 转换成一个二进制数 $mask$，其中 $mask$ 的第 $i$ 位为 $1$，当且仅当字母 $i$ 在单词 $w$ 中出现过。我们用哈希表 $cnt$ 统计所有单词的状态压缩后的值出现的次数。
+Since each repeated letter in a word only needs to be counted once, we can use the method of binary state compression to convert each word $w$ into a binary number $mask$, where the $i$th bit of $mask$ is $1$ if and only if the letter $i$ appears in the word $w$. We use a hash table $cnt$ to count the number of times each compressed state of all words appears.
 
-接下来，遍历字谜数组 $puzzles$，对于每一个字谜 $p$，我们注意到其长度固定为 $7$，因此我们只需要枚举 $p$ 的子集，如果该子集包含 $p$ 的第一个字母，那么我们查找其在哈希表中对应的值并累加到当前字谜的答案中。
+Next, we traverse the puzzle array $puzzles$. For each puzzle $p$, we note that its length is fixed at $7$, so we only need to enumerate the subsets of $p$. If the subset contains the first letter of $p$, then we look up its corresponding value in the hash table and add it to the current puzzle's answer.
 
-遍历结束后，我们就可以得到字谜数组 $puzzles$ 中每个字谜对应的谜底数量，将其返回即可。
+After the traversal, we can get the number of puzzle solutions corresponding to each puzzle in the puzzle array $puzzles$, and return it.
 
-时间复杂度 $O(m \times |w| + n \times 2^{|p|})$，空间复杂度 $O(m)$。其中 $m$ 和 $n$ 分别为数组 $words$ 和 $puzzles$ 的长度，而 $|w|$ 和 $|p|$ 分别为数组 $words$ 中单词的最大长度和数组 $puzzles$ 中字谜的长度。
+The time complexity is $O(m \times |w| + n \times 2^{|p|})$, and the space complexity is $O(m)$. Here, $m$ and $n$ are the lengths of the arrays $words$ and $puzzles$ respectively, and $|w|$ and $|p|$ are the maximum length of the words in the array $words$ and the length of the puzzles in the array $puzzles$, respectively.
 
 <!-- tabs:start -->
 

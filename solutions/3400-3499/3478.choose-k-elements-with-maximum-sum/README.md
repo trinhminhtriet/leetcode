@@ -1,63 +1,60 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3478.Choose%20K%20Elements%20With%20Maximum%20Sum/README.md
+difficulty: Medium
 ---
 
 <!-- problem:start -->
 
-# [3478. 选出和最大的 K 个元素](https://leetcode.cn/problems/choose-k-elements-with-maximum-sum)
+# [3478. Choose K Elements With Maximum Sum](https://leetcode.com/problems/choose-k-elements-with-maximum-sum)
 
-[English Version](/solution/3400-3499/3478.Choose%20K%20Elements%20With%20Maximum%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数数组，<code>nums1</code> 和 <code>nums2</code>，长度均为 <code>n</code>，以及一个正整数 <code>k</code> 。</p>
+<p>You are given two integer arrays, <code>nums1</code> and <code>nums2</code>, both of length <code>n</code>, along with a positive integer <code>k</code>.</p>
 
-<p>对从 <code>0</code> 到 <code>n - 1</code> 每个下标 <code>i</code> ，执行下述操作：</p>
+<p>For each index <code>i</code> from <code>0</code> to <code>n - 1</code>, perform the following:</p>
 
 <ul>
-	<li>找出所有满足 <code>nums1[j]</code> 小于 <code>nums1[i]</code> 的下标 <code>j</code> 。</li>
-	<li>从这些下标对应的 <code>nums2[j]</code> 中选出 <strong>至多</strong> <code>k</code> 个，并 <strong>最大化</strong> 这些值的总和作为结果。</li>
+	<li>Find <strong>all</strong> indices <code>j</code> where <code>nums1[j]</code> is less than <code>nums1[i]</code>.</li>
+	<li>Choose <strong>at most</strong> <code>k</code> values of <code>nums2[j]</code> at these indices to <strong>maximize</strong> the total sum.</li>
 </ul>
 
-<p>返回一个长度为 <code>n</code> 的数组 <code>answer</code> ，其中 <code>answer[i]</code> 表示对应下标 <code>i</code> 的结果。</p>
+<p>Return an array <code>answer</code> of size <code>n</code>, where <code>answer[i]</code> represents the result for the corresponding index <code>i</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">nums1 = [4,2,1,5,3], nums2 = [10,20,30,40,50], k = 2</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums1 = [4,2,1,5,3], nums2 = [10,20,30,40,50], k = 2</span></p>
 
-<p><strong>输出：</strong><span class="example-io">[80,30,0,80,50]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[80,30,0,80,50]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>对于 <code>i = 0</code> ：满足 <code>nums1[j] &lt; nums1[0]</code> 的下标为 <code>[1, 2, 4]</code> ，选出其中值最大的两个，结果为 <code>50 + 30 = 80</code> 。</li>
-	<li>对于 <code>i = 1</code> ：满足 <code>nums1[j] &lt; nums1[1]</code> 的下标为 <code>[2]</code> ，只能选择这个值，结果为 <code>30</code> 。</li>
-	<li>对于 <code>i = 2</code> ：不存在满足 <code>nums1[j] &lt; nums1[2]</code> 的下标，结果为 <code>0</code> 。</li>
-	<li>对于 <code>i = 3</code> ：满足 <code>nums1[j] &lt; nums1[3]</code> 的下标为 <code>[0, 1, 2, 4]</code> ，选出其中值最大的两个，结果为 <code>50 + 30 = 80</code> 。</li>
-	<li>对于 <code>i = 4</code> ：满足 <code>nums1[j] &lt; nums1[4]</code> 的下标为 <code>[1, 2]</code> ，选出其中值最大的两个，结果为 <code>30 + 20 = 50</code> 。</li>
+	<li>For <code>i = 0</code>: Select the 2 largest values from <code>nums2</code> at indices <code>[1, 2, 4]</code> where <code>nums1[j] &lt; nums1[0]</code>, resulting in <code>50 + 30 = 80</code>.</li>
+	<li>For <code>i = 1</code>: Select the 2 largest values from <code>nums2</code> at index <code>[2]</code> where <code>nums1[j] &lt; nums1[1]</code>, resulting in 30.</li>
+	<li>For <code>i = 2</code>: No indices satisfy <code>nums1[j] &lt; nums1[2]</code>, resulting in 0.</li>
+	<li>For <code>i = 3</code>: Select the 2 largest values from <code>nums2</code> at indices <code>[0, 1, 2, 4]</code> where <code>nums1[j] &lt; nums1[3]</code>, resulting in <code>50 + 30 = 80</code>.</li>
+	<li>For <code>i = 4</code>: Select the 2 largest values from <code>nums2</code> at indices <code>[1, 2]</code> where <code>nums1[j] &lt; nums1[4]</code>, resulting in <code>30 + 20 = 50</code>.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">nums1 = [2,2,2,2], nums2 = [3,1,2,3], k = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums1 = [2,2,2,2], nums2 = [3,1,2,3], k = 1</span></p>
 
-<p><strong>输出：</strong><span class="example-io">[0,0,0,0]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[0,0,0,0]</span></p>
 
-<p><strong>解释：</strong>由于 <code>nums1</code> 中的所有元素相等，不存在满足条件 <code>nums1[j] &lt; nums1[i]</code>，所有位置的结果都是 0 。</p>
+<p><strong>Explanation:</strong></p>
+
+<p>Since all elements in <code>nums1</code> are equal, no indices satisfy the condition <code>nums1[j] &lt; nums1[i]</code> for any <code>i</code>, resulting in 0 for all positions.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums1.length == nums2.length</code></li>
@@ -68,21 +65,21 @@ edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3478.Ch
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 优先队列（小根堆）
+### Solution 1: Sorting + Priority Queue (Min-Heap)
 
-我们可以将数组 $\textit{nums1}$ 转换成一个数组 $\textit{arr}$，其中每个元素是一个二元组 $(x, i)$，表示 $\textit{nums1}[i]$ 的值为 $x$。然后对数组 $\textit{arr}$ 按照 $x$ 进行升序排序。
+We can convert the array $\textit{nums1}$ into an array $\textit{arr}$, where each element is a tuple $(x, i)$, representing the value $x$ at index $i$ in $\textit{nums1}$. Then, we sort the array $\textit{arr}$ in ascending order by $x$.
 
-我们使用一个小根堆 $\textit{pq}$ 来维护数组 $\textit{nums2}$ 中的元素，初始时 $\textit{pq}$ 为空。用一个变量 $\textit{s}$ 来记录 $\textit{pq}$ 中的元素之和。另外，我们用一个指针 $j$ 来维护当前需要添加到 $\textit{pq}$ 中的元素在数组 $\textit{arr}$ 中的位置。
+We use a min-heap $\textit{pq}$ to maintain the elements from the array $\textit{nums2}$. Initially, $\textit{pq}$ is empty. We use a variable $\textit{s}$ to record the sum of the elements in $\textit{pq}$. Additionally, we use a pointer $j$ to maintain the current position in the array $\textit{arr}$ that needs to be added to $\textit{pq}$.
 
-我们遍历数组 $\textit{arr}$，对于第 $h$ 个元素 $(x, i)$，我们将所有满足 $j < h$ 并且 $\textit{arr}[j][0] < x$ 的元素 $\textit{nums2}[\textit{arr}[j][1]]$ 添加到 $\textit{pq}$ 中，并将这些元素的和加到 $\textit{s}$ 中。如果 $\textit{pq}$ 的大小超过了 $k$，我们将 $\textit{pq}$ 中的最小元素弹出，并将其从 $\textit{s}$ 中减去。然后，我们更新 $\textit{ans}[i]$ 的值为 $\textit{s}$。
+We traverse the array $\textit{arr}$. For the $h$-th element $(x, i)$, we add all elements $\textit{nums2}[\textit{arr}[j][1]]$ to $\textit{pq}$ that satisfy $j < h$ and $\textit{arr}[j][0] < x$, and add these elements to $\textit{s}$. If the size of $\textit{pq}$ exceeds $k$, we pop the smallest element from $\textit{pq}$ and subtract it from $\textit{s}$. Then, we update the value of $\textit{ans}[i]$ to $\textit{s}$.
 
-遍历结束后，返回答案数组 $\textit{ans}$。
+After traversing, we return the answer array $\textit{ans}$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
+The time complexity is $O(n \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

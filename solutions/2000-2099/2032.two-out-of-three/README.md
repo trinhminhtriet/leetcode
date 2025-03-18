@@ -1,61 +1,56 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2032.Two%20Out%20of%20Three/README.md
+difficulty: Easy
 rating: 1269
-source: 第 262 场周赛 Q1
+source: Weekly Contest 262 Q1
 tags:
-    - 位运算
-    - 数组
-    - 哈希表
+    - Bit Manipulation
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [2032. 至少在两个数组中出现的值](https://leetcode.cn/problems/two-out-of-three)
+# [2032. Two Out of Three](https://leetcode.com/problems/two-out-of-three)
 
-[English Version](/solution/2000-2099/2032.Two%20Out%20of%20Three/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-给你三个整数数组 <code>nums1</code>、<code>nums2</code> 和 <code>nums3</code> ，请你构造并返回一个 <strong>元素各不相同的</strong> 数组，且由 <strong>至少</strong> 在 <strong>两个</strong> 数组中出现的所有值组成<em>。</em>数组中的元素可以按 <strong>任意</strong> 顺序排列。
+Given three integer arrays <code>nums1</code>, <code>nums2</code>, and <code>nums3</code>, return <em>a <strong>distinct</strong> array containing all the values that are present in <strong>at least two</strong> out of the three arrays. You may return the values in <strong>any</strong> order</em>.
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums1 = [1,1,3,2], nums2 = [2,3], nums3 = [3]
-<strong>输出：</strong>[3,2]
-<strong>解释：</strong>至少在两个数组中出现的所有值为：
-- 3 ，在全部三个数组中都出现过。
-- 2 ，在数组 nums1 和 nums2 中出现过。
+<strong>Input:</strong> nums1 = [1,1,3,2], nums2 = [2,3], nums3 = [3]
+<strong>Output:</strong> [3,2]
+<strong>Explanation:</strong> The values that are present in at least two arrays are:
+- 3, in all three arrays.
+- 2, in nums1 and nums2.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums1 = [3,1], nums2 = [2,3], nums3 = [1,2]
-<strong>输出：</strong>[2,3,1]
-<strong>解释：</strong>至少在两个数组中出现的所有值为：
-- 2 ，在数组 nums2 和 nums3 中出现过。
-- 3 ，在数组 nums1 和 nums2 中出现过。
-- 1 ，在数组 nums1 和 nums3 中出现过。
+<strong>Input:</strong> nums1 = [3,1], nums2 = [2,3], nums3 = [1,2]
+<strong>Output:</strong> [2,3,1]
+<strong>Explanation:</strong> The values that are present in at least two arrays are:
+- 2, in nums2 and nums3.
+- 3, in nums1 and nums2.
+- 1, in nums1 and nums3.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums1 = [1,2,2], nums2 = [4,3,3], nums3 = [5]
-<strong>输出：</strong>[]
-<strong>解释：</strong>不存在至少在两个数组中出现的值。
+<strong>Input:</strong> nums1 = [1,2,2], nums2 = [4,3,3], nums3 = [5]
+<strong>Output:</strong> []
+<strong>Explanation:</strong> No value is present in at least two arrays.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length, nums2.length, nums3.length &lt;= 100</code></li>
@@ -64,15 +59,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数组 + 枚举
+### Solution 1: Array + Enumeration
 
-我们可以先将每个数组中的元素放入数组中，然后枚举 $1$ 到 $100$ 中的每个数 $i$，判断 $i$ 是否在至少两个数组中出现过。若是，则将 $i$ 加入答案数组中。
+We can first put each element of the arrays into an array, then enumerate each number $i$ from $1$ to $100$, and check whether $i$ appears in at least two arrays. If so, add $i$ to the answer array.
 
-时间复杂度 $O(n_1 + n_2 + n_3)$，空间复杂度 $O(n_1 + n_2 + n_3)$。其中 $n_1, n_2, n_3$ 分别为数组 `nums1`、`nums2` 和 `nums3` 的长度。
+The time complexity is $O(n_1 + n_2 + n_3)$, and the space complexity is $O(n_1 + n_2 + n_3)$. Here, $n_1, n_2, n_3$ are the lengths of the arrays `nums1`, `nums2`, and `nums3`, respectively.
 
 <!-- tabs:start -->
 

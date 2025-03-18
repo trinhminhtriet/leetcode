@@ -1,64 +1,59 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3021.Alice%20and%20Bob%20Playing%20Flower%20Game/README.md
+difficulty: Medium
 rating: 1581
-source: 第 382 场周赛 Q3
+source: Weekly Contest 382 Q3
 tags:
-    - 数学
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [3021. Alice 和 Bob 玩鲜花游戏](https://leetcode.cn/problems/alice-and-bob-playing-flower-game)
+# [3021. Alice and Bob Playing Flower Game](https://leetcode.com/problems/alice-and-bob-playing-flower-game)
 
-[English Version](/solution/3000-3099/3021.Alice%20and%20Bob%20Playing%20Flower%20Game/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>Alice 和 Bob 在一个长满鲜花的环形草地玩一个回合制游戏。环形的草地上有一些鲜花，Alice 到&nbsp;Bob 之间顺时针有 <code>x</code>&nbsp;朵鲜花，逆时针有 <code>y</code>&nbsp;朵鲜花。</p>
+<p>Alice and Bob are playing a turn-based game on a circular field surrounded by flowers. The circle represents the field, and there are <code>x</code> flowers in the clockwise direction between Alice and Bob, and <code>y</code> flowers in the anti-clockwise direction between them.</p>
 
-<p>游戏过程如下：</p>
+<p>The game proceeds as follows:</p>
 
 <ol>
-	<li>Alice 先行动。</li>
-	<li>每一次行动中，当前玩家必须选择顺时针或者逆时针，然后在这个方向上摘一朵鲜花。</li>
-	<li>一次行动结束后，如果所有鲜花都被摘完了，那么 <strong>当前</strong>&nbsp;玩家抓住对手并赢得游戏的胜利。</li>
+	<li>Alice takes the first turn.</li>
+	<li>In each turn, a player must choose either the clockwise or anti-clockwise direction and pick one flower from that side.</li>
+	<li>At the end of the turn, if there are no flowers left at all, the <strong>current</strong> player captures their opponent and wins the game.</li>
 </ol>
 
-<p>给你两个整数&nbsp;<code>n</code>&nbsp;和&nbsp;<code>m</code>&nbsp;，你的任务是求出满足以下条件的所有&nbsp;<code>(x, y)</code>&nbsp;对：</p>
+<p>Given two integers, <code>n</code> and <code>m</code>, the task is to compute the number of possible pairs <code>(x, y)</code> that satisfy the conditions:</p>
 
 <ul>
-	<li>按照上述规则，Alice 必须赢得游戏。</li>
-	<li>Alice 顺时针方向上的鲜花数目&nbsp;<code>x</code>&nbsp;必须在区间&nbsp;<code>[1,n]</code>&nbsp;之间。</li>
-	<li>Alice 逆时针方向上的鲜花数目 <code>y</code>&nbsp;必须在区间&nbsp;<code>[1,m]</code>&nbsp;之间。</li>
+	<li>Alice must win the game according to the described rules.</li>
+	<li>The number of flowers <code>x</code> in the clockwise direction must be in the range <code>[1,n]</code>.</li>
+	<li>The number of flowers <code>y</code> in the anti-clockwise direction must be in the range <code>[1,m]</code>.</li>
 </ul>
 
-<p>请你返回满足题目描述的数对&nbsp;<code>(x, y)</code>&nbsp;的数目。</p>
+<p>Return <em>the number of possible pairs</em> <code>(x, y)</code> <em>that satisfy the conditions mentioned in the statement</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>n = 3, m = 2
-<b>输出：</b>3
-<b>解释：</b>以下数对满足题目要求：(1,2) ，(3,2) ，(2,1) 。
+<strong>Input:</strong> n = 3, m = 2
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The following pairs satisfy conditions described in the statement: (1,2), (3,2), (2,1).
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>n = 1, m = 1
-<b>输出：</b>0
-<b>解释：</b>没有数对满足题目要求。
+<strong>Input:</strong> n = 1, m = 1
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> No pairs satisfy the conditions described in the statement.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n, m &lt;= 10<sup>5</sup></code></li>
@@ -66,27 +61,27 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
+### Solution 1: Mathematics
 
-根据题目描述，每一次行动，玩家都会选择顺时针或者逆时针方向，然后摘一朵鲜花。由于 Alice 先行动，因此当 $x + y$ 为奇数时，Alice 一定会赢得游戏。
+According to the problem description, in each move, the player will choose to move in a clockwise or counterclockwise direction and then pick a flower. Since Alice moves first, when $x + y$ is odd, Alice will definitely win the game.
 
-因此，鲜花数目 $x$ 和 $y$ 满足以下条件：
+Therefore, the number of flowers $x$ and $y$ meet the following conditions:
 
-1. $x + y$ 为奇数；
-2. $1 \le x \le n$；
-3. $1 \le y \le m$。
+1. $x + y$ is odd;
+2. $1 \le x \le n$;
+3. $1 \le y \le m$.
 
-若 $x$ 为奇数，$y$ 一定为偶数。此时 $x$ 的取值个数为 $\lceil \frac{n}{2} \rceil$，$y$ 的取值个数为 $\lfloor \frac{m}{2} \rfloor$，因此满足条件的数对个数为 $\lceil \frac{n}{2} \rceil \times \lfloor \frac{m}{2} \rfloor$。
+If $x$ is odd, $y$ must be even. At this time, the number of values of $x$ is $\lceil \frac{n}{2} \rceil$, the number of values of $y$ is $\lfloor \frac{m}{2} \rfloor$, so the number of pairs that meet the conditions is $\lceil \frac{n}{2} \rceil \times \lfloor \frac{m}{2} \rfloor$.
 
-若 $x$ 为偶数，$y$ 一定为奇数。此时 $x$ 的取值个数为 $\lfloor \frac{n}{2} \rfloor$，$y$ 的取值个数为 $\lceil \frac{m}{2} \rceil$，因此满足条件的数对个数为 $\lfloor \frac{n}{2} \rfloor \times \lceil \frac{m}{2} \rceil$。
+If $x$ is even, $y$ must be odd. At this time, the number of values of $x$ is $\lfloor \frac{n}{2} \rfloor$, the number of values of $y$ is $\lceil \frac{m}{2} \rceil$, so the number of pairs that meet the conditions is $\lfloor \frac{n}{2} \rfloor \times \lceil \frac{m}{2} \rceil$.
 
-因此，满足条件的数对个数为 $\lceil \frac{n}{2} \rceil \times \lfloor \frac{m}{2} \rfloor + \lfloor \frac{n}{2} \rfloor \times \lceil \frac{m}{2} \rceil$，即 $\lfloor \frac{n + 1}{2} \rfloor \times \lfloor \frac{m}{2} \rfloor + \lfloor \frac{n}{2} \rfloor \times \lfloor \frac{m + 1}{2} \rfloor$。
+Therefore, the number of pairs that meet the conditions is $\lceil \frac{n}{2} \rceil \times \lfloor \frac{m}{2} \rfloor + \lfloor \frac{n}{2} \rfloor \times \lceil \frac{m}{2} \rceil$, which is $\lfloor \frac{n + 1}{2} \rfloor \times \lfloor \frac{m}{2} \rfloor + \lfloor \frac{n}{2} \rfloor \times \lfloor \frac{m + 1}{2} \rfloor$.
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+The time complexity is $O(1)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -157,21 +152,21 @@ function flowerGame(n: number, m: number): number {
 
 <!-- solution:start -->
 
-### 方法二：数学（优化）
+### Solution 2: Mathematics (Optimized)
 
-方法一得出的结果为 $\lfloor \frac{n + 1}{2} \rfloor \times \lfloor \frac{m}{2} \rfloor + \lfloor \frac{n}{2} \rfloor \times \lfloor \frac{m + 1}{2} \rfloor$。
+The result obtained from Solution 1 is $\lfloor \frac{n + 1}{2} \rfloor \times \lfloor \frac{m}{2} \rfloor + \lfloor \frac{n}{2} \rfloor \times \lfloor \frac{m + 1}{2} \rfloor$.
 
-如果 $n$ 和 $m$ 都是奇数，那么结果为 $\frac{n + 1}{2} \times \frac{m - 1}{2} + \frac{n - 1}{2} \times \frac{m + 1}{2}$，即 $\frac{n \times m - 1}{2}$。
+If both $n$ and $m$ are odd, then the result is $\frac{n + 1}{2} \times \frac{m - 1}{2} + \frac{n - 1}{2} \times \frac{m + 1}{2}$, which is $\frac{n \times m - 1}{2}$.
 
-如果 $n$ 和 $m$ 都是偶数，那么结果为 $\frac{n}{2} \times \frac{m}{2} + \frac{n}{2} \times \frac{m}{2}$，即 $\frac{n \times m}{2}$。
+If both $n$ and $m$ are even, then the result is $\frac{n}{2} \times \frac{m}{2} + \frac{n}{2} \times \frac{m}{2}$, which is $\frac{n \times m}{2}$.
 
-如果 $n$ 是奇数，且 $m$ 是偶数，那么结果为 $\frac{n + 1}{2} \times \frac{m}{2} + \frac{n - 1}{2} \times \frac{m}{2}$，即 $\frac{n \times m}{2}$。
+If $n$ is odd and $m$ is even, then the result is $\frac{n + 1}{2} \times \frac{m}{2} + \frac{n - 1}{2} \times \frac{m}{2}$, which is $\frac{n \times m}{2}$.
 
-如果 $n$ 是偶数，且 $m$ 是奇数，那么结果为 $\frac{n}{2} \times \frac{m - 1}{2} + \frac{n}{2} \times \frac{m + 1}{2}$，即 $\frac{n \times m}{2}$。
+If $n$ is even and $m$ is odd, then the result is $\frac{n}{2} \times \frac{m - 1}{2} + \frac{n}{2} \times \frac{m + 1}{2}$, which is $\frac{n \times m}{2}$.
 
-上面四种情况可以合并为 $\lfloor \frac{n \times m}{2} \rfloor$。
+The above four cases can be combined into $\lfloor \frac{n \times m}{2} \rfloor$.
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+The time complexity is $O(1)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

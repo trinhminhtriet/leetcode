@@ -1,88 +1,81 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0994.Rotting%20Oranges/README.md
+difficulty: Medium
 tags:
-    - 广度优先搜索
-    - 数组
-    - 矩阵
+    - Breadth-First Search
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [994. 腐烂的橘子](https://leetcode.cn/problems/rotting-oranges)
+# [994. Rotting Oranges](https://leetcode.com/problems/rotting-oranges)
 
-[English Version](/solution/0900-0999/0994.Rotting%20Oranges/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在给定的&nbsp;<code>m x n</code>&nbsp;网格<meta charset="UTF-8" />&nbsp;<code>grid</code>&nbsp;中，每个单元格可以有以下三个值之一：</p>
+<p>You are given an <code>m x n</code> <code>grid</code> where each cell can have one of three values:</p>
 
 <ul>
-	<li>值&nbsp;<code>0</code>&nbsp;代表空单元格；</li>
-	<li>值&nbsp;<code>1</code>&nbsp;代表新鲜橘子；</li>
-	<li>值&nbsp;<code>2</code>&nbsp;代表腐烂的橘子。</li>
+	<li><code>0</code> representing an empty cell,</li>
+	<li><code>1</code> representing a fresh orange, or</li>
+	<li><code>2</code> representing a rotten orange.</li>
 </ul>
 
-<p>每分钟，腐烂的橘子&nbsp;<strong>周围&nbsp;4 个方向上相邻</strong> 的新鲜橘子都会腐烂。</p>
+<p>Every minute, any fresh orange that is <strong>4-directionally adjacent</strong> to a rotten orange becomes rotten.</p>
 
-<p>返回 <em>直到单元格中没有新鲜橘子为止所必须经过的最小分钟数。如果不可能，返回&nbsp;<code>-1</code></em>&nbsp;。</p>
+<p>Return <em>the minimum number of minutes that must elapse until no cell has a fresh orange</em>. If <em>this is impossible, return</em> <code>-1</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0994.Rotting%20Oranges/images/oranges.png" style="height: 137px; width: 650px;" /></strong></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0994.Rotting%20Oranges/images/oranges.png" style="width: 650px; height: 137px;" />
 <pre>
-<strong>输入：</strong>grid = [[2,1,1],[1,1,0],[0,1,1]]
-<strong>输出：</strong>4
+<strong>Input:</strong> grid = [[2,1,1],[1,1,0],[0,1,1]]
+<strong>Output:</strong> 4
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>grid = [[2,1,1],[0,1,1],[1,0,1]]
-<strong>输出：</strong>-1
-<strong>解释：</strong>左下角的橘子（第 2 行， 第 0 列）永远不会腐烂，因为腐烂只会发生在 4 个方向上。
+<strong>Input:</strong> grid = [[2,1,1],[0,1,1],[1,0,1]]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> The orange in the bottom left corner (row 2, column 0) is never rotten, because rotting only happens 4-directionally.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>grid = [[0,2]]
-<strong>输出：</strong>0
-<strong>解释：</strong>因为 0 分钟时已经没有新鲜橘子了，所以答案就是 0 。
+<strong>Input:</strong> grid = [[0,2]]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> Since there are already no fresh oranges at minute 0, the answer is just 0.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 10</code></li>
-	<li><code>grid[i][j]</code> 仅为&nbsp;<code>0</code>、<code>1</code>&nbsp;或&nbsp;<code>2</code></li>
+	<li><code>grid[i][j]</code> is <code>0</code>, <code>1</code>, or <code>2</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
+### Solution 1: BFS
 
-我们首先遍历一遍整个网格，统计出新鲜橘子的数量，记为 $\textit{cnt}$，并且将所有腐烂的橘子的坐标加入队列 $q$ 中。
+First, we traverse the entire grid once, count the number of fresh oranges, denoted as $\textit{cnt}$, and add the coordinates of all rotten oranges to the queue $q$.
 
-接下来，我们进行广度优先搜索，每一轮搜索，我们将队列中的所有腐烂的橘子向四个方向腐烂新鲜橘子，直到队列为空或者新鲜橘子的数量为 $0$ 为止。
+Next, we perform a breadth-first search. In each round of the search, we let all the rotten oranges in the queue rot the fresh oranges in four directions, until the queue is empty or the number of fresh oranges is $0$.
 
-最后，如果新鲜橘子的数量为 $0$，则返回当前的轮数，否则返回 $-1$。
+Finally, if the number of fresh oranges is $0$, we return the current round number, otherwise, we return $-1$.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是网格的行数和列数。
+The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the number of rows and columns of the grid, respectively.
 
 <!-- tabs:start -->
 

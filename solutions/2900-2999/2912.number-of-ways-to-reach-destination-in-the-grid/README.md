@@ -1,54 +1,50 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2912.Number%20of%20Ways%20to%20Reach%20Destination%20in%20the%20Grid/README.md
+difficulty: Hard
 tags:
-    - 数学
-    - 动态规划
-    - 组合数学
+    - Math
+    - Dynamic Programming
+    - Combinatorics
 ---
 
 <!-- problem:start -->
 
-# [2912. 在网格上移动到目的地的方法数 🔒](https://leetcode.cn/problems/number-of-ways-to-reach-destination-in-the-grid)
+# [2912. Number of Ways to Reach Destination in the Grid 🔒](https://leetcode.com/problems/number-of-ways-to-reach-destination-in-the-grid)
 
-[English Version](/solution/2900-2999/2912.Number%20of%20Ways%20to%20Reach%20Destination%20in%20the%20Grid/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个整数 <code>n</code> 和 <code>m</code>，它们表示一个 <strong>下标从 1 开始&nbsp;</strong>的网格的大小。还给定一个整数 <code>k</code>，以及两个 <b>下标从 1 开始</b>&nbsp;的整数数组 <code>source</code> 和 <code>dest</code>。这两个数组 <code>source</code> 和 <code>dest</code> 形如 <code>[x, y]</code>，表示网格上的一个单元格。</p>
+<p>You are given two integers <code>n</code> and <code>m</code> which represent the size of a <strong>1-indexed </strong>grid. You are also given an integer <code>k</code>, a <strong>1-indexed</strong> integer array <code>source</code> and a <strong>1-indexed</strong> integer array <code>dest</code>, where <code>source</code> and <code>dest</code> are in the form <code>[x, y]</code> representing a cell on the given grid.</p>
 
-<p>你可以按照以下方式在网格上移动：</p>
+<p>You can move through the grid in the following way:</p>
 
 <ul>
-	<li>你可以从单元格 <code>[x1, y1]</code> 移动到 <code>[x2, y2]</code>，只要 <code>x1 == x2</code> 或 <code>y1 == y2</code>。</li>
-	<li>注意，你 <strong>不能</strong> 移动到当前所在的单元格，即 <code>x1 == x2</code> 且 <code>y1 == y2</code>。</li>
+	<li>You can go from cell <code>[x<sub>1</sub>, y<sub>1</sub>]</code> to cell <code>[x<sub>2</sub>, y<sub>2</sub>]</code> if either <code>x<sub>1</sub> == x<sub>2</sub></code> or <code>y<sub>1</sub> == y<sub>2</sub></code>.</li>
+	<li>Note that you <strong>can&#39;t</strong> move to the cell you are already in e.g. <code>x<sub>1</sub> == x<sub>2</sub></code> and <code>y<sub>1</sub> == y<sub>2</sub></code>.</li>
 </ul>
 
-<p>请返回你在网格上从 <code>source</code> 到 <code>dest</code>&nbsp;移动 <code>k</code> 次一共可以有&nbsp;<strong>多少种 </strong>方法。</p>
+<p>Return <em>the number of ways you can reach</em> <code>dest</code> <em>from</em> <code>source</code> <em>by moving through the grid</em> <strong>exactly</strong> <code>k</code> <em>times.</em></p>
 
-<p>由于答案可能非常大，因此请对&nbsp;<code>10<sup>9</sup>&nbsp;+ 7</code>&nbsp;<strong>取模</strong> 后返回。</p>
+<p>Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1:</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b> n = 3, m = 2, k = 2, source = [1,1], dest = [2,2]
-<b>输出：</b> 2
-<b>解释： </b>有两种可能的方式从 [1,1] 到达 [2,2]：
+<strong>Input:</strong> n = 3, m = 2, k = 2, source = [1,1], dest = [2,2]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> There are 2 possible sequences of reaching [2,2] from [1,1]:
 - [1,1] -&gt; [1,2] -&gt; [2,2]
 - [1,1] -&gt; [2,1] -&gt; [2,2]
 </pre>
 
-<p><b>示例 2:</b></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b> n = 3, m = 4, k = 3, source = [1,2], dest = [2,3]
-<b>输出：</b> 9
-<b>解释：</b> 有 9 种可能的方式从 [1,2] 到达 [2,3]：:
+<strong>Input:</strong> n = 3, m = 4, k = 3, source = [1,2], dest = [2,3]
+<strong>Output:</strong> 9
+<strong>Explanation:</strong> There are 9 possible sequences of reaching [2,3] from [1,2]:
 - [1,2] -&gt; [1,1] -&gt; [1,3] -&gt; [2,3]
 - [1,2] -&gt; [1,1] -&gt; [2,1] -&gt; [2,3]
 - [1,2] -&gt; [1,3] -&gt; [3,3] -&gt; [2,3]
@@ -61,8 +57,7 @@ tags:
 </pre>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n, m &lt;= 10<sup>9</sup></code></li>
@@ -74,22 +69,22 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义以下几个状态，其中：
+We define the following states:
 
--   $f[0]$ 表示从 $source$ 到 $source$ 本身的方法数；
--   $f[1]$ 表示从 $source$ 移动到同一列其它行的方法数；
--   $f[2]$ 表示从 $source$ 移动到同一行其它列的方法数；
--   $f[3]$ 表示从 $source$ 移动到其它行其它列的方法数。
+-   $f[0]$ represents the number of ways to move from `source` to `source` itself;
+-   $f[1]$ represents the number of ways to move from `source` to another row in the same column;
+-   $f[2]$ represents the number of ways to move from `source` to another column in the same row;
+-   $f[3]$ represents the number of ways to move from `source` to another row and another column.
 
-初始时，$f[0] = 1$，其余状态均为 $0$。
+Initially, $f[0] = 1$, and the other states are all $0$.
 
-对于每个状态，我们可以根据上一次的状态计算出当前的状态，具体如下：
+For each state, we can calculate the current state based on the previous state, as follows:
 
 $$
 \begin{aligned}
@@ -100,9 +95,9 @@ g[3] &= f[1] + f[2] + (n - 2) \times f[3] + (m - 2) \times f[3]
 \end{aligned}
 $$
 
-我们循环 $k$ 次，最后判断 $source$ 和 $dest$ 是否在同一行或同一列，返回对应的状态即可。
+We loop $k$ times, and finally check whether `source` and `dest` are in the same row or column, and return the corresponding state.
 
-时间复杂度 $O(k)$，其中 $k$ 为移动次数。空间复杂度 $O(1)$。
+The time complexity is $O(k)$, where $k$ is the number of moves. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

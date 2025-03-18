@@ -1,94 +1,89 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1865.Finding%20Pairs%20With%20a%20Certain%20Sum/README.md
+difficulty: Medium
 rating: 1680
-source: 第 241 场周赛 Q3
+source: Weekly Contest 241 Q3
 tags:
-    - 设计
-    - 数组
-    - 哈希表
+    - Design
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [1865. 找出和为指定值的下标对](https://leetcode.cn/problems/finding-pairs-with-a-certain-sum)
+# [1865. Finding Pairs With a Certain Sum](https://leetcode.com/problems/finding-pairs-with-a-certain-sum)
 
-[English Version](/solution/1800-1899/1865.Finding%20Pairs%20With%20a%20Certain%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数数组 <code>nums1</code> 和 <code>nums2</code> ，请你实现一个支持下述两类查询的数据结构：</p>
+<p>You are given two integer arrays <code>nums1</code> and <code>nums2</code>. You are tasked to implement a data structure that supports queries of two types:</p>
 
 <ol>
-	<li><strong>累加</strong> ，将一个正整数加到 <code>nums2</code> 中指定下标对应元素上。</li>
-	<li><strong>计数 </strong>，统计满足 <code>nums1[i] + nums2[j]</code> 等于指定值的下标对 <code>(i, j)</code> 数目（<code>0 <= i < nums1.length</code> 且 <code>0 <= j < nums2.length</code>）。</li>
+	<li><strong>Add</strong> a positive integer to an element of a given index in the array <code>nums2</code>.</li>
+	<li><strong>Count</strong> the number of pairs <code>(i, j)</code> such that <code>nums1[i] + nums2[j]</code> equals a given value (<code>0 &lt;= i &lt; nums1.length</code> and <code>0 &lt;= j &lt; nums2.length</code>).</li>
 </ol>
 
-<p>实现 <code>FindSumPairs</code> 类：</p>
+<p>Implement the <code>FindSumPairs</code> class:</p>
 
 <ul>
-	<li><code>FindSumPairs(int[] nums1, int[] nums2)</code> 使用整数数组 <code>nums1</code> 和 <code>nums2</code> 初始化 <code>FindSumPairs</code> 对象。</li>
-	<li><code>void add(int index, int val)</code> 将 <code>val</code> 加到 <code>nums2[index]</code> 上，即，执行 <code>nums2[index] += val</code> 。</li>
-	<li><code>int count(int tot)</code> 返回满足 <code>nums1[i] + nums2[j] == tot</code> 的下标对 <code>(i, j)</code> 数目。</li>
+	<li><code>FindSumPairs(int[] nums1, int[] nums2)</code> Initializes the <code>FindSumPairs</code> object with two integer arrays <code>nums1</code> and <code>nums2</code>.</li>
+	<li><code>void add(int index, int val)</code> Adds <code>val</code> to <code>nums2[index]</code>, i.e., apply <code>nums2[index] += val</code>.</li>
+	<li><code>int count(int tot)</code> Returns the number of pairs <code>(i, j)</code> such that <code>nums1[i] + nums2[j] == tot</code>.</li>
 </ul>
 
-<p> </p>
-
-<p><strong>示例：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["FindSumPairs", "count", "add", "count", "count", "add", "add", "count"]
+<strong>Input</strong>
+[&quot;FindSumPairs&quot;, &quot;count&quot;, &quot;add&quot;, &quot;count&quot;, &quot;count&quot;, &quot;add&quot;, &quot;add&quot;, &quot;count&quot;]
 [[[1, 1, 2, 2, 2, 3], [1, 4, 5, 2, 5, 4]], [7], [3, 2], [8], [4], [0, 1], [1, 1], [7]]
-<strong>输出：</strong>
+<strong>Output</strong>
 [null, 8, null, 2, 1, null, null, 11]
 
-<strong>解释：</strong>
+<strong>Explanation</strong>
 FindSumPairs findSumPairs = new FindSumPairs([1, 1, 2, 2, 2, 3], [1, 4, 5, 2, 5, 4]);
-findSumPairs.count(7);  // 返回 8 ; 下标对 (2,2), (3,2), (4,2), (2,4), (3,4), (4,4) 满足 2 + 5 = 7 ，下标对 (5,1), (5,5) 满足 3 + 4 = 7
-findSumPairs.add(3, 2); // 此时 nums2 = [1,4,5,<em><strong>4</strong></em><code>,5,4</code>]
-findSumPairs.count(8);  // 返回 2 ；下标对 (5,2), (5,4) 满足 3 + 5 = 8
-findSumPairs.count(4);  // 返回 1 ；下标对 (5,0) 满足 3 + 1 = 4
-findSumPairs.add(0, 1); // 此时 nums2 = [<em><strong><code>2</code></strong></em>,4,5,4<code>,5,4</code>]
-findSumPairs.add(1, 1); // 此时 nums2 = [<code>2</code>,<em><strong>5</strong></em>,5,4<code>,5,4</code>]
-findSumPairs.count(7);  // 返回 11 ；下标对 (2,1), (2,2), (2,4), (3,1), (3,2), (3,4), (4,1), (4,2), (4,4) 满足 2 + 5 = 7 ，下标对 (5,3), (5,5) 满足 3 + 4 = 7
+findSumPairs.count(7);  // return 8; pairs (2,2), (3,2), (4,2), (2,4), (3,4), (4,4) make 2 + 5 and pairs (5,1), (5,5) make 3 + 4
+findSumPairs.add(3, 2); // now nums2 = [1,4,5,<strong><u>4</u></strong><code>,5,4</code>]
+findSumPairs.count(8);  // return 2; pairs (5,2), (5,4) make 3 + 5
+findSumPairs.count(4);  // return 1; pair (5,0) makes 3 + 1
+findSumPairs.add(0, 1); // now nums2 = [<strong><u><code>2</code></u></strong>,4,5,4<code>,5,4</code>]
+findSumPairs.add(1, 1); // now nums2 = [<code>2</code>,<strong><u>5</u></strong>,5,4<code>,5,4</code>]
+findSumPairs.count(7);  // return 11; pairs (2,1), (2,2), (2,4), (3,1), (3,2), (3,4), (4,1), (4,2), (4,4) make 2 + 5 and pairs (5,3), (5,5) make 3 + 4
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= nums1.length <= 1000</code></li>
-	<li><code>1 <= nums2.length <= 10<sup>5</sup></code></li>
-	<li><code>1 <= nums1[i] <= 10<sup>9</sup></code></li>
-	<li><code>1 <= nums2[i] <= 10<sup>5</sup></code></li>
-	<li><code>0 <= index < nums2.length</code></li>
-	<li><code>1 <= val <= 10<sup>5</sup></code></li>
-	<li><code>1 <= tot <= 10<sup>9</sup></code></li>
-	<li>最多调用 <code>add</code> 和 <code>count</code> 函数各 <code>1000</code> 次</li>
+	<li><code>1 &lt;= nums1.length &lt;= 1000</code></li>
+	<li><code>1 &lt;= nums2.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= nums1[i] &lt;= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= nums2[i] &lt;= 10<sup>5</sup></code></li>
+	<li><code>0 &lt;= index &lt; nums2.length</code></li>
+	<li><code>1 &lt;= val &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= tot &lt;= 10<sup>9</sup></code></li>
+	<li>At most <code>1000</code> calls are made to <code>add</code> and <code>count</code> <strong>each</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们注意到，数组 $\textit{nums1}$ 的长度不超过 ${10}^3$，数组 $\textit{nums2}$ 的长度达到 ${10}^5$，因此，如果直接暴力枚举所有下标对 $(i, j)$，计算 $\textit{nums1}[i] + \textit{nums2}[j]$ 是否等于指定值 $\textit{tot}$，那么会超出时间限制。
+We note that the length of the array $\textit{nums1}$ does not exceed ${10}^3$, while the length of the array $\textit{nums2}$ reaches ${10}^5$. Therefore, if we directly enumerate all index pairs $(i, j)$ and check whether $\textit{nums1}[i] + \textit{nums2}[j]$ equals the specified value $\textit{tot}$, it will exceed the time limit.
 
-能否只枚举长度较短的数组 $\textit{nums1}$ 呢？答案是可以的。我们用一个哈希表 $\textit{cnt}$ 统计数组 $\textit{nums2}$ 中每个元素出现的次数，然后枚举数组 $\textit{nums1}$ 中的每个元素 $x$，计算 $\textit{cnt}[\textit{tot} - x]$ 的值之和即可。
+Can we only enumerate the shorter array $\textit{nums1}$? The answer is yes. We use a hash table $\textit{cnt}$ to count the occurrences of each element in the array $\textit{nums2}$, then enumerate each element $x$ in the array $\textit{nums1}$ and calculate the sum of $\textit{cnt}[\textit{tot} - x]$.
 
-在调用 $\text{add}$ 方法时，我们需要先将 $\textit{nums2}[index]$ 对应的值从 $\textit{cnt}$ 中减去 $1$，然后将 $\textit{nums2}[index]$ 的值加上 $\textit{val}$，最后将 $\textit{nums2}[index]$ 对应的值加上 $1$。
+When calling the $\text{add}$ method, we need to first decrement the value corresponding to $\textit{nums2}[index]$ in $\textit{cnt}$ by $1$, then add $\textit{val}$ to the value of $\textit{nums2}[index]$, and finally increment the value corresponding to $\textit{nums2}[index]$ in $\textit{cnt}$ by $1$.
 
-在调用 $\text{count}$ 方法时，我们只需要遍历数组 $\textit{nums1}$，对于每个元素 $x$，计算 $\textit{cnt}[\textit{tot} - x]$ 的值之和即可。
+When calling the $\text{count}$ method, we only need to traverse the array $\textit{nums1}$ and calculate the sum of $\textit{cnt}[\textit{tot} - x]$ for each element $x$.
 
-时间复杂度 $O(n \times q)$，空间复杂度 $O(m)$。其中 $n$ 和 $m$ 分别是数组 $\textit{nums1}$ 和 $\textit{nums2}$ 的长度，而 $q$ 是调用 $\text{count}$ 方法的次数。
+The time complexity is $O(n \times q)$, and the space complexity is $O(m)$. Here, $n$ and $m$ are the lengths of the arrays $\textit{nums1}$ and $\textit{nums2}$, respectively, and $q$ is the number of times the $\text{count}$ method is called.
 
 <!-- tabs:start -->
 

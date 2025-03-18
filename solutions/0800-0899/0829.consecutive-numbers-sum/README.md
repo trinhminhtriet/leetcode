@@ -1,78 +1,76 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0829.Consecutive%20Numbers%20Sum/README.md
+difficulty: Hard
 tags:
-    - 数学
-    - 枚举
+    - Math
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [829. 连续整数求和](https://leetcode.cn/problems/consecutive-numbers-sum)
+# [829. Consecutive Numbers Sum](https://leetcode.com/problems/consecutive-numbers-sum)
 
-[English Version](/solution/0800-0899/0829.Consecutive%20Numbers%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个正整数 <code>n</code>，返回 <em>连续正整数满足所有数字之和为 <code>n</code>&nbsp;的组数</em> 。&nbsp;</p>
+<p>Given an integer <code>n</code>, return <em>the number of ways you can write </em><code>n</code><em> as the sum of consecutive positive integers.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示</strong><strong>例 1:</strong></p>
-
-<pre>
-<strong>输入: </strong>n = 5
-<strong>输出: </strong>2
-<strong>解释: </strong>5 = 2 + 3，共有两组连续整数([5],[2,3])求和后为 5。</pre>
-
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入: </strong>n = 9
-<strong>输出: </strong>3
-<strong>解释: </strong>9 = 4 + 5 = 2 + 3 + 4</pre>
+<strong>Input:</strong> n = 5
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 5 = 2 + 3
+</pre>
 
-<p><strong>示例 3:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入: </strong>n = 15
-<strong>输出: </strong>4
-<strong>解释: </strong>15 = 8 + 7 = 4 + 5 + 6 = 1 + 2 + 3 + 4 + 5</pre>
+<strong>Input:</strong> n = 9
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 9 = 4 + 5 = 2 + 3 + 4
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 15
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> 15 = 8 + 7 = 4 + 5 + 6 = 1 + 2 + 3 + 4 + 5
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= n &lt;= 10<sup>9</sup></code>​​​​​​​</li>
+	<li><code>1 &lt;= n &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学推导
+### Solution 1: Mathematical Derivation
 
-连续正整数构成一个公差 $d = 1$ 的等差数列。我们假设等差数列的第一项为 $a$，项数为 $k$，那么 $n = (a + a + k - 1) \times k / 2$，即 $n \times 2 = (a \times 2 + k - 1) \times k$。这里我们可以得出 $k$ 一定能整除 $n \times 2$，并且 $(n \times 2) / k - k + 1$ 一定是偶数。
+Consecutive positive integers form an arithmetic sequence with a common difference $d = 1$. Let's assume the first term of the sequence is $a$, and the number of terms is $k$. Then, $n = (a + a + k - 1) \times k / 2$, which simplifies to $n \times 2 = (a \times 2 + k - 1) \times k$. From this, we can deduce that $k$ must divide $n \times 2$ evenly, and $(n \times 2) / k - k + 1$ must be an even number.
 
-由于 $a \geq 1$，所以 $n \times 2 = (a \times 2 + k - 1) \times k \geq k \times (k + 1)$。
+Given that $a \geq 1$, it follows that $n \times 2 = (a \times 2 + k - 1) \times k \geq k \times (k + 1)$.
 
-综上，我们可以得出：
+In summary, we can conclude:
 
-1. $k$ 一定能整除 $n \times 2$；
-2. $k \times (k + 1) \leq n \times 2$；
-3. $(n \times 2) / k - k + 1$ 一定是偶数。
+1. $k$ must divide $n \times 2$ evenly;
+2. $k \times (k + 1) \leq n \times 2$;
+3. $(n \times 2) / k - k + 1$ must be an even number.
 
-我们从 $k = 1$ 开始枚举，当 $k \times (k + 1) > n \times 2$ 时，我们可以结束枚举。在枚举的过程中，我们判断 $k$ 是否能整除 $n \times 2$，并且 $(n \times 2) / k - k + 1$ 是否是偶数，如果是则满足条件，答案加一。
+We start enumerating from $k = 1$, and we can stop when $k \times (k + 1) > n \times 2$. During the enumeration, we check if $k$ divides $n \times 2$ evenly, and if $(n \times 2) / k - k + 1$ is an even number. If both conditions are met, it satisfies the criteria, and we increment the answer by one.
 
-枚举结束后，返回答案即可。
+After finishing the enumeration, we return the answer.
 
-时间复杂度 $O(\sqrt{n})$，其中 $n$ 为给定的正整数。空间复杂度 $O(1)$。
+The time complexity is $O(\sqrt{n})$, where $n$ is the given positive integer. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -84,7 +82,7 @@ class Solution:
         n <<= 1
         ans, k = 0, 1
         while k * (k + 1) <= n:
-            if n % k == 0 and (n // k + 1 - k) % 2 == 0:
+            if n % k == 0 and (n // k - k + 1) % 2 == 0:
                 ans += 1
             k += 1
         return ans

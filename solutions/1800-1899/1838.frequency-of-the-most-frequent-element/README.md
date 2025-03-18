@@ -1,93 +1,88 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1838.Frequency%20of%20the%20Most%20Frequent%20Element/README.md
+difficulty: Medium
 rating: 1876
-source: 第 238 场周赛 Q2
+source: Weekly Contest 238 Q2
 tags:
-    - 贪心
-    - 数组
-    - 二分查找
-    - 前缀和
-    - 排序
-    - 滑动窗口
+    - Greedy
+    - Array
+    - Binary Search
+    - Prefix Sum
+    - Sorting
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [1838. 最高频元素的频数](https://leetcode.cn/problems/frequency-of-the-most-frequent-element)
+# [1838. Frequency of the Most Frequent Element](https://leetcode.com/problems/frequency-of-the-most-frequent-element)
 
-[English Version](/solution/1800-1899/1838.Frequency%20of%20the%20Most%20Frequent%20Element/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>元素的 <strong>频数</strong> 是该元素在一个数组中出现的次数。</p>
+<p>The <strong>frequency</strong> of an element is the number of times it occurs in an array.</p>
 
-<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> 。在一步操作中，你可以选择 <code>nums</code> 的一个下标，并将该下标对应元素的值增加 <code>1</code> 。</p>
+<p>You are given an integer array <code>nums</code> and an integer <code>k</code>. In one operation, you can choose an index of <code>nums</code> and increment the element at that index by <code>1</code>.</p>
 
-<p>执行最多 <code>k</code> 次操作后，返回数组中最高频元素的 <strong>最大可能频数</strong> <em>。</em></p>
+<p>Return <em>the <strong>maximum possible frequency</strong> of an element after performing <strong>at most</strong> </em><code>k</code><em> operations</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,4], k = 5
-<strong>输出：</strong>3<strong>
-解释：</strong>对第一个元素执行 3 次递增操作，对第二个元素执 2 次递增操作，此时 nums = [4,4,4] 。
-4 是数组中最高频元素，频数是 3 。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,4,8,13], k = 5
-<strong>输出：</strong>2
-<strong>解释：</strong>存在多种最优解决方案：
-- 对第一个元素执行 3 次递增操作，此时 nums = [4,4,8,13] 。4 是数组中最高频元素，频数是 2 。
-- 对第二个元素执行 4 次递增操作，此时 nums = [1,8,8,13] 。8 是数组中最高频元素，频数是 2 。
-- 对第三个元素执行 5 次递增操作，此时 nums = [1,4,13,13] 。13 是数组中最高频元素，频数是 2 。
+<strong>Input:</strong> nums = [1,2,4], k = 5
+<strong>Output:</strong> 3<strong>
+Explanation:</strong> Increment the first element three times and the second element two times to make nums = [4,4,4].
+4 has a frequency of 3.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,4,8,13], k = 5
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> There are multiple optimal solutions:
+- Increment the first element three times to make nums = [4,4,8,13]. 4 has a frequency of 2.
+- Increment the second element four times to make nums = [1,8,8,13]. 8 has a frequency of 2.
+- Increment the third element five times to make nums = [1,4,13,13]. 13 has a frequency of 2.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,9,6], k = 2
-<strong>输出：</strong>1
+<strong>Input:</strong> nums = [3,9,6], k = 2
+<strong>Output:</strong> 1
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= nums.length <= 10<sup>5</sup></code></li>
-	<li><code>1 <= nums[i] <= 10<sup>5</sup></code></li>
-	<li><code>1 <= k <= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= k &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 前缀和 + 二分查找
+### Solution 1: Sorting + Prefix Sum + Binary Search
 
-根据题目描述，我们可以得出三个结论：
+According to the problem description, we can draw three conclusions:
 
-1. 经过若干次操作后，数组中最高频元素一定是原数组中的某个元素。为什么呢？我们不妨假设操作的若干个元素分别为 $a_1, a_2, \cdots, a_m$，其中最大值为 $a_m$，这几个元素都变成了同一个值 $x$，其中 $x \geq a_m$，那么也一定可以将这些元素全部变成 $a_m$，这样操作次数不会增加。
-1. 操作的若干个元素一定是排序后的数组的一段连续子数组。
-1. 如果一个频数 $m$ 满足条件，那么所有 $m' \lt m$ 也满足条件。这启发我们可以考虑使用二分查找，找到最大的满足条件的频数。
+1. After several operations, the element with the highest frequency in the array must be an element in the original array. Why? Suppose the elements operated are $a_1, a_2, \cdots, a_m$, where the maximum is $a_m$. These elements have all been changed to the same value $x$, where $x \geq a_m$. Then we can also change these elements all to $a_m$, and the number of operations will not increase.
+2. The elements operated must be a continuous subarray in the sorted array.
+3. If a frequency $m$ satisfies the condition, then all $m' < m$ also satisfy the condition. This inspires us to consider using binary search to find the maximum frequency that satisfies the condition.
 
-因此，我们可以对数组 $nums$ 进行排序，然后计算排序后的数组的前缀和数组 $s$，其中 $s[i]$ 表示前 $i$ 个元素的和。
+Therefore, we can sort the array $nums$ and then calculate the prefix sum array $s$ of the sorted array, where $s[i]$ represents the sum of the first $i$ elements.
 
-接下来，我们定义二分查找的左边界 $l=1$，右边界 $r=n$。每一次二分查找，我们取中间值 $m=(l+r+1)/2$，然后检查是否存在一个长度为 $m$ 的连续子数组，使得这个子数组中的元素都可以变成数组中的某个元素，且操作次数不超过 $k$。如果存在这样的子数组，那么我们就可以将左边界 $l$ 更新为 $m$，否则将右边界 $r$ 更新为 $m-1$。
+Next, we define the left boundary of the binary search as $l = 1$, and the right boundary as $r = n$. For each binary search, we take the middle value $m = (l + r + 1) / 2$, and then check whether there exists a continuous subarray of length $m$ such that all elements in the subarray can be changed to an element in the array, and the number of operations does not exceed $k$. If such a subarray exists, we can update the left boundary $l$ to $m$, otherwise update the right boundary $r$ to $m - 1$.
 
-最后返回左边界 $l$ 即可。
+Finally, return the left boundary $l$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 
@@ -258,13 +253,13 @@ function maxFrequency(nums: number[], k: number): number {
 
 <!-- solution:start -->
 
-### 方法二：排序 + 双指针
+### Solution 2: Sorting + Two Pointers
 
-我们也可以使用双指针来维护一个滑动窗口，窗口内中的元素都可以变成窗口中的最大值，窗口内元素的操作次数为 $s$，且 $s \leq k$。
+We can also use two pointers to maintain a sliding window, where all elements in the window can be changed to the maximum value in the window. The number of operations for the elements in the window is $s$, and $s \leq k$.
 
-初始时，我们将左指针 $j$ 指向数组的第一个元素，右指针 $i$ 也指向数组的第一个元素。接下来，我们每一次移动右指针 $i$，将窗口中的元素都变成 $nums[i]$，此时需要增加的操作次数为 $(nums[i] - nums[i - 1]) \times (i - j)$。如果这个操作次数超过了 $k$，那么我们就需要移动左指针 $j$，直到窗口内元素的操作次数不超过 $k$。然后，我们更新答案为窗口的长度的最大值。
+Initially, we set the left pointer $j$ to point to the first element of the array, and the right pointer $i$ also points to the first element of the array. Next, we move the right pointer $i$ each time, changing all elements in the window to $nums[i]$. At this time, the number of operations to be increased is $(nums[i] - nums[i - 1]) \times (i - j)$. If this number of operations exceeds $k$, then we need to move the left pointer $j$ until the number of operations for the elements in the window does not exceed $k$. Then, we update the answer to the maximum length of the window.
 
-时间复杂度 $O(n \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n \log n)$, and the space complexity is $O(\log n)$. Where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

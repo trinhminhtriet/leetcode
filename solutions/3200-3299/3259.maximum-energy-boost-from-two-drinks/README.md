@@ -1,65 +1,62 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3259.Maximum%20Energy%20Boost%20From%20Two%20Drinks/README.md
+difficulty: Medium
 rating: 1483
-source: 第 411 场周赛 Q2
+source: Weekly Contest 411 Q2
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3259. 超级饮料的最大强化能量](https://leetcode.cn/problems/maximum-energy-boost-from-two-drinks)
+# [3259. Maximum Energy Boost From Two Drinks](https://leetcode.com/problems/maximum-energy-boost-from-two-drinks)
 
-[English Version](/solution/3200-3299/3259.Maximum%20Energy%20Boost%20From%20Two%20Drinks/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>来自未来的体育科学家给你两个整数数组 <code>energyDrinkA</code> 和 <code>energyDrinkB</code>，数组长度都等于 <code>n</code>。这两个数组分别代表 A、B 两种不同能量饮料每小时所能提供的强化能量。</p>
+<p>You are given two integer arrays <code>energyDrinkA</code> and <code>energyDrinkB</code> of the same length <code>n</code> by a futuristic sports scientist. These arrays represent the energy boosts per hour provided by two different energy drinks, A and B, respectively.</p>
 
-<p>你需要每小时饮用一种能量饮料来 <strong>最大化 </strong>你的总强化能量。然而，如果从一种能量饮料切换到另一种，你需要等待一小时来梳理身体的能量体系（在那个小时里你将不会获得任何强化能量）。</p>
+<p>You want to <em>maximize</em> your total energy boost by drinking one energy drink <em>per hour</em>. However, if you want to switch from consuming one energy drink to the other, you need to wait for <em>one hour</em> to cleanse your system (meaning you won&#39;t get any energy boost in that hour).</p>
 
-<p>返回在接下来的 <code>n</code> 小时内你能获得的<strong> 最大 </strong>总强化能量。</p>
+<p>Return the <strong>maximum</strong> total energy boost you can gain in the next <code>n</code> hours.</p>
 
-<p><strong>注意 </strong>你可以选择从饮用任意一种能量饮料开始。</p>
+<p><strong>Note</strong> that you can start consuming <em>either</em> of the two energy drinks.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong>energyDrinkA<span class="example-io"> = [1,3,1], </span>energyDrinkB<span class="example-io"> = [3,1,1]</span></p>
+<p><strong>Input:</strong> energyDrinkA<span class="example-io"> = [1,3,1], </span>energyDrinkB<span class="example-io"> = [3,1,1]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">5</span></p>
+<p><strong>Output:</strong> <span class="example-io">5</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>要想获得 5 点强化能量，需要选择只饮用能量饮料 A（或者只饮用 B）。</p>
+<p>To gain an energy boost of 5, drink only the energy drink A (or only B).</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong>energyDrinkA<span class="example-io"> = [4,1,1], </span>energyDrinkB<span class="example-io"> = [1,1,3]</span></p>
+<p><strong>Input:</strong> energyDrinkA<span class="example-io"> = [4,1,1], </span>energyDrinkB<span class="example-io"> = [1,1,3]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">7</span></p>
+<p><strong>Output:</strong> <span class="example-io">7</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
+
+<p>To gain an energy boost of 7:</p>
 
 <ul>
-	<li>第一个小时饮用能量饮料 A。</li>
-	<li>切换到能量饮料 B ，在第二个小时无法获得强化能量。</li>
-	<li>第三个小时饮用能量饮料 B ，并获得强化能量。</li>
+	<li>Drink the energy drink A for the first hour.</li>
+	<li>Switch to the energy drink B and we lose the energy boost of the second hour.</li>
+	<li>Gain the energy boost of the drink B in the third hour.</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == energyDrinkA.length == energyDrinkB.length</code></li>
@@ -69,15 +66,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][0]$ 表示在第 $i$ 小时选择能量饮料 A 获得的最大强化能量，定义 $f[i][1]$ 表示在第 $i$ 小时选择能量饮料 B 获得的最大强化能量。初始时 $f[0][0] = \textit{energyDrinkA}[0]$, $f[0][1] = \textit{energyDrinkB}[0]$。答案为 $\max(f[n - 1][0], f[n - 1][1])$。
+We define $f[i][0]$ to represent the maximum boost energy obtained by choosing energy drink A at the $i$-th hour, and $f[i][1]$ to represent the maximum boost energy obtained by choosing energy drink B at the $i$-th hour. Initially, $f[0][0] = \textit{energyDrinkA}[0]$, $f[0][1] = \textit{energyDrinkB}[0]$. The answer is $\max(f[n - 1][0], f[n - 1][1])$.
 
-对于 $i > 0$，我们有以下状态转移方程：
+For $i > 0$, we have the following state transition equations:
 
 $$
 \begin{aligned}
@@ -86,9 +83,9 @@ f[i][1] & = \max(f[i - 1][1] + \textit{energyDrinkB}[i], f[i - 1][0])
 \end{aligned}
 $$
 
-最后返回 $\max(f[n - 1][0], f[n - 1][1])$ 即可。
+Finally, return $\max(f[n - 1][0], f[n - 1][1])$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 
@@ -182,11 +179,11 @@ function maxEnergyBoost(energyDrinkA: number[], energyDrinkB: number[]): number 
 
 <!-- solution:start -->
 
-### 方法二：动态规划（空间优化）
+### Solution 2: Dynamic Programming (Space Optimization)
 
-我们注意到，状态 $f[i]$ 至于 $f[i - 1]$ 有关，而与 $f[i - 2]$ 无关。因此我们可以只使用两个变量 $f$ 和 $g$ 来维护状态，从而将空间复杂度优化到 $O(1)$。
+We notice that the state $f[i]$ is only related to $f[i - 1]$ and not to $f[i - 2]$. Therefore, we can use only two variables $f$ and $g$ to maintain the state, thus optimizing the space complexity to $O(1)$.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

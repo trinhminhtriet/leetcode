@@ -1,67 +1,65 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2186.Minimum%20Number%20of%20Steps%20to%20Make%20Two%20Strings%20Anagram%20II/README.md
+difficulty: Medium
 rating: 1253
-source: 第 282 场周赛 Q2
+source: Weekly Contest 282 Q2
 tags:
-    - 哈希表
-    - 字符串
-    - 计数
+    - Hash Table
+    - String
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [2186. 制造字母异位词的最小步骤数 II](https://leetcode.cn/problems/minimum-number-of-steps-to-make-two-strings-anagram-ii)
+# [2186. Minimum Number of Steps to Make Two Strings Anagram II](https://leetcode.com/problems/minimum-number-of-steps-to-make-two-strings-anagram-ii)
 
-[English Version](/solution/2100-2199/2186.Minimum%20Number%20of%20Steps%20to%20Make%20Two%20Strings%20Anagram%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串 <code>s</code> 和 <code>t</code> 。在一步操作中，你可以给 <code>s</code> 或者 <code>t</code> 追加 <strong>任一字符</strong> 。</p>
+<p>You are given two strings <code>s</code> and <code>t</code>. In one step, you can append <strong>any character</strong> to either <code>s</code> or <code>t</code>.</p>
 
-<p>返回使 <code>s</code> 和 <code>t</code> 互为 <strong>字母异位词</strong> 所需的最少步骤数<em>。</em></p>
+<p>Return <em>the minimum number of steps to make </em><code>s</code><em> and </em><code>t</code><em> <strong>anagrams</strong> of each other.</em></p>
 
-<p><strong>字母异位词 </strong>指字母相同但是顺序不同（或者相同）的字符串。</p>
+<p>An <strong>anagram</strong> of a string is a string that contains the same characters with a different (or the same) ordering.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;<strong><u>lee</u></strong>tco<u><strong>de</strong></u>&quot;, t = &quot;co<u><strong>a</strong></u>t<u><strong>s</strong></u>&quot;
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> 
+- In 2 steps, we can append the letters in &quot;as&quot; onto s = &quot;leetcode&quot;, forming s = &quot;leetcode<strong><u>as</u></strong>&quot;.
+- In 5 steps, we can append the letters in &quot;leede&quot; onto t = &quot;coats&quot;, forming t = &quot;coats<u><strong>leede</strong></u>&quot;.
+&quot;leetcodeas&quot; and &quot;coatsleede&quot; are now anagrams of each other.
+We used a total of 2 + 5 = 7 steps.
+It can be shown that there is no way to make them anagrams of each other with less than 7 steps.
+</pre>
 
-<pre><strong>输入：</strong>s = "<em><strong>lee</strong>t</em>co<em><strong>de</strong></em>", t = "co<em><strong>a</strong></em>t<em><strong>s</strong></em>"
-<strong>输出：</strong>7
-<strong>解释：</strong>
-- 执行 2 步操作，将 "as" 追加到 s = "leetcode" 中，得到 s = "leetcode<em><strong>as</strong></em>" 。
-- 执行 5 步操作，将 "leede" 追加到 t = "coats" 中，得到 t = "coats<em><strong>leede</strong></em>" 。
-"leetcodeas" 和 "coatsleede" 互为字母异位词。
-总共用去 2 + 5 = 7 步。
-可以证明，无法用少于 7 步操作使这两个字符串互为字母异位词。</pre>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>s = "night", t = "thing"
-<strong>输出：</strong>0
-<strong>解释：</strong>给出的字符串已经互为字母异位词。因此，不需要任何进一步操作。
+<pre>
+<strong>Input:</strong> s = &quot;night&quot;, t = &quot;thing&quot;
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The given strings are already anagrams of each other. Thus, we do not need any further steps.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length, t.length &lt;= 2 * 10<sup>5</sup></code></li>
-	<li><code>s</code> 和 <code>t</code> 由小写英文字符组成</li>
+	<li><code>s</code> and <code>t</code> consist of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1
 
 <!-- tabs:start -->
 

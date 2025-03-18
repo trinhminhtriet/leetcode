@@ -1,59 +1,54 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2642.Design%20Graph%20With%20Shortest%20Path%20Calculator/README.md
+difficulty: Hard
 rating: 1810
-source: 第 102 场双周赛 Q4
+source: Biweekly Contest 102 Q4
 tags:
-    - 图
-    - 设计
-    - 最短路
-    - 堆（优先队列）
+    - Graph
+    - Design
+    - Shortest Path
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2642. 设计可以求最短路径的图类](https://leetcode.cn/problems/design-graph-with-shortest-path-calculator)
+# [2642. Design Graph With Shortest Path Calculator](https://leetcode.com/problems/design-graph-with-shortest-path-calculator)
 
-[English Version](/solution/2600-2699/2642.Design%20Graph%20With%20Shortest%20Path%20Calculator/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个有&nbsp;<code>n</code>&nbsp;个节点的&nbsp;<strong>有向带权</strong>&nbsp;图，节点编号为&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;。图中的初始边用数组&nbsp;<code>edges</code>&nbsp;表示，其中&nbsp;<code>edges[i] = [from<sub>i</sub>, to<sub>i</sub>, edgeCost<sub>i</sub>]</code>&nbsp;表示从&nbsp;<code>from<sub>i</sub></code>&nbsp;到&nbsp;<code>to<sub>i</sub></code>&nbsp;有一条代价为&nbsp;<code>edgeCost<sub>i</sub></code>&nbsp;的边。</p>
+<p>There is a <strong>directed weighted</strong> graph that consists of <code>n</code> nodes numbered from <code>0</code> to <code>n - 1</code>. The edges of the graph are initially represented by the given array <code>edges</code> where <code>edges[i] = [from<sub>i</sub>, to<sub>i</sub>, edgeCost<sub>i</sub>]</code> meaning that there is an edge from <code>from<sub>i</sub></code> to <code>to<sub>i</sub></code> with the cost <code>edgeCost<sub>i</sub></code>.</p>
 
-<p>请你实现一个&nbsp;<code>Graph</code>&nbsp;类：</p>
+<p>Implement the <code>Graph</code> class:</p>
 
 <ul>
-	<li><code>Graph(int n, int[][] edges)</code>&nbsp;初始化图有&nbsp;<code>n</code>&nbsp;个节点，并输入初始边。</li>
-	<li><code>addEdge(int[] edge)</code>&nbsp;向边集中添加一条边，其中<strong>&nbsp;</strong><code>edge = [from, to, edgeCost]</code>&nbsp;。数据保证添加这条边之前对应的两个节点之间没有有向边。</li>
-	<li><code>int shortestPath(int node1, int node2)</code>&nbsp;返回从节点&nbsp;<code>node1</code>&nbsp;到&nbsp;<code>node2</code>&nbsp;的路径<strong>&nbsp;最小</strong>&nbsp;代价。如果路径不存在，返回&nbsp;<code>-1</code>&nbsp;。一条路径的代价是路径中所有边代价之和。</li>
+	<li><code>Graph(int n, int[][] edges)</code> initializes the object with <code>n</code> nodes and the given edges.</li>
+	<li><code>addEdge(int[] edge)</code> adds an edge to the list of edges where <code>edge = [from, to, edgeCost]</code>. It is guaranteed that there is no edge between the two nodes before adding this one.</li>
+	<li><code>int shortestPath(int node1, int node2)</code> returns the <strong>minimum</strong> cost of a path from <code>node1</code> to <code>node2</code>. If no path exists, return <code>-1</code>. The cost of a path is the sum of the costs of the edges in the path.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2642.Design%20Graph%20With%20Shortest%20Path%20Calculator/images/graph3drawio-2.png" style="width: 621px; height: 191px;"></p>
-
-<pre><strong>输入：</strong>
-["Graph", "shortestPath", "shortestPath", "addEdge", "shortestPath"]
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2642.Design%20Graph%20With%20Shortest%20Path%20Calculator/images/graph3drawio-2.png" style="width: 621px; height: 191px;" />
+<pre>
+<strong>Input</strong>
+[&quot;Graph&quot;, &quot;shortestPath&quot;, &quot;shortestPath&quot;, &quot;addEdge&quot;, &quot;shortestPath&quot;]
 [[4, [[0, 2, 5], [0, 1, 2], [1, 2, 1], [3, 0, 3]]], [3, 2], [0, 3], [[1, 3, 4]], [0, 3]]
-<b>输出：</b>
+<strong>Output</strong>
 [null, 6, -1, null, 6]
 
-<strong>解释：</strong>
+<strong>Explanation</strong>
 Graph g = new Graph(4, [[0, 2, 5], [0, 1, 2], [1, 2, 1], [3, 0, 3]]);
-g.shortestPath(3, 2); // 返回 6 。从 3 到 2 的最短路径如第一幅图所示：3 -&gt; 0 -&gt; 1 -&gt; 2 ，总代价为 3 + 2 + 1 = 6 。
-g.shortestPath(0, 3); // 返回 -1 。没有从 0 到 3 的路径。
-g.addEdge([1, 3, 4]); // 添加一条节点 1 到节点 3 的边，得到第二幅图。
-g.shortestPath(0, 3); // 返回 6 。从 0 到 3 的最短路径为 0 -&gt; 1 -&gt; 3 ，总代价为 2 + 4 = 6 。
+g.shortestPath(3, 2); // return 6. The shortest path from 3 to 2 in the first diagram above is 3 -&gt; 0 -&gt; 1 -&gt; 2 with a total cost of 3 + 2 + 1 = 6.
+g.shortestPath(0, 3); // return -1. There is no path from 0 to 3.
+g.addEdge([1, 3, 4]); // We add an edge from node 1 to node 3, and we get the second diagram above.
+g.shortestPath(0, 3); // return 6. The shortest path from 0 to 3 now is 0 -&gt; 1 -&gt; 3 with a total cost of 2 + 4 = 6.
+
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
@@ -61,26 +56,26 @@ g.shortestPath(0, 3); // 返回 6 。从 0 到 3 的最短路径为 0 -&gt; 1 -&
 	<li><code>edges[i].length == edge.length == 3</code></li>
 	<li><code>0 &lt;= from<sub>i</sub>, to<sub>i</sub>, from, to, node1, node2 &lt;= n - 1</code></li>
 	<li><code>1 &lt;= edgeCost<sub>i</sub>, edgeCost &lt;= 10<sup>6</sup></code></li>
-	<li>图中任何时候都不会有重边和自环。</li>
-	<li>调用 <code>addEdge</code>&nbsp;至多&nbsp;<code>100</code>&nbsp;次。</li>
-	<li>调用 <code>shortestPath</code>&nbsp;至多&nbsp;<code>100</code>&nbsp;次。</li>
+	<li>There are no repeated edges and no self-loops in the graph at any point.</li>
+	<li>At most <code>100</code> calls will be made for <code>addEdge</code>.</li>
+	<li>At most <code>100</code> calls will be made for <code>shortestPath</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：Dijsktra 算法
+### Solution 1: Dijsktra's Algorithm
 
-在初始化函数中，我们先用邻接矩阵 $g$ 存储图的边权，其中 $g_{ij}$ 表示从节点 $i$ 到节点 $j$ 的边权，如果 $i$ 和 $j$ 之间没有边，则 $g_{ij}$ 的值为 $\infty$。
+In the initialization function, we first use the adjacency matrix $g$ to store the edge weights of the graph, where $g_{ij}$ represents the edge weight from node $i$ to node $j$. If there is no edge between $i$ and $j$, the value of $g_{ij}$ is $\infty$.
 
-在 `addEdge` 函数中，我们更新 $g_{ij}$ 的值为 $edge[2]$。
+In the `addEdge` function, we update the value of $g_{ij}$ to $edge[2]$.
 
-在 `shortestPath` 函数中，我们使用 Dijsktra 算法求从节点 $node1$ 到节点 $node2$ 的最短路径，其中 $dist[i]$ 表示从节点 $node1$ 到节点 $i$ 的最短路径，$vis[i]$ 表示节点 $i$ 是否已经被访问过。我们初始化 $dist[node1]$ 为 $0$，其余的 $dist[i]$ 均为 $\infty$。然后我们遍历 $n$ 次，每次找到当前未被访问过的节点 $t$，使得 $dist[t]$ 最小。然后我们将节点 $t$ 标记为已访问，然后更新 $dist[i]$ 的值为 $min(dist[i], dist[t] + g_{ti})$。最后我们返回 $dist[node2]$，如果 $dist[node2]$ 为 $\infty$，则说明从节点 $node1$ 到节点 $node2$ 不存在路径，返回 $-1$。
+In the `shortestPath` function, we use Dijsktra's algorithm to find the shortest path from node $node1$ to node $node2$. Here, $dist[i]$ represents the shortest path from node $node1$ to node $i$, and $vis[i]$ indicates whether node $i$ has been visited. We initialize $dist[node1]$ to $0$, and the rest of $dist[i]$ are all $\infty$. Then we iterate $n$ times, each time finding the current unvisited node $t$ such that $dist[t]$ is the smallest. Then we mark node $t$ as visited, and then update the value of $dist[i]$ to $min(dist[i], dist[t] + g_{ti})$. Finally, we return $dist[node2]$. If $dist[node2]$ is $\infty$, it means that there is no path from node $node1$ to node $node2$, so we return $-1$.
 
-时间复杂度 $O(n^2 \times q)$，空间复杂度 $O(n^2)$。其中 $n$ 为节点数，而 $q$ 为 `shortestPath` 函数的调用次数。
+The time complexity is $O(n^2 \times q)$, and the space complexity is $O(n^2)$. Where $n$ is the number of nodes, and $q$ is the number of calls to the `shortestPath` function.
 
 <!-- tabs:start -->
 

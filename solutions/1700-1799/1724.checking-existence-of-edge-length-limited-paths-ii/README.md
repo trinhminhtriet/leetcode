@@ -1,59 +1,51 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1724.Checking%20Existence%20of%20Edge%20Length%20Limited%20Paths%20II/README.md
+difficulty: Hard
 tags:
-    - 并查集
-    - 图
-    - 最小生成树
+    - Union Find
+    - Graph
+    - Minimum Spanning Tree
 ---
 
 <!-- problem:start -->
 
-# [1724. 检查边长度限制的路径是否存在 II 🔒](https://leetcode.cn/problems/checking-existence-of-edge-length-limited-paths-ii)
+# [1724. Checking Existence of Edge Length Limited Paths II 🔒](https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths-ii)
 
-[English Version](/solution/1700-1799/1724.Checking%20Existence%20of%20Edge%20Length%20Limited%20Paths%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一张有&nbsp;<code>n</code>&nbsp;个节点的无向图以边的列表&nbsp;<code>edgeList</code>&nbsp;的形式定义，其中&nbsp;<code>edgeList[i] = [u<sub>i</sub>, v<sub>i</sub>, dis<sub>i</sub>]</code>&nbsp;表示一条连接&nbsp;<code>u<sub>i</sub></code>&nbsp;和&nbsp;<code>v<sub>i</sub></code>&nbsp;，距离为&nbsp;<code>dis<sub>i</sub></code>&nbsp;的边。注意，同一对节点间可能有<strong>多条</strong>边，且该图可能不是连通的。</p>
+<p>An undirected graph of <code>n</code> nodes is defined by <code>edgeList</code>, where <code>edgeList[i] = [u<sub>i</sub>, v<sub>i</sub>, dis<sub>i</sub>]</code> denotes an edge between nodes <code>u<sub>i</sub></code> and <code>v<sub>i</sub></code> with distance <code>dis<sub>i</sub></code>. Note that there may be <strong>multiple</strong> edges between two nodes, and the graph may not be connected.</p>
 
-<p>实现&nbsp;<code>DistanceLimitedPathsExist</code>&nbsp;类：</p>
+<p>Implement the <code>DistanceLimitedPathsExist</code> class:</p>
 
 <ul>
-	<li><code>DistanceLimitedPathsExist(int n, int[][] edgeList)</code>&nbsp;以给定的无向图初始化对象。</li>
-	<li><code>boolean query(int p, int q, int limit)</code>&nbsp;当存在一条从&nbsp;<code>p</code>&nbsp;到 <code>q</code> 的路径，且路径中每条边的距离都<strong>严格小于</strong> <code>limit</code> 时，返回 <code>true</code> ，否则返回 <code>false</code> 。</li>
+	<li><code>DistanceLimitedPathsExist(int n, int[][] edgeList)</code> Initializes the class with an undirected graph.</li>
+	<li><code>boolean query(int p, int q, int limit)</code> Returns <code>true</code> if there exists a path from <code>p</code> to <code>q</code> such that each edge on the path has a distance <strong>strictly less than</strong> <code>limit</code>, and otherwise <code>false</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><b>示例 1:</b></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1724.Checking%20Existence%20of%20Edge%20Length%20Limited%20Paths%20II/images/1693449815-oSOAxI-%E6%88%AA%E5%B1%8F2023-08-31%2010.43.30.png){:width=400}" style="width: 400px;" /><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1724.Checking%20Existence%20of%20Edge%20Length%20Limited%20Paths%20II/images/1693449815-oSOAxI-%E6%88%AA%E5%B1%8F2023-08-31%2010.43.30.png" style="width: 400px; height: 352px;" /></p>
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1724.Checking%20Existence%20of%20Edge%20Length%20Limited%20Paths%20II/images/messed.png" style="width: 300px; height: 298px;" /></strong></p>
 
 <pre>
-<b>输入：</b>
-["DistanceLimitedPathsExist", "query", "query", "query", "query"]
+<strong>Input</strong>
+[&quot;DistanceLimitedPathsExist&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;, &quot;query&quot;]
 [[6, [[0, 2, 4], [0, 3, 2], [1, 2, 3], [2, 3, 1], [4, 5, 5]]], [2, 3, 2], [1, 3, 3], [2, 0, 3], [0, 5, 6]]
-<b>输出：</b>
+<strong>Output</strong>
 [null, true, false, true, false]
 
-<b>解释：</b>
+<strong>Explanation</strong>
 DistanceLimitedPathsExist distanceLimitedPathsExist = new DistanceLimitedPathsExist(6, [[0, 2, 4], [0, 3, 2], [1, 2, 3], [2, 3, 1], [4, 5, 5]]);
-distanceLimitedPathsExist.query(2, 3, 2); // 返回 true。存在一条从 2 到 3 ，距离为 1 的边，
-&nbsp;                                         // 这条边的距离小于 2。
-distanceLimitedPathsExist.query(1, 3, 3); // 返回 false。从 1 到 3 之间不存在每条边的距离都
-                                          // <strong>严格</strong>小于 3 的路径。
-distanceLimitedPathsExist.query(2, 0, 3); // 返回 true。存在一条从 2 到 0 的路径，使得每条边的
-                                          // 距离 &lt; 3：从 2 到 3 到 0 行进即可。
-distanceLimitedPathsExist.query(0, 5, 6); // 返回 false。从 0 到 5 之间不存在路径。
+distanceLimitedPathsExist.query(2, 3, 2); // return true. There is an edge from 2 to 3 of distance 1, which is less than 2.
+distanceLimitedPathsExist.query(1, 3, 3); // return false. There is no way to go from 1 to 3 with distances <strong>strictly</strong> less than 3.
+distanceLimitedPathsExist.query(2, 0, 3); // return true. There is a way to go from 2 to 0 with distance &lt; 3: travel from 2 to 3 to 0.
+distanceLimitedPathsExist.query(0, 5, 6); // return false. There are no paths from 0 to 5.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><code><strong>Constraints:</strong></code></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 10<sup>4</sup></code></li>
@@ -63,16 +55,16 @@ distanceLimitedPathsExist.query(0, 5, 6); // 返回 false。从 0 到 5 之间�
 	<li><code>u<sub>i</sub> != v<sub>i</sub></code></li>
 	<li><code>p != q</code></li>
 	<li><code>1 &lt;= dis<sub>i</sub>, limit &lt;= 10<sup>9</sup></code></li>
-	<li>最多调用&nbsp;<code>10<sup>4</sup></code>&nbsp;次&nbsp;<code>query</code>&nbsp;。</li>
+	<li>At most&nbsp;<code>10<sup>4</sup></code> calls will be made to <code>query</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：可持久化并查集
+### Solution 1
 
 <!-- tabs:start -->
 

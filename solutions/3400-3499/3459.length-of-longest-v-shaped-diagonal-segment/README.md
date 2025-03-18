@@ -1,118 +1,113 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3459.Length%20of%20Longest%20V-Shaped%20Diagonal%20Segment/README.md
+difficulty: Hard
 tags:
-    - 记忆化搜索
-    - 数组
-    - 动态规划
-    - 矩阵
+    - Memoization
+    - Array
+    - Dynamic Programming
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [3459. 最长 V 形对角线段的长度](https://leetcode.cn/problems/length-of-longest-v-shaped-diagonal-segment)
+# [3459. Length of Longest V-Shaped Diagonal Segment](https://leetcode.com/problems/length-of-longest-v-shaped-diagonal-segment)
 
-[English Version](/solution/3400-3499/3459.Length%20of%20Longest%20V-Shaped%20Diagonal%20Segment/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个大小为 <code>n x m</code> 的二维整数矩阵 <code>grid</code>，其中每个元素的值为 <code>0</code>、<code>1</code> 或 <code>2</code>。</p>
+<p>You are given a 2D integer matrix <code>grid</code> of size <code>n x m</code>, where each element is either <code>0</code>, <code>1</code>, or <code>2</code>.</p>
 
-<p><strong>V 形对角线段</strong> 定义如下：</p>
+<p>A <strong>V-shaped diagonal segment</strong> is defined as:</p>
 
 <ul>
-	<li>线段从&nbsp;<code>1</code> 开始。</li>
-	<li>后续元素按照以下无限序列的模式排列：<code>2, 0, 2, 0, ...</code>。</li>
-	<li>该线段：
+	<li>The segment starts with <code>1</code>.</li>
+	<li>The subsequent elements follow this infinite sequence: <code>2, 0, 2, 0, ...</code>.</li>
+	<li>The segment:
 	<ul>
-		<li>起始于某个对角方向（左上到右下、右下到左上、右上到左下或左下到右上）。</li>
-		<li>沿着相同的对角方向继续，保持&nbsp;<strong>序列模式&nbsp;</strong>。</li>
-		<li>在保持&nbsp;<strong>序列模式&nbsp;</strong>的前提下，最多允许&nbsp;<strong>一次顺时针 90 度转向&nbsp;</strong>另一个对角方向。</li>
+		<li>Starts <strong>along</strong> a diagonal direction (top-left to bottom-right, bottom-right to top-left, top-right to bottom-left, or bottom-left to top-right).</li>
+		<li>Continues the<strong> sequence</strong> in the same diagonal direction.</li>
+		<li>Makes<strong> at most one clockwise 90-degree</strong><strong> turn</strong> to another diagonal direction while <strong>maintaining</strong> the sequence.</li>
 	</ul>
 	</li>
 </ul>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3459.Length%20of%20Longest%20V-Shaped%20Diagonal%20Segment/images/1739609732-jHpPma-length_of_longest3.jpg" style="width: 481px; height: 202px;" /></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3459.Length%20of%20Longest%20V-Shaped%20Diagonal%20Segment/images/length_of_longest3.jpg" style="width: 481px; height: 202px;" /></p>
 
-<p>返回最长的&nbsp;<strong>V 形对角线段&nbsp;</strong>的&nbsp;<strong>长度&nbsp;</strong>。如果不存在有效的线段，则返回 0。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">grid = [[2,2,1,2,2],[2,0,2,2,0],[2,0,1,1,0],[1,0,2,2,2],[2,0,0,2,2]]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">5</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3459.Length%20of%20Longest%20V-Shaped%20Diagonal%20Segment/images/1739609768-rhePxN-matrix_1-2.jpg" style="width: 201px; height: 192px;" /></p>
-
-<p>最长的 V 形对角线段长度为 5，路径如下：<code>(0,2) → (1,3) → (2,4)</code>，在 <code>(2,4)</code> 处进行&nbsp;<strong>顺时针 90 度转向&nbsp;</strong>，继续路径为 <code>(3,3) → (4,2)</code>。</p>
-</div>
-
-<p><strong>示例 2：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">grid = [[2,2,2,2,2],[2,0,2,2,0],[2,0,1,1,0],[1,0,2,2,2],[2,0,0,2,2]]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">4</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3459.Length%20of%20Longest%20V-Shaped%20Diagonal%20Segment/images/1739609774-nYJElV-matrix_2.jpg" style="width: 201px; height: 201px;" /></p>
-
-<p>最长的 V 形对角线段长度为 4，路径如下：<code>(2,3) → (3,2)</code>，在 <code>(3,2)</code> 处进行&nbsp;<strong>顺时针 90 度转向&nbsp;</strong>，继续路径为 <code>(2,1) → (1,0)</code>。</p>
-</div>
-
-<p><strong>示例 3：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">grid = [[1,2,2,2,2],[2,2,2,2,0],[2,0,0,0,0],[0,0,2,2,2],[2,0,0,2,0]]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">5</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3459.Length%20of%20Longest%20V-Shaped%20Diagonal%20Segment/images/1739609780-tlkdUW-matrix_3.jpg" style="width: 201px; height: 201px;" /></p>
-
-<p>最长的 V 形对角线段长度为 5，路径如下：<code>(0,0) → (1,1) → (2,2) → (3,3) → (4,4)</code>。</p>
-</div>
-
-<p><strong>示例 4：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">grid = [[1]]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">1</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>最长的 V 形对角线段长度为 1，路径如下：<code>(0,0)</code>。</p>
-</div>
+<p>Return the <strong>length</strong> of the <strong>longest</strong> <strong>V-shaped diagonal segment</strong>. If no valid segment <em>exists</em>, return 0.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">grid = [[2,2,1,2,2],[2,0,2,2,0],[2,0,1,1,0],[1,0,2,2,2],[2,0,0,2,2]]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">5</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3459.Length%20of%20Longest%20V-Shaped%20Diagonal%20Segment/images/matrix_1-2.jpg" style="width: 201px; height: 192px;" /></p>
+
+<p>The longest V-shaped diagonal segment has a length of 5 and follows these coordinates: <code>(0,2) &rarr; (1,3) &rarr; (2,4)</code>, takes a <strong>90-degree clockwise turn</strong> at <code>(2,4)</code>, and continues as <code>(3,3) &rarr; (4,2)</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">grid = [[2,2,2,2,2],[2,0,2,2,0],[2,0,1,1,0],[1,0,2,2,2],[2,0,0,2,2]]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3459.Length%20of%20Longest%20V-Shaped%20Diagonal%20Segment/images/matrix_2.jpg" style="width: 201px; height: 201px;" /></strong></p>
+
+<p>The longest V-shaped diagonal segment has a length of 4 and follows these coordinates: <code>(2,3) &rarr; (3,2)</code>, takes a <strong>90-degree clockwise turn</strong> at <code>(3,2)</code>, and continues as <code>(2,1) &rarr; (1,0)</code>.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">grid = [[1,2,2,2,2],[2,2,2,2,0],[2,0,0,0,0],[0,0,2,2,2],[2,0,0,2,0]]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">5</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3400-3499/3459.Length%20of%20Longest%20V-Shaped%20Diagonal%20Segment/images/matrix_3.jpg" style="width: 201px; height: 201px;" /></strong></p>
+
+<p>The longest V-shaped diagonal segment has a length of 5 and follows these coordinates: <code>(0,0) &rarr; (1,1) &rarr; (2,2) &rarr; (3,3) &rarr; (4,4)</code>.</p>
+</div>
+
+<p><strong class="example">Example 4:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">grid = [[1]]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">1</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The longest V-shaped diagonal segment has a length of 1 and follows these coordinates: <code>(0,0)</code>.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == grid.length</code></li>
 	<li><code>m == grid[i].length</code></li>
 	<li><code>1 &lt;= n, m &lt;= 500</code></li>
-	<li><code>grid[i][j]</code> 的值为 <code>0</code>、<code>1</code> 或 <code>2</code>。</li>
+	<li><code>grid[i][j]</code> is either <code>0</code>, <code>1</code> or <code>2</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

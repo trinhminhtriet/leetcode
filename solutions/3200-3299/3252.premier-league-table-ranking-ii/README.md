@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3252.Premier%20League%20Table%20Ranking%20II/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3252. 英超积分榜排名 II 🔒](https://leetcode.cn/problems/premier-league-table-ranking-ii)
+# [3252. Premier League Table Ranking II 🔒](https://leetcode.com/problems/premier-league-table-ranking-ii)
 
-[English Version](/solution/3200-3299/3252.Premier%20League%20Table%20Ranking%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>TeamStats</code></p>
+<p>Table: <code>TeamStats</code></p>
 
 <pre>
 +------------------+---------+
@@ -29,42 +26,41 @@ tags:
 | draws            | int     |
 | losses           | int     |
 +------------------+---------+
-team_id 是这张表的唯一主键。
-这张表包含队伍 id，队伍名，场次，赢局，平局和输局。
+team_id is the unique key for this table.
+This table contains team id, team name, matches_played, wins, draws, and losses.
 </pre>
 
-<p>编写一个解决方案来计算联盟中每支球队的 <strong>得分</strong>，<strong>排名 </strong>和 <b>等级</b>。积分计算方式如下：</p>
+<p>Write a solution to calculate the <strong>points</strong>, <strong>position</strong>, and <strong>tier</strong> for each team in the league. Points are calculated as follows:</p>
 
 <ul>
-	<li><strong>赢局</strong> 有&nbsp;<code>3</code>&nbsp;点得分</li>
-	<li><strong>平局</strong> 有&nbsp;<code>1</code>&nbsp;点得分</li>
-	<li><strong>输局</strong> 有&nbsp;<code>0</code>&nbsp;点得分</li>
+	<li><code>3</code> points for a <strong>win</strong></li>
+	<li><code>1</code> point for a <strong>draw</strong></li>
+	<li><code>0</code> points for a <strong>loss</strong></li>
 </ul>
 
-<p><b>注意：</b>积分相同的球队必须分配相同的排名。</p>
+<p><strong>Note:</strong>&nbsp;Teams with the same points must be assigned the same position.</p>
 
-<p><strong>等级评级：</strong></p>
+<p><strong>Tier ranking:</strong></p>
 
 <ul>
-	<li>根据积分将联盟分为 <code>3</code> 个等级：</li>
-	<li>等级 1：前&nbsp;<code>33%</code>&nbsp;的队伍</li>
-	<li>等级 2：中间&nbsp;<code>33%</code> 的队伍</li>
-	<li>等级 3：最后&nbsp;<code>34%</code>&nbsp;的队伍</li>
-	<li>如果等级边界出现平局，平局的队伍分配到更高的等级。</li>
+	<li>Divide the league into <code>3</code> tiers based on points:</li>
+	<li>Tier 1: Top <code>33%</code> of teams</li>
+	<li>Tier 2: Middle <code>33%</code> of teams</li>
+	<li>Tier 3: Bottom<code> 34%</code> of teams</li>
+	<li>In case of <strong>ties</strong> at<strong> tier boundaries</strong>, place tied teams in the <strong>higher tier</strong>.</li>
 </ul>
 
-<p>返回结果表以&nbsp;<code>points</code>&nbsp;<strong>降序</strong>&nbsp;排序，然后以&nbsp;<code>team_name</code> <strong>升序</strong>&nbsp;排序。</p>
+<p>Return <em>the result table </em><em>ordered by</em> <code>points</code>&nbsp;<em>in&nbsp;<strong>descending</strong>,<strong>&nbsp;</strong>and then by</em> <code>team_name</code> <em>in <strong>ascending</strong> order.</em></p>
 
-<p>结果格式如下所示。</p>
+<p>The query result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p><code>TeamStats</code> 表：</p>
+<p><code>TeamStats</code> table:</p>
 
 <pre class="example-io">
 +---------+-------------------+----------------+------+-------+--------+
@@ -83,7 +79,7 @@ team_id 是这张表的唯一主键。
 +---------+-------------------+----------------+------+-------+--------+
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +-------------------+--------+----------+---------+
@@ -102,38 +98,38 @@ team_id 是这张表的唯一主键。
 +-------------------+--------+----------+---------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>谢菲尔德联队拿下 56 分（18 胜 * 3 分 + 2 平 * 1 分）位列第 1。</li>
-	<li>富勒姆拿下 55 分（18 胜 * 3 分 + 1 平 * 1 分）位列第 2。</li>
-	<li>纽卡斯尔联队拿下 43 分（11 胜 * 3 分 + 10 平 * 1 分）位列第 3。</li>
-	<li>切尔西拿下 41 分（13 胜 * 3 分 + 2 平 * 1 分）位列第 4。</li>
-	<li>伯恩利拿下 27 分（6 胜 * 3 分 + 9 平 * 1 分）位列第 5。</li>
-	<li>诺丁汉森林拿下 24 分（6 胜 * 3 分 + 6 平 * 1 分）位列第 6。</li>
-	<li>埃弗顿和卢顿镇均拿下 12 分，埃弗顿&nbsp;2 胜 * 3 分 + 6 平 * 1 分，卢顿镇 4 胜 * 3 分。两支队伍并列位列第 7。</li>
-	<li>利物浦拿下 11 分（1 胜 * 3 分 + 8 平 * 1 分）位列第 9。</li>
-	<li>阿斯顿维拉拿下 9 分（1 胜 * 3 分 + 6 平 * 1 分）位列第 10。</li>
+	<li>Sheffield United has 56 points (18 wins * 3 points + 2 draws * 1 point) and is in position 1.</li>
+	<li>Fulham has 55 points (18 wins * 3 points + 1 draw * 1 point) and is in position 2.</li>
+	<li>Newcastle United has 43 points (11 wins * 3 points + 10 draws * 1 point) and is in position 3.</li>
+	<li>Chelsea has 41 points (13 wins * 3 points + 2 draws * 1 point) and is in position 4.</li>
+	<li>Burnley has 27 points (6 wins * 3 points + 9 draws * 1 point) and is in position 5.</li>
+	<li>Nottingham Forest has 24 points (6 wins * 3 points + 6 draws * 1 point) and is in position 6.</li>
+	<li>Everton and Luton Town both have 12 points, with Everton having 2 wins * 3 points + 6 draws * 1 point, and Luton Town having 4 wins * 3 points. Both teams share position 7.</li>
+	<li>Liverpool has 11 points (1 win * 3 points + 8 draws * 1 point) and is in position 9.</li>
+	<li>Aston Villa has 9 points (1 win * 3 points + 6 draws * 1 point) and is in position 10.</li>
 </ul>
 
-<p><strong>等级计算：</strong></p>
+<p><strong>Tier Calculation:</strong></p>
 
 <ul>
-	<li><strong>等级 1：</strong>根据积分排名前 33% 的球队。谢菲尔德联队、富勒姆、纽卡斯尔联队和切尔西属于等级 1。</li>
-	<li><strong>等级 2：</strong>中间&nbsp;33% 的球队。伯恩利、诺丁汉森林、埃弗顿和卢顿镇属于等级 2。</li>
-	<li><strong>等级 3：</strong>垫底 34% 的球队。利物浦和阿斯顿维拉落入等级 3。</li>
+	<li><strong>Tier 1:</strong> The top 33% of teams based on points. Sheffield United, Fulham, Newcastle United, and Chelsea fall into Tier 1.</li>
+	<li><strong>Tier 2:</strong> The middle 33% of teams. Burnley, Nottingham Forest, Everton, and Luton Town fall into Tier 2.</li>
+	<li><strong>Tier 3:</strong> The bottom 34% of teams. Liverpool and Aston Villa fall into Tier 3.</li>
 </ul>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：窗口函数 + CASE WHEN
+### Solution 1: Window Function + CASE WHEN
 
-我们可以使用窗口函数 `RANK()` 来计算每支球队的积分、排名，并计算总球队数。然后，我们可以使用 `CASE WHEN` 语句来确定每支球队的等级。
+We can use the window function `RANK()` to calculate each team's points, ranking, and the total number of teams. Then, we can use the `CASE WHEN` statement to determine the grade of each team.
 
 <!-- tabs:start -->
 

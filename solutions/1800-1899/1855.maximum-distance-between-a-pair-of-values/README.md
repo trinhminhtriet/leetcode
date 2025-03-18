@@ -1,85 +1,80 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1855.Maximum%20Distance%20Between%20a%20Pair%20of%20Values/README.md
+difficulty: Medium
 rating: 1514
-source: 第 240 场周赛 Q2
+source: Weekly Contest 240 Q2
 tags:
-    - 数组
-    - 双指针
-    - 二分查找
+    - Array
+    - Two Pointers
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [1855. 下标对中的最大距离](https://leetcode.cn/problems/maximum-distance-between-a-pair-of-values)
+# [1855. Maximum Distance Between a Pair of Values](https://leetcode.com/problems/maximum-distance-between-a-pair-of-values)
 
-[English Version](/solution/1800-1899/1855.Maximum%20Distance%20Between%20a%20Pair%20of%20Values/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个 <strong>非递增</strong> 的整数数组 <code>nums1</code>​​​​​​ 和 <code>nums2</code>​​​​​​ ，数组下标均 <strong>从 0 开始</strong> 计数。</p>
+<p>You are given two <strong>non-increasing 0-indexed </strong>integer arrays <code>nums1</code>​​​​​​ and <code>nums2</code>​​​​​​.</p>
 
-<p>下标对 <code>(i, j)</code> 中 <code>0 &lt;= i &lt; nums1.length</code> 且 <code>0 &lt;= j &lt; nums2.length</code> 。如果该下标对同时满足 <code>i &lt;= j</code> 且 <code>nums1[i] &lt;= nums2[j]</code> ，则称之为 <strong>有效</strong> 下标对，该下标对的 <strong>距离</strong> 为 <code>j - i</code>​​ 。​​</p>
+<p>A pair of indices <code>(i, j)</code>, where <code>0 &lt;= i &lt; nums1.length</code> and <code>0 &lt;= j &lt; nums2.length</code>, is <strong>valid</strong> if both <code>i &lt;= j</code> and <code>nums1[i] &lt;= nums2[j]</code>. The <strong>distance</strong> of the pair is <code>j - i</code>​​​​.</p>
 
-<p>返回所有 <strong>有效</strong> 下标对<em> </em><code>(i, j)</code><em> </em>中的 <strong>最大距离</strong> 。如果不存在有效下标对，返回 <code>0</code> 。</p>
+<p>Return <em>the <strong>maximum distance</strong> of any <strong>valid</strong> pair </em><code>(i, j)</code><em>. If there are no valid pairs, return </em><code>0</code>.</p>
 
-<p>一个数组 <code>arr</code> ，如果每个 <code>1 &lt;= i &lt; arr.length</code> 均有 <code>arr[i-1] &gt;= arr[i]</code> 成立，那么该数组是一个 <strong>非递增</strong> 数组。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums1 = [55,30,5,4,2], nums2 = [100,20,10,10,5]
-<strong>输出：</strong>2
-<strong>解释：</strong>有效下标对是 (0,0), (2,2), (2,3), (2,4), (3,3), (3,4) 和 (4,4) 。
-最大距离是 2 ，对应下标对 (2,4) 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums1 = [2,2,2], nums2 = [10,10,1]
-<strong>输出：</strong>1
-<strong>解释：</strong>有效下标对是 (0,0), (0,1) 和 (1,1) 。
-最大距离是 1 ，对应下标对 (0,1) 。</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums1 = [30,29,19,5], nums2 = [25,25,25,25,25]
-<strong>输出：</strong>2
-<strong>解释：</strong>有效下标对是 (2,2), (2,3), (2,4), (3,3) 和 (3,4) 。
-最大距离是 2 ，对应下标对 (2,4) 。
-</pre>
+<p>An array <code>arr</code> is <strong>non-increasing</strong> if <code>arr[i-1] &gt;= arr[i]</code> for every <code>1 &lt;= i &lt; arr.length</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums1 = [55,30,5,4,2], nums2 = [100,20,10,10,5]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The valid pairs are (0,0), (2,2), (2,3), (2,4), (3,3), (3,4), and (4,4).
+The maximum distance is 2 with pair (2,4).
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [2,2,2], nums2 = [10,10,1]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The valid pairs are (0,0), (0,1), and (1,1).
+The maximum distance is 1 with pair (0,1).
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [30,29,19,5], nums2 = [25,25,25,25,25]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The valid pairs are (2,2), (2,3), (2,4), (3,3), and (3,4).
+The maximum distance is 2 with pair (2,4).
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums1.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= nums2.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= nums1.length, nums2.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= nums1[i], nums2[j] &lt;= 10<sup>5</sup></code></li>
-	<li><code>nums1</code> 和 <code>nums2</code> 都是 <strong>非递增</strong> 数组</li>
+	<li>Both <code>nums1</code> and <code>nums2</code> are <strong>non-increasing</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-假设 $nums1$, $nums2$ 的长度分别为 $m$ 和 $n$。
+Assume the lengths of $nums1$ and $nums2$ are $m$ and $n$ respectively.
 
-遍历数组 $nums1$，对于每个数字 $nums1[i]$，二分查找 $nums2$ 在 $[i,n)$ 范围内的数字，找到**最后一个**大于等于 $nums1[i]$ 的位置 $j$，计算此位置与 $i$ 的距离，并更新最大距离值 $ans$。
+Traverse array $nums1$, for each number $nums1[i]$, perform a binary search for numbers in $nums2$ in the range $[i,n)$, find the **last** position $j$ that is greater than or equal to $nums1[i]$, calculate the distance between this position and $i$, and update the maximum distance value $ans$.
 
-时间复杂度 $O(m \times \log n)$，其中 $m$ 和 $n$ 分别为 $nums1$ 和 $nums2$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(m \times \log n)$, where $m$ and $n$ are the lengths of $nums1$ and $nums2$ respectively. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -245,11 +240,7 @@ var maxDistance = function (nums1, nums2) {
 
 <!-- solution:start -->
 
-### 方法二：双指针
-
-在方法一中，我们只利用到 $nums2$ 是非递增数组这一条件，实际上，$nums1$ 也是非递增数组，我们可以用双指针 $i$ 和 $j$ 来遍历 $nums1$ 和 $nums2$。
-
-时间复杂度 $O(m+n)$，其中 $m$ 和 $n$ 分别为 $nums1$ 和 $nums2$ 的长度。空间复杂度 $O(1)$。
+### Solution 2
 
 <!-- tabs:start -->
 

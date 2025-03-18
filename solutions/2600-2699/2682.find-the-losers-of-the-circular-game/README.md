@@ -1,71 +1,67 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2682.Find%20the%20Losers%20of%20the%20Circular%20Game/README.md
+difficulty: Easy
 rating: 1382
-source: 第 345 场周赛 Q1
+source: Weekly Contest 345 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 模拟
+    - Array
+    - Hash Table
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2682. 找出转圈游戏输家](https://leetcode.cn/problems/find-the-losers-of-the-circular-game)
+# [2682. Find the Losers of the Circular Game](https://leetcode.com/problems/find-the-losers-of-the-circular-game)
 
-[English Version](/solution/2600-2699/2682.Find%20the%20Losers%20of%20the%20Circular%20Game/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><code>n</code> 个朋友在玩游戏。这些朋友坐成一个圈，按 <strong>顺时针方向</strong> 从 <code>1</code> 到 <code>n</code> 编号。准确的说，从第 <code>i</code> 个朋友的位置开始顺时针移动 <code>1</code> 步会到达第 <code>(i + 1)</code> 个朋友的位置（<code>1 &lt;= i &lt; n</code>），而从第 <code>n</code> 个朋友的位置开始顺时针移动 <code>1</code> 步会回到第 <code>1</code> 个朋友的位置。</p>
+<p>There are <code>n</code> friends that are playing a game. The friends are sitting in a circle and are numbered from <code>1</code> to <code>n</code> in <strong>clockwise order</strong>. More formally, moving clockwise from the <code>i<sup>th</sup></code> friend brings you to the <code>(i+1)<sup>th</sup></code> friend for <code>1 &lt;= i &lt; n</code>, and moving clockwise from the <code>n<sup>th</sup></code> friend brings you to the <code>1<sup>st</sup></code> friend.</p>
 
-<p>游戏规则如下：</p>
+<p>The rules of the game are as follows:</p>
 
-<p>第 <code>1</code> 个朋友接球。</p>
+<p><code>1<sup>st</sup></code> friend receives the ball.</p>
 
 <ul>
-	<li>接着，第 <code>1</code> 个朋友将球传给距离他顺时针方向 <code>k</code> 步的朋友。</li>
-	<li>然后，接球的朋友应该把球传给距离他顺时针方向 <code>2 * k</code> 步的朋友。</li>
-	<li>接着，接球的朋友应该把球传给距离他顺时针方向 <code>3 * k</code> 步的朋友，以此类推。</li>
+	<li>After that, <code>1<sup>st</sup></code> friend passes it to the friend who is <code>k</code> steps away from them in the <strong>clockwise</strong> direction.</li>
+	<li>After that, the friend who receives the ball should pass it to the friend who is <code>2 * k</code> steps away from them in the <strong>clockwise</strong> direction.</li>
+	<li>After that, the friend who receives the ball should pass it to the friend who is <code>3 * k</code> steps away from them in the <strong>clockwise</strong> direction, and so on and so forth.</li>
 </ul>
 
-<p>换句话说，在第 <code>i</code> 轮中持有球的那位朋友需要将球传递给距离他顺时针方向 <code>i * k</code> 步的朋友。</p>
+<p>In other words, on the <code>i<sup>th</sup></code> turn, the friend holding the ball should pass it to the friend who is <code>i * k</code> steps away from them in the <strong>clockwise</strong> direction.</p>
 
-<p>当某个朋友第 2 次接到球时，游戏结束。</p>
+<p>The game is finished when some friend receives the ball for the second time.</p>
 
-<p>在整场游戏中没有接到过球的朋友是 <strong>输家</strong> 。</p>
+<p>The <strong>losers</strong> of the game are friends who did not receive the ball in the entire game.</p>
 
-<p>给你参与游戏的朋友数量 <code>n</code> 和一个整数 <code>k</code> ，请按升序排列返回包含所有输家编号的数组 <code>answer</code> 作为答案。</p>
+<p>Given the number of friends, <code>n</code>, and an integer <code>k</code>, return <em>the array answer, which contains the losers of the game in the <strong>ascending</strong> order</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 5, k = 2
-<strong>输出：</strong>[4,5]
-<strong>解释：</strong>以下为游戏进行情况：
-1）第 1 个朋友接球，第 1 个朋友将球传给距离他顺时针方向 2 步的玩家 —— 第 3 个朋友。
-2）第 3 个朋友将球传给距离他顺时针方向 4 步的玩家 —— 第 2 个朋友。
-3）第 2 个朋友将球传给距离他顺时针方向 6 步的玩家 —— 第 3 个朋友。
-4）第 3 个朋友接到两次球，游戏结束。
+<strong>Input:</strong> n = 5, k = 2
+<strong>Output:</strong> [4,5]
+<strong>Explanation:</strong> The game goes as follows:
+1) Start at 1<sup>st</sup>&nbsp;friend and pass the ball to the friend who is 2 steps away from them - 3<sup>rd</sup>&nbsp;friend.
+2) 3<sup>rd</sup>&nbsp;friend passes the ball to the friend who is 4 steps away from them - 2<sup>nd</sup>&nbsp;friend.
+3) 2<sup>nd</sup>&nbsp;friend passes the ball to the friend who is 6 steps away from them  - 3<sup>rd</sup>&nbsp;friend.
+4) The game ends as 3<sup>rd</sup>&nbsp;friend receives the ball for the second time.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 4, k = 4
-<strong>输出：</strong>[2,3,4]
-<strong>解释：</strong>以下为游戏进行情况：
-1）第 1 个朋友接球，第 1 个朋友将球传给距离他顺时针方向 4 步的玩家 —— 第 1 个朋友。
-2）第 1 个朋友接到两次球，游戏结束。</pre>
+<strong>Input:</strong> n = 4, k = 4
+<strong>Output:</strong> [2,3,4]
+<strong>Explanation:</strong> The game goes as follows:
+1) Start at the 1<sup>st</sup>&nbsp;friend and pass the ball to the friend who is 4 steps away from them - 1<sup>st</sup>&nbsp;friend.
+2) The game ends as 1<sup>st</sup>&nbsp;friend receives the ball for the second time.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= n &lt;= 50</code></li>
@@ -73,19 +69,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们用一个数组 `vis` 记录每个朋友是否接到过球，初始时所有朋友都没有接到过球。然后我们按照题目描述的规则模拟游戏的过程，直到某个朋友第二次接到球为止。
+We use an array `vis` to record whether each friend has received the ball, initially, all friends have not received the ball. Then, we simulate the game process according to the rules described in the problem statement until a friend receives the ball for the second time.
 
-在模拟过程中，我们用两个变量 $i$ 和 $p$ 分别表示当前持球的朋友编号和当前传球的步长。初始时 $i=0,p=1$，表示第一个朋友接到球。每次传球时，我们将 $i$ 更新为 $(i+p \times k) \bmod n$，表示下一个接球的朋友编号，然后将 $p$ 更新为 $p+1$，表示下一次传球的步长。当某个朋友第二次接到球时，游戏结束。
+In the simulation process, we use two variables $i$ and $p$ to represent the current friend holding the ball and the current passing step length, respectively. Initially, $i=0, p=1$, indicating the first friend receives the ball. Each time the ball is passed, we update $i$ to $(i+p \times k) \bmod n$, representing the next friend's number to receive the ball, and then update $p$ to $p+1$, representing the step length for the next pass. The game ends when a friend receives the ball for the second time.
 
-最后我们遍历数组 `vis`，将没有接到过球的朋友编号加入答案数组中即可。
+Finally, we iterate through the array `vis` and add the numbers of friends who have not received the ball to the answer array.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是朋友的数量。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of friends.
 
 <!-- tabs:start -->
 

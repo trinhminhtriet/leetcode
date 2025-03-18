@@ -1,114 +1,94 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1774.Closest%20Dessert%20Cost/README.md
+difficulty: Medium
 rating: 1701
-source: 第 230 场周赛 Q2
+source: Weekly Contest 230 Q2
 tags:
-    - 数组
-    - 动态规划
-    - 回溯
+    - Array
+    - Dynamic Programming
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [1774. 最接近目标价格的甜点成本](https://leetcode.cn/problems/closest-dessert-cost)
+# [1774. Closest Dessert Cost](https://leetcode.com/problems/closest-dessert-cost)
 
-[English Version](/solution/1700-1799/1774.Closest%20Dessert%20Cost/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你打算做甜点，现在需要购买配料。目前共有 <code>n</code> 种冰激凌基料和 <code>m</code> 种配料可供选购。而制作甜点需要遵循以下几条规则：</p>
+<p>You would like to make dessert and are preparing to buy the ingredients. You have <code>n</code> ice cream base flavors and <code>m</code> types of toppings to choose from. You must follow these rules when making your dessert:</p>
 
 <ul>
-	<li>必须选择 <strong>一种</strong> 冰激凌基料。</li>
-	<li>可以添加 <strong>一种或多种</strong> 配料，也可以不添加任何配料。</li>
-	<li>每种类型的配料 <strong>最多两份</strong> 。</li>
+	<li>There must be <strong>exactly one</strong> ice cream base.</li>
+	<li>You can add <strong>one or more</strong> types of topping or have no toppings at all.</li>
+	<li>There are <strong>at most two</strong> of <strong>each type</strong> of topping.</li>
 </ul>
 
-<p>给你以下三个输入：</p>
+<p>You are given three inputs:</p>
 
 <ul>
-	<li><code>baseCosts</code> ，一个长度为 <code>n</code> 的整数数组，其中每个 <code>baseCosts[i]</code> 表示第 <code>i</code> 种冰激凌基料的价格。</li>
-	<li><code>toppingCosts</code>，一个长度为 <code>m</code> 的整数数组，其中每个 <code>toppingCosts[i]</code> 表示 <strong>一份</strong> 第 <code>i</code> 种冰激凌配料的价格。</li>
-	<li><code>target</code> ，一个整数，表示你制作甜点的目标价格。</li>
+	<li><code>baseCosts</code>, an integer array of length <code>n</code>, where each <code>baseCosts[i]</code> represents the price of the <code>i<sup>th</sup></code> ice cream base flavor.</li>
+	<li><code>toppingCosts</code>, an integer array of length <code>m</code>, where each <code>toppingCosts[i]</code> is the price of <strong>one</strong> of the <code>i<sup>th</sup></code> topping.</li>
+	<li><code>target</code>, an integer representing your target price for dessert.</li>
 </ul>
 
-<p>你希望自己做的甜点总成本尽可能接近目标价格 <code>target</code> 。</p>
+<p>You want to make a dessert with a total cost as close to <code>target</code> as possible.</p>
 
-<p>返回最接近<em> </em><code>target</code> 的甜点成本。如果有多种方案，返回 <strong>成本相对较低</strong> 的一种。</p>
+<p>Return <em>the closest possible cost of the dessert to </em><code>target</code>. If there are multiple, return <em>the <strong>lower</strong> one.</em></p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>baseCosts = [1,7], toppingCosts = [3,4], target = 10
-<strong>输出：</strong>10
-<strong>解释：</strong>考虑下面的方案组合（所有下标均从 0 开始）：
-- 选择 1 号基料：成本 7
-- 选择 1 份 0 号配料：成本 1 x 3 = 3
-- 选择 0 份 1 号配料：成本 0 x 4 = 0
-总成本：7 + 3 + 0 = 10 。
+<strong>Input:</strong> baseCosts = [1,7], toppingCosts = [3,4], target = 10
+<strong>Output:</strong> 10
+<strong>Explanation:</strong> Consider the following combination (all 0-indexed):
+- Choose base 1: cost 7
+- Take 1 of topping 0: cost 1 x 3 = 3
+- Take 0 of topping 1: cost 0 x 4 = 0
+Total: 7 + 3 + 0 = 10.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>baseCosts = [2,3], toppingCosts = [4,5,100], target = 18
-<strong>输出：</strong>17
-<strong>解释：</strong>考虑下面的方案组合（所有下标均从 0 开始）：
-- 选择 1 号基料：成本 3
-- 选择 1 份 0 号配料：成本 1 x 4 = 4
-- 选择 2 份 1 号配料：成本 2 x 5 = 10
-- 选择 0 份 2 号配料：成本 0 x 100 = 0
-总成本：3 + 4 + 10 + 0 = 17 。不存在总成本为 18 的甜点制作方案。
+<strong>Input:</strong> baseCosts = [2,3], toppingCosts = [4,5,100], target = 18
+<strong>Output:</strong> 17
+<strong>Explanation:</strong> Consider the following combination (all 0-indexed):
+- Choose base 1: cost 3
+- Take 1 of topping 0: cost 1 x 4 = 4
+- Take 2 of topping 1: cost 2 x 5 = 10
+- Take 0 of topping 2: cost 0 x 100 = 0
+Total: 3 + 4 + 10 + 0 = 17. You cannot make a dessert with a total cost of 18.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>baseCosts = [3,10], toppingCosts = [2,5], target = 9
-<strong>输出：</strong>8
-<strong>解释：</strong>可以制作总成本为 8 和 10 的甜点。返回 8 ，因为这是成本更低的方案。
+<strong>Input:</strong> baseCosts = [3,10], toppingCosts = [2,5], target = 9
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> It is possible to make desserts with cost 8 and 10. Return 8 as it is the lower cost.
 </pre>
 
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>baseCosts = [10], toppingCosts = [1], target = 1
-<strong>输出：</strong>10
-<strong>解释：</strong>注意，你可以选择不添加任何配料，但你必须选择一种基料。</pre>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == baseCosts.length</code></li>
 	<li><code>m == toppingCosts.length</code></li>
-	<li><code>1 <= n, m <= 10</code></li>
-	<li><code>1 <= baseCosts[i], toppingCosts[i] <= 10<sup>4</sup></code></li>
-	<li><code>1 <= target <= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= n, m &lt;= 10</code></li>
+	<li><code>1 &lt;= baseCosts[i], toppingCosts[i] &lt;= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= target &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举子集和 + 排序 + 二分查找
-
-每种类型的配料最多可以选两份，因此，我们可以复制一份配料，然后利用 `DFS` 枚举子集之和。在实现上，我们可以只枚举一半的配料的所有子集和，然后在另一半配料子集和中，利用二分查找找到最接近的配料。
-
-时间复杂度 $O(n \times 2^m \times \log {2^m})$。
-
-相似题目：
-
--   [1755. 最接近目标值的子序列和](https://github.com/doocs/leetcode/blob/main/solution/1700-1799/1755.Closest%20Subsequence%20Sum/README.md)
+### Solution 1
 
 <!-- tabs:start -->
 

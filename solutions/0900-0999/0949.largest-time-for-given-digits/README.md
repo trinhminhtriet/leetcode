@@ -1,81 +1,58 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0949.Largest%20Time%20for%20Given%20Digits/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 字符串
-    - 枚举
+    - Array
+    - String
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [949. 给定数字能组成的最大时间](https://leetcode.cn/problems/largest-time-for-given-digits)
+# [949. Largest Time for Given Digits](https://leetcode.com/problems/largest-time-for-given-digits)
 
-[English Version](/solution/0900-0999/0949.Largest%20Time%20for%20Given%20Digits/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个由 4 位数字组成的数组，返回可以设置的符合 24 小时制的最大时间。</p>
+<p>Given an array <code>arr</code> of 4 digits, find the latest 24-hour time that can be made using each digit <strong>exactly once</strong>.</p>
 
-<p>24 小时格式为 <code>"HH:MM"</code> ，其中 <code>HH</code> 在 <code>00</code> 到 <code>23</code> 之间，<code>MM</code> 在 <code>00</code> 到 <code>59</code> 之间。最小的 24 小时制时间是 <code>00:00</code> ，而最大的是 <code>23:59</code> 。从 00:00 （午夜）开始算起，过得越久，时间越大。</p>
+<p>24-hour times are formatted as <code>&quot;HH:MM&quot;</code>, where <code>HH</code> is between <code>00</code> and <code>23</code>, and <code>MM</code> is between <code>00</code> and <code>59</code>. The earliest 24-hour time is <code>00:00</code>, and the latest is <code>23:59</code>.</p>
 
-<p>以长度为 5 的字符串，按 <code>"HH:MM"</code> 格式返回答案。如果不能确定有效时间，则返回空字符串。</p>
+<p>Return <em>the latest 24-hour time in <code>&quot;HH:MM&quot;</code> format</em>. If no valid time can be made, return an empty string.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [1,2,3,4]
-<strong>输出：</strong>"23:41"
-<strong>解释：</strong>有效的 24 小时制时间是 "12:34"，"12:43"，"13:24"，"13:42"，"14:23"，"14:32"，"21:34"，"21:43"，"23:14" 和 "23:41" 。这些时间中，"23:41" 是最大时间。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [5,5,5,5]
-<strong>输出：</strong>""
-<strong>解释：</strong>不存在有效的 24 小时制时间，因为 "55:55" 无效。
+<strong>Input:</strong> arr = [1,2,3,4]
+<strong>Output:</strong> &quot;23:41&quot;
+<strong>Explanation:</strong> The valid 24-hour times are &quot;12:34&quot;, &quot;12:43&quot;, &quot;13:24&quot;, &quot;13:42&quot;, &quot;14:23&quot;, &quot;14:32&quot;, &quot;21:34&quot;, &quot;21:43&quot;, &quot;23:14&quot;, and &quot;23:41&quot;. Of these times, &quot;23:41&quot; is the latest.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [0,0,0,0]
-<strong>输出：</strong>"00:00"
+<strong>Input:</strong> arr = [5,5,5,5]
+<strong>Output:</strong> &quot;&quot;
+<strong>Explanation:</strong> There are no valid 24-hour times as &quot;55:55&quot; is not valid.
 </pre>
 
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [0,0,1,0]
-<strong>输出：</strong>"10:00"
-</pre>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>arr.length == 4</code></li>
-	<li><code>0 <= arr[i] <= 9</code></li>
+	<li><code>0 &lt;= arr[i] &lt;= 9</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：暴力枚举
-
-我们可以枚举所有的 4 个数字的排列，然后判断每个排列是否满足题目要求，如果满足则更新答案。
-
-时间复杂度 $O(4^3)$，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -181,7 +158,7 @@ func largestTimeFromDigits(arr []int) string {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

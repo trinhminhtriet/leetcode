@@ -1,65 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0453.Minimum%20Moves%20to%20Equal%20Array%20Elements/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 数学
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [453. 最小操作次数使数组元素相等](https://leetcode.cn/problems/minimum-moves-to-equal-array-elements)
+# [453. Minimum Moves to Equal Array Elements](https://leetcode.com/problems/minimum-moves-to-equal-array-elements)
 
-[English Version](/solution/0400-0499/0453.Minimum%20Moves%20to%20Equal%20Array%20Elements/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code> 的整数数组，每次操作将会使 <code>n - 1</code> 个元素增加 <code>1</code> 。返回让数组所有元素相等的最小操作次数。</p>
+<p>Given an integer array <code>nums</code> of size <code>n</code>, return <em>the minimum number of moves required to make all array elements equal</em>.</p>
+
+<p>In one move, you can increment <code>n - 1</code> elements of the array by <code>1</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3]
-<strong>输出：</strong>3
-<strong>解释：</strong>
-只需要3次操作（注意每次操作会增加两个元素的值）：
+<strong>Input:</strong> nums = [1,2,3]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> Only three moves are needed (remember each move increments two elements):
 [1,2,3]  =&gt;  [2,3,3]  =&gt;  [3,4,3]  =&gt;  [4,4,4]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,1,1]
-<strong>输出：</strong>0
+<strong>Input:</strong> nums = [1,1,1]
+<strong>Output:</strong> 0
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>-10<sup>9</sup> &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
-	<li>答案保证符合 <strong>32-bit</strong> 整数</li>
+	<li>The answer is guaranteed to fit in a <strong>32-bit</strong> integer.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
+### Solution 1: Mathematics
 
-我们不妨记数组 $\textit{nums}$ 的最小值为 $\textit{mi}$，数组的和为 $\textit{s}$，数组的长度为 $\textit{n}$。
+Let the minimum value of the array $\textit{nums}$ be $\textit{mi}$, the sum of the array be $\textit{s}$, and the length of the array be $\textit{n}$.
 
-假设最小操作次数为 $\textit{k}$，最终数组的所有元素都为 $\textit{x}$，则有：
+Assume the minimum number of operations is $\textit{k}$, and the final value of all elements in the array is $\textit{x}$. Then we have:
 
 $$
 \begin{aligned}
@@ -68,7 +64,7 @@ $$
 \end{aligned}
 $$
 
-将第二个式子代入第一个式子，得到：
+Substituting the second equation into the first equation, we get:
 
 $$
 \begin{aligned}
@@ -78,9 +74,9 @@ $$
 \end{aligned}
 $$
 
-因此，最小操作次数为 $\textit{s} - \textit{n} \times \textit{mi}$。
+Therefore, the minimum number of operations is $\textit{s} - \textit{n} \times \textit{mi}$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

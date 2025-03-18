@@ -1,103 +1,98 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3081.Replace%20Question%20Marks%20in%20String%20to%20Minimize%20Its%20Value/README.md
+difficulty: Medium
 rating: 1904
-source: 第 126 场双周赛 Q3
+source: Biweekly Contest 126 Q3
 tags:
-    - 贪心
-    - 哈希表
-    - 字符串
-    - 计数
-    - 排序
-    - 堆（优先队列）
+    - Greedy
+    - Hash Table
+    - String
+    - Counting
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [3081. 替换字符串中的问号使分数最小](https://leetcode.cn/problems/replace-question-marks-in-string-to-minimize-its-value)
+# [3081. Replace Question Marks in String to Minimize Its Value](https://leetcode.com/problems/replace-question-marks-in-string-to-minimize-its-value)
 
-[English Version](/solution/3000-3099/3081.Replace%20Question%20Marks%20in%20String%20to%20Minimize%20Its%20Value/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>s</code>&nbsp;。<code>s[i]</code>&nbsp;要么是小写英文字母，要么是问号&nbsp;<code>'?'</code>&nbsp;。</p>
+<p>You are given a string <code>s</code>. <code>s[i]</code> is either a lowercase English letter or <code>&#39;?&#39;</code>.</p>
 
-<p>对于长度为 <code>m</code>&nbsp;且 <strong>只</strong>&nbsp;含有小写英文字母的字符串 <code>t</code>&nbsp;，我们定义函数&nbsp;<code>cost(i)</code>&nbsp;为下标 <code>i</code>&nbsp;之前（也就是范围 <code>[0, i - 1]</code>&nbsp;中）出现过与&nbsp;<code>t[i]</code>&nbsp;<strong>相同</strong>&nbsp;字符出现的次数。</p>
+<p>For a string <code>t</code> having length <code>m</code> containing <strong>only</strong> lowercase English letters, we define the function <code>cost(i)</code> for an index <code>i</code>&nbsp;as the number of characters <strong>equal</strong> to <code>t[i]</code>&nbsp;that appeared before it, i.e. in the range <code>[0, i - 1]</code>.</p>
 
-<p>字符串 <code>t</code>&nbsp;的&nbsp;<strong>分数</strong>&nbsp;为所有下标&nbsp;<code>i</code>&nbsp;的&nbsp;<code>cost(i)</code>&nbsp;之 <strong>和</strong>&nbsp;。</p>
+<p>The <strong>value</strong> of <code>t</code> is the <strong>sum</strong> of <code>cost(i)</code> for all indices <code>i</code>.</p>
 
-<p>比方说，字符串&nbsp;<code>t = "aab"</code>&nbsp;：</p>
+<p>For example, for the string <code>t = &quot;aab&quot;</code>:</p>
 
 <ul>
 	<li><code>cost(0) = 0</code></li>
 	<li><code>cost(1) = 1</code></li>
 	<li><code>cost(2) = 0</code></li>
-	<li>所以，字符串&nbsp;<code>"aab"</code>&nbsp;的分数为&nbsp;<code>0 + 1 + 0 = 1</code>&nbsp;。</li>
+	<li>Hence, the value of <code>&quot;aab&quot;</code> is <code>0 + 1 + 0 = 1</code>.</li>
 </ul>
 
-<p>你的任务是用小写英文字母&nbsp;<strong>替换</strong> <code>s</code>&nbsp;中 <strong>所有</strong> 问号，使 <code>s</code>&nbsp;的 <strong>分数</strong><strong>最小&nbsp;</strong>。</p>
+<p>Your task is to <strong>replace all</strong> occurrences of <code>&#39;?&#39;</code> in <code>s</code> with any lowercase English letter so that the <strong>value</strong> of <code>s</code> is <strong>minimized</strong>.</p>
 
-<p>请你返回替换所有问号<em>&nbsp;</em><code>'?'</code>&nbsp;之后且分数最小的字符串。如果有多个字符串的&nbsp;<strong>分数最小</strong>&nbsp;，那么返回字典序最小的一个。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
-<p><strong>输入：</strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">s = "???" </span></p>
-
-<p><strong>输出：</strong>&nbsp;<span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">"abc" </span></p>
-
-<p><strong>解释：</strong>这个例子中，我们将 <code>s</code>&nbsp;中的问号&nbsp;<code>'?'</code>&nbsp;替换得到&nbsp;<code>"abc"</code>&nbsp;。</p>
-
-<p>对于字符串&nbsp;<code>"abc"</code>&nbsp;，<code>cost(0) = 0</code>&nbsp;，<code>cost(1) = 0</code>&nbsp;和&nbsp;<code>cost(2) = 0</code>&nbsp;。</p>
-
-<p><code>"abc"</code>&nbsp;的分数为&nbsp;<code>0</code>&nbsp;。</p>
-
-<p>其他修改 <code>s</code>&nbsp;得到分数 <code>0</code>&nbsp;的字符串为&nbsp;<code>"cba"</code>&nbsp;，<code>"abz"</code>&nbsp;和&nbsp;<code>"hey"</code>&nbsp;。</p>
-
-<p>这些字符串中，我们返回字典序最小的。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
-<p><strong>输入：</strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">s = "a?a?"</span></p>
-
-<p><strong>输出：</strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">"abac"</span></p>
-
-<p><strong>解释：</strong>这个例子中，我们将&nbsp;<code>s</code>&nbsp;中的问号&nbsp;<code>'?'</code>&nbsp;替换得到&nbsp;<code>"abac"</code>&nbsp;。</p>
-
-<p>对于字符串&nbsp;<code>"abac"</code>&nbsp;，<code>cost(0) = 0</code>&nbsp;，<code>cost(1) = 0</code>&nbsp;，<code>cost(2) = 1</code>&nbsp;和&nbsp;<code>cost(3) = 0</code>&nbsp;。</p>
-
-<p><code>"abac"</code>&nbsp;的分数为&nbsp;<code>1</code>&nbsp;。</p>
-</div>
+<p>Return <em>a string denoting the modified string with replaced occurrences of </em><code>&#39;?&#39;</code><em>. If there are multiple strings resulting in the <strong>minimum value</strong>, return the <span data-keyword="lexicographically-smaller-string">lexicographically smallest</span> one.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> s = &quot;???&quot; </span></p>
+
+<p><strong>Output: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> &quot;abc&quot; </span></p>
+
+<p><strong>Explanation: </strong> In this example, we can replace the occurrences of <code>&#39;?&#39;</code> to make <code>s</code> equal to <code>&quot;abc&quot;</code>.</p>
+
+<p>For <code>&quot;abc&quot;</code>, <code>cost(0) = 0</code>, <code>cost(1) = 0</code>, and <code>cost(2) = 0</code>.</p>
+
+<p>The value of <code>&quot;abc&quot;</code> is <code>0</code>.</p>
+
+<p>Some other modifications of <code>s</code> that have a value of <code>0</code> are <code>&quot;cba&quot;</code>, <code>&quot;abz&quot;</code>, and, <code>&quot;hey&quot;</code>.</p>
+
+<p>Among all of them, we choose the lexicographically smallest.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">s = &quot;a?a?&quot;</span></p>
+
+<p><strong>Output: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">&quot;abac&quot;</span></p>
+
+<p><strong>Explanation: </strong> In this example, the occurrences of <code>&#39;?&#39;</code> can be replaced to make <code>s</code> equal to <code>&quot;abac&quot;</code>.</p>
+
+<p>For <code>&quot;abac&quot;</code>, <code>cost(0) = 0</code>, <code>cost(1) = 0</code>, <code>cost(2) = 1</code>, and <code>cost(3) = 0</code>.</p>
+
+<p>The value of <code>&quot;abac&quot;</code> is&nbsp;<code>1</code>.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code>&nbsp;要么是小写英文字母，要么是&nbsp;<code>'?'</code> 。</li>
+	<li><code>s[i]</code> is either a lowercase English letter or <code>&#39;?&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 优先队列
+### Solution 1: Greedy + Priority Queue
 
-根据题目，我们可以发现，如果一个字母 $c$ 出现的次数为 $v$，那么它对答案贡献的分数为 $1 + 2 + \cdots + (v - 1) = \frac{v \times (v - 1)}{2}$。为了使得答案尽可能小，我们应该尽量替换问号为那些出现次数较少的字母。
+According to the problem, we can find that if a letter $c$ appears $v$ times, then the score it contributes to the answer is $1 + 2 + \cdots + (v - 1) = \frac{v \times (v - 1)}{2}$. To make the answer as small as possible, we should replace the question marks with those letters that appear less frequently.
 
-因此，我们可以使用优先队列（小根堆）来维护每个字母的出现次数，每次取出出现次数最少的字母，将其记录到数组 $t$ 中，然后将其出现次数加一，再放回优先队列中。最后，我们将数组 $t$ 排序，然后遍历字符串 $s$，将每个问号依次替换为数组 $t$ 中的字母即可。
+Therefore, we can use a priority queue to maintain the occurrence times of each letter, take out the letter with the least occurrence times each time, record it in the array $t$, then increase its occurrence times by one, and put it back into the priority queue. Finally, we sort the array $t$, and then traverse the string $s$, replacing each question mark with the letters in the array $t$ in turn.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

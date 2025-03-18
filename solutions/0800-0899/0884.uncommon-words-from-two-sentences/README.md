@@ -1,72 +1,70 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0884.Uncommon%20Words%20from%20Two%20Sentences/README.md
+difficulty: Easy
 tags:
-    - 哈希表
-    - 字符串
-    - 计数
+    - Hash Table
+    - String
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [884. 两句话中的不常见单词](https://leetcode.cn/problems/uncommon-words-from-two-sentences)
+# [884. Uncommon Words from Two Sentences](https://leetcode.com/problems/uncommon-words-from-two-sentences)
 
-[English Version](/solution/0800-0899/0884.Uncommon%20Words%20from%20Two%20Sentences/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong>句子</strong> 是一串由空格分隔的单词。每个 <strong>单词</strong><em> </em>仅由小写字母组成。</p>
+<p>A <strong>sentence</strong> is a string of single-space separated words where each word consists only of lowercase letters.</p>
 
-<p>如果某个单词在其中一个句子中恰好出现一次，在另一个句子中却 <strong>没有出现</strong> ，那么这个单词就是 <strong>不常见的</strong><em> </em>。</p>
+<p>A word is <strong>uncommon</strong> if it appears exactly once in one of the sentences, and <strong>does not appear</strong> in the other sentence.</p>
 
-<p>给你两个 <strong>句子</strong> <code>s1</code> 和 <code>s2</code> ，返回所有 <strong>不常用单词</strong> 的列表。返回列表中单词可以按 <strong>任意顺序</strong> 组织。</p>
-
-<p>&nbsp;</p>
-
-<ol>
-</ol>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s1 = "this apple is sweet", s2 = "this apple is sour"
-<strong>输出：</strong>["sweet","sour"]
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s1 = "apple apple", s2 = "banana"
-<strong>输出：</strong>["banana"]
-</pre>
+<p>Given two <strong>sentences</strong> <code>s1</code> and <code>s2</code>, return <em>a list of all the <strong>uncommon words</strong></em>. You may return the answer in <strong>any order</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s1 = &quot;this apple is sweet&quot;, s2 = &quot;this apple is sour&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[&quot;sweet&quot;,&quot;sour&quot;]</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The word <code>&quot;sweet&quot;</code> appears only in <code>s1</code>, while the word <code>&quot;sour&quot;</code> appears only in <code>s2</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s1 = &quot;apple apple&quot;, s2 = &quot;banana&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[&quot;banana&quot;]</span></p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s1.length, s2.length &lt;= 200</code></li>
-	<li><code>s1</code> 和 <code>s2</code> 由小写英文字母和空格组成</li>
-	<li><code>s1</code> 和 <code>s2</code> 都不含前导或尾随空格</li>
-	<li><code>s1</code> 和 <code>s2</code> 中的所有单词间均由单个空格分隔</li>
+	<li><code>s1</code> and <code>s2</code> consist of lowercase English letters and spaces.</li>
+	<li><code>s1</code> and <code>s2</code> do not have leading or trailing spaces.</li>
+	<li>All the words in <code>s1</code> and <code>s2</code> are separated by a single space.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-根据题目描述，只要单词出现一次，就符合题目要求。因此，我们用哈希表 $cnt$ 记录所有单词以及出现的次数。
+According to the problem description, as long as a word appears once, it meets the requirements of the problem. Therefore, we use a hash table `cnt` to record all words and their occurrence counts.
 
-然后遍历哈希表，取出所有出现次数为 $1$ 的字符串即可。
+Then we traverse the hash table, and take out all strings that appear only once.
 
-时间复杂度 $O(m + n)$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别是字符串 $s1$ 和 $s2$ 的长度。
+The time complexity is $O(m + n)$, and the space complexity is $O(m + n)$. Here, $m$ and $n$ are the lengths of strings `s1` and `s2`, respectively.
 
 <!-- tabs:start -->
 

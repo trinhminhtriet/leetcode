@@ -1,71 +1,68 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1315.Sum%20of%20Nodes%20with%20Even-Valued%20Grandparent/README.md
+difficulty: Medium
 rating: 1426
-source: 第 17 场双周赛 Q3
+source: Biweekly Contest 17 Q3
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [1315. 祖父节点值为偶数的节点和](https://leetcode.cn/problems/sum-of-nodes-with-even-valued-grandparent)
+# [1315. Sum of Nodes with Even-Valued Grandparent](https://leetcode.com/problems/sum-of-nodes-with-even-valued-grandparent)
 
-[English Version](/solution/1300-1399/1315.Sum%20of%20Nodes%20with%20Even-Valued%20Grandparent/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一棵二叉树，请你返回满足以下条件的所有节点的值之和：</p>
+<p>Given the <code>root</code> of a binary tree, return <em>the sum of values of nodes with an <strong>even-valued grandparent</strong></em>. If there are no nodes with an <strong>even-valued grandparent</strong>, return <code>0</code>.</p>
 
-<ul>
-	<li>该节点的祖父节点的值为偶数。（一个节点的祖父节点是指该节点的父节点的父节点。）</li>
-</ul>
-
-<p>如果不存在祖父节点值为偶数的节点，那么返回&nbsp;<code>0</code> 。</p>
+<p>A <strong>grandparent</strong> of a node is the parent of its parent if it exists.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1315.Sum%20of%20Nodes%20with%20Even-Valued%20Grandparent/images/even1-tree.jpg" style="width: 504px; height: 302px;" />
+<pre>
+<strong>Input:</strong> root = [6,7,8,2,7,1,3,9,null,1,4,null,null,null,5]
+<strong>Output:</strong> 18
+<strong>Explanation:</strong> The red nodes are the nodes with even-value grandparent while the blue nodes are the even-value grandparents.
+</pre>
 
-<p><strong>示例：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1315.Sum%20of%20Nodes%20with%20Even-Valued%20Grandparent/images/1473_ex1.png" style="height: 214px; width: 350px;"></strong></p>
-
-<pre><strong>输入：</strong>root = [6,7,8,2,7,1,3,9,null,1,4,null,null,null,5]
-<strong>输出：</strong>18
-<strong>解释：</strong>图中红色节点的祖父节点的值为偶数，蓝色节点为这些红色节点的祖父节点。
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1315.Sum%20of%20Nodes%20with%20Even-Valued%20Grandparent/images/even2-tree.jpg" style="width: 64px; height: 65px;" />
+<pre>
+<strong>Input:</strong> root = [1]
+<strong>Output:</strong> 0
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点的数目在&nbsp;<code>1</code> 到&nbsp;<code>10^4</code>&nbsp;之间。</li>
-	<li>每个节点的值在&nbsp;<code>1</code> 到&nbsp;<code>100</code> 之间。</li>
+	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>4</sup>]</code>.</li>
+	<li><code>1 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
+### Solution 1: DFS
 
-我们设计一个函数 $dfs(root, x)$，表示以 $root$ 为根节点，并且 $root$ 的父节点的值为 $x$ 的子树中，满足条件的节点的值之和。那么答案就是 $dfs(root, 1)$。
+We design a function $dfs(root, x)$, which represents the sum of the values of the nodes that meet the conditions in the subtree with $root$ as the root node and $x$ as the value of the parent node of $root$. The answer is $dfs(root, 1)$.
 
-函数 $dfs(root, x)$ 的执行过程如下：
+The execution process of the function $dfs(root, x)$ is as follows:
 
--   如果 $root$ 为空，返回 $0$。
--   否则，我们递归计算 $root$ 的左子树和右子树的答案，即 $dfs(root.left, root.val)$ 和 $dfs(root.right, root.val)$，累加到答案中。如果 $x$ 为偶数，此时我们判断 $root$ 的左孩子和右孩子是否存在，如果存在，我们将它们的值累加到答案中。
--   最后返回答案。
+-   If $root$ is null, return $0$.
+-   Otherwise, we recursively calculate the answers of the left and right subtrees of $root$, that is, $dfs(root.left, root.val)$ and $dfs(root.right, root.val)$, and add them to the answer. If $x$ is even, we check whether the left and right children of $root$ exist. If they exist, we add their values to the answer.
+-   Finally, return the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为节点个数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the number of nodes.
 
 <!-- tabs:start -->
 

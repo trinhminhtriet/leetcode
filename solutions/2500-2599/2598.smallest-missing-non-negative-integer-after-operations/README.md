@@ -1,67 +1,64 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2598.Smallest%20Missing%20Non-negative%20Integer%20After%20Operations/README.md
+difficulty: Medium
 rating: 1845
-source: 第 337 场周赛 Q4
+source: Weekly Contest 337 Q4
 tags:
-    - 贪心
-    - 数组
-    - 哈希表
-    - 数学
+    - Greedy
+    - Array
+    - Hash Table
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [2598. 执行操作后的最大 MEX](https://leetcode.cn/problems/smallest-missing-non-negative-integer-after-operations)
+# [2598. Smallest Missing Non-negative Integer After Operations](https://leetcode.com/problems/smallest-missing-non-negative-integer-after-operations)
 
-[English Version](/solution/2500-2599/2598.Smallest%20Missing%20Non-negative%20Integer%20After%20Operations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 和一个整数 <code>value</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> and an integer <code>value</code>.</p>
 
-<p>在一步操作中，你可以对 <code>nums</code> 中的任一元素加上或减去 <code>value</code> 。</p>
-
-<ul>
-	<li>例如，如果 <code>nums = [1,2,3]</code> 且 <code>value = 2</code> ，你可以选择 <code>nums[0]</code> 减去 <code>value</code> ，得到 <code>nums = [-1,2,3]</code> 。</li>
-</ul>
-
-<p>数组的 MEX (minimum excluded) 是指其中数组中缺失的最小非负整数。</p>
+<p>In one operation, you can add or subtract <code>value</code> from any element of <code>nums</code>.</p>
 
 <ul>
-	<li>例如，<code>[-1,2,3]</code> 的 MEX 是 <code>0</code> ，而 <code>[1,0,3]</code> 的 MEX 是 <code>2</code> 。</li>
+	<li>For example, if <code>nums = [1,2,3]</code> and <code>value = 2</code>, you can choose to subtract <code>value</code> from <code>nums[0]</code> to make <code>nums = [-1,2,3]</code>.</li>
 </ul>
 
-<p>返回在执行上述操作 <strong>任意次</strong> 后，<code>nums</code><em> </em>的最大 MEX <em>。</em></p>
+<p>The MEX (minimum excluded) of an array is the smallest missing <strong>non-negative</strong> integer in it.</p>
+
+<ul>
+	<li>For example, the MEX of <code>[-1,2,3]</code> is <code>0</code> while the MEX of <code>[1,0,3]</code> is <code>2</code>.</li>
+</ul>
+
+<p>Return <em>the maximum MEX of </em><code>nums</code><em> after applying the mentioned operation <strong>any number of times</strong></em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>nums = [1,-10,7,13,6,8], value = 5
-<strong>输出：</strong>4
-<strong>解释：</strong>执行下述操作可以得到这一结果：
-- nums[1] 加上 value 两次，nums = [1,<em><strong>0</strong></em>,7,13,6,8]
-- nums[2] 减去 value 一次，nums = [1,0,<em><strong>2</strong></em>,13,6,8]
-- nums[3] 减去 value 两次，nums = [1,0,2,<em><strong>3</strong></em>,6,8]
-nums 的 MEX 是 4 。可以证明 4 是可以取到的最大 MEX 。
+<pre>
+<strong>Input:</strong> nums = [1,-10,7,13,6,8], value = 5
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> One can achieve this result by applying the following operations:
+- Add value to nums[1] twice to make nums = [1,<strong><u>0</u></strong>,7,13,6,8]
+- Subtract value from nums[2] once to make nums = [1,0,<strong><u>2</u></strong>,13,6,8]
+- Subtract value from nums[3] twice to make nums = [1,0,2,<strong><u>3</u></strong>,6,8]
+The MEX of nums is 4. It can be shown that 4 is the maximum MEX we can achieve.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>nums = [1,-10,7,13,6,8], value = 7
-<strong>输出：</strong>2
-<strong>解释：</strong>执行下述操作可以得到这一结果：
-- nums[2] 减去 value 一次，nums = [1,-10,<em><strong>0</strong></em>,13,6,8]
-nums 的 MEX 是 2 。可以证明 2 是可以取到的最大 MEX 。
+<pre>
+<strong>Input:</strong> nums = [1,-10,7,13,6,8], value = 7
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> One can achieve this result by applying the following operation:
+- subtract value from nums[2] once to make nums = [1,-10,<u><strong>0</strong></u>,13,6,8]
+The MEX of nums is 2. It can be shown that 2 is the maximum MEX we can achieve.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length, value &lt;= 10<sup>5</sup></code></li>
@@ -70,17 +67,17 @@ nums 的 MEX 是 2 。可以证明 2 是可以取到的最大 MEX 。
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Count
 
-我们用哈希表或数组 $cnt$ 统计数组中每个数对 $value$ 取模后的余数的个数。
+We use a hash table or array $cnt$ to count the number of times each remainder of $value$ is taken modulo in the array.
 
-然后从 $0$ 开始遍历，对于当前遍历到的数 $i$，如果 $cnt[i \bmod value]$ 为 $0$，说明数组中不存在一个数对 $value$ 取模后的余数为 $i$，那么 $i$ 就是数组的 MEX，直接返回即可。否则，将 $cnt[i \bmod value]$ 减 $1$，继续遍历。
+Then start from $0$ and traverse, for the current number $i$ traversed, if $cnt[i \bmod value]$ is $0$, it means that there is no number in the array that takes $i$ modulo $value$ as the remainder, then $i$ is the MEX of the array, and return directly. Otherwise, reduce $cnt[i \bmod value]$ by $1$ and continue to traverse.
 
-时间复杂度 $O(n)$，空间复杂度 $O(value)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n)$ and the space complexity is $O(value)$. Where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

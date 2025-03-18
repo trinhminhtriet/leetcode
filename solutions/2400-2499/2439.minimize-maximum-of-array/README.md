@@ -1,65 +1,62 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2439.Minimize%20Maximum%20of%20Array/README.md
+difficulty: Medium
 rating: 1965
-source: 第 89 场双周赛 Q3
+source: Biweekly Contest 89 Q3
 tags:
-    - 贪心
-    - 数组
-    - 二分查找
-    - 动态规划
-    - 前缀和
+    - Greedy
+    - Array
+    - Binary Search
+    - Dynamic Programming
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [2439. 最小化数组中的最大值](https://leetcode.cn/problems/minimize-maximum-of-array)
+# [2439. Minimize Maximum of Array](https://leetcode.com/problems/minimize-maximum-of-array)
 
-[English Version](/solution/2400-2499/2439.Minimize%20Maximum%20of%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的数组&nbsp;<code>nums</code>&nbsp;，它含有&nbsp;<code>n</code>&nbsp;个非负整数。</p>
+<p>You are given a <strong>0-indexed</strong> array <code>nums</code> comprising of <code>n</code> non-negative integers.</p>
 
-<p>每一步操作中，你需要：</p>
+<p>In one operation, you must:</p>
 
 <ul>
-	<li>选择一个满足&nbsp;<code>1 &lt;= i &lt; n</code>&nbsp;的整数 <code>i</code>&nbsp;，且&nbsp;<code>nums[i] &gt; 0</code>&nbsp;。</li>
-	<li>将&nbsp;<code>nums[i]</code>&nbsp;减 1 。</li>
-	<li>将&nbsp;<code>nums[i - 1]</code>&nbsp;加 1 。</li>
+	<li>Choose an integer <code>i</code> such that <code>1 &lt;= i &lt; n</code> and <code>nums[i] &gt; 0</code>.</li>
+	<li>Decrease <code>nums[i]</code> by 1.</li>
+	<li>Increase <code>nums[i - 1]</code> by 1.</li>
 </ul>
 
-<p>你可以对数组执行 <strong>任意</strong>&nbsp;次上述操作，请你返回可以得到的 <code>nums</code>&nbsp;数组中<b>&nbsp;最大值</b>&nbsp;<strong>最小</strong> 为多少。</p>
+<p>Return<em> the <strong>minimum</strong> possible value of the <strong>maximum</strong> integer of </em><code>nums</code><em> after performing <strong>any</strong> number of operations</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [3,7,1,6]
-<b>输出：</b>5
-<strong>解释：</strong>
-一串最优操作是：
-1. 选择 i = 1 ，nums 变为 [4,6,1,6] 。
-2. 选择 i = 3 ，nums 变为 [4,6,2,5] 。
-3. 选择 i = 1 ，nums 变为 [5,5,2,5] 。
-nums 中最大值为 5 。无法得到比 5 更小的最大值。
-所以我们返回 5 。
+<pre>
+<strong>Input:</strong> nums = [3,7,1,6]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong>
+One set of optimal operations is as follows:
+1. Choose i = 1, and nums becomes [4,6,1,6].
+2. Choose i = 3, and nums becomes [4,6,2,5].
+3. Choose i = 1, and nums becomes [5,5,2,5].
+The maximum integer of nums is 5. It can be shown that the maximum number cannot be less than 5.
+Therefore, we return 5.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>nums = [10,1]
-<b>输出：</b>10
-<strong>解释：</strong>
-最优解是不改动 nums ，10 是最大值，所以返回 10 。
+<pre>
+<strong>Input:</strong> nums = [10,1]
+<strong>Output:</strong> 10
+<strong>Explanation:</strong>
+It is optimal to leave nums as is, and since 10 is the maximum value, we return 10.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -69,15 +66,15 @@ nums 中最大值为 5 。无法得到比 5 更小的最大值。
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-最小化数组的最大值，容易想到二分查找。我们二分枚举数组的最大值 $mx$，找到一个满足题目要求的、且值最小的 $mx$ 即可。
+To minimize the maximum value of the array, it is intuitive to use binary search. We binary search for the maximum value $mx$ of the array, and find the smallest $mx$ that satisfies the problem requirements.
 
-时间复杂度 $O(n \times \log M)$，其中 $n$ 为数组的长度，而 $M$ 为数组中的最大值。
+The time complexity is $O(n \times \log M)$, where $n$ is the length of the array, and $M$ is the maximum value in the array.
 
 <!-- tabs:start -->
 

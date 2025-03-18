@@ -1,72 +1,58 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0540.Single%20Element%20in%20a%20Sorted%20Array/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 二分查找
+    - Array
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [540. 有序数组中的单一元素](https://leetcode.cn/problems/single-element-in-a-sorted-array)
+# [540. Single Element in a Sorted Array](https://leetcode.com/problems/single-element-in-a-sorted-array)
 
-[English Version](/solution/0500-0599/0540.Single%20Element%20in%20a%20Sorted%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个仅由整数组成的有序数组，其中每个元素都会出现两次，唯有一个数只会出现一次。</p>
+<p>You are given a sorted array consisting of only integers where every element appears exactly twice, except for one element which appears exactly once.</p>
 
-<p>请你找出并返回只出现一次的那个数。</p>
+<p>Return <em>the single element that appears only once</em>.</p>
 
-<p>你设计的解决方案必须满足 <code>O(log n)</code> 时间复杂度和 <code>O(1)</code> 空间复杂度。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入:</strong> nums = [1,1,2,3,3,4,4,8,8]
-<strong>输出:</strong> 2
-</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> nums =  [3,3,7,7,10,11,11]
-<strong>输出:</strong> 10
-</pre>
+<p>Your solution must run in <code>O(log n)</code> time and <code>O(1)</code> space.</p>
 
 <p>&nbsp;</p>
-
-<p><meta charset="UTF-8" /></p>
-
-<p><strong>提示:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> nums = [1,1,2,3,3,4,4,8,8]
+<strong>Output:</strong> 2
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> nums = [3,3,7,7,10,11,11]
+<strong>Output:</strong> 10
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>0 &lt;= nums[i]&nbsp;&lt;= 10<sup>5</sup></code></li>
+	<li><code>0 &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-题目给定的数组 $\textit{nums}$ 是有序的，且要求在 $\textit{O}(\log n)$ 时间找到只出现一次的元素，因此我们考虑使用二分查找解决。
+The given array $\textit{nums}$ is sorted, and we need to find the element that appears only once in $\textit{O}(\log n)$ time. Therefore, we consider using binary search to solve this problem.
 
-我们定义二分查找的左边界 $\textit{l} = 0$，右边界 $\textit{r} = n - 1$，其中 $n$ 是数组的长度。
+We define the left boundary of the binary search as $\textit{l} = 0$ and the right boundary as $\textit{r} = n - 1$, where $n$ is the length of the array.
 
-在每一步中，我们取中间位置 $\textit{mid} = (l + r) / 2$，如果下标 $\textit{mid}$ 为偶数，那么我们应该将 $\textit{nums}[\textit{mid}]$ 与 $\textit{nums}[\textit{mid} + 1]$ 进行比较；如果下标 $\textit{mid}$ 为奇数，那么我们应该将 $\textit{nums}[\textit{mid}]$ 与 $\textit{nums}[\textit{mid} - 1]$ 进行比较。因此，我们可以统一将 $\textit{nums}[\textit{mid}]$ 与 $\textit{nums}[\textit{mid} \oplus 1]$ 进行比较，其中 $\oplus$ 表示异或运算。
+In each step, we take the middle position $\textit{mid} = (l + r) / 2$. If the index $\textit{mid}$ is even, we should compare $\textit{nums}[\textit{mid}]$ with $\textit{nums}[\textit{mid} + 1]$. If the index $\textit{mid}$ is odd, we should compare $\textit{nums}[\textit{mid}]$ with $\textit{nums}[\textit{mid} - 1]$. Therefore, we can uniformly compare $\textit{nums}[\textit{mid}]$ with $\textit{nums}[\textit{mid} \oplus 1]$, where $\oplus$ denotes the XOR operation.
 
-如果 $\textit{nums}[\textit{mid}] \neq \textit{nums}[\textit{mid} \oplus 1]$，那么答案在 $[\textit{l}, \textit{mid}]$ 中，我们令 $\textit{r} = \textit{mid}$；如果 $\textit{nums}[\textit{mid}] = \textit{nums}[\textit{mid} \oplus 1]$，那么答案在 $[\textit{mid} + 1, \textit{r}]$ 中，我们令 $\textit{l} = \textit{mid} + 1$。继续二分查找，直到 $\textit{l} = \textit{r}$，此时 $\textit{nums}[\textit{l}]$ 即为只出现一次的元素。
+If $\textit{nums}[\textit{mid}] \neq \textit{nums}[\textit{mid} \oplus 1]$, then the answer is in $[\textit{l}, \textit{mid}]$, so we set $\textit{r} = \textit{mid}$. If $\textit{nums}[\textit{mid}] = \textit{nums}[\textit{mid} \oplus 1]$, then the answer is in $[\textit{mid} + 1, \textit{r}]$, so we set $\textit{l} = \textit{mid} + 1$. We continue the binary search until $\textit{l} = \textit{r}$, at which point $\textit{nums}[\textit{l}]$ is the element that appears only once.
 
-时间复杂度 $\textit{O}(\log n)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。空间复杂度 $\textit{O}(1)$。
+The time complexity is $\textit{O}(\log n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $\textit{O}(1)$.
 
 <!-- tabs:start -->
 

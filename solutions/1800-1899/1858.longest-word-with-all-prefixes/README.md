@@ -1,78 +1,77 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1858.Longest%20Word%20With%20All%20Prefixes/README.md
+difficulty: Medium
 tags:
-    - 深度优先搜索
-    - 字典树
+    - Depth-First Search
+    - Trie
 ---
 
 <!-- problem:start -->
 
-# [1858. 包含所有前缀的最长单词 🔒](https://leetcode.cn/problems/longest-word-with-all-prefixes)
+# [1858. Longest Word With All Prefixes 🔒](https://leetcode.com/problems/longest-word-with-all-prefixes)
 
-[English Version](/solution/1800-1899/1858.Longest%20Word%20With%20All%20Prefixes/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个字符串数组 <code>words</code>，找出 <code>words</code> 中<strong>所有的前缀</strong>都在 <code>words</code> 中的<strong>最长</strong>字符串。</p>
+<p>Given an array of strings <code>words</code>, find the <strong>longest</strong> string in <code>words</code> such that <strong>every prefix</strong> of it is also in <code>words</code>.</p>
 
 <ul>
-	<li>例如，令 <code>words = ["a", "app", "ap"]</code>。字符串 <code>"app"</code> 含前缀 <code>"ap"</code> 和 <code>"a"</code> ，都在 <code>words</code> 中。</li>
+	<li>For example, let <code>words = [&quot;a&quot;, &quot;app&quot;, &quot;ap&quot;]</code>. The string <code>&quot;app&quot;</code> has prefixes <code>&quot;ap&quot;</code> and <code>&quot;a&quot;</code>, all of which are in <code>words</code>.</li>
 </ul>
 
-<p>返回符合上述要求的字符串。如果存在多个（符合条件的）相同长度的字符串，返回字典序中最小的字符串，如果这样的字符串不存在，返回<em> </em><code>""</code>。</p>
+<p>Return <em>the string described above. If there is more than one string with the same length, return the <strong>lexicographically smallest</strong> one, and if no string exists, return </em><code>&quot;&quot;</code>.</p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1:</strong></p>
-
-<pre><b>输入：</b> words = ["k","ki","kir","kira", "kiran"]
-<b>输出：</b> "kiran"
-<b>解释：</b> "kiran" 含前缀 "kira"、 "kir"、 "ki"、 和 "k"，这些前缀都出现在 words 中。
+<pre>
+<strong>Input:</strong> words = [&quot;k&quot;,&quot;ki&quot;,&quot;kir&quot;,&quot;kira&quot;, &quot;kiran&quot;]
+<strong>Output:</strong> &quot;kiran&quot;
+<strong>Explanation:</strong> &quot;kiran&quot; has prefixes &quot;kira&quot;, &quot;kir&quot;, &quot;ki&quot;, and &quot;k&quot;, and all of them appear in words.
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b> words = ["a", "banana", "app", "appl", "ap", "apply", "apple"]
-<b>输出： </b>"apple"
-<b>解释：</b> "apple" 和 "apply" 都在 words 中含有各自的所有前缀。
-然而，"apple" 在字典序中更小，所以我们返回之。
+<pre>
+<strong>Input:</strong> words = [&quot;a&quot;, &quot;banana&quot;, &quot;app&quot;, &quot;appl&quot;, &quot;ap&quot;, &quot;apply&quot;, &quot;apple&quot;]
+<strong>Output:</strong> &quot;apple&quot;
+<strong>Explanation:</strong> Both &quot;apple&quot; and &quot;apply&quot; have all their prefixes in words.
+However, &quot;apple&quot; is lexicographically smaller, so we return that.
 </pre>
 
-<p><strong>示例 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><b>输入：</b> words = ["abc", "bc", "ab", "qwe"]
-<b>输出：</b> ""
+<pre>
+<strong>Input:</strong> words = [&quot;abc&quot;, &quot;bc&quot;, &quot;ab&quot;, &quot;qwe&quot;]
+<strong>Output:</strong> &quot;&quot;
 </pre>
 
-<p> </p>
-
-<p><b>提示：</b></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= sum(words[i].length) &lt;= 10<sup>5</sup></code></li>
+	<li><code>words[i]</code> consists only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀树
+### Solution 1: Trie
 
-我们定义一棵前缀树，前缀树每个节点有两个属性，一个是长度为 $26$ 的子节点数组 `children`，另一个是是否为单词结尾的标记 `isEnd`。
+We define a trie, each node of the trie has two attributes, one is a `children` array of length $26$, and the other is a `isEnd` flag indicating whether it is the end of a word.
 
-我们遍历 `words`，对于每个单词 `w`，我们从根节点开始遍历，如果当前节点的子节点数组中没有 `w` 的第一个字符，我们就创建一个新的节点，然后继续遍历 `w` 的下一个字符，直到遍历完 `w`，我们将当前节点的 `isEnd` 标记为 `true`。
+We traverse `words`, for each word `w`, we start traversing from the root node. If the current node's `children` array does not contain the first character of `w`, we create a new node, then continue to traverse the next character of `w`, until we finish traversing `w`, we mark the `isEnd` of the current node as `true`.
 
-接下来我们遍历 `words`，对于每个单词 `w`，我们从根节点开始遍历，如果当前节点的子节点数组的 `isEnd` 字段为 `false`，说明 `w` 的某个前缀不在 `words` 中，我们返回 `false`。否则继续遍历 `w` 的下一个字符，直到遍历完 `w`，我们返回 `true`。
+Next, we traverse `words`, for each word `w`, we start traversing from the root node. If the `isEnd` field of the current node's `children` array is `false`, it means that some prefix of `w` is not in `words`, we return `false`. Otherwise, we continue to traverse the next character of `w`, until we finish traversing `w`, we return `true`.
 
-时间复杂度 $O(\sum_{w \in words} |w|)$，空间复杂度 $O(\sum_{w \in words} |w|)$。
+The time complexity is $O(\sum_{w \in words} |w|)$, and the space complexity is $O(\sum_{w \in words} |w|)$.
 
 <!-- tabs:start -->
 

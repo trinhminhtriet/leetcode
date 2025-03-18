@@ -1,59 +1,53 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0502.IPO/README.md
+difficulty: Hard
 tags:
-    - 贪心
-    - 数组
-    - 排序
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [502. IPO](https://leetcode.cn/problems/ipo)
+# [502. IPO](https://leetcode.com/problems/ipo)
 
-[English Version](/solution/0500-0599/0502.IPO/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>假设 力扣（LeetCode）即将开始 <strong>IPO</strong> 。为了以更高的价格将股票卖给风险投资公司，力扣 希望在 IPO 之前开展一些项目以增加其资本。 由于资源有限，它只能在 IPO 之前完成最多 <code>k</code> 个不同的项目。帮助 力扣 设计完成最多 <code>k</code> 个不同项目后得到最大总资本的方式。</p>
+<p>Suppose LeetCode will start its <strong>IPO</strong> soon. In order to sell a good price of its shares to Venture Capital, LeetCode would like to work on some projects to increase its capital before the <strong>IPO</strong>. Since it has limited resources, it can only finish at most <code>k</code> distinct projects before the <strong>IPO</strong>. Help LeetCode design the best way to maximize its total capital after finishing at most <code>k</code> distinct projects.</p>
 
-<p>给你 <code>n</code> 个项目。对于每个项目 <code>i</code><strong> </strong>，它都有一个纯利润 <code>profits[i]</code> ，和启动该项目需要的最小资本 <code>capital[i]</code> 。</p>
+<p>You are given <code>n</code> projects where the <code>i<sup>th</sup></code> project has a pure profit <code>profits[i]</code> and a minimum capital of <code>capital[i]</code> is needed to start it.</p>
 
-<p>最初，你的资本为 <code>w</code> 。当你完成一个项目时，你将获得纯利润，且利润将被添加到你的总资本中。</p>
+<p>Initially, you have <code>w</code> capital. When you finish a project, you will obtain its pure profit and the profit will be added to your total capital.</p>
 
-<p>总而言之，从给定项目中选择 <strong>最多</strong> <code>k</code> 个不同项目的列表，以 <strong>最大化最终资本</strong> ，并输出最终可获得的最多资本。</p>
+<p>Pick a list of <strong>at most</strong> <code>k</code> distinct projects from given projects to <strong>maximize your final capital</strong>, and return <em>the final maximized capital</em>.</p>
 
-<p>答案保证在 32 位有符号整数范围内。</p>
+<p>The answer is guaranteed to fit in a 32-bit signed integer.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>k = 2, w = 0, profits = [1,2,3], capital = [0,1,1]
-<strong>输出：</strong>4
-<strong>解释：
-</strong>由于你的初始资本为 0，你仅可以从 0 号项目开始。
-在完成后，你将获得 1 的利润，你的总资本将变为 1。
-此时你可以选择开始 1 号或 2 号项目。
-由于你最多可以选择两个项目，所以你需要完成 2 号项目以获得最大的资本。
-因此，输出最后最大化的资本，为 0 + 1 + 3 = 4。
+<strong>Input:</strong> k = 2, w = 0, profits = [1,2,3], capital = [0,1,1]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Since your initial capital is 0, you can only start the project indexed 0.
+After finishing it you will obtain profit 1 and your capital becomes 1.
+With capital 1, you can either start the project indexed 1 or the project indexed 2.
+Since you can choose at most 2 projects, you need to finish the project indexed 2 to get the maximum capital.
+Therefore, output the final maximized capital, which is 0 + 1 + 3 = 4.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>k = 3, w = 0, profits = [1,2,3], capital = [0,1,2]
-<strong>输出：</strong>6
+<strong>Input:</strong> k = 3, w = 0, profits = [1,2,3], capital = [0,1,2]
+<strong>Output:</strong> 6
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= 10<sup>5</sup></code></li>
@@ -67,15 +61,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 优先队列（双堆）
-
-将每个项目放入优先队列 $q_1$ 中，按照启动资本从小到大排序。如果堆顶元素启动资本不超过当前已有的资金，则循环弹出，放入另一个优先队列 $q_2$ 中，按照纯利润从大到小排序。取出当前利润最大的项目，将其纯利润加入到当前资金中，重复上述操作 $k$ 次。
-
-时间复杂度 $O(n\log n)$，空间复杂度 $O(n)$。其中 $n$ 为项目数。
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,78 +1,74 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1209.Remove%20All%20Adjacent%20Duplicates%20in%20String%20II/README.md
+difficulty: Medium
 rating: 1541
-source: 第 156 场周赛 Q3
+source: Weekly Contest 156 Q3
 tags:
-    - 栈
-    - 字符串
+    - Stack
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1209. 删除字符串中的所有相邻重复项 II](https://leetcode.cn/problems/remove-all-adjacent-duplicates-in-string-ii)
+# [1209. Remove All Adjacent Duplicates in String II](https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string-ii)
 
-[English Version](/solution/1200-1299/1209.Remove%20All%20Adjacent%20Duplicates%20in%20String%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>s</code>，「<code>k</code> 倍重复项删除操作」将会从 <code>s</code>&nbsp;中选择&nbsp;<code>k</code>&nbsp;个相邻且相等的字母，并删除它们，使被删去的字符串的左侧和右侧连在一起。</p>
+<p>You are given a string <code>s</code> and an integer <code>k</code>, a <code>k</code> <strong>duplicate removal</strong> consists of choosing <code>k</code> adjacent and equal letters from <code>s</code> and removing them, causing the left and the right side of the deleted substring to concatenate together.</p>
 
-<p>你需要对&nbsp;<code>s</code>&nbsp;重复进行无限次这样的删除操作，直到无法继续为止。</p>
+<p>We repeatedly make <code>k</code> <strong>duplicate removals</strong> on <code>s</code> until we no longer can.</p>
 
-<p>在执行完所有删除操作后，返回最终得到的字符串。</p>
-
-<p>本题答案保证唯一。</p>
+<p>Return <em>the final string after all such duplicate removals have been made</em>. It is guaranteed that the answer is <strong>unique</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;abcd&quot;, k = 2
+<strong>Output:</strong> &quot;abcd&quot;
+<strong>Explanation: </strong>There&#39;s nothing to delete.</pre>
 
-<pre><strong>输入：</strong>s = &quot;abcd&quot;, k = 2
-<strong>输出：</strong>&quot;abcd&quot;
-<strong>解释：</strong>没有要删除的内容。</pre>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>示例 2：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;deeedbbcccbdaa&quot;, k = 3
+<strong>Output:</strong> &quot;aa&quot;
+<strong>Explanation: 
+</strong>First delete &quot;eee&quot; and &quot;ccc&quot;, get &quot;ddbbbdaa&quot;
+Then delete &quot;bbb&quot;, get &quot;dddaa&quot;
+Finally delete &quot;ddd&quot;, get &quot;aa&quot;</pre>
 
-<pre><strong>输入：</strong>s = &quot;deeedbbcccbdaa&quot;, k = 3
-<strong>输出：</strong>&quot;aa&quot;
-<strong>解释： 
-</strong>先删除 &quot;eee&quot; 和 &quot;ccc&quot;，得到 &quot;ddbbbdaa&quot;
-再删除 &quot;bbb&quot;，得到 &quot;dddaa&quot;
-最后删除 &quot;ddd&quot;，得到 &quot;aa&quot;</pre>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;pbbcggttciiippooaais&quot;, k = 2
-<strong>输出：</strong>&quot;ps&quot;
+<pre>
+<strong>Input:</strong> s = &quot;pbbcggttciiippooaais&quot;, k = 2
+<strong>Output:</strong> &quot;ps&quot;
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;= 10^5</code></li>
-	<li><code>2 &lt;= k &lt;= 10^4</code></li>
-	<li><code>s</code>&nbsp;中只含有小写英文字母。</li>
+	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>2 &lt;= k &lt;= 10<sup>4</sup></code></li>
+	<li><code>s</code> only contains lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：栈
+### Solution 1: Stack
 
-我们可以遍历字符串 $s$，维护一个栈，栈中存储的是字符和该字符出现的次数。当遍历到字符 $c$ 时，如果栈顶元素的字符和 $c$ 相同，则将栈顶元素的次数加一，否则将字符 $c$ 和次数 $1$ 入栈。当栈顶元素的次数等于 $k$ 时，将栈顶元素出栈。
+We can traverse the string $s$, maintaining a stack that stores the characters and their occurrence counts. When traversing to character $c$, if the character at the top of the stack is the same as $c$, we increment the count of the top element by one; otherwise, we push the character $c$ and count $1$ into the stack. When the count of the top element equals $k$, we pop the top element from the stack.
 
-遍历完字符串 $s$ 后，栈中存储的就是最终结果。我们可以将栈中的元素依次弹出，拼接成字符串即可。
+After traversing the string $s$, the elements remaining in the stack form the final result. We can pop the elements from the stack one by one, concatenate them into a string, and that's our answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

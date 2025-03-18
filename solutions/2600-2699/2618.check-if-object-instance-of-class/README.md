@@ -1,69 +1,66 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2618.Check%20if%20Object%20Instance%20of%20Class/README.md
+difficulty: Medium
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2618. 检查是否是类的对象实例](https://leetcode.cn/problems/check-if-object-instance-of-class)
+# [2618. Check if Object Instance of Class](https://leetcode.com/problems/check-if-object-instance-of-class)
 
-[English Version](/solution/2600-2699/2618.Check%20if%20Object%20Instance%20of%20Class/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你编写一个函数，检查给定的值是否是给定类或超类的实例。</p>
+<p>Write a function that checks if a given value&nbsp;is an instance of a given class or superclass. For this problem, an object is considered an instance of a given class if that object has access to that class&#39;s methods.</p>
 
-<p>可以传递给函数的数据类型没有限制。例如，值或类可能是&nbsp; <code>undefined</code> 。</p>
+<p>There are&nbsp;no constraints on the data types that can be passed to the function. For example, the value or the class could be&nbsp;<code>undefined</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>func = () =&gt; checkIfInstance(new Date(), Date)
-<b>输出：</b>true
-<strong>解释：</strong>根据定义，Date 构造函数返回的对象是 Date 的一个实例。
+<strong>Input:</strong> func = () =&gt; checkIfInstanceOf(new Date(), Date)
+<strong>Output:</strong> true
+<strong>Explanation: </strong>The object returned by the Date constructor is, by definition, an instance of Date.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>func = () =&gt; { class Animal {}; class Dog extends Animal {}; return checkIfInstance(new Dog(), Animal); }
-<b>输出：</b>true
-<strong>解释：</strong>
+<strong>Input:</strong> func = () =&gt; { class Animal {}; class Dog extends Animal {}; return checkIfInstanceOf(new Dog(), Animal); }
+<strong>Output:</strong> true
+<strong>Explanation:</strong>
 class Animal {};
 class Dog extends Animal {};
 checkIfInstanceOf(new Dog(), Animal); // true
 
-Dog 是 Animal 的子类。因此，Dog 对象同时是 Dog 和 Animal 的实例。</pre>
+Dog is a subclass of Animal. Therefore, a Dog object is an instance of both Dog and Animal.</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>func = () =&gt; checkIfInstance(Date, Date)
-<b>输出：</b>false
-<strong>解释：</strong>日期的构造函数在逻辑上不能是其自身的实例。
+<strong>Input:</strong> func = () =&gt; checkIfInstanceOf(Date, Date)
+<strong>Output:</strong> false
+<strong>Explanation: </strong>A date constructor cannot logically be an instance of itself.
 </pre>
 
-<p><strong>示例 4：</strong></p>
+<p><strong class="example">Example 4:</strong></p>
 
 <pre>
-<b>输入：</b>func = () =&gt; checkIfInstance(5, Number)
-<b>输出：</b>true
-<strong>解释：</strong>5 是一个 Number。注意，"instanceof" 关键字将返回 false。</pre>
+<strong>Input:</strong> func = () =&gt; checkIfInstanceOf(5, Number)
+<strong>Output:</strong> true
+<strong>Explanation: </strong>5 is a Number. Note that the &quot;instanceof&quot; keyword would return false. However, it is still considered an instance of Number because it accesses the Number methods. For example &quot;toFixed()&quot;.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,69 +1,66 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2204.Distance%20to%20a%20Cycle%20in%20Undirected%20Graph/README.md
+difficulty: Hard
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 并查集
-    - 图
+    - Depth-First Search
+    - Breadth-First Search
+    - Union Find
+    - Graph
 ---
 
 <!-- problem:start -->
 
-# [2204. 无向图中到环的距离 🔒](https://leetcode.cn/problems/distance-to-a-cycle-in-undirected-graph)
+# [2204. Distance to a Cycle in Undirected Graph 🔒](https://leetcode.com/problems/distance-to-a-cycle-in-undirected-graph)
 
-[English Version](/solution/2200-2299/2204.Distance%20to%20a%20Cycle%20in%20Undirected%20Graph/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个正整数 <code>n</code>，表示一个 <strong>连通无向图</strong> 中的节点数，该图&nbsp;<strong>只包含一个&nbsp;</strong>环。节点编号为 <code>0</code> ~ <code>n - 1</code>(<strong>含</strong>)。</p>
+<p>You are given a positive integer <code>n</code> representing the number of nodes in a <strong>connected undirected graph</strong> containing <strong>exactly one</strong> cycle. The nodes are numbered from <code>0</code> to <code>n - 1</code> (<strong>inclusive</strong>).</p>
 
-<p>你还得到了一个二维整数数组 <code>edges</code>，其中 <code>edges[i] = [node1<sub>i</sub>, node2<sub>i</sub>]</code> 表示有一条&nbsp;<strong>双向&nbsp;</strong>边连接图中的 <code>node1<sub>i</sub></code> 和 <code>node2<sub>i</sub></code>。</p>
+<p>You are also given a 2D integer array <code>edges</code>, where <code>edges[i] = [node1<sub>i</sub>, node2<sub>i</sub>]</code> denotes that there is a <strong>bidirectional</strong> edge connecting <code>node1<sub>i</sub></code> and <code>node2<sub>i</sub></code> in the graph.</p>
 
-<p>两个节点 <code>a</code> 和 <code>b</code> 之间的距离定义为从 <code>a</code> 到 <code>b</code> 所需的&nbsp;<strong>最小边数</strong>。</p>
+<p>The distance between two nodes <code>a</code> and <code>b</code> is defined to be the <strong>minimum</strong> number of edges that are needed to go from <code>a</code> to <code>b</code>.</p>
 
-<p>返回<em>一个长度为 <code>n</code> 的整数数组 <code>answer</code>，其中 </em><code>answer[i]</code><em> 是第 <code>i</code> 个节点与环中任何节点之间的最小距离</em>。</p>
+<p>Return <em>an integer array <code>answer</code></em><em> of size </em><code>n</code><em>, where </em><code>answer[i]</code><em> is the <strong>minimum</strong> distance between the </em><code>i<sup>th</sup></code><em> node and <strong>any</strong> node in the cycle.</em></p>
 
-<p><strong class="example">示例 1:</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2204.Distance%20to%20a%20Cycle%20in%20Undirected%20Graph/images/image-20220315154238-1.png" style="width: 350px; height: 237px;" />
 <pre>
-<strong>输入:</strong> n = 7, edges = [[1,2],[2,4],[4,3],[3,1],[0,1],[5,2],[6,5]]
-<strong>输出:</strong> [1,0,0,0,0,1,2]
-<strong>解释:</strong>
-节点 1, 2, 3, 和 4 来自环。
-0 到 1 的距离是 1。
-1 到 1 的距离是 0。
-2 到 2 的距离是 0。
-3 到 3 的距离是 0。
-4 到 4 的距离是 0。
-5 到 2 的距离是 1。
-6 到 2 的距离是 2。
+<strong>Input:</strong> n = 7, edges = [[1,2],[2,4],[4,3],[3,1],[0,1],[5,2],[6,5]]
+<strong>Output:</strong> [1,0,0,0,0,1,2]
+<strong>Explanation:</strong>
+The nodes 1, 2, 3, and 4 form the cycle.
+The distance from 0 to 1 is 1.
+The distance from 1 to 1 is 0.
+The distance from 2 to 2 is 0.
+The distance from 3 to 3 is 0.
+The distance from 4 to 4 is 0.
+The distance from 5 to 2 is 1.
+The distance from 6 to 2 is 2.
 </pre>
 
-<p><strong class="example">示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2204.Distance%20to%20a%20Cycle%20in%20Undirected%20Graph/images/image-20220315154634-1.png" style="width: 400px; height: 297px;" />
 <pre>
-<strong>输入:</strong> n = 9, edges = [[0,1],[1,2],[0,2],[2,6],[6,7],[6,8],[0,3],[3,4],[3,5]]
-<strong>输出:</strong> [0,0,0,1,2,2,1,2,2]
-<strong>解释:</strong>
-节点 0, 1, 和 2 来自环.
-0 到 0 的距离是 0。
-1 到 1 的距离是 0。
-2 到 2 的距离是 0。
-3 到 1 的距离是 1。
-4 到 1 的距离是 2。
-5 到 1 的距离是 2。
-6 到 2 的距离是 1。
-7 到 2 的距离是 2。
-8 到 2 的距离是 2。
+<strong>Input:</strong> n = 9, edges = [[0,1],[1,2],[0,2],[2,6],[6,7],[6,8],[0,3],[3,4],[3,5]]
+<strong>Output:</strong> [0,0,0,1,2,2,1,2,2]
+<strong>Explanation:</strong>
+The nodes 0, 1, and 2 form the cycle.
+The distance from 0 to 0 is 0.
+The distance from 1 to 1 is 0.
+The distance from 2 to 2 is 0.
+The distance from 3 to 1 is 1.
+The distance from 4 to 1 is 2.
+The distance from 5 to 1 is 2.
+The distance from 6 to 2 is 1.
+The distance from 7 to 2 is 2.
+The distance from 8 to 2 is 2.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= n &lt;= 10<sup>5</sup></code></li>
@@ -71,34 +68,34 @@ tags:
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>0 &lt;= node1<sub>i</sub>, node2<sub>i</sub> &lt;= n - 1</code></li>
 	<li><code>node1<sub>i</sub> != node2<sub>i</sub></code></li>
-	<li>图是连通的。</li>
-	<li>这个图只有一个环。</li>
-	<li>任何顶点对之间最多只有一条边。</li>
+	<li>The graph is connected.</li>
+	<li>The graph has exactly one cycle.</li>
+	<li>There is at most one edge between any pair of vertices.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：拓扑排序
+### Solution 1: Topological Sorting
 
-我们可以先将 $edges$ 中的边转换成邻接表 $g$，其中 $g[i]$ 表示节点 $i$ 的所有邻接节点，用集合表示。
+We can first convert the edges in $edges$ into an adjacency list $g$, where $g[i]$ represents all adjacent nodes of node $i$, represented as a set.
 
-接下来，我们由外向内，逐层删除节点，直到最终只剩下一个环。具体做法如下：
+Next, we delete nodes layer by layer from the outside to the inside until only a cycle remains. The specific method is as follows:
 
-我们先找出所有度为 $1$ 的节点，将这些节点从图中删除，如果删除后，其邻接节点的度变为 $1$，则将其加入队列 $q$ 中。过程中，我们按顺序记录下所有被删除的节点，记为 $seq$；并且，我们用一个数组 $f$ 记录每个节点相邻的且更接近环的节点，即 $f[i]$ 表示节点 $i$ 的相邻且更接近环的节点。
+We first find all nodes with a degree of $1$ and remove these nodes from the graph. If after deletion, the degree of its adjacent node becomes $1$, then we add it to the queue $q$. During this process, we record all deleted nodes in order as $seq$; and we use an array $f$ to record the adjacent node of each node that is closer to the cycle, i.e., $f[i]$ represents the adjacent node of node $i$ that is closer to the cycle.
 
-最后，我们初始化一个长度为 $n$ 的答案数组 $ans$，其中 $ans[i]$ 表示节点 $i$ 到环中任意节点的最小距离，初始时 $ans[i] = 0$。然后，我们从 $seq$ 的末尾开始遍历，对于每个节点 $i$，我们可以由它的相邻节点 $f[i]$ 得到 $ans[i]$ 的值，即 $ans[i] = ans[f[i]] + 1$。
+Finally, we initialize an answer array $ans$ of length $n$, where $ans[i]$ represents the minimum distance from node $i$ to any node in the cycle, initially $ans[i] = 0$. Then, we start traversing from the end of $seq$. For each node $i$, we can get the value of $ans[i]$ from its adjacent node $f[i]$, i.e., $ans[i] = ans[f[i]] + 1$.
 
-遍历结束后，返回答案数组 $ans$ 即可。
+After the traversal, return the answer array $ans$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes.
 
-相似题目：
+Similar problems:
 
--   [2603. 收集树中金币](https://github.com/doocs/leetcode/blob/main/solution/2600-2699/2603.Collect%20Coins%20in%20a%20Tree/README.md)
+-   [2603. Collect Coins in a Tree](https://github.com/doocs/leetcode/blob/main/solution/2600-2699/2603.Collect%20Coins%20in%20a%20Tree/README_EN.md)
 
 <!-- tabs:start -->
 

@@ -1,62 +1,57 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0220.Contains%20Duplicate%20III/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 桶排序
-    - 有序集合
-    - 排序
-    - 滑动窗口
+    - Array
+    - Bucket Sort
+    - Ordered Set
+    - Sorting
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [220. 存在重复元素 III](https://leetcode.cn/problems/contains-duplicate-iii)
+# [220. Contains Duplicate III](https://leetcode.com/problems/contains-duplicate-iii)
 
-[English Version](/solution/0200-0299/0220.Contains%20Duplicate%20III/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 和两个整数 <code>indexDiff</code> 和 <code>valueDiff</code> 。</p>
+<p>You are given an integer array <code>nums</code> and two integers <code>indexDiff</code> and <code>valueDiff</code>.</p>
 
-<p>找出满足下述条件的下标对 <code>(i, j)</code>：</p>
+<p>Find a pair of indices <code>(i, j)</code> such that:</p>
 
 <ul>
 	<li><code>i != j</code>,</li>
-	<li><code>abs(i - j) &lt;= indexDiff</code></li>
-	<li><code>abs(nums[i] - nums[j]) &lt;= valueDiff</code></li>
+	<li><code>abs(i - j) &lt;= indexDiff</code>.</li>
+	<li><code>abs(nums[i] - nums[j]) &lt;= valueDiff</code>, and</li>
 </ul>
 
-<p>如果存在，返回 <code>true</code><em> ；</em>否则，返回<em> </em><code>false</code><em> </em>。</p>
+<p>Return <code>true</code><em> if such pair exists or </em><code>false</code><em> otherwise</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3,1], indexDiff = 3, valueDiff = 0
-<strong>输出：</strong>true
-<strong>解释：</strong>可以找出 (i, j) = (0, 3) 。
-满足下述 3 个条件：
+<strong>Input:</strong> nums = [1,2,3,1], indexDiff = 3, valueDiff = 0
+<strong>Output:</strong> true
+<strong>Explanation:</strong> We can choose (i, j) = (0, 3).
+We satisfy the three conditions:
 i != j --&gt; 0 != 3
 abs(i - j) &lt;= indexDiff --&gt; abs(0 - 3) &lt;= 3
 abs(nums[i] - nums[j]) &lt;= valueDiff --&gt; abs(1 - 1) &lt;= 0
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,5,9,1,5,9], indexDiff = 2, valueDiff = 3
-<strong>输出：</strong>false
-<strong>解释：</strong>尝试所有可能的下标对 (i, j) ，均无法满足这 3 个条件，因此返回 false 。
+<strong>Input:</strong> nums = [1,5,9,1,5,9], indexDiff = 2, valueDiff = 3
+<strong>Output:</strong> false
+<strong>Explanation:</strong> After trying all the possible pairs (i, j), we cannot satisfy the three conditions, so we return false.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -67,17 +62,17 @@ abs(nums[i] - nums[j]) &lt;= valueDiff --&gt; abs(1 - 1) &lt;= 0
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：滑动窗口 + 有序集合
+### Solution 1: Sliding Window + Ordered Set
 
-我们维护一个大小为 $k$ 的滑动窗口，窗口中的元素保持有序。
+We maintain a sliding window of size $k$, and the elements in the window are kept in order.
 
-遍历数组 `nums`，对于每个元素 $nums[i]$，我们在有序集合中查找第一个大于等于 $nums[i] - t$ 的元素，如果元素存在，并且该元素小于等于 $nums[i] + t$，说明找到了一对符合条件的元素，返回 `true`。否则，我们将 $nums[i]$ 插入到有序集合中，并且如果有序集合的大小超过了 $k$，我们需要将最早加入有序集合的元素删除。
+We traverse the array `nums`. For each element $nums[i]$, we look for the first element in the ordered set that is greater than or equal to $nums[i] - t$. If the element exists, and this element is less than or equal to $nums[i] + t$, it means we have found a pair of elements that meet the conditions, and we return `true`. Otherwise, we insert $nums[i]$ into the ordered set, and if the size of the ordered set exceeds $k$, we need to remove the earliest added element from the ordered set.
 
-时间复杂度 $O(n \times \log k)$，其中 $n$ 是数组 `nums` 的长度。对于每个元素，我们需要 $O(\log k)$ 的时间来查找有序集合中的元素，一共有 $n$ 个元素，因此总时间复杂度是 $O(n \times \log k)$。
+The time complexity is $O(n \times \log k)$, where $n$ is the length of the array `nums`. For each element, we need $O(\log k)$ time to find the element in the ordered set, and there are $n$ elements in total, so the total time complexity is $O(n \times \log k)$.
 
 <!-- tabs:start -->
 

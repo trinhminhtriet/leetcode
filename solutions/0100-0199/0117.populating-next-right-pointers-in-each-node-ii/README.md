@@ -1,26 +1,23 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0117.Populating%20Next%20Right%20Pointers%20in%20Each%20Node%20II/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 链表
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
+    - Linked List
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [117. 填充每个节点的下一个右侧节点指针 II](https://leetcode.cn/problems/populating-next-right-pointers-in-each-node-ii)
+# [117. Populating Next Right Pointers in Each Node II](https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii)
 
-[English Version](/solution/0100-0199/0117.Populating%20Next%20Right%20Pointers%20in%20Each%20Node%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个二叉树：</p>
+<p>Given a binary tree</p>
 
 <pre>
 struct Node {
@@ -28,58 +25,56 @@ struct Node {
   Node *left;
   Node *right;
   Node *next;
-}</pre>
+}
+</pre>
 
-<p>填充它的每个 next 指针，让这个指针指向其下一个右侧节点。如果找不到下一个右侧节点，则将 next 指针设置为 <code>NULL</code> 。</p>
+<p>Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to <code>NULL</code>.</p>
 
-<p>初始状态下，所有&nbsp;next 指针都被设置为 <code>NULL</code> 。</p>
+<p>Initially, all next pointers are set to <code>NULL</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0117.Populating%20Next%20Right%20Pointers%20in%20Each%20Node%20II/images/117_sample.png" style="width: 500px; height: 171px;" />
 <pre>
-<strong>输入</strong>：root = [1,2,3,4,5,null,7]
-<strong>输出：</strong>[1,#,2,3,#,4,5,7,#]
-<strong>解释：</strong>给定二叉树如图 A 所示，你的函数应该填充它的每个 next 指针，以指向其下一个右侧节点，如图 B 所示。序列化输出按层序遍历顺序（由 next 指针连接），'#' 表示每层的末尾。</pre>
+<strong>Input:</strong> root = [1,2,3,4,5,null,7]
+<strong>Output:</strong> [1,#,2,3,#,4,5,7,#]
+<strong>Explanation: </strong>Given the above binary tree (Figure A), your function should populate each next pointer to point to its next right node, just like in Figure B. The serialized output is in level order as connected by the next pointers, with &#39;#&#39; signifying the end of each level.
+</pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>root = []
-<strong>输出：</strong>[]
+<strong>Input:</strong> root = []
+<strong>Output:</strong> []
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中的节点数在范围 <code>[0, 6000]</code> 内</li>
+	<li>The number of nodes in the tree is in the range <code>[0, 6000]</code>.</li>
 	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 
-<p><strong>进阶：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Follow-up:</strong></p>
 
 <ul>
-	<li>你只能使用常量级额外空间。</li>
-	<li>使用递归解题也符合要求，本题中递归程序的隐式栈空间不计入额外空间复杂度。</li>
-</ul>
-
-<ul>
+	<li>You may only use constant extra space.</li>
+	<li>The recursive approach is fine. You may assume implicit stack space does not count as extra space for this problem.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
+### Solution 1: BFS
 
-我们使用队列 $q$ 进行层序遍历，每次遍历一层时，将当前层的节点按顺序连接起来。
+We use a queue $q$ for level order traversal. Each time we traverse a level, we connect the nodes of the current level in order.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树的节点个数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 
@@ -361,13 +356,13 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二：空间优化
+### Solution 2: Space Optimization
 
-方法一的空间复杂度较高，因为需要使用队列存储每一层的节点。我们可以使用常数空间来实现。
+The space complexity of Solution 1 is relatively high because it requires a queue to store the nodes of each level. We can implement it with constant space.
 
-定义两个指针 $prev$ 和 $next$，分别指向下一层的前一个节点和第一个节点。遍历当前层的节点时，把下一层的节点串起来，同时找到下一层的第一个节点。当前层遍历完后，把下一层的第一个节点 $next$ 赋值给 $node$，继续遍历。
+We define two pointers $prev$ and $next$, which point to the previous node and the first node of the next level, respectively. When traversing the nodes of the current level, we string the nodes of the next level together and find the first node of the next level. After the current level is traversed, we assign the first node $next$ of the next level to $node$ and continue to traverse.
 
-时间复杂度 $O(n)$，其中 $n$ 为二叉树的节点个数。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the number of nodes in the binary tree. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

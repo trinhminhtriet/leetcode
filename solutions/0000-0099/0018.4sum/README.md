@@ -1,52 +1,47 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0018.4Sum/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 双指针
-    - 排序
+    - Array
+    - Two Pointers
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [18. 四数之和](https://leetcode.cn/problems/4sum)
+# [18. 4Sum](https://leetcode.com/problems/4sum)
 
-[English Version](/solution/0000-0099/0018.4Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个由 <code>n</code> 个整数组成的数组&nbsp;<code>nums</code> ，和一个目标值 <code>target</code> 。请你找出并返回满足下述全部条件且<strong>不重复</strong>的四元组&nbsp;<code>[nums[a], nums[b], nums[c], nums[d]]</code>&nbsp;（若两个四元组元素一一对应，则认为两个四元组重复）：</p>
+<p>Given an array <code>nums</code> of <code>n</code> integers, return <em>an array of all the <strong>unique</strong> quadruplets</em> <code>[nums[a], nums[b], nums[c], nums[d]]</code> such that:</p>
 
 <ul>
 	<li><code>0 &lt;= a, b, c, d&nbsp;&lt; n</code></li>
-	<li><code>a</code>、<code>b</code>、<code>c</code> 和 <code>d</code> <strong>互不相同</strong></li>
+	<li><code>a</code>, <code>b</code>, <code>c</code>, and <code>d</code> are <strong>distinct</strong>.</li>
 	<li><code>nums[a] + nums[b] + nums[c] + nums[d] == target</code></li>
 </ul>
 
-<p>你可以按 <strong>任意顺序</strong> 返回答案 。</p>
+<p>You may return the answer in <strong>any order</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,0,-1,0,-2,2], target = 0
-<strong>输出：</strong>[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
+<strong>Input:</strong> nums = [1,0,-1,0,-2,2], target = 0
+<strong>Output:</strong> [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2,2,2,2,2], target = 8
-<strong>输出：</strong>[[2,2,2,2]]
+<strong>Input:</strong> nums = [2,2,2,2,2], target = 8
+<strong>Output:</strong> [[2,2,2,2]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 200</code></li>
@@ -56,21 +51,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 双指针
+### Solution 1: Sorting + Double Pointers
 
-我们注意到，题目中要求找到不重复的四元组，那么我们可以先对数组进行排序，这样就可以方便地跳过重复的元素。
+We notice that the problem requires us to find non-repeating quadruplets. Therefore, we can first sort the array, which makes it easy to skip duplicate elements.
 
-接下来，我们枚举四元组的前两个元素 $nums[i]$ 和 $nums[j]$，其中 $i \lt j$，在枚举的过程中，我们跳过重复的 $nums[i]$ 和 $nums[j]$。然后，我们用两个指针 $k$ 和 $l$ 分别指向 $nums[i]$ 和 $nums[j]$ 后面的两端，令 $x = nums[i] + nums[j] + nums[k] + nums[l]$，我们将 $x$ 与 $target$ 比较，进行如下操作：
+Next, we enumerate the first two elements of the quadruplet, $nums[i]$ and $nums[j]$, where $i \lt j$. During the enumeration process, we skip duplicate $nums[i]$ and $nums[j]$. Then, we use two pointers $k$ and $l$ to point to the two ends behind $nums[i]$ and $nums[j]$. Let $x = nums[i] + nums[j] + nums[k] + nums[l]$, we compare $x$ with $target$ and perform the following operations:
 
--   如果 $x \lt target$，则更新 $k = k + 1$ 以得到更大的 $x$；
--   如果 $x \gt target$，则更新 $l = l - 1$ 以得到更小的 $x$；
--   否则，说明找到了一个四元组 $(nums[i], nums[j], nums[k], nums[l])$，将其加入答案，然后我们更新指针 $k$ 和 $l$，并跳过所有重复的元素，防止答案中包含重复的四元组，继续寻找下一个四元组。
+-   If $x \lt target$, then update $k = k + 1$ to get a larger $x$;
+-   If $x \gt target$, then update $l = l - 1$ to get a smaller $x$;
+-   Otherwise, it means that a quadruplet $(nums[i], nums[j], nums[k], nums[l])$ is found. Add it to the answer, then we update the pointers $k$ and $l$, and skip all duplicate elements to prevent the answer from containing duplicate quadruplets, and continue to find the next quadruplet.
 
-时间复杂度为 $O(n^3)$，空间复杂度为 $O(\log n)$，其中 $n$ 是数组的长度。
+The time complexity is $O(n^3)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

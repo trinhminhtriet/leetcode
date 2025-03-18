@@ -1,86 +1,60 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1721.Swapping%20Nodes%20in%20a%20Linked%20List/README.md
+difficulty: Medium
 rating: 1386
-source: 第 223 场周赛 Q2
+source: Weekly Contest 223 Q2
 tags:
-    - 链表
-    - 双指针
+    - Linked List
+    - Two Pointers
 ---
 
 <!-- problem:start -->
 
-# [1721. 交换链表中的节点](https://leetcode.cn/problems/swapping-nodes-in-a-linked-list)
+# [1721. Swapping Nodes in a Linked List](https://leetcode.com/problems/swapping-nodes-in-a-linked-list)
 
-[English Version](/solution/1700-1799/1721.Swapping%20Nodes%20in%20a%20Linked%20List/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你链表的头节点 <code>head</code> 和一个整数 <code>k</code> 。</p>
+<p>You are given the <code>head</code> of a linked list, and an integer <code>k</code>.</p>
 
-<p><strong>交换</strong> 链表正数第 <code>k</code> 个节点和倒数第 <code>k</code> 个节点的值后，返回链表的头节点（链表 <strong>从 1 开始索引</strong>）。</p>
+<p>Return <em>the head of the linked list after <strong>swapping</strong> the values of the </em><code>k<sup>th</sup></code> <em>node from the beginning and the </em><code>k<sup>th</sup></code> <em>node from the end (the list is <strong>1-indexed</strong>).</em></p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1721.Swapping%20Nodes%20in%20a%20Linked%20List/images/linked1.jpg" style="width: 722px; height: 202px;" />
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1721.Swapping%20Nodes%20in%20a%20Linked%20List/images/linked1.jpg" style="width: 400px; height: 112px;" />
 <pre>
-<strong>输入：</strong>head = [1,2,3,4,5], k = 2
-<strong>输出：</strong>[1,4,3,2,5]
+<strong>Input:</strong> head = [1,2,3,4,5], k = 2
+<strong>Output:</strong> [1,4,3,2,5]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>head = [7,9,6,6,7,8,3,0,9,5], k = 5
-<strong>输出：</strong>[7,9,6,6,8,7,3,0,9,5]
+<strong>Input:</strong> head = [7,9,6,6,7,8,3,0,9,5], k = 5
+<strong>Output:</strong> [7,9,6,6,8,7,3,0,9,5]
 </pre>
 
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>head = [1], k = 1
-<strong>输出：</strong>[1]
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>head = [1,2], k = 1
-<strong>输出：</strong>[2,1]
-</pre>
-
-<p><strong>示例 5：</strong></p>
-
-<pre>
-<strong>输入：</strong>head = [1,2,3], k = 2
-<strong>输出：</strong>[1,2,3]
-</pre>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>链表中节点的数目是 <code>n</code></li>
-	<li><code>1 <= k <= n <= 10<sup>5</sup></code></li>
-	<li><code>0 <= Node.val <= 100</code></li>
+	<li>The number of nodes in the list is <code>n</code>.</li>
+	<li><code>1 &lt;= k &lt;= n &lt;= 10<sup>5</sup></code></li>
+	<li><code>0 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：快慢指针
+### Solution 1: Two Pointers
 
-我们可以先用快指针 $fast$ 找到链表的第 $k$ 个节点，用指针 $p$ 指向它。然后我们再用慢指针 $slow$ 从链表的头节点出发，快慢指针同时向后移动，当快指针到达链表的最后一个节点时，慢指针 $slow$ 恰好指向倒数第 $k$ 个节点，用指针 $q$ 指向它。此时，我们只需要交换 $p$ 和 $q$ 的值即可。
+We can first use a fast pointer `fast` to find the $k$th node of the linked list, and use a pointer `p` to point to it. Then, we use a slow pointer `slow` to start from the head node of the linked list, and move both pointers forward at the same time. When the fast pointer reaches the last node of the linked list, the slow pointer `slow` points to the $k$th node from the end of the linked list, and we use a pointer `q` to point to it. At this point, we only need to swap the values of `p` and `q`.
 
-时间复杂度 $O(n)$，其中 $n$ 是链表的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the linked list. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

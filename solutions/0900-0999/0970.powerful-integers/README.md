@@ -1,55 +1,51 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0970.Powerful%20Integers/README.md
+difficulty: Medium
 tags:
-    - 哈希表
-    - 数学
-    - 枚举
+    - Hash Table
+    - Math
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [970. 强整数](https://leetcode.cn/problems/powerful-integers)
+# [970. Powerful Integers](https://leetcode.com/problems/powerful-integers)
 
-[English Version](/solution/0900-0999/0970.Powerful%20Integers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定三个整数 <code>x</code>&nbsp;、&nbsp;<code>y</code>&nbsp;和<em>&nbsp;</em><code>bound</code><em>&nbsp;</em>，返回 <em>值小于或等于&nbsp;<code>bound</code>&nbsp;的所有&nbsp;<strong>强整数</strong>&nbsp;组成的列表</em>&nbsp;。</p>
+<p>Given three integers <code>x</code>, <code>y</code>, and <code>bound</code>, return <em>a list of all the <strong>powerful integers</strong> that have a value less than or equal to</em> <code>bound</code>.</p>
 
-<p>如果某一整数可以表示为&nbsp;<code>x<sup>i</sup>&nbsp;+ y<sup>j</sup></code>&nbsp;，其中整数&nbsp;<code>i &gt;= 0</code> 且&nbsp;<code>j &gt;= 0</code>，那么我们认为该整数是一个&nbsp;<strong>强整数</strong>&nbsp;。</p>
+<p>An integer is <strong>powerful</strong> if it can be represented as <code>x<sup>i</sup> + y<sup>j</sup></code> for some integers <code>i &gt;= 0</code> and <code>j &gt;= 0</code>.</p>
 
-<p>你可以按 <strong>任何顺序</strong> 返回答案。在你的回答中，每个值 <strong>最多</strong> 出现一次。</p>
+<p>You may return the answer in <strong>any order</strong>. In your answer, each value should occur <strong>at most once</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>x = 2, y = 3, bound = 10
-<strong>输出：</strong>[2,3,4,5,7,9,10]
-<strong>解释： </strong>
+<strong>Input:</strong> x = 2, y = 3, bound = 10
+<strong>Output:</strong> [2,3,4,5,7,9,10]
+<strong>Explanation:</strong>
 2 = 2<sup>0</sup> + 3<sup>0</sup>
 3 = 2<sup>1</sup> + 3<sup>0</sup>
 4 = 2<sup>0</sup> + 3<sup>1</sup>
 5 = 2<sup>1</sup> + 3<sup>1</sup>
 7 = 2<sup>2</sup> + 3<sup>1</sup>
 9 = 2<sup>3</sup> + 3<sup>0</sup>
-10 = 2<sup>0</sup> + 3<sup>2</sup></pre>
+10 = 2<sup>0</sup> + 3<sup>2</sup>
+</pre>
 
-<p><strong>示例&nbsp;2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>x = 3, y = 5, bound = 15
-<strong>输出：</strong>[2,4,6,8,10,14]
+<strong>Input:</strong> x = 3, y = 5, bound = 15
+<strong>Output:</strong> [2,4,6,8,10,14]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= x, y &lt;= 100</code></li>
@@ -58,21 +54,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 枚举
+### Solution 1: Hash Table + Enumeration
 
-根据题目描述，一个强整数可以表示成 $x^i + y^j$，其中 $i \geq 0$, $j \geq 0$。
+According to the description of the problem, a powerful integer can be represented as $x^i + y^j$, where $i \geq 0$, $j \geq 0$.
 
-题目需要我们找出所有不超过 $bound$ 的强整数，我们注意到 $bound$ 的取值范围不超过 $10^6$，而 $2^{20} = 1048576 \gt 10^6$。因此，如果 $x \geq 2$，那么 $i$ 最大不超过 $20$，才有可能使得 $x^i + y^j \leq bound$ 成立。同理，如果 $y \geq 2$，那么 $j$ 最大不超过 $20$。
+The problem requires us to find all powerful integers that do not exceed $bound$. We notice that the value range of $bound$ does not exceed $10^6$, and $2^{20} = 1048576 \gt 10^6$. Therefore, if $x \geq 2$, then $i$ is at most $20$ to make $x^i + y^j \leq bound$ hold. Similarly, if $y \geq 2$, then $j$ is at most $20$.
 
-因此我们可以使用双重循环，枚举所有可能的 $x^i$ 和 $y^j$，分别记为 $a$ 和 $b$，并保证 $a + b \leq bound$，此时 $a + b$ 即为一个强整数。我们使用哈希表存储所有满足条件的强整数，最后将哈希表中的所有元素转换成答案列表返回即可。
+Therefore, we can use double loop to enumerate all possible $x^i$ and $y^j$, denoted as $a$ and $b$ respectively, and ensure that $a + b \leq bound$, then $a + b$ is a powerful integer. We use a hash table to store all powerful integers that meet the conditions, and finally convert all elements in the hash table into the answer list and return it.
 
-> 注意，如果 $x=1$ 或者 $y=1$，那么 $a$ 或者 $b$ 的值恒等于 $1$，对应的循环只需要执行一次即可退出。
+> Note that if $x=1$ or $y=1$, then the value of $a$ or $b$ is always equal to $1$, and the corresponding loop only needs to be executed once to exit.
 
-时间复杂度 $O(\log^2 bound)$，空间复杂度 $O(\log^2 bound)$。
+The time complexity is $O(\log^2 bound)$, and the space complexity is $O(\log^2 bound)$.
 
 <!-- tabs:start -->
 

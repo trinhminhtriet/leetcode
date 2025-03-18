@@ -1,57 +1,52 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2215.Find%20the%20Difference%20of%20Two%20Arrays/README.md
+difficulty: Easy
 rating: 1207
-source: 第 286 场周赛 Q1
+source: Weekly Contest 286 Q1
 tags:
-    - 数组
-    - 哈希表
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [2215. 找出两数组的不同](https://leetcode.cn/problems/find-the-difference-of-two-arrays)
+# [2215. Find the Difference of Two Arrays](https://leetcode.com/problems/find-the-difference-of-two-arrays)
 
-[English Version](/solution/2200-2299/2215.Find%20the%20Difference%20of%20Two%20Arrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个下标从 <code>0</code> 开始的整数数组 <code>nums1</code> 和 <code>nums2</code> ，请你返回一个长度为 <code>2</code> 的列表 <code>answer</code> ，其中：</p>
+<p>Given two <strong>0-indexed</strong> integer arrays <code>nums1</code> and <code>nums2</code>, return <em>a list</em> <code>answer</code> <em>of size</em> <code>2</code> <em>where:</em></p>
 
 <ul>
-	<li><code>answer[0]</code> 是 <code>nums1</code> 中所有<strong> 不 </strong>存在于 <code>nums2</code> 中的 <strong>不同</strong> 整数组成的列表。</li>
-	<li><code>answer[1]</code> 是 <code>nums2</code> 中所有<strong> 不 </strong>存在于 <code>nums1</code> 中的 <strong>不同</strong> 整数组成的列表。</li>
+	<li><code>answer[0]</code> <em>is a list of all <strong>distinct</strong> integers in</em> <code>nums1</code> <em>which are <strong>not</strong> present in</em> <code>nums2</code><em>.</em></li>
+	<li><code>answer[1]</code> <em>is a list of all <strong>distinct</strong> integers in</em> <code>nums2</code> <em>which are <strong>not</strong> present in</em> <code>nums1</code>.</li>
 </ul>
 
-<p><strong>注意：</strong>列表中的整数可以按 <strong>任意</strong> 顺序返回。</p>
+<p><strong>Note</strong> that the integers in the lists may be returned in <strong>any</strong> order.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums1 = [1,2,3], nums2 = [2,4,6]
-<strong>输出：</strong>[[1,3],[4,6]]
-<strong>解释：
-</strong>对于 nums1 ，nums1[1] = 2 出现在 nums2 中下标 0 处，然而 nums1[0] = 1 和 nums1[2] = 3 没有出现在 nums2 中。因此，answer[0] = [1,3]。
-对于 nums2 ，nums2[0] = 2 出现在 nums1 中下标 1 处，然而 nums2[1] = 4 和 nums2[2] = 6 没有出现在 nums2 中。因此，answer[1] = [4,6]。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums1 = [1,2,3,3], nums2 = [1,1,2,2]
-<strong>输出：</strong>[[3],[]]
-<strong>解释：
-</strong>对于 nums1 ，nums1[2] 和 nums1[3] 没有出现在 nums2 中。由于 nums1[2] == nums1[3] ，二者的值只需要在 answer[0] 中出现一次，故 answer[0] = [3]。
-nums2 中的每个整数都在 nums1 中出现，因此，answer[1] = [] 。 
+<strong>Input:</strong> nums1 = [1,2,3], nums2 = [2,4,6]
+<strong>Output:</strong> [[1,3],[4,6]]
+<strong>Explanation:
+</strong>For nums1, nums1[1] = 2 is present at index 0 of nums2, whereas nums1[0] = 1 and nums1[2] = 3 are not present in nums2. Therefore, answer[0] = [1,3].
+For nums2, nums2[0] = 2 is present at index 1 of nums1, whereas nums2[1] = 4 and nums2[2] = 6 are not present in nums2. Therefore, answer[1] = [4,6].</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [1,2,3,3], nums2 = [1,1,2,2]
+<strong>Output:</strong> [[3],[]]
+<strong>Explanation:
+</strong>For nums1, nums1[2] and nums1[3] are not present in nums2. Since nums1[2] == nums1[3], their value is only included once and answer[0] = [3].
+Every integer in nums2 is present in nums1. Therefore, answer[1] = [].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length, nums2.length &lt;= 1000</code></li>
@@ -60,15 +55,15 @@ nums2 中的每个整数都在 nums1 中出现，因此，answer[1] = [] 。
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们定义两个哈希表 $s1$ 和 $s2$ 分别存储数组 $nums1$ 和 $nums2$ 中的元素。然后遍历 $s1$ 中的每个元素，如果该元素不在 $s2$ 中，那么将其加入到答案的第一个列表中。同理，遍历 $s2$ 中的每个元素，如果该元素不在 $s1$ 中，那么将其加入到答案的第二个列表中。
+We define two hash tables $s1$ and $s2$ to store the elements in arrays $nums1$ and $nums2$ respectively. Then we traverse each element in $s1$. If this element is not in $s2$, we add it to the first list in the answer. Similarly, we traverse each element in $s2$. If this element is not in $s1$, we add it to the second list in the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

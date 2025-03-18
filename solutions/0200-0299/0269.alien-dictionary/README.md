@@ -1,92 +1,70 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0269.Alien%20Dictionary/README.md
+difficulty: Hard
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 图
-    - 拓扑排序
-    - 数组
-    - 字符串
+    - Depth-First Search
+    - Breadth-First Search
+    - Graph
+    - Topological Sort
+    - Array
+    - String
 ---
 
 <!-- problem:start -->
 
-# [269. 火星词典 🔒](https://leetcode.cn/problems/alien-dictionary)
+# [269. Alien Dictionary 🔒](https://leetcode.com/problems/alien-dictionary)
 
-[English Version](/solution/0200-0299/0269.Alien%20Dictionary/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>现有一种使用英语字母的火星语言，这门语言的字母顺序对你来说是未知的。</p>
+<p>There is a new alien language that uses the English alphabet. However, the order of the letters is unknown to you.</p>
 
-<p>给你一个来自这种外星语言字典的字符串列表 <code>words</code> ，<code>words</code> 中的字符串已经 <strong>按这门新语言的<span data-keyword="lexicographically-smaller-string-alien">字典序</span>进行了排序</strong> 。</p>
+<p>You are given a list of strings <code>words</code> from the alien language&#39;s dictionary. Now it is claimed that the strings in <code>words</code> are <span data-keyword="lexicographically-smaller-string-alien"><strong>sorted lexicographically</strong></span> by the rules of this new language.</p>
 
-<p>如果这种说法是错误的，并且给出的 <code>words</code> 不能对应任何字母的顺序，则返回 <code>""</code> 。</p>
+<p>If this claim is incorrect, and the given arrangement of string in&nbsp;<code>words</code>&nbsp;cannot correspond to any order of letters,&nbsp;return&nbsp;<code>&quot;&quot;.</code></p>
 
-<p>否则，返回一个按新语言规则的&nbsp;<strong>字典递增顺序 </strong>排序的独特字符串。如果有多个解决方案，则返回其中 <strong>任意一个</strong> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>words = ["wrt","wrf","er","ett","rftt"]
-<strong>输出：</strong>"wertf"
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>words = ["z","x"]
-<strong>输出：</strong>"zx"
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>words = ["z","x","z"]
-<strong>输出：</strong>""
-<strong>解释：</strong>不存在合法字母顺序，因此返回 <code>"" 。</code>
-</pre>
+<p>Otherwise, return <em>a string of the unique letters in the new alien language sorted in <strong>lexicographically increasing order</strong> by the new language&#39;s rules</em><em>. </em>If there are multiple solutions, return<em> <strong>any of them</strong></em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> words = [&quot;wrt&quot;,&quot;wrf&quot;,&quot;er&quot;,&quot;ett&quot;,&quot;rftt&quot;]
+<strong>Output:</strong> &quot;wertf&quot;
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> words = [&quot;z&quot;,&quot;x&quot;]
+<strong>Output:</strong> &quot;zx&quot;
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> words = [&quot;z&quot;,&quot;x&quot;,&quot;z&quot;]
+<strong>Output:</strong> &quot;&quot;
+<strong>Explanation:</strong> The order is invalid, so return <code>&quot;&quot;</code>.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 100</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 100</code></li>
-	<li><code>words[i]</code> 仅由小写英文字母组成</li>
+	<li><code>words[i]</code> consists of only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：拓扑排序 + BFS
-
-用数组 $g$ 记录在火星字典中的字母先后关系，$g[i][j] = true$ 表示字母 $i + 'a'$ 在字母 $j + 'a'$ 的前面；用数组 $s$ 记录当前字典出现过的字母，$cnt$ 表示出现过的字母数。
-
-一个很简单的想法是遍历每一个单词，比较该单词和其后的所有单词，把所有的先后关系更新进数组 $g$，这样遍历时间复杂度为 $O(n^3)$；但是我们发现其实比较相邻的两个单词就可以了，比如 $a < b < c$ 则比较 $a < b$ 和 $b < c$， $a$ 和 $c$ 的关系便确定了。因此算法可以优化成比较相邻两个单词，时间复杂度为 $O(n²)$。
-
-出现矛盾的情况：
-
--   $g[i][j]$ = $g[j][i]$ = $true$；
--   后一个单词是前一个单词的前缀；
--   在拓扑排序后 $ans$ 的长度小于统计到的字母个数。
-
-拓扑排序：
-
--   统计所有出现的字母入度；
--   将所有入度为 $0$ 的字母加入队列；
--   当队列不空，出队并更新其他字母的入度，入度为 $0$ 则入队，同时出队时将当前字母加入 $ans$ 的结尾；
--   得到的便是字母的拓扑序，也就是火星字典的字母顺序。
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,68 +1,77 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1195.Fizz%20Buzz%20Multithreaded/README.md
+difficulty: Medium
 tags:
-    - 多线程
+    - Concurrency
 ---
 
 <!-- problem:start -->
 
-# [1195. 交替打印字符串](https://leetcode.cn/problems/fizz-buzz-multithreaded)
+# [1195. Fizz Buzz Multithreaded](https://leetcode.com/problems/fizz-buzz-multithreaded)
 
-[English Version](/solution/1100-1199/1195.Fizz%20Buzz%20Multithreaded/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>编写一个可以从 1 到 n 输出代表这个数字的字符串的程序，但是：</p>
+<p>You have the four functions:</p>
 
 <ul>
-	<li>如果这个数字可以被 3 整除，输出 "fizz"。</li>
-	<li>如果这个数字可以被 5 整除，输出 "buzz"。</li>
-	<li>如果这个数字可以同时被 3 和 5 整除，输出 "fizzbuzz"。</li>
+	<li><code>printFizz</code> that prints the word <code>&quot;fizz&quot;</code> to the console,</li>
+	<li><code>printBuzz</code> that prints the word <code>&quot;buzz&quot;</code> to the console,</li>
+	<li><code>printFizzBuzz</code> that prints the word <code>&quot;fizzbuzz&quot;</code> to the console, and</li>
+	<li><code>printNumber</code> that prints a given integer to the console.</li>
 </ul>
 
-<p>例如，当 <code>n = 15</code>，输出： <code>1, 2, fizz, 4, buzz, fizz, 7, 8, fizz, buzz, 11, fizz, 13, 14, fizzbuzz</code>。</p>
-
-<p>假设有这么一个类：</p>
-
-<pre>
-class FizzBuzz {
-  public FizzBuzz(int n) { ... }               // constructor
-  public void fizz(printFizz) { ... }          // only output "fizz"
-  public void buzz(printBuzz) { ... }          // only output "buzz"
-  public void fizzbuzz(printFizzBuzz) { ... }  // only output "fizzbuzz"
-  public void number(printNumber) { ... }      // only output the numbers
-}</pre>
-
-<p>请你实现一个有四个线程的多线程版  <code>FizzBuzz</code>， 同一个 <code>FizzBuzz</code> 实例会被如下四个线程使用：</p>
-
-<ol>
-	<li>线程A将调用 <code>fizz()</code> 来判断是否能被 3 整除，如果可以，则输出 <code>fizz</code>。</li>
-	<li>线程B将调用 <code>buzz()</code> 来判断是否能被 5 整除，如果可以，则输出 <code>buzz</code>。</li>
-	<li>线程C将调用 <code>fizzbuzz()</code> 来判断是否同时能被 3 和 5 整除，如果可以，则输出 <code>fizzbuzz</code>。</li>
-	<li>线程D将调用 <code>number()</code> 来实现输出既不能被 3 整除也不能被 5 整除的数字。</li>
-</ol>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>You are given an instance of the class <code>FizzBuzz</code> that has four functions: <code>fizz</code>, <code>buzz</code>, <code>fizzbuzz</code> and <code>number</code>. The same instance of <code>FizzBuzz</code> will be passed to four different threads:</p>
 
 <ul>
-	<li>本题已经提供了打印字符串的相关方法，如 <code>printFizz()</code> 等，具体方法名请参考答题模板中的注释部分。</li>
+	<li><strong>Thread A:</strong> calls <code>fizz()</code> that should output the word <code>&quot;fizz&quot;</code>.</li>
+	<li><strong>Thread B:</strong> calls <code>buzz()</code> that should output the word <code>&quot;buzz&quot;</code>.</li>
+	<li><strong>Thread C:</strong> calls <code>fizzbuzz()</code> that should output the word <code>&quot;fizzbuzz&quot;</code>.</li>
+	<li><strong>Thread D:</strong> calls <code>number()</code> that should only output the integers.</li>
 </ul>
 
-<p> </p>
+<p>Modify the given class to output the series <code>[1, 2, &quot;fizz&quot;, 4, &quot;buzz&quot;, ...]</code> where the <code>i<sup>th</sup></code> token (<strong>1-indexed</strong>) of the series is:</p>
+
+<ul>
+	<li><code>&quot;fizzbuzz&quot;</code> if <code>i</code> is divisible by <code>3</code> and <code>5</code>,</li>
+	<li><code>&quot;fizz&quot;</code> if <code>i</code> is divisible by <code>3</code> and not <code>5</code>,</li>
+	<li><code>&quot;buzz&quot;</code> if <code>i</code> is divisible by <code>5</code> and not <code>3</code>, or</li>
+	<li><code>i</code> if <code>i</code> is not divisible by <code>3</code> or <code>5</code>.</li>
+</ul>
+
+<p>Implement the <code>FizzBuzz</code> class:</p>
+
+<ul>
+	<li><code>FizzBuzz(int n)</code> Initializes the object with the number <code>n</code> that represents the length of the sequence that should be printed.</li>
+	<li><code>void fizz(printFizz)</code> Calls <code>printFizz</code> to output <code>&quot;fizz&quot;</code>.</li>
+	<li><code>void buzz(printBuzz)</code> Calls <code>printBuzz</code> to output <code>&quot;buzz&quot;</code>.</li>
+	<li><code>void fizzbuzz(printFizzBuzz)</code> Calls <code>printFizzBuzz</code> to output <code>&quot;fizzbuzz&quot;</code>.</li>
+	<li><code>void number(printNumber)</code> Calls <code>printnumber</code> to output the numbers.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> n = 15
+<strong>Output:</strong> [1,2,"fizz",4,"buzz","fizz",7,8,"fizz","buzz",11,"fizz",13,14,"fizzbuzz"]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> n = 5
+<strong>Output:</strong> [1,2,"fizz",4,"buzz"]
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= n &lt;= 50</code></li>
+</ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

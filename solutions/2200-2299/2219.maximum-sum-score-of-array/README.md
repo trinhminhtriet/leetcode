@@ -1,62 +1,57 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2219.Maximum%20Sum%20Score%20of%20Array/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 前缀和
+    - Array
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [2219. 数组的最大总分 🔒](https://leetcode.cn/problems/maximum-sum-score-of-array)
+# [2219. Maximum Sum Score of Array 🔒](https://leetcode.com/problems/maximum-sum-score-of-array)
 
-[English Version](/solution/2200-2299/2219.Maximum%20Sum%20Score%20of%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> ，数组长度为 <code>n</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of length <code>n</code>.</p>
 
-<p><code>nums</code> 在下标 <code>i</code> （<code>0 &lt;= i &lt; n</code>）处的 <strong>总分</strong> 等于下面两个分数中的 <strong>最大值</strong> ：</p>
+<p>The <strong>sum </strong><strong>score</strong> of <code>nums</code> at an index <code>i</code> where <code>0 &lt;= i &lt; n</code> is the <strong>maximum</strong> of:</p>
 
 <ul>
-	<li><code>nums</code><strong> 前</strong> <code>i + 1</code> 个元素的总和</li>
-	<li><code>nums</code> <strong>后</strong> <code>n - i</code> 个元素的总和</li>
+	<li>The sum of the <strong>first</strong> <code>i + 1</code> elements of <code>nums</code>.</li>
+	<li>The sum of the <strong>last</strong> <code>n - i</code> elements of <code>nums</code>.</li>
 </ul>
 
-<p>返回数组 <code>nums</code> 在任一下标处能取得的 <strong>最大总分</strong> 。</p>
+<p>Return <em>the <strong>maximum</strong> <strong>sum </strong><strong>score</strong> of </em><code>nums</code><em> at any index.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [4,3,-2,5]
-<strong>输出：</strong>10
-<strong>解释：</strong>
-下标 0 处的最大总分是 max(4, 4 + 3 + -2 + 5) = max(4, 10) = 10 。
-下标 1 处的最大总分是 max(4 + 3, 3 + -2 + 5) = max(7, 6) = 7 。
-下标 2 处的最大总分是 max(4 + 3 + -2, -2 + 5) = max(5, 3) = 5 。
-下标 3 处的最大总分是 max(4 + 3 + -2 + 5, 5) = max(10, 5) = 10 。
-nums 可取得的最大总分是 10 。
+<strong>Input:</strong> nums = [4,3,-2,5]
+<strong>Output:</strong> 10
+<strong>Explanation:</strong>
+The sum score at index 0 is max(4, 4 + 3 + -2 + 5) = max(4, 10) = 10.
+The sum score at index 1 is max(4 + 3, 3 + -2 + 5) = max(7, 6) = 7.
+The sum score at index 2 is max(4 + 3 + -2, -2 + 5) = max(5, 3) = 5.
+The sum score at index 3 is max(4 + 3 + -2 + 5, 5) = max(10, 5) = 10.
+The maximum sum score of nums is 10.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [-3,-5]
-<strong>输出：</strong>-3
-<strong>解释：</strong>
-下标 0 处的最大总分是 max(-3, -3 + -5) = max(-3, -8) = -3 。
-下标 1 处的最大总分是 max(-3 + -5, -5) = max(-8, -5) = -5 。
-nums 可取得的最大总分是 -3 。
+<strong>Input:</strong> nums = [-3,-5]
+<strong>Output:</strong> -3
+<strong>Explanation:</strong>
+The sum score at index 0 is max(-3, -3 + -5) = max(-3, -8) = -3.
+The sum score at index 1 is max(-3 + -5, -5) = max(-8, -5) = -5.
+The maximum sum score of nums is -3.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -66,19 +61,19 @@ nums 可取得的最大总分是 -3 。
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和
+### Solution 1: Prefix Sum
 
-我们可以使用两个变量 $l$ 和 $r$ 分别表示数组的前缀和和后缀和，初始时 $l = 0$, $r = \sum_{i=0}^{n-1} \textit{nums}[i]$。
+We can use two variables $l$ and $r$ to represent the prefix sum and suffix sum of the array, respectively. Initially, $l = 0$ and $r = \sum_{i=0}^{n-1} \textit{nums}[i]$.
 
-接下来，我们遍历数组 $\textit{nums}$，对于每个元素 $x$，我们将 $l$ 增加 $x$，并更新答案 $\textit{ans} = \max(\textit{ans}, l, r)$，然后将 $r$ 减少 $x$。
+Next, we traverse the array $\textit{nums}$. For each element $x$, we add $x$ to $l$ and update the answer $\textit{ans} = \max(\textit{ans}, l, r)$, then subtract $x$ from $r$.
 
-遍历结束后，返回答案 $\textit{ans}$ 即可。
+After the traversal, return the answer $\textit{ans}$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

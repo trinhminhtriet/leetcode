@@ -1,80 +1,90 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1857.Largest%20Color%20Value%20in%20a%20Directed%20Graph/README.md
+difficulty: Hard
 rating: 2312
-source: 第 240 场周赛 Q4
+source: Weekly Contest 240 Q4
 tags:
-    - 图
-    - 拓扑排序
-    - 记忆化搜索
-    - 哈希表
-    - 动态规划
-    - 计数
+    - Graph
+    - Topological Sort
+    - Memoization
+    - Hash Table
+    - Dynamic Programming
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [1857. 有向图中最大颜色值](https://leetcode.cn/problems/largest-color-value-in-a-directed-graph)
+# [1857. Largest Color Value in a Directed Graph](https://leetcode.com/problems/largest-color-value-in-a-directed-graph)
 
-[English Version](/solution/1800-1899/1857.Largest%20Color%20Value%20in%20a%20Directed%20Graph/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <strong>有向图</strong> ，它含有 <code>n</code> 个节点和 <code>m</code> 条边。节点编号从 <code>0</code> 到 <code>n - 1</code> 。</p>
+<p>There is a <strong>directed graph</strong> of <code>n</code> colored nodes and <code>m</code> edges. The nodes are numbered from <code>0</code> to <code>n - 1</code>.</p>
 
-<p>给你一个字符串 <code>colors</code> ，其中 <code>colors[i]</code> 是小写英文字母，表示图中第 <code>i</code> 个节点的 <b>颜色</b> （下标从 <strong>0</strong> 开始）。同时给你一个二维数组 <code>edges</code> ，其中 <code>edges[j] = [a<sub>j</sub>, b<sub>j</sub>]</code> 表示从节点 <code>a<sub>j</sub></code> 到节点 <code>b<sub>j</sub></code><sub> </sub>有一条 <strong>有向边</strong> 。</p>
+<p>You are given a string <code>colors</code> where <code>colors[i]</code> is a lowercase English letter representing the <strong>color</strong> of the <code>i<sup>th</sup></code> node in this graph (<strong>0-indexed</strong>). You are also given a 2D array <code>edges</code> where <code>edges[j] = [a<sub>j</sub>, b<sub>j</sub>]</code> indicates that there is a <strong>directed edge</strong> from node <code>a<sub>j</sub></code> to node <code>b<sub>j</sub></code>.</p>
 
-<p>图中一条有效 <strong>路径</strong> 是一个点序列 <code>x<sub>1</sub> -&gt; x<sub>2</sub> -&gt; x<sub>3</sub> -&gt; ... -&gt; x<sub>k</sub></code> ，对于所有 <code>1 &lt;= i &lt; k</code> ，从 <code>x<sub>i</sub></code> 到 <code>x<sub>i+1</sub></code> 在图中有一条有向边。路径的 <strong>颜色值</strong> 是路径中 <strong>出现次数最多</strong> 颜色的节点数目。</p>
+<p>A valid <strong>path</strong> in the graph is a sequence of nodes <code>x<sub>1</sub> -&gt; x<sub>2</sub> -&gt; x<sub>3</sub> -&gt; ... -&gt; x<sub>k</sub></code> such that there is a directed edge from <code>x<sub>i</sub></code> to <code>x<sub>i+1</sub></code> for every <code>1 &lt;= i &lt; k</code>. The <strong>color value</strong> of the path is the number of nodes that are colored the <strong>most frequently</strong> occurring color along that path.</p>
 
-<p>请你返回给定图中有效路径里面的 <strong>最大颜色值</strong><strong> 。</strong>如果图中含有环，请返回 <code>-1</code> 。</p>
+<p>Return <em>the <strong>largest color value</strong> of any valid path in the given graph, or </em><code>-1</code><em> if the graph contains a cycle</em>.</p>
 
-<p> </p>
+<p>&nbsp;</p>
 
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1857.Largest%20Color%20Value%20in%20a%20Directed%20Graph/images/leet1.png" style="width: 400px; height: 182px;"></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1857.Largest%20Color%20Value%20in%20a%20Directed%20Graph/images/leet1.png" style="width: 400px; height: 182px;" /></p>
 
-<pre><b>输入：</b>colors = "abaca", edges = [[0,1],[0,2],[2,3],[3,4]]
-<b>输出：</b>3
-<b>解释：</b>路径 0 -&gt; 2 -&gt; 3 -&gt; 4 含有 3 个颜色为 <code>"a" 的节点（上图中的红色节点）。</code>
+<pre>
+
+<strong>Input:</strong> colors = &quot;abaca&quot;, edges = [[0,1],[0,2],[2,3],[3,4]]
+
+<strong>Output:</strong> 3
+
+<strong>Explanation:</strong> The path 0 -&gt; 2 -&gt; 3 -&gt; 4 contains 3 nodes that are colored <code>&quot;a&quot; (red in the above image)</code>.
+
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1857.Largest%20Color%20Value%20in%20a%20Directed%20Graph/images/leet2.png" style="width: 85px; height: 85px;"></p>
+<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1857.Largest%20Color%20Value%20in%20a%20Directed%20Graph/images/leet2.png" style="width: 85px; height: 85px;" /></p>
 
-<pre><b>输入：</b>colors = "a", edges = [[0,0]]
-<b>输出：</b>-1
-<b>解释：</b>从 0 到 0 有一个环。
+<pre>
+
+<strong>Input:</strong> colors = &quot;a&quot;, edges = [[0,0]]
+
+<strong>Output:</strong> -1
+
+<strong>Explanation:</strong> There is a cycle from 0 to 0.
+
 </pre>
 
-<p> </p>
+<p>&nbsp;</p>
 
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>n == colors.length</code></li>
-	<li><code>m == edges.length</code></li>
-	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li><code>0 &lt;= m &lt;= 10<sup>5</sup></code></li>
-	<li><code>colors</code> 只含有小写英文字母。</li>
-	<li><code>0 &lt;= a<sub>j</sub>, b<sub>j</sub> &lt; n</code></li>
+
+    <li><code>n == colors.length</code></li>
+
+    <li><code>m == edges.length</code></li>
+
+    <li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
+
+    <li><code>0 &lt;= m &lt;= 10<sup>5</sup></code></li>
+
+    <li><code>colors</code> consists of lowercase English letters.</li>
+
+    <li><code>0 &lt;= a<sub>j</sub>, b<sub>j</sub>&nbsp;&lt; n</code></li>
+
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：拓扑排序 + 动态规划
-
-求出每个点的入度，进行拓扑排序。每个点维护一个长度为 $26$ 的数组，记录每个字母从任意起点到当前点的出现次数。
-
-时间复杂度 $O(n+m)$，空间复杂度 $O(n+m)$。
+### Solution 1
 
 <!-- tabs:start -->
 

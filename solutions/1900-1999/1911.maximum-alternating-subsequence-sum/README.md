@@ -1,99 +1,94 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1911.Maximum%20Alternating%20Subsequence%20Sum/README.md
+difficulty: Medium
 rating: 1785
-source: 第 55 场双周赛 Q3
+source: Biweekly Contest 55 Q3
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1911. 最大交替子序列和](https://leetcode.cn/problems/maximum-alternating-subsequence-sum)
+# [1911. Maximum Alternating Subsequence Sum](https://leetcode.com/problems/maximum-alternating-subsequence-sum)
 
-[English Version](/solution/1900-1999/1911.Maximum%20Alternating%20Subsequence%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个下标从 <strong>0</strong> 开始的数组的 <strong>交替和</strong> 定义为 <strong>偶数</strong> 下标处元素之 <strong>和</strong> 减去 <strong>奇数</strong> 下标处元素之 <strong>和</strong> 。</p>
+<p>The <strong>alternating sum</strong> of a <strong>0-indexed</strong> array is defined as the <strong>sum</strong> of the elements at <strong>even</strong> indices <strong>minus</strong> the <strong>sum</strong> of the elements at <strong>odd</strong> indices.</p>
 
 <ul>
-	<li>比方说，数组 <code>[4,2,5,3]</code> 的交替和为 <code>(4 + 5) - (2 + 3) = 4</code> 。</li>
+
+    <li>For example, the alternating sum of <code>[4,2,5,3]</code> is <code>(4 + 5) - (2 + 3) = 4</code>.</li>
+
 </ul>
 
-<p>给你一个数组 <code>nums</code> ，请你返回 <code>nums</code> 中任意子序列的 <strong>最大交替和</strong> （子序列的下标 <strong>重新</strong> 从 0 开始编号）。</p>
+<p>Given an array <code>nums</code>, return <em>the <strong>maximum alternating sum</strong> of any subsequence of </em><code>nums</code><em> (after <strong>reindexing</strong> the elements of the subsequence)</em>.</p>
 
 <ul>
+
 </ul>
 
-<p>一个数组的 <strong>子序列</strong> 是从原数组中删除一些元素后（也可能一个也不删除）剩余元素不改变顺序组成的数组。比方说，<code>[2,7,4]</code> 是 <code>[4,<strong>2</strong>,3,<strong>7</strong>,2,1,<strong>4</strong>]</code> 的一个子序列（加粗元素），但是 <code>[2,4,2]</code> 不是。</p>
+<p>A <strong>subsequence</strong> of an array is a new array generated from the original array by deleting some elements (possibly none) without changing the remaining elements&#39; relative order. For example, <code>[2,7,4]</code> is a subsequence of <code>[4,<u>2</u>,3,<u>7</u>,2,1,<u>4</u>]</code> (the underlined elements), while <code>[2,4,2]</code> is not.</p>
 
-<p> </p>
+<p>&nbsp;</p>
 
-<p><b>示例 1：</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
-<pre><b>输入：</b>nums = [<strong>4</strong>,<strong>2</strong>,<strong>5</strong>,3]
-<b>输出：</b>7
-<b>解释：</b>最优子序列为 [4,2,5] ，交替和为 (4 + 5) - 2 = 7 。
+<pre>
+
+<strong>Input:</strong> nums = [<u>4</u>,<u>2</u>,<u>5</u>,3]
+
+<strong>Output:</strong> 7
+
+<strong>Explanation:</strong> It is optimal to choose the subsequence [4,2,5] with alternating sum (4 + 5) - 2 = 7.
+
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>nums = [5,6,7,<strong>8</strong>]
-<b>输出：</b>8
-<b>解释：</b>最优子序列为 [8] ，交替和为 8 。
+<pre>
+
+<strong>Input:</strong> nums = [5,6,7,<u>8</u>]
+
+<strong>Output:</strong> 8
+
+<strong>Explanation:</strong> It is optimal to choose the subsequence [8] with alternating sum 8.
+
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><b>输入：</b>nums = [<strong>6</strong>,2,<strong>1</strong>,2,4,<strong>5</strong>]
-<b>输出：</b>10
-<b>解释：</b>最优子序列为 [6,1,5] ，交替和为 (6 + 5) - 1 = 10 。
+<pre>
+
+<strong>Input:</strong> nums = [<u>6</u>,2,<u>1</u>,2,4,<u>5</u>]
+
+<strong>Output:</strong> 10
+
+<strong>Explanation:</strong> It is optimal to choose the subsequence [6,1,5] with alternating sum (6 + 5) - 1 = 10.
+
 </pre>
 
-<p> </p>
+<p>&nbsp;</p>
 
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
+
+    <li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+
+    <li><code>1 &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
+
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
-
-我们定义 $f[i]$ 表示从前 $i$ 个元素中选出的子序列，且最后一个元素为奇数下标时的最大交替和，定义 $g[i]$ 表示从前 $i$ 个元素中选出的子序列，且最后一个元素为偶数下标时的最大交替和。初始时 $f[0] = g[0] = 0$。答案为 $max(f[n], g[n])$。
-
-我们考虑第 $i$ 个元素 $nums[i - 1]$：
-
-如果选取该元素且该元素为奇数下标，那么上一个元素必须为偶数下标，且只能从前 $i-1$ 个元素中选取，因此 $f[i] = g[i - 1] - nums[i - 1]$；如果不选取该元素，那么 $f[i] = f[i - 1]$。
-
-同理，如果选取该元素且该元素为偶数下标，那么上一个元素必须为奇数下标，且只能从前 $i-1$ 个元素中选取，因此 $g[i] = f[i - 1] + nums[i - 1]$；如果不选取该元素，那么 $g[i] = g[i - 1]$。
-
-综上，我们可以得到状态转移方程：
-
-$$
-\begin{aligned}
-f[i] &= max(g[i - 1] - nums[i - 1], f[i - 1]) \\
-g[i] &= max(f[i - 1] + nums[i - 1], g[i - 1])
-\end{aligned}
-$$
-
-最终答案为 $max(f[n], g[n])$。
-
-我们注意到 $f[i]$ 和 $g[i]$ 只与 $f[i - 1]$ 和 $g[i - 1]$ 有关，因此我们可以使用两个变量代替数组，将空间复杂度降低到 $O(1)$。
-
-时间复杂度 $O(n)$，其中 $n$ 为数组长度。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -182,7 +177,7 @@ function maxAlternatingSum(nums: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

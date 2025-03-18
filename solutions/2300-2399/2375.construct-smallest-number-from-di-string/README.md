@@ -1,82 +1,73 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2375.Construct%20Smallest%20Number%20From%20DI%20String/README.md
+difficulty: Medium
 rating: 1641
-source: 第 306 场周赛 Q3
+source: Weekly Contest 306 Q3
 tags:
-    - 栈
-    - 贪心
-    - 字符串
-    - 回溯
+    - Stack
+    - Greedy
+    - String
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [2375. 根据模式串构造最小数字](https://leetcode.cn/problems/construct-smallest-number-from-di-string)
+# [2375. Construct Smallest Number From DI String](https://leetcode.com/problems/construct-smallest-number-from-di-string)
 
-[English Version](/solution/2300-2399/2375.Construct%20Smallest%20Number%20From%20DI%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你下标从 <strong>0</strong> 开始、长度为 <code>n</code>&nbsp;的字符串&nbsp;<code>pattern</code>&nbsp;，它包含两种字符，<code>'I'</code>&nbsp;表示 <strong>上升</strong>&nbsp;，<code>'D'</code>&nbsp;表示 <strong>下降</strong>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> string <code>pattern</code> of length <code>n</code> consisting of the characters <code>&#39;I&#39;</code> meaning <strong>increasing</strong> and <code>&#39;D&#39;</code> meaning <strong>decreasing</strong>.</p>
 
-<p>你需要构造一个下标从 <strong>0</strong>&nbsp;开始长度为&nbsp;<code>n + 1</code>&nbsp;的字符串，且它要满足以下条件：</p>
+<p>A <strong>0-indexed</strong> string <code>num</code> of length <code>n + 1</code> is created using the following conditions:</p>
 
 <ul>
-	<li><code>num</code>&nbsp;包含数字&nbsp;<code>'1'</code>&nbsp;到&nbsp;<code>'9'</code>&nbsp;，其中每个数字&nbsp;<strong>至多</strong>&nbsp;使用一次。</li>
-	<li>如果&nbsp;<code>pattern[i] == 'I'</code>&nbsp;，那么&nbsp;<code>num[i] &lt; num[i + 1]</code>&nbsp;。</li>
-	<li>如果&nbsp;<code>pattern[i] == 'D'</code>&nbsp;，那么&nbsp;<code>num[i] &gt; num[i + 1]</code>&nbsp;。</li>
+	<li><code>num</code> consists of the digits <code>&#39;1&#39;</code> to <code>&#39;9&#39;</code>, where each digit is used <strong>at most</strong> once.</li>
+	<li>If <code>pattern[i] == &#39;I&#39;</code>, then <code>num[i] &lt; num[i + 1]</code>.</li>
+	<li>If <code>pattern[i] == &#39;D&#39;</code>, then <code>num[i] &gt; num[i + 1]</code>.</li>
 </ul>
 
-<p>请你返回满足上述条件字典序 <strong>最小</strong>&nbsp;的字符串<em>&nbsp;</em><code>num</code>。</p>
+<p>Return <em>the lexicographically <strong>smallest</strong> possible string </em><code>num</code><em> that meets the conditions.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>pattern = "IIIDIDDD"
-<b>输出：</b>"123549876"
-<strong>解释：
-</strong>下标 0 ，1 ，2 和 4 处，我们需要使 num[i] &lt; num[i+1] 。
-下标 3 ，5 ，6 和 7 处，我们需要使 num[i] &gt; num[i+1] 。
-一些可能的 num 的值为 "245639871" ，"135749862" 和 "123849765" 。
-"123549876" 是满足条件最小的数字。
-注意，"123414321" 不是可行解因为数字 '1' 使用次数超过 1 次。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>pattern = "DDD"
-<b>输出：</b>"4321"
-<strong>解释：</strong>
-一些可能的 num 的值为 "9876" ，"7321" 和 "8742" 。
-"4321" 是满足条件最小的数字。
+<strong>Input:</strong> pattern = &quot;IIIDIDDD&quot;
+<strong>Output:</strong> &quot;123549876&quot;
+<strong>Explanation:
+</strong>At indices 0, 1, 2, and 4 we must have that num[i] &lt; num[i+1].
+At indices 3, 5, 6, and 7 we must have that num[i] &gt; num[i+1].
+Some possible values of num are &quot;245639871&quot;, &quot;135749862&quot;, and &quot;123849765&quot;.
+It can be proven that &quot;123549876&quot; is the smallest possible num that meets the conditions.
+Note that &quot;123414321&quot; is not possible because the digit &#39;1&#39; is used more than once.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> pattern = &quot;DDD&quot;
+<strong>Output:</strong> &quot;4321&quot;
+<strong>Explanation:</strong>
+Some possible values of num are &quot;9876&quot;, &quot;7321&quot;, and &quot;8742&quot;.
+It can be proven that &quot;4321&quot; is the smallest possible num that meets the conditions.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= pattern.length &lt;= 8</code></li>
-	<li><code>pattern</code>&nbsp;只包含字符&nbsp;<code>'I'</code> 和&nbsp;<code>'D'</code> 。</li>
+	<li><code>pattern</code> consists of only the letters <code>&#39;I&#39;</code> and <code>&#39;D&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
-
-定义 $dfs(u)$，其中 $u$ 表示当前答案字符串的长度。从 $u=0$ 开始搜索，直至找到第一个符合条件的字符串。
-
-时间复杂度 $O(n!)$，空间复杂度 $O(n)$。其中 $n$ 表示字符串 $pattern$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

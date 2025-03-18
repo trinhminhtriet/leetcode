@@ -1,93 +1,95 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0980.Unique%20Paths%20III/README.md
+difficulty: Hard
 tags:
-    - 位运算
-    - 数组
-    - 回溯
-    - 矩阵
+    - Bit Manipulation
+    - Array
+    - Backtracking
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [980. 不同路径 III](https://leetcode.cn/problems/unique-paths-iii)
+# [980. Unique Paths III](https://leetcode.com/problems/unique-paths-iii)
 
-[English Version](/solution/0900-0999/0980.Unique%20Paths%20III/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在二维网格 <code>grid</code> 上，有 4 种类型的方格：</p>
+<p>You are given an <code>m x n</code> integer array <code>grid</code> where <code>grid[i][j]</code> could be:</p>
 
 <ul>
-	<li><code>1</code> 表示起始方格。且只有一个起始方格。</li>
-	<li><code>2</code> 表示结束方格，且只有一个结束方格。</li>
-	<li><code>0</code> 表示我们可以走过的空方格。</li>
-	<li><code>-1</code> 表示我们无法跨越的障碍。</li>
+	<li><code>1</code> representing the starting square. There is exactly one starting square.</li>
+	<li><code>2</code> representing the ending square. There is exactly one ending square.</li>
+	<li><code>0</code> representing empty squares we can walk over.</li>
+	<li><code>-1</code> representing obstacles that we cannot walk over.</li>
 </ul>
 
-<p>返回在四个方向（上、下、左、右）上行走时，从起始方格到结束方格的不同路径的数目<strong>。</strong></p>
-
-<p><strong>每一个无障碍方格都要通过一次，但是一条路径中不能重复通过同一个方格</strong>。</p>
+<p>Return <em>the number of 4-directional walks from the starting square to the ending square, that walk over every non-obstacle square exactly once</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>[[1,0,0,0],[0,0,0,0],[0,0,2,-1]]
-<strong>输出：</strong>2
-<strong>解释：</strong>我们有以下两条路径：
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0980.Unique%20Paths%20III/images/lc-unique1.jpg" style="width: 324px; height: 245px;" />
+<pre>
+<strong>Input:</strong> grid = [[1,0,0,0],[0,0,0,0],[0,0,2,-1]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> We have the following two paths: 
 1. (0,0),(0,1),(0,2),(0,3),(1,3),(1,2),(1,1),(1,0),(2,0),(2,1),(2,2)
-2. (0,0),(1,0),(2,0),(2,1),(1,1),(0,1),(0,2),(0,3),(1,3),(1,2),(2,2)</pre>
+2. (0,0),(1,0),(2,0),(2,1),(1,1),(0,1),(0,2),(0,3),(1,3),(1,2),(2,2)
+</pre>
 
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>[[1,0,0,0],[0,0,0,0],[0,0,0,2]]
-<strong>输出：</strong>4
-<strong>解释：</strong>我们有以下四条路径： 
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0980.Unique%20Paths%20III/images/lc-unique2.jpg" style="width: 324px; height: 245px;" />
+<pre>
+<strong>Input:</strong> grid = [[1,0,0,0],[0,0,0,0],[0,0,0,2]]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> We have the following four paths: 
 1. (0,0),(0,1),(0,2),(0,3),(1,3),(1,2),(1,1),(1,0),(2,0),(2,1),(2,2),(2,3)
 2. (0,0),(0,1),(1,1),(1,0),(2,0),(2,1),(2,2),(1,2),(0,2),(0,3),(1,3),(2,3)
 3. (0,0),(1,0),(2,0),(2,1),(2,2),(1,2),(1,1),(0,1),(0,2),(0,3),(1,3),(2,3)
-4. (0,0),(1,0),(2,0),(2,1),(1,1),(0,1),(0,2),(0,3),(1,3),(1,2),(2,2),(2,3)</pre>
+4. (0,0),(1,0),(2,0),(2,1),(1,1),(0,1),(0,2),(0,3),(1,3),(1,2),(2,2),(2,3)
+</pre>
 
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>[[0,1],[2,0]]
-<strong>输出：</strong>0
-<strong>解释：</strong>
-没有一条路能完全穿过每一个空的方格一次。
-请注意，起始和结束方格可以位于网格中的任意位置。
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0980.Unique%20Paths%20III/images/lc-unique3-.jpg" style="width: 164px; height: 165px;" />
+<pre>
+<strong>Input:</strong> grid = [[0,1],[2,0]]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There is no path that walks over every empty square exactly once.
+Note that the starting and ending square can be anywhere in the grid.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= grid.length * grid[0].length &lt;= 20</code></li>
+	<li><code>m == grid.length</code></li>
+	<li><code>n == grid[i].length</code></li>
+	<li><code>1 &lt;= m, n &lt;= 20</code></li>
+	<li><code>1 &lt;= m * n &lt;= 20</code></li>
+	<li><code>-1 &lt;= grid[i][j] &lt;= 2</code></li>
+	<li>There is exactly one starting cell and one ending cell.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：回溯
+### Solution 1: Backtracking
 
-我们可以先遍历整个网格，找出起点 $(x, y)$，并且统计空白格的数量 $cnt$。
+We can first traverse the entire grid, find the starting point $(x, y)$, and count the number of blank spaces $cnt$.
 
-接下来，我们可以从起点开始搜索，得到所有的路径数。我们设计一个函数 $dfs(i, j, k)$ 表示从 $(i, j)$ 出发，且当前已经走过的单元格数量为 $k$ 的路径数。
+Next, we can start searching from the starting point to get all the path numbers. We design a function $dfs(i, j, k)$ to indicate that the path number is $k$ and the starting point is $(i, j)$.
 
-在函数中，我们首先判断当前单元格是否为终点，如果是，则判断 $k$ 是否等于 $cnt + 1$，如果是，则说明当前路径是一条有效路径，返回 $1$，否则返回 $0$。
+In the function, we first determine whether the current cell is the end point. If it is, we determine whether $k$ is equal to $cnt + 1$. If it is, the current path is a valid path, and $1$ is returned, otherwise $0$ is returned.
 
-如果当前单元格不是终点，则我们枚举当前单元格的上下左右四个邻接单元格，如果邻接单元格未被访问过，则我们将该邻接单元格标记为已访问，然后继续搜索从该邻接单元格出发的路径数，搜索完成后，我们再将该邻接单元格标记为未访问。在搜索完成后，我们返回所有邻接单元格的路径数之和。
+If the current cell is not the end point, we enumerate the four adjacent cells of the current cell. If the adjacent cell has not been visited, we mark the adjacent cell as visited, and then continue to search the path number from the adjacent cell. After the search is completed, we mark the adjacent cell as unvisited. After the search is completed, we return the sum of the path numbers of all adjacent cells.
 
-最后，我们返回从起点出发的路径数即可，即 $dfs(x, y, 1)$。
+Finally, we return the path number from the starting point, that is, $dfs(x, y, 1)$.
 
-时间复杂度 $O(3^{m \times n})$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别为网格的行数和列数。
+The time complexity is $O(3^{m \times n})$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the number of rows and columns of the grid, respectively.
 
 <!-- tabs:start -->
 

@@ -1,109 +1,104 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3154.Find%20Number%20of%20Ways%20to%20Reach%20the%20K-th%20Stair/README.md
+difficulty: Hard
 rating: 2071
-source: 第 398 场周赛 Q4
+source: Weekly Contest 398 Q4
 tags:
-    - 位运算
-    - 记忆化搜索
-    - 数学
-    - 动态规划
-    - 组合数学
+    - Bit Manipulation
+    - Memoization
+    - Math
+    - Dynamic Programming
+    - Combinatorics
 ---
 
 <!-- problem:start -->
 
-# [3154. 到达第 K 级台阶的方案数](https://leetcode.cn/problems/find-number-of-ways-to-reach-the-k-th-stair)
+# [3154. Find Number of Ways to Reach the K-th Stair](https://leetcode.com/problems/find-number-of-ways-to-reach-the-k-th-stair)
 
-[English Version](/solution/3100-3199/3154.Find%20Number%20of%20Ways%20to%20Reach%20the%20K-th%20Stair/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你有一个 <strong>非负</strong>&nbsp;整数&nbsp;<code>k</code>&nbsp;。有一个无限长度的台阶，<strong>最低</strong>&nbsp;一层编号为 0 。</p>
+<p>You are given a <strong>non-negative</strong> integer <code>k</code>. There exists a staircase with an infinite number of stairs, with the <strong>lowest</strong> stair numbered 0.</p>
 
-<p>Alice&nbsp;有一个整数&nbsp;<code>jump</code>&nbsp;，一开始值为 0 。Alice 从台阶 1 开始，可以使用 <strong>任意</strong>&nbsp;次操作，目标是到达第&nbsp;<code>k</code> 级台阶。假设 Alice 位于台阶 <code>i</code> ，一次 <strong>操作</strong> 中，Alice 可以：</p>
+<p>Alice has an integer <code>jump</code>, with an initial value of 0. She starts on stair 1 and wants to reach stair <code>k</code> using <strong>any</strong> number of <strong>operations</strong>. If she is on stair <code>i</code>, in one <strong>operation</strong> she can:</p>
 
 <ul>
-	<li>向下走一级到&nbsp;<code>i - 1</code>&nbsp;，但该操作&nbsp;<strong>不能</strong>&nbsp;连续使用，如果在台阶第 0 级也不能使用。</li>
-	<li>向上走到台阶&nbsp;<code>i + 2<sup>jump</sup></code>&nbsp;处，然后&nbsp;<code>jump</code>&nbsp;变为&nbsp;<code>jump + 1</code>&nbsp;。</li>
+	<li>Go down to stair <code>i - 1</code>. This operation <strong>cannot</strong> be used consecutively or on stair 0.</li>
+	<li>Go up to stair <code>i + 2<sup>jump</sup></code>. And then, <code>jump</code> becomes <code>jump + 1</code>.</li>
 </ul>
 
-<p>请你返回 Alice 到达台阶 <code>k</code>&nbsp;处的总方案数。</p>
+<p>Return the <em>total</em> number of ways Alice can reach stair <code>k</code>.</p>
 
-<p><b>注意</b>，Alice 可能到达台阶 <code>k</code>&nbsp;处后，通过一些操作重新回到台阶 <code>k</code>&nbsp;处，这视为不同的方案。</p>
+<p><strong>Note</strong> that it is possible that Alice reaches the stair <code>k</code>, and performs some operations to reach the stair <code>k</code> again.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1：</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>k = 0</span></p>
+<p><strong>Input:</strong> <span class="example-io">k = 0</span></p>
 
-<p><span class="example-io"><b>输出：</b>2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>2 种到达台阶 0 的方案为：</p>
+<p>The 2 possible ways of reaching stair 0 are:</p>
 
 <ul>
-	<li>Alice&nbsp;从台阶&nbsp;1 开始。
+	<li>Alice starts at stair 1.
 	<ul>
-		<li>执行第一种操作，从台阶 1 向下走到台阶 0 。</li>
+		<li>Using an operation of the first type, she goes down 1 stair to reach stair 0.</li>
 	</ul>
 	</li>
-	<li>Alice&nbsp;从台阶 1 开始。
+	<li>Alice starts at stair 1.
 	<ul>
-		<li>执行第一种操作，从台阶 1 向下走到台阶 0 。</li>
-		<li>执行第二种操作，向上走 2<sup>0</sup>&nbsp;级台阶到台阶 1 。</li>
-		<li>执行第一种操作，从台阶 1 向下走到台阶 0 。</li>
+		<li>Using an operation of the first type, she goes down 1 stair to reach stair 0.</li>
+		<li>Using an operation of the second type, she goes up 2<sup>0</sup> stairs to reach stair 1.</li>
+		<li>Using an operation of the first type, she goes down 1 stair to reach stair 0.</li>
 	</ul>
 	</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>k = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">k = 1</span></p>
 
-<p><span class="example-io"><b>输出：</b>4</span></p>
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>4 种到达台阶 1 的方案为：</p>
+<p>The 4 possible ways of reaching stair 1 are:</p>
 
 <ul>
-	<li>Alice&nbsp;从台阶 1 开始，已经到达台阶 1 。</li>
-	<li>Alice&nbsp;从台阶 1 开始。
+	<li>Alice starts at stair 1. Alice is at stair 1.</li>
+	<li>Alice starts at stair 1.
 	<ul>
-		<li>执行第一种操作，从台阶 1 向下走到台阶 0 。</li>
-		<li>执行第二种操作，向上走 2<sup>0</sup>&nbsp;级台阶到台阶 1 。</li>
+		<li>Using an operation of the first type, she goes down 1 stair to reach stair 0.</li>
+		<li>Using an operation of the second type, she goes up 2<sup>0</sup> stairs to reach stair 1.</li>
 	</ul>
 	</li>
-	<li>Alice&nbsp;从台阶 1 开始。
+	<li>Alice starts at stair 1.
 	<ul>
-		<li>执行第二种操作，向上走 2<sup>0</sup>&nbsp;级台阶到台阶 2 。</li>
-		<li>执行第一种操作，向下走 1 级台阶到台阶 1 。</li>
+		<li>Using an operation of the second type, she goes up 2<sup>0</sup> stairs to reach stair 2.</li>
+		<li>Using an operation of the first type, she goes down 1 stair to reach stair 1.</li>
 	</ul>
 	</li>
-	<li>Alice&nbsp;从台阶 1 开始。
+	<li>Alice starts at stair 1.
 	<ul>
-		<li>执行第一种操作，从台阶 1 向下走到台阶 0 。</li>
-		<li>执行第二种操作，向上走&nbsp;2<sup>0</sup>&nbsp;级台阶到台阶 1 。</li>
-		<li>执行第一种操作，向下走 1 级台阶到台阶 0 。</li>
-		<li>执行第二种操作，向上走 2<sup>1</sup>&nbsp;级台阶到台阶 2 。</li>
-		<li>执行第一种操作，向下走&nbsp;1 级台阶到台阶 1 。</li>
+		<li>Using an operation of the first type, she goes down 1 stair to reach stair 0.</li>
+		<li>Using an operation of the second type, she goes up 2<sup>0</sup> stairs to reach stair 1.</li>
+		<li>Using an operation of the first type, she goes down 1 stair to reach stair 0.</li>
+		<li>Using an operation of the second type, she goes up 2<sup>1</sup> stairs to reach stair 2.</li>
+		<li>Using an operation of the first type, she goes down 1 stair to reach stair 1.</li>
 	</ul>
 	</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= k &lt;= 10<sup>9</sup></code></li>
@@ -111,24 +106,24 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们设计一个函数 $\textit{dfs}(i, j, \textit{jump})$，表示当前位于第 $i$ 级台阶，且进行了 $j$ 次操作 $1$ 和 $\textit{jump}$ 次操作 $2$，到达第 $k$ 级台阶的方案数。那么答案就是 $\textit{dfs}(1, 0, 0)$。
+We design a function `dfs(i, j, jump)`, which represents the number of ways to reach the $k$th step when currently at the $i$th step, having performed $j$ operation 1's and `jump` operation 2's. The answer is `dfs(1, 0, 0)`.
 
-函数 $\textit{dfs}(i, j, \textit{jump})$ 的计算过程如下：
+The calculation process of the function `dfs(i, j, jump)` is as follows:
 
--   如果 $i > k + 1$，由于无法连续两次向下走，所以无法再到达第 $k$ 级台阶，返回 $0$；
--   如果 $i = k$，表示已经到达第 $k$ 级台阶，答案初始化为 $1$，然后继续计算；
--   如果 $i > 0$ 且 $j = 0$，表示可以向下走，递归计算 $\textit{dfs}(i - 1, 1, \textit{jump})$；
--   递归计算 $\textit{dfs}(i + 2^{\textit{jump}}, 0, \textit{jump} + 1)$，累加到答案中。
+-   If $i > k + 1$, since we cannot go down twice in a row, we cannot reach the $k$th step again, so return $0$;
+-   If $i = k$, it means that we have reached the $k$th step. The answer is initialized to $1$, and then continue to calculate;
+-   If $i > 0$ and $j = 0$, it means that we can go down, recursively calculate `dfs(i - 1, 1, jump)`;
+-   Recursively calculate `dfs(i + 2^{jump}, 0, jump + 1)`, and add it to the answer.
 
-为了避免重复计算，我们使用记忆化搜索，将已经计算过的状态保存起来。
+To avoid repeated calculations, we use memoization search to save the calculated states.
 
-时间复杂度 $(\log ^2 k)$，空间复杂度 $(\log ^2 k)$。
+The time complexity is $O(\log^2 k)$, and the space complexity is $O(\log^2 k)$.
 
 <!-- tabs:start -->
 

@@ -1,47 +1,43 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0957.Prison%20Cells%20After%20N%20Days/README.md
+difficulty: Medium
 tags:
-    - 位运算
-    - 数组
-    - 哈希表
-    - 数学
+    - Bit Manipulation
+    - Array
+    - Hash Table
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [957. N 天后的牢房](https://leetcode.cn/problems/prison-cells-after-n-days)
+# [957. Prison Cells After N Days](https://leetcode.com/problems/prison-cells-after-n-days)
 
-[English Version](/solution/0900-0999/0957.Prison%20Cells%20After%20N%20Days/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>监狱中 <code>8</code> 间牢房排成一排，每间牢房可能被占用或空置。</p>
+<p>There are <code>8</code> prison cells in a row and each cell is either occupied or vacant.</p>
 
-<p>每天，无论牢房是被占用或空置，都会根据以下规则进行变更：</p>
+<p>Each day, whether the cell is occupied or vacant changes according to the following rules:</p>
 
 <ul>
-	<li>如果一间牢房的两个相邻的房间都被占用或都是空的，那么该牢房就会被占用。</li>
-	<li>否则，它就会被空置。</li>
+	<li>If a cell has two adjacent neighbors that are both occupied or both vacant, then the cell becomes occupied.</li>
+	<li>Otherwise, it becomes vacant.</li>
 </ul>
 
-<p><strong>注意</strong>：由于监狱中的牢房排成一行，所以行中的第一个和最后一个牢房不存在两个相邻的房间。</p>
+<p><strong>Note</strong> that because the prison is a row, the first and the last cells in the row can&#39;t have two adjacent neighbors.</p>
 
-<p>给你一个整数数组 <code>cells</code> ，用于表示牢房的初始状态：如果第 <code>i</code> 间牢房被占用，则 <code>cell[i]==1</code>，否则 <code>cell[i]==0</code> 。另给你一个整数 <code>n</code> 。</p>
+<p>You are given an integer array <code>cells</code> where <code>cells[i] == 1</code> if the <code>i<sup>th</sup></code> cell is occupied and <code>cells[i] == 0</code> if the <code>i<sup>th</sup></code> cell is vacant, and you are given an integer <code>n</code>.</p>
 
-<p>请你返回 <code>n</code> 天后监狱的状况（即，按上文描述进行 <code>n</code> 次变更）。</p>
+<p>Return the state of the prison after <code>n</code> days (i.e., <code>n</code> such changes described above).</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>cells = [0,1,0,1,1,0,0,1], n = 7
-<strong>输出：</strong>[0,0,1,1,0,0,0,0]
-<strong>解释：</strong>下表总结了监狱每天的状况：
+<strong>Input:</strong> cells = [0,1,0,1,1,0,0,1], n = 7
+<strong>Output:</strong> [0,0,1,1,0,0,0,0]
+<strong>Explanation:</strong> The following table summarizes the state of the prison on each day:
 Day 0: [0, 1, 0, 1, 1, 0, 0, 1]
 Day 1: [0, 1, 1, 0, 0, 0, 0, 0]
 Day 2: [0, 0, 0, 0, 1, 1, 1, 0]
@@ -52,30 +48,29 @@ Day 6: [0, 0, 1, 0, 1, 1, 0, 0]
 Day 7: [0, 0, 1, 1, 0, 0, 0, 0]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>cells = [1,0,0,1,0,0,1,0], n = 1000000000
-<strong>输出：</strong>[0,0,1,1,1,1,1,0]
+<strong>Input:</strong> cells = [1,0,0,1,0,0,1,0], n = 1000000000
+<strong>Output:</strong> [0,0,1,1,1,1,1,0]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>cells.length == 8</code></li>
-	<li><code>cells[i]</code> 为 <code>0</code> 或 <code>1</code></li>
+	<li><code>cells[i]</code>&nbsp;is either <code>0</code> or <code>1</code>.</li>
 	<li><code>1 &lt;= n &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

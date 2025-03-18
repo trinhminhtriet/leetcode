@@ -1,86 +1,73 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2325.Decode%20the%20Message/README.md
+difficulty: Easy
 rating: 1268
-source: 第 300 场周赛 Q1
+source: Weekly Contest 300 Q1
 tags:
-    - 哈希表
-    - 字符串
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2325. 解密消息](https://leetcode.cn/problems/decode-the-message)
+# [2325. Decode the Message](https://leetcode.com/problems/decode-the-message)
 
-[English Version](/solution/2300-2399/2325.Decode%20the%20Message/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你字符串 <code>key</code> 和 <code>message</code> ，分别表示一个加密密钥和一段加密消息。解密 <code>message</code> 的步骤如下：</p>
+<p>You are given the strings <code>key</code> and <code>message</code>, which represent a cipher key and a secret message, respectively. The steps to decode <code>message</code> are as follows:</p>
 
 <ol>
-	<li>使用 <code>key</code> 中 26 个英文小写字母第一次出现的顺序作为替换表中的字母 <strong>顺序</strong> 。</li>
-	<li>将替换表与普通英文字母表对齐，形成对照表。</li>
-	<li>按照对照表 <strong>替换</strong> <code>message</code> 中的每个字母。</li>
-	<li>空格 <code>' '</code> 保持不变。</li>
+	<li>Use the <strong>first</strong> appearance of all 26 lowercase English letters in <code>key</code> as the <strong>order</strong> of the substitution table.</li>
+	<li>Align the substitution table with the regular English alphabet.</li>
+	<li>Each letter in <code>message</code> is then <strong>substituted</strong> using the table.</li>
+	<li>Spaces <code>&#39; &#39;</code> are transformed to themselves.</li>
 </ol>
 
 <ul>
-	<li>例如，<code>key = "<em><strong>hap</strong></em>p<em><strong>y</strong></em> <em><strong>bo</strong></em>y"</code>（实际的加密密钥会包含字母表中每个字母 <strong>至少一次</strong>），据此，可以得到部分对照表（<code>'h' -&gt; 'a'</code>、<code>'a' -&gt; 'b'</code>、<code>'p' -&gt; 'c'</code>、<code>'y' -&gt; 'd'</code>、<code>'b' -&gt; 'e'</code>、<code>'o' -&gt; 'f'</code>）。</li>
+	<li>For example, given <code>key = &quot;<u><strong>hap</strong></u>p<u><strong>y</strong></u> <u><strong>bo</strong></u>y&quot;</code> (actual key would have <strong>at least one</strong> instance of each letter in the alphabet), we have the partial substitution table of (<code>&#39;h&#39; -&gt; &#39;a&#39;</code>, <code>&#39;a&#39; -&gt; &#39;b&#39;</code>, <code>&#39;p&#39; -&gt; &#39;c&#39;</code>, <code>&#39;y&#39; -&gt; &#39;d&#39;</code>, <code>&#39;b&#39; -&gt; &#39;e&#39;</code>, <code>&#39;o&#39; -&gt; &#39;f&#39;</code>).</li>
 </ul>
 
-<p>返回解密后的消息。</p>
+<p>Return <em>the decoded message</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2325.Decode%20the%20Message/images/ex1new4.jpg" style="width: 752px; height: 150px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2325.Decode%20the%20Message/images/ex1new4.jpg" style="width: 752px; height: 150px;" />
 <pre>
-<strong>输入：</strong>key = "the quick brown fox jumps over the lazy dog", message = "vkbs bs t suepuv"
-<strong>输出：</strong>"this is a secret"
-<strong>解释：</strong>对照表如上图所示。
-提取 "<em><strong>the</strong></em> <em><strong>quick</strong></em> <em><strong>brown</strong></em> <em><strong>f</strong></em>o<em><strong>x</strong></em> <em><strong>j</strong></em>u<em><strong>mps</strong></em> o<em><strong>v</strong></em>er the <em><strong>lazy</strong></em> <em><strong>d</strong></em>o<em><strong>g</strong></em>" 中每个字母的首次出现可以得到替换表。
+<strong>Input:</strong> key = &quot;the quick brown fox jumps over the lazy dog&quot;, message = &quot;vkbs bs t suepuv&quot;
+<strong>Output:</strong> &quot;this is a secret&quot;
+<strong>Explanation:</strong> The diagram above shows the substitution table.
+It is obtained by taking the first appearance of each letter in &quot;<u><strong>the</strong></u> <u><strong>quick</strong></u> <u><strong>brown</strong></u> <u><strong>f</strong></u>o<u><strong>x</strong></u> <u><strong>j</strong></u>u<u><strong>mps</strong></u> o<u><strong>v</strong></u>er the <u><strong>lazy</strong></u> <u><strong>d</strong></u>o<u><strong>g</strong></u>&quot;.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2325.Decode%20the%20Message/images/ex2new.jpg" style="width: 754px; height: 150px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2325.Decode%20the%20Message/images/ex2new.jpg" style="width: 754px; height: 150px;" />
 <pre>
-<strong>输入：</strong>key = "eljuxhpwnyrdgtqkviszcfmabo", message = "zwx hnfx lqantp mnoeius ycgk vcnjrdb"
-<strong>输出：</strong>"the five boxing wizards jump quickly"
-<strong>解释：</strong>对照表如上图所示。
-提取 "<em><strong>eljuxhpwnyrdgtqkviszcfmabo</strong></em>" 中每个字母的首次出现可以得到替换表。
+<strong>Input:</strong> key = &quot;eljuxhpwnyrdgtqkviszcfmabo&quot;, message = &quot;zwx hnfx lqantp mnoeius ycgk vcnjrdb&quot;
+<strong>Output:</strong> &quot;the five boxing wizards jump quickly&quot;
+<strong>Explanation:</strong> The diagram above shows the substitution table.
+It is obtained by taking the first appearance of each letter in &quot;<u><strong>eljuxhpwnyrdgtqkviszcfmabo</strong></u>&quot;.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>26 &lt;= key.length &lt;= 2000</code></li>
-	<li><code>key</code> 由小写英文字母及 <code>' '</code> 组成</li>
-	<li><code>key</code> 包含英文字母表中每个字符（<code>'a'</code> 到 <code>'z'</code>）<strong>至少一次</strong></li>
+	<li><code>key</code> consists of lowercase English letters and <code>&#39; &#39;</code>.</li>
+	<li><code>key</code> contains every letter in the English alphabet (<code>&#39;a&#39;</code> to <code>&#39;z&#39;</code>) <strong>at least once</strong>.</li>
 	<li><code>1 &lt;= message.length &lt;= 2000</code></li>
-	<li><code>message</code> 由小写英文字母和 <code>' '</code> 组成</li>
+	<li><code>message</code> consists of lowercase English letters and <code>&#39; &#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数组或哈希表
-
-我们可以使用数组或哈希表 $d$ 存储对照表，然后遍历 `message` 中的每个字符，将其替换为对应的字符即可。
-
-时间复杂度 $O(m + n)$，空间复杂度 $O(C)$。其中 $m$ 和 $n$ 分别为 `key` 和 `message` 的长度；而 $C$ 为字符集大小。
+### Solution 1
 
 <!-- tabs:start -->
 

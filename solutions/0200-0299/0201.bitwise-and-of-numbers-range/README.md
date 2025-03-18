@@ -1,67 +1,56 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0201.Bitwise%20AND%20of%20Numbers%20Range/README.md
+difficulty: Medium
 tags:
-    - 位运算
+    - Bit Manipulation
 ---
 
 <!-- problem:start -->
 
-# [201. 数字范围按位与](https://leetcode.cn/problems/bitwise-and-of-numbers-range)
+# [201. Bitwise AND of Numbers Range](https://leetcode.com/problems/bitwise-and-of-numbers-range)
 
-[English Version](/solution/0200-0299/0201.Bitwise%20AND%20of%20Numbers%20Range/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数 <code>left</code> 和 <code>right</code> ，表示区间 <code>[left, right]</code> ，返回此区间内所有数字 <strong>按位与</strong> 的结果（包含 <code>left</code> 、<code>right</code> 端点）。</p>
+<p>Given two integers <code>left</code> and <code>right</code> that represent the range <code>[left, right]</code>, return <em>the bitwise AND of all numbers in this range, inclusive</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>left = 5, right = 7
-<strong>输出：</strong>4
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>left = 0, right = 0
-<strong>输出：</strong>0
+<strong>Input:</strong> left = 5, right = 7
+<strong>Output:</strong> 4
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>left = 1, right = 2147483647
-<strong>输出：</strong>0
+<strong>Input:</strong> left = 0, right = 0
+<strong>Output:</strong> 0
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> left = 1, right = 2147483647
+<strong>Output:</strong> 0
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>0 <= left <= right <= 2<sup>31</sup> - 1</code></li>
+	<li><code>0 &lt;= left &lt;= right &lt;= 2<sup>31</sup> - 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算
-
-题目可以转换为求数字的公共二进制前缀。
-
-当 $left \lt right$ 时，我们循环将 $right$ 的最后一个二进制位 $1$ 变成 $0$，直到 $left = right$，此时 $right$ 即为数字的公共二进制前缀，返回 $right$ 即可。
-
-时间复杂度 $O(\log n)$，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 

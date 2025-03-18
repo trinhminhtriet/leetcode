@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0180.Consecutive%20Numbers/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [180. 连续出现的数字](https://leetcode.cn/problems/consecutive-numbers)
+# [180. Consecutive Numbers](https://leetcode.com/problems/consecutive-numbers)
 
-[English Version](/solution/0100-0199/0180.Consecutive%20Numbers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Logs</code></p>
+<p>Table: <code>Logs</code></p>
 
 <pre>
 +-------------+---------+
@@ -25,24 +22,24 @@ tags:
 | id          | int     |
 | num         | varchar |
 +-------------+---------+
-在 SQL 中，id 是该表的主键。
-id 是一个自增列。</pre>
+In SQL, id is the primary key for this table.
+id is an autoincrement column starting from 1.
+</pre>
 
 <p>&nbsp;</p>
 
-<p>找出所有至少连续出现三次的数字。</p>
+<p>Find all numbers that appear at least three times consecutively.</p>
 
-<p>返回的结果表中的数据可以按 <strong>任意顺序</strong> 排列。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果格式如下面的例子所示：</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Logs 表：
+<strong>Input:</strong> 
+Logs table:
 +----+-----+
 | id | num |
 +----+-----+
@@ -54,26 +51,26 @@ Logs 表：
 | 6  | 2   |
 | 7  | 2   |
 +----+-----+
-<strong>输出：</strong>
-Result 表：
+<strong>Output:</strong> 
 +-----------------+
 | ConsecutiveNums |
 +-----------------+
 | 1               |
 +-----------------+
-<strong>解释：</strong>1 是唯一连续出现至少三次的数字。</pre>
+<strong>Explanation:</strong> 1 is the only number that appears consecutively for at least three times.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：两次连接
+### Solution 1: Two Joins
 
-我们可以使用两次连接来解决这个问题。
+We can use two joins to solve this problem.
 
-我们首先进行一次自连接，连接条件是 `l1.num = l2.num` 并且 `l1.id = l2.id - 1`，这样我们就可以找出所有至少连续出现两次的数字。然后，我们再进行一次自连接，连接条件是 `l2.num = l3.num` 并且 `l2.id = l3.id - 1`，这样我们就可以找出所有至少连续出现三次的数字。最后，我们只需要筛选出去重的 `l2.num` 即可。
+First, we perform a self-join with the condition `l1.num = l2.num` and `l1.id = l2.id - 1`, so that we can find all numbers that appear at least twice in a row. Then, we perform another self-join with the condition `l2.num = l3.num` and `l2.id = l3.id - 1`, so that we can find all numbers that appear at least three times in a row. Finally, we only need to select the distinct `l2.num`.
 
 <!-- tabs:start -->
 
@@ -112,11 +109,11 @@ FROM
 
 <!-- solution:start -->
 
-### 方法二：窗口函数
+### Solution 2: Window Function
 
-我们可以使用窗口函数 `LAG` 和 `LEAD` 来获取上一行的 `num` 和下一行的 `num`，记录在字段 $a$ 和 $b$ 中。最后，我们只需要筛选出 $a =num$ 并且 $b = num$ 的行，这些行就是至少连续出现三次的数字。注意，我们需要使用 `DISTINCT` 关键字来对结果去重。
+We can use the window functions `LAG` and `LEAD` to obtain the `num` of the previous row and the next row of the current row, and record them in the fields $a$ and $b$, respectively. Finally, we only need to filter out the rows where $a = num$ and $b = num$, which are the numbers that appear at least three times in a row. Note that we need to use the `DISTINCT` keyword to remove duplicates from the results.
 
-我们也可以对数字进行分组，具体做法是使用 `IF` 函数来判断当前行与前一行的 `num` 是否相等，如果相等则记为 $0$，否则记为 $1$，然后使用窗口函数 `SUM` 来计算前缀和，这样计算出的前缀和就是分组的标识。最后，我们只需要按照分组标识进行分组，然后筛选出每组中的行数大于等于 $3$ 的数字即可。同样，我们需要使用 `DISTINCT` 关键字来对结果去重。
+We can also group the numbers by using the `IF` function to determine whether the `num` of the current row is equal to the `num` of the previous row. If they are equal, we set it to $0$, otherwise we set it to $1$. Then, we use the window function `SUM` to calculate the prefix sum, which is the grouping identifier. Finally, we only need to group by the grouping identifier and filter out the numbers with a row count greater than or equal to $3$ in each group. Similarly, we need to use the `DISTINCT` keyword to remove duplicates from the results.
 
 <!-- tabs:start -->
 
@@ -143,7 +140,7 @@ WHERE a = num AND b = num;
 
 <!-- solution:start -->
 
-### 方法三
+### Solution 3
 
 <!-- tabs:start -->
 

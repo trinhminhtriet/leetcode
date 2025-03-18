@@ -1,69 +1,64 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2593.Find%20Score%20of%20an%20Array%20After%20Marking%20All%20Elements/README.md
+difficulty: Medium
 rating: 1665
-source: 第 100 场双周赛 Q3
+source: Biweekly Contest 100 Q3
 tags:
-    - 数组
-    - 哈希表
-    - 排序
-    - 模拟
-    - 堆（优先队列）
+    - Array
+    - Hash Table
+    - Sorting
+    - Simulation
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2593. 标记所有元素后数组的分数](https://leetcode.cn/problems/find-score-of-an-array-after-marking-all-elements)
+# [2593. Find Score of an Array After Marking All Elements](https://leetcode.com/problems/find-score-of-an-array-after-marking-all-elements)
 
-[English Version](/solution/2500-2599/2593.Find%20Score%20of%20an%20Array%20After%20Marking%20All%20Elements/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组&nbsp;<code>nums</code>&nbsp;，它包含若干正整数。</p>
+<p>You are given an array <code>nums</code> consisting of positive integers.</p>
 
-<p>一开始分数&nbsp;<code>score = 0</code>&nbsp;，请你按照下面算法求出最后分数：</p>
+<p>Starting with <code>score = 0</code>, apply the following algorithm:</p>
 
 <ul>
-	<li>从数组中选择最小且没有被标记的整数。如果有相等元素，选择下标最小的一个。</li>
-	<li>将选中的整数加到&nbsp;<code>score</code>&nbsp;中。</li>
-	<li>标记 <strong>被选中元素</strong>，如果有相邻元素，则同时标记&nbsp;<strong>与它相邻的两个元素</strong>&nbsp;。</li>
-	<li>重复此过程直到数组中所有元素都被标记。</li>
+	<li>Choose the smallest integer of the array that is not marked. If there is a tie, choose the one with the smallest index.</li>
+	<li>Add the value of the chosen integer to <code>score</code>.</li>
+	<li>Mark <strong>the chosen element and its two adjacent elements if they exist</strong>.</li>
+	<li>Repeat until all the array elements are marked.</li>
 </ul>
 
-<p>请你返回执行上述算法后最后的分数。</p>
+<p>Return <em>the score you get after applying the above algorithm</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [2,1,3,4,5,2]
-<b>输出：</b>7
-<b>解释：</b>我们按照如下步骤标记元素：
-- 1 是最小未标记元素，所以标记它和相邻两个元素：[<u><em><strong>2</strong></em></u>,<u><em><strong>1</strong></em></u>,<u><em><strong>3</strong></em></u>,4,5,2] 。
-- 2 是最小未标记元素，所以标记它和左边相邻元素：[<u><em><strong>2</strong></em></u>,<u><em><strong>1</strong></em></u>,<u><em><strong>3</strong></em></u>,4,<u><em><strong>5</strong></em></u>,<u><em><strong>2</strong></em></u>] 。
-- 4 是仅剩唯一未标记的元素，所以我们标记它：[<u><em><strong>2</strong></em></u>,<u><em><strong>1</strong></em></u>,<u><em><strong>3</strong></em></u>,<u><em><strong>4</strong></em></u>,<u><em><strong>5</strong></em></u>,<u><em><strong>2</strong></em></u>] 。
-总得分为 1 + 2 + 4 = 7 。
+<strong>Input:</strong> nums = [2,1,3,4,5,2]
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> We mark the elements as follows:
+- 1 is the smallest unmarked element, so we mark it and its two adjacent elements: [<u>2</u>,<u>1</u>,<u>3</u>,4,5,2].
+- 2 is the smallest unmarked element, so we mark it and its left adjacent element: [<u>2</u>,<u>1</u>,<u>3</u>,4,<u>5</u>,<u>2</u>].
+- 4 is the only remaining unmarked element, so we mark it: [<u>2</u>,<u>1</u>,<u>3</u>,<u>4</u>,<u>5</u>,<u>2</u>].
+Our score is 1 + 2 + 4 = 7.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [2,3,5,1,3,2]
-<b>输出：</b>5
-<b>解释：</b>我们按照如下步骤标记元素：
-- 1 是最小未标记元素，所以标记它和相邻两个元素：[2,3,<u><em><strong>5</strong></em></u>,<u><em><strong>1</strong></em></u>,<u><em><strong>3</strong></em></u>,2] 。
-- 2 是最小未标记元素，由于有两个 2 ，我们选择最左边的一个 2 ，也就是下标为 0 处的 2 ，以及它右边相邻的元素：[<u><em><strong>2</strong></em></u>,<u><em><strong>3</strong></em></u>,<u><em><strong>5</strong></em></u>,<u><em><strong>1</strong></em></u>,<u><em><strong>3</strong></em></u>,2] 。
-- 2 是仅剩唯一未标记的元素，所以我们标记它：[<u><em><strong>2</strong></em></u>,<u><em><strong>3</strong></em></u>,<u><em><strong>5</strong></em></u>,<u><em><strong>1</strong></em></u>,<u><em><strong>3</strong></em></u>,<u><em><strong>2</strong></em></u>] 。
-总得分为 1 + 2 + 2 = 5 。
+<strong>Input:</strong> nums = [2,3,5,1,3,2]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> We mark the elements as follows:
+- 1 is the smallest unmarked element, so we mark it and its two adjacent elements: [2,3,<u>5</u>,<u>1</u>,<u>3</u>,2].
+- 2 is the smallest unmarked element, since there are two of them, we choose the left-most one, so we mark the one at index 0 and its right adjacent element: [<u>2</u>,<u>3</u>,<u>5</u>,<u>1</u>,<u>3</u>,2].
+- 2 is the only remaining unmarked element, so we mark it: [<u>2</u>,<u>3</u>,<u>5</u>,<u>1</u>,<u>3</u>,<u>2</u>].
+Our score is 1 + 2 + 2 = 5.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -72,19 +67,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：优先队列（小根堆）
+### Solution 1: Priority Queue (Min Heap)
 
-我们用一个优先队列维护数组中未被标记的元素，队列中每一项为一个二元组 $(x, i)$，其中 $x$ 和 $i$ 分别表示数组中的元素值和下标，用一个数组 $vis$ 记录数组中的元素是否被标记。
+We use a priority queue to maintain the unmarked elements in the array, and each item in the queue is a tuple $(x, i)$, where $x$ and $i$ represent the element value and index of the array respectively. An array $vis$ is used to record whether the element in the array is marked.
 
-每次从队列中取出最小的元素 $(x, i)$，我们将 $x$ 加入答案，然后标记 $i$ 位置的元素，以及 $i$ 位置的左右相邻元素，即 $i - 1$ 和 $i + 1$ 位置的元素。接下来判断堆顶元素是否被标记，如果被标记则弹出堆顶元素，直到堆顶元素未被标记，或者堆为空。
+Each time we take out the smallest element $(x, i)$ from the queue, we add $x$ to the answer, and then mark the element at the $i$ position, and the left and right adjacent elements at the $i$ position, that is, the elements at the $i-1$ and $i+1$ positions. Then we determine whether the top element of the heap is marked. If it is marked, pop the top element of the heap until the top element is unmarked or the heap is empty.
 
-最后返回答案即可。
+Finally, return the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n \times \log n)$ and the space complexity is $O(n)$, where $n$ is the length of the array.
 
 <!-- tabs:start -->
 
@@ -257,17 +252,17 @@ function findScore(nums: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二：排序
+### Solution 2: Sorting
 
-我们可以创建一个下标数组 $idx$，其中 $idx[i]=i$，然后我们对数组 $idx$ 按照数组 $nums$ 中的元素值进行排序，如果元素值相同，则按照下标值进行排序。
+We can create an index array $idx$ where $idx[i]=i$, and then we sort the index array $idx$ according to the element values in the array $nums$. If the element values are the same, then sort them according to the index values.
 
-接下来创建一个长度为 $n+2$ 的数组 $vis$，其中 $vis[i]=false$，表示数组中的元素是否被标记。
+Next, create an array $vis$ of length $n+2$ where $vis[i]=false$, which means whether the element in the array is marked.
 
-我们遍历下标数组 $idx$，对于数组中的每一个下标 $i$，如果 $vis[i + 1]$ 为 $false$，则表示 $i$ 位置的元素未被标记，我们将 $nums[i]$ 加入答案，然后标记 $i$ 位置的元素，以及 $i$ 位置的左右相邻元素，即 $i - 1$ 和 $i + 1$ 位置的元素。继续遍历下标数组 $idx$，直到遍历结束。
+We traverse the index array $idx$, and for each index $i$ in the array, if $vis[i+1]$ is $false$, that is, the element at position $i$ is not marked, we add $nums[i]$ to the answer, and then mark the element at position $i$, and the left and right adjacent elements at position $i$, that is, the elements at positions $i-1$ and $i+1$. Continue to traverse the index array $idx$ until the end.
 
-最后返回答案即可。
+Finally, return the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n \times \log n)$ and the space complexity is $O(n)$, where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

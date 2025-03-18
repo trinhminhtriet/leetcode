@@ -1,70 +1,65 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0503.Next%20Greater%20Element%20II/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 数组
-    - 单调栈
+    - Stack
+    - Array
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [503. 下一个更大元素 II](https://leetcode.cn/problems/next-greater-element-ii)
+# [503. Next Greater Element II](https://leetcode.com/problems/next-greater-element-ii)
 
-[English Version](/solution/0500-0599/0503.Next%20Greater%20Element%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个循环数组&nbsp;<code>nums</code>&nbsp;（&nbsp;<code>nums[nums.length - 1]</code>&nbsp;的下一个元素是&nbsp;<code>nums[0]</code>&nbsp;），返回&nbsp;<em><code>nums</code>&nbsp;中每个元素的 <strong>下一个更大元素</strong></em> 。</p>
+<p>Given a circular integer array <code>nums</code> (i.e., the next element of <code>nums[nums.length - 1]</code> is <code>nums[0]</code>), return <em>the <strong>next greater number</strong> for every element in</em> <code>nums</code>.</p>
 
-<p>数字 <code>x</code>&nbsp;的 <strong>下一个更大的元素</strong> 是按数组遍历顺序，这个数字之后的第一个比它更大的数，这意味着你应该循环地搜索它的下一个更大的数。如果不存在，则输出 <code>-1</code>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入:</strong> nums = [1,2,1]
-<strong>输出:</strong> [2,-1,2]
-<strong>解释:</strong> 第一个 1 的下一个更大的数是 2；
-数字 2 找不到下一个更大的数； 
-第二个 1 的下一个最大的数需要循环搜索，结果也是 2。
-</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> nums = [1,2,3,4,3]
-<strong>输出:</strong> [2,3,4,-1,4]
-</pre>
+<p>The <strong>next greater number</strong> of a number <code>x</code> is the first greater number to its traversing-order next in the array, which means you could search circularly to find its next greater number. If it doesn&#39;t exist, return <code>-1</code> for this number.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示:</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,2,1]
+<strong>Output:</strong> [2,-1,2]
+Explanation: The first 1&#39;s next greater number is 2; 
+The number 2 can&#39;t find next greater number. 
+The second 1&#39;s next greater number needs to search circularly, which is also 2.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,2,3,4,3]
+<strong>Output:</strong> [2,3,4,-1,4]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>-10<sup>9</sup>&nbsp;&lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
+	<li><code>-10<sup>9</sup> &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：单调栈
+### Solution 1: Monotonic Stack
 
-题目需要我们找到每个元素的下一个更大元素，那么我们可以从后往前遍历数组，这样可以将问题为求上一个更大元素。另外，由于数组是循环的，我们可以将数组遍历两次。
+The problem requires us to find the next greater element for each element. Therefore, we can traverse the array from back to front, which effectively turns the problem into finding the previous greater element. Additionally, since the array is circular, we can traverse the array twice.
 
-具体地，我们从下标 $n \times 2 - 1$ 开始向前遍历数组，其中 $n$ 是数组的长度。然后，我们记 $j = i \bmod n$，其中 $\bmod$ 表示取模运算。如果栈不为空且栈顶元素小于等于 $nums[j]$，那么我们就不断地弹出栈顶元素，直到栈为空或者栈顶元素大于 $nums[j]$。此时，栈顶元素就是 $nums[j]$ 的上一个更大元素，我们将其赋给 $ans[j]$。最后，我们将 $nums[j]$ 入栈。继续遍历下一个元素。
+Specifically, we start traversing the array from index $n \times 2 - 1$, where $n$ is the length of the array. Then, we let $j = i \bmod n$, where $\bmod$ represents the modulo operation. If the stack is not empty and the top element of the stack is less than or equal to $nums[j]$, then we continuously pop the top element of the stack until the stack is empty or the top element of the stack is greater than $nums[j]$. At this point, the top element of the stack is the previous greater element for $nums[j]$, and we assign it to $ans[j]$. Finally, we push $nums[j]$ onto the stack. We continue to the next element.
 
-遍历结束后，我们就可以得到数组 $ans$，它是数组 $nums$ 中每个元素的下一个更大元素。
+After the traversal is complete, we can obtain the array $ans$, which represents the next greater element for each element in the array $nums$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

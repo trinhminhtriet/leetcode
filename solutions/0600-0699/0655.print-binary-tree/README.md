@@ -1,83 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0655.Print%20Binary%20Tree/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [655. 输出二叉树](https://leetcode.cn/problems/print-binary-tree)
+# [655. Print Binary Tree](https://leetcode.com/problems/print-binary-tree)
 
-[English Version](/solution/0600-0699/0655.Print%20Binary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一棵二叉树的根节点 <code>root</code> ，请你构造一个下标从 <strong>0</strong> 开始、大小为 <code>m x n</code> 的字符串矩阵 <code>res</code> ，用以表示树的 <strong>格式化布局</strong> 。构造此格式化布局矩阵需要遵循以下规则：</p>
+<p>Given the <code>root</code> of a binary tree, construct a <strong>0-indexed</strong> <code>m x n</code> string matrix <code>res</code> that represents a <strong>formatted layout</strong> of the tree. The formatted layout matrix should be constructed using the following rules:</p>
 
 <ul>
-	<li>树的 <strong>高度</strong> 为 <code>height</code> ，矩阵的行数 <code>m</code> 应该等于 <code>height + 1</code> 。</li>
-	<li>矩阵的列数 <code>n</code> 应该等于 <code>2<sup>height+1</sup> - 1</code> 。</li>
-	<li><strong>根节点</strong> 需要放置在 <strong>顶行</strong> 的 <strong>正中间</strong> ，对应位置为 <code>res[0][(n-1)/2]</code> 。</li>
-	<li>对于放置在矩阵中的每个节点，设对应位置为 <code>res[r][c]</code> ，将其左子节点放置在 <code>res[r+1][c-2<sup>height-r-1</sup>]</code> ，右子节点放置在 <code>res[r+1][c+2<sup>height-r-1</sup>]</code> 。</li>
-	<li>继续这一过程，直到树中的所有节点都妥善放置。</li>
-	<li>任意空单元格都应该包含空字符串 <code>""</code> 。</li>
+	<li>The <strong>height</strong> of the tree is <code>height</code>&nbsp;and the number of rows <code>m</code> should be equal to <code>height + 1</code>.</li>
+	<li>The number of columns <code>n</code> should be equal to <code>2<sup>height+1</sup> - 1</code>.</li>
+	<li>Place the <strong>root node</strong> in the <strong>middle</strong> of the <strong>top row</strong> (more formally, at location <code>res[0][(n-1)/2]</code>).</li>
+	<li>For each node that has been placed in the matrix at position <code>res[r][c]</code>, place its <strong>left child</strong> at <code>res[r+1][c-2<sup>height-r-1</sup>]</code> and its <strong>right child</strong> at <code>res[r+1][c+2<sup>height-r-1</sup>]</code>.</li>
+	<li>Continue this process until all the nodes in the tree have been placed.</li>
+	<li>Any empty cells should contain the empty string <code>&quot;&quot;</code>.</li>
 </ul>
 
-<p>返回构造得到的矩阵<em> </em><code>res</code> 。</p>
+<p>Return <em>the constructed matrix </em><code>res</code>.</p>
 
 <p>&nbsp;</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0655.Print%20Binary%20Tree/images/print1-tree.jpg" style="width: 141px; height: 181px;" />
 <pre>
-<strong>输入：</strong>root = [1,2]
-<strong>输出：</strong>
-[["","1",""],
-&nbsp;["2","",""]]
+<strong>Input:</strong> root = [1,2]
+<strong>Output:</strong> 
+[[&quot;&quot;,&quot;1&quot;,&quot;&quot;],
+&nbsp;[&quot;2&quot;,&quot;&quot;,&quot;&quot;]]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0655.Print%20Binary%20Tree/images/print2-tree.jpg" style="width: 207px; height: 302px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,3,null,4]
-<strong>输出：</strong>
-[["","","","1","","",""],
-&nbsp;["","2","","","","3",""],
-&nbsp;["","","4","","","",""]]
+<strong>Input:</strong> root = [1,2,3,null,4]
+<strong>Output:</strong> 
+[[&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;1&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;],
+&nbsp;[&quot;&quot;,&quot;2&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;3&quot;,&quot;&quot;],
+&nbsp;[&quot;&quot;,&quot;&quot;,&quot;4&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点数在范围 <code>[1, 2<sup>10</sup>]</code> 内</li>
+	<li>The number of nodes in the tree is in the range <code>[1, 2<sup>10</sup>]</code>.</li>
 	<li><code>-99 &lt;= Node.val &lt;= 99</code></li>
-	<li>树的深度在范围 <code>[1, 10]</code> 内</li>
+	<li>The depth of the tree will be in the range <code>[1, 10]</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：两次 DFS
-
-先通过 `DFS` 求二叉树的高度 $h$（高度从 `0` 开始），然后根据 $h$ 求得结果列表的行数 $m$ 和列数 $n$。
-
-根据 $m$, $n$ 初始化结果列表 `ans`，然后 `DFS` 遍历二叉树，依次在每个位置填入二叉树节点值（字符串形式）即可。
-
-时间复杂度 $O(h\times 2^h)$，空间复杂度 $O(h)$。其中 $h$ 是二叉树的高度。忽略结果返回值的空间消耗。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -364,13 +351,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：两次 BFS
-
-方法一中，我们是通过 `DFS` 来求二叉树的高度，我们也可以改成 `BFS` 的方式，逐层往下扩展，那么扩展的层数就是二叉树的高度。
-
-同样，我们初始化结果列表 `ans`，然后 `BFS` 遍历二叉树，依次在每个位置填入二叉树节点值（字符串形式）即可。
-
-时间复杂度 $O(h\times 2^h)$，空间复杂度 $O(h)$。其中 $h$ 是二叉树的高度。忽略结果返回值的空间消耗。
+### Solution 2
 
 <!-- tabs:start -->
 

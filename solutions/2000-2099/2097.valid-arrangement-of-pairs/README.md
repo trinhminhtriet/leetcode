@@ -1,88 +1,83 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2097.Valid%20Arrangement%20of%20Pairs/README.md
+difficulty: Hard
 rating: 2650
-source: 第 270 场周赛 Q4
+source: Weekly Contest 270 Q4
 tags:
-    - 深度优先搜索
-    - 图
-    - 欧拉回路
+    - Depth-First Search
+    - Graph
+    - Eulerian Circuit
 ---
 
 <!-- problem:start -->
 
-# [2097. 合法重新排列数对](https://leetcode.cn/problems/valid-arrangement-of-pairs)
+# [2097. Valid Arrangement of Pairs](https://leetcode.com/problems/valid-arrangement-of-pairs)
 
-[English Version](/solution/2000-2099/2097.Valid%20Arrangement%20of%20Pairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的二维整数数组&nbsp;<code>pairs</code>&nbsp;，其中&nbsp;<code>pairs[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>&nbsp;。如果 <code>pairs</code>&nbsp;的一个重新排列，满足对每一个下标 <code>i</code> （&nbsp;<code>1 &lt;= i &lt; pairs.length</code>&nbsp;）都有&nbsp;<code>end<sub>i-1</sub> == start<sub>i</sub></code><sub> </sub>，那么我们就认为这个重新排列是&nbsp;<code>pairs</code> 的一个 <strong>合法重新排列</strong> 。</p>
+<p>You are given a <strong>0-indexed</strong> 2D integer array <code>pairs</code> where <code>pairs[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>. An arrangement of <code>pairs</code> is <strong>valid</strong> if for every index <code>i</code> where <code>1 &lt;= i &lt; pairs.length</code>, we have <code>end<sub>i-1</sub> == start<sub>i</sub></code>.</p>
 
-<p>请你返回 <strong>任意一个</strong>&nbsp;<code>pairs</code> 的合法重新排列。</p>
+<p>Return <em><strong>any</strong> valid arrangement of </em><code>pairs</code>.</p>
 
-<p><b>注意：</b>数据保证至少存在一个 <code>pairs</code>&nbsp;的合法重新排列。</p>
+<p><strong>Note:</strong> The inputs will be generated such that there exists a valid arrangement of <code>pairs</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>pairs = [[5,1],[4,5],[11,9],[9,4]]
-<b>输出：</b>[[11,9],[9,4],[4,5],[5,1]]
-<strong>解释：
-</strong>输出的是一个合法重新排列，因为每一个 end<sub>i-1</sub> 都等于 start<sub>i</sub>&nbsp;。
+<strong>Input:</strong> pairs = [[5,1],[4,5],[11,9],[9,4]]
+<strong>Output:</strong> [[11,9],[9,4],[4,5],[5,1]]
+<strong>Explanation:
+</strong>This is a valid arrangement since end<sub>i-1</sub> always equals start<sub>i</sub>.
 end<sub>0</sub> = 9 == 9 = start<sub>1</sub> 
 end<sub>1</sub> = 4 == 4 = start<sub>2</sub>
 end<sub>2</sub> = 5 == 5 = start<sub>3</sub>
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>pairs = [[1,3],[3,2],[2,1]]
-<b>输出：</b>[[1,3],[3,2],[2,1]]
-<strong>解释：</strong>
-输出的是一个合法重新排列，因为每一个 end<sub>i-1</sub> 都等于 start<sub>i</sub>&nbsp;。
+<strong>Input:</strong> pairs = [[1,3],[3,2],[2,1]]
+<strong>Output:</strong> [[1,3],[3,2],[2,1]]
+<strong>Explanation:</strong>
+This is a valid arrangement since end<sub>i-1</sub> always equals start<sub>i</sub>.
 end<sub>0</sub> = 3 == 3 = start<sub>1</sub>
 end<sub>1</sub> = 2 == 2 = start<sub>2</sub>
-重新排列后的数组 [[2,1],[1,3],[3,2]] 和 [[3,2],[2,1],[1,3]] 都是合法的。
+The arrangements [[2,1],[1,3],[3,2]] and [[3,2],[2,1],[1,3]] are also valid.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>pairs = [[1,2],[1,3],[2,1]]
-<b>输出：</b>[[1,2],[2,1],[1,3]]
-<strong>解释：</strong>
-输出的是一个合法重新排列，因为每一个 end<sub>i-1</sub> 都等于 start<sub>i</sub>&nbsp;。
+<strong>Input:</strong> pairs = [[1,2],[1,3],[2,1]]
+<strong>Output:</strong> [[1,2],[2,1],[1,3]]
+<strong>Explanation:</strong>
+This is a valid arrangement since end<sub>i-1</sub> always equals start<sub>i</sub>.
 end<sub>0</sub> = 2 == 2 = start<sub>1</sub>
 end<sub>1</sub> = 1 == 1 = start<sub>2</sub>
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= pairs.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>pairs[i].length == 2</code></li>
 	<li><code>0 &lt;= start<sub>i</sub>, end<sub>i</sub> &lt;= 10<sup>9</sup></code></li>
 	<li><code>start<sub>i</sub> != end<sub>i</sub></code></li>
-	<li><code>pairs</code>&nbsp;中不存在一模一样的数对。</li>
-	<li>至少 <strong>存在</strong> 一个合法的&nbsp;<code>pairs</code>&nbsp;重新排列。</li>
+	<li>No two pairs are exactly the same.</li>
+	<li>There <strong>exists</strong> a valid arrangement of <code>pairs</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

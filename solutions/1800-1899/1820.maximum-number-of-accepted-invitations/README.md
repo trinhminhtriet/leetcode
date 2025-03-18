@@ -1,80 +1,77 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1820.Maximum%20Number%20of%20Accepted%20Invitations/README.md
+difficulty: Medium
 tags:
-    - 深度优先搜索
-    - 图
-    - 数组
-    - 矩阵
+    - Depth-First Search
+    - Graph
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [1820. 最多邀请的个数 🔒](https://leetcode.cn/problems/maximum-number-of-accepted-invitations)
+# [1820. Maximum Number of Accepted Invitations 🔒](https://leetcode.com/problems/maximum-number-of-accepted-invitations)
 
-[English Version](/solution/1800-1899/1820.Maximum%20Number%20of%20Accepted%20Invitations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>某一个班级有 <code>m</code> 个男孩和 <code>n</code> 个女孩，即将举行一个派对。</p>
+<p>There are <code>m</code> boys and <code>n</code> girls in a class attending an upcoming party.</p>
 
-<p>给定一个 <code>m x n</code> 的整数矩阵 <code>grid</code> ，其中 <code>grid[i][j]</code> 等于 <code>0</code> 或 <code>1</code> 。 若 <code>grid[i][j] == 1</code> ，则表示第 <code>i</code> 个男孩可以邀请第 <code>j</code> 个女孩参加派对。 一个男孩最多可以邀请<strong>一个女孩</strong>，一个女孩最多可以接受一个男孩的<strong>一个邀请</strong>。</p>
+<p>You are given an <code>m x n</code> integer matrix <code>grid</code>, where <code>grid[i][j]</code> equals <code>0</code> or <code>1</code>. If <code>grid[i][j] == 1</code>, then that means the <code>i<sup>th</sup></code> boy can invite the <code>j<sup>th</sup></code> girl to the party. A boy can invite at most<strong> one girl</strong>, and a girl can accept at most <strong>one invitation</strong> from a boy.</p>
 
-<p>返回可能的最多邀请的个数。</p>
+<p>Return <em>the <strong>maximum</strong> possible number of accepted invitations.</em></p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><b>示例 1:</b></p>
-
-<pre><strong>输入:</strong> grid = [[1,1,1],
+<pre>
+<strong>Input:</strong> grid = [[1,1,1],
                [1,0,1],
                [0,0,1]]
-<strong>输出:</strong> 3<strong>
-解释:</strong> 按下列方式邀请：
-- 第 1 个男孩邀请第 2 个女孩。
-- 第 2 个男孩邀请第 1 个女孩。
-- 第 3 个男孩邀请第 3 个女孩。</pre>
+<strong>Output:</strong> 3<strong>
+Explanation:</strong> The invitations are sent as follows:
+- The 1<sup>st</sup> boy invites the 2<sup>nd</sup> girl.
+- The 2<sup>nd</sup> boy invites the 1<sup>st</sup> girl.
+- The 3<sup>rd</sup> boy invites the 3<sup>rd</sup> girl.</pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入:</strong> grid = [[1,0,1,0],
+<pre>
+<strong>Input:</strong> grid = [[1,0,1,0],
                [1,0,0,0],
                [0,0,1,0],
                [1,1,1,0]]
-<strong>输出:</strong> 3
-<strong>解释: </strong>按下列方式邀请：
-- 第 1 个男孩邀请第 3 个女孩。
-- 第 2 个男孩邀请第 1 个女孩。
-- 第 3 个男孩未邀请任何人。
-- 第 4 个男孩邀请第 2 个女孩。</pre>
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The invitations are sent as follows:
+-The 1<sup>st</sup> boy invites the 3<sup>rd</sup> girl.
+-The 2<sup>nd</sup> boy invites the 1<sup>st</sup> girl.
+-The 3<sup>rd</sup> boy invites no one.
+-The 4<sup>th</sup> boy invites the 2<sup>nd</sup> girl.</pre>
 
-<p> </p>
-
-<p><b>提示：</b></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>grid.length == m</code></li>
 	<li><code>grid[i].length == n</code></li>
 	<li><code>1 &lt;= m, n &lt;= 200</code></li>
-	<li><code>grid[i][j]</code> 是 <code>0</code> 或 <code>1</code> 之一。</li>
+	<li><code>grid[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：匈牙利算法
+### Solution 1: Hungarian Algorithm
 
-本题属于二分图最大匹配问题，适合用匈牙利算法来求解。
+This problem belongs to the maximum matching problem of bipartite graphs, which is suitable for solving with the Hungarian algorithm.
 
-匈牙利算法的核心思想是，不断地从未匹配的点出发，寻找增广路径，直到没有增广路径为止，就得到了最大匹配。
+The core idea of the Hungarian algorithm is to continuously start from unmatched points, look for augmenting paths, and stop when there are no augmenting paths. This gives the maximum match.
 
-时间复杂度 $O(m \times n)$。
+The time complexity is $O(m \times n)$.
 
 <!-- tabs:start -->
 

@@ -1,68 +1,84 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0788.Rotated%20Digits/README.md
+difficulty: Medium
 tags:
-    - 数学
-    - 动态规划
+    - Math
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [788. 旋转数字](https://leetcode.cn/problems/rotated-digits)
+# [788. Rotated Digits](https://leetcode.com/problems/rotated-digits)
 
-[English Version](/solution/0700-0799/0788.Rotated%20Digits/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>我们称一个数 X 为好数, 如果它的每位数字逐个地被旋转 180 度后，我们仍可以得到一个有效的，且和 X 不同的数。要求每位数字都要被旋转。</p>
+<p>An integer <code>x</code> is a <strong>good</strong> if after rotating each digit individually by 180 degrees, we get a valid number that is different from <code>x</code>. Each digit must be rotated - we cannot choose to leave it alone.</p>
 
-<p>如果一个数的每位数字被旋转以后仍然还是一个数字，&nbsp;则这个数是有效的。0, 1, 和 8 被旋转后仍然是它们自己；2 和 5 可以互相旋转成对方（在这种情况下，它们以不同的方向旋转，换句话说，2 和 5 互为镜像）；6 和 9 同理，除了这些以外其他的数字旋转以后都不再是有效的数字。</p>
+<p>A number is valid if each digit remains a digit after rotation. For example:</p>
 
-<p>现在我们有一个正整数&nbsp;<code>N</code>, 计算从&nbsp;<code>1</code> 到&nbsp;<code>N</code> 中有多少个数&nbsp;X 是好数？</p>
+<ul>
+	<li><code>0</code>, <code>1</code>, and <code>8</code> rotate to themselves,</li>
+	<li><code>2</code> and <code>5</code> rotate to each other (in this case they are rotated in a different direction, in other words, <code>2</code> or <code>5</code> gets mirrored),</li>
+	<li><code>6</code> and <code>9</code> rotate to each other, and</li>
+	<li>the rest of the numbers do not rotate to any other number and become invalid.</li>
+</ul>
+
+<p>Given an integer <code>n</code>, return <em>the number of <strong>good</strong> integers in the range </em><code>[1, n]</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例：</strong></p>
+<pre>
+<strong>Input:</strong> n = 10
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> There are four good numbers in the range [1, 10] : 2, 5, 6, 9.
+Note that 1 and 10 are not good numbers, since they remain unchanged after rotating.
+</pre>
 
-<pre><strong>输入:</strong> 10
-<strong>输出:</strong> 4
-<strong>解释:</strong> 
-在[1, 10]中有四个好数： 2, 5, 6, 9。
-注意 1 和 10 不是好数, 因为他们在旋转之后不变。
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> 0
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>N&nbsp;的取值范围是&nbsp;<code>[1, 10000]</code>。</li>
+	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：直接枚举
+### Solution 1: Direct Enumeration
 
-一种直观且有效的思路是，直接枚举 $[1,2,..n]$ 中的每个数，判断其是否为好数，若为好数，则答案加一。
+An intuitive and effective approach is to directly enumerate each number in $[1,2,..n]$ and determine whether it is a good number. If it is a good number, increment the answer by one.
 
-那么题目的重点转化为如何判断一个数字 $x$ 是否为好数。判断的逻辑如下：
+The key to the problem is how to determine whether a number $x$ is a good number. The logic is as follows:
 
-我们先用一个长度为 $10$ 的数组 $d$ 记录每个有效数字对应的旋转数字，在这道题中，有效数字有 $[0, 1, 8, 2, 5, 6, 9]$，分别对应旋转数字 $[0, 1, 8, 5, 2, 9, 6]$。如果不是有效数字，我们将对应的旋转数字设为 $-1$。
+We first use an array $d$ of length 10 to record the rotated digits corresponding to each valid digit. In this problem, the valid digits are $[0, 1, 8, 2, 5, 6, 9]$, which correspond to the rotated digits $[0, 1, 8, 5, 2, 9, 6]$ respectively. If a digit is not valid, we set the corresponding rotated digit to $-1$.
 
-然后遍历数字 $x$ 的每一位数字 $v$，如果 $v$ 不是有效数字，说明 $x$ 不是好数，直接返回 $\textit{false}$。否则，我们将数字 $v$ 对应的旋转数字 $d[v]$ 加入到 $y$ 中。最后，判断 $x$ 和 $y$ 是否相等，若不相等，则说明 $x$ 是好数，返回 $\textit{true}$。
+Then, we traverse each digit $v$ of the number $x$. If $v$ is not a valid digit, it means $x$ is not a good number, and we directly return $\textit{false}$. Otherwise, we add the rotated digit $d[v]$ corresponding to the digit $v$ to $y$. Finally, we check whether $x$ and $y$ are equal. If they are not equal, it means $x$ is a good number, and we return $\textit{true}$.
 
-时间复杂度 $O(n \times \log n)$，其中 $n$ 为题目给定的数字。空间复杂度 $O(1)$。
+The time complexity is $O(n \times \log n)$, where $n$ is the given number. The space complexity is $O(1)$.
 
-相似题目：
+Similar problems:
 
--   [1056. 易混淆数](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1056.Confusing%20Number/README.md)
+-   [1056. Confusing Number](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1056.Confusing%20Number/README_EN.md)
 
 <!-- tabs:start -->
 
@@ -209,44 +225,44 @@ function rotatedDigits(n: number): number {
 
 <!-- solution:start -->
 
-### 方法二：数位 DP
+### Solution 2: Digit DP
 
-方法一的做法足以通过本题，但时间复杂度较高。如果题目的数据范围达到 $10^9$ 级别，则方法一的做法会超出时间限制。
+Solution 1 is sufficient to solve this problem, but its time complexity is relatively high. If the data range of the problem reaches the level of $10^9$, the approach in Solution 1 will exceed the time limit.
 
-这道题实际上是求在给定区间 $[l,..r]$ 中，满足条件的数的个数。条件与数的大小无关，而只与数的组成有关，因此可以使用数位 DP 的思想求解。数位 DP 中，数的大小对复杂度的影响很小。
+This problem essentially asks for the number of numbers in the given range $[l, ..r]$ that satisfy certain conditions. The conditions are related to the composition of the numbers rather than their size, so we can use the concept of Digit DP to solve it. In Digit DP, the size of the number has little impact on the complexity.
 
-对于区间 $[l,..r]$ 问题，我们一般会将其转化为 $[1,..r]$ 然后再减去 $[1,..l - 1]$ 的问题，即：
+For the range $[l, ..r]$ problem, we generally convert it to the problem of $[1, ..r]$ and then subtract the result of $[1, ..l - 1]$, i.e.:
 
 $$
 ans = \sum_{i=1}^{r} ans_i -  \sum_{i=1}^{l-1} ans_i
 $$
 
-不过对于本题而言，我们只需要求出区间 $[1,..r]$ 的值即可。
+However, for this problem, we only need to find the value for the range $[1, ..r]$.
 
-这里我们用记忆化搜索来实现数位 DP。从起点向下搜索，到最底层得到方案数，一层层向上返回答案并累加，最后从搜索起点得到最终的答案。
+Here, we use memoized search to implement Digit DP. We search from the starting point downwards, and at the lowest level, we get the number of solutions. We then return the answers layer by layer upwards, and finally get the final answer from the starting point of the search.
 
-基本步骤如下：
+The basic steps are as follows:
 
-我们将数字 $n$ 转为字符串 $s$。然后定义函数 $\textit{dfs}(i, \textit{ok}, \textit{limit})$，其中 $i$ 表示数字的位数，数字 $\textit{ok}$ 表示当前数字是否满足题目要求，布尔值 $\textit{limit}$ 表示可填的数字的限制。
+We convert the number $n$ to a string $s$. Then we define a function $\textit{dfs}(i, \textit{ok}, \textit{limit})$, where $i$ represents the digit position, $\textit{ok}$ indicates whether the current number satisfies the problem's conditions, and $\textit{limit}$ is a boolean indicating whether the digits that can be filled are restricted.
 
-函数的执行逻辑如下：
+The function executes as follows:
 
-如果 $i$ 大于等于字符串 $s$ 的长度，返回 $\textit{ok}$；
+If $i$ is greater than or equal to the length of the string $s$, return $\textit{ok}$;
 
-否则，我们获取当前位的数字 $up$，如果 $\textit{limit}$ 为 $\textit{true}$，则 $up$ 为当前位的数字，否则 $up$ 为 $9$；
+Otherwise, we get the current digit $up$. If $\textit{limit}$ is $\textit{true}$, $up$ is the current digit; otherwise, $up$ is $9$;
 
-接下来，我们遍历 $[0,..up]$，如果 $j$ 是有效数字 $[0, 1, 8]$，则递归调用 $\textit{dfs}(i + 1, \textit{ok}, \textit{limit} \land j = \textit{up})$；如果 $j$ 是有效数字 $[2, 5, 6, 9]$，则递归调用 $\textit{dfs}(i + 1, 1, \textit{limit} \land j = \textit{up})$；将所有递归调用的结果累加并返回。
+Next, we iterate over $[0, ..up]$. If $j$ is a valid digit $[0, 1, 8]$, we recursively call $\textit{dfs}(i + 1, \textit{ok}, \textit{limit} \land j = \textit{up})$; if $j$ is a valid digit $[2, 5, 6, 9]$, we recursively call $\textit{dfs}(i + 1, 1, \textit{limit} \land j = \textit{up})$. We sum all the results of the recursive calls and return.
 
-时间复杂度 $O(\log n \times D)$，空间复杂度 $O(\log n)$。其中 $D = 10$。
+The time complexity is $O(\log n \times D)$, and the space complexity is $O(\log n)$. Here, $D = 10$.
 
-相似题目：
+Similar problems:
 
--   [233. 数字 1 的个数](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0233.Number%20of%20Digit%20One/README.md)
--   [357. 统计各位数字都不同的数字个数](https://github.com/doocs/leetcode/blob/main/solution/0300-0399/0357.Count%20Numbers%20with%20Unique%20Digits/README.md)
--   [600. 不含连续 1 的非负整数](https://github.com/doocs/leetcode/blob/main/solution/0600-0699/0600.Non-negative%20Integers%20without%20Consecutive%20Ones/README.md)
--   [902. 最大为 N 的数字组合](https://github.com/doocs/leetcode/blob/main/solution/0900-0999/0902.Numbers%20At%20Most%20N%20Given%20Digit%20Set/README.md)
--   [1012. 至少有 1 位重复的数字](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1012.Numbers%20With%20Repeated%20Digits/README.md)
--   [2376. 统计特殊整数](https://github.com/doocs/leetcode/blob/main/solution/2300-2399/2376.Count%20Special%20Integers/README.md)
+-   [233. Number of Digit One](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0233.Number%20of%20Digit%20One/README_EN.md)
+-   [357. Count Numbers with Unique Digits](https://github.com/doocs/leetcode/blob/main/solution/0300-0399/0357.Count%20Numbers%20with%20Unique%20Digits/README_EN.md)
+-   [600. Non-negative Integers without Consecutive Ones](https://github.com/doocs/leetcode/blob/main/solution/0600-0699/0600.Non-negative%20Integers%20without%20Consecutive%20Ones/README_EN.md)
+-   [902. Numbers At Most N Given Digit Set](https://github.com/doocs/leetcode/blob/main/solution/0900-0999/0902.Numbers%20At%20Most%20N%20Given%20Digit%20Set/README_EN.md)
+-   [1012. Numbers with Repeated Digits](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1012.Numbers%20With%20Repeated%20Digits/README_EN.md)
+-   [2376. Count Special Integers](https://github.com/doocs/leetcode/blob/main/solution/2300-2399/2376.Count%20Special%20Integers/README_EN.md)
 
 <!-- tabs:start -->
 

@@ -1,78 +1,72 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0284.Peeking%20Iterator/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 数组
-    - 迭代器
+    - Design
+    - Array
+    - Iterator
 ---
 
 <!-- problem:start -->
 
-# [284. 窥视迭代器](https://leetcode.cn/problems/peeking-iterator)
+# [284. Peeking Iterator](https://leetcode.com/problems/peeking-iterator)
 
-[English Version](/solution/0200-0299/0284.Peeking%20Iterator/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你在设计一个迭代器，在集成现有迭代器拥有的&nbsp;<code>hasNext</code> 和 <code>next</code> 操作的基础上，还额外支持 <code>peek</code> 操作。</p>
+<p>Design an iterator that supports the <code>peek</code> operation on an existing iterator in addition to the <code>hasNext</code> and the <code>next</code> operations.</p>
 
-<p>实现 <code>PeekingIterator</code> 类：</p>
+<p>Implement the <code>PeekingIterator</code> class:</p>
 
 <ul>
-	<li><code>PeekingIterator(Iterator&lt;int&gt; nums)</code> 使用指定整数迭代器&nbsp;<code>nums</code> 初始化迭代器。</li>
-	<li><code>int next()</code> 返回数组中的下一个元素，并将指针移动到下个元素处。</li>
-	<li><code>bool hasNext()</code> 如果数组中存在下一个元素，返回 <code>true</code> ；否则，返回 <code>false</code> 。</li>
-	<li><code>int peek()</code> 返回数组中的下一个元素，但 <strong>不</strong> 移动指针。</li>
+	<li><code>PeekingIterator(Iterator&lt;int&gt; nums)</code> Initializes the object with the given integer iterator <code>iterator</code>.</li>
+	<li><code>int next()</code> Returns the next element in the array and moves the pointer to the next element.</li>
+	<li><code>boolean hasNext()</code> Returns <code>true</code> if there are still elements in the array.</li>
+	<li><code>int peek()</code> Returns the next element in the array <strong>without</strong> moving the pointer.</li>
 </ul>
 
-<p><strong>注意：</strong>每种语言可能有不同的构造函数和迭代器&nbsp;<code>Iterator</code>，但均支持 <code>int next()</code> 和 <code>boolean hasNext()</code> 函数。</p>
+<p><strong>Note:</strong> Each language may have a different implementation of the constructor and <code>Iterator</code>, but they all support the <code>int next()</code> and <code>boolean hasNext()</code> functions.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["PeekingIterator", "next", "peek", "next", "next", "hasNext"]
+<strong>Input</strong>
+[&quot;PeekingIterator&quot;, &quot;next&quot;, &quot;peek&quot;, &quot;next&quot;, &quot;next&quot;, &quot;hasNext&quot;]
 [[[1, 2, 3]], [], [], [], [], []]
-<strong>输出：</strong>
+<strong>Output</strong>
 [null, 1, 2, 2, 3, false]
 
-<strong>解释：</strong>
+<strong>Explanation</strong>
 PeekingIterator peekingIterator = new PeekingIterator([1, 2, 3]); // [<u><strong>1</strong></u>,2,3]
-peekingIterator.next();    // 返回 1 ，指针移动到下一个元素 [1,<u><strong>2</strong></u>,3]
-peekingIterator.peek();    // 返回 2 ，指针未发生移动 [1,<u><strong>2</strong></u>,3]
-peekingIterator.next();    // 返回 2 ，指针移动到下一个元素 [1,2,<u><strong>3</strong></u>]
-peekingIterator.next();    // 返回 3 ，指针移动到下一个元素 [1,2,3]
-peekingIterator.hasNext(); // 返回 False
+peekingIterator.next();    // return 1, the pointer moves to the next element [1,<u><strong>2</strong></u>,3].
+peekingIterator.peek();    // return 2, the pointer does not move [1,<u><strong>2</strong></u>,3].
+peekingIterator.next();    // return 2, the pointer moves to the next element [1,2,<u><strong>3</strong></u>]
+peekingIterator.next();    // return 3, the pointer moves to the next element [1,2,3]
+peekingIterator.hasNext(); // return False
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 1000</code></li>
-	<li>对 <code>next</code> 和 <code>peek</code> 的调用均有效</li>
-	<li><code>next</code>、<code>hasNext</code> 和 <code>peek </code>最多调用&nbsp; <code>1000</code> 次</li>
+	<li>All the calls to <code>next</code> and <code>peek</code> are valid.</li>
+	<li>At most <code>1000</code> calls will be made to <code>next</code>, <code>hasNext</code>, and <code>peek</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>你将如何拓展你的设计？使之变得通用化，从而适应所有的类型，而不只是整数型？</p>
+<strong>Follow up:</strong> How would you extend your design to be generic and work with all types, not just integer?
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,84 +1,78 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0362.Design%20Hit%20Counter/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 队列
-    - 数组
-    - 二分查找
-    - 数据流
+    - Design
+    - Queue
+    - Array
+    - Binary Search
+    - Data Stream
 ---
 
 <!-- problem:start -->
 
-# [362. 敲击计数器 🔒](https://leetcode.cn/problems/design-hit-counter)
+# [362. Design Hit Counter 🔒](https://leetcode.com/problems/design-hit-counter)
 
-[English Version](/solution/0300-0399/0362.Design%20Hit%20Counter/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>设计一个敲击计数器，使它可以统计在过去 <code>5</code> 分钟内被敲击次数。（即过去 <code>300</code> 秒）</p>
+<p>Design a hit counter which counts the number of hits received in the past <code>5</code> minutes (i.e., the past <code>300</code> seconds).</p>
 
-<p>您的系统应该接受一个时间戳参数&nbsp;<code>timestamp</code>&nbsp;(单位为 <strong>秒</strong>&nbsp;)，并且您可以假定对系统的调用是按时间顺序进行的(即&nbsp;<code>timestamp</code>&nbsp;是单调递增的)。几次撞击可能同时发生。</p>
+<p>Your system should accept a <code>timestamp</code> parameter (<strong>in seconds</strong> granularity), and you may assume that calls are being made to the system in chronological order (i.e., <code>timestamp</code> is monotonically increasing). Several hits may arrive roughly at the same time.</p>
 
-<p>实现&nbsp;<code>HitCounter</code>&nbsp;类:</p>
+<p>Implement the <code>HitCounter</code> class:</p>
 
 <ul>
-	<li><code>HitCounter()</code>&nbsp;初始化命中计数器系统。</li>
-	<li><code>void hit(int timestamp)</code>&nbsp;记录在&nbsp;<code>timestamp</code>&nbsp;(&nbsp;<strong>单位为秒</strong>&nbsp;)发生的一次命中。在同一个&nbsp;<code>timestamp</code>&nbsp;中可能会出现几个点击。</li>
-	<li><code>int getHits(int timestamp)</code>&nbsp;返回&nbsp;<code>timestamp</code>&nbsp;在过去 5 分钟内(即过去 <code>300</code> 秒)的命中次数。</li>
+	<li><code>HitCounter()</code> Initializes the object of the hit counter system.</li>
+	<li><code>void hit(int timestamp)</code> Records a hit that happened at <code>timestamp</code> (<strong>in seconds</strong>). Several hits may happen at the same <code>timestamp</code>.</li>
+	<li><code>int getHits(int timestamp)</code> Returns the number of hits in the past 5 minutes from <code>timestamp</code> (i.e., the past <code>300</code> seconds).</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["HitCounter", "hit", "hit", "hit", "getHits", "hit", "getHits", "getHits"]
+<strong>Input</strong>
+[&quot;HitCounter&quot;, &quot;hit&quot;, &quot;hit&quot;, &quot;hit&quot;, &quot;getHits&quot;, &quot;hit&quot;, &quot;getHits&quot;, &quot;getHits&quot;]
 [[], [1], [2], [3], [4], [300], [300], [301]]
-<strong>输出：</strong>
+<strong>Output</strong>
 [null, null, null, null, 3, null, 4, 3]
 
-<strong>解释：</strong>
-HitCounter counter = new HitCounter();
-counter.hit(1);// 在时刻 1 敲击一次。
-counter.hit(2);// 在时刻 2 敲击一次。
-counter.hit(3);// 在时刻 3 敲击一次。
-counter.getHits(4);// 在时刻 4 统计过去 5 分钟内的敲击次数, 函数返回 3 。
-counter.hit(300);// 在时刻 300 敲击一次。
-counter.getHits(300); // 在时刻 300 统计过去 5 分钟内的敲击次数，函数返回 4 。
-counter.getHits(301); // 在时刻 301 统计过去 5 分钟内的敲击次数，函数返回 3 。
+<strong>Explanation</strong>
+HitCounter hitCounter = new HitCounter();
+hitCounter.hit(1);       // hit at timestamp 1.
+hitCounter.hit(2);       // hit at timestamp 2.
+hitCounter.hit(3);       // hit at timestamp 3.
+hitCounter.getHits(4);   // get hits at timestamp 4, return 3.
+hitCounter.hit(300);     // hit at timestamp 300.
+hitCounter.getHits(300); // get hits at timestamp 300, return 4.
+hitCounter.getHits(301); // get hits at timestamp 301, return 3.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= timestamp &lt;= 2 * 10<sup>9</sup></code></li>
-	<li>所有对系统的调用都是按时间顺序进行的（即&nbsp;<code>timestamp</code>&nbsp;是单调递增的）</li>
-	<li><code>hit</code>&nbsp;and&nbsp;<code>getHits&nbsp;</code>最多被调用&nbsp;<code>300</code>&nbsp;次</li>
+	<li>All the calls are being made to the system in chronological order (i.e., <code>timestamp</code> is monotonically increasing).</li>
+	<li>At most <code>300</code> calls will be made to <code>hit</code> and <code>getHits</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶:</strong>&nbsp;如果每秒的敲击次数是一个很大的数字，你的计数器可以应对吗？</p>
+<p><strong>Follow up:</strong> What if the number of hits per second could be huge? Does your design scale?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-由于 `timestamp` 是单调递增的，我们可以使用一个数组 `ts` 来存储所有的 `timestamp`，然后在 `getHits` 方法中使用二分查找找到第一个大于等于 `timestamp - 300 + 1` 的位置，然后返回 `ts` 的长度减去这个位置即可。
+Since `timestamp` is monotonically increasing, we can use an array `ts` to store all `timestamp`s. Then in the `getHits` method, we use binary search to find the first position that is greater than or equal to `timestamp - 300 + 1`, and then return the length of `ts` minus this position.
 
-时间复杂度方面，`hit` 方法的时间复杂度为 $O(1)$，`getHits` 方法的时间复杂度为 $O(\log n)$。其中 $n$ 为 `ts` 的长度。
+In terms of time complexity, the time complexity of the `hit` method is $O(1)$, and the time complexity of the `getHits` method is $O(\log n)$. Where $n$ is the length of `ts`.
 
 <!-- tabs:start -->
 

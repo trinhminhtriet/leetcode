@@ -1,48 +1,43 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1213.Intersection%20of%20Three%20Sorted%20Arrays/README.md
+difficulty: Easy
 rating: 1259
-source: 第 10 场双周赛 Q1
+source: Biweekly Contest 10 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 二分查找
-    - 计数
+    - Array
+    - Hash Table
+    - Binary Search
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [1213. 三个有序数组的交集 🔒](https://leetcode.cn/problems/intersection-of-three-sorted-arrays)
+# [1213. Intersection of Three Sorted Arrays 🔒](https://leetcode.com/problems/intersection-of-three-sorted-arrays)
 
-[English Version](/solution/1200-1299/1213.Intersection%20of%20Three%20Sorted%20Arrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给出三个均为 <strong>严格递增排列 </strong>的整数数组&nbsp;<code>arr1</code>，<code>arr2</code> 和&nbsp;<code>arr3</code>。返回一个由&nbsp;<strong>仅 </strong>在这三个数组中&nbsp;<strong>同时出现&nbsp;</strong>的整数所构成的有序数组。</p>
+<p>Given three integer arrays <code>arr1</code>, <code>arr2</code> and <code>arr3</code>&nbsp;<strong>sorted</strong> in <strong>strictly increasing</strong> order, return a sorted array of <strong>only</strong>&nbsp;the&nbsp;integers that appeared in <strong>all</strong> three arrays.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入: </strong>arr1 = [1,2,3,4,5], arr2 = [1,2,5,7,9], arr3 = [1,3,4,5,8]
-<strong>输出: </strong>[1,5]
-<strong>解释: </strong>只有 1 和 5 同时在这三个数组中出现.
+<strong>Input:</strong> arr1 = [1,2,3,4,5], arr2 = [1,2,5,7,9], arr3 = [1,3,4,5,8]
+<strong>Output:</strong> [1,5]
+<strong>Explanation: </strong>Only 1 and 5 appeared in the three arrays.
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入: </strong>arr1 = [197,418,523,876,1356], arr2 = [501,880,1593,1710,1870], arr3 = [521,682,1337,1395,1764]
-<strong>输出: </strong>[]
+<strong>Input:</strong> arr1 = [197,418,523,876,1356], arr2 = [501,880,1593,1710,1870], arr3 = [521,682,1337,1395,1764]
+<strong>Output:</strong> []
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr1.length, arr2.length, arr3.length &lt;= 1000</code></li>
@@ -51,15 +46,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-遍历三个数组，统计每个数字出现的次数，然后遍历任意一个数组，若某个数字出现的次数为 $3$，则将其加入结果数组。
+Traverse the three arrays, count the occurrence of each number, then traverse any one of the arrays. If the count of a number is $3$, add it to the result array.
 
-时间复杂度 $O(n)$，空间复杂度 $O(m)$。其中 $n$ 和 $m$ 分别为数组的长度和数组中数字的范围。
+The time complexity is $O(n)$, and the space complexity is $O(m)$. Here, $n$ and $m$ are the length of the array and the range of numbers in the array, respectively.
 
 <!-- tabs:start -->
 
@@ -172,11 +167,11 @@ class Solution {
 
 <!-- solution:start -->
 
-### 方法二：二分查找
+### Solution 2: Binary Search
 
-遍历第一个数组，对于其中的每个数字，使用二分查找在第二个数组和第三个数组中查找该数字，若都找到，则将该数字加入结果数组。
+Traverse the first array. For each number, use binary search to find this number in the second and third arrays. If found in both, add this number to the result array.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(1)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

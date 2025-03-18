@@ -1,89 +1,72 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1091.Shortest%20Path%20in%20Binary%20Matrix/README.md
+difficulty: Medium
 rating: 1658
-source: 第 141 场周赛 Q3
+source: Weekly Contest 141 Q3
 tags:
-    - 广度优先搜索
-    - 数组
-    - 矩阵
+    - Breadth-First Search
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [1091. 二进制矩阵中的最短路径](https://leetcode.cn/problems/shortest-path-in-binary-matrix)
+# [1091. Shortest Path in Binary Matrix](https://leetcode.com/problems/shortest-path-in-binary-matrix)
 
-[English Version](/solution/1000-1099/1091.Shortest%20Path%20in%20Binary%20Matrix/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>n x n</code> 的二进制矩阵 <code>grid</code> 中，返回矩阵中最短 <strong>畅通路径</strong> 的长度。如果不存在这样的路径，返回 <code>-1</code> 。</p>
+<p>Given an <code>n x n</code> binary matrix <code>grid</code>, return <em>the length of the shortest <strong>clear path</strong> in the matrix</em>. If there is no clear path, return <code>-1</code>.</p>
 
-<p>二进制矩阵中的 畅通路径 是一条从 <strong>左上角</strong> 单元格（即，<code>(0, 0)</code>）到 右下角 单元格（即，<code>(n - 1, n - 1)</code>）的路径，该路径同时满足下述要求：</p>
+<p>A <strong>clear path</strong> in a binary matrix is a path from the <strong>top-left</strong> cell (i.e., <code>(0, 0)</code>) to the <strong>bottom-right</strong> cell (i.e., <code>(n - 1, n - 1)</code>) such that:</p>
 
 <ul>
-	<li>路径途经的所有单元格的值都是 <code>0</code> 。</li>
-	<li>路径中所有相邻的单元格应当在 <strong>8 个方向之一</strong> 上连通（即，相邻两单元之间彼此不同且共享一条边或者一个角）。</li>
+	<li>All the visited cells of the path are <code>0</code>.</li>
+	<li>All the adjacent cells of the path are <strong>8-directionally</strong> connected (i.e., they are different and they share an edge or a corner).</li>
 </ul>
 
-<p><strong>畅通路径的长度</strong> 是该路径途经的单元格总数。</p>
+<p>The <strong>length of a clear path</strong> is the number of visited cells of this path.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1000-1099/1091.Shortest%20Path%20in%20Binary%20Matrix/images/example1_1.png" style="width: 500px; height: 234px;" />
 <pre>
-<strong>输入：</strong>grid = [[0,1],[1,0]]
-<strong>输出：</strong>2
+<strong>Input:</strong> grid = [[0,1],[1,0]]
+<strong>Output:</strong> 2
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1000-1099/1091.Shortest%20Path%20in%20Binary%20Matrix/images/example2_1.png" style="height: 216px; width: 500px;" />
 <pre>
-<strong>输入：</strong>grid = [[0,0,0],[1,1,0],[1,1,0]]
-<strong>输出：</strong>4
+<strong>Input:</strong> grid = [[0,0,0],[1,1,0],[1,1,0]]
+<strong>Output:</strong> 4
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>grid = [[1,0,0],[1,1,0],[1,1,0]]
-<strong>输出：</strong>-1
+<strong>Input:</strong> grid = [[1,0,0],[1,1,0],[1,1,0]]
+<strong>Output:</strong> -1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
-	<li><code>grid[i][j]</code> 为 <code>0</code> 或 <code>1</code></li>
+	<li><code>grid[i][j] is 0 or 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
-
-根据题目描述，一条畅通路径是从左上角单元格 $(0, 0)$ 到右下角单元格 $(n - 1, n - 1)$ 的路径，且路径上所有单元格的值都是 $0$。
-
-因此，如果左上角单元格 $(0, 0)$ 的值为 $1$，则不存在满足要求的路径，直接返回 $-1$。
-
-否则，我们创建一个队列 $q$，将左上角单元格 $(0, 0)$ 加入队列，并且将其标记为已访问，即把 $grid[0][0]$ 的值置为 $1$，然后开始广度优先搜索。
-
-在每一轮搜索中，我们每次取出队首节点 $(i, j)$，如果 $(i, j)$ 为右下角单元格 $(n - 1, n - 1)$，则路径长度为当前的搜索轮数，直接返回。否则，我们将当前节点的所有未被访问过的相邻节点加入队列，并且将它们标记为已访问。每一轮搜索结束后，我们将搜索轮数增加 $1$。然后继续执行上述过程，直到队列为空或者找到目标节点。
-
-如果在搜索结束后，我们仍然没有到达右下角的节点，那么说明右下角的节点不可达，返回 $-1$。
-
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是给定的二进制矩阵的边长。
+### Solution 1
 
 <!-- tabs:start -->
 

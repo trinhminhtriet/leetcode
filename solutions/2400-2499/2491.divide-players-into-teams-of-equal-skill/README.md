@@ -1,88 +1,83 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2491.Divide%20Players%20Into%20Teams%20of%20Equal%20Skill/README.md
+difficulty: Medium
 rating: 1323
-source: 第 322 场周赛 Q2
+source: Weekly Contest 322 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 双指针
-    - 排序
+    - Array
+    - Hash Table
+    - Two Pointers
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2491. 划分技能点相等的团队](https://leetcode.cn/problems/divide-players-into-teams-of-equal-skill)
+# [2491. Divide Players Into Teams of Equal Skill](https://leetcode.com/problems/divide-players-into-teams-of-equal-skill)
 
-[English Version](/solution/2400-2499/2491.Divide%20Players%20Into%20Teams%20of%20Equal%20Skill/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数数组 <code>skill</code> ，数组长度为 <strong>偶数</strong> <code>n</code> ，其中 <code>skill[i]</code> 表示第 <code>i</code> 个玩家的技能点。将所有玩家分成 <code>n / 2</code> 个 <code>2</code> 人团队，使每一个团队的技能点之和 <strong>相等</strong> 。</p>
+<p>You are given a positive integer array <code>skill</code> of <strong>even</strong> length <code>n</code> where <code>skill[i]</code> denotes the skill of the <code>i<sup>th</sup></code> player. Divide the players into <code>n / 2</code> teams of size <code>2</code> such that the total skill of each team is <strong>equal</strong>.</p>
 
-<p>团队的 <strong>化学反应</strong> 等于团队中玩家的技能点 <strong>乘积</strong> 。</p>
+<p>The <strong>chemistry</strong> of a team is equal to the <strong>product</strong> of the skills of the players on that team.</p>
 
-<p>返回所有团队的 <strong>化学反应</strong> 之和，如果无法使每个团队的技能点之和相等，则返回 <code>-1</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>skill = [3,2,5,1,3,4]
-<strong>输出：</strong>22
-<strong>解释：</strong>
-将玩家分成 3 个团队 (1, 5), (2, 4), (3, 3) ，每个团队的技能点之和都是 6 。
-所有团队的化学反应之和是 1 * 5 + 2 * 4 + 3 * 3 = 5 + 8 + 9 = 22 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>skill = [3,4]
-<strong>输出：</strong>12
-<strong>解释：</strong>
-两个玩家形成一个团队，技能点之和是 7 。
-团队的化学反应是 3 * 4 = 12 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>skill = [1,1,2,3]
-<strong>输出：</strong>-1
-<strong>解释：</strong>
-无法将玩家分成每个团队技能点都相等的若干个 2 人团队。
-</pre>
+<p>Return <em>the sum of the <strong>chemistry</strong> of all the teams, or return </em><code>-1</code><em> if there is no way to divide the players into teams such that the total skill of each team is equal.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> skill = [3,2,5,1,3,4]
+<strong>Output:</strong> 22
+<strong>Explanation:</strong> 
+Divide the players into the following teams: (1, 5), (2, 4), (3, 3), where each team has a total skill of 6.
+The sum of the chemistry of all the teams is: 1 * 5 + 2 * 4 + 3 * 3 = 5 + 8 + 9 = 22.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> skill = [3,4]
+<strong>Output:</strong> 12
+<strong>Explanation:</strong> 
+The two players form a team with a total skill of 7.
+The chemistry of the team is 3 * 4 = 12.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> skill = [1,1,2,3]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> 
+There is no way to divide the players into teams such that the total skill of each team is equal.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= skill.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>skill.length</code> 是偶数</li>
+	<li><code>skill.length</code> is even.</li>
 	<li><code>1 &lt;= skill[i] &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序
+### Solution 1: Sorting
 
-要使得所有 $2$ 人团队的技能点相等，最小值一定需要跟最大值匹配。因此，我们将数组 `skill` 排序，然后用双指针 $i$ 和 $j$ 分别指向数组的首位，两两匹配，判断其和是否均为同一个数。
+To make all 2-person teams have equal skill points, the minimum value must match the maximum value. Therefore, we sort the `skill` array, and then use two pointers $i$ and $j$ to point to the beginning and end of the array respectively, match them in pairs, and judge whether their sum is the same number.
 
-若不是，说明技能点无法相等，直接返回 $-1$，否则，将化学反应累加到答案中。
+If not, it means that the skill points cannot be equal, and we directly return $-1$. Otherwise, we add the chemical reaction to the answer.
 
-遍历结束，返回答案即可。
+At the end of the traversal, we return the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组 `skill` 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Where $n$ is the length of the `skill` array.
 
 <!-- tabs:start -->
 
@@ -222,9 +217,9 @@ var dividePlayers = function (skill) {
 
 <!-- solution:start -->
 
-### 方法二：计数
+### Solution 2: Counting
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 `skill` 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the `skill` array.
 
 <!-- tabs:start -->
 

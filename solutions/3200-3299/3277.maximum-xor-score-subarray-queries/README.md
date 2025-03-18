@@ -1,71 +1,67 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3277.Maximum%20XOR%20Score%20Subarray%20Queries/README.md
+difficulty: Hard
 rating: 2692
-source: 第 413 场周赛 Q4
+source: Weekly Contest 413 Q4
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3277. 查询子数组最大异或值](https://leetcode.cn/problems/maximum-xor-score-subarray-queries)
+# [3277. Maximum XOR Score Subarray Queries](https://leetcode.com/problems/maximum-xor-score-subarray-queries)
 
-[English Version](/solution/3200-3299/3277.Maximum%20XOR%20Score%20Subarray%20Queries/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个由 <code>n</code> 个整数组成的数组 <code>nums</code>，以及一个大小为 <code>q</code> 的二维整数数组 <code>queries</code>，其中 <code>queries[i] = [l<sub>i</sub>, r<sub>i</sub>]</code>。</p>
+<p>You are given an array <code>nums</code> of <code>n</code> integers, and a 2D integer array <code>queries</code> of size <code>q</code>, where <code>queries[i] = [l<sub>i</sub>, r<sub>i</sub>]</code>.</p>
 
-<p>对于每一个查询，你需要找出 <code>nums[l<sub>i</sub>..r<sub>i</sub>]</code> 中任意 <span data-keyword="subarray">子数组</span> 的 <strong>最大异或值</strong>。</p>
+<p>For each query, you must find the <strong>maximum XOR score</strong> of any <span data-keyword="subarray">subarray</span> of <code>nums[l<sub>i</sub>..r<sub>i</sub>]</code>.</p>
 
-<p><strong>数组的异或值 </strong>需要对数组 <code>a</code> 反复执行以下操作，直到只剩一个元素，剩下的那个元素就是 <strong>异或值</strong>：</p>
+<p>The <strong>XOR score</strong> of an array <code>a</code> is found by repeatedly applying the following operations on <code>a</code> so that only one element remains, that is the <strong>score</strong>:</p>
 
 <ul>
-	<li><span class="text-only" data-eleid="9" style="white-space: pre;">对于除最后一个下标以外的所有下标</span> <code>i</code>，同时将 <code>a[i]</code> 替换为 <code>a[i] XOR a[i + 1]</code> 。</li>
-	<li>移除数组的最后一个元素。</li>
+	<li>Simultaneously replace <code>a[i]</code> with <code>a[i] XOR a[i + 1]</code> for all indices <code>i</code> except the last one.</li>
+	<li>Remove the last element of <code>a</code>.</li>
 </ul>
 
-<p>返回一个大小为 <code>q</code> 的数组 <code>answer</code>，其中 <code>answer[i]</code> 表示查询 <code>i</code> 的答案。</p>
+<p>Return an array <code>answer</code> of size <code>q</code> where <code>answer[i]</code> is the answer to query <code>i</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [2,8,4,32,16,1], queries = [[0,2],[1,4],[0,5]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [2,8,4,32,16,1], queries = [[0,2],[1,4],[0,5]]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">[12,60,60]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[12,60,60]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>在第一个查询中，<code>nums[0..2]</code> 的子数组分别是 <code>[2]</code>, <code>[8]</code>, <code>[4]</code>, <code>[2, 8]</code>, <code>[8, 4]</code>, 和 <code>[2, 8, 4]</code>，它们的异或值分别为 2, 8, 4, 10, 12, 和 6。查询的答案是 12，所有异或值中的最大值。</p>
+<p>In the first query, <code>nums[0..2]</code> has 6 subarrays <code>[2]</code>, <code>[8]</code>, <code>[4]</code>, <code>[2, 8]</code>, <code>[8, 4]</code>, and <code>[2, 8, 4]</code> each with a respective XOR score of 2, 8, 4, 10, 12, and 6. The answer for the query is 12, the largest of all XOR scores.</p>
 
-<p>在第二个查询中，<code>nums[1..4]</code> 的子数组中最大的异或值是子数组 <code>nums[1..4]</code> 的异或值，为 60。</p>
+<p>In the second query, the subarray of <code>nums[1..4]</code> with the largest XOR score is <code>nums[1..4]</code> with a score of 60.</p>
 
-<p>在第三个查询中，<code>nums[0..5]</code> 的子数组中最大的异或值是子数组 <code>nums[1..4]</code> 的异或值，为 60。</p>
+<p>In the third query, the subarray of <code>nums[0..5]</code> with the largest XOR score is <code>nums[1..4]</code> with a score of 60.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [0,7,3,2,8,5,1], queries = [[0,3],[1,5],[2,4],[2,6],[5,6]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [0,7,3,2,8,5,1], queries = [[0,3],[1,5],[2,4],[2,6],[5,6]]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">[7,14,11,14,5]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[7,14,11,14,5]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <table height="70" width="472">
 	<thead>
 		<tr>
-			<th>下标</th>
+			<th>Index</th>
 			<th>nums[l<sub>i</sub>..r<sub>i</sub>]</th>
-			<th>最大异或值子数组</th>
-			<th>子数组最大异或值</th>
+			<th>Maximum XOR Score Subarray</th>
+			<th>Maximum Subarray XOR Score</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -104,43 +100,42 @@ tags:
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == nums.length &lt;= 2000</code></li>
 	<li><code>0 &lt;= nums[i] &lt;= 2<sup>31</sup> - 1</code></li>
 	<li><code>1 &lt;= q == queries.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>queries[i].length == 2</code></li>
+	<li><code>queries[i].length == 2 </code></li>
 	<li><code>queries[i] = [l<sub>i</sub>, r<sub>i</sub>]</code></li>
 	<li><code>0 &lt;= l<sub>i</sub> &lt;= r<sub>i</sub> &lt;= n - 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][j]$ 表示 $\textit{nums}[i..j]$ 的异或值，那么根据题目描述，我们可以得到状态转移方程：
+We define $f[i][j]$ to represent the XOR value of $\textit{nums}[i..j]$. According to the problem description, we can derive the state transition equation:
 
 $$
 f[i][j] = f[i][j-1] \oplus f[i+1][j]
 $$
 
-其中 $\oplus$ 表示异或运算。
+where $\oplus$ denotes the XOR operation.
 
-我们再定义 $g[i][j]$ 表示 $f[i][j]$ 的最大值，那么状态转移方程为：
+We further define $g[i][j]$ to represent the maximum value of $f[i][j]$. The state transition equation is:
 
 $$
 g[i][j] = \max(f[i][j], g[i][j-1], g[i+1][j])
 $$
 
-最后，我们遍历查询数组，对于每个查询 $[l, r]$，将 $g[l][r]$ 加入答案数组即可。
+Finally, we traverse the query array. For each query $[l, r]$, we add $g[l][r]$ to the answer array.
 
-时间复杂度 $O(n^2 + m)$，空间复杂度 $O(n^2)$。其中 $n$ 和 $m$ 分别为数组 $\textit{nums}$ 和 $\textit{queries}$ 的长度。
+The time complexity is $O(n^2 + m)$, and the space complexity is $O(n^2)$. Here, $n$ and $m$ are the lengths of the arrays $\textit{nums}$ and $\textit{queries}$, respectively.
 
 <!-- tabs:start -->
 

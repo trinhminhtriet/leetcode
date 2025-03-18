@@ -1,66 +1,63 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2282.Number%20of%20People%20That%20Can%20Be%20Seen%20in%20a%20Grid/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 数组
-    - 矩阵
-    - 单调栈
+    - Stack
+    - Array
+    - Matrix
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [2282. 在一个网格中可以看到的人数 🔒](https://leetcode.cn/problems/number-of-people-that-can-be-seen-in-a-grid)
+# [2282. Number of People That Can Be Seen in a Grid 🔒](https://leetcode.com/problems/number-of-people-that-can-be-seen-in-a-grid)
 
-[English Version](/solution/2200-2299/2282.Number%20of%20People%20That%20Can%20Be%20Seen%20in%20a%20Grid/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个 <code>m x n</code> <strong>下标从 0 开始</strong>的二维正整数数组 <code>heights</code>，其中 <code>heights[i][j]</code> 是站在位置 <code>(i, j)</code>&nbsp;上的人的高度。</p>
+<p>You are given an <code>m x n</code> <strong>0-indexed</strong> 2D array of positive integers <code>heights</code> where <code>heights[i][j]</code> is the height of the person standing at position <code>(i, j)</code>.</p>
 
-<p>站在 <code>(row<sub>1</sub>, col<sub>1</sub>)</code>&nbsp;位置的人可以看到站在 <code>(row<sub>2</sub>, col<sub>2</sub>)</code> 位置的人，前提是:</p>
+<p>A person standing at position <code>(row<sub>1</sub>, col<sub>1</sub>)</code> can see a person standing at position <code>(row<sub>2</sub>, col<sub>2</sub>)</code> if:</p>
 
 <ul>
-	<li><code>(row<sub>2</sub>, col<sub>2</sub>)</code>&nbsp;的人在&nbsp;<code>(row<sub>1</sub>, col<sub>1</sub>)</code> 的人的右边&nbsp;<strong>或&nbsp;</strong>下面。更正式地说，要么 <code>row<sub>1</sub> == row<sub>2</sub></code>&nbsp;时&nbsp;<code>col<sub>1</sub> &lt; col<sub>2</sub></code>，要么&nbsp;<code>row<sub>1</sub> &lt; row<sub>2</sub></code><sub>&nbsp;</sub>时 <code>col<sub>1</sub> == col<sub>2</sub></code>。</li>
-	<li>他们中间的人&nbsp;<strong>都&nbsp;</strong>比他们两个矮。</li>
+	<li>The person at <code>(row<sub>2</sub>, col<sub>2</sub>)</code> is to the right <strong>or</strong> below the person at <code>(row<sub>1</sub>, col<sub>1</sub>)</code>. More formally, this means that either <code>row<sub>1</sub> == row<sub>2</sub></code> and <code>col<sub>1</sub> &lt; col<sub>2</sub></code> <strong>or</strong> <code>row<sub>1</sub> &lt; row<sub>2</sub></code> and <code>col<sub>1</sub> == col<sub>2</sub></code>.</li>
+	<li>Everyone in between them is shorter than <strong>both</strong> of them.</li>
 </ul>
 
-<p>返回<em>一个&nbsp;<code>m x n</code> 的二维整数数组<code>answer</code>，其中&nbsp;<code>answer[i][j]</code>&nbsp;是位于&nbsp;<code>(i, j)</code> 位置的人可以看到的人数。</em></p>
+<p>Return<em> an </em><code>m x n</code><em> 2D array of integers </em><code>answer</code><em> where </em><code>answer[i][j]</code><em> is the number of people that the person at position </em><code>(i, j)</code><em> can see.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2282.Number%20of%20People%20That%20Can%20Be%20Seen%20in%20a%20Grid/images/image-20220524180458-1.png" style="width: 700px; height: 164px;" />
 <pre>
-<strong>输入:</strong> heights = [[3,1,4,2,5]]
-<strong>输出:</strong> [[2,1,2,1,0]]
-<strong>解释:</strong>
-- (0,0) 上的人可以看到 (0,1) 和 (0,2) 的人。
-  注意，他看不到 (0,4) 上的人，因为 (0,2) 上的人比他高。
-- (0,1) 上的人可以看到 (0,2) 上的人。
-- (0,2) 上的人可以看到 (0,3) 和 (0,4) 的人。
-- (0,3) 上的人可以看到 (0,4) 上的人。
-- (0,4) 上的人看不到任何人。</pre>
+<strong>Input:</strong> heights = [[3,1,4,2,5]]
+<strong>Output:</strong> [[2,1,2,1,0]]
+<strong>Explanation:</strong>
+- The person at (0, 0) can see the people at (0, 1) and (0, 2).
+  Note that he cannot see the person at (0, 4) because the person at (0, 2) is taller than him.
+- The person at (0, 1) can see the person at (0, 2).
+- The person at (0, 2) can see the people at (0, 3) and (0, 4).
+- The person at (0, 3) can see the person at (0, 4).
+- The person at (0, 4) cannot see anybody.
+</pre>
 
-<p><strong class="example">示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2282.Number%20of%20People%20That%20Can%20Be%20Seen%20in%20a%20Grid/images/image-20220523113533-2.png" style="width: 400px; height: 249px;" />
 <pre>
-<strong>输入:</strong> heights = [[5,1],[3,1],[4,1]]
-<strong>输出:</strong> [[3,1],[2,1],[1,0]]
-<strong>解释:</strong>
-- (0,0) 上的人可以看到 (0,1)、(1,0) 和 (2,0) 的人。
-- (0,1) 上的人可以看到 (1,1) 上的人。
-- (1,0) 上的人可以看到 (1,1) 和 (2,0) 的人。
-- (1,1) 上的人可以看到 (2,1) 上的人。
-- (2,0) 上的人可以看到 (2,1) 上的人。
-- (2,1) 上的人看不到任何人。</pre>
+<strong>Input:</strong> heights = [[5,1],[3,1],[4,1]]
+<strong>Output:</strong> [[3,1],[2,1],[1,0]]
+<strong>Explanation:</strong>
+- The person at (0, 0) can see the people at (0, 1), (1, 0) and (2, 0).
+- The person at (0, 1) can see the person at (1, 1).
+- The person at (1, 0) can see the people at (1, 1) and (2, 0).
+- The person at (1, 1) can see the person at (2, 1).
+- The person at (2, 0) can see the person at (2, 1).
+- The person at (2, 1) cannot see anybody.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= heights.length &lt;= 400</code></li>
@@ -70,29 +67,29 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：单调栈
+### Solution 1: Monotonic Stack
 
-我们观察发现，对于第 $i$ 个人来说，他能看到的人一定是按从左到右（或者从上到下）高度严格单调递增的。
+We observe that for the $i$-th person, the people he can see must have heights that are strictly monotonically increasing from left to right (or from top to bottom).
 
-因此，对于每一行，我们可以用单调栈来求出每个人能看到的人数。
+Therefore, for each row, we can use a monotonic stack to find the number of people each person can see.
 
-具体地，我们可以倒序遍历数组，用一个从栈顶到栈底单调递增的栈 $stk$ 记录已经遍历过的人的高度。
+Specifically, we can traverse the array in reverse order, using a stack $stk$ that is monotonically increasing from top to bottom to record the heights of the people we have traversed.
 
-对于第 $i$ 个人，如果栈不为空并且栈顶元素小于 $heights[i]$，累加当前第 $i$ 个人能看到的人数，然后将栈顶元素出栈，直到栈为空或者栈顶元素大于等于 $heights[i]$。如果此时栈不为空，说明栈顶元素大于等于 $heights[i]$，那么第 $i$ 个人能看到的人数还要再加 $1$。接下来，如果栈不为空并且栈顶元素等于 $heights[i]$，那么栈顶元素出栈。最后，将 $heights[i]$ 入栈，继续遍历下一个人。
+For the $i$-th person, if the stack is not empty and the top element of the stack is less than $heights[i]$, we increment the number of people the $i$-th person can see, and then pop the top element of the stack, repeating this until the stack is empty or the top element of the stack is greater than or equal to $heights[i]$. If the stack is not empty at this point, it means the top element of the stack is greater than or equal to $heights[i]$, so we increment the number of people the $i$-th person can see by 1. Next, if the stack is not empty and the top element of the stack is equal to $heights[i]$, we pop the top element of the stack. Finally, we push $heights[i]$ onto the stack and continue to the next person.
 
-这样处理过后，我们就可以得到每一行每个人能看到的人数。
+After processing this way, we can get the number of people each person can see for each row.
 
-同理，我们可以对每一列进行处理，得到每一列每个人能看到的人数。最后，我们将每一行和每一列的答案相加，就可以得到最终的答案。
+Similarly, we can process each column to get the number of people each person can see for each column. Finally, we add the answers for each row and each column to get the final answer.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(\max(m, n))$。其中 $m$ 和 $n$ 分别是数组 $heights$ 的行数和列数。
+The time complexity is $O(m \times n)$, and the space complexity is $O(\max(m, n))$. Where $m$ and $n$ are the number of rows and columns of the array $heights$, respectively.
 
-相似题目：
+Similar problems:
 
--   [1944. 队列中可以看到的人数](https://github.com/doocs/leetcode/blob/main/solution/1900-1999/1944.Number%20of%20Visible%20People%20in%20a%20Queue/README.md)
+-   [1944. Number of Visible People in a Queue](https://github.com/doocs/leetcode/blob/main/solution/1900-1999/1944.Number%20of%20Visible%20People%20in%20a%20Queue/README_EN.md)
 
 <!-- tabs:start -->
 

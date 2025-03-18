@@ -1,73 +1,59 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1292.Maximum%20Side%20Length%20of%20a%20Square%20with%20Sum%20Less%20than%20or%20Equal%20to%20Threshold/README.md
+difficulty: Medium
 rating: 1734
-source: 第 167 场周赛 Q3
+source: Weekly Contest 167 Q3
 tags:
-    - 数组
-    - 二分查找
-    - 矩阵
-    - 前缀和
+    - Array
+    - Binary Search
+    - Matrix
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [1292. 元素和小于等于阈值的正方形的最大边长](https://leetcode.cn/problems/maximum-side-length-of-a-square-with-sum-less-than-or-equal-to-threshold)
+# [1292. Maximum Side Length of a Square with Sum Less than or Equal to Threshold](https://leetcode.com/problems/maximum-side-length-of-a-square-with-sum-less-than-or-equal-to-threshold)
 
-[English Version](/solution/1200-1299/1292.Maximum%20Side%20Length%20of%20a%20Square%20with%20Sum%20Less%20than%20or%20Equal%20to%20Threshold/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个大小为&nbsp;<code>m x n</code>&nbsp;的矩阵&nbsp;<code>mat</code>&nbsp;和一个整数阈值&nbsp;<code>threshold</code>。</p>
+<p>Given a <code>m x n</code> matrix <code>mat</code> and an integer <code>threshold</code>, return <em>the maximum side-length of a square with a sum less than or equal to </em><code>threshold</code><em> or return </em><code>0</code><em> if there is no such square</em>.</p>
 
-<p>请你返回元素总和小于或等于阈值的正方形区域的最大边长；如果没有这样的正方形区域，则返回 <strong>0&nbsp;</strong>。<br />
-&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1292.Maximum%20Side%20Length%20of%20a%20Square%20with%20Sum%20Less%20than%20or%20Equal%20to%20Threshold/images/e1.png" style="height: 186px; width: 335px;" /></p>
-
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1292.Maximum%20Side%20Length%20of%20a%20Square%20with%20Sum%20Less%20than%20or%20Equal%20to%20Threshold/images/e1.png" style="width: 335px; height: 186px;" />
 <pre>
-<strong>输入：</strong>mat = [[1,1,3,2,4,3,2],[1,1,3,2,4,3,2],[1,1,3,2,4,3,2]], threshold = 4
-<strong>输出：</strong>2
-<strong>解释：</strong>总和小于或等于 4 的正方形的最大边长为 2，如图所示。
+<strong>Input:</strong> mat = [[1,1,3,2,4,3,2],[1,1,3,2,4,3,2],[1,1,3,2,4,3,2]], threshold = 4
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The maximum side length of square with sum less than 4 is 2 as shown.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>mat = [[2,2,2,2,2],[2,2,2,2,2],[2,2,2,2,2],[2,2,2,2,2],[2,2,2,2,2]], threshold = 1
-<strong>输出：</strong>0
+<strong>Input:</strong> mat = [[2,2,2,2,2],[2,2,2,2,2],[2,2,2,2,2],[2,2,2,2,2],[2,2,2,2,2]], threshold = 1
+<strong>Output:</strong> 0
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == mat.length</code></li>
 	<li><code>n == mat[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 300</code></li>
 	<li><code>0 &lt;= mat[i][j] &lt;= 10<sup>4</sup></code></li>
-	<li><code>0 &lt;= threshold &lt;= 10<sup>5</sup></code><sup>&nbsp;</sup></li>
+	<li><code>0 &lt;= threshold &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二维前缀和 + 二分查找
-
-我们可以先预处理得到二维前缀和数组 $s$，其中 $s[i + 1][j + 1]$ 表示矩阵 $mat$ 中从 $(0, 0)$ 到 $(i, j)$ 的元素和，那么对于任意的正方形区域，我们都可以在 $O(1)$ 的时间内得到其元素和。
-
-接下来，我们可以使用二分查找的方法得到最大的边长。我们枚举正方形的边长 $k$，然后枚举正方形的左上角位置 $(i, j)$，那么我们可以得到正方形的元素和 $v$，如果 $v \leq threshold$，那么说明存在边长为 $k$ 的正方形区域的元素和小于或等于阈值，否则不存在。
-
-时间复杂度 $O(m \times n \times \log \min(m, n))$，空间复杂度 $O(m \times n)$。
+### Solution 1
 
 <!-- tabs:start -->
 

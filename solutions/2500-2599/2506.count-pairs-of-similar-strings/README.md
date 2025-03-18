@@ -1,91 +1,86 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2506.Count%20Pairs%20Of%20Similar%20Strings/README.md
+difficulty: Easy
 rating: 1335
-source: 第 324 场周赛 Q1
+source: Weekly Contest 324 Q1
 tags:
-    - 位运算
-    - 数组
-    - 哈希表
-    - 字符串
-    - 计数
+    - Bit Manipulation
+    - Array
+    - Hash Table
+    - String
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [2506. 统计相似字符串对的数目](https://leetcode.cn/problems/count-pairs-of-similar-strings)
+# [2506. Count Pairs Of Similar Strings](https://leetcode.com/problems/count-pairs-of-similar-strings)
 
-[English Version](/solution/2500-2599/2506.Count%20Pairs%20Of%20Similar%20Strings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的字符串数组 <code>words</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> string array <code>words</code>.</p>
 
-<p>如果两个字符串由相同的字符组成，则认为这两个字符串 <strong>相似</strong> 。</p>
+<p>Two strings are <strong>similar</strong> if they consist of the same characters.</p>
 
 <ul>
-	<li>例如，<code>"abca"</code> 和 <code>"cba"</code> 相似，因为它们都由字符 <code>'a'</code>、<code>'b'</code>、<code>'c'</code> 组成。</li>
-	<li>然而，<code>"abacba"</code> 和 <code>"bcfd"</code> 不相似，因为它们不是相同字符组成的。</li>
+	<li>For example, <code>&quot;abca&quot;</code> and <code>&quot;cba&quot;</code> are similar since both consist of characters <code>&#39;a&#39;</code>, <code>&#39;b&#39;</code>, and <code>&#39;c&#39;</code>.</li>
+	<li>However, <code>&quot;abacba&quot;</code> and <code>&quot;bcfd&quot;</code> are not similar since they do not consist of the same characters.</li>
 </ul>
 
-<p>请你找出满足字符串&nbsp;<code>words[i]</code><em> </em>和<em> </em><code>words[j]</code> 相似的下标对<em> </em><code>(i, j)</code><em> </em>，并返回下标对的数目，其中 <code>0 &lt;= i &lt; j &lt;= words.length - 1</code> 。</p>
+<p>Return <em>the number of pairs </em><code>(i, j)</code><em> such that </em><code>0 &lt;= i &lt; j &lt;= word.length - 1</code><em> and the two strings </em><code>words[i]</code><em> and </em><code>words[j]</code><em> are similar</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>words = ["aba","aabb","abcd","bac","aabc"]
-<strong>输出：</strong>2
-<strong>解释：</strong>共有 2 对满足条件：
-- i = 0 且 j = 1 ：words[0] 和 words[1] 只由字符 'a' 和 'b' 组成。 
-- i = 3 且 j = 4 ：words[3] 和 words[4] 只由字符 'a'、'b' 和 'c' 。 
+<strong>Input:</strong> words = [&quot;aba&quot;,&quot;aabb&quot;,&quot;abcd&quot;,&quot;bac&quot;,&quot;aabc&quot;]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> There are 2 pairs that satisfy the conditions:
+- i = 0 and j = 1 : both words[0] and words[1] only consist of characters &#39;a&#39; and &#39;b&#39;. 
+- i = 3 and j = 4 : both words[3] and words[4] only consist of characters &#39;a&#39;, &#39;b&#39;, and &#39;c&#39;. 
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>words = ["aabb","ab","ba"]
-<strong>输出：</strong>3
-<strong>解释：</strong>共有 3 对满足条件：
-- i = 0 且 j = 1 ：words[0] 和 words[1] 只由字符 'a' 和 'b' 组成。 
-- i = 0 且 j = 2 ：words[0] 和 words[2] 只由字符 'a' 和 'b' 组成。 
-- i = 1 且 j = 2 ：words[1] 和 words[2] 只由字符 'a' 和 'b' 组成。 
+<strong>Input:</strong> words = [&quot;aabb&quot;,&quot;ab&quot;,&quot;ba&quot;]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> There are 3 pairs that satisfy the conditions:
+- i = 0 and j = 1 : both words[0] and words[1] only consist of characters &#39;a&#39; and &#39;b&#39;. 
+- i = 0 and j = 2 : both words[0] and words[2] only consist of characters &#39;a&#39; and &#39;b&#39;.
+- i = 1 and j = 2 : both words[1] and words[2] only consist of characters &#39;a&#39; and &#39;b&#39;.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>words = ["nba","cba","dba"]
-<strong>输出：</strong>0
-<strong>解释：</strong>不存在满足条件的下标对，返回 0 。</pre>
+<strong>Input:</strong> words = [&quot;nba&quot;,&quot;cba&quot;,&quot;dba&quot;]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> Since there does not exist any pair that satisfies the conditions, we return 0.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 100</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 100</code></li>
-	<li><code>words[i]</code> 仅由小写英文字母组成</li>
+	<li><code>words[i]</code> consist of only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 位运算
+### Solution 1: Hash Table + Bit Manipulation
 
-对于每个字符串，我们可以将其转换为一个长度为 $26$ 的二进制数，其中第 $i$ 位为 $1$ 表示该字符串中包含第 $i$ 个字母。
+For each string, we can convert it into a binary number of length $26$, where the $i$-th bit being $1$ indicates that the string contains the $i$-th letter.
 
-如果两个字符串包含相同的字母，则它们的二进制数是相同的，因此，对于每个字符串，我们用哈希表统计其二进制数出现的次数，每一次累加到答案中，再将其二进制数出现的次数加 $1$。
+If two strings contain the same letters, their binary numbers are the same. Therefore, for each string, we use a hash table to count the occurrences of its binary number. Each time we add the count to the answer, then increment the count of its binary number by $1$.
 
-时间复杂度 $O(L)$，空间复杂度 $O(n)$。其中 $L$ 是所有字符串的长度之和，而 $n$ 是字符串的数量。
+The time complexity is $O(L)$, and the space complexity is $O(n)$. Here, $L$ is the total length of all strings, and $n$ is the number of strings.
 
 <!-- tabs:start -->
 

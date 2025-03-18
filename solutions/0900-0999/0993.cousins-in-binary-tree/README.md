@@ -1,84 +1,67 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0993.Cousins%20in%20Binary%20Tree/README.md
+difficulty: Easy
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [993. 二叉树的堂兄弟节点](https://leetcode.cn/problems/cousins-in-binary-tree)
+# [993. Cousins in Binary Tree](https://leetcode.com/problems/cousins-in-binary-tree)
 
-[English Version](/solution/0900-0999/0993.Cousins%20in%20Binary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在二叉树中，根节点位于深度 <code>0</code> 处，每个深度为 <code>k</code> 的节点的子节点位于深度 <code>k+1</code> 处。</p>
+<p>Given the <code>root</code> of a binary tree with unique values and the values of two different nodes of the tree <code>x</code> and <code>y</code>, return <code>true</code> <em>if the nodes corresponding to the values </em><code>x</code><em> and </em><code>y</code><em> in the tree are <strong>cousins</strong>, or </em><code>false</code><em> otherwise.</em></p>
 
-<p>如果二叉树的两个节点深度相同，但<strong> 父节点不同</strong> ，则它们是一对<em>堂兄弟节点</em>。</p>
+<p>Two nodes of a binary tree are <strong>cousins</strong> if they have the same depth with different parents.</p>
 
-<p>我们给出了具有唯一值的二叉树的根节点 <code>root</code> ，以及树中两个不同节点的值 <code>x</code> 和 <code>y</code> 。</p>
+<p>Note that in a binary tree, the root node is at the depth <code>0</code>, and children of each depth <code>k</code> node are at the depth <code>k + 1</code>.</p>
 
-<p>只有与值 <code>x</code> 和 <code>y</code> 对应的节点是堂兄弟节点时，才返回 <code>true</code> 。否则，返回 <code>false</code>。</p>
-
-<p> </p>
-
-<p><strong>示例 1：<br />
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0993.Cousins%20in%20Binary%20Tree/images/q1248-01.png" style="height: 160px; width: 180px;" /></strong></p>
-
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0993.Cousins%20in%20Binary%20Tree/images/q1248-01.png" style="width: 304px; height: 270px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,3,4], x = 4, y = 3
-<strong>输出：</strong>false
+<strong>Input:</strong> root = [1,2,3,4], x = 4, y = 3
+<strong>Output:</strong> false
 </pre>
 
-<p><strong>示例 2：<br />
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0993.Cousins%20in%20Binary%20Tree/images/q1248-02.png" style="height: 160px; width: 201px;" /></strong></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0993.Cousins%20in%20Binary%20Tree/images/q1248-02.png" style="width: 334px; height: 266px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,3,null,4,null,5], x = 5, y = 4
-<strong>输出：</strong>true
+<strong>Input:</strong> root = [1,2,3,null,4,null,5], x = 5, y = 4
+<strong>Output:</strong> true
 </pre>
 
-<p><strong>示例 3：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0993.Cousins%20in%20Binary%20Tree/images/q1248-03.png" style="height: 160px; width: 156px;" /></strong></p>
-
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0993.Cousins%20in%20Binary%20Tree/images/q1248-03.png" style="width: 267px; height: 258px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,3,null,4], x = 2, y = 3
-<strong>输出：</strong>false</pre>
+<strong>Input:</strong> root = [1,2,3,null,4], x = 2, y = 3
+<strong>Output:</strong> false
+</pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>二叉树的节点数介于 <code>2</code> 到 <code>100</code> 之间。</li>
-	<li>每个节点的值都是唯一的、范围为 <code>1</code> 到 <code>100</code> 的整数。</li>
+	<li>The number of nodes in the tree is in the range <code>[2, 100]</code>.</li>
+	<li><code>1 &lt;= Node.val &lt;= 100</code></li>
+	<li>Each node has a <strong>unique</strong> value.</li>
+	<li><code>x != y</code></li>
+	<li><code>x</code> and <code>y</code> are exist in the tree.</li>
 </ul>
-
-<p> </p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
-
-我们定义一个队列 $q$，队列中存储的是节点和其父节点。初始时，将根节点和空节点放入队列中。
-
-每次从队列中取出一个节点，如果该节点的值为 $x$ 或 $y$，则记录该节点的父节点和深度。如果该节点的左右子节点不为空，则将左右子节点和该节点放入队列中。
-
-当队列中所有节点都处理完毕后，如果 $x$ 和 $y$ 的深度相同且父节点不同，则返回 $true$，否则返回 $false$。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -290,15 +273,7 @@ function isCousins(root: TreeNode | null, x: number, y: number): boolean {
 
 <!-- solution:start -->
 
-### 方法二：DFS
-
-我们设计一个函数 $dfs(root, parent, depth)$，表示从根节点 $root$ 出发，其父节点为 $parent$，深度为 $depth$，进行深度优先搜索。
-
-在函数中，我们首先判断当前节点是否为空，如果为空，则直接返回。如果当前节点的值为 $x$ 或 $y$，则记录该节点的父节点和深度。然后对当前节点的左右子节点分别调用函数 $dfs$，其中父节点为当前节点，深度为当前深度加 $1$。即 $dfs(root.left, root, depth + 1)$ 和 $dfs(root.right, root, depth + 1)$。
-
-当整棵二叉树遍历完毕后，如果 $x$ 和 $y$ 的深度相同且父节点不同，则返回 $true$，否则返回 $false$。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
+### Solution 2
 
 <!-- tabs:start -->
 

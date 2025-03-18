@@ -1,91 +1,87 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2268.Minimum%20Number%20of%20Keypresses/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 哈希表
-    - 字符串
-    - 计数
-    - 排序
+    - Greedy
+    - Hash Table
+    - String
+    - Counting
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2268. 最少按键次数 🔒](https://leetcode.cn/problems/minimum-number-of-keypresses)
+# [2268. Minimum Number of Keypresses 🔒](https://leetcode.com/problems/minimum-number-of-keypresses)
 
-[English Version](/solution/2200-2299/2268.Minimum%20Number%20of%20Keypresses/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有一个 9 键键盘，按键按 1 到 9 编号，每个按键对应着几个英文小写字母。你可以决定每个按键对应哪些英文字母，但要满足如下条件：</p>
+<p>You have a keypad with <code>9</code> buttons, numbered from <code>1</code> to <code>9</code>, each mapped to lowercase English letters. You can choose which characters each button is matched to as long as:</p>
 
 <ul>
-	<li>26 个英文小写字母必须全部映射到这 9 个按键上。</li>
-	<li>每个英文字母只能映射到 <strong>恰好</strong> 一个按键上。</li>
-	<li>每个按键 <strong>最多</strong> 对应 3 个英文字母。</li>
+	<li>All 26 lowercase English letters are mapped to.</li>
+	<li>Each character is mapped to by <strong>exactly</strong> <code>1</code> button.</li>
+	<li>Each button maps to <strong>at most</strong> <code>3</code> characters.</li>
 </ul>
 
-<p>如果想打出按键上的第一个字母，只需要按一次。如果想打出按键上的第二个字母，则需要按两次，依次类推。</p>
+<p>To type the first character matched to a button, you press the button once. To type the second character, you press the button twice, and so on.</p>
 
-<p>给你一个字符串 <code>s</code> ，返回基于你设计的键盘打出 <code>s</code> 需要的<strong> 最少</strong> 按键次数。</p>
+<p>Given a string <code>s</code>, return <em>the <strong>minimum</strong> number of keypresses needed to type </em><code>s</code><em> using your keypad.</em></p>
 
-<p><b>注意：</b>字母映射到每个按键上，映射的顺序无法进行更改。</p>
+<p><strong>Note</strong> that the characters mapped to by each button, and the order they are mapped in cannot be changed.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1 ：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2268.Minimum%20Number%20of%20Keypresses/images/image-20220505184346-1.png" style="width: 300px; height: 293px;" />
 <pre>
-<strong>输入：</strong>s = "apple"
-<strong>输出：</strong>5
-<strong>解释：</strong>上图所示为设置键盘的最佳方法之一。
-按按键 1 一次输入 'a' 。
-按按键 6 一次输入 'p' 。
-按按键 6 一次输入 'p' 。
-按按键 5 一次输入 'l' 。
-按按键 3 一次输入 'e' 。
-总共按按键 5 次，所以返回 5 。</pre>
+<strong>Input:</strong> s = &quot;apple&quot;
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> One optimal way to setup your keypad is shown above.
+Type &#39;a&#39; by pressing button 1 once.
+Type &#39;p&#39; by pressing button 6 once.
+Type &#39;p&#39; by pressing button 6 once.
+Type &#39;l&#39; by pressing button 5 once.
+Type &#39;e&#39; by pressing button 3 once.
+A total of 5 button presses are needed, so return 5.
+</pre>
 
-<p><strong>示例 2 ：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2268.Minimum%20Number%20of%20Keypresses/images/image-20220505203823-1.png" style="width: 300px; height: 288px;" />
 <pre>
-<strong>输入：</strong>s = "abcdefghijkl"
-<strong>输出：</strong>15
-<strong>解释：</strong>上图所示为设置键盘的最佳方法之一。
-字母 'a' 到 'i' 每个只需要按一次按键。
-按按键 1 两次输入 'j' 。
-按按键 2 两次输入 'k' 。
-按按键 3 两次输入 'l' 。
-总共按按键 15 次，所以返回 15 。
+<strong>Input:</strong> s = &quot;abcdefghijkl&quot;
+<strong>Output:</strong> 15
+<strong>Explanation:</strong> One optimal way to setup your keypad is shown above.
+The letters &#39;a&#39; to &#39;i&#39; can each be typed by pressing a button once.
+Type &#39;j&#39; by pressing button 1 twice.
+Type &#39;k&#39; by pressing button 2 twice.
+Type &#39;l&#39; by pressing button 3 twice.
+A total of 15 button presses are needed, so return 15.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> 由小写英文字母组成</li>
+	<li><code>s</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数 + 贪心
+### Solution 1: Counting + Greedy
 
-我们首先统计字符串 $s$ 中每个字符出现的次数，记录在数组或者哈希表 $\textit{cnt}$ 中。
+First, we count the occurrence of each character in the string $s$, and record it in an array or hash table $\textit{cnt}$.
 
-题目要求按键次数最少，那么出现最多的 $9$ 个字符应该对应按键 $1$ 到按键 $9$，出现次数第 $10$ 到第 $18$ 多的字符再次对应按键 $1$ 到按键 $9$，以此类推。
+The problem requires minimizing the number of key presses, so the $9$ most frequent characters should correspond to keys $1$ to $9$, the $10$th to $18$th most frequent characters should correspond to keys $1$ to $9$ again, and so on.
 
-因此，我们可以将 $\textit{cnt}$ 中的值按照从大到小的顺序排序，然后按照 $1$ 到 $9$ 的顺序依次分配给按键，每次分配完 $9$ 个字符后，按键次数加 $1$。
+Therefore, we can sort the values in $\textit{cnt}$ in descending order, and then allocate them to the keys in the order from $1$ to $9$, adding $1$ to the number of key presses after allocating every $9$ characters.
 
-时间复杂度 $O(n + |\Sigma| \times \log |\Sigma|)$，空间复杂度 $O(|\Sigma|)$。其中 $n$ 是字符串 $s$ 的长度，而 $\Sigma$ 是字符串 $s$ 中出现的字符集合，本题中 $\Sigma$ 是小写字母集合，因此 $|\Sigma| = 26$。
+The time complexity is $O(n + |\Sigma| \times \log |\Sigma|)$, and the space complexity is $O(|\Sigma|)$. Here, $n$ is the length of the string $s$, and $\Sigma$ is the set of characters appearing in the string $s$. In this problem, $\Sigma$ is the set of lowercase letters, so $|\Sigma| = 26$.
 
 <!-- tabs:start -->
 

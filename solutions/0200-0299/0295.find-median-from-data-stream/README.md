@@ -1,86 +1,88 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0295.Find%20Median%20from%20Data%20Stream/README.md
+difficulty: Hard
 tags:
-    - 设计
-    - 双指针
-    - 数据流
-    - 排序
-    - 堆（优先队列）
+    - Design
+    - Two Pointers
+    - Data Stream
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [295. 数据流的中位数](https://leetcode.cn/problems/find-median-from-data-stream)
+# [295. Find Median from Data Stream](https://leetcode.com/problems/find-median-from-data-stream)
 
-[English Version](/solution/0200-0299/0295.Find%20Median%20from%20Data%20Stream/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong>中位数</strong>是有序整数列表中的中间值。如果列表的大小是偶数，则没有中间值，中位数是两个中间值的平均值。</p>
+<p>The <strong>median</strong> is the middle value in an ordered integer list. If the size of the list is even, there is no middle value, and the median is the mean of the two middle values.</p>
 
 <ul>
-	<li>例如 <code>arr = [2,3,4]</code>&nbsp;的中位数是 <code>3</code>&nbsp;。</li>
-	<li>例如&nbsp;<code>arr = [2,3]</code> 的中位数是 <code>(2 + 3) / 2 = 2.5</code> 。</li>
+	<li>For example, for <code>arr = [2,3,4]</code>, the median is <code>3</code>.</li>
+	<li>For example, for <code>arr = [2,3]</code>, the median is <code>(2 + 3) / 2 = 2.5</code>.</li>
 </ul>
 
-<p>实现 MedianFinder 类:</p>
+<p>Implement the MedianFinder class:</p>
 
 <ul>
-	<li>
-	<p><code>MedianFinder() </code>初始化 <code>MedianFinder</code>&nbsp;对象。</p>
-	</li>
-	<li>
-	<p><code>void addNum(int num)</code> 将数据流中的整数 <code>num</code> 添加到数据结构中。</p>
-	</li>
-	<li>
-	<p><code>double findMedian()</code> 返回到目前为止所有元素的中位数。与实际答案相差&nbsp;<code>10<sup>-5</sup></code>&nbsp;以内的答案将被接受。</p>
-	</li>
+	<li><code>MedianFinder()</code> initializes the <code>MedianFinder</code> object.</li>
+	<li><code>void addNum(int num)</code> adds the integer <code>num</code> from the data stream to the data structure.</li>
+	<li><code>double findMedian()</code> returns the median of all elements so far. Answers within <code>10<sup>-5</sup></code> of the actual answer will be accepted.</li>
 </ul>
 
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["MedianFinder", "addNum", "addNum", "findMedian", "addNum", "findMedian"]
+<strong>Input</strong>
+[&quot;MedianFinder&quot;, &quot;addNum&quot;, &quot;addNum&quot;, &quot;findMedian&quot;, &quot;addNum&quot;, &quot;findMedian&quot;]
 [[], [1], [2], [], [3], []]
-<strong>输出</strong>
+<strong>Output</strong>
 [null, null, null, 1.5, null, 2.0]
 
-<strong>解释</strong>
+<strong>Explanation</strong>
 MedianFinder medianFinder = new MedianFinder();
 medianFinder.addNum(1);    // arr = [1]
 medianFinder.addNum(2);    // arr = [1, 2]
-medianFinder.findMedian(); // 返回 1.5 ((1 + 2) / 2)
+medianFinder.findMedian(); // return 1.5 (i.e., (1 + 2) / 2)
 medianFinder.addNum(3);    // arr[1, 2, 3]
-medianFinder.findMedian(); // return 2.0</pre>
+medianFinder.findMedian(); // return 2.0
+</pre>
 
-<p><strong>提示:</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>-10<sup>5</sup>&nbsp;&lt;= num &lt;= 10<sup>5</sup></code></li>
-	<li>在调用 <code>findMedian</code>&nbsp;之前，数据结构中至少有一个元素</li>
-	<li>最多&nbsp;<code>5 * 10<sup>4</sup></code>&nbsp;次调用&nbsp;<code>addNum</code>&nbsp;和&nbsp;<code>findMedian</code></li>
+	<li><code>-10<sup>5</sup> &lt;= num &lt;= 10<sup>5</sup></code></li>
+	<li>There will be at least one element in the data structure before calling <code>findMedian</code>.</li>
+	<li>At most <code>5 * 10<sup>4</sup></code> calls will be made to <code>addNum</code> and <code>findMedian</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong></p>
+
+<ul>
+	<li>If all integer numbers from the stream are in the range <code>[0, 100]</code>, how would you optimize your solution?</li>
+	<li>If <code>99%</code> of all integer numbers from the stream are in the range <code>[0, 100]</code>, how would you optimize your solution?</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：大小根堆（优先队列）
+### Solution 1: Min Heap and Max Heap (Priority Queue)
 
-我们可以使用两个堆来维护所有的元素，一个小根堆 $\textit{minQ}$ 和一个大根堆 $\textit{maxQ}$，其中小根堆 $\textit{minQ}$ 存储较大的一半，大根堆 $\textit{maxQ}$ 存储较小的一半。
+We can use two heaps to maintain all the elements, a min heap $\textit{minQ}$ and a max heap $\textit{maxQ}$, where the min heap $\textit{minQ}$ stores the larger half, and the max heap $\textit{maxQ}$ stores the smaller half.
 
-调用 `addNum` 方法时，我们首先将元素加入到大根堆 $\textit{maxQ}$，然后将 $\textit{maxQ}$ 的堆顶元素弹出并加入到小根堆 $\textit{minQ}$。如果此时 $\textit{minQ}$ 的大小与 $\textit{maxQ}$ 的大小差值大于 $1$，我们就将 $\textit{minQ}$ 的堆顶元素弹出并加入到 $\textit{maxQ}$。时间复杂度为 $O(\log n)$。
+When calling the `addNum` method, we first add the element to the max heap $\textit{maxQ}$, then pop the top element of $\textit{maxQ}$ and add it to the min heap $\textit{minQ}$. If at this time the size difference between $\textit{minQ}$ and $\textit{maxQ}$ is greater than $1$, we pop the top element of $\textit{minQ}$ and add it to $\textit{maxQ}$. The time complexity is $O(\log n)$.
 
-调用 `findMedian` 方法时，如果 $\textit{minQ}$ 的大小等于 $\textit{maxQ}$ 的大小，说明元素的总数为偶数，我们就可以返回 $\textit{minQ}$ 的堆顶元素与 $\textit{maxQ}$ 的堆顶元素的平均值；否则，我们返回 $\textit{minQ}$ 的堆顶元素。时间复杂度为 $O(1)$。
+When calling the `findMedian` method, if the size of $\textit{minQ}$ is equal to the size of $\textit{maxQ}$, it means the total number of elements is even, and we can return the average value of the top elements of $\textit{minQ}$ and $\textit{maxQ}$; otherwise, we return the top element of $\textit{minQ}$. The time complexity is $O(1)$.
 
-空间复杂度为 $O(n)$。其中 $n$ 为元素的个数。
+The space complexity is $O(n)$, where $n$ is the number of elements.
 
 <!-- tabs:start -->
 

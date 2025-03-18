@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1141.User%20Activity%20for%20the%20Past%2030%20Days%20I/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1141. 查询近30天活跃用户数](https://leetcode.cn/problems/user-activity-for-the-past-30-days-i)
+# [1141. User Activity for the Past 30 Days I](https://leetcode.com/problems/user-activity-for-the-past-30-days-i)
 
-[English Version](/solution/1100-1199/1141.User%20Activity%20for%20the%20Past%2030%20Days%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Activity</code></p>
+<p>Table: <code>Activity</code></p>
 
 <pre>
 +---------------+---------+
@@ -27,26 +24,25 @@ tags:
 | activity_date | date    |
 | activity_type | enum    |
 +---------------+---------+
-该表没有包含重复数据。
-activity_type 列是 ENUM(category) 类型， 从 ('open_session'， 'end_session'， 'scroll_down'， 'send_message') 取值。
-该表记录社交媒体网站的用户活动。
-注意，每个会话只属于一个用户。
+This table may have duplicate rows.
+The activity_type column is an ENUM (category) of type (&#39;open_session&#39;, &#39;end_session&#39;, &#39;scroll_down&#39;, &#39;send_message&#39;).
+The table shows the user activities for a social media website. 
+Note that each session belongs to exactly one user.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案，统计截至&nbsp;<code>2019-07-27</code>（包含2019-07-27），近<strong>&nbsp;</strong><code>30</code> 天的每日活跃用户数（当天只要有一条活动记录，即为活跃用户）。</p>
+<p>Write a solution to find the daily active user count for a period of <code>30</code> days ending <code>2019-07-27</code> inclusively. A user was active on someday if they made at least one activity on that day.</p>
 
-<p>以 <strong>任意顺序</strong> 返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果示例如下。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 Activity table:
 +---------+------------+---------------+---------------+
 | user_id | session_id | activity_date | activity_type |
@@ -63,24 +59,23 @@ Activity table:
 | 4       | 3          | 2019-06-25    | open_session  |
 | 4       | 3          | 2019-06-25    | end_session   |
 +---------+------------+---------------+---------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +------------+--------------+ 
 | day        | active_users |
 +------------+--------------+ 
 | 2019-07-20 | 2            |
 | 2019-07-21 | 2            |
-+------------+--------------+ <strong>
-解释：</strong>注意非活跃用户的记录不需要展示。</pre>
++------------+--------------+ 
+<strong>Explanation:</strong> Note that we do not care about days with zero active users.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：GROUP BY + HAVING
-
-我们查询出所有在 `2019-07-27` 且在 $30$ 天内的所有活动记录，然后按照日期分组，统计每天的去重活跃用户数。
+### Solution 1
 
 <!-- tabs:start -->
 

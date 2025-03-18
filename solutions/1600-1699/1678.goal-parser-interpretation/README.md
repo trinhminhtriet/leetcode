@@ -1,72 +1,68 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1678.Goal%20Parser%20Interpretation/README.md
+difficulty: Easy
 rating: 1221
-source: 第 218 场周赛 Q1
+source: Weekly Contest 218 Q1
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1678. 设计 Goal 解析器](https://leetcode.cn/problems/goal-parser-interpretation)
+# [1678. Goal Parser Interpretation](https://leetcode.com/problems/goal-parser-interpretation)
 
-[English Version](/solution/1600-1699/1678.Goal%20Parser%20Interpretation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你设计一个可以解释字符串 <code>command</code> 的 <strong>Goal 解析器</strong> 。<code>command</code> 由 <code>"G"</code>、<code>"()"</code> 和/或 <code>"(al)"</code> 按某种顺序组成。Goal 解析器会将 <code>"G"</code> 解释为字符串 <code>"G"</code>、<code>"()"</code> 解释为字符串 <code>"o"</code> ，<code>"(al)"</code> 解释为字符串 <code>"al"</code> 。然后，按原顺序将经解释得到的字符串连接成一个字符串。</p>
+<p>You own a <strong>Goal Parser</strong> that can interpret a string <code>command</code>. The <code>command</code> consists of an alphabet of <code>&quot;G&quot;</code>, <code>&quot;()&quot;</code> and/or <code>&quot;(al)&quot;</code> in some order. The Goal Parser will interpret <code>&quot;G&quot;</code> as the string <code>&quot;G&quot;</code>, <code>&quot;()&quot;</code> as the string <code>&quot;o&quot;</code>, and <code>&quot;(al)&quot;</code> as the string <code>&quot;al&quot;</code>. The interpreted strings are then concatenated in the original order.</p>
 
-<p>给你字符串 <code>command</code> ，返回<em> </em><strong>Goal<em><strong> </strong></em>解析器 </strong>对<em> </em><code>command</code> 的解释结果。</p>
+<p>Given the string <code>command</code>, return <em>the <strong>Goal Parser</strong>&#39;s interpretation of </em><code>command</code>.</p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>command = "G()(al)"
-<strong>输出：</strong>"Goal"
-<strong>解释：</strong>Goal 解析器解释命令的步骤如下所示：
+<pre>
+<strong>Input:</strong> command = &quot;G()(al)&quot;
+<strong>Output:</strong> &quot;Goal&quot;
+<strong>Explanation:</strong>&nbsp;The Goal Parser interprets the command as follows:
 G -&gt; G
 () -&gt; o
 (al) -&gt; al
-最后连接得到的结果是 "Goal"
+The final concatenated result is &quot;Goal&quot;.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>command = "G()()()()(al)"
-<strong>输出：</strong>"Gooooal"
+<pre>
+<strong>Input:</strong> command = &quot;G()()()()(al)&quot;
+<strong>Output:</strong> &quot;Gooooal&quot;
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>command = "(al)G(al)()()G"
-<strong>输出：</strong>"alGalooG"
+<pre>
+<strong>Input:</strong> command = &quot;(al)G(al)()()G&quot;
+<strong>Output:</strong> &quot;alGalooG&quot;
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= command.length &lt;= 100</code></li>
-	<li><code>command</code> 由 <code>"G"</code>、<code>"()"</code> 和/或 <code>"(al)"</code> 按某种顺序组成</li>
+	<li><code>command</code> consists of <code>&quot;G&quot;</code>, <code>&quot;()&quot;</code>, and/or <code>&quot;(al)&quot;</code> in some order.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：字符串替换
+### Solution 1: String Replacement
 
-根据题意，只需要将字符串 `command` 中的 `"()"` 替换为 `'o'`，`"(al)"` 替换为 `"al"` 即可。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $command$ 的长度。
+According to the problem, we only need to replace `"()"` with `'o'` and `"(al)"` with `"al"` in the string `command`.
 
 <!-- tabs:start -->
 
@@ -160,16 +156,16 @@ char* interpret(char* command) {
 
 <!-- solution:start -->
 
-### 方法二：字符串遍历
+### Solution 2: String Iteration
 
-我们也可以遍历字符串 `command`，对于每个字符 $c$：
+We can also iterate over the string `command`. For each character $c$:
 
--   如果是 `'G'`，直接将 $c$ 添加到结果串中；
--   如果是 `'('`，判断下一个字符是否是 `')'`，若是，将 `'o'` 添加到结果串中，否则，将 `"al"` 添加到结果串中。
+-   If it is `'G'`, directly add $c$ to the result string;
+-   If it is `'('`, check if the next character is `')'`. If it is, add `'o'` to the result string. Otherwise, add `"al"` to the result string.
 
-遍历结束，返回结果串即可。
+After the iteration, return the result string.
 
-时间复杂度 $O(n)$，其中 $n$ 是字符串 $command$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

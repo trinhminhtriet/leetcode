@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1075.Project%20Employees%20I/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1075. 项目员工 I](https://leetcode.cn/problems/project-employees-i)
+# [1075. Project Employees I](https://leetcode.com/problems/project-employees-i)
 
-[English Version](/solution/1000-1099/1075.Project%20Employees%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>项目表&nbsp;<code>Project</code>：&nbsp;</p>
+<p>Table: <code>Project</code></p>
 
 <pre>
 +-------------+---------+
@@ -25,14 +22,14 @@ tags:
 | project_id  | int     |
 | employee_id | int     |
 +-------------+---------+
-主键为 (project_id, employee_id)。
-employee_id 是员工表 <code>Employee 表的外键。</code>
-这张表的每一行表示 employee_id 的员工正在 project_id 的项目上工作。
+(project_id, employee_id) is the primary key of this table.
+employee_id is a foreign key to <code>Employee</code> table.
+Each row of this table indicates that the employee with employee_id is working on the project with project_id.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>员工表&nbsp;<code>Employee</code>：</p>
+<p>Table: <code>Employee</code></p>
 
 <pre>
 +------------------+---------+
@@ -42,24 +39,24 @@ employee_id 是员工表 <code>Employee 表的外键。</code>
 | name             | varchar |
 | experience_years | int     |
 +------------------+---------+
-主键是 employee_id。数据保证 experience_years 非空。
-这张表的每一行包含一个员工的信息。</pre>
+employee_id is the primary key of this table. It&#39;s guaranteed that experience_years is not NULL.
+Each row of this table contains information about one employee.
+</pre>
 
 <p>&nbsp;</p>
 
-<p>请写一个 SQL&nbsp;语句，查询每一个项目中员工的&nbsp;<strong>平均&nbsp;</strong>工作年限，<strong>精确到小数点后两位</strong>。</p>
+<p>Write an SQL query that reports the <strong>average</strong> experience years of all the employees for each project, <strong>rounded to 2 digits</strong>.</p>
 
-<p>以 <strong>任意</strong> 顺序返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>查询结果的格式如下。</p>
+<p>The query result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Project 表：
+<strong>Input:</strong> 
+Project table:
 +-------------+-------------+
 | project_id  | employee_id |
 +-------------+-------------+
@@ -69,8 +66,7 @@ Project 表：
 | 2           | 1           |
 | 2           | 4           |
 +-------------+-------------+
-
-Employee 表：
+Employee table:
 +-------------+--------+------------------+
 | employee_id | name   | experience_years |
 +-------------+--------+------------------+
@@ -79,26 +75,23 @@ Employee 表：
 | 3           | John   | 1                |
 | 4           | Doe    | 2                |
 +-------------+--------+------------------+
-
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-------------+---------------+
 | project_id  | average_years |
 +-------------+---------------+
 | 1           | 2.00          |
 | 2           | 2.50          |
 +-------------+---------------+
-<strong>解释：</strong>第一个项目中，员工的平均工作年限是 (3 + 2 + 1) / 3 = 2.00；第二个项目中，员工的平均工作年限是 (3 + 2) / 2 = 2.50
+<strong>Explanation:</strong> The average experience years for the first project is (3 + 2 + 1) / 3 = 2.00 and for the second project is (3 + 2) / 2 = 2.50
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：内连接 + `GROUP BY` 分组
-
-我们可以通过内连接将两张表连接起来，然后通过 `GROUP BY` 分组，最后使用 `AVG` 函数求工作年限的平均值。
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,64 +1,55 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2203.Minimum%20Weighted%20Subgraph%20With%20the%20Required%20Paths/README.md
+difficulty: Hard
 rating: 2364
-source: 第 284 场周赛 Q4
+source: Weekly Contest 284 Q4
 tags:
-    - 图
-    - 最短路
+    - Graph
+    - Shortest Path
 ---
 
 <!-- problem:start -->
 
-# [2203. 得到要求路径的最小带权子图](https://leetcode.cn/problems/minimum-weighted-subgraph-with-the-required-paths)
+# [2203. Minimum Weighted Subgraph With the Required Paths](https://leetcode.com/problems/minimum-weighted-subgraph-with-the-required-paths)
 
-[English Version](/solution/2200-2299/2203.Minimum%20Weighted%20Subgraph%20With%20the%20Required%20Paths/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>n</code>&nbsp;，它表示一个 <strong>带权有向</strong> 图的节点数，节点编号为&nbsp;<code>0</code> 到&nbsp;<code>n - 1</code>&nbsp;。</p>
+<p>You are given an integer <code>n</code> denoting the number of nodes of a <strong>weighted directed</strong> graph. The nodes are numbered from <code>0</code> to <code>n - 1</code>.</p>
 
-<p>同时给你一个二维整数数组&nbsp;<code>edges</code>&nbsp;，其中&nbsp;<code>edges[i] = [from<sub>i</sub>, to<sub>i</sub>, weight<sub>i</sub>]</code>&nbsp;，表示从&nbsp;<code>from<sub>i</sub></code>&nbsp;到&nbsp;<code>to<sub>i</sub></code>&nbsp;有一条边权为&nbsp;<code>weight<sub>i</sub></code>&nbsp;的 <strong>有向</strong> 边。</p>
+<p>You are also given a 2D integer array <code>edges</code> where <code>edges[i] = [from<sub>i</sub>, to<sub>i</sub>, weight<sub>i</sub>]</code> denotes that there exists a <strong>directed</strong> edge from <code>from<sub>i</sub></code> to <code>to<sub>i</sub></code> with weight <code>weight<sub>i</sub></code>.</p>
 
-<p>最后，给你三个 <strong>互不相同</strong>&nbsp;的整数&nbsp;<code>src1</code>&nbsp;，<code>src2</code>&nbsp;和&nbsp;<code>dest</code>&nbsp;，表示图中三个不同的点。</p>
+<p>Lastly, you are given three <strong>distinct</strong> integers <code>src1</code>, <code>src2</code>, and <code>dest</code> denoting three distinct nodes of the graph.</p>
 
-<p>请你从图中选出一个 <b>边权和最小</b>&nbsp;的子图，使得从 <code>src1</code>&nbsp;和 <code>src2</code>&nbsp;出发，在这个子图中，都 <strong>可以</strong>&nbsp;到达 <code>dest</code>&nbsp;。如果这样的子图不存在，请返回 <code>-1</code>&nbsp;。</p>
+<p>Return <em>the <strong>minimum weight</strong> of a subgraph of the graph such that it is <strong>possible</strong> to reach</em> <code>dest</code> <em>from both</em> <code>src1</code> <em>and</em> <code>src2</code> <em>via a set of edges of this subgraph</em>. In case such a subgraph does not exist, return <code>-1</code>.</p>
 
-<p><strong>子图</strong>&nbsp;中的点和边都应该属于原图的一部分。子图的边权和定义为它所包含的所有边的权值之和。</p>
+<p>A <strong>subgraph</strong> is a graph whose vertices and edges are subsets of the original graph. The <strong>weight</strong> of a subgraph is the sum of weights of its constituent edges.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2203.Minimum%20Weighted%20Subgraph%20With%20the%20Required%20Paths/images/example1drawio.png" style="width: 263px; height: 250px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2203.Minimum%20Weighted%20Subgraph%20With%20the%20Required%20Paths/images/example1drawio.png" style="width: 263px; height: 250px;" />
 <pre>
-<b>输入：</b>n = 6, edges = [[0,2,2],[0,5,6],[1,0,3],[1,4,5],[2,1,1],[2,3,3],[2,3,4],[3,4,2],[4,5,1]], src1 = 0, src2 = 1, dest = 5
-<b>输出：</b>9
-<strong>解释：</strong>
-上图为输入的图。
-蓝色边为最优子图之一。
-注意，子图 [[1,0,3],[0,5,6]] 也能得到最优解，但无法在满足所有限制的前提下，得到更优解。
+<strong>Input:</strong> n = 6, edges = [[0,2,2],[0,5,6],[1,0,3],[1,4,5],[2,1,1],[2,3,3],[2,3,4],[3,4,2],[4,5,1]], src1 = 0, src2 = 1, dest = 5
+<strong>Output:</strong> 9
+<strong>Explanation:</strong>
+The above figure represents the input graph.
+The blue edges represent one of the subgraphs that yield the optimal answer.
+Note that the subgraph [[1,0,3],[0,5,6]] also yields the optimal answer. It is not possible to get a subgraph with less weight satisfying all the constraints.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2203.Minimum%20Weighted%20Subgraph%20With%20the%20Required%20Paths/images/example2-1drawio.png" style="width: 350px; height: 51px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2203.Minimum%20Weighted%20Subgraph%20With%20the%20Required%20Paths/images/example2-1drawio.png" style="width: 350px; height: 51px;" />
 <pre>
-<b>输入：</b>n = 3, edges = [[0,1,1],[2,1,1]], src1 = 0, src2 = 1, dest = 2
-<b>输出：</b>-1
-<strong>解释：</strong>
-上图为输入的图。
-可以看到，不存在从节点 1 到节点 2 的路径，所以不存在任何子图满足所有限制。
+<strong>Input:</strong> n = 3, edges = [[0,1,1],[2,1,1]], src1 = 0, src2 = 1, dest = 2
+<strong>Output:</strong> -1
+<strong>Explanation:</strong>
+The above figure represents the input graph.
+It can be seen that there does not exist any path from node 1 to node 2, hence there are no subgraphs satisfying all the constraints.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= n &lt;= 10<sup>5</sup></code></li>
@@ -66,33 +57,17 @@ tags:
 	<li><code>edges[i].length == 3</code></li>
 	<li><code>0 &lt;= from<sub>i</sub>, to<sub>i</sub>, src1, src2, dest &lt;= n - 1</code></li>
 	<li><code>from<sub>i</sub> != to<sub>i</sub></code></li>
-	<li><code>src1</code>&nbsp;，<code>src2</code>&nbsp;和&nbsp;<code>dest</code>&nbsp;两两不同。</li>
+	<li><code>src1</code>, <code>src2</code>, and <code>dest</code> are pairwise distinct.</li>
 	<li><code>1 &lt;= weight[i] &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举三条最短路的交汇点
-
-最短路问题。
-
-我们假设从 $src1$ 出发到 $dest$ 的一条最短路径为 $A$，从 $src2$ 出发到 $dest$ 的一条最短路径为 $B$。
-
-$A$, $B$ 两条路径一定存在着公共点 $p$，因为 $dest$ 一定是其中一个公共点。那么问题可以转换为求以下三条路径和的最小值：
-
-1. 从 $src1$ 到 $p$ 的最短路
-1. 从 $src2$ 到 $p$ 的最短路
-1. 从 $p$ 到 $dest$ 的最短路（这里我们可以将原图的所有边反向，然后转换为从 $dest$ 到 $p$ 的最短路）
-
-我们进行三次 Dijkstra 算法，就可以求出 $src1$, $src2$, $dest$ 到其他点的最短路径。
-
-公共点可以有多个，因此我们在 $[0,n)$ 范围内枚举公共点 $p$，找出边权之和最小的值即可。
-
-时间复杂度 $O(mlogn)$，其中 m 表示数组 $edges$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

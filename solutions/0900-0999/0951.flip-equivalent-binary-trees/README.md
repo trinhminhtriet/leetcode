@@ -1,71 +1,64 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0951.Flip%20Equivalent%20Binary%20Trees/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [951. 翻转等价二叉树](https://leetcode.cn/problems/flip-equivalent-binary-trees)
+# [951. Flip Equivalent Binary Trees](https://leetcode.com/problems/flip-equivalent-binary-trees)
 
-[English Version](/solution/0900-0999/0951.Flip%20Equivalent%20Binary%20Trees/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>我们可以为二叉树 <strong>T</strong> 定义一个&nbsp;<strong>翻转操作&nbsp;</strong>，如下所示：选择任意节点，然后交换它的左子树和右子树。</p>
+<p>For a binary tree <strong>T</strong>, we can define a <strong>flip operation</strong> as follows: choose any node, and swap the left and right child subtrees.</p>
 
-<p>只要经过一定次数的翻转操作后，能使 <strong>X</strong> 等于 <strong>Y</strong>，我们就称二叉树 <strong>X</strong> <em>翻转 等价&nbsp;</em>于二叉树 <strong>Y</strong>。</p>
+<p>A binary tree <strong>X</strong>&nbsp;is <em>flip equivalent</em> to a binary tree <strong>Y</strong> if and only if we can make <strong>X</strong> equal to <strong>Y</strong> after some number of flip operations.</p>
 
-<p>这些树由根节点&nbsp;<code>root1</code> 和 <code>root2</code>&nbsp;给出。如果两个二叉树是否是<em>翻转 等价&nbsp;</em>的函数，则返回 <code>true</code> ，否则返回 <code>false</code> 。</p>
+<p>Given the roots of two binary trees <code>root1</code> and <code>root2</code>, return <code>true</code> if the two trees are flip equivalent or <code>false</code> otherwise.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="Flipped Trees Diagram" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0951.Flip%20Equivalent%20Binary%20Trees/images/tree_ex.png" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="Flipped Trees Diagram" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0951.Flip%20Equivalent%20Binary%20Trees/images/tree_ex.png" style="width: 500px; height: 220px;" />
 <pre>
-<strong>输入：</strong>root1 = [1,2,3,4,5,6,null,null,null,7,8], root2 = [1,3,2,null,6,4,5,null,null,null,null,8,7]
-<strong>输出：</strong>true
-<strong>解释：</strong>我们翻转值为 1，3 以及 5 的三个节点。
+<strong>Input:</strong> root1 = [1,2,3,4,5,6,null,null,null,7,8], root2 = [1,3,2,null,6,4,5,null,null,null,null,8,7]
+<strong>Output:</strong> true
+<strong>Explanation: </strong>We flipped at nodes with values 1, 3, and 5.
 </pre>
 
-<p><strong>示例&nbsp;2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> root1 = [], root2 = []
-<strong>输出:</strong> true
+<strong>Input:</strong> root1 = [], root2 = []
+<strong>Output:</strong> true
 </pre>
 
-<p><strong>示例 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入:</strong> root1 = [], root2 = [1]
-<strong>输出:</strong> false
+<strong>Input:</strong> root1 = [], root2 = [1]
+<strong>Output:</strong> false
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>每棵树节点数在&nbsp;<code>[0, 100]</code> 范围内</li>
-	<li>每棵树中的每个值都是唯一的、在 <code>[0, 99]</code>&nbsp;范围内的整数</li>
+	<li>The number of nodes in each tree is in the range <code>[0, 100]</code>.</li>
+	<li>Each tree will have <strong>unique node values</strong> in the range <code>[0, 99]</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

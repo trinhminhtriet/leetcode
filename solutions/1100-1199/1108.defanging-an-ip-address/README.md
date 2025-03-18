@@ -1,60 +1,61 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1108.Defanging%20an%20IP%20Address/README.md
+difficulty: Easy
 rating: 1084
-source: 第 144 场周赛 Q1
+source: Weekly Contest 144 Q1
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1108. IP 地址无效化](https://leetcode.cn/problems/defanging-an-ip-address)
+# [1108. Defanging an IP Address](https://leetcode.com/problems/defanging-an-ip-address)
 
-[English Version](/solution/1100-1199/1108.Defanging%20an%20IP%20Address/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个有效的 <a href="https://baike.baidu.com/item/IPv4" target="_blank">IPv4</a> 地址&nbsp;<code>address</code>，返回这个 IP 地址的无效化版本。</p>
+<p>Given a valid (IPv4) IP <code>address</code>, return a defanged version of that IP address.</p>
 
-<p>所谓无效化&nbsp;IP 地址，其实就是用&nbsp;<code>&quot;[.]&quot;</code>&nbsp;代替了每个 <code>&quot;.&quot;</code>。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>address = &quot;1.1.1.1&quot;
-<strong>输出：</strong>&quot;1[.]1[.]1[.]1&quot;
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>address = &quot;255.100.50.0&quot;
-<strong>输出：</strong>&quot;255[.]100[.]50[.]0&quot;
-</pre>
+<p>A <em>defanged&nbsp;IP address</em>&nbsp;replaces every period <code>&quot;.&quot;</code> with <code>&quot;[.]&quot;</code>.</p>
 
 <p>&nbsp;</p>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre><strong>Input:</strong> address = "1.1.1.1"
+
+<strong>Output:</strong> "1[.]1[.]1[.]1"
+
+</pre><p><strong class="example">Example 2:</strong></p>
+
+<pre><strong>Input:</strong> address = "255.100.50.0"
+
+<strong>Output:</strong> "255[.]100[.]50[.]0"
+
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>给出的&nbsp;<code>address</code>&nbsp;是一个有效的 IPv4 地址</li>
+
+    <li>The given <code>address</code> is a valid IPv4 address.</li>
+
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：直接替换
+### Solution 1: Direct Replacement
 
-我们直接将字符串中的 `'.'` 替换为 `'[.]'` 即可。
+We can directly replace the `'.'` in the string with `'[.]'`.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串的长度。忽略答案的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

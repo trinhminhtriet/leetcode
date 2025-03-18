@@ -1,84 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2850.Minimum%20Moves%20to%20Spread%20Stones%20Over%20Grid/README.md
+difficulty: Medium
 rating: 2001
-source: 第 362 场周赛 Q3
+source: Weekly Contest 362 Q3
 tags:
-    - 广度优先搜索
-    - 数组
-    - 动态规划
-    - 矩阵
+    - Breadth-First Search
+    - Array
+    - Dynamic Programming
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [2850. 将石头分散到网格图的最少移动次数](https://leetcode.cn/problems/minimum-moves-to-spread-stones-over-grid)
+# [2850. Minimum Moves to Spread Stones Over Grid](https://leetcode.com/problems/minimum-moves-to-spread-stones-over-grid)
 
-[English Version](/solution/2800-2899/2850.Minimum%20Moves%20to%20Spread%20Stones%20Over%20Grid/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个大小为 <code>3 * 3</code>&nbsp;，下标从 <strong>0</strong>&nbsp;开始的二维整数矩阵&nbsp;<code>grid</code>&nbsp;，分别表示每一个格子里石头的数目。网格图中总共恰好有&nbsp;<code>9</code>&nbsp;个石头，一个格子里可能会有 <strong>多个</strong>&nbsp;石头。</p>
+<p>You are given a <strong>0-indexed</strong> 2D integer matrix <code>grid</code> of size <code>3 * 3</code>, representing the number of stones in each cell. The grid contains exactly <code>9</code> stones, and there can be <strong>multiple</strong> stones in a single cell.</p>
 
-<p>每一次操作中，你可以将一个石头从它当前所在格子移动到一个至少有一条公共边的相邻格子。</p>
+<p>In one move, you can move a single stone from its current cell to any other cell if the two cells share a side.</p>
 
-<p>请你返回每个格子恰好有一个石头的 <strong>最少移动次数</strong>&nbsp;。</p>
+<p>Return <em>the <strong>minimum number of moves</strong> required to place one stone in each cell</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2850.Minimum%20Moves%20to%20Spread%20Stones%20Over%20Grid/images/example1-3.svg" style="width: 401px; height: 281px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2850.Minimum%20Moves%20to%20Spread%20Stones%20Over%20Grid/images/example1-3.svg" style="width: 401px; height: 281px;" />
 <pre>
-<b>输入：</b>grid = [[1,1,0],[1,1,1],[1,2,1]]
-<b>输出：</b>3
-<b>解释：</b>让每个格子都有一个石头的一个操作序列为：
-1 - 将一个石头从格子 (2,1) 移动到 (2,2) 。
-2 - 将一个石头从格子 (2,2) 移动到 (1,2) 。
-3 - 将一个石头从格子 (1,2) 移动到 (0,2) 。
-总共需要 3 次操作让每个格子都有一个石头。
-让每个格子都有一个石头的最少操作次数为 3 。
+<strong>Input:</strong> grid = [[1,1,0],[1,1,1],[1,2,1]]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> One possible sequence of moves to place one stone in each cell is: 
+1- Move one stone from cell (2,1) to cell (2,2).
+2- Move one stone from cell (2,2) to cell (1,2).
+3- Move one stone from cell (1,2) to cell (0,2).
+In total, it takes 3 moves to place one stone in each cell of the grid.
+It can be shown that 3 is the minimum number of moves required to place one stone in each cell.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2850.Minimum%20Moves%20to%20Spread%20Stones%20Over%20Grid/images/example2-2.svg" style="width: 401px; height: 281px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2850.Minimum%20Moves%20to%20Spread%20Stones%20Over%20Grid/images/example2-2.svg" style="width: 401px; height: 281px;" />
 <pre>
-<b>输入：</b>grid = [[1,3,0],[1,0,0],[1,0,3]]
-<b>输出：</b>4
-<b>解释：</b>让每个格子都有一个石头的一个操作序列为：
-1 - 将一个石头从格子 (0,1) 移动到 (0,2) 。
-2 - 将一个石头从格子 (0,1) 移动到 (1,1) 。
-3 - 将一个石头从格子 (2,2) 移动到 (1,2) 。
-4 - 将一个石头从格子 (2,2) 移动到 (2,1) 。
-总共需要 4 次操作让每个格子都有一个石头。
-让每个格子都有一个石头的最少操作次数为 4 。
+<strong>Input:</strong> grid = [[1,3,0],[1,0,0],[1,0,3]]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> One possible sequence of moves to place one stone in each cell is:
+1- Move one stone from cell (0,1) to cell (0,2).
+2- Move one stone from cell (0,1) to cell (1,1).
+3- Move one stone from cell (2,2) to cell (1,2).
+4- Move one stone from cell (2,2) to cell (2,1).
+In total, it takes 4 moves to place one stone in each cell of the grid.
+It can be shown that 4 is the minimum number of moves required to place one stone in each cell.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>grid.length == grid[i].length == 3</code></li>
 	<li><code>0 &lt;= grid[i][j] &lt;= 9</code></li>
-	<li><code>grid</code>&nbsp;中元素之和为&nbsp;<code>9</code> 。</li>
+	<li>Sum of <code>grid</code> is equal to <code>9</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：朴素 BFS
+### Solution 1: Naive BFS
 
-题目实际上是求一个状态图中从初始状态到目标状态的最短路径，因此可以使用 BFS 求解。初始状态为 `grid`，目标状态为 `[[1, 1, 1], [1, 1, 1], [1, 1, 1]]`，在每次操作中，我们可以将一个单元格大于 $1$ 的石头移动到相邻的一个不超过 $1$ 的单元格。如果找到了目标状态，那么就可以返回当前的层数，即为最少移动次数。
+The problem is essentially finding the shortest path from the initial state to the target state in a state graph, so we can use BFS to solve it. The initial state is `grid`, and the target state is `[[1, 1, 1], [1, 1, 1], [1, 1, 1]]`. In each operation, we can move a stone greater than $1$ from a cell to an adjacent cell that does not exceed $1$. If the target state is found, we can return the current layer number, which is the minimum number of moves.
 
 <!-- tabs:start -->
 
@@ -186,15 +177,15 @@ class Solution {
 
 <!-- solution:start -->
 
-### 方法二：状态压缩动态规划
+### Solution 2: State Compression Dynamic Programming
 
-我们可以把所有值为 $0$ 的单元格坐标 $(i, j)$ 放入数组 $left$ 中，如果单元格的值 $v$ 大于 $1$，那么我们把 $v-1$ 个坐标 $(i, j)$ 放入数组 $right$ 中。那么问题就转化为，每个 $right$ 中的坐标 $(i, j)$ 都要移动到 $left$ 中的一个坐标 $(x, y)$，求最少的移动次数。
+We can put all the coordinates $(i, j)$ of cells with a value of $0$ into an array $left$. If the value $v$ of a cell is greater than $1$, we put $v-1$ coordinates $(i, j)$ into an array $right$. The problem then becomes that each coordinate $(i, j)$ in $right$ needs to be moved to a coordinate $(x, y)$ in $left$, and we need to find the minimum number of moves.
 
-我们记 $left$ 的长度为 $n$，那么我们可以使用 $n$ 位二进制数来表示 $left$ 中的每个坐标是否被 $right$ 中的坐标填充，其中 $1$ 表示被填充，而 $0$ 表示未被填充。初始时 $f[i] = \infty$，其余 $f[0]=0$。
+Let's denote the length of $left$ as $n$. We can use an $n$-bit binary number to represent whether each coordinate in $left$ is filled by a coordinate in $right$, where $1$ represents being filled, and $0$ represents not being filled. Initially, $f[i] = \infty$, and the rest $f[0]=0$.
 
-考虑 $f[i]$，记当前 $i$ 的二进制表示中 $1$ 的个数为 $k$，我们在 $[0..n)$ 的范围内枚举 $j$，如果 $i$ 的第 $j$ 位为 $1$，那么 $f[i]$ 可以由 $f[i \oplus (1 << j)]$ 转移而来，转移的代价为 $cal(left[k-1], right[j])$，其中 $cal$ 表示两个坐标之间的曼哈顿距离。最终答案为 $f[(1 << n) - 1]$。
+Consider $f[i]$, let the number of $1$s in the binary representation of $i$ be $k$. We enumerate $j$ in the range $[0..n)$, if the $j$th bit of $i$ is $1$, then $f[i]$ can be transferred from $f[i \oplus (1 << j)]$, and the cost of the transfer is $cal(left[k-1], right[j])$, where $cal$ represents the Manhattan distance between two coordinates. The final answer is $f[(1 << n) - 1]$.
 
-时间复杂度 $O(n \times 2^n)$，空间复杂度 $O(2^n)$。其中 $n$ 表示 $left$ 的长度，本题中 $n \le 9$。
+The time complexity is $O(n \times 2^n)$, and the space complexity is $O(2^n)$. Here, $n$ is the length of $left$, and in this problem, $n \le 9$.
 
 <!-- tabs:start -->
 

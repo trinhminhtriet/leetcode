@@ -1,81 +1,77 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2182.Construct%20String%20With%20Repeat%20Limit/README.md
+difficulty: Medium
 rating: 1680
-source: 第 281 场周赛 Q3
+source: Weekly Contest 281 Q3
 tags:
-    - 贪心
-    - 哈希表
-    - 字符串
-    - 计数
-    - 堆（优先队列）
+    - Greedy
+    - Hash Table
+    - String
+    - Counting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2182. 构造限制重复的字符串](https://leetcode.cn/problems/construct-string-with-repeat-limit)
+# [2182. Construct String With Repeat Limit](https://leetcode.com/problems/construct-string-with-repeat-limit)
 
-[English Version](/solution/2100-2199/2182.Construct%20String%20With%20Repeat%20Limit/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> 和一个整数 <code>repeatLimit</code> ，用 <code>s</code> 中的字符构造一个新字符串 <code>repeatLimitedString</code> ，使任何字母 <strong>连续</strong> 出现的次数都不超过 <code>repeatLimit</code> 次。你不必使用 <code>s</code> 中的全部字符。</p>
+<p>You are given a string <code>s</code> and an integer <code>repeatLimit</code>. Construct a new string <code>repeatLimitedString</code> using the characters of <code>s</code> such that no letter appears <strong>more than</strong> <code>repeatLimit</code> times <strong>in a row</strong>. You do <strong>not</strong> have to use all characters from <code>s</code>.</p>
 
-<p>返回 <strong>字典序最大的</strong><em> </em><code>repeatLimitedString</code> 。</p>
+<p>Return <em>the <strong>lexicographically largest</strong> </em><code>repeatLimitedString</code> <em>possible</em>.</p>
 
-<p>如果在字符串 <code>a</code> 和 <code>b</code> 不同的第一个位置，字符串 <code>a</code> 中的字母在字母表中出现时间比字符串 <code>b</code> 对应的字母晚，则认为字符串 <code>a</code> 比字符串 <code>b</code> <strong>字典序更大</strong> 。如果字符串中前 <code>min(a.length, b.length)</code> 个字符都相同，那么较长的字符串字典序更大。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>s = "cczazcc", repeatLimit = 3
-<strong>输出：</strong>"zzcccac"
-<strong>解释：</strong>使用 s 中的所有字符来构造 repeatLimitedString "zzcccac"。
-字母 'a' 连续出现至多 1 次。
-字母 'c' 连续出现至多 3 次。
-字母 'z' 连续出现至多 2 次。
-因此，没有字母连续出现超过 repeatLimit 次，字符串是一个有效的 repeatLimitedString 。
-该字符串是字典序最大的 repeatLimitedString ，所以返回 "zzcccac" 。
-注意，尽管 "zzcccca" 字典序更大，但字母 'c' 连续出现超过 3 次，所以它不是一个有效的 repeatLimitedString 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>s = "aababab", repeatLimit = 2
-<strong>输出：</strong>"bbabaa"
-<strong>解释：</strong>
-使用 s 中的一些字符来构造 repeatLimitedString "bbabaa"。 
-字母 'a' 连续出现至多 2 次。 
-字母 'b' 连续出现至多 2 次。 
-因此，没有字母连续出现超过 repeatLimit 次，字符串是一个有效的 repeatLimitedString 。 
-该字符串是字典序最大的 repeatLimitedString ，所以返回 "bbabaa" 。 
-注意，尽管 "bbabaaa" 字典序更大，但字母 'a' 连续出现超过 2 次，所以它不是一个有效的 repeatLimitedString 。
-</pre>
+<p>A string <code>a</code> is <strong>lexicographically larger</strong> than a string <code>b</code> if in the first position where <code>a</code> and <code>b</code> differ, string <code>a</code> has a letter that appears later in the alphabet than the corresponding letter in <code>b</code>. If the first <code>min(a.length, b.length)</code> characters do not differ, then the longer string is the lexicographically larger one.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;cczazcc&quot;, repeatLimit = 3
+<strong>Output:</strong> &quot;zzcccac&quot;
+<strong>Explanation:</strong> We use all of the characters from s to construct the repeatLimitedString &quot;zzcccac&quot;.
+The letter &#39;a&#39; appears at most 1 time in a row.
+The letter &#39;c&#39; appears at most 3 times in a row.
+The letter &#39;z&#39; appears at most 2 times in a row.
+Hence, no letter appears more than repeatLimit times in a row and the string is a valid repeatLimitedString.
+The string is the lexicographically largest repeatLimitedString possible so we return &quot;zzcccac&quot;.
+Note that the string &quot;zzcccca&quot; is lexicographically larger but the letter &#39;c&#39; appears more than 3 times in a row, so it is not a valid repeatLimitedString.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;aababab&quot;, repeatLimit = 2
+<strong>Output:</strong> &quot;bbabaa&quot;
+<strong>Explanation:</strong> We use only some of the characters from s to construct the repeatLimitedString &quot;bbabaa&quot;. 
+The letter &#39;a&#39; appears at most 2 times in a row.
+The letter &#39;b&#39; appears at most 2 times in a row.
+Hence, no letter appears more than repeatLimit times in a row and the string is a valid repeatLimitedString.
+The string is the lexicographically largest repeatLimitedString possible so we return &quot;bbabaa&quot;.
+Note that the string &quot;bbabaaa&quot; is lexicographically larger but the letter &#39;a&#39; appears more than 2 times in a row, so it is not a valid repeatLimitedString.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= repeatLimit &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> 由小写英文字母组成</li>
+	<li><code>s</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy Algorithm
 
-我们先用一个长度为 $26$ 的数组 $cnt$ 统计字符串 $s$ 中每个字符出现的次数，然后从大到小枚举字母表的第 $i$ 个字母，每次取出最多 $\min(cnt[i], repeatLimit)$ 个字母 $i$，如果取完后 $cnt[i]$ 还大于 $0$，则继续取字母表中第 $j$ 个字母，其中 $j$ 是最大的满足 $j < i$ 且 $cnt[j] > 0$ 的下标，直到取完所有字母。
+First, we use an array $cnt$ of length $26$ to count the number of occurrences of each character in string $s$. Then, we enumerate the $i$th letter of the alphabet in descending order, each time taking out at most $\min(cnt[i], repeatLimit)$ of letter $i$. If after taking them out $cnt[i]$ is still greater than $0$, we continue to take the $j$th letter of the alphabet, where $j$ is the largest index satisfying $j < i$ and $cnt[j] > 0$, until all letters are taken.
 
-时间复杂度 $O(n + |\Sigma|)$，空间复杂度 $O(|\Sigma|)$。其中 $n$ 是字符串 $s$ 的长度，而 $\Sigma$ 是字符集，本题中 $|\Sigma| = 26$。
+The time complexity is $O(n + |\Sigma|)$, and the space complexity is $O(|\Sigma|)$. Here, $n$ is the length of string $s$, and $\Sigma$ is the character set. In this problem, $|\Sigma| = 26$.
 
 <!-- tabs:start -->
 

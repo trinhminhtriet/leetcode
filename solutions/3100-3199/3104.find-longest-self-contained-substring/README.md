@@ -1,91 +1,86 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3104.Find%20Longest%20Self-Contained%20Substring/README.md
+difficulty: Hard
 tags:
-    - 哈希表
-    - 字符串
-    - 二分查找
-    - 前缀和
+    - Hash Table
+    - String
+    - Binary Search
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [3104. 查找最长的自包含子串 🔒](https://leetcode.cn/problems/find-longest-self-contained-substring)
+# [3104. Find Longest Self-Contained Substring 🔒](https://leetcode.com/problems/find-longest-self-contained-substring)
 
-[English Version](/solution/3100-3199/3104.Find%20Longest%20Self-Contained%20Substring/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定字符串&nbsp;<code>s</code>，你需要找到&nbsp;<code>s</code>&nbsp;的 <strong>最长自包含</strong>&nbsp;<span data-keyword="substring-nonempty">子串</span>&nbsp;的长度。</p>
+<p>Given a string <code>s</code>, your task is to find the length of the <strong>longest self-contained</strong> <span data-keyword="substring-nonempty">substring</span> of <code>s</code>.</p>
 
-<p>如果 <code>s</code>&nbsp;的一个子串 <code>t</code>&nbsp;满足&nbsp;<code>t != s</code>&nbsp;且&nbsp;<code>t</code>&nbsp;中的每一个字符在&nbsp;<code>s</code>&nbsp;的剩余部分都不存在，则被称为是 <strong>自包含</strong>&nbsp;的。</p>
+<p>A substring <code>t</code> of a string <code>s</code> is called <strong>self-contained </strong>if <code>t != s</code> and for every character in <code>t</code>, it doesn&#39;t exist in the <em>rest</em> of <code>s</code>.</p>
 
-<p>如果存在&nbsp;&nbsp;<code>s</code>&nbsp;的最长自包含子串，返回它的长度，否则返回 -1。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "abba"</span></p>
-
-<p><span class="example-io"><b>输出：</b>2</span></p>
-
-<p><strong>解释：</strong><br />
-让我们检查子串&nbsp;<code>"bb"</code>。你可以发现子串外没有其它&nbsp;<code>"b"</code>。因此答案为 2。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b></span><span class="example-io">s = "abab"</span></p>
-
-<p><span class="example-io"><b>输出：</b></span><span class="example-io">-1</span></p>
-
-<p><strong>解释：</strong><br />
-我们选择的每一个子串都不满足描述的特点（子串内外包含有一些字母）。所以答案是&nbsp;-1。</p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b></span><span class="example-io">s = "abacd"</span></p>
-
-<p><span class="example-io"><b>输出：</b></span><span class="example-io">4</span></p>
-
-<p><strong>解释：</strong><br />
-让我们检查子串&nbsp;<code>"<span class="example-io">abac</span>"</code>。子串之外只有一个字母&nbsp;<code>"d"</code>。子串内没有&nbsp;<code>"d"</code>，所以它满足条件并且答案为 4。</p>
-</div>
+<p>Return the length of the <em>longest<strong> </strong>self-contained </em>substring of <code>s</code> if it exists, otherwise, return -1.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;abba&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
+
+<p><strong>Explanation:</strong><br />
+Let&#39;s check the substring <code>&quot;bb&quot;</code>. You can see that no other <code>&quot;b&quot;</code> is outside of this substring. Hence the answer is 2.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;abab&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">-1</span></p>
+
+<p><strong>Explanation:</strong><br />
+Every substring we choose does not satisfy the described property (there is some character which is inside and outside of that substring). So the answer would be -1.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;abacd&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
+
+<p><strong>Explanation:</strong><br />
+Let&#39;s check the substring <code>&quot;<span class="example-io">abac</span>&quot;</code>. There is only one character outside of this substring and that is <code>&quot;d&quot;</code>. There is no <code>&quot;d&quot;</code> inside the chosen substring, so it satisfies the condition and the answer is 4.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= s.length &lt;= 5 * 10<sup>4</sup></code></li>
-	<li><code>s</code> 只包含小写英文字母。</li>
+	<li><code>s</code> consists only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们注意到，满足条件的子串的开头一定是某个字符第一次出现的位置。
+We notice that the start of a substring that meets the conditions must be the position where a character appears for the first time.
 
-因此，我们可以用两个数组或哈希表 `first` 和 `last` 分别记录每个字符第一次和最后一次出现的位置。
+Therefore, we can use two arrays or hash tables `first` and `last` to record the positions where each character appears for the first time and the last time, respectively.
 
-接下来，我们枚举每个字符 `c`，假设 `c` 第一次出现的位置是 $i$，最后一次出现的位置是 $mx$，那么我们可以从 $i$ 开始向后遍历，对于每个位置 $j$，我们找到 $s[j]$ 第一次出现的位置 $a$ 和最后一次出现的位置 $b$，如果 $a < i$，说明 $s[j]$ 在 $c$ 的左边，不符合枚举条件，我们可以直接退出循环。否则，我们更新 $mx = \max(mx, b)$。如果 $mx = j$ 且 $j - i + 1 < n$，我们更新答案为 $ans = \max(ans, j - i + 1)$。
+Next, we enumerate each character `c`. Suppose the position where `c` first appears is $i$, and the position where it last appears is $mx$. Then we can start traversing from $i$. For each position $j$, we find the position $a$ where $s[j]$ first appears and the position $b$ where it last appears. If $a < i$, it means that $s[j]$ is on the left of $c$, which does not meet the enumeration conditions, and we can exit the loop directly. Otherwise, we update $mx = \max(mx, b)$. If $mx = j$ and $j - i + 1 < n$, we update the answer to $ans = \max(ans, j - i + 1)$.
 
-最后返回答案即可。
+Finally, return the answer.
 
-时间复杂度 $O(n \times |\Sigma|)$，空间复杂度 $O(|\Sigma|)$。其中 $n$ 是字符串 $s$ 的长度；而 $|\Sigma|$ 是字符集的大小，本题中字符集为小写字母，所以 $|\Sigma| = 26$。
+The time complexity is $O(n \times |\Sigma|)$, and the space complexity is $O(|\Sigma|)$. Where $n$ is the length of the string $s$; and $|\Sigma|$ is the size of the character set. In this problem, the character set is lowercase letters, so $|\Sigma| = 26$.
 
 <!-- tabs:start -->
 

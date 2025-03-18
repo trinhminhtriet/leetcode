@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0512.Game%20Play%20Analysis%20II/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [512. 游戏玩法分析 II 🔒](https://leetcode.cn/problems/game-play-analysis-ii)
+# [512. Game Play Analysis II 🔒](https://leetcode.com/problems/game-play-analysis-ii)
 
-[English Version](/solution/0500-0599/0512.Game%20Play%20Analysis%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>Table:&nbsp;<code>Activity</code></p>
+<p>Table: <code>Activity</code></p>
 
 <pre>
 +--------------+---------+
@@ -27,21 +24,24 @@ tags:
 | event_date   | date    |
 | games_played | int     |
 +--------------+---------+
-(player_id, event_date) 是这个表的两个主键(具有唯一值的列的组合)
-这个表显示的是某些游戏玩家的游戏活动情况
-每一行是在某天使用某个设备登出之前登录并玩多个游戏（可能为0）的玩家的记录
+(player_id, event_date) is the primary key (combination of columns with unique values) of this table.
+This table shows the activity of players of some games.
+Each row is a record of a player who logged in and played a number of games (possibly 0) before logging out on someday using some device.
 </pre>
-
-<p>请编写解决方案，描述每一个玩家首次登陆的设备名称</p>
-
-<p>返回结果格式如以下示例：</p>
 
 <p>&nbsp;</p>
 
-<p><strong>示例 1：</strong></p>
+<p>Write a solution to report the <strong>device</strong> that is first logged in for each player.</p>
+
+<p>Return the result table in <strong>any order</strong>.</p>
+
+<p>The&nbsp;result format is in the following example.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 Activity table:
 +-----------+-----------+------------+--------------+
 | player_id | device_id | event_date | games_played |
@@ -52,24 +52,25 @@ Activity table:
 | 3         | 1         | 2016-03-02 | 0            |
 | 3         | 4         | 2018-07-03 | 5            |
 +-----------+-----------+------------+--------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-----------+-----------+
 | player_id | device_id |
 +-----------+-----------+
 | 1         | 2         |
 | 2         | 3         |
 | 3         | 1         |
-+-----------+-----------+</pre>
++-----------+-----------+
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：子查询
+### Solution 1: Subquery
 
-我们可以使用 `GROUP BY` 和 `MIN` 函数来找到每个玩家的第一次登录日期，然后使用联合键子查询来找到每个玩家的第一次登录设备。
+We can use `GROUP BY` and `MIN` functions to find the first login date for each player, and then use a subquery with a composite key to find the first login device for each player.
 
 <!-- tabs:start -->
 
@@ -97,9 +98,9 @@ WHERE
 
 <!-- solution:start -->
 
-### 方法二：窗口函数
+### Solution 2: Window Function
 
-我们可以使用窗口函数 `rank()`，它可以为每个玩家的每个登录日期分配一个排名，然后我们可以选择排名为 $1$ 的行。
+We can use the window function `rank()`, which assigns a rank to each login date for each player, and then select the rows with a rank of $1$.
 
 <!-- tabs:start -->
 

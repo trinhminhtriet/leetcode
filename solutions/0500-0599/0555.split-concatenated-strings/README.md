@@ -1,78 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0555.Split%20Concatenated%20Strings/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数组
-    - 字符串
+    - Greedy
+    - Array
+    - String
 ---
 
 <!-- problem:start -->
 
-# [555. 分割连接字符串 🔒](https://leetcode.cn/problems/split-concatenated-strings)
+# [555. Split Concatenated Strings 🔒](https://leetcode.com/problems/split-concatenated-strings)
 
-[English Version](/solution/0500-0599/0555.Split%20Concatenated%20Strings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个字符串列表&nbsp;<code>strs</code>，你可以将这些字符串连接成一个循环字符串，对于每个字符串，你可以选择是否翻转它。在所有可能的循环字符串中，你需要分割循环字符串（这将使循环字符串变成一个常规的字符串），然后找到字典序最大的字符串。</p>
+<p>You are given an array of strings <code>strs</code>. You could concatenate these strings together into a loop, where for each string, you could choose to reverse it or not. Among all the possible loops</p>
 
-<p>具体来说，要找到字典序最大的字符串，你需要经历两个阶段：</p>
+<p>Return <em>the lexicographically largest string after cutting the loop, which will make the looped string into a regular one</em>.</p>
+
+<p>Specifically, to find the lexicographically largest string, you need to experience two phases:</p>
 
 <ol>
-	<li>将所有字符串连接成一个循环字符串，你可以选择是否翻转某些字符串，并按照给定的顺序连接它们。</li>
-	<li>在循环字符串的某个位置分割它，这将使循环字符串从分割点变成一个常规的字符串。</li>
+	<li>Concatenate all the strings into a loop, where you can reverse some strings or not and connect them in the same order as given.</li>
+	<li>Cut and make one breakpoint in any place of the loop, which will make the looped string into a regular one starting from the character at the cutpoint.</li>
 </ol>
 
-<p>你的工作是在所有可能的常规字符串中找到字典序最大的一个。</p>
+<p>And your job is to find the lexicographically largest one among all the possible regular strings.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> strs = ["abc","xyz"]
-<strong>输出:</strong> "zyxcba"
-<strong>解释:</strong> 你可以得到循环字符串 "-abcxyz-", "-abczyx-", "-cbaxyz-", "-cbazyx-"，其中 '-' 代表循环状态。 
-答案字符串来自第四个循环字符串， 你可以从中间字符 'a' 分割开然后得到 "zyxcba"。
+<strong>Input:</strong> strs = [&quot;abc&quot;,&quot;xyz&quot;]
+<strong>Output:</strong> &quot;zyxcba&quot;
+<strong>Explanation:</strong> You can get the looped string &quot;-abcxyz-&quot;, &quot;-abczyx-&quot;, &quot;-cbaxyz-&quot;, &quot;-cbazyx-&quot;, where &#39;-&#39; represents the looped status. 
+The answer string came from the fourth looped one, where you could cut from the middle character &#39;a&#39; and get &quot;zyxcba&quot;.
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> strs = ["abc"]
-<strong>输出:</strong> "cba"
+<strong>Input:</strong> strs = [&quot;abc&quot;]
+<strong>Output:</strong> &quot;cba&quot;
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= strs.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= strs[i].length &lt;= 1000</code></li>
 	<li><code>1 &lt;= sum(strs[i].length) &lt;= 1000</code></li>
-	<li><code>strs[i]</code>&nbsp;只包含小写英文字母</li>
+	<li><code>strs[i]</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy
 
-我们先遍历字符串数组 `strs`，对于每个字符串 $s$，如果 $s$ 的反转字符串 $t$ 比 $s$ 大，那么我们就将 $s$ 替换为 $t$。
+We first traverse the string array `strs`. For each string $s$, if the reversed string $t$ is greater than $s$, we replace $s$ with $t$.
 
-然后我们再枚举字符串数组 `strs` 的每个位置 $i$ 作为分割点，将字符串数组 `strs` 拆成两部分，分别为 $strs[i + 1:]$ 和 $strs[:i]$，然后将这两部分拼接起来，得到一个新的字符串 $t$。接下来，我们枚举当前字符串 $strs[i]$ 的每个位置 $j$，其后缀部分为 $a=strs[i][j:]$，前缀部分为 $b=strs[i][:j]$，那么我们可以将 $a$, $t$ 和 $b$ 拼接起来，得到一个新的字符串 $cur$，如果 $cur$ 比当前答案大，那么我们就更新答案。这是将 $strs[i]$ 翻转后的情况，我们还需要考虑 $strs[i]$ 不翻转的情况，即将 $a$, $t$ 和 $b$ 的顺序反过来拼接，得到一个新的字符串 $cur$，如果 $cur$ 比当前答案大，那么我们就更新答案。
+Then we enumerate each position $i$ in the string array `strs` as a split point, dividing the string array `strs` into two parts: $strs[i + 1:]$ and $strs[:i]$. We then concatenate these two parts to get a new string $t$. Next, we enumerate each position $j$ in the current string $strs[i]$. The suffix part is $a = strs[i][j:]$, and the prefix part is $b = strs[i][:j]$. We can concatenate $a$, $t$, and $b$ to get a new string $cur$. If $cur$ is greater than the current answer, we update the answer. This considers the case where $strs[i]$ is reversed. We also need to consider the case where $strs[i]$ is not reversed, i.e., concatenate $a$, $t$, and $b$ in reverse order to get a new string $cur$. If $cur$ is greater than the current answer, we update the answer.
 
-最后，我们返回答案即可。
+Finally, we return the answer.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为字符串数组 `strs` 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string array `strs`.
 
 <!-- tabs:start -->
 

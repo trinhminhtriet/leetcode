@@ -1,82 +1,80 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2299.Strong%20Password%20Checker%20II/README.md
+difficulty: Easy
 rating: 1241
-source: 第 80 场双周赛 Q1
+source: Biweekly Contest 80 Q1
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2299. 强密码检验器 II](https://leetcode.cn/problems/strong-password-checker-ii)
+# [2299. Strong Password Checker II](https://leetcode.com/problems/strong-password-checker-ii)
 
-[English Version](/solution/2200-2299/2299.Strong%20Password%20Checker%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>如果一个密码满足以下所有条件，我们称它是一个 <strong>强</strong>&nbsp;密码：</p>
+<p>A password is said to be <strong>strong</strong> if it satisfies all the following criteria:</p>
 
 <ul>
-	<li>它有至少 <code>8</code>&nbsp;个字符。</li>
-	<li>至少包含 <strong>一个小写英文</strong>&nbsp;字母。</li>
-	<li>至少包含 <strong>一个大写英文</strong>&nbsp;字母。</li>
-	<li>至少包含 <strong>一个数字</strong>&nbsp;。</li>
-	<li>至少包含 <strong>一个特殊字符</strong>&nbsp;。特殊字符为：<code>"!@#$%^&amp;*()-+"</code>&nbsp;中的一个。</li>
-	<li>它 <strong>不</strong>&nbsp;包含&nbsp;<code>2</code>&nbsp;个连续相同的字符（比方说&nbsp;<code>"aab"</code>&nbsp;不符合该条件，但是&nbsp;<code>"aba"</code>&nbsp;符合该条件）。</li>
+	<li>It has at least <code>8</code> characters.</li>
+	<li>It contains at least <strong>one lowercase</strong> letter.</li>
+	<li>It contains at least <strong>one uppercase</strong> letter.</li>
+	<li>It contains at least <strong>one digit</strong>.</li>
+	<li>It contains at least <strong>one special character</strong>. The special characters are the characters in the following string: <code>&quot;!@#$%^&amp;*()-+&quot;</code>.</li>
+	<li>It does <strong>not</strong> contain <code>2</code> of the same character in adjacent positions (i.e., <code>&quot;aab&quot;</code> violates this condition, but <code>&quot;aba&quot;</code> does not).</li>
 </ul>
 
-<p>给你一个字符串&nbsp;<code>password</code>&nbsp;，如果它是一个&nbsp;<strong>强</strong>&nbsp;密码，返回&nbsp;<code>true</code>，否则返回&nbsp;<code>false</code>&nbsp;。</p>
+<p>Given a string <code>password</code>, return <code>true</code><em> if it is a <strong>strong</strong> password</em>. Otherwise, return <code>false</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>password = "IloveLe3tcode!"
-<b>输出：</b>true
-<b>解释：</b>密码满足所有的要求，所以我们返回 true 。
+<pre>
+<strong>Input:</strong> password = &quot;IloveLe3tcode!&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The password meets all the requirements. Therefore, we return true.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>password = "Me+You--IsMyDream"
-<b>输出：</b>false
-<b>解释：</b>密码不包含数字，且包含 2 个连续相同的字符。所以我们返回 false 。
+<pre>
+<strong>Input:</strong> password = &quot;Me+You--IsMyDream&quot;
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The password does not contain a digit and also contains 2 of the same character in adjacent positions. Therefore, we return false.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><b>输入：</b>password = "1aB!"
-<b>输出：</b>false
-<b>解释：</b>密码不符合长度要求。所以我们返回 false 。</pre>
+<pre>
+<strong>Input:</strong> password = &quot;1aB!&quot;
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The password does not meet the length requirement. Therefore, we return false.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= password.length &lt;= 100</code></li>
-	<li><code>password</code>&nbsp;包含字母，数字和&nbsp;<code>"!@#$%^&amp;*()-+"</code>&nbsp;这些特殊字符。</li>
+	<li><code>password</code> consists of letters, digits, and special characters: <code>&quot;!@#$%^&amp;*()-+&quot;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟 + 位运算
+### Solution 1: Simulation + Bit Manipulation
 
-根据题目描述，我们可以模拟检查密码是否满足题目要求的过程。
+According to the problem description, we can simulate the process of checking whether the password meets the requirements.
 
-首先，我们检查密码的长度是否小于 $8$，如果是，则返回 $\textit{false}$。
+First, we check if the length of the password is less than $8$. If it is, we return $\textit{false}$.
 
-接下来，我们用一个掩码 $\textit{mask}$ 来记录密码是否包含小写字母、大写字母、数字和特殊字符。我们遍历密码，每次遍历到一个字符，先判断它是否和前一个字符相同，如果是，则返回 $\textit{false}$。然后，根据字符的类型更新掩码 $\textit{mask}$。最后，我们检查掩码 $\textit{mask}$ 是否为 $15$，如果是，则返回 $\textit{true}$，否则返回 $\textit{false}$。
+Next, we use a mask $\textit{mask}$ to record whether the password contains lowercase letters, uppercase letters, digits, and special characters. We traverse the password, and for each character, we first check if it is the same as the previous character. If it is, we return $\textit{false}$. Then, we update the mask $\textit{mask}$ based on the character type. Finally, we check if the mask $\textit{mask}$ is $15$. If it is, we return $\textit{true}$; otherwise, we return $\textit{false}$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为密码的长度。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the password.
 
 <!-- tabs:start -->
 

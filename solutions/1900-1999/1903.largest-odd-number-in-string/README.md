@@ -1,75 +1,70 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1903.Largest%20Odd%20Number%20in%20String/README.md
+difficulty: Easy
 rating: 1248
-source: 第 246 场周赛 Q1
+source: Weekly Contest 246 Q1
 tags:
-    - 贪心
-    - 数学
-    - 字符串
+    - Greedy
+    - Math
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1903. 字符串中的最大奇数](https://leetcode.cn/problems/largest-odd-number-in-string)
+# [1903. Largest Odd Number in String](https://leetcode.com/problems/largest-odd-number-in-string)
 
-[English Version](/solution/1900-1999/1903.Largest%20Odd%20Number%20in%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>num</code> ，表示一个大整数。请你在字符串 <code>num</code> 的所有 <strong>非空子字符串</strong> 中找出 <strong>值最大的奇数</strong> ，并以字符串形式返回。如果不存在奇数，则返回一个空字符串<em> </em><code>""</code><em> </em>。</p>
+<p>You are given a string <code>num</code>, representing a large integer. Return <em>the <strong>largest-valued odd</strong> integer (as a string) that is a <strong>non-empty substring</strong> of </em><code>num</code><em>, or an empty string </em><code>&quot;&quot;</code><em> if no odd integer exists</em>.</p>
 
-<p><strong>子字符串</strong> 是字符串中的一个连续的字符序列。</p>
+<p>A <strong>substring</strong> is a contiguous sequence of characters within a string.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>num = "52"
-<strong>输出：</strong>"5"
-<strong>解释：</strong>非空子字符串仅有 "5"、"2" 和 "52" 。"5" 是其中唯一的奇数。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>num = "4206"
-<strong>输出：</strong>""
-<strong>解释：</strong>在 "4206" 中不存在奇数。
+<strong>Input:</strong> num = &quot;52&quot;
+<strong>Output:</strong> &quot;5&quot;
+<strong>Explanation:</strong> The only non-empty substrings are &quot;5&quot;, &quot;2&quot;, and &quot;52&quot;. &quot;5&quot; is the only odd number.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>num = "35427"
-<strong>输出：</strong>"35427"
-<strong>解释：</strong>"35427" 本身就是一个奇数。
+<strong>Input:</strong> num = &quot;4206&quot;
+<strong>Output:</strong> &quot;&quot;
+<strong>Explanation:</strong> There are no odd numbers in &quot;4206&quot;.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> num = &quot;35427&quot;
+<strong>Output:</strong> &quot;35427&quot;
+<strong>Explanation:</strong> &quot;35427&quot; is already an odd number.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= num.length <= 10<sup>5</sup></code></li>
-	<li><code>num</code> 仅由数字组成且不含前导零</li>
+	<li><code>1 &lt;= num.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>num</code> only consists of digits and does not contain any leading zeros.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：逆序遍历
+### Solution 1: Reverse Traversal
 
-我们可以从后往前遍历字符串，找到第一个奇数，然后返回从开头到该奇数的子字符串即可。如果不存在奇数，则返回空字符串。
+We can traverse the string from the end to the beginning, find the first odd number, and then return the substring from the beginning to this odd number. If there is no odd number, return an empty string.
 
-时间复杂度 $O(n)$，其中 $n$ 是字符串 $num$ 的长度。忽略答案字符串的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $num$. Ignoring the space consumption of the answer string, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

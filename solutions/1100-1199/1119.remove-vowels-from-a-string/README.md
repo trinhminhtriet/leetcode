@@ -1,61 +1,56 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1119.Remove%20Vowels%20from%20a%20String/README.md
+difficulty: Easy
 rating: 1232
-source: 第 4 场双周赛 Q2
+source: Biweekly Contest 4 Q2
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1119. 删去字符串中的元音 🔒](https://leetcode.cn/problems/remove-vowels-from-a-string)
+# [1119. Remove Vowels from a String 🔒](https://leetcode.com/problems/remove-vowels-from-a-string)
 
-[English Version](/solution/1100-1199/1119.Remove%20Vowels%20from%20a%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code>&nbsp;，请你删去其中的所有元音字母&nbsp;<code>'a'</code>，<code>'e'</code>，<code>'i'</code>，<code>'o'</code>，<code>'u'</code>，并返回这个新字符串。</p>
+<p>Given a string <code>s</code>, remove the vowels <code>&#39;a&#39;</code>, <code>&#39;e&#39;</code>, <code>&#39;i&#39;</code>, <code>&#39;o&#39;</code>, and <code>&#39;u&#39;</code> from it, and return the new string.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "leetcodeisacommunityforcoders"
-<strong>输出：</strong>"ltcdscmmntyfrcdrs"
+<strong>Input:</strong> s = &quot;leetcodeisacommunityforcoders&quot;
+<strong>Output:</strong> &quot;ltcdscmmntyfrcdrs&quot;
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "aeiou"
-<strong>输出：</strong>""
+<strong>Input:</strong> s = &quot;aeiou&quot;
+<strong>Output:</strong> &quot;&quot;
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= S.length &lt;= 1000</code></li>
-	<li><code>s</code>&nbsp;仅由小写英文字母组成</li>
+	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
+	<li><code>s</code> consists of only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们直接按照题目要求，遍历字符串，将不是元音字母的字符拼接到结果字符串中即可。
+We can directly traverse the string according to the requirements of the problem, and append characters that are not vowels to the result string.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串的长度。忽略答案字符串的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

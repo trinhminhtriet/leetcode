@@ -1,73 +1,68 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0085.Maximal%20Rectangle/README.md
+difficulty: Hard
 tags:
-    - 栈
-    - 数组
-    - 动态规划
-    - 矩阵
-    - 单调栈
+    - Stack
+    - Array
+    - Dynamic Programming
+    - Matrix
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [85. 最大矩形](https://leetcode.cn/problems/maximal-rectangle)
+# [85. Maximal Rectangle](https://leetcode.com/problems/maximal-rectangle)
 
-[English Version](/solution/0000-0099/0085.Maximal%20Rectangle/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个仅包含&nbsp;<code>0</code> 和 <code>1</code> 、大小为 <code>rows x cols</code> 的二维二进制矩阵，找出只包含 <code>1</code> 的最大矩形，并返回其面积。</p>
+<p>Given a <code>rows x cols</code>&nbsp;binary <code>matrix</code> filled with <code>0</code>&#39;s and <code>1</code>&#39;s, find the largest rectangle containing only <code>1</code>&#39;s and return <em>its area</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0085.Maximal%20Rectangle/images/1722912576-boIxpm-image.png" style="width: 402px; height: 322px;" />
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0085.Maximal%20Rectangle/images/maximal.jpg" style="width: 402px; height: 322px;" />
 <pre>
-<strong>输入：</strong>matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]
-<strong>输出：</strong>6
-<strong>解释：</strong>最大矩形如上图所示。
+<strong>Input:</strong> matrix = [[&quot;1&quot;,&quot;0&quot;,&quot;1&quot;,&quot;0&quot;,&quot;0&quot;],[&quot;1&quot;,&quot;0&quot;,&quot;1&quot;,&quot;1&quot;,&quot;1&quot;],[&quot;1&quot;,&quot;1&quot;,&quot;1&quot;,&quot;1&quot;,&quot;1&quot;],[&quot;1&quot;,&quot;0&quot;,&quot;0&quot;,&quot;1&quot;,&quot;0&quot;]]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The maximal rectangle is shown in the above picture.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>matrix = [["0"]]
-<strong>输出：</strong>0
+<strong>Input:</strong> matrix = [[&quot;0&quot;]]
+<strong>Output:</strong> 0
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>matrix = [["1"]]
-<strong>输出：</strong>1
+<strong>Input:</strong> matrix = [[&quot;1&quot;]]
+<strong>Output:</strong> 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>rows == matrix.length</code></li>
-	<li><code>cols == matrix[0].length</code></li>
+	<li><code>cols == matrix[i].length</code></li>
 	<li><code>1 &lt;= row, cols &lt;= 200</code></li>
-	<li><code>matrix[i][j]</code> 为 <code>'0'</code> 或 <code>'1'</code></li>
+	<li><code>matrix[i][j]</code> is <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：单调栈
+### Solution 1: Monotonic Stack
 
-我们把每一行视为柱状图的底部，对每一行求柱状图的最大面积即可。
+We treat each row as the base of the histogram, and calculate the maximum area of the histogram for each row.
 
-时间复杂度 $O(m \times n)$，其中 $m$ 表示 $matrix$ 的行数，$n$ 表示 $matrix$ 的列数。
+The time complexity is $O(m \times n)$, where $m$ represents the number of rows in $matrix$, and $n$ represents the number of columns in $matrix$.
 
 <!-- tabs:start -->
 

@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2987.Find%20Expensive%20Cities/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2987. 寻找房价最贵的城市 🔒](https://leetcode.cn/problems/find-expensive-cities)
+# [2987. Find Expensive Cities 🔒](https://leetcode.com/problems/find-expensive-cities)
 
-[English Version](/solution/2900-2999/2987.Find%20Expensive%20Cities/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：&nbsp;<code>Listings</code></p>
+<p>Table: <code>Listings</code></p>
 
 <pre>
 +-------------+---------+
@@ -26,22 +23,21 @@ tags:
 | city        | varchar |
 | price       | int     |
 +-------------+---------+
-listing_id 是这张表具有唯一值的列。
-这张表包括 listing_id, city,和 price。
+listing_id is column of unique values for this table.
+This table contains listing_id, city, and price.
 </pre>
 
-<p>编写一个解决方案，查找 <strong>房价平均值</strong> 超过 <strong>全国</strong> 平均房价的 <strong>城市</strong>。</p>
+<p>Write a solution to find <strong>cities </strong>where the <strong>average home prices</strong> exceed the <strong>national</strong> average home price.</p>
 
-<p>返回 <em>按&nbsp;</em><code>city</code><em> </em><em><strong>升序</strong> 排序的结果表。</em></p>
+<p>Return <em>the result table sorted by </em><code>city</code><em> in <strong>ascending</strong> order</em><em>.</em></p>
 
-<p>结果格式如下例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1:</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>
+<strong>Input:</strong> 
 Listings table:
 +------------+--------------+---------+
 | listing_id | city         | price   | 
@@ -58,31 +54,32 @@ Listings table:
 | 51         | NewYork      | 5951718 | 
 | 121        | NewYork      | 2893760 | 
 +------------+--------------+---------+
-<b>输出</b>
+<strong>Output</strong>
 +------------+
 | city       | 
 +------------+
 | Chicago    | 
 | LosAngeles |  
 +------------+
-<b>解释</b>
-全国平均房价为 $6,122,059.45。在列出的城市中：
-- Chicago 的平均价格为 $7,048,706.75
-- Los Angeles 的平均价格为 $6,277,754.5
-- San Francisco 的平均价格为 $3,900,513.33
-- New York 的平均价格为 $4,422,739
-只有 Chicago 和 Los Angeles 的平均房价超过了全国平均水平。因此，这两个城市包含在输出表中。输出表按城市名称升序排序。
+<strong>Explanation</strong>
+The national average home price is $6,122,059.45. Among the cities listed:
+- Chicago has an average price of $7,048,706.75
+- Los Angeles has an average price of $6,277,754.5
+- San Francisco has an average price of $3,900,513.33
+- New York has an average price of $4,422,739
+Only Chicago and Los Angeles have average home prices exceeding the national average. Therefore, these two cities are included in the output table. The output table is sorted in ascending order based on the city names.
+
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组聚合 + 子查询
+### Solution 1: Grouping Aggregation + Subquery
 
-我们将 `Listings` 表按照 `city` 分组，然后计算每个城市的平均房价，最后筛选出平均房价大于全国平均房价的城市即可。
+We group the `Listings` table by `city`, then calculate the average house price for each city, and finally filter out the cities where the average house price is greater than the national average house price.
 
 <!-- tabs:start -->
 

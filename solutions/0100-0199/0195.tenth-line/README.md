@@ -1,55 +1,69 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0195.Tenth%20Line/README.md
+difficulty: Easy
 tags:
     - Shell
 ---
 
 <!-- problem:start -->
 
-# [195. 第十行](https://leetcode.cn/problems/tenth-line)
+# [195. Tenth Line](https://leetcode.com/problems/tenth-line)
 
-[English Version](/solution/0100-0199/0195.Tenth%20Line/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个文本文件&nbsp;<code>file.txt</code>，请只打印这个文件中的第十行。</p>
+<p>Given a text file&nbsp;<code>file.txt</code>, print&nbsp;just the 10th line of the&nbsp;file.</p>
 
-<p><strong>示例:</strong></p>
+<p><strong class="example">Example:</strong></p>
 
-<p>假设&nbsp;<code>file.txt</code> 有如下内容：</p>
+<p>Assume that <code>file.txt</code> has the following content:</p>
 
-<pre>Line 1
+<pre>
+
+Line 1
+
 Line 2
+
 Line 3
+
 Line 4
+
 Line 5
+
 Line 6
+
 Line 7
+
 Line 8
+
 Line 9
+
 Line 10
+
 </pre>
 
-<p>你的脚本应当显示第十行：</p>
+<p>Your script should output the tenth line, which is:</p>
 
-<pre>Line 10
+<pre>
+
+Line 10
+
 </pre>
 
-<p><strong>说明:</strong><br>
-1. 如果文件少于十行，你应当输出什么？<br>
-2. 至少有三种不同的解法，请尝试尽可能多的方法来解题。</p>
+<div class="spoilers"><b>Note:</b><br />
+
+1. If the file contains less than 10 lines, what should you output?<br />
+
+2. There&#39;s at least three different solutions. Try to explore all possibilities.</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：sed
+### Solution 1: sed
 
 <!-- tabs:start -->
 

@@ -1,101 +1,65 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0471.Encode%20String%20with%20Shortest%20Length/README.md
+difficulty: Hard
 tags:
-    - 字符串
-    - 动态规划
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [471. 编码最短长度的字符串 🔒](https://leetcode.cn/problems/encode-string-with-shortest-length)
+# [471. Encode String with Shortest Length 🔒](https://leetcode.com/problems/encode-string-with-shortest-length)
 
-[English Version](/solution/0400-0499/0471.Encode%20String%20with%20Shortest%20Length/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个 <strong>非空</strong> 字符串，将其编码为具有最短长度的字符串。</p>
+<p>Given a string <code>s</code>, encode the string such that its encoded length is the shortest.</p>
 
-<p>编码规则是：<code>k[encoded_string]</code>，其中在方括号 <code>encoded_string</code><em> </em>中的内容重复 <code>k</code> 次。</p>
+<p>The encoding rule is: <code>k[encoded_string]</code>, where the <code>encoded_string</code> inside the square brackets is being repeated exactly <code>k</code> times. <code>k</code> should be a positive integer.</p>
 
-<p><strong>注：</strong></p>
+<p>If an encoding process does not make the string shorter, then do not encode it. If there are several solutions, return <strong>any of them</strong>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;aaa&quot;
+<strong>Output:</strong> &quot;aaa&quot;
+<strong>Explanation:</strong> There is no way to encode it such that it is shorter than the input string, so we do not encode it.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;aaaaa&quot;
+<strong>Output:</strong> &quot;5[a]&quot;
+<strong>Explanation:</strong> &quot;5[a]&quot; is shorter than &quot;aaaaa&quot; by 1 character.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;aaaaaaaaaa&quot;
+<strong>Output:</strong> &quot;10[a]&quot;
+<strong>Explanation:</strong> &quot;a9[a]&quot; or &quot;9[a]a&quot; are also valid solutions, both of them have the same length = 5, which is the same as &quot;10[a]&quot;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><em>k</em> 为正整数</li>
-	<li>如果编码的过程不能使字符串缩短，则不要对其进行编码。如果有多种编码方式，返回 <strong>任意一种</strong> 即可</li>
-</ul>
-
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "aaa"
-<strong>输出：</strong>"aaa"
-<strong>解释：</strong>无法将其编码为更短的字符串，因此不进行编码。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "aaaaa"
-<strong>输出：</strong>"5[a]"
-<strong>解释：</strong>"5[a]" 比 "aaaaa" 短 1 个字符。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "aaaaaaaaaa"
-<strong>输出：</strong>"10[a]"
-<strong>解释：</strong>"a9[a]" 或 "9[a]a" 都是合法的编码，和 "10[a]" 一样长度都为 5。
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "aabcaabcd"
-<strong>输出：</strong>"2[aabc]d"
-<strong>解释：</strong>"aabc" 出现两次，因此一种答案可以是 "2[aabc]d"。
-</pre>
-
-<p><strong>示例 5：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "abbbabbbcabbbabbbc"
-<strong>输出：</strong>"2[2[abbb]c]"
-<strong>解释：</strong>"abbbabbbc" 出现两次，但是 "abbbabbbc" 可以编码为 "2[abbb]c"，因此一种答案可以是 "2[2[abbb]c]"。
-</pre>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
-
-<ul>
-	<li><code>1 <= s.length <= 150</code></li>
-	<li><code>s</code> 由小写英文字母组成</li>
+	<li><code>1 &lt;= s.length &lt;= 150</code></li>
+	<li><code>s</code> consists of only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划（区间 DP）
-
-在这道题中，我们需要判断一个字符串是否能够进行压缩，也即是说，一个字符串是否能通过其子串重复多次构成。我们可以利用第 $459$ 题的方法来判断，定义一个方法 $g(i, j)$，表示将字符串 $s[i...j]$ 进行压缩后得到的字符串。
-
-接下来，我们用动态规划的方法，将字符串 $s$ 编码成一个最短长度的字符串。
-
-我们定义 $f[i][j]$ 表示将字符串 $s[i..j]$ 编码后的最短字符串。如果直接将 $s[i..j]$ 进行压缩编码，那么 $f[i][j] = g(i, j)$，如果我们将其分成两个子串进行编码，那么 $f[i][j]$ 的值为 $f[i][k] + f[k + 1][j]$ 的最小值，其中 $i \le k < j$。取两种情况下长度较小的字符串即可。
-
-在枚举 $i$ 和 $j$ 时，我们可以从大到小枚举 $i$，然后从小到大枚举 $j$，这样我们在计算 $f[i][j]$ 时，$f[i][k]$ 和 $f[k + 1][j]$ 的值都已经被计算过了。
-
-时间复杂度 $O(n^3)$，空间复杂度 $O(n^2)$。其中 $n$ 是字符串 $s$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

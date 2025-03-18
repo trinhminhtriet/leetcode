@@ -1,18 +1,15 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3482.Analyze%20Organization%20Hierarchy/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3482. Analyze Organization Hierarchy](https://leetcode.cn/problems/analyze-organization-hierarchy)
+# [3482. Analyze Organization Hierarchy](https://leetcode.com/problems/analyze-organization-hierarchy)
 
-[English Version](/solution/3400-3499/3482.Analyze%20Organization%20Hierarchy/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
@@ -140,11 +137,11 @@ manager_id is null for the top-level manager (CEO).
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -191,49 +188,44 @@ ORDER BY level, budget DESC, employee_name;
 ```python
 import pandas as pd
 
-
 def analyze_organization_hierarchy(employees: pd.DataFrame) -> pd.DataFrame:
-    # 初始化 CEO (level 1)
+    # Copy the input DataFrame to avoid modifying the original
     employees = employees.copy()
-    employees["level"] = None
-    ceo_id = employees.loc[employees["manager_id"].isna(), "employee_id"].values[0]
-    employees.loc[employees["employee_id"] == ceo_id, "level"] = 1
+    employees['level'] = None
 
-    # 递归计算层级
+    # Identify the CEO (level 1)
+    ceo_id = employees.loc[employees['manager_id'].isna(), 'employee_id'].values[0]
+    employees.loc[employees['employee_id'] == ceo_id, 'level'] = 1
+
+    # Recursively compute employee levels
     def compute_levels(emp_df, level):
-        next_level_ids = emp_df[emp_df["level"] == level]["employee_id"].tolist()
+        next_level_ids = emp_df[emp_df['level'] == level]['employee_id'].tolist()
         if not next_level_ids:
             return
-        emp_df.loc[emp_df["manager_id"].isin(next_level_ids), "level"] = level + 1
+        emp_df.loc[emp_df['manager_id'].isin(next_level_ids), 'level'] = level + 1
         compute_levels(emp_df, level + 1)
 
     compute_levels(employees, 1)
 
-    # 计算 team_size 和 budget
-    team_size = {eid: 0 for eid in employees["employee_id"]}
-    budget = {
-        eid: salary
-        for eid, salary in zip(employees["employee_id"], employees["salary"])
-    }
+    # Initialize team size and budget dictionaries
+    team_size = {eid: 0 for eid in employees['employee_id']}
+    budget = {eid: salary for eid, salary in zip(employees['employee_id'], employees['salary'])}
 
-    for eid in sorted(employees["employee_id"], reverse=True):
-        manager_id = employees.loc[
-            employees["employee_id"] == eid, "manager_id"
-        ].values[0]
+    # Compute team size and budget for each employee
+    for eid in sorted(employees['employee_id'], reverse=True):
+        manager_id = employees.loc[employees['employee_id'] == eid, 'manager_id'].values[0]
         if pd.notna(manager_id):
             team_size[manager_id] += team_size[eid] + 1
             budget[manager_id] += budget[eid]
 
-    # 生成最终 DataFrame
-    employees["team_size"] = employees["employee_id"].map(team_size)
-    employees["budget"] = employees["employee_id"].map(budget)
+    # Map computed team size and budget to employees DataFrame
+    employees['team_size'] = employees['employee_id'].map(team_size)
+    employees['budget'] = employees['employee_id'].map(budget)
 
-    # 按 level 升序，budget 降序，employee_name 升序排序
-    employees = employees.sort_values(
-        by=["level", "budget", "employee_name"], ascending=[True, False, True]
-    )
+    # Sort the final result by level (ascending), budget (descending), and employee name (ascending)
+    employees = employees.sort_values(by=['level', 'budget', 'employee_name'], ascending=[True, False, True])
 
-    return employees[["employee_id", "employee_name", "level", "team_size", "budget"]]
+    return employees[['employee_id', 'employee_name', 'level', 'team_size', 'budget']]
 ```
 
 <!-- tabs:end -->

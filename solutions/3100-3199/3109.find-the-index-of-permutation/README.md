@@ -1,93 +1,88 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3109.Find%20the%20Index%20of%20Permutation/README.md
+difficulty: Medium
 tags:
-    - 树状数组
-    - 线段树
-    - 数组
-    - 二分查找
-    - 分治
-    - 有序集合
-    - 归并排序
+    - Binary Indexed Tree
+    - Segment Tree
+    - Array
+    - Binary Search
+    - Divide and Conquer
+    - Ordered Set
+    - Merge Sort
 ---
 
 <!-- problem:start -->
 
-# [3109. 查找排列的下标 🔒](https://leetcode.cn/problems/find-the-index-of-permutation)
+# [3109. Find the Index of Permutation 🔒](https://leetcode.com/problems/find-the-index-of-permutation)
 
-[English Version](/solution/3100-3199/3109.Find%20the%20Index%20of%20Permutation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个长度为&nbsp;<code>n</code>&nbsp;的数组&nbsp;<code>perm</code>，它是&nbsp;<code>[1, 2, ..., n]</code>&nbsp;的一个排列，将&nbsp;<code>[1, 2, ..., n]</code>&nbsp;所有的排列放在数组中，并以&nbsp;<span data-keyword="lexicographically-sorted-array">字典序</span>&nbsp;排序，返回这个数组中&nbsp;<code>perm</code>&nbsp;的下标。</p>
+<p>Given an array <code>perm</code> of length <code>n</code> which is a permutation of <code>[1, 2, ..., n]</code>, return the index of <code>perm</code> in the <span data-keyword="lexicographically-sorted-array">lexicographically sorted</span> array of all of the permutations of <code>[1, 2, ..., n]</code>.</p>
 
-<p>由于答案可能非常大，返回值对&nbsp;<code>10<sup>9</sup>&nbsp;+ 7</code>&nbsp;<strong>取模</strong>。</p>
+<p>Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup>&nbsp;+ 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>perm = [1,2]</span></p>
+<p><strong>Input:</strong> <span class="example-io">perm = [1,2]</span></p>
 
-<p><span class="example-io"><b>输出：</b>0</span></p>
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>按以下顺序只有 2 种排列：</p>
+<p>There are only two permutations in the following order:</p>
 
 <p><code>[1,2]</code>, <code>[2,1]</code><br />
 <br />
-并且&nbsp;<code>[1,2]</code>&nbsp;在下标 0。</p>
+And <code>[1,2]</code> is at index 0.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>perm = [3,1,2]</span></p>
+<p><strong>Input:</strong> <span class="example-io">perm = [3,1,2]</span></p>
 
-<p><span class="example-io"><b>输出：</b>4</span></p>
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>按以下顺序只有 6 种排列：</p>
+<p>There are only six permutations in the following order:</p>
 
 <p><code>[1,2,3]</code>, <code>[1,3,2]</code>, <code>[2,1,3]</code>, <code>[2,3,1]</code>, <code>[3,1,2]</code>, <code>[3,2,1]</code><br />
 <br />
-并且&nbsp;<code>[3,1,2]</code>&nbsp;在下标 4。</p>
+And <code>[3,1,2]</code> is at index 4.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == perm.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>perm</code>&nbsp;是&nbsp;<code>[1, 2, ..., n]</code>&nbsp;的一个排列。</li>
+	<li><code>perm</code> is a permutation of <code>[1, 2, ..., n]</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：树状数组
+### Solution 1: Binary Indexed Tree
 
-根据题目要求，我们需要找出一共有多少个排列的字典序小于给定的排列。
+According to the problem requirements, we need to find out how many permutations are lexicographically smaller than the given permutation.
 
-我们考虑如何计算字典序小于给定排列的排列个数，一共有两种情况：
+We consider how to calculate the number of permutations that are lexicographically smaller than the given permutation. There are two situations:
 
--   排列的第一个元素小于 $perm[0]$，一共有 $(perm[0] - 1) \times (n-1)!$ 种排列。
--   排列的第一个元素等于 $perm[0]$，我们需要继续考虑第二个元素，以此类推。
--   累加所有情况即可。
+-   The first element of the permutation is less than $perm[0]$, there are $(perm[0] - 1) \times (n-1)!$ permutations.
+-   The first element of the permutation is equal to $perm[0]$, we need to continue to consider the second element, and so on.
+-   The sum of all situations is the answer.
 
-我们可以用树状数组维护遍历过的元素中，比当前元素小的元素个数，那么对于给定排列的第 $i$ 个元素，剩余的比它小的元素个数为 $perm[i] - 1 - tree.query(perm[i])$，排列种类数为 $(perm[i] - 1 - tree.query(perm[i])) \times (n-i-1)!$，累加到答案中。然后我们更新树状数组，将当前元素加入树状数组。继续遍历下一个元素，直到遍历完所有元素。
+We can use a binary indexed tree to maintain the number of elements that are smaller than the current element in the traversed elements. For the $i$-th element of the given permutation, the number of remaining elements that are smaller than it is $perm[i] - 1 - tree.query(perm[i])$, and the number of permutation types is $(perm[i] - 1 - tree.query(perm[i])) \times (n-i-1)!$, which is added to the answer. Then we update the binary indexed tree and add the current element to the binary indexed tree. Continue to traverse the next element until all elements are traversed.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为排列的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the permutation.
 
 <!-- tabs:start -->
 

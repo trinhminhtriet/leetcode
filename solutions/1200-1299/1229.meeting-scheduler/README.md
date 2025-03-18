@@ -1,52 +1,47 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1229.Meeting%20Scheduler/README.md
+difficulty: Medium
 rating: 1541
-source: 第 11 场双周赛 Q2
+source: Biweekly Contest 11 Q2
 tags:
-    - 数组
-    - 双指针
-    - 排序
+    - Array
+    - Two Pointers
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1229. 安排会议日程 🔒](https://leetcode.cn/problems/meeting-scheduler)
+# [1229. Meeting Scheduler 🔒](https://leetcode.com/problems/meeting-scheduler)
 
-[English Version](/solution/1200-1299/1229.Meeting%20Scheduler/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个人的空闲时间表：<code>slots1</code> 和 <code>slots2</code>，以及会议的预计持续时间&nbsp;<code>duration</code>，请你为他们安排&nbsp;<strong>时间段最早&nbsp;且</strong>合适的会议时间。</p>
+<p>Given the availability time slots arrays <code>slots1</code> and <code>slots2</code> of two people and a meeting duration <code>duration</code>, return the <strong>earliest time slot</strong> that works for both of them and is of duration <code>duration</code>.</p>
 
-<p>如果没有满足要求的会议时间，就请返回一个 <strong>空数组</strong>。</p>
+<p>If there is no common time slot that satisfies the requirements, return an <strong>empty array</strong>.</p>
 
-<p>「空闲时间」的格式是&nbsp;<code>[start, end]</code>，由开始时间&nbsp;<code>start</code>&nbsp;和结束时间&nbsp;<code>end</code>&nbsp;组成，表示从&nbsp;<code>start</code>&nbsp;开始，到 <code>end</code>&nbsp;结束。&nbsp;</p>
+<p>The format of a time slot is an array of two elements <code>[start, end]</code> representing an inclusive time range from <code>start</code> to <code>end</code>.</p>
 
-<p>题目保证数据有效：同一个人的空闲时间不会出现交叠的情况，也就是说，对于同一个人的两个空闲时间&nbsp;<code>[start1, end1]</code>&nbsp;和&nbsp;<code>[start2, end2]</code>，要么&nbsp;<code>start1 &gt; end2</code>，要么&nbsp;<code>start2 &gt; end1</code>。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>slots1 = [[10,50],[60,120],[140,210]], slots2 = [[0,15],[60,70]], duration = 8
-<strong>输出：</strong>[60,68]
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>slots1 = [[10,50],[60,120],[140,210]], slots2 = [[0,15],[60,70]], duration = 12
-<strong>输出：</strong>[]
-</pre>
+<p>It is guaranteed that no two availability slots of the same person intersect with each other. That is, for any two time slots <code>[start1, end1]</code> and <code>[start2, end2]</code> of the same person, either <code>start1 &gt; end2</code> or <code>start2 &gt; end1</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> slots1 = [[10,50],[60,120],[140,210]], slots2 = [[0,15],[60,70]], duration = 8
+<strong>Output:</strong> [60,68]
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> slots1 = [[10,50],[60,120],[140,210]], slots2 = [[0,15],[60,70]], duration = 12
+<strong>Output:</strong> []
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= slots1.length, slots2.length &lt;= 10<sup>4</sup></code></li>
@@ -59,15 +54,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 双指针
+### Solution 1: Sorting + Two Pointers
 
-我们可以将两个人的空闲时间分别排序，然后使用双指针遍历两个数组，找到两个人的空闲时间段的交集，如果交集的长度大于等于 `duration`，则返回交集的起始时间和起始时间加上 `duration`。否则，如果第一个人的空闲时间段的结束时间小于第二个人的空闲时间段的结束时间，我们就移动第一个人的指针，否则移动第二个人的指针。继续遍历，直到找到满足条件的时间段或者遍历结束。
+We can sort the free time intervals of both people, then use two pointers to traverse the two arrays and find the intersection of the free time intervals of both people. If the length of the intersection is greater than or equal to `duration`, return the start time of the intersection and the start time plus `duration`. Otherwise, if the end time of the first person's free time interval is less than the end time of the second person's free time interval, move the first person's pointer; otherwise, move the second person's pointer. Continue traversing until a suitable time interval is found or the traversal ends.
 
-时间复杂度 $O(m \times \log m + n \times \log n)$，空间复杂度 $O(\log m + \log n)$。其中 $m$ 和 $n$ 分别为两个数组的长度。
+The time complexity is $O(m \times \log m + n \times \log n)$, and the space complexity is $O(\log m + \log n)$. Here, $m$ and $n$ are the lengths of the two arrays, respectively.
 
 <!-- tabs:start -->
 

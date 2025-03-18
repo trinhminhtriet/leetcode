@@ -1,71 +1,59 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0617.Merge%20Two%20Binary%20Trees/README.md
+difficulty: Easy
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [617. 合并二叉树](https://leetcode.cn/problems/merge-two-binary-trees)
+# [617. Merge Two Binary Trees](https://leetcode.com/problems/merge-two-binary-trees)
 
-[English Version](/solution/0600-0699/0617.Merge%20Two%20Binary%20Trees/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两棵二叉树： <code>root1</code> 和 <code>root2</code> 。</p>
+<p>You are given two binary trees <code>root1</code> and <code>root2</code>.</p>
 
-<p>想象一下，当你将其中一棵覆盖到另一棵之上时，两棵树上的一些节点将会重叠（而另一些不会）。你需要将这两棵树合并成一棵新二叉树。合并的规则是：如果两个节点重叠，那么将这两个节点的值相加作为合并后节点的新值；否则，<strong>不为</strong> null 的节点将直接作为新二叉树的节点。</p>
+<p>Imagine that when you put one of them to cover the other, some nodes of the two trees are overlapped while the others are not. You need to merge the two trees into a new binary tree. The merge rule is that if two nodes overlap, then sum node values up as the new value of the merged node. Otherwise, the NOT null node will be used as the node of the new tree.</p>
 
-<p>返回合并后的二叉树。</p>
+<p>Return <em>the merged tree</em>.</p>
 
-<p><strong>注意:</strong> 合并过程必须从两个树的根节点开始。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0617.Merge%20Two%20Binary%20Trees/images/merge.jpg" style="height: 163px; width: 600px;" />
-<pre>
-<strong>输入：</strong>root1 = [1,3,2,5], root2 = [2,1,3,null,4,null,7]
-<strong>输出：</strong>[3,4,5,5,4,null,7]
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>root1 = [1], root2 = [1,2]
-<strong>输出：</strong>[2,2]
-</pre>
+<p><strong>Note:</strong> The merging process must start from the root nodes of both trees.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0617.Merge%20Two%20Binary%20Trees/images/merge.jpg" style="width: 600px; height: 163px;" />
+<pre>
+<strong>Input:</strong> root1 = [1,3,2,5], root2 = [2,1,3,null,4,null,7]
+<strong>Output:</strong> [3,4,5,5,4,null,7]
+</pre>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> root1 = [1], root2 = [1,2]
+<strong>Output:</strong> [2,2]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>两棵树中的节点数目在范围 <code>[0, 2000]</code> 内</li>
+	<li>The number of nodes in both trees is in the range <code>[0, 2000]</code>.</li>
 	<li><code>-10<sup>4</sup> &lt;= Node.val &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
-
-递归合并两棵树的节点。
-
--   如果其中一棵树的当前节点为空，则返回另一棵树的当前节点作为合并后节点。
--   如果两棵树的当前节点都不为空，则将它们的值相加作为合并后节点的新值，然后递归合并它们的左右子节点。
-
-时间复杂度 $O(m)$，空间复杂度 $O(m)$。其中 $m$ 是两棵树的节点数的最小值。
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1767.Find%20the%20Subtasks%20That%20Did%20Not%20Execute/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1767. 寻找没有被执行的任务对 🔒](https://leetcode.cn/problems/find-the-subtasks-that-did-not-execute)
+# [1767. Find the Subtasks That Did Not Execute 🔒](https://leetcode.com/problems/find-the-subtasks-that-did-not-execute)
 
-[English Version](/solution/1700-1799/1767.Find%20the%20Subtasks%20That%20Did%20Not%20Execute/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Tasks</code></p>
+<p>Table: <code>Tasks</code></p>
 
 <pre>
 +----------------+---------+
@@ -25,14 +22,14 @@ tags:
 | task_id        | int     |
 | subtasks_count | int     |
 +----------------+---------+
-task_id 具有唯一值的列。
-task_id 表示的为主任务的id,每一个task_id被分为了多个子任务(subtasks)，subtasks_count表示为子任务的个数（n），它的值表示了子任务的索引从1到n。
-本表保证2 &lt;=subtasks_count&lt;= 20。
+task_id is the column with unique values for this table.
+Each row in this table indicates that task_id was divided into subtasks_count subtasks labeled from 1 to subtasks_count.
+It is guaranteed that 2 &lt;= subtasks_count &lt;= 20.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>表： <code>Executed</code></p>
+<p>Table: <code>Executed</code></p>
 
 <pre>
 +---------------+---------+
@@ -41,26 +38,24 @@ task_id 表示的为主任务的id,每一个task_id被分为了多个子任务(s
 | task_id       | int     |
 | subtask_id    | int     |
 +---------------+---------+
-(task_id, subtask_id) 是该表中具有唯一值的列的组合。
-每一行表示标记为task_id的主任务与标记为subtask_id的子任务被成功执行。
-本表 <strong>保证 </strong>，对于每一个task_id，subtask_id &lt;= subtasks_count。
-</pre>
+(task_id, subtask_id) is the combination of columns with unique values for this table.
+Each row in this table indicates that for the task task_id, the subtask with ID subtask_id was executed successfully.
+It is <strong>guaranteed</strong> that subtask_id &lt;= subtasks_count for each task_id.</pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案报告没有被执行的（主任务，子任务）对，即没有被执行的（task_id, subtask_id）。</p>
+<p>Write a solution&nbsp;to report the IDs of the missing subtasks for each <code>task_id</code>.</p>
 
-<p>以 <strong>任何顺序</strong> 返回即可。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>查询结果格式如下。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：
-</strong>Tasks 表:
+<strong>Input:</strong> 
+Tasks table:
 +---------+----------------+
 | task_id | subtasks_count |
 +---------+----------------+
@@ -68,7 +63,7 @@ task_id 表示的为主任务的id,每一个task_id被分为了多个子任务(s
 | 2       | 2              |
 | 3       | 4              |
 +---------+----------------+
-Executed 表:
+Executed table:
 +---------+------------+
 | task_id | subtask_id |
 +---------+------------+
@@ -78,7 +73,7 @@ Executed 表:
 | 3       | 3          |
 | 3       | 4          |
 +---------+------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +---------+------------+
 | task_id | subtask_id |
 +---------+------------+
@@ -87,20 +82,21 @@ Executed 表:
 | 2       | 1          |
 | 2       | 2          |
 +---------+------------+
-<strong>解释：</strong>
-Task 1 被分成了 3 subtasks (1, 2, 3)。只有 subtask 2 被成功执行, 所以我们返回 (1, 1) 和 (1, 3) 这两个主任务子任务对。
-Task 2 被分成了 2 subtasks (1, 2)。没有一个subtask被成功执行, 因此我们返回(2, 1)和(2, 2)。
-Task 3 被分成了 4 subtasks (1, 2, 3, 4)。所有的subtask都被成功执行，因此对于Task 3,我们不返回任何值。</pre>
+<strong>Explanation:</strong> 
+Task 1 was divided into 3 subtasks (1, 2, 3). Only subtask 2 was executed successfully, so we include (1, 1) and (1, 3) in the answer.
+Task 2 was divided into 2 subtasks (1, 2). No subtask was executed successfully, so we include (2, 1) and (2, 2) in the answer.
+Task 3 was divided into 4 subtasks (1, 2, 3, 4). All of the subtasks were executed successfully.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归生成数据表 + 左连接
+### Solution 1: Recursive Table Generation + Left Join
 
-我们可以通过递归生成一个数据表，该数据表包含了所有的（主任务，子任务）对，然后我们通过左连接找到没有被执行的（主任务，子任务）对。
+We can generate a table recursively that contains all pairs of (parent task, child task), and then use a left join to find the pairs that have not been executed.
 
 <!-- tabs:start -->
 

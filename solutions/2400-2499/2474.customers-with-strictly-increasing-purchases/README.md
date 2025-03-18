@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2474.Customers%20With%20Strictly%20Increasing%20Purchases/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2474. 购买量严格增加的客户 🔒](https://leetcode.cn/problems/customers-with-strictly-increasing-purchases)
+# [2474. Customers With Strictly Increasing Purchases 🔒](https://leetcode.com/problems/customers-with-strictly-increasing-purchases)
 
-[English Version](/solution/2400-2499/2474.Customers%20With%20Strictly%20Increasing%20Purchases/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Orders</code></p>
+<p>Table: <code>Orders</code></p>
 
 <pre>
 +--------------+------+
@@ -27,31 +24,30 @@ tags:
 | order_date   | date |
 | price        | int  |
 +--------------+------+
-order_id 是该表的主键。
-每行包含订单的 id、订购该订单的客户 id、订单日期和价格。
+order_id is the column with unique values for this table.
+Each row contains the id of an order, the id of customer that ordered it, the date of the order, and its price.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写一个 SQL 查询，报告&nbsp;<strong>总购买量&nbsp;</strong>每年严格增加的客户 id。</p>
+<p>Write a solution to report the IDs of the customers with the <strong>total purchases</strong> strictly increasing yearly.</p>
 
 <ul>
-	<li>客户在一年内的&nbsp;<strong>总购买量&nbsp;</strong>是该年订单价格的总和。如果某一年客户没有下任何订单，我们认为总购买量为 <code>0</code>。</li>
-	<li>对于每个客户，要考虑的第一个年是他们&nbsp;<strong>第一次下单&nbsp;</strong>的年份。</li>
-	<li>对于每个客户，要考虑的最后一年是他们&nbsp;<strong>最后一次下单&nbsp;</strong>的年份。</li>
+	<li>The <strong>total purchases</strong> of a customer in one year is the sum of the prices of their orders in that year. If for some year the customer did not make any order, we consider the total purchases <code>0</code>.</li>
+	<li>The first year to consider for each customer is the year of their <strong>first order</strong>.</li>
+	<li>The last year to consider for each customer is the year of their <strong>last order</strong>.</li>
 </ul>
 
-<p>以&nbsp;<strong>任意顺序&nbsp;</strong>返回结果表。</p>
+<p>Return the result table <strong>in any order</strong>.</p>
 
-<p>查询结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
-Orders 表:
+<strong>Input:</strong> 
+Orders table:
 +----------+-------------+------------+-------+
 | order_id | customer_id | order_date | price |
 +----------+-------------+------------+-------+
@@ -65,37 +61,39 @@ Orders 表:
 | 8        | 3           | 2017-01-01 | 900   |
 | 9        | 3           | 2018-11-07 | 900   |
 +----------+-------------+------------+-------+
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +-------------+
 | customer_id |
 +-------------+
 | 1           |
 +-------------+
-<strong>解释:</strong> 
-客户 1: 第一年是 2019 年，最后一年是 2022 年
+<strong>Explanation:</strong> 
+Customer 1: The first year is 2019 and the last year is 2022
   - 2019: 1100 + 1200 = 2300
   - 2020: 3000
   - 2021: 3100
   - 2022: 4700
-  我们可以看到总购买量每年都在严格增加，所以我们在答案中包含了客户 1。
+  We can see that the total purchases are strictly increasing yearly, so we include customer 1 in the answer.
 
-客户 2: 第一年是2015年，最后一年是2017年
+Customer 2: The first year is 2015 and the last year is 2017
   - 2015: 700
   - 2016: 0
   - 2017: 1000
-  我们没有把客户 2 包括在答案中，因为总的购买量并没有严格地增加。请注意，客户 2 在 2016 年没有购买任何物品。
+  We do not include customer 2 in the answer because the total purchases are not strictly increasing. Note that customer 2 did not make any purchases in 2016.
 
-客户 3: 第一年是 2017 年，最后一年是 2018 年
+Customer 3: The first year is 2017, and the last year is 2018
   - 2017: 900
-  - 2018: 900</pre>
+  - 2018: 900
+ We do not include customer 3 in the answer because the total purchases are not strictly increasing.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

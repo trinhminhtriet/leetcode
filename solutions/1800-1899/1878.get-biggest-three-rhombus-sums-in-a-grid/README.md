@@ -1,92 +1,85 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1878.Get%20Biggest%20Three%20Rhombus%20Sums%20in%20a%20Grid/README.md
+difficulty: Medium
 rating: 1897
-source: 第 53 场双周赛 Q3
+source: Biweekly Contest 53 Q3
 tags:
-    - 数组
-    - 数学
-    - 矩阵
-    - 前缀和
-    - 排序
-    - 堆（优先队列）
+    - Array
+    - Math
+    - Matrix
+    - Prefix Sum
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1878. 矩阵中最大的三个菱形和](https://leetcode.cn/problems/get-biggest-three-rhombus-sums-in-a-grid)
+# [1878. Get Biggest Three Rhombus Sums in a Grid](https://leetcode.com/problems/get-biggest-three-rhombus-sums-in-a-grid)
 
-[English Version](/solution/1800-1899/1878.Get%20Biggest%20Three%20Rhombus%20Sums%20in%20a%20Grid/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>m x n</code> 的整数矩阵 <code>grid</code> 。</p>
+<p>You are given an <code>m x n</code> integer matrix <code>grid</code>​​​.</p>
 
-<p><strong>菱形和</strong> 指的是 <code>grid</code> 中一个正菱形 <strong>边界</strong> 上的元素之和。本题中的菱形必须为正方形旋转45度，且四个角都在一个格子当中。下图是四个可行的菱形，每个菱形和应该包含的格子都用了相应颜色标注在图中。</p>
+<p>A <strong>rhombus sum</strong> is the sum of the elements that form <strong>the</strong> <strong>border</strong> of a regular rhombus shape in <code>grid</code>​​​. The rhombus must have the shape of a square rotated 45 degrees with each of the corners centered in a grid cell. Below is an image of four valid rhombus shapes with the corresponding colored cells that should be included in each <strong>rhombus sum</strong>:</p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1878.Get%20Biggest%20Three%20Rhombus%20Sums%20in%20a%20Grid/images/pc73-q4-desc-2.png" style="width: 385px; height: 385px;" />
-<p> </p>
+<p>Note that the rhombus can have an area of 0, which is depicted by the purple rhombus in the bottom right corner.</p>
 
-<p>注意，菱形可以是一个面积为 0 的区域，如上图中右下角的紫色菱形所示。</p>
+<p>Return <em>the biggest three <strong>distinct rhombus sums</strong> in the </em><code>grid</code><em> in <strong>descending order</strong></em><em>. If there are less than three distinct values, return all of them</em>.</p>
 
-<p>请你按照 <strong>降序</strong> 返回 <code>grid</code> 中三个最大的 <strong>互不相同的菱形和</strong> 。如果不同的和少于三个，则将它们全部返回。</p>
-
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1878.Get%20Biggest%20Three%20Rhombus%20Sums%20in%20a%20Grid/images/pc73-q4-ex1.png" style="width: 360px; height: 361px;" />
 <pre>
-<b>输入：</b>grid = [[3,4,5,1,3],[3,3,4,2,3],[20,30,200,40,10],[1,5,5,4,1],[4,3,2,2,5]]
-<b>输出：</b>[228,216,211]
-<b>解释：</b>最大的三个菱形和如上图所示。
-- 蓝色：20 + 3 + 200 + 5 = 228
-- 红色：200 + 2 + 10 + 4 = 216
-- 绿色：5 + 200 + 4 + 2 = 211
+<strong>Input:</strong> grid = [[3,4,5,1,3],[3,3,4,2,3],[20,30,200,40,10],[1,5,5,4,1],[4,3,2,2,5]]
+<strong>Output:</strong> [228,216,211]
+<strong>Explanation:</strong> The rhombus shapes for the three biggest distinct rhombus sums are depicted above.
+- Blue: 20 + 3 + 200 + 5 = 228
+- Red: 200 + 2 + 10 + 4 = 216
+- Green: 5 + 200 + 4 + 2 = 211
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1800-1899/1878.Get%20Biggest%20Three%20Rhombus%20Sums%20in%20a%20Grid/images/pc73-q4-ex2.png" style="width: 217px; height: 217px;" />
 <pre>
-<b>输入：</b>grid = [[1,2,3],[4,5,6],[7,8,9]]
-<b>输出：</b>[20,9,8]
-<b>解释：</b>最大的三个菱形和如上图所示。
-- 蓝色：4 + 2 + 6 + 8 = 20
-- 红色：9 （右下角红色的面积为 0 的菱形）
-- 绿色：8 （下方中央面积为 0 的菱形）
+<strong>Input:</strong> grid = [[1,2,3],[4,5,6],[7,8,9]]
+<strong>Output:</strong> [20,9,8]
+<strong>Explanation:</strong> The rhombus shapes for the three biggest distinct rhombus sums are depicted above.
+- Blue: 4 + 2 + 6 + 8 = 20
+- Red: 9 (area 0 rhombus in the bottom right corner)
+- Green: 8 (area 0 rhombus in the bottom middle)
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>grid = [[7,7,7]]
-<b>输出：</b>[7]
-<b>解释：</b>所有三个可能的菱形和都相同，所以返回 [7] 。
+<strong>Input:</strong> grid = [[7,7,7]]
+<strong>Output:</strong> [7]
+<strong>Explanation:</strong> All three possible rhombus sums are the same, so return [7].
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
-	<li><code>1 <= m, n <= 100</code></li>
-	<li><code>1 <= grid[i][j] <= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= m, n &lt;= 50</code></li>
+	<li><code>1 &lt;= grid[i][j] &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举菱形中心点 + 前缀和 + 有序集合
+### Solution 1: Enumerate Diamond Center + Prefix Sum + Ordered Set
 
-我们可以预处理得到两个前缀和数组 $s_1$ 和 $s_2$，其中 $s_1[i][j]$ 表示以 $(i, j)$ 为末尾的左上对角线上的元素之和，而 $s_2[i][j]$ 表示以 $(i, j)$ 为末尾的右上对角线上的元素之和。
+We can preprocess to get two prefix sum arrays $s_1$ and $s_2$, where $s_1[i][j]$ represents the sum of the elements on the upper left diagonal ending at $(i, j)$, and $s_2[i][j]$ represents the sum of the elements on the upper right diagonal ending at $(i, j)$.
 
-接下来，我们枚举每个位置 $(i, j)$，先将 $grid[i][j]$ 加入有序集合 $ss$ 中，然后枚举菱形的边长 $k$，那么以 $(i, j)$ 为中心点、边长为 $k$ 的菱形的和为：
+Next, we enumerate each position $(i, j)$, first add $grid[i][j]$ to the ordered set $ss$, and then enumerate the length $k$ of the diamond. The sum of the diamond with $(i, j)$ as the center and a side length of $k$ is:
 
 $$
 \begin{aligned}
@@ -96,9 +89,9 @@ $$
 \end{aligned}
 $$
 
-我们将这个值加入有序集合 $ss$ 中，同时保证有序集合 $ss$ 的大小不超过 $3$，最后将有序集合 $ss$ 中的元素逆序输出即可。
+We add this value to the ordered set $ss$, while ensuring that the size of the ordered set $ss$ does not exceed $3$. Finally, we output the elements in the ordered set $ss$ in reverse order.
 
-时间复杂度 $O(m \times n \times \min(m, n))$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
+The time complexity is $O(m \times n \times \min(m, n))$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the number of rows and columns of the matrix, respectively.
 
 <!-- tabs:start -->
 

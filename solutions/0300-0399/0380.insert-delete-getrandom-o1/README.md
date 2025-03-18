@@ -1,89 +1,80 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0380.Insert%20Delete%20GetRandom%20O%281%29/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 数组
-    - 哈希表
-    - 数学
-    - 随机化
+    - Design
+    - Array
+    - Hash Table
+    - Math
+    - Randomized
 ---
 
 <!-- problem:start -->
 
-# [380. O(1) 时间插入、删除和获取随机元素](https://leetcode.cn/problems/insert-delete-getrandom-o1)
+# [380. Insert Delete GetRandom O(1)](https://leetcode.com/problems/insert-delete-getrandom-o1)
 
-[English Version](/solution/0300-0399/0380.Insert%20Delete%20GetRandom%20O%281%29/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>实现<code>RandomizedSet</code> 类：</p>
+<p>Implement the <code>RandomizedSet</code> class:</p>
 
-<div class="original__bRMd">
-<div>
 <ul>
-	<li><code>RandomizedSet()</code> 初始化 <code>RandomizedSet</code> 对象</li>
-	<li><code>bool insert(int val)</code> 当元素 <code>val</code> 不存在时，向集合中插入该项，并返回 <code>true</code> ；否则，返回 <code>false</code> 。</li>
-	<li><code>bool remove(int val)</code> 当元素 <code>val</code> 存在时，从集合中移除该项，并返回 <code>true</code> ；否则，返回 <code>false</code> 。</li>
-	<li><code>int getRandom()</code> 随机返回现有集合中的一项（测试用例保证调用此方法时集合中至少存在一个元素）。每个元素应该有 <strong>相同的概率</strong> 被返回。</li>
+	<li><code>RandomizedSet()</code> Initializes the <code>RandomizedSet</code> object.</li>
+	<li><code>bool insert(int val)</code> Inserts an item <code>val</code> into the set if not present. Returns <code>true</code> if the item was not present, <code>false</code> otherwise.</li>
+	<li><code>bool remove(int val)</code> Removes an item <code>val</code> from the set if present. Returns <code>true</code> if the item was present, <code>false</code> otherwise.</li>
+	<li><code>int getRandom()</code> Returns a random element from the current set of elements (it&#39;s guaranteed that at least one element exists when this method is called). Each element must have the <b>same probability</b> of being returned.</li>
 </ul>
 
-<p>你必须实现类的所有函数，并满足每个函数的 <strong>平均</strong> 时间复杂度为 <code>O(1)</code> 。</p>
+<p>You must implement the functions of the class such that each function works in&nbsp;<strong>average</strong>&nbsp;<code>O(1)</code>&nbsp;time complexity.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["RandomizedSet", "insert", "remove", "insert", "getRandom", "remove", "insert", "getRandom"]
+<strong>Input</strong>
+[&quot;RandomizedSet&quot;, &quot;insert&quot;, &quot;remove&quot;, &quot;insert&quot;, &quot;getRandom&quot;, &quot;remove&quot;, &quot;insert&quot;, &quot;getRandom&quot;]
 [[], [1], [2], [2], [], [1], [2], []]
-<strong>输出</strong>
+<strong>Output</strong>
 [null, true, false, true, 2, true, false, 2]
 
-<strong>解释</strong>
+<strong>Explanation</strong>
 RandomizedSet randomizedSet = new RandomizedSet();
-randomizedSet.insert(1); // 向集合中插入 1 。返回 true 表示 1 被成功地插入。
-randomizedSet.remove(2); // 返回 false ，表示集合中不存在 2 。
-randomizedSet.insert(2); // 向集合中插入 2 。返回 true 。集合现在包含 [1,2] 。
-randomizedSet.getRandom(); // getRandom 应随机返回 1 或 2 。
-randomizedSet.remove(1); // 从集合中移除 1 ，返回 true 。集合现在包含 [2] 。
-randomizedSet.insert(2); // 2 已在集合中，所以返回 false 。
-randomizedSet.getRandom(); // 由于 2 是集合中唯一的数字，getRandom 总是返回 2 。
+randomizedSet.insert(1); // Inserts 1 to the set. Returns true as 1 was inserted successfully.
+randomizedSet.remove(2); // Returns false as 2 does not exist in the set.
+randomizedSet.insert(2); // Inserts 2 to the set, returns true. Set now contains [1,2].
+randomizedSet.getRandom(); // getRandom() should return either 1 or 2 randomly.
+randomizedSet.remove(1); // Removes 1 from the set, returns true. Set now contains [2].
+randomizedSet.insert(2); // 2 was already in the set, so return false.
+randomizedSet.getRandom(); // Since 2 is the only number in the set, getRandom() will always return 2.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>-2<sup>31</sup> &lt;= val &lt;= 2<sup>31</sup> - 1</code></li>
-	<li>最多调用 <code>insert</code>、<code>remove</code> 和 <code>getRandom</code> 函数 <code>2 *&nbsp;</code><code>10<sup>5</sup></code> 次</li>
-	<li>在调用 <code>getRandom</code> 方法时，数据结构中 <strong>至少存在一个</strong> 元素。</li>
+	<li>At most <code>2 *&nbsp;</code><code>10<sup>5</sup></code> calls will be made to <code>insert</code>, <code>remove</code>, and <code>getRandom</code>.</li>
+	<li>There will be <strong>at least one</strong> element in the data structure when <code>getRandom</code> is called.</li>
 </ul>
-</div>
-</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 动态列表
+### Solution 1: Hash Table + Dynamic List
 
-我们定义一个动态列表 $q$，用于存储集合中的元素，定义一个哈希表 $d$，用于存储每个元素在 $q$ 中的下标。
+We define a dynamic list $q$ to store the elements in the set, and a hash table $d$ to store the index of each element in $q$.
 
-插入元素时，如果元素已经存在于哈希表 $d$ 中，直接返回 `false`；否则，我们将元素插入到动态列表 $q$ 的末尾，同时将元素和其在 $q$ 中的下标插入到哈希表 $d$ 中，最后返回 `true`。
+When inserting an element, if the element already exists in the hash table $d$, return `false` directly; otherwise, we insert the element into the end of the dynamic list $q$, and insert the element and its index in $q$ into the hash table $d$ at the same time, and finally return `true`.
 
-删除元素时，如果元素不存在于哈希表 $d$ 中，直接返回 `false`；否则，我们从哈希表中获取元素在列表 $q$ 中的下标 $i$，然后将列表 $q$ 的最后一个元素 $q[-1]$ 与 $q[i]$ 交换，然后将哈希表中 $q[-1]$ 的下标更新为 $i$，最后将 $q$ 的最后一个元素删除，同时将元素从哈希表中删除，最后返回 `true`。
+When deleting an element, if the element does not exist in the hash table $d$, return `false` directly; otherwise, we obtain the index of the element in the list $q$ from the hash table, then swap the last element $q[-1]$ in the list $q$ with $q[i]$, and then update the index of $q[-1]$ in the hash table to $i$. Then delete the last element in $q$, and remove the element from the hash table at the same time, and finally return `true`.
 
-获取随机元素时，我们从动态列表 $q$ 中随机选择一个元素返回即可。
+When getting a random element, we can randomly select an element from the dynamic list $q$ and return it.
 
-时间复杂度 $O(1)$，空间复杂度 $O(n)$。其中 $n$ 为集合中元素的个数。
+Time complexity $O(1)$, space complexity $O(n)$, where $n$ is the number of elements in the set.
 
 <!-- tabs:start -->
 

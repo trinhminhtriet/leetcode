@@ -1,68 +1,83 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1874.Minimize%20Product%20Sum%20of%20Two%20Arrays/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数组
-    - 排序
+    - Greedy
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1874. 两个数组的最小乘积和 🔒](https://leetcode.cn/problems/minimize-product-sum-of-two-arrays)
+# [1874. Minimize Product Sum of Two Arrays 🔒](https://leetcode.com/problems/minimize-product-sum-of-two-arrays)
 
-[English Version](/solution/1800-1899/1874.Minimize%20Product%20Sum%20of%20Two%20Arrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个<strong>长度相等</strong>的数组<code>a</code>和<code>b</code>，它们的<strong>乘积和</strong>为数组中所有的<code>a[i] * b[i]</code>之和，其中<code>0 &lt;= i &lt; a.length</code>。</p>
+<p>The <b>product sum </b>of two equal-length arrays <code>a</code> and <code>b</code> is equal to the sum of <code>a[i] * b[i]</code> for all <code>0 &lt;= i &lt; a.length</code> (<strong>0-indexed</strong>).</p>
 
 <ul>
-	<li>比如<code>a = [1,2,3,4]</code>，<code>b = [5,2,3,1]</code>时，它们的<strong>乘积和</strong>为<code>1*5 + 2*2 + 3*3 + 4*1 = 22</code></li>
+
+    <li>For example, if <code>a = [1,2,3,4]</code> and <code>b = [5,2,3,1]</code>, the <strong>product sum</strong> would be <code>1*5 + 2*2 + 3*3 + 4*1 = 22</code>.</li>
+
 </ul>
 
-<p>现有两个长度都为<code>n</code>的数组<code>nums1</code>和<code>nums2</code>，你可以以<strong>任意顺序排序</strong><code>nums1</code>，请返回它们的<strong>最小乘积和</strong>。</p>
+<p>Given two arrays <code>nums1</code> and <code>nums2</code> of length <code>n</code>, return <em>the <strong>minimum product sum</strong> if you are allowed to <strong>rearrange</strong> the <strong>order</strong> of the elements in </em><code>nums1</code>.&nbsp;</p>
 
-<p><strong>示例 1:</strong></p>
+<p>&nbsp;</p>
 
-<pre><strong>输入:</strong> nums1 = [5,3,4,2], nums2 = [4,2,2,5]
-<strong>输出:</strong> 40
-<strong>解释: </strong>将 num1 重新排列为 [3,5,4,2] 后，可由<b> </b>[3,5,4,2] 和 [4,2,2,5] 得到最小乘积和 3*4 + 5*2 + 4*2 + 2*5 = 40。
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+
+<strong>Input:</strong> nums1 = [5,3,4,2], nums2 = [4,2,2,5]
+
+<strong>Output:</strong> 40
+
+<strong>Explanation:</strong>&nbsp;We can rearrange nums1 to become [3,5,4,2]. The product sum of [3,5,4,2] and [4,2,2,5] is 3*4 + 5*2 + 4*2 + 2*5 = 40.
+
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入:</strong> nums1 = [2,1,4,5,7], nums2 = [3,2,4,8,6]
-<strong>输出:</strong> 65
-<strong>解释:</strong> 将 num1 重新排列为 [5,7,4,1,2] 后，可由<b> </b>[5,7,4,1,2] 和 [3,2,4,8,6] 得到最小乘积和 5*3 + 7*2 + 4*4 + 1*8 + 2*6 = 65。
+<pre>
+
+<strong>Input:</strong> nums1 = [2,1,4,5,7], nums2 = [3,2,4,8,6]
+
+<strong>Output:</strong> 65
+
+<strong>Explanation: </strong>We can rearrange nums1 to become [5,7,4,1,2]. The product sum of [5,7,4,1,2] and [3,2,4,8,6] is 5*3 + 7*2 + 4*4 + 1*8 + 2*6 = 65.
+
 </pre>
 
-<p> </p>
+<p>&nbsp;</p>
 
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>n == nums1.length == nums2.length</code></li>
-	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= nums1[i], nums2[i] &lt;= 100</code></li>
+
+    <li><code>n == nums1.length == nums2.length</code></li>
+
+    <li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
+
+    <li><code>1 &lt;= nums1[i], nums2[i] &lt;= 100</code></li>
+
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 排序
+### Solution 1: Greedy + Sorting
 
-由于两个数组都是正整数，要使得乘积和最小，我们可以将两个数组中的最大值和最小值相乘，次大值和次小值相乘，以此类推。
+Since both arrays consist of positive integers, to minimize the sum of products, we can multiply the largest value in one array with the smallest value in the other array, the second largest with the second smallest, and so on.
 
-因此，我们将数组 $\textit{nums1}$ 按照升序排序，将数组 $\textit{nums2}$ 按照降序排序，然后将两个数组对应位置的元素相乘，累加即可。
+Therefore, we sort the array $\textit{nums1}$ in ascending order and the array $\textit{nums2}$ in descending order. Then, we multiply the corresponding elements of the two arrays and sum the results.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组 $\textit{nums1}$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $\textit{nums1}$.
 
 <!-- tabs:start -->
 

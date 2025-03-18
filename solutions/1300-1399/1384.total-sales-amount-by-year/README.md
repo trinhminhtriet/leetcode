@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1384.Total%20Sales%20Amount%20by%20Year/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1384. 按年度列出销售总额 🔒](https://leetcode.cn/problems/total-sales-amount-by-year)
+# [1384. Total Sales Amount by Year 🔒](https://leetcode.com/problems/total-sales-amount-by-year)
 
-[English Version](/solution/1300-1399/1384.Total%20Sales%20Amount%20by%20Year/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>&nbsp;<code>Product</code>&nbsp;表：</p>
+<p>Table: <code>Product</code></p>
 
 <pre>
 +---------------+---------+
@@ -25,13 +22,13 @@ tags:
 | product_id    | int     |
 | product_name  | varchar |
 +---------------+---------+
-product_id 是这张表的主键(具有唯一值的列)。
-product_name 是产品的名称。
+product_id is the primary key (column with unique values) for this table.
+product_name is the name of the product.
 </pre>
 
 <p>&nbsp;</p>
 
-<p><code>Sales</code>&nbsp;表：</p>
+<p>Table: <code>Sales</code></p>
 
 <pre>
 +---------------------+---------+
@@ -42,27 +39,26 @@ product_name 是产品的名称。
 | period_end          | date    |
 | average_daily_sales | int     |
 +---------------------+---------+
-product_id 是这张表的主键(具有唯一值的列)。
-period_start&nbsp;和 period_end&nbsp;是该产品销售期的起始日期和结束日期，且这两个日期包含在销售期内。
-average_daily_sales 列存储销售期内该产品的日平均销售额。
-销售日期范围为2018年到2020年。
+product_id is the primary key (column with unique values) for this table. 
+period_start and period_end indicate the start and end date for the sales period, and both dates are inclusive.
+The average_daily_sales column holds the average daily sales amount of the items for the period.
+The dates of the sales years are between 2018 to 2020.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案，找出每个产品每年的总销售额，并包含 <code>product_id</code> , <code>product_name</code> ,&nbsp;<code>report_year</code> 以及 <code>total_amount</code>&nbsp;。</p>
+<p>Write a solution to report the total sales amount of each item for each year, with corresponding <code>product_name</code>, <code>product_id</code>, <code>report_year</code>, and <code>total_amount</code>.</p>
 
-<p>返回结果并按&nbsp;<code>product_id</code> 和 <code>report_year</code><strong> 排序</strong>。</p>
+<p>Return the result table <strong>ordered</strong> by <code>product_id</code> and <code>report_year</code>.</p>
 
-<p>返回结果格式如下例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<code><strong>输入：</strong>
-Product</code> table:
+<strong>Input:</strong> 
+Product table:
 +------------+--------------+
 | product_id | product_name |
 +------------+--------------+
@@ -70,7 +66,7 @@ Product</code> table:
 | 2          | LC T-Shirt   |
 | 3          | LC Keychain  |
 +------------+--------------+
-<code>Sales</code> table:
+Sales table:
 +------------+--------------+-------------+---------------------+
 | product_id | period_start | period_end  | average_daily_sales |
 +------------+--------------+-------------+---------------------+
@@ -78,7 +74,7 @@ Product</code> table:
 | 2          | 2018-12-01   | 2020-01-01  | 10                  |
 | 3          | 2019-12-01   | 2020-01-31  | 1                   |
 +------------+--------------+-------------+---------------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +------------+--------------+-------------+--------------+
 | product_id | product_name | report_year | total_amount |
 +------------+--------------+-------------+--------------+
@@ -89,18 +85,19 @@ Product</code> table:
 | 3          | LC Keychain  |    2019     | 31           |
 | 3          | LC Keychain  |    2020     | 31           |
 +------------+--------------+-------------+--------------+
-<strong>解释：</strong>
-LC Phone 在 2019-01-25 至 2019-02-28 期间销售，该产品销售时间总计35天。销售总额 35*100 = 3500。
-LC T-shirt 在 2018-12-01&nbsp;至 2020-01-01 期间销售，该产品在2018年、2019年、2020年的销售时间分别是31天、365天、1天，2018年、2019年、2020年的销售总额分别是31*10=310、365*10=3650、1*10=10。
-LC Keychain 在 2019-12-01&nbsp;至 2020-01-31 期间销售，该产品在2019年、2020年的销售时间分别是：31天、31天，2019年、2020年的销售总额分别是31*1=31、31*1=31。</pre>
+<strong>Explanation:</strong> 
+LC Phone was sold for the period of 2019-01-25 to 2019-02-28, and there are 35 days for this period. Total amount 35*100 = 3500. 
+LC T-shirt was sold for the period of 2018-12-01 to 2020-01-01, and there are 31, 365, 1 days for years 2018, 2019 and 2020 respectively.
+LC Keychain was sold for the period of 2019-12-01 to 2020-01-31, and there are 31, 31 days for years 2019 and 2020 respectively.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

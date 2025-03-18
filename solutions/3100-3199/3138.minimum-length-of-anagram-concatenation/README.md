@@ -1,81 +1,76 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3138.Minimum%20Length%20of%20Anagram%20Concatenation/README.md
+difficulty: Medium
 rating: 1979
-source: 第 396 场周赛 Q3
+source: Weekly Contest 396 Q3
 tags:
-    - 哈希表
-    - 字符串
-    - 计数
+    - Hash Table
+    - String
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [3138. 同位字符串连接的最小长度](https://leetcode.cn/problems/minimum-length-of-anagram-concatenation)
+# [3138. Minimum Length of Anagram Concatenation](https://leetcode.com/problems/minimum-length-of-anagram-concatenation)
 
-[English Version](/solution/3100-3199/3138.Minimum%20Length%20of%20Anagram%20Concatenation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>s</code>&nbsp;，它由某个字符串&nbsp;<code>t</code>&nbsp;和若干&nbsp;<code>t</code>&nbsp; 的&nbsp;<strong>同位字符串</strong>&nbsp;连接而成。</p>
+<p>You are given a string <code>s</code>, which is known to be a concatenation of <strong>anagrams</strong> of some string <code>t</code>.</p>
 
-<p>请你返回字符串 <code>t</code>&nbsp;的 <strong>最小</strong>&nbsp;可能长度。</p>
+<p>Return the <strong>minimum</strong> possible length of the string <code>t</code>.</p>
 
-<p><strong>同位字符串</strong>&nbsp;指的是重新排列一个字符串的字母得到的另外一个字符串。例如，"aab"，"aba" 和 "baa" 是 "aab" 的同位字符串。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "abba"</span></p>
-
-<p><span class="example-io"><b>输出：</b>2</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>一个可能的字符串&nbsp;<code>t</code>&nbsp;为&nbsp;<code>"ba"</code>&nbsp;。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "cdef"</span></p>
-
-<p><span class="example-io"><b>输出：</b>4</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>一个可能的字符串&nbsp;<code>t</code>&nbsp;为&nbsp;<code>"cdef"</code>&nbsp;，注意&nbsp;<code>t</code>&nbsp;可能等于&nbsp;<code>s</code>&nbsp;。</p>
-</div>
+<p>An <strong>anagram</strong> is formed by rearranging the letters of a string. For example, &quot;aab&quot;, &quot;aba&quot;, and, &quot;baa&quot; are anagrams of &quot;aab&quot;.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;abba&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>One possible string <code>t</code> could be <code>&quot;ba&quot;</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;cdef&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>One possible string <code>t</code> could be <code>&quot;cdef&quot;</code>, notice that <code>t</code> can be equal to <code>s</code>.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
+	<li><code>s</code> consist only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-根据题目描述，字符串 $\textit{t}$ 的长度一定是 $\textit{s}$ 的长度的因子，我们可以从小到大枚举字符串 $\textit{t}$ 的长度 $k$，然后检查是否满足题目要求，如果满足则返回。因此，问题转化为如何检查字符串 $\textit{t}$ 的长度 $k$ 是否满足题目要求。
+Based on the problem description, the length of string $\textit{t}$ must be a factor of the length of string $\textit{s}$. We can enumerate the length $k$ of string $\textit{t}$ from small to large, and then check if it meets the requirements of the problem. If it does, we return. Thus, the problem is transformed into how to check whether the length $k$ of string $\textit{t}$ meets the requirements.
 
-我们首先统计字符串 $\textit{s}$ 中每个字符出现的次数，记录在数组或哈希表 $\textit{cnt}$ 中。
+First, we count the occurrence of each character in string $\textit{s}$ and record it in an array or hash table $\textit{cnt}$.
 
-然后，我们定义一个函数 $\textit{check}(k)$，用来检查字符串 $\textit{t}$ 的长度 $k$ 是否满足题目要求。我们可以遍历字符串 $\textit{s}$，每次取长度为 $k$ 的子串，然后统计每个字符出现的次数，如果每个字符出现的次数乘以 $\frac{n}{k}$ 不等于 $\textit{cnt}$ 中的值，则返回 $\textit{false}$。遍历结束，如果都满足，则返回 $\textit{true}$。
+Next, we define a function $\textit{check}(k)$ to check whether the length $k$ of string $\textit{t}$ meets the requirements. We can traverse string $\textit{s}$, taking a substring of length $k$ each time, and then count the occurrence of each character. If the occurrence of each character multiplied by $\frac{n}{k}$ does not equal the value in $\textit{cnt}$, then return $\textit{false}$. If all checks pass by the end of the traversal, return $\textit{true}$.
 
-时间复杂度 $O(n \times A)$，其中 $n$ 是字符串 $\textit{s}$ 的长度，而 $A$ 是 $n$ 的因子个数。空间复杂度 $O(|\Sigma|)$，其中 $\Sigma$ 是字符集，本题中为小写字母集合。
+The time complexity is $O(n \times A)$, where $n$ is the length of string $\textit{s}$, and $A$ is the number of factors of $n$. The space complexity is $O(|\Sigma|)$, where $\Sigma$ is the character set, which in this case is the set of lowercase letters.
 
 <!-- tabs:start -->
 

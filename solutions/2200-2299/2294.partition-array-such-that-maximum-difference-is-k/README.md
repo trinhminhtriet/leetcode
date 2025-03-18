@@ -1,73 +1,68 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2294.Partition%20Array%20Such%20That%20Maximum%20Difference%20Is%20K/README.md
+difficulty: Medium
 rating: 1416
-source: 第 296 场周赛 Q2
+source: Weekly Contest 296 Q2
 tags:
-    - 贪心
-    - 数组
-    - 排序
+    - Greedy
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2294. 划分数组使最大差为 K](https://leetcode.cn/problems/partition-array-such-that-maximum-difference-is-k)
+# [2294. Partition Array Such That Maximum Difference Is K](https://leetcode.com/problems/partition-array-such-that-maximum-difference-is-k)
 
-[English Version](/solution/2200-2299/2294.Partition%20Array%20Such%20That%20Maximum%20Difference%20Is%20K/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> 。你可以将 <code>nums</code> 划分成一个或多个 <strong>子序列</strong> ，使 <code>nums</code> 中的每个元素都 <strong>恰好</strong> 出现在一个子序列中。</p>
+<p>You are given an integer array <code>nums</code> and an integer <code>k</code>. You may partition <code>nums</code> into one or more <strong>subsequences</strong> such that each element in <code>nums</code> appears in <strong>exactly</strong> one of the subsequences.</p>
 
-<p>在满足每个子序列中最大值和最小值之间的差值最多为 <code>k</code> 的前提下，返回需要划分的 <strong>最少</strong> 子序列数目。</p>
+<p>Return <em>the <strong>minimum </strong>number of subsequences needed such that the difference between the maximum and minimum values in each subsequence is <strong>at most</strong> </em><code>k</code><em>.</em></p>
 
-<p><strong>子序列</strong> 本质是一个序列，可以通过删除另一个序列中的某些元素（或者不删除）但不改变剩下元素的顺序得到。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [3,6,1,2,5], k = 2
-<strong>输出：</strong>2
-<strong>解释：</strong>
-可以将 nums 划分为两个子序列 [3,1,2] 和 [6,5] 。
-第一个子序列中最大值和最小值的差值是 3 - 1 = 2 。
-第二个子序列中最大值和最小值的差值是 6 - 5 = 1 。
-由于创建了两个子序列，返回 2 。可以证明需要划分的最少子序列数目就是 2 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,3], k = 1
-<strong>输出：</strong>2
-<strong>解释：</strong>
-可以将 nums 划分为两个子序列 [1,2] 和 [3] 。
-第一个子序列中最大值和最小值的差值是 2 - 1 = 1 。
-第二个子序列中最大值和最小值的差值是 3 - 3 = 0 。
-由于创建了两个子序列，返回 2 。注意，另一种最优解法是将 nums 划分成子序列 [1] 和 [2,3] 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [2,2,4,5], k = 0
-<strong>输出：</strong>3
-<strong>解释：</strong>
-可以将 nums 划分为三个子序列 [2,2]、[4] 和 [5] 。
-第一个子序列中最大值和最小值的差值是 2 - 2 = 0 。
-第二个子序列中最大值和最小值的差值是 4 - 4 = 0 。
-第三个子序列中最大值和最小值的差值是 5 - 5 = 0 。
-由于创建了三个子序列，返回 3 。可以证明需要划分的最少子序列数目就是 3 。
-</pre>
+<p>A <strong>subsequence</strong> is a sequence that can be derived from another sequence by deleting some or no elements without changing the order of the remaining elements.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [3,6,1,2,5], k = 2
+<strong>Output:</strong> 2
+<strong>Explanation:</strong>
+We can partition nums into the two subsequences [3,1,2] and [6,5].
+The difference between the maximum and minimum value in the first subsequence is 3 - 1 = 2.
+The difference between the maximum and minimum value in the second subsequence is 6 - 5 = 1.
+Since two subsequences were created, we return 2. It can be shown that 2 is the minimum number of subsequences needed.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,2,3], k = 1
+<strong>Output:</strong> 2
+<strong>Explanation:</strong>
+We can partition nums into the two subsequences [1,2] and [3].
+The difference between the maximum and minimum value in the first subsequence is 2 - 1 = 1.
+The difference between the maximum and minimum value in the second subsequence is 3 - 3 = 0.
+Since two subsequences were created, we return 2. Note that another optimal solution is to partition nums into the two subsequences [1] and [2,3].
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,2,4,5], k = 0
+<strong>Output:</strong> 3
+<strong>Explanation:</strong>
+We can partition nums into the three subsequences [2,2], [4], and [5].
+The difference between the maximum and minimum value in the first subsequences is 2 - 2 = 0.
+The difference between the maximum and minimum value in the second subsequences is 4 - 4 = 0.
+The difference between the maximum and minimum value in the third subsequences is 5 - 5 = 0.
+Since three subsequences were created, we return 3. It can be shown that 3 is the minimum number of subsequences needed.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -77,15 +72,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 排序
+### Solution 1: Greedy + Sorting
 
-题目要求划分子序列，而不是子数组，因此子序列中的元素可以不连续。我们可以将数组 $\textit{nums}$ 排序，假设当前子序列的第一个元素为 $a$，则子序列中的最大值和最小值的差值不会超过 $k$。因此我们可以遍历数组 $\textit{nums}$，如果当前元素 $b$ 与 $a$ 的差值大于 $k$，则更新 $a$ 为 $b$，并将子序列数目加 1。遍历结束后，即可得到最少子序列数目，注意初始时子序列数目为 $1$。
+The problem requires dividing into subsequences, not subarrays, so the elements in a subsequence can be non-continuous. We can sort the array $\textit{nums}$. Assuming the first element of the current subsequence is $a$, the difference between the maximum and minimum values in the subsequence will not exceed $k$. Therefore, we can iterate through the array $\textit{nums}$. If the difference between the current element $b$ and $a$ is greater than $k$, then update $a$ to $b$ and increase the number of subsequences by 1. After the iteration, we can obtain the minimum number of subsequences, noting that the initial number of subsequences is $1$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

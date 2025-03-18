@@ -1,70 +1,64 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0583.Delete%20Operation%20for%20Two%20Strings/README.md
+difficulty: Medium
 tags:
-    - 字符串
-    - 动态规划
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [583. 两个字符串的删除操作](https://leetcode.cn/problems/delete-operation-for-two-strings)
+# [583. Delete Operation for Two Strings](https://leetcode.com/problems/delete-operation-for-two-strings)
 
-[English Version](/solution/0500-0599/0583.Delete%20Operation%20for%20Two%20Strings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个单词&nbsp;<code>word1</code>&nbsp;和<meta charset="UTF-8" />&nbsp;<code>word2</code>&nbsp;，返回使得<meta charset="UTF-8" />&nbsp;<code>word1</code>&nbsp;和&nbsp;<meta charset="UTF-8" />&nbsp;<code>word2</code><em>&nbsp;</em><strong>相同</strong>所需的<strong>最小步数</strong>。</p>
+<p>Given two strings <code>word1</code> and <code>word2</code>, return <em>the minimum number of <strong>steps</strong> required to make</em> <code>word1</code> <em>and</em> <code>word2</code> <em>the same</em>.</p>
 
-<p><strong>每步&nbsp;</strong>可以删除任意一个字符串中的一个字符。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入:</strong> word1 = "sea", word2 = "eat"
-<strong>输出:</strong> 2
-<strong>解释:</strong> 第一步将 "sea" 变为 "ea" ，第二步将 "eat "变为 "ea"
-</pre>
-
-<p><strong>示例 &nbsp;2:</strong></p>
-
-<pre>
-<b>输入：</b>word1 = "leetcode", word2 = "etco"
-<b>输出：</b>4
-</pre>
+<p>In one <strong>step</strong>, you can delete exactly one character in either string.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
-<meta charset="UTF-8" />
+<pre>
+<strong>Input:</strong> word1 = &quot;sea&quot;, word2 = &quot;eat&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> You need one step to make &quot;sea&quot; to &quot;ea&quot; and another step to make &quot;eat&quot; to &quot;ea&quot;.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> word1 = &quot;leetcode&quot;, word2 = &quot;etco&quot;
+<strong>Output:</strong> 4
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= word1.length, word2.length &lt;= 500</code></li>
-	<li><code>word1</code>&nbsp;和&nbsp;<code>word2</code>&nbsp;只包含小写英文字母</li>
+	<li><code>word1</code> and <code>word2</code> consist of only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][j]$ 表示使得字符串 $\textit{word1}$ 的前 $i$ 个字符和字符串 $\textit{word2}$ 的前 $j$ 个字符相同的最小删除步数。那么答案为 $f[m][n]$，其中 $m$ 和 $n$ 分别是字符串 $\textit{word1}$ 和 $\textit{word2}$ 的长度。
+We define $f[i][j]$ as the minimum number of deletions required to make the first $i$ characters of the string $\textit{word1}$ and the first $j$ characters of the string $\textit{word2}$ the same. The answer is $f[m][n]$, where $m$ and $n$ are the lengths of the strings $\textit{word1}$ and $\textit{word2}$, respectively.
 
-初始时，如果 $j = 0$，那么 $f[i][0] = i$；如果 $i = 0$，那么 $f[0][j] = j$。
+Initially, if $j = 0$, then $f[i][0] = i$; if $i = 0$, then $f[0][j] = j$.
 
-当 $i, j > 0$ 时，如果 $\textit{word1}[i - 1] = \textit{word2}[j - 1]$，那么 $f[i][j] = f[i - 1][j - 1]$；否则 $f[i][j] = \min(f[i - 1][j], f[i][j - 1]) + 1$。
+When $i, j > 0$, if $\textit{word1}[i - 1] = \textit{word2}[j - 1]$, then $f[i][j] = f[i - 1][j - 1]$; otherwise, $f[i][j] = \min(f[i - 1][j], f[i][j - 1]) + 1$.
 
-最终返回 $f[m][n]$ 即可。
+Finally, return $f[m][n]$.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是字符串 $\textit{word1}$ 和 $\textit{word2}$ 的长度。
+The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the lengths of the strings $\textit{word1}$ and $\textit{word2}$, respectively.
 
 <!-- tabs:start -->
 

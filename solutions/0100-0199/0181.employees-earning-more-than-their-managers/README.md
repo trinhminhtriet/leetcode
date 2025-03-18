@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0181.Employees%20Earning%20More%20Than%20Their%20Managers/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [181. 超过经理收入的员工](https://leetcode.cn/problems/employees-earning-more-than-their-managers)
+# [181. Employees Earning More Than Their Managers](https://leetcode.com/problems/employees-earning-more-than-their-managers)
 
-[English Version](/solution/0100-0199/0181.Employees%20Earning%20More%20Than%20Their%20Managers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Employee</code>&nbsp;</p>
+<p>Table: <code>Employee</code></p>
 
 <pre>
 +-------------+---------+
@@ -27,25 +24,24 @@ tags:
 | salary      | int     |
 | managerId   | int     |
 +-------------+---------+
-id 是该表的主键（具有唯一值的列）。
-该表的每一行都表示雇员的ID、姓名、工资和经理的ID。
+id is the primary key (column with unique values) for this table.
+Each row of this table indicates the ID of an employee, their name, salary, and the ID of their manager.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案，找出收入比经理高的员工。</p>
+<p>Write a solution&nbsp;to find the employees who earn more than their managers.</p>
 
-<p>以 <strong>任意顺序</strong> 返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
-Employee 表:
+<strong>Input:</strong> 
+Employee table:
 +----+-------+--------+-----------+
 | id | name  | salary | managerId |
 +----+-------+--------+-----------+
@@ -54,23 +50,24 @@ Employee 表:
 | 3  | Sam   | 60000  | Null      |
 | 4  | Max   | 90000  | Null      |
 +----+-------+--------+-----------+
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +----------+
 | Employee |
 +----------+
 | Joe      |
 +----------+
-<strong>解释:</strong> Joe 是唯一挣得比经理多的雇员。</pre>
+<strong>Explanation:</strong> Joe is the only employee who earns more than his manager.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：自连接 + 条件筛选
+### Solution 1: Self-Join + Conditional Filtering
 
-我们可以通过自连接 `Employee` 表，找出员工的工资以及其经理的工资，然后筛选出工资比经理高的员工。
+We can find employees' salaries and their managers' salaries by self-joining the `Employee` table, then filter out employees whose salaries are higher than their managers' salaries.
 
 <!-- tabs:start -->
 

@@ -1,75 +1,69 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0363.Max%20Sum%20of%20Rectangle%20No%20Larger%20Than%20K/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 二分查找
-    - 矩阵
-    - 有序集合
-    - 前缀和
+    - Array
+    - Binary Search
+    - Matrix
+    - Ordered Set
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [363. 矩形区域不超过 K 的最大数值和](https://leetcode.cn/problems/max-sum-of-rectangle-no-larger-than-k)
+# [363. Max Sum of Rectangle No Larger Than K](https://leetcode.com/problems/max-sum-of-rectangle-no-larger-than-k)
 
-[English Version](/solution/0300-0399/0363.Max%20Sum%20of%20Rectangle%20No%20Larger%20Than%20K/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>m x n</code> 的矩阵 <code>matrix</code> 和一个整数 <code>k</code> ，找出并返回矩阵内部矩形区域的不超过 <code>k</code> 的最大数值和。</p>
+<p>Given an <code>m x n</code> matrix <code>matrix</code> and an integer <code>k</code>, return <em>the max sum of a rectangle in the matrix such that its sum is no larger than</em> <code>k</code>.</p>
 
-<p>题目数据保证总会存在一个数值和不超过 <code>k</code> 的矩形区域。</p>
+<p>It is <strong>guaranteed</strong> that there will be a rectangle with a sum no larger than <code>k</code>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0363.Max%20Sum%20of%20Rectangle%20No%20Larger%20Than%20K/images/sum-grid.jpg" style="width: 255px; height: 176px;" />
 <pre>
-<strong>输入：</strong>matrix = [[1,0,1],[0,-2,3]], k = 2
-<strong>输出：</strong>2
-<strong>解释：</strong>蓝色边框圈出来的矩形区域 <code>[[0, 1], [-2, 3]]</code> 的数值和是 2，且 2 是不超过 k 的最大数字（k = 2）。
+<strong>Input:</strong> matrix = [[1,0,1],[0,-2,3]], k = 2
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> Because the sum of the blue rectangle [[0, 1], [-2, 3]] is 2, and 2 is the max number no larger than k (k = 2).
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>matrix = [[2,2,-1]], k = 3
-<strong>输出：</strong>3
+<strong>Input:</strong> matrix = [[2,2,-1]], k = 3
+<strong>Output:</strong> 3
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == matrix.length</code></li>
 	<li><code>n == matrix[i].length</code></li>
-	<li><code>1 <= m, n <= 100</code></li>
-	<li><code>-100 <= matrix[i][j] <= 100</code></li>
-	<li><code>-10<sup>5</sup> <= k <= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= m, n &lt;= 100</code></li>
+	<li><code>-100 &lt;= matrix[i][j] &lt;= 100</code></li>
+	<li><code>-10<sup>5</sup> &lt;= k &lt;= 10<sup>5</sup></code></li>
 </ul>
 
-<p> </p>
-
-<p><strong>进阶：</strong>如果行数远大于列数，该如何设计解决方案？</p>
+<p>&nbsp;</p>
+<p><strong>Follow up:</strong> What if the number of rows is much larger than the number of columns?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举边界 + 有序集合
+### Solution 1: Enumerate Boundaries + Ordered Set
 
-我们可以枚举矩形的上下边界 $i$ 和 $j$，然后计算出该边界内每列的元素和，记录在数组 $nums$ 中，问题转化为如何在数组 $nums$ 中寻找不超过 $k$ 的最大子数组和。
+We can enumerate the upper and lower boundaries $i$ and $j$ of the rectangle, then calculate the sum of the elements in each column within this boundary, and record it in the array $nums$. The problem is transformed into how to find the maximum subarray sum not exceeding $k$ in the array $nums$.
 
-我们可以使用有序集合来快速寻找小于等于 $x$ 的最大值，从而得到最大子数组和不超过 $k$ 的子数组。
+We can use an ordered set to quickly find the maximum value less than or equal to $x$, thereby obtaining a subarray with the maximum subarray sum not exceeding $k$.
 
-时间复杂度 $O(m^2 \times n \times \log n)$，空间复杂度 $O(n)$。
+The time complexity is $O(m^2 \times n \times \log n)$, and the space complexity is $O(n)$.
 
 <!-- tabs:start -->
 

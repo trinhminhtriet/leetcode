@@ -1,66 +1,59 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1302.Deepest%20Leaves%20Sum/README.md
+difficulty: Medium
 rating: 1387
-source: 第 16 场双周赛 Q3
+source: Biweekly Contest 16 Q3
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [1302. 层数最深叶子节点的和](https://leetcode.cn/problems/deepest-leaves-sum)
+# [1302. Deepest Leaves Sum](https://leetcode.com/problems/deepest-leaves-sum)
 
-[English Version](/solution/1300-1399/1302.Deepest%20Leaves%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一棵二叉树的根节点 <code>root</code> ，请你返回 <strong>层数最深的叶子节点的和</strong> 。</p>
+Given the <code>root</code> of a binary tree, return <em>the sum of values of its deepest leaves</em>.
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1302.Deepest%20Leaves%20Sum/images/1483_ex1.png" style="height: 265px; width: 273px;" /></strong></p>
-
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1302.Deepest%20Leaves%20Sum/images/1483_ex1.png" style="width: 273px; height: 265px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,3,4,5,null,6,7,null,null,null,null,8]
-<strong>输出：</strong>15
+<strong>Input:</strong> root = [1,2,3,4,5,null,6,7,null,null,null,null,8]
+<strong>Output:</strong> 15
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>root = [6,7,8,2,7,1,3,9,null,1,4,null,null,null,5]
-<strong>输出：</strong>19
+<strong>Input:</strong> root = [6,7,8,2,7,1,3,9,null,1,4,null,null,null,5]
+<strong>Output:</strong> 19
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点数目在范围 <code>[1, 10<sup>4</sup>]</code> 之间。</li>
-	<li><code>1 <= Node.val <= 100</code></li>
+	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>4</sup>]</code>.</li>
+	<li><code>1 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
+### Solution 1: BFS
 
-我们可以使用广度优先搜索，逐层遍历二叉树，并在遍历到每一层时计算该层的节点值之和。遍历完成后，返回最后一层的节点值之和。
+We can use breadth-first search (BFS) to traverse the binary tree level by level, and calculate the sum of the node values at each level. After completing the traversal, return the sum of the node values at the last level.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是树中节点的数目。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the tree.
 
 <!-- tabs:start -->
 
@@ -288,11 +281,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：DFS
+### Solution 2: DFS
 
-我们可以使用深度优先搜索，递归遍历二叉树，并在遍历的过程中记录当前节点的深度，以及最大深度和最深叶子节点的和。遍历到当前节点时，如果当前节点的深度等于最大深度，则将当前节点的值加到最深叶子节点的和中；如果当前节点的深度大于最大深度，则将最大深度更新为当前节点的深度，并将最深叶子节点的和更新为当前节点的值。
+We can use depth-first search (DFS) to recursively traverse the binary tree while keeping track of the current node's depth, the maximum depth, and the sum of the deepest leaf nodes. When visiting the current node, if the current node's depth equals the maximum depth, add the current node's value to the sum of the deepest leaf nodes. If the current node's depth is greater than the maximum depth, update the maximum depth to the current node's depth and update the sum of the deepest leaf nodes to the current node's value.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是树中节点的数目。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the tree.
 
 <!-- tabs:start -->
 

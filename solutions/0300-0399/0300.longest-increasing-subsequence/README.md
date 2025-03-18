@@ -1,53 +1,47 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0300.Longest%20Increasing%20Subsequence/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 二分查找
-    - 动态规划
+    - Array
+    - Binary Search
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [300. 最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence)
+# [300. Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence)
 
-[English Version](/solution/0300-0399/0300.Longest%20Increasing%20Subsequence/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> ，找到其中最长严格递增子序列的长度。</p>
+<p>Given an integer array <code>nums</code>, return <em>the length of the longest <strong>strictly increasing </strong></em><span data-keyword="subsequence-array"><em><strong>subsequence</strong></em></span>.</p>
 
-<p><strong>子序列&nbsp;</strong>是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，<code>[3,6,2,7]</code> 是数组 <code>[0,3,1,6,2,2,7]</code> 的<span data-keyword="subsequence-array">子序列</span>。</p>
-&nbsp;
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [10,9,2,5,3,7,101,18]
-<strong>输出：</strong>4
-<strong>解释：</strong>最长递增子序列是 [2,3,7,101]，因此长度为 4 。
+<strong>Input:</strong> nums = [10,9,2,5,3,7,101,18]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [0,1,0,3,2,3]
-<strong>输出：</strong>4
+<strong>Input:</strong> nums = [0,1,0,3,2,3]
+<strong>Output:</strong> 4
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [7,7,7,7,7,7,7]
-<strong>输出：</strong>1
+<strong>Input:</strong> nums = [7,7,7,7,7,7,7]
+<strong>Output:</strong> 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 2500</code></li>
@@ -55,28 +49,15 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-
-<p><b>进阶：</b></p>
-
-<ul>
-	<li>你能将算法的时间复杂度降低到&nbsp;<code>O(n log(n))</code> 吗?</li>
-</ul>
+<p><b>Follow up:</b>&nbsp;Can you come up with an algorithm that runs in&nbsp;<code>O(n log(n))</code> time complexity?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
-
-我们定义 $f[i]$ 表示以 $nums[i]$ 结尾的最长递增子序列的长度，初始时 $f[i] = 1$，答案为 $f[i]$ 的最大值。
-
-对于 $f[i]$，我们需要枚举 $0 \le j \lt i$，如果 $nums[j] \lt nums[i]$，则 $f[i] = \max(f[i], f[j] + 1)$。
-
-最后的答案即为 $f[i]$ 的最大值。
-
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -200,15 +181,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：离散化 + 树状数组
-
-我们将数组中的元素离散化，然后使用树状数组维护不大于某个元素的最长递增子序列的长度。
-
-遍历数组中的每个元素 $x$，将其离散化，然后在树状数组中查找不大于 $x-1$ 的最长递增子序列的长度 $t$，则 $x$ 的最长递增子序列的长度为 $t+1$，更新答案，并且更新树状数组中 $x$ 的最长递增子序列的长度。
-
-遍历完数组中的所有元素，即可得到答案。
-
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
+### Solution 2
 
 <!-- tabs:start -->
 

@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1341.Movie%20Rating/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1341. 电影评分](https://leetcode.cn/problems/movie-rating)
+# [1341. Movie Rating](https://leetcode.com/problems/movie-rating)
 
-[English Version](/solution/1300-1399/1341.Movie%20Rating/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Movies</code></p>
+<p>Table: <code>Movies</code></p>
 
 <pre>
 +---------------+---------+
@@ -25,11 +22,13 @@ tags:
 | movie_id      | int     |
 | title         | varchar |
 +---------------+---------+
-movie_id 是这个表的主键(具有唯一值的列)。
-title 是电影的名字。
+movie_id is the primary key (column with unique values) for this table.
+title is the name of the movie.
 </pre>
 
-<p>表：<code>Users</code></p>
+<p>&nbsp;</p>
+
+<p>Table: <code>Users</code></p>
 
 <pre>
 +---------------+---------+
@@ -38,10 +37,11 @@ title 是电影的名字。
 | user_id       | int     |
 | name          | varchar |
 +---------------+---------+
-user_id 是表的主键(具有唯一值的列)。
-'name' 列具有唯一值。</pre>
+user_id is the primary key (column with unique values) for this table.
+The column &#39;name&#39; has unique values.
+</pre>
 
-<p>表：<code>MovieRating</code></p>
+<p>Table: <code>MovieRating</code></p>
 
 <pre>
 +---------------+---------+
@@ -52,31 +52,28 @@ user_id 是表的主键(具有唯一值的列)。
 | rating        | int     |
 | created_at    | date    |
 +---------------+---------+
-(movie_id, user_id) 是这个表的主键(具有唯一值的列的组合)。
-这个表包含用户在其评论中对电影的评分 rating 。
-created_at 是用户的点评日期。 
+(movie_id, user_id) is the primary key (column with unique values) for this table.
+This table contains the rating of a movie by a user in their review.
+created_at is the user&#39;s review date. 
 </pre>
 
 <p>&nbsp;</p>
 
-<p>请你编写一个解决方案：</p>
+<p>Write a solution to:</p>
 
 <ul>
-	<li>查找评论电影数量最多的用户名。如果出现平局，返回字典序较小的用户名。</li>
-	<li>查找在 <code>February 2020</code><strong> 平均评分最高</strong> 的电影名称。如果出现平局，返回字典序较小的电影名称。</li>
+	<li>Find the name of the user who has rated the greatest number of movies. In case of a tie, return the lexicographically smaller user name.</li>
+	<li>Find the movie name with the <strong>highest average</strong> rating in <code>February 2020</code>. In case of a tie, return the lexicographically smaller movie name.</li>
 </ul>
 
-<p><strong>字典序</strong> ，即按字母在字典中出现顺序对字符串排序，字典序较小则意味着排序靠前。</p>
-
-<p>返回结果格式如下例所示。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Movies 表：
+<strong>Input:</strong> 
+Movies table:
 +-------------+--------------+
 | movie_id    |  title       |
 +-------------+--------------+
@@ -84,7 +81,7 @@ Movies 表：
 | 2           | Frozen 2     |
 | 3           | Joker        |
 +-------------+--------------+
-Users 表：
+Users table:
 +-------------+--------------+
 | user_id     |  name        |
 +-------------+--------------+
@@ -93,7 +90,7 @@ Users 表：
 | 3           | Maria        |
 | 4           | James        |
 +-------------+--------------+
-MovieRating 表：
+MovieRating table:
 +-------------+--------------+--------------+-------------+
 | movie_id    | user_id      | rating       | created_at  |
 +-------------+--------------+--------------+-------------+
@@ -107,28 +104,25 @@ MovieRating 表：
 | 3           | 1            | 3            | 2020-02-22  | 
 | 3           | 2            | 4            | 2020-02-25  | 
 +-------------+--------------+--------------+-------------+
-<strong>输出：</strong>
-Result 表：
+<strong>Output:</strong> 
 +--------------+
 | results      |
 +--------------+
 | Daniel       |
 | Frozen 2     |
 +--------------+
-<strong>解释：</strong>
-Daniel 和 Monica 都点评了 3 部电影（"Avengers", "Frozen 2" 和 "Joker"） 但是 Daniel 字典序比较小。
-Frozen 2 和 Joker 在 2 月的评分都是 3.5，但是 Frozen 2 的字典序比较小。
+<strong>Explanation:</strong> 
+Daniel and Monica have rated 3 movies (&quot;Avengers&quot;, &quot;Frozen 2&quot; and &quot;Joker&quot;) but Daniel is smaller lexicographically.
+Frozen 2 and Joker have a rating average of 3.5 in February but Frozen 2 is smaller lexicographically.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：Union all
-
-分别查询两个结果，然后使用 `union all` 合并结果集。
+### Solution 1
 
 <!-- tabs:start -->
 

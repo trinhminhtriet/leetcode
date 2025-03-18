@@ -1,89 +1,87 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1202.Smallest%20String%20With%20Swaps/README.md
+difficulty: Medium
 rating: 1855
-source: 第 155 场周赛 Q3
+source: Weekly Contest 155 Q3
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 并查集
-    - 数组
-    - 哈希表
-    - 字符串
-    - 排序
+    - Depth-First Search
+    - Breadth-First Search
+    - Union Find
+    - Array
+    - Hash Table
+    - String
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1202. 交换字符串中的元素](https://leetcode.cn/problems/smallest-string-with-swaps)
+# [1202. Smallest String With Swaps](https://leetcode.com/problems/smallest-string-with-swaps)
 
-[English Version](/solution/1200-1299/1202.Smallest%20String%20With%20Swaps/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>s</code>，以及该字符串中的一些「索引对」数组&nbsp;<code>pairs</code>，其中&nbsp;<code>pairs[i] =&nbsp;[a, b]</code>&nbsp;表示字符串中的两个索引（编号从 0 开始）。</p>
+<p>You are given a string <code>s</code>, and an array of pairs of indices in the string&nbsp;<code>pairs</code>&nbsp;where&nbsp;<code>pairs[i] =&nbsp;[a, b]</code>&nbsp;indicates 2 indices(0-indexed) of the string.</p>
 
-<p>你可以 <strong>任意多次交换</strong> 在&nbsp;<code>pairs</code>&nbsp;中任意一对索引处的字符。</p>
+<p>You can&nbsp;swap the characters at any pair of indices in the given&nbsp;<code>pairs</code>&nbsp;<strong>any number of times</strong>.</p>
 
-<p>返回在经过若干次交换后，<code>s</code>&nbsp;可以变成的按字典序最小的字符串。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;dcab&quot;, pairs = [[0,3],[1,2]]
-<strong>输出：</strong>&quot;bacd&quot;
-<strong>解释：</strong> 
-交换 s[0] 和 s[3], s = &quot;bcad&quot;
-交换 s[1] 和 s[2], s = &quot;bacd&quot;
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;dcab&quot;, pairs = [[0,3],[1,2],[0,2]]
-<strong>输出：</strong>&quot;abcd&quot;
-<strong>解释：</strong>
-交换 s[0] 和 s[3], s = &quot;bcad&quot;
-交换 s[0] 和 s[2], s = &quot;acbd&quot;
-交换 s[1] 和 s[2], s = &quot;abcd&quot;</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;cba&quot;, pairs = [[0,1],[1,2]]
-<strong>输出：</strong>&quot;abc&quot;
-<strong>解释：</strong>
-交换 s[0] 和 s[1], s = &quot;bca&quot;
-交换 s[1] 和 s[2], s = &quot;bac&quot;
-交换 s[0] 和 s[1], s = &quot;abc&quot;
-</pre>
+<p>Return the&nbsp;lexicographically smallest string that <code>s</code>&nbsp;can be changed to after using the swaps.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;dcab&quot;, pairs = [[0,3],[1,2]]
+<strong>Output:</strong> &quot;bacd&quot;
+<strong>Explaination:</strong> 
+Swap s[0] and s[3], s = &quot;bcad&quot;
+Swap s[1] and s[2], s = &quot;bacd&quot;
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;dcab&quot;, pairs = [[0,3],[1,2],[0,2]]
+<strong>Output:</strong> &quot;abcd&quot;
+<strong>Explaination: </strong>
+Swap s[0] and s[3], s = &quot;bcad&quot;
+Swap s[0] and s[2], s = &quot;acbd&quot;
+Swap s[1] and s[2], s = &quot;abcd&quot;</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;cba&quot;, pairs = [[0,1],[1,2]]
+<strong>Output:</strong> &quot;abc&quot;
+<strong>Explaination: </strong>
+Swap s[0] and s[1], s = &quot;bca&quot;
+Swap s[1] and s[2], s = &quot;bac&quot;
+Swap s[0] and s[1], s = &quot;abc&quot;
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10^5</code></li>
 	<li><code>0 &lt;= pairs.length &lt;= 10^5</code></li>
 	<li><code>0 &lt;= pairs[i][0], pairs[i][1] &lt;&nbsp;s.length</code></li>
-	<li><code>s</code>&nbsp;中只含有小写英文字母</li>
+	<li><code>s</code>&nbsp;only contains lower case English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：并查集
+### Solution 1: Union-Find
 
-我们注意到，索引对具有传递性，即如果 $a$ 与 $b$ 可交换，而 $b$ 与 $c$ 可交换，那么 $a$ 与 $c$ 也可交换。因此，我们可以考虑使用并查集维护这些索引对的连通性，将属于同一个连通分量的字符按照字典序排序。
+We notice that the index pairs have transitivity, i.e., if $a$ and $b$ can be swapped, and $b$ and $c$ can be swapped, then $a$ and $c$ can also be swapped. Therefore, we can consider using a union-find data structure to maintain the connectivity of these index pairs, and sort the characters belonging to the same connected component in lexicographical order.
 
-最后，遍历字符串，对于当前位置的字符，我们将其替换为该连通分量中最小的字符，然后从该连通分量中取出该字符，继续遍历字符串即可。
+Finally, we traverse the string. For the character at the current position, we replace it with the smallest character in the connected component, then remove this character from the connected component, and continue to traverse the string.
 
-时间复杂度 $O(n \times \log n + m \times \alpha(m))$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别为字符串的长度和索引对的数量，而 $\alpha$ 为阿克曼函数的反函数。
+The time complexity is $O(n \times \log n + m \times \alpha(m))$, and the space complexity is $O(n)$. Here, $n$ and $m$ are the length of the string and the number of index pairs, respectively, and $\alpha$ is the inverse Ackermann function.
 
 <!-- tabs:start -->
 

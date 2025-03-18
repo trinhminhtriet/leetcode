@@ -1,57 +1,52 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2376.Count%20Special%20Integers/README.md
+difficulty: Hard
 rating: 2120
-source: 第 306 场周赛 Q4
+source: Weekly Contest 306 Q4
 tags:
-    - 数学
-    - 动态规划
+    - Math
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2376. 统计特殊整数](https://leetcode.cn/problems/count-special-integers)
+# [2376. Count Special Integers](https://leetcode.com/problems/count-special-integers)
 
-[English Version](/solution/2300-2399/2376.Count%20Special%20Integers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>如果一个正整数每一个数位都是 <strong>互不相同</strong>&nbsp;的，我们称它是 <strong>特殊整数</strong> 。</p>
+<p>We call a positive integer <strong>special</strong> if all of its digits are <strong>distinct</strong>.</p>
 
-<p>给你一个 <strong>正</strong>&nbsp;整数&nbsp;<code>n</code>&nbsp;，请你返回区间<em>&nbsp;</em><code>[1, n]</code>&nbsp;之间特殊整数的数目。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>n = 20
-<b>输出：</b>19
-<b>解释：</b>1 到 20 之间所有整数除了 11 以外都是特殊整数。所以总共有 19 个特殊整数。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>n = 5
-<b>输出：</b>5
-<b>解释：</b>1 到 5 所有整数都是特殊整数。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>n = 135
-<b>输出：</b>110
-<b>解释：</b>从 1 到 135 总共有 110 个整数是特殊整数。
-不特殊的部分数字为：22 ，114 和 131 。</pre>
+<p>Given a <strong>positive</strong> integer <code>n</code>, return <em>the number of special integers that belong to the interval </em><code>[1, n]</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 20
+<strong>Output:</strong> 19
+<strong>Explanation:</strong> All the integers from 1 to 20, except 11, are special. Thus, there are 19 special integers.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 5
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> All the integers from 1 to 5 are special.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 135
+<strong>Output:</strong> 110
+<strong>Explanation:</strong> There are 110 integers from 1 to 135 that are special.
+Some of the integers that are not special are: 22, 114, and 131.</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 2 * 10<sup>9</sup></code></li>
@@ -59,55 +54,55 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：状态压缩 + 数位 DP
+### Solution 1: State Compression + Digit DP
 
-这道题实际上是求在给定区间 $[l,..r]$ 中，满足条件的数的个数。条件与数的大小无关，而只与数的组成有关，因此可以使用数位 DP 的思想求解。数位 DP 中，数的大小对复杂度的影响很小。
+This problem essentially asks for the number of numbers in the given range $[l, ..r]$ that satisfy certain conditions. The conditions are related to the composition of the numbers rather than their size, so we can use the concept of Digit DP to solve it. In Digit DP, the size of the number has little impact on the complexity.
 
-对于区间 $[l,..r]$ 问题，我们一般会将其转化为 $[1,..r]$ 然后再减去 $[1,..l - 1]$ 的问题，即：
+For the range $[l, ..r]$ problem, we generally convert it to the problem of $[1, ..r]$ and then subtract the result of $[1, ..l - 1]$, i.e.:
 
 $$
 ans = \sum_{i=1}^{r} ans_i -  \sum_{i=1}^{l-1} ans_i
 $$
 
-不过对于本题而言，我们只需要求出区间 $[1,..n]$ 的值即可。
+However, for this problem, we only need to find the value for the range $[1, ..n]$.
 
-这里我们用记忆化搜索来实现数位 DP。从起点向下搜索，到最底层得到方案数，一层层向上返回答案并累加，最后从搜索起点得到最终的答案。
+Here, we use memoized search to implement Digit DP. We search from the starting point downwards, and at the lowest level, we get the number of solutions. We then return the answers layer by layer upwards, and finally get the final answer from the starting point of the search.
 
-我们根据题目信息，设计一个函数 $\textit{dfs}(i, \textit{mask}, \textit{lead}, \textit{limit})$，其中：
+Based on the problem information, we design a function $\textit{dfs}(i, \textit{mask}, \textit{lead}, \textit{limit})$, where:
 
--   数字 $i$ 表示当前搜索到的位置，我们从高位开始搜索，即 $i = 0$ 表示最高位。
--   数字 $\textit{mask}$ 表示当前数字的状态，即 $\textit{mask}$ 的第 $j$ 位为 $1$ 表示数字 $j$ 已经被使用过。
--   布尔值 $\textit{lead}$ 表示当前是否只包含前导 $0$。
--   布尔值 $\textit{limit}$ 表示当前是否受到上界的限制。
+-   The digit $i$ represents the current position being searched, starting from the highest digit, i.e., $i = 0$ represents the highest digit.
+-   The digit $\textit{mask}$ represents the current state of the number, i.e., the $j$-th bit of $\textit{mask}$ being $1$ indicates that the digit $j$ has been used.
+-   The boolean $\textit{lead}$ indicates whether the current number only contains leading $0$s.
+-   The boolean $\textit{limit}$ indicates whether the current number is restricted by the upper bound.
 
-函数的执行过程如下：
+The function executes as follows:
 
-如果 $i$ 超过了数字 $n$ 的长度，说明搜索结束，如果此时 $\textit{lead}$ 为真，说明当前数字只包含前导 $0$，直接返回 $0$，否则返回 $1$。
+If $i$ exceeds the length of the number $n$, it means the search is over. If $\textit{lead}$ is true, it means the current number only contains leading $0$s, so return $0$. Otherwise, return $1$.
 
-如果 $\textit{limit}$ 为假且 $\textit{lead}$ 为假且 $\textit{mask}$ 的状态已经被记忆化，直接返回记忆化的结果。
+If $\textit{limit}$ is false and $\textit{lead}$ is false and the state of $\textit{mask}$ has been memoized, directly return the memoized result.
 
-否则，我们计算当前数字的上界 $up$，如果 $\textit{limit}$ 为真，$up$ 为当前数字的第 $i$ 位，否则 $up = 9$。
+Otherwise, we calculate the current upper bound $up$. If $\textit{limit}$ is true, $up$ is the $i$-th digit of the current number. Otherwise, $up = 9$.
 
-然后我们遍历 $[0, up]$，对于每个数字 $j$，如果 $\textit{mask}$ 的第 $j$ 位为 $1$，说明数字 $j$ 已经被使用过，直接跳过。否则，如果 $\textit{lead}$ 为真且 $j = 0$，说明当前数字只包含前导 $0$，递归搜索下一位，否则递归搜索下一位并更新 $\textit{mask}$ 的状态。
+Then we iterate over $[0, up]$. For each digit $j$, if the $j$-th bit of $\textit{mask}$ is $1$, it means the digit $j$ has been used, so we skip it. Otherwise, if $\textit{lead}$ is true and $j = 0$, it means the current number only contains leading $0$s, so we recursively search the next digit. Otherwise, we recursively search the next digit and update the state of $\textit{mask}$.
 
-最后，如果 $\textit{limit}$ 为假且 $\textit{lead}$ 为假，将当前状态记忆化。
+Finally, if $\textit{limit}$ is false and $\textit{lead}$ is false, memoize the current state.
 
-最终返回答案。
+Return the final answer.
 
-时间复杂度 $O(m \times 2^D \times D)$，空间复杂度 $O(m \times 2^D)$。其中 $m$ 为数字 $n$ 的长度，而 $D = 10$。
+The time complexity is $O(m \times 2^D \times D)$, and the space complexity is $O(m \times 2^D)$. Here, $m$ is the length of the number $n$, and $D = 10$.
 
-相似题目：
+Similar Problems:
 
--   [233. 数字 1 的个数](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0233.Number%20of%20Digit%20One/README.md)
--   [357. 统计各位数字都不同的数字个数](https://github.com/doocs/leetcode/blob/main/solution/0300-0399/0357.Count%20Numbers%20with%20Unique%20Digits/README.md)
--   [600. 不含连续 1 的非负整数](https://github.com/doocs/leetcode/blob/main/solution/0600-0699/0600.Non-negative%20Integers%20without%20Consecutive%20Ones/README.md)
--   [788. 旋转数字](https://github.com/doocs/leetcode/blob/main/solution/0700-0799/0788.Rotated%20Digits/README.md)
--   [902. 最大为 N 的数字组合](https://github.com/doocs/leetcode/blob/main/solution/0900-0999/0902.Numbers%20At%20Most%20N%20Given%20Digit%20Set/README.md)
--   [1012. 至少有 1 位重复的数字](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1012.Numbers%20With%20Repeated%20Digits/README.md)
+-   [233. Number of Digit One](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0233.Number%20of%20Digit%20One/README_EN.md)
+-   [357. Count Numbers with Unique Digits](https://github.com/doocs/leetcode/blob/main/solution/0300-0399/0357.Count%20Numbers%20with%20Unique%20Digits/README_EN.md)
+-   [600. Non-negative Integers without Consecutive Ones](https://github.com/doocs/leetcode/blob/main/solution/0600-0699/0600.Non-negative%20Integers%20without%20Consecutive%20Ones/README_EN.md)
+-   [788. Rotated Digits](https://github.com/doocs/leetcode/blob/main/solution/0700-0799/0788.Rotated%20Digits/README_EN.md)
+-   [902. Numbers At Most N Given Digit Set](https://github.com/doocs/leetcode/blob/main/solution/0900-0999/0902.Numbers%20At%20Most%20N%20Given%20Digit%20Set/README_EN.md)
+-   [1012. Numbers with Repeated Digits](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1012.Numbers%20With%20Repeated%20Digits/README_EN.md)
 
 <!-- tabs:start -->
 

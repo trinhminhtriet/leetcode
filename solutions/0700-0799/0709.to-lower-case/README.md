@@ -1,66 +1,57 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0709.To%20Lower%20Case/README.md
+difficulty: Easy
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [709. 转换成小写字母](https://leetcode.cn/problems/to-lower-case)
+# [709. To Lower Case](https://leetcode.com/problems/to-lower-case)
 
-[English Version](/solution/0700-0799/0709.To%20Lower%20Case/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> ，将该字符串中的大写字母转换成相同的小写字母，返回新的字符串。</p>
+<p>Given a string <code>s</code>, return <em>the string after replacing every uppercase letter with the same lowercase letter</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "Hello"
-<strong>输出：</strong>"hello"
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "here"
-<strong>输出：</strong>"here"
+<strong>Input:</strong> s = &quot;Hello&quot;
+<strong>Output:</strong> &quot;hello&quot;
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "LOVELY"
-<strong>输出：</strong>"lovely"
+<strong>Input:</strong> s = &quot;here&quot;
+<strong>Output:</strong> &quot;here&quot;
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;LOVELY&quot;
+<strong>Output:</strong> &quot;lovely&quot;
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= s.length <= 100</code></li>
-	<li><code>s</code> 由 ASCII 字符集中的可打印字符组成</li>
+	<li><code>1 &lt;= s.length &lt;= 100</code></li>
+	<li><code>s</code> consists of printable ASCII characters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
-
-我们可以遍历字符串，对于每个大写字母，将其转换为小写字母。最后返回转换后的字符串即可。
-
-时间复杂度 $O(n)$，其中 $n$ 为字符串的长度。忽略答案的空间消耗，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -156,7 +147,7 @@ char* toLowerCase(char* s) {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

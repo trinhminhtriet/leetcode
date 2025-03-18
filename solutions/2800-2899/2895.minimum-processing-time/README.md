@@ -1,59 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2895.Minimum%20Processing%20Time/README.md
+difficulty: Medium
 rating: 1351
-source: 第 366 场周赛 Q2
+source: Weekly Contest 366 Q2
 tags:
-    - 贪心
-    - 数组
-    - 排序
+    - Greedy
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2895. 最小处理时间](https://leetcode.cn/problems/minimum-processing-time)
+# [2895. Minimum Processing Time](https://leetcode.com/problems/minimum-processing-time)
 
-[English Version](/solution/2800-2899/2895.Minimum%20Processing%20Time/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有 <code>n</code> 颗处理器，每颗处理器都有 <code>4</code> 个核心。现有 <code>n * 4</code> 个待执行任务，每个核心只执行 <strong>一次</strong>&nbsp;任务。</p>
+<p>You have a certain number of processors, each having 4 cores. The number of tasks to be executed is four times the number of processors. Each task must be assigned to a unique core, and each core can only be used once.</p>
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>processorTime</code> ，表示每颗处理器最早空闲时间。另给你一个下标从 <strong>0</strong> 开始的整数数组 <code>tasks</code> ，表示执行每个任务所需的时间。返回所有任务都执行完毕需要的 <strong>最小时间</strong> 。</p>
-
-<p>注意：每个核心独立执行任务。</p>
+<p>You are given an array <code>processorTime</code> representing the time each processor becomes available and an array <code>tasks</code> representing how long each task takes to complete. Return the&nbsp;<em>minimum</em> time needed to complete all tasks.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">processorTime = [8,10], tasks = [2,2,3,1,8,7,4,5]</span></p>
 
-<pre>
-<strong>输入：</strong>processorTime = [8,10], tasks = [2,2,3,1,8,7,4,5]
-<strong>输出：</strong>16
-<strong>解释：</strong>
-最优的方案是将下标为 4, 5, 6, 7 的任务分配给第一颗处理器（最早空闲时间 time = 8），下标为 0, 1, 2, 3 的任务分配给第二颗处理器（最早空闲时间 time = 10）。 
-第一颗处理器执行完所有任务需要花费的时间 = max(8 + 8, 8 + 7, 8 + 4, 8 + 5) = 16 。
-第二颗处理器执行完所有任务需要花费的时间 = max(10 + 2, 10 + 2, 10 + 3, 10 + 1) = 13 。
-因此，可以证明执行完所有任务需要花费的最小时间是 16 。</pre>
+<p><strong>Output:</strong> <span class="example-io">16</span></p>
 
-<p><strong>示例 2：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<pre>
-<strong>输入：</strong>processorTime = [10,20], tasks = [2,3,1,2,5,8,4,3]
-<strong>输出：</strong>23
-<strong>解释：</strong>
-最优的方案是将下标为 1, 4, 5, 6 的任务分配给第一颗处理器（最早空闲时间 time = 10），下标为 0, 2, 3, 7 的任务分配给第二颗处理器（最早空闲时间 time = 20）。 
-第一颗处理器执行完所有任务需要花费的时间 = max(10 + 3, 10 + 5, 10 + 8, 10 + 4) = 18 。 
-第二颗处理器执行完所有任务需要花费的时间 = max(20 + 2, 20 + 1, 20 + 2, 20 + 3) = 23 。 
-因此，可以证明执行完所有任务需要花费的最小时间是 23 。
-</pre>
+<p>Assign the tasks at indices 4, 5, 6, 7 to the first processor which becomes available at <code>time = 8</code>, and the tasks at indices 0, 1, 2, 3 to the second processor which becomes available at <code>time = 10</code>.&nbsp;</p>
+
+<p>The time taken by the first processor to finish the execution of all tasks is&nbsp;<code>max(8 + 8, 8 + 7, 8 + 4, 8 + 5) = 16</code>.</p>
+
+<p>The time taken by the second processor to finish the execution of all tasks is&nbsp;<code>max(10 + 2, 10 + 2, 10 + 3, 10 + 1) = 13</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">processorTime = [10,20], tasks = [2,3,1,2,5,8,4,3]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">23</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>Assign the tasks at indices 1, 4, 5, 6 to the first processor and the others to the second processor.</p>
+
+<p>The time taken by the first processor to finish the execution of all tasks is <code>max(10 + 3, 10 + 5, 10 + 8, 10 + 4) = 18</code>.</p>
+
+<p>The time taken by the second processor to finish the execution of all tasks is <code>max(20 + 2, 20 + 1, 20 + 2, 20 + 3) = 23</code>.</p>
+</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == processorTime.length &lt;= 25000</code></li>
@@ -65,17 +67,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 排序
+### Solution 1: Greedy + Sorting
 
-要使得处理完所有任务的时间最小，那么越早处于空闲状态的处理器应该处理耗时最长的 $4$ 个任务。
+To minimize the time required to process all tasks, the four tasks with the longest processing time should be assigned to the processors that become idle earliest.
 
-因此，我们对处理器的空闲时间和任务的耗时分别进行排序，然后依次将耗时最长的 $4$ 个任务分配给空闲时间最早的处理器，计算最大的结束时间即可。
+Therefore, we sort the processors by their idle time and sort the tasks by their processing time. Then, we assign the four tasks with the longest processing time to the processor that becomes idle earliest, and calculate the maximum end time.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为任务的数量。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the number of tasks.
 
 <!-- tabs:start -->
 

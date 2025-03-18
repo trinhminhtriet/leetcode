@@ -1,48 +1,44 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1089.Duplicate%20Zeros/README.md
+difficulty: Easy
 rating: 1262
-source: 第 141 场周赛 Q1
+source: Weekly Contest 141 Q1
 tags:
-    - 数组
-    - 双指针
+    - Array
+    - Two Pointers
 ---
 
 <!-- problem:start -->
 
-# [1089. 复写零](https://leetcode.cn/problems/duplicate-zeros)
+# [1089. Duplicate Zeros](https://leetcode.com/problems/duplicate-zeros)
 
-[English Version](/solution/1000-1099/1089.Duplicate%20Zeros/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度固定的整数数组&nbsp;<code>arr</code> ，请你将该数组中出现的每个零都复写一遍，并将其余的元素向右平移。</p>
+<p>Given a fixed-length integer array <code>arr</code>, duplicate each occurrence of zero, shifting the remaining elements to the right.</p>
 
-<p>注意：请不要在超过该数组长度的位置写入元素。请对输入的数组&nbsp;<strong>就地&nbsp;</strong>进行上述修改，不要从函数返回任何东西。</p>
+<p><strong>Note</strong> that elements beyond the length of the original array are not written. Do the above modifications to the input array in place and do not return anything.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [1,0,2,3,0,4,5,0]
-<strong>输出：</strong>[1,0,0,2,3,0,0,4]
-<strong>解释：</strong>调用函数后，输入的数组将被修改为：[1,0,0,2,3,0,0,4]</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [1,2,3]
-<strong>输出：</strong>[1,2,3]
-<strong>解释：</strong>调用函数后，输入的数组将被修改为：[1,2,3]
+<strong>Input:</strong> arr = [1,0,2,3,0,4,5,0]
+<strong>Output:</strong> [1,0,0,2,3,0,0,4]
+<strong>Explanation:</strong> After calling your function, the input array is modified to: [1,0,0,2,3,0,0,4]
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [1,2,3]
+<strong>Output:</strong> [1,2,3]
+<strong>Explanation:</strong> After calling your function, the input array is modified to: [1,2,3]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 10<sup>4</sup></code></li>
@@ -51,16 +47,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
-
-开辟一个等长数组，将 `arr` 复刻一份，再进行简单模拟即可。
-
--   时间复杂度：$O(n)$。
--   空间复杂度：$O(n)$。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -233,15 +224,6 @@ void duplicateZeros(int* arr, int arrSize) {
 ```
 
 <!-- tabs:end -->
-
-<!-- solution:end -->
-
-<!-- solution:start -->
-
-### 方法二：双指针
-
--   时间复杂度：$O(n)$。
--   空间复杂度：$O(1)$。
 
 <!-- solution:end -->
 

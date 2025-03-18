@@ -1,75 +1,70 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1299.Replace%20Elements%20with%20Greatest%20Element%20on%20Right%20Side/README.md
+difficulty: Easy
 rating: 1219
-source: 第 16 场双周赛 Q1
+source: Biweekly Contest 16 Q1
 tags:
-    - 数组
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [1299. 将每个元素替换为右侧最大元素](https://leetcode.cn/problems/replace-elements-with-greatest-element-on-right-side)
+# [1299. Replace Elements with Greatest Element on Right Side](https://leetcode.com/problems/replace-elements-with-greatest-element-on-right-side)
 
-[English Version](/solution/1200-1299/1299.Replace%20Elements%20with%20Greatest%20Element%20on%20Right%20Side/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组 <code>arr</code> ，请你将每个元素用它右边最大的元素替换，如果是最后一个元素，用 <code>-1</code> 替换。</p>
+<p>Given an array <code>arr</code>,&nbsp;replace every element in that array with the greatest element among the elements to its&nbsp;right, and replace the last element with <code>-1</code>.</p>
 
-<p>完成所有替换操作后，请你返回这个数组。</p>
+<p>After doing so, return the array.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [17,18,5,4,6,1]
-<strong>输出：</strong>[18,6,6,6,1,-1]
-<strong>解释：</strong>
-- 下标 0 的元素 --> 右侧最大元素是下标 1 的元素 (18)
-- 下标 1 的元素 --> 右侧最大元素是下标 4 的元素 (6)
-- 下标 2 的元素 --> 右侧最大元素是下标 4 的元素 (6)
-- 下标 3 的元素 --> 右侧最大元素是下标 4 的元素 (6)
-- 下标 4 的元素 --> 右侧最大元素是下标 5 的元素 (1)
-- 下标 5 的元素 --> 右侧没有其他元素，替换为 -1
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [400]
-<strong>输出：</strong>[-1]
-<strong>解释：</strong>下标<strong> </strong>0 的元素右侧没有其他元素。
+<strong>Input:</strong> arr = [17,18,5,4,6,1]
+<strong>Output:</strong> [18,6,6,6,1,-1]
+<strong>Explanation:</strong> 
+- index 0 --&gt; the greatest element to the right of index 0 is index 1 (18).
+- index 1 --&gt; the greatest element to the right of index 1 is index 4 (6).
+- index 2 --&gt; the greatest element to the right of index 2 is index 4 (6).
+- index 3 --&gt; the greatest element to the right of index 3 is index 4 (6).
+- index 4 --&gt; the greatest element to the right of index 4 is index 5 (1).
+- index 5 --&gt; there are no elements to the right of index 5, so we put -1.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> arr = [400]
+<strong>Output:</strong> [-1]
+<strong>Explanation:</strong> There are no elements to the right of index 0.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= arr.length <= 10<sup>4</sup></code></li>
-	<li><code>1 <= arr[i] <= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= arr.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= arr[i] &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：逆序遍历
+### Solution 1: Reverse Traversal
 
-我们用一个变量 $mx$ 记录当前位置右侧的最大值，初始时 $mx = -1$。
+We use a variable $mx$ to record the maximum value to the right of the current position, initially $mx = -1$.
 
-然后我们从右向左遍历数组，对于每个位置 $i$，我们记当前位置的值为 $x$，将当前位置的值更新为 $mx$，然后更新 $mx = \max(mx, x)$。
+Then we traverse the array from right to left. For each position $i$, we denote the current value as $x$, update the current position's value to $mx$, and then update $mx = \max(mx, x)$.
 
-最后返回原数组即可。
+Finally, return the original array.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

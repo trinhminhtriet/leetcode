@@ -1,84 +1,83 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1219.Path%20with%20Maximum%20Gold/README.md
+difficulty: Medium
 rating: 1663
-source: 第 157 场周赛 Q3
+source: Weekly Contest 157 Q3
 tags:
-    - 数组
-    - 回溯
-    - 矩阵
+    - Array
+    - Backtracking
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [1219. 黄金矿工](https://leetcode.cn/problems/path-with-maximum-gold)
+# [1219. Path with Maximum Gold](https://leetcode.com/problems/path-with-maximum-gold)
 
-[English Version](/solution/1200-1299/1219.Path%20with%20Maximum%20Gold/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你要开发一座金矿，地质勘测学家已经探明了这座金矿中的资源分布，并用大小为&nbsp;<code>m * n</code> 的网格 <code>grid</code> 进行了标注。每个单元格中的整数就表示这一单元格中的黄金数量；如果该单元格是空的，那么就是 <code>0</code>。</p>
+<p>In a gold mine <code>grid</code> of size <code>m x n</code>, each cell in this mine has an integer representing the amount of gold in that cell, <code>0</code> if it is empty.</p>
 
-<p>为了使收益最大化，矿工需要按以下规则来开采黄金：</p>
+<p>Return the maximum amount of gold you can collect under the conditions:</p>
 
 <ul>
-	<li>每当矿工进入一个单元，就会收集该单元格中的所有黄金。</li>
-	<li>矿工每次可以从当前位置向上下左右四个方向走。</li>
-	<li>每个单元格只能被开采（进入）一次。</li>
-	<li><strong>不得开采</strong>（进入）黄金数目为 <code>0</code> 的单元格。</li>
-	<li>矿工可以从网格中 <strong>任意一个</strong> 有黄金的单元格出发或者是停止。</li>
+	<li>Every time you are located in a cell you will collect all the gold in that cell.</li>
+	<li>From your position, you can walk one step to the left, right, up, or down.</li>
+	<li>You can&#39;t visit the same cell more than once.</li>
+	<li>Never visit a cell with <code>0</code> gold.</li>
+	<li>You can start and stop collecting gold from <strong>any </strong>position in the grid that has some gold.</li>
 </ul>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>grid = [[0,6,0],[5,8,7],[0,9,0]]
-<strong>输出：</strong>24
-<strong>解释：</strong>
+<pre>
+<strong>Input:</strong> grid = [[0,6,0],[5,8,7],[0,9,0]]
+<strong>Output:</strong> 24
+<strong>Explanation:</strong>
 [[0,6,0],
  [5,8,7],
  [0,9,0]]
-一种收集最多黄金的路线是：9 -&gt; 8 -&gt; 7。
+Path to get the maximum gold, 9 -&gt; 8 -&gt; 7.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>grid = [[1,0,7],[2,0,6],[3,4,5],[0,3,0],[9,0,20]]
-<strong>输出：</strong>28
-<strong>解释：</strong>
+<pre>
+<strong>Input:</strong> grid = [[1,0,7],[2,0,6],[3,4,5],[0,3,0],[9,0,20]]
+<strong>Output:</strong> 28
+<strong>Explanation:</strong>
 [[1,0,7],
  [2,0,6],
  [3,4,5],
  [0,3,0],
  [9,0,20]]
-一种收集最多黄金的路线是：1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6 -&gt; 7。
+Path to get the maximum gold, 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6 -&gt; 7.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= grid.length,&nbsp;grid[i].length &lt;= 15</code></li>
+	<li><code>m == grid.length</code></li>
+	<li><code>n == grid[i].length</code></li>
+	<li><code>1 &lt;= m, n &lt;= 15</code></li>
 	<li><code>0 &lt;= grid[i][j] &lt;= 100</code></li>
-	<li>最多 <strong>25 </strong>个单元格中有黄金。</li>
+	<li>There are at most <strong>25 </strong>cells containing gold.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
+### Solution 1: DFS
 
-我们可以枚举每个格子作为起点，然后从起点开始进行深度优先搜索。在搜索的过程中，每遇到一个非零的格子，就将其变成零，并继续搜索。当无法继续搜索时，计算当前的路径的黄金总数，然后将当前的格子变回非零的格子，从而进行回溯。
+We can enumerate each cell as the starting point, and then start a depth-first search from the starting point. During the search process, whenever we encounter a non-zero cell, we turn it into zero and continue the search. When we can no longer continue the search, we calculate the total amount of gold in the current path, then turn the current cell back into a non-zero cell, thus performing backtracking.
 
-时间复杂度 $O(m \times n \times 3^k)$，其中 $k$ 是每条路径的最大长度。由于每个格子最多只能被访问一次，因此时间复杂度不会超过 $O(m \times n \times 3^k)$。空间复杂度 $O(m \times n)$。
+The time complexity is $O(m \times n \times 3^k)$, where $k$ is the maximum length of each path. Since each cell can only be visited once at most, the time complexity will not exceed $O(m \times n \times 3^k)$. The space complexity is $O(m \times n)$.
 
 <!-- tabs:start -->
 

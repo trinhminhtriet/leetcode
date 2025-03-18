@@ -1,81 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1310.XOR%20Queries%20of%20a%20Subarray/README.md
+difficulty: Medium
 rating: 1459
-source: 第 170 场周赛 Q2
+source: Weekly Contest 170 Q2
 tags:
-    - 位运算
-    - 数组
-    - 前缀和
+    - Bit Manipulation
+    - Array
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [1310. 子数组异或查询](https://leetcode.cn/problems/xor-queries-of-a-subarray)
+# [1310. XOR Queries of a Subarray](https://leetcode.com/problems/xor-queries-of-a-subarray)
 
-[English Version](/solution/1300-1399/1310.XOR%20Queries%20of%20a%20Subarray/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有一个正整数数组 <code>arr</code>，现给你一个对应的查询数组 <code>queries</code>，其中 <code>queries[i] = [L<sub>i, </sub>R<sub>i</sub>]</code>。</p>
+<p>You are given an array <code>arr</code> of positive integers. You are also given the array <code>queries</code> where <code>queries[i] = [left<sub>i, </sub>right<sub>i</sub>]</code>.</p>
 
-<p>对于每个查询 <code>i</code>，请你计算从 <code>L<sub>i</sub></code> 到 <code>R<sub>i</sub></code> 的 <strong>XOR</strong> 值（即 <code>arr[L<sub>i</sub>] <strong>xor</strong> arr[L<sub>i</sub>+1] <strong>xor</strong> ... <strong>xor</strong> arr[R<sub>i</sub>]</code>）作为本次查询的结果。</p>
+<p>For each query <code>i</code> compute the <strong>XOR</strong> of elements from <code>left<sub>i</sub></code> to <code>right<sub>i</sub></code> (that is, <code>arr[left<sub>i</sub>] XOR arr[left<sub>i</sub> + 1] XOR ... XOR arr[right<sub>i</sub>]</code> ).</p>
 
-<p>并返回一个包含给定查询 <code>queries</code> 所有结果的数组。</p>
+<p>Return an array <code>answer</code> where <code>answer[i]</code> is the answer to the <code>i<sup>th</sup></code> query.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [1,3,4,8], queries = [[0,1],[1,2],[0,3],[3,3]]
-<strong>输出：</strong>[2,7,14,8] 
-<strong>解释：</strong>
-数组中元素的二进制表示形式是：
+<strong>Input:</strong> arr = [1,3,4,8], queries = [[0,1],[1,2],[0,3],[3,3]]
+<strong>Output:</strong> [2,7,14,8] 
+<strong>Explanation:</strong> 
+The binary representation of the elements in the array are:
 1 = 0001 
 3 = 0011 
 4 = 0100 
 8 = 1000 
-查询的 XOR 值为：
+The XOR values for queries are:
 [0,1] = 1 xor 3 = 2 
 [1,2] = 3 xor 4 = 7 
 [0,3] = 1 xor 3 xor 4 xor 8 = 14 
 [3,3] = 8
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [4,8,2,10], queries = [[2,3],[1,3],[0,0],[0,3]]
-<strong>输出：</strong>[8,0,4,4]
+<strong>Input:</strong> arr = [4,8,2,10], queries = [[2,3],[1,3],[0,0],[0,3]]
+<strong>Output:</strong> [8,0,4,4]
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= arr.length <= 3 * 10^4</code></li>
-	<li><code>1 <= arr[i] <= 10^9</code></li>
-	<li><code>1 <= queries.length <= 3 * 10^4</code></li>
+	<li><code>1 &lt;= arr.length, queries.length &lt;= 3 * 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= arr[i] &lt;= 10<sup>9</sup></code></li>
 	<li><code>queries[i].length == 2</code></li>
-	<li><code>0 <= queries[i][0] <= queries[i][1] < arr.length</code></li>
+	<li><code>0 &lt;= left<sub>i</sub> &lt;= right<sub>i</sub> &lt; arr.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀异或
+### Solution 1: Prefix XOR
 
-我们可以用一个长度为 $n+1$ 的前缀异或数组 $s$ 来存储数组 $\textit{arr}$ 的前缀异或结果，其中 $s[i] = s[i-1] \oplus \textit{arr}[i-1]$，即 $s[i]$ 表示 $\textit{arr}$ 的前 $i$ 个元素的异或结果。
+We can use a prefix XOR array $s$ of length $n+1$ to store the prefix XOR results of the array $\textit{arr}$, where $s[i] = s[i-1] \oplus \textit{arr}[i-1]$. That is, $s[i]$ represents the XOR result of the first $i$ elements of $\textit{arr}$.
 
-那么对于一个查询 $[l,r]$，我们可以得到：
+For a query $[l, r]$, we can obtain:
 
 $$
 \begin{aligned}
@@ -84,7 +78,7 @@ $$
 \end{aligned}
 $$
 
-时间复杂度 $O(n+m)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别是数组 $\textit{arr}$ 的长度和查询数组 $\textit{queries}$ 的长度。
+Time complexity is $O(n+m)$, and space complexity is $O(n)$. Here, $n$ and $m$ are the lengths of the array $\textit{arr}$ and the query array $\textit{queries}$, respectively.
 
 <!-- tabs:start -->
 

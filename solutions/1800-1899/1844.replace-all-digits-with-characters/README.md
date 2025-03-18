@@ -1,79 +1,78 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1844.Replace%20All%20Digits%20with%20Characters/README.md
+difficulty: Easy
 rating: 1300
-source: 第 51 场双周赛 Q1
+source: Biweekly Contest 51 Q1
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1844. 将所有数字用字符替换](https://leetcode.cn/problems/replace-all-digits-with-characters)
+# [1844. Replace All Digits with Characters](https://leetcode.com/problems/replace-all-digits-with-characters)
 
-[English Version](/solution/1800-1899/1844.Replace%20All%20Digits%20with%20Characters/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的字符串 <code>s</code> ，它的 <strong>偶数</strong> 下标处为小写英文字母，<strong>奇数</strong> 下标处为数字。</p>
+<p>You are given a <strong>0-indexed</strong> string <code>s</code> that has lowercase English letters in its <strong>even</strong> indices and digits in its <strong>odd</strong> indices.</p>
 
-<p>定义一个函数 <code>shift(c, x)</code> ，其中 <code>c</code> 是一个字符且 <code>x</code> 是一个数字，函数返回字母表中 <code>c</code> 后面第 <code>x</code> 个字符。</p>
+<p>You must perform an operation <code>shift(c, x)</code>, where <code>c</code> is a character and <code>x</code> is a digit, that returns the <code>x<sup>th</sup></code> character after <code>c</code>.</p>
 
 <ul>
-	<li>比方说，<code>shift('a', 5) = 'f'</code> 和 <code>shift('x', 0) = 'x'</code> 。</li>
+	<li>For example, <code>shift(&#39;a&#39;, 5) = &#39;f&#39;</code> and <code>shift(&#39;x&#39;, 0) = &#39;x&#39;</code>.</li>
 </ul>
 
-<p>对于每个 <strong>奇数</strong> 下标 <code>i</code> ，你需要将数字 <code>s[i]</code> 用 <code>shift(s[i-1], s[i])</code> 替换。</p>
+<p>For every <strong>odd</strong> index <code>i</code>, you want to replace the digit <code>s[i]</code> with the result of the <code>shift(s[i-1], s[i])</code> operation.</p>
 
-<p>请你替换所有数字以后，将字符串 <code>s</code> 返回。题目 <strong>保证</strong><em> </em><code>shift(s[i-1], s[i])</code> 不会超过 <code>'z'</code> 。</p>
+<p>Return <code>s</code><em> </em>after replacing all digits. It is <strong>guaranteed</strong> that<em> </em><code>shift(s[i-1], s[i])</code><em> </em>will never exceed<em> </em><code>&#39;z&#39;</code>.</p>
 
-<p> </p>
+<p><strong>Note</strong> that <code>shift(c, x)</code> is <strong>not</strong> a preloaded function, but an operation <em>to be implemented</em> as part of the solution.</p>
 
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<pre><b>输入：</b>s = "a1c1e1"
-<b>输出：</b>"abcdef"
-<strong>解释：</strong>数字被替换结果如下：
-- s[1] -&gt; shift('a',1) = 'b'
-- s[3] -&gt; shift('c',1) = 'd'
-- s[5] -&gt; shift('e',1) = 'f'</pre>
+<pre>
+<strong>Input:</strong> s = &quot;a1c1e1&quot;
+<strong>Output:</strong> &quot;abcdef&quot;
+<strong>Explanation: </strong>The digits are replaced as follows:
+- s[1] -&gt; shift(&#39;a&#39;,1) = &#39;b&#39;
+- s[3] -&gt; shift(&#39;c&#39;,1) = &#39;d&#39;
+- s[5] -&gt; shift(&#39;e&#39;,1) = &#39;f&#39;</pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>s = "a1b2c3d4e"
-<b>输出：</b>"abbdcfdhe"
-<strong>解释：</strong>数字被替换结果如下：
-- s[1] -&gt; shift('a',1) = 'b'
-- s[3] -&gt; shift('b',2) = 'd'
-- s[5] -&gt; shift('c',3) = 'f'
-- s[7] -&gt; shift('d',4) = 'h'</pre>
+<pre>
+<strong>Input:</strong> s = &quot;a1b2c3d4e&quot;
+<strong>Output:</strong> &quot;abbdcfdhe&quot;
+<strong>Explanation: </strong>The digits are replaced as follows:
+- s[1] -&gt; shift(&#39;a&#39;,1) = &#39;b&#39;
+- s[3] -&gt; shift(&#39;b&#39;,2) = &#39;d&#39;
+- s[5] -&gt; shift(&#39;c&#39;,3) = &#39;f&#39;
+- s[7] -&gt; shift(&#39;d&#39;,4) = &#39;h&#39;</pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code> 只包含小写英文字母和数字。</li>
-	<li>对所有 <strong>奇数</strong> 下标处的 <code>i</code> ，满足 <code>shift(s[i-1], s[i]) &lt;= 'z'</code> 。</li>
+	<li><code>s</code> consists only of lowercase English letters and digits.</li>
+	<li><code>shift(s[i-1], s[i]) &lt;= &#39;z&#39;</code> for all <strong>odd</strong> indices <code>i</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-遍历字符串，对于奇数下标的字符，将其替换为前一个字符后移对应位数的字符。
+Traverse the string, for characters at odd indices, replace them with the character that is a certain number of positions after the previous character.
 
-最后返回替换后的字符串。
+Finally, return the replaced string.
 
-时间复杂度 $(n)$，其中 $n$ 为字符串 $s$ 的长度。忽略答案的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,94 +1,85 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1765.Map%20of%20Highest%20Peak/README.md
+difficulty: Medium
 rating: 1782
-source: 第 46 场双周赛 Q3
+source: Biweekly Contest 46 Q3
 tags:
-    - 广度优先搜索
-    - 数组
-    - 矩阵
+    - Breadth-First Search
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [1765. 地图中的最高点](https://leetcode.cn/problems/map-of-highest-peak)
+# [1765. Map of Highest Peak](https://leetcode.com/problems/map-of-highest-peak)
 
-[English Version](/solution/1700-1799/1765.Map%20of%20Highest%20Peak/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个大小为&nbsp;<code>m x n</code>&nbsp;的整数矩阵&nbsp;<code>isWater</code>&nbsp;，它代表了一个由 <strong>陆地</strong>&nbsp;和 <strong>水域</strong>&nbsp;单元格组成的地图。</p>
+<p>You are given an integer matrix <code>isWater</code> of size <code>m x n</code> that represents a map of <strong>land</strong> and <strong>water</strong> cells.</p>
 
 <ul>
-	<li>如果&nbsp;<code>isWater[i][j] == 0</code>&nbsp;，格子&nbsp;<code>(i, j)</code>&nbsp;是一个 <strong>陆地</strong>&nbsp;格子。</li>
-	<li>如果&nbsp;<code>isWater[i][j] == 1</code>&nbsp;，格子&nbsp;<code>(i, j)</code>&nbsp;是一个 <strong>水域</strong>&nbsp;格子。</li>
+	<li>If <code>isWater[i][j] == 0</code>, cell <code>(i, j)</code> is a <strong>land</strong> cell.</li>
+	<li>If <code>isWater[i][j] == 1</code>, cell <code>(i, j)</code> is a <strong>water</strong> cell.</li>
 </ul>
 
-<p>你需要按照如下规则给每个单元格安排高度：</p>
+<p>You must assign each cell a height in a way that follows these rules:</p>
 
 <ul>
-	<li>每个格子的高度都必须是非负的。</li>
-	<li>如果一个格子是 <strong>水域</strong>&nbsp;，那么它的高度必须为 <code>0</code>&nbsp;。</li>
-	<li>任意相邻的格子高度差 <strong>至多</strong>&nbsp;为 <code>1</code>&nbsp;。当两个格子在正东、南、西、北方向上相互紧挨着，就称它们为相邻的格子。（也就是说它们有一条公共边）</li>
+	<li>The height of each cell must be non-negative.</li>
+	<li>If the cell is a <strong>water</strong> cell, its height must be <code>0</code>.</li>
+	<li>Any two adjacent cells must have an absolute height difference of <strong>at most</strong> <code>1</code>. A cell is adjacent to another cell if the former is directly north, east, south, or west of the latter (i.e., their sides are touching).</li>
 </ul>
 
-<p>找到一种安排高度的方案，使得矩阵中的最高高度值&nbsp;<strong>最大</strong>&nbsp;。</p>
+<p>Find an assignment of heights such that the maximum height in the matrix is <strong>maximized</strong>.</p>
 
-<p>请你返回一个大小为&nbsp;<code>m x n</code>&nbsp;的整数矩阵 <code>height</code>&nbsp;，其中 <code>height[i][j]</code>&nbsp;是格子 <code>(i, j)</code>&nbsp;的高度。如果有多种解法，请返回&nbsp;<strong>任意一个</strong>&nbsp;。</p>
+<p>Return <em>an integer matrix </em><code>height</code><em> of size </em><code>m x n</code><em> where </em><code>height[i][j]</code><em> is cell </em><code>(i, j)</code><em>&#39;s height. If there are multiple solutions, return <strong>any</strong> of them</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1765.Map%20of%20Highest%20Peak/images/screenshot-2021-01-11-at-82045-am.png" style="width: 220px; height: 219px;" /></strong></p>
 
 <pre>
-<b>输入：</b>isWater = [[0,1],[0,0]]
-<b>输出：</b>[[1,0],[2,1]]
-<b>解释：</b>上图展示了给各个格子安排的高度。
-蓝色格子是水域格，绿色格子是陆地格。
+<strong>Input:</strong> isWater = [[0,1],[0,0]]
+<strong>Output:</strong> [[1,0],[2,1]]
+<strong>Explanation:</strong> The image shows the assigned heights of each cell.
+The blue cell is the water cell, and the green cells are the land cells.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1765.Map%20of%20Highest%20Peak/images/screenshot-2021-01-11-at-82050-am.png" style="width: 300px; height: 296px;" /></strong></p>
 
 <pre>
-<b>输入：</b>isWater = [[0,0,1],[1,0,0],[0,0,0]]
-<b>输出：</b>[[1,1,0],[0,1,1],[1,2,2]]
-<b>解释：</b>所有安排方案中，最高可行高度为 2 。
-任意安排方案中，只要最高高度为 2 且符合上述规则的，都为可行方案。
+<strong>Input:</strong> isWater = [[0,0,1],[1,0,0],[0,0,0]]
+<strong>Output:</strong> [[1,1,0],[0,1,1],[1,2,2]]
+<strong>Explanation:</strong> A height of 2 is the maximum possible height of any assignment.
+Any height assignment that has a maximum height of 2 while still meeting the rules will also be accepted.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == isWater.length</code></li>
 	<li><code>n == isWater[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 1000</code></li>
-	<li><code>isWater[i][j]</code>&nbsp;要么是&nbsp;<code>0</code>&nbsp;，要么是&nbsp;<code>1</code>&nbsp;。</li>
-	<li>至少有 <strong>1</strong>&nbsp;个水域格子。</li>
+	<li><code>isWater[i][j]</code> is <code>0</code> or <code>1</code>.</li>
+	<li>There is at least <strong>one</strong> water cell.</li>
 </ul>
-<strong>注意：</strong>本题与 <a href="https://leetcode.cn/problems/01-matrix/">542</a> 题相同。
+
+<p>&nbsp;</p>
+<p><strong>Note:</strong> This question is the same as 542: <a href="https://leetcode.com/problems/01-matrix/description/" target="_blank">https://leetcode.com/problems/01-matrix/</a></p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
-
-根据题目描述，水域的高度必须是 $0$，而任意相邻格子的高度差至多为 $1$。因此，我们可以从所有水域格子出发，用 BFS 搜索相邻且未访问过的格子，将其高度置为当前格子的高度再加一。
-
-最后返回结果矩阵即可。
-
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是整数矩阵 `isWater` 的行数和列数。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -312,7 +303,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

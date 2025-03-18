@@ -1,84 +1,68 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0060.Permutation%20Sequence/README.md
+difficulty: Hard
 tags:
-    - 递归
-    - 数学
+    - Recursion
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [60. 排列序列](https://leetcode.cn/problems/permutation-sequence)
+# [60. Permutation Sequence](https://leetcode.com/problems/permutation-sequence)
 
-[English Version](/solution/0000-0099/0060.Permutation%20Sequence/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给出集合 <code>[1,2,3,...,n]</code>，其所有元素共有 <code>n!</code> 种排列。</p>
+<p>The set <code>[1, 2, 3, ...,&nbsp;n]</code> contains a total of <code>n!</code> unique permutations.</p>
 
-<p>按大小顺序列出所有排列情况，并一一标记，当 <code>n = 3</code> 时, 所有排列如下：</p>
+<p>By listing and labeling all of the permutations in order, we get the following sequence for <code>n = 3</code>:</p>
 
 <ol>
-	<li><code>"123"</code></li>
-	<li><code>"132"</code></li>
-	<li><code>"213"</code></li>
-	<li><code>"231"</code></li>
-	<li><code>"312"</code></li>
-	<li><code>"321"</code></li>
+	<li><code>&quot;123&quot;</code></li>
+	<li><code>&quot;132&quot;</code></li>
+	<li><code>&quot;213&quot;</code></li>
+	<li><code>&quot;231&quot;</code></li>
+	<li><code>&quot;312&quot;</code></li>
+	<li><code>&quot;321&quot;</code></li>
 </ol>
 
-<p>给定 <code>n</code> 和 <code>k</code>，返回第 <code>k</code> 个排列。</p>
+<p>Given <code>n</code> and <code>k</code>, return the <code>k<sup>th</sup></code> permutation sequence.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 3, k = 3
-<strong>输出：</strong>"213"
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> n = 3, k = 3
+<strong>Output:</strong> "213"
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> n = 4, k = 9
+<strong>Output:</strong> "2314"
+</pre><p><strong class="example">Example 3:</strong></p>
+<pre><strong>Input:</strong> n = 3, k = 1
+<strong>Output:</strong> "123"
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 4, k = 9
-<strong>输出：</strong>"2314"
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 3, k = 1
-<strong>输出：</strong>"123"
-</pre>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= n <= 9</code></li>
-	<li><code>1 <= k <= n!</code></li>
+	<li><code>1 &lt;= n &lt;= 9</code></li>
+	<li><code>1 &lt;= k &lt;= n!</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们知道，集合 $[1,2,..n]$ 一共有 $n!$ 种排列，如果我们确定首位，那剩余位能组成的排列数量为 $(n-1)!$。
+We know that the set $[1,2,..n]$ has a total of $n!$ permutations. If we determine the first digit, the number of permutations that the remaining digits can form is $(n-1)!$.
 
-因此，我们枚举每一位 $i$，如果此时 $k$ 大于当前位置确定后的排列数量，那么我们可以直接减去这个数量；否则，说明我们找到了当前位置的数。
+Therefore, we enumerate each digit $i$. If $k$ is greater than the number of permutations after the current position is determined, then we can directly subtract this number; otherwise, it means that we have found the number at the current position.
 
-对于每一位 $i$，其中 $0 \leq i \lt n$，剩余位能组成的排列数量为 $(n-i-1)!$，我们记为 $fact$。过程中已使用的数记录在 `vis` 中。
+For each digit $i$, where $0 \leq i < n$, the number of permutations that the remaining digits can form is $(n-i-1)!$, which we denote as $fact$. The numbers used in the process are recorded in `vis`.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$.
 
 <!-- tabs:start -->
 

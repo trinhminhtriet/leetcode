@@ -1,82 +1,96 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2910.Minimum%20Number%20of%20Groups%20to%20Create%20a%20Valid%20Assignment/README.md
+difficulty: Medium
 rating: 2132
-source: 第 368 场周赛 Q3
+source: Weekly Contest 368 Q3
 tags:
-    - 贪心
-    - 数组
-    - 哈希表
+    - Greedy
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [2910. 合法分组的最少组数](https://leetcode.cn/problems/minimum-number-of-groups-to-create-a-valid-assignment)
+# [2910. Minimum Number of Groups to Create a Valid Assignment](https://leetcode.com/problems/minimum-number-of-groups-to-create-a-valid-assignment)
 
-[English Version](/solution/2900-2999/2910.Minimum%20Number%20of%20Groups%20to%20Create%20a%20Valid%20Assignment/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一组带编号的&nbsp;<code>balls</code> 并要求将它们分类到盒子里，以便均衡地分配。你必须遵守两条规则：</p>
+<p>You are given a collection of numbered <code>balls</code>&nbsp;and instructed to sort them into boxes for a nearly balanced distribution. There are two rules you must follow:</p>
 
 <ul>
-	<li>同一个盒子里的球必须具有相同的编号。但是，如果你有多个相同编号的球，你可以把它们放在不同的盒子里。</li>
-	<li>最大的盒子只能比最小的盒子多一个球。</li>
+	<li>Balls with the same&nbsp;box must have the same value. But, if you have more than one ball with the same number, you can put them in different boxes.</li>
+	<li>The biggest box can only have one more ball than the smallest box.</li>
 </ul>
 
-<p>返回遵循上述规则排列这些球所需要的盒子的最小数目。</p>
+<p>​Return the <em>fewest number of boxes</em> to sort these balls following these rules.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1: </strong></p>
 
-<p><strong class="example">示例 1：</strong></p>
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> balls = [3,2,3,2,3] </span></p>
 
-<pre>
-<b>输入：</b>balls = [3,2,3,2,3]
-<b>输出：</b>2
-<b>解释：</b>一个得到 2 个分组的方案如下，中括号内的数字都是下标：
-我们可以如下排列 balls 到盒子里：
-- [3,3,3]
-- [2,2]
-两个盒子之间的大小差没有超过 1。</pre>
+<p><strong>Output: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> 2 </span></p>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<pre>
-<b>输入：</b>balls = [10,10,10,3,1,1]
-<b>输出：</b>4
-<b>解释：</b>我们可以如下排列 balls 到盒子里：
-- [10]
-- [10,10]
-- [3]
-- [1,1]
-无法得到一个遵循上述规则且小于 4 盒的答案。例如，把所有三个编号为 10 的球都放在一个盒子里，就会打破盒子之间最大尺寸差异的规则。
-</pre>
-
-<p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p>We can sort <code>balls</code> into boxes as follows:</p>
 
 <ul>
-	<li><code>1 &lt;= balls.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= balls[i] &lt;= 10<sup>9</sup></code></li>
+	<li><code>[3,3,3]</code></li>
+	<li><code>[2,2]</code></li>
+</ul>
+
+<p>The size difference between the two boxes doesn&#39;t exceed one.</p>
+</div>
+
+<p><strong class="example">Example 2: </strong></p>
+
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> balls = [10,10,10,3,1,1] </span></p>
+
+<p><strong>Output: </strong> <span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;"> 4 </span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>We can sort <code>balls</code> into boxes as follows:</p>
+
+<ul>
+</ul>
+
+<ul>
+	<li><code>[10]</code></li>
+	<li><code>[10,10]</code></li>
+	<li><code>[3]</code></li>
+	<li><code>[1,1]</code></li>
+</ul>
+
+<p>You can&#39;t use fewer than four boxes while still following the rules. For example, putting all three balls numbered 10 in one box would break the rule about the maximum size difference between boxes.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 枚举
+### Solution 1: Hash Table + Enumeration
 
-我们用一个哈希表 $cnt$ 统计数组 $nums$ 中每个数字出现的次数，我们记数字次数的最小值为 $k$，那么我们可以在 $[k,..1]$ 的范围内枚举分组的大小。由于每个组的大小差值不超过 $1$，那么分组大小为 $k$ 或 $k+1$。
+We use a hash table $cnt$ to count the number of occurrences of each number in the array $nums$. Let $k$ be the minimum value of the number of occurrences, and then we can enumerate the size of the groups in the range $[k,..1]$. Since the difference in size between each group is not more than $1$, the group size can be either $k$ or $k+1$.
 
-对于当前枚举到的分组大小 $k$，我们遍历哈希表中的每个次数 $v$，如果 $\lfloor \frac{v}{k} \rfloor < v \bmod k$，那么说明无法将这个次数 $v$ 分成 $k$ 个或 $k+1$ 个数值相同的组，因此我们可以直接跳过这个分组大小 $k$。否则，说明可以分组，我们只需要尽可能分出最多的分组大小 $k+1$，即可保证得到最小的分组数，因此我们可以将 $v$ 个数分成 $\lceil \frac{v}{k+1} \rceil$ 组，累加到当前枚举的答案中。由于我们是按照 $k$ 从大到小枚举的，因此只要找到了一个合法的分组方案，那么一定是最优的。
+For the current group size $k$ being enumerated, we traverse each occurrence $v$ in the hash table. If $\lfloor \frac{v}{k} \rfloor < v \bmod k$, it means that we cannot divide the occurrence $v$ into $k$ or $k+1$ groups with the same value, so we can skip this group size $k$ directly. Otherwise, it means that we can form groups, and we only need to form as many groups of size $k+1$ as possible to ensure the minimum number of groups. Therefore, we can divide $v$ numbers into $\lceil \frac{v}{k+1} \rceil$ groups and add them to the current enumerated answer. Since we enumerate $k$ from large to small, as long as we find a valid grouping scheme, it must be optimal.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

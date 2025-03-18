@@ -1,93 +1,89 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0987.Vertical%20Order%20Traversal%20of%20a%20Binary%20Tree/README.md
+difficulty: Hard
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 哈希表
-    - 二叉树
-    - 排序
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
+    - Hash Table
+    - Binary Tree
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [987. 二叉树的垂序遍历](https://leetcode.cn/problems/vertical-order-traversal-of-a-binary-tree)
+# [987. Vertical Order Traversal of a Binary Tree](https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree)
 
-[English Version](/solution/0900-0999/0987.Vertical%20Order%20Traversal%20of%20a%20Binary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你二叉树的根结点 <code>root</code> ，请你设计算法计算二叉树的<em> </em><strong>垂序遍历</strong> 序列。</p>
+<p>Given the <code>root</code> of a binary tree, calculate the <strong>vertical order traversal</strong> of the binary tree.</p>
 
-<p>对位于&nbsp;<code>(row, col)</code>&nbsp;的每个结点而言，其左右子结点分别位于&nbsp;<code>(row + 1, col - 1)</code>&nbsp;和&nbsp;<code>(row + 1, col + 1)</code> 。树的根结点位于 <code>(0, 0)</code> 。</p>
+<p>For each node at position <code>(row, col)</code>, its left and right children will be at positions <code>(row + 1, col - 1)</code> and <code>(row + 1, col + 1)</code> respectively. The root of the tree is at <code>(0, 0)</code>.</p>
 
-<p>二叉树的 <strong>垂序遍历</strong> 从最左边的列开始直到最右边的列结束，按列索引每一列上的所有结点，形成一个按出现位置从上到下排序的有序列表。如果同行同列上有多个结点，则按结点的值从小到大进行排序。</p>
+<p>The <strong>vertical order traversal</strong> of a binary tree is a list of top-to-bottom orderings for each column index starting from the leftmost column and ending on the rightmost column. There may be multiple nodes in the same row and same column. In such a case, sort these nodes by their values.</p>
 
-<p>返回二叉树的 <strong>垂序遍历</strong> 序列。</p>
+<p>Return <em>the <strong>vertical order traversal</strong> of the binary tree</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0987.Vertical%20Order%20Traversal%20of%20a%20Binary%20Tree/images/vtree1.jpg" style="width: 431px; height: 304px;" />
 <pre>
-<strong>输入：</strong>root = [3,9,20,null,null,15,7]
-<strong>输出：</strong>[[9],[3,15],[20],[7]]
-<strong>解释：</strong>
-列 -1 ：只有结点 9 在此列中。
-列  0 ：只有结点 3 和 15 在此列中，按从上到下顺序。
-列  1 ：只有结点 20 在此列中。
-列  2 ：只有结点 7 在此列中。</pre>
+<strong>Input:</strong> root = [3,9,20,null,null,15,7]
+<strong>Output:</strong> [[9],[3,15],[20],[7]]
+<strong>Explanation:</strong>
+Column -1: Only node 9 is in this column.
+Column 0: Nodes 3 and 15 are in this column in that order from top to bottom.
+Column 1: Only node 20 is in this column.
+Column 2: Only node 7 is in this column.</pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0987.Vertical%20Order%20Traversal%20of%20a%20Binary%20Tree/images/vtree2.jpg" style="width: 512px; height: 304px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,3,4,5,6,7]
-<strong>输出：</strong>[[4],[2],[1,5,6],[3],[7]]
-<strong>解释：</strong>
-列 -2 ：只有结点 4 在此列中。
-列 -1 ：只有结点 2 在此列中。
-列  0 ：结点 1 、5 和 6 都在此列中。
-          1 在上面，所以它出现在前面。
-          5 和 6 位置都是 (2, 0) ，所以按值从小到大排序，5 在 6 的前面。
-列  1 ：只有结点 3 在此列中。
-列  2 ：只有结点 7 在此列中。
+<strong>Input:</strong> root = [1,2,3,4,5,6,7]
+<strong>Output:</strong> [[4],[2],[1,5,6],[3],[7]]
+<strong>Explanation:</strong>
+Column -2: Only node 4 is in this column.
+Column -1: Only node 2 is in this column.
+Column 0: Nodes 1, 5, and 6 are in this column.
+          1 is at the top, so it comes first.
+          5 and 6 are at the same position (2, 0), so we order them by their value, 5 before 6.
+Column 1: Only node 3 is in this column.
+Column 2: Only node 7 is in this column.
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0987.Vertical%20Order%20Traversal%20of%20a%20Binary%20Tree/images/vtree3.jpg" style="width: 512px; height: 304px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,3,4,6,5,7]
-<strong>输出：</strong>[[4],[2],[1,5,6],[3],[7]]
-<strong>解释：</strong>
-这个示例实际上与示例 2 完全相同，只是结点 5 和 6 在树中的位置发生了交换。
-因为 5 和 6 的位置仍然相同，所以答案保持不变，仍然按值从小到大排序。</pre>
+<strong>Input:</strong> root = [1,2,3,4,6,5,7]
+<strong>Output:</strong> [[4],[2],[1,5,6],[3],[7]]
+<strong>Explanation:</strong>
+This case is the exact same as example 2, but with nodes 5 and 6 swapped.
+Note that the solution remains the same since 5 and 6 are in the same location and should be ordered by their values.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中结点数目总数在范围 <code>[1, 1000]</code> 内</li>
+	<li>The number of nodes in the tree is in the range <code>[1, 1000]</code>.</li>
 	<li><code>0 &lt;= Node.val &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS + 排序
+### Solution 1: DFS + Sorting
 
-我们设计一个函数 $dfs(root, i, j)$，其中 $i$ 和 $j$ 表示当前节点的行和列。我们可以通过深度优先搜索的方式，将节点的行和列信息记录下来，存储在一个数组或列表 $nodes$ 中，然后对 $nodes$ 按照列、行、值的顺序进行排序。
+We design a function $dfs(root, i, j)$, where $i$ and $j$ represent the row and column of the current node. We can record the row and column information of the nodes through depth-first search, store it in an array or list $nodes$, and then sort $nodes$ in the order of column, row, and value.
 
-接着，我们遍历 $nodes$，将相同列的节点值放到同一个列表中，最后返回这些列表。
+Next, we traverse $nodes$, putting the values of nodes in the same column into the same list, and finally return these lists.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 

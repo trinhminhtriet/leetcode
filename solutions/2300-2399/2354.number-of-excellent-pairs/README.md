@@ -1,65 +1,60 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2354.Number%20of%20Excellent%20Pairs/README.md
+difficulty: Hard
 rating: 2075
-source: 第 303 场周赛 Q4
+source: Weekly Contest 303 Q4
 tags:
-    - 位运算
-    - 数组
-    - 哈希表
-    - 二分查找
+    - Bit Manipulation
+    - Array
+    - Hash Table
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [2354. 优质数对的数目](https://leetcode.cn/problems/number-of-excellent-pairs)
+# [2354. Number of Excellent Pairs](https://leetcode.com/problems/number-of-excellent-pairs)
 
-[English Version](/solution/2300-2399/2354.Number%20of%20Excellent%20Pairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的正整数数组 <code>nums</code> 和一个正整数 <code>k</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> positive integer array <code>nums</code> and a positive integer <code>k</code>.</p>
 
-<p>如果满足下述条件，则数对 <code>(num1, num2)</code> 是 <strong>优质数对</strong> ：</p>
+<p>A pair of numbers <code>(num1, num2)</code> is called <strong>excellent</strong> if the following conditions are satisfied:</p>
 
 <ul>
-	<li><code>num1</code> 和 <code>num2</code> <strong>都</strong> 在数组 <code>nums</code> 中存在。</li>
-	<li><code>num1 OR num2</code> 和 <code>num1 AND num2</code> 的二进制表示中值为 <strong>1</strong> 的位数之和大于等于 <code>k</code> ，其中 <code>OR</code> 是按位 <strong>或</strong> 操作，而 <code>AND</code> 是按位 <strong>与</strong> 操作。</li>
+	<li><strong>Both</strong> the numbers <code>num1</code> and <code>num2</code> exist in the array <code>nums</code>.</li>
+	<li>The sum of the number of set bits in <code>num1 OR num2</code> and <code>num1 AND num2</code> is greater than or equal to <code>k</code>, where <code>OR</code> is the bitwise <strong>OR</strong> operation and <code>AND</code> is the bitwise <strong>AND</strong> operation.</li>
 </ul>
 
-<p>返回 <strong>不同</strong> 优质数对的数目。</p>
+<p>Return <em>the number of <strong>distinct</strong> excellent pairs</em>.</p>
 
-<p>如果&nbsp;<code>a != c</code> 或者 <code>b != d</code> ，则认为 <code>(a, b)</code> 和 <code>(c, d)</code> 是不同的两个数对。例如，<code>(1, 2)</code> 和 <code>(2, 1)</code> 不同。</p>
+<p>Two pairs <code>(a, b)</code> and <code>(c, d)</code> are considered distinct if either <code>a != c</code> or <code>b != d</code>. For example, <code>(1, 2)</code> and <code>(2, 1)</code> are distinct.</p>
 
-<p><strong>注意：</strong>如果 <code>num1</code> 在数组中至少出现 <strong>一次</strong> ，则满足 <code>num1 == num2</code> 的数对 <code>(num1, num2)</code> 也可以是优质数对。</p>
+<p><strong>Note</strong> that a pair <code>(num1, num2)</code> such that <code>num1 == num2</code> can also be excellent if you have at least <strong>one</strong> occurrence of <code>num1</code> in the array.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,3,1], k = 3
-<strong>输出：</strong>5
-<strong>解释：</strong>有如下几个优质数对：
-- (3, 3)：(3 AND 3) 和 (3 OR 3) 的二进制表示都等于 (11) 。值为 1 的位数和等于 2 + 2 = 4 ，大于等于 k = 3 。
-- (2, 3) 和 (3, 2)： (2 AND 3) 的二进制表示等于 (10) ，(2 OR 3) 的二进制表示等于 (11) 。值为 1 的位数和等于 1 + 2 = 3 。
-- (1, 3) 和 (3, 1)： (1 AND 3) 的二进制表示等于 (01) ，(1 OR 3) 的二进制表示等于 (11) 。值为 1 的位数和等于 1 + 2 = 3 。
-所以优质数对的数目是 5 。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [5,1,1], k = 10
-<strong>输出：</strong>0
-<strong>解释：</strong>该数组中不存在优质数对。
+<strong>Input:</strong> nums = [1,2,3,1], k = 3
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The excellent pairs are the following:
+- (3, 3). (3 AND 3) and (3 OR 3) are both equal to (11) in binary. The total number of set bits is 2 + 2 = 4, which is greater than or equal to k = 3.
+- (2, 3) and (3, 2). (2 AND 3) is equal to (10) in binary, and (2 OR 3) is equal to (11) in binary. The total number of set bits is 1 + 2 = 3.
+- (1, 3) and (3, 1). (1 AND 3) is equal to (01) in binary, and (1 OR 3) is equal to (11) in binary. The total number of set bits is 1 + 2 = 3.
+So the number of excellent pairs is 5.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [5,1,1], k = 10
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There are no excellent pairs for this array.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -69,11 +64,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

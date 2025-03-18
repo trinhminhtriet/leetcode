@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2252.Dynamic%20Pivoting%20of%20a%20Table/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2252. 表的动态旋转 🔒](https://leetcode.cn/problems/dynamic-pivoting-of-a-table)
+# [2252. Dynamic Pivoting of a Table 🔒](https://leetcode.com/problems/dynamic-pivoting-of-a-table)
 
-[English Version](/solution/2200-2299/2252.Dynamic%20Pivoting%20of%20a%20Table/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Products</code></p>
+<p>Table: <code>Products</code></p>
 
 <pre>
 +-------------+---------+
@@ -26,31 +23,30 @@ tags:
 | store       | varchar |
 | price       | int     |
 +-------------+---------+
-(product_id, store) 是该表的主键（具有唯一值的列的组合）。
-该表的每一行都表示商店中的 product_id 的价格。
-表中最多有 30 个不同的商店 store。
-price 就是这家店商品的价格。
+(product_id, store) is the primary key (combination of columns with unique values) for this table.
+Each row of this table indicates the price of product_id in store.
+There will be at most 30 different stores in the table.
+price is the price of the product at this store.
 </pre>
 
 <p>&nbsp;</p>
 
-<p><strong>重要提示：</strong>这个问题针对的是那些对 SQL 有丰富经验的人。如果你是初学者，我们建议你现在跳过它。</p>
+<p><strong>Important note:</strong> This problem targets those who have a good experience with SQL. If you are a beginner, we recommend that you skip it for now.</p>
 
-<p>实现 <code>PivotProducts</code> 过程来重新组织 <code>Products</code> 表，以便每行都有一个商品的 id 及其在每个商店中的价格。如果商品不在商店出售，价格应为 <code>null</code>。表的列应该包含每个商店，并且它们应该按 <strong>字典顺序排序</strong>。</p>
+<p>Implement the procedure <code>PivotProducts</code> to reorganize the <code>Products</code> table so that each row has the id of one product and its price in each store. The price should be <code>null</code> if the product is not sold in a store. The columns of the table should contain each store and they should be sorted in <strong>lexicographical order</strong>.</p>
 
-<p>过程应该在重新组织表之后返回它。</p>
+<p>The procedure should return the table after reorganizing it.</p>
 
-<p data-group="1-1">以 <strong>任意顺序&nbsp;</strong>返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>返回结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
-Products 表:
+<strong>Input:</strong> 
+Products table:
 +------------+----------+-------+
 | product_id | store    | price |
 +------------+----------+-------+
@@ -61,7 +57,7 @@ Products 表:
 | 3          | Shop     | 1000  |
 | 3          | Souq     | 1900  |
 +------------+----------+-------+
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +------------+----------+--------+------+------+
 | product_id | LC_Store | Nozama | Shop | Souq |
 +------------+----------+--------+------+------+
@@ -69,19 +65,20 @@ Products 表:
 | 2          | null     | 200    | null | 190  |
 | 3          | null     | null   | 1000 | 1900 |
 +------------+----------+--------+------+------+
-<strong>解释:</strong> 
-有 4 个商店: Shop, LC_Store, Nozama, Souq。 我们首先按字典顺序排列: LC_Store, Nozama, Shop, Souq.
-现在, 对于商品 1, LC_Store 的价格是 100，Shop 的价格是 110。另外两个商店没有该商品销售，因此我们将价格设置为 null。
-同样, 商品 2 在 Nozama 中的价格是 200，Souq 中的价格是 190。其他两家店都不卖。
-商品 3, Shop 中的价格是 1000,Souq 中的价格是1900。其他两家店都不卖。</pre>
+<strong>Explanation:</strong> 
+We have 4 stores: Shop, LC_Store, Nozama, and Souq. We first order them lexicographically to be: LC_Store, Nozama, Shop, and Souq.
+Now, for product 1, the price in LC_Store is 100 and in Shop is 110. For the other two stores, the product is not sold so we set the price as null.
+Similarly, product 2 has a price of 200 in Nozama and 190 in Souq. It is not sold in the other two stores.
+For product 3, the price is 1000 in Shop and 1900 in Souq. It is not sold in the other two stores.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

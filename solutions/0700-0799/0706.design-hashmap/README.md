@@ -1,81 +1,70 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0706.Design%20HashMap/README.md
+difficulty: Easy
 tags:
-    - 设计
-    - 数组
-    - 哈希表
-    - 链表
-    - 哈希函数
+    - Design
+    - Array
+    - Hash Table
+    - Linked List
+    - Hash Function
 ---
 
 <!-- problem:start -->
 
-# [706. 设计哈希映射](https://leetcode.cn/problems/design-hashmap)
+# [706. Design HashMap](https://leetcode.com/problems/design-hashmap)
 
-[English Version](/solution/0700-0799/0706.Design%20HashMap/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>不使用任何内建的哈希表库设计一个哈希映射（HashMap）。</p>
+<p>Design a HashMap without using any built-in hash table libraries.</p>
 
-<p>实现 <code>MyHashMap</code> 类：</p>
+<p>Implement the <code>MyHashMap</code> class:</p>
 
 <ul>
-	<li><code>MyHashMap()</code> 用空映射初始化对象</li>
-	<li><code>void put(int key, int value)</code> 向 HashMap 插入一个键值对 <code>(key, value)</code> 。如果 <code>key</code> 已经存在于映射中，则更新其对应的值 <code>value</code> 。</li>
-	<li><code>int get(int key)</code> 返回特定的 <code>key</code> 所映射的 <code>value</code> ；如果映射中不包含 <code>key</code> 的映射，返回 <code>-1</code> 。</li>
-	<li><code>void remove(key)</code> 如果映射中存在 <code>key</code> 的映射，则移除 <code>key</code> 和它所对应的 <code>value</code> 。</li>
+	<li><code>MyHashMap()</code> initializes the object with an empty map.</li>
+	<li><code>void put(int key, int value)</code> inserts a <code>(key, value)</code> pair into the HashMap. If the <code>key</code> already exists in the map, update the corresponding <code>value</code>.</li>
+	<li><code>int get(int key)</code> returns the <code>value</code> to which the specified <code>key</code> is mapped, or <code>-1</code> if this map contains no mapping for the <code>key</code>.</li>
+	<li><code>void remove(key)</code> removes the <code>key</code> and its corresponding <code>value</code> if the map contains the mapping for the <code>key</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>：
-["MyHashMap", "put", "put", "get", "get", "put", "get", "remove", "get"]
+<strong>Input</strong>
+[&quot;MyHashMap&quot;, &quot;put&quot;, &quot;put&quot;, &quot;get&quot;, &quot;get&quot;, &quot;put&quot;, &quot;get&quot;, &quot;remove&quot;, &quot;get&quot;]
 [[], [1, 1], [2, 2], [1], [3], [2, 1], [2], [2], [2]]
-<strong>输出</strong>：
+<strong>Output</strong>
 [null, null, null, 1, -1, null, 1, null, -1]
 
-<strong>解释</strong>：
+<strong>Explanation</strong>
 MyHashMap myHashMap = new MyHashMap();
-myHashMap.put(1, 1); // myHashMap 现在为 [[1,1]]
-myHashMap.put(2, 2); // myHashMap 现在为 [[1,1], [2,2]]
-myHashMap.get(1);    // 返回 1 ，myHashMap 现在为 [[1,1], [2,2]]
-myHashMap.get(3);    // 返回 -1（未找到），myHashMap 现在为 [[1,1], [2,2]]
-myHashMap.put(2, 1); // myHashMap 现在为 [[1,1], [2,1]]（更新已有的值）
-myHashMap.get(2);    // 返回 1 ，myHashMap 现在为 [[1,1], [2,1]]
-myHashMap.remove(2); // 删除键为 2 的数据，myHashMap 现在为 [[1,1]]
-myHashMap.get(2);    // 返回 -1（未找到），myHashMap 现在为 [[1,1]]
+myHashMap.put(1, 1); // The map is now [[1,1]]
+myHashMap.put(2, 2); // The map is now [[1,1], [2,2]]
+myHashMap.get(1);    // return 1, The map is now [[1,1], [2,2]]
+myHashMap.get(3);    // return -1 (i.e., not found), The map is now [[1,1], [2,2]]
+myHashMap.put(2, 1); // The map is now [[1,1], [2,1]] (i.e., update the existing value)
+myHashMap.get(2);    // return 1, The map is now [[1,1], [2,1]]
+myHashMap.remove(2); // remove the mapping for 2, The map is now [[1,1]]
+myHashMap.get(2);    // return -1 (i.e., not found), The map is now [[1,1]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= key, value &lt;= 10<sup>6</sup></code></li>
-	<li>最多调用 <code>10<sup>4</sup></code> 次 <code>put</code>、<code>get</code> 和 <code>remove</code> 方法</li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>put</code>, <code>get</code>, and <code>remove</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：静态数组实现
-
-直接创建一个大小为 $1000001$ 的数组，初始时数组中的每个元素都为 $-1$，表示哈希表中不存在该键值对。
-
-调用 `put` 方法时，将数组中对应的位置赋值为 `value`；调用 `get` 方法时，返回数组中对应的位置的值；调用 `remove` 方法时，将数组中对应的位置赋值为 $-1$。
-
-以上操作，时间复杂度均为 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1454.Active%20Users/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1454. 活跃用户 🔒](https://leetcode.cn/problems/active-users)
+# [1454. Active Users 🔒](https://leetcode.com/problems/active-users)
 
-[English Version](/solution/1400-1499/1454.Active%20Users/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表 <code>Accounts</code>:</p>
+<p>Table: <code>Accounts</code></p>
 
 <pre>
 +---------------+---------+
@@ -25,13 +22,13 @@ tags:
 | id            | int     |
 | name          | varchar |
 +---------------+---------+
-id 是该表主键（具有唯一值的列）
-该表包含账户 id 和账户的用户名.
+id is the primary key (column with unique values) for this table.
+This table contains the account id and the user name of each account.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>表 <code>Logins</code>:</p>
+<p>Table: <code>Logins</code></p>
 
 <pre>
 +---------------+---------+
@@ -40,35 +37,33 @@ id 是该表主键（具有唯一值的列）
 | id            | int     |
 | login_date    | date    |
 +---------------+---------+
-该表可能包含重复项.
-该表包含登录用户的账户 id 和登录日期. 用户也许一天内登录多次.
+This table may contain duplicate rows.
+This table contains the account id of the user who logged in and the login date. A user may log in multiple times in the day.
 </pre>
 
 <p>&nbsp;</p>
 
-<p><strong>活跃用户</strong> 是指那些至少连续&nbsp;5 天登录账户的用户。</p>
+<p><strong>Active users</strong> are those who logged in to their accounts for five or more consecutive days.</p>
 
-<p>编写解决方案,&nbsp; 找到 <strong>活跃用户</strong> 的 id 和 name。</p>
+<p>Write a solution to find the id and the name of <strong>active users</strong>.</p>
 
-<p>返回的结果表按照 <code>id</code> <strong>排序&nbsp;</strong>。</p>
+<p>Return the result table <strong>ordered</strong> by <code>id</code>.</p>
 
-<p>结果表格式如下例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Accounts 表:
+<strong>Input:</strong> 
+Accounts table:
 +----+----------+
 | id | name     |
 +----+----------+
 | 1  | Winston  |
 | 7  | Jonathan |
 +----+----------+
-
-Logins 表:
+Logins table:
 +----+------------+
 | id | login_date |
 +----+------------+
@@ -82,35 +77,33 @@ Logins 表:
 | 1  | 2020-06-07 |
 | 7  | 2020-06-10 |
 +----+------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +----+----------+
 | id | name     |
 +----+----------+
 | 7  | Jonathan |
 +----+----------+
-<strong>解释：</strong>
-id = 1 的用户 Winston 仅仅在不同的 2 天内登录了 2 次, 所以, Winston 不是活跃用户.
-id = 7 的用户 Jonathon 在不同的 6 天内登录了 7 次, , 6 天中有 5 天是连续的, 所以, Jonathan 是活跃用户.
+<strong>Explanation:</strong> 
+User Winston with id = 1 logged in 2 times only in 2 different days, so, Winston is not an active user.
+User Jonathan with id = 7 logged in 7 times in 6 different days, five of them were consecutive days, so, Jonathan is an active user.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶问题:</strong><br />
-如果活跃用户是那些至少连续&nbsp;<code>n</code>&nbsp;天登录账户的用户,&nbsp;你能否写出通用的解决方案?</p>
+<p><strong>Follow up:</strong> Could you write a general solution if the active users are those who logged in to their accounts for <code>n</code> or more consecutive days?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一: 使用窗口函数
+### Solution 1: Using Window Functions
 
-我们先将 `Logins` 表和 `Accounts` 表连接起来，并且去重，得到临时表 `T`。
+First, we join the `Logins` table and the `Accounts` table, and remove duplicates to get the temporary table `T`.
 
-然后我们使用窗口函数 `ROW_NUMBER()`，计算出每个用户 `id` 的登录日期的基准日期 `g`，如果用户连续登录 5 天，那么他们的 `g` 值是相同的。
+Then, we use the window function `ROW_NUMBER()` to calculate the base login date `g` for each user `id`. If a user logs in for 5 consecutive days, their `g` values are the same.
 
-最后，我们按照 `id` 和 `g` 进行分组，统计每个用户的登录次数，如果登录次数大于等于 5，那么这个用户就是活跃用户。
+Finally, we group by `id` and `g` to count the number of logins for each user. If the number of logins is greater than or equal to 5, then the user is considered active.
 
 <!-- tabs:start -->
 

@@ -1,60 +1,58 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2007.Find%20Original%20Array%20From%20Doubled%20Array/README.md
+difficulty: Medium
 rating: 1557
-source: 第 61 场双周赛 Q2
+source: Biweekly Contest 61 Q2
 tags:
-    - 贪心
-    - 数组
-    - 哈希表
-    - 排序
+    - Greedy
+    - Array
+    - Hash Table
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2007. 从双倍数组中还原原数组](https://leetcode.cn/problems/find-original-array-from-doubled-array)
+# [2007. Find Original Array From Doubled Array](https://leetcode.com/problems/find-original-array-from-doubled-array)
 
-[English Version](/solution/2000-2099/2007.Find%20Original%20Array%20From%20Doubled%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个整数数组&nbsp;<code>original</code>&nbsp;可以转变成一个 <strong>双倍</strong>&nbsp;数组&nbsp;<code>changed</code>&nbsp;，转变方式为将 <code>original</code>&nbsp;中每个元素 <strong>值乘以 2 </strong>加入数组中，然后将所有元素 <strong>随机打乱</strong>&nbsp;。</p>
+<p>An integer array <code>original</code> is transformed into a <strong>doubled</strong> array <code>changed</code> by appending <strong>twice the value</strong> of every element in <code>original</code>, and then randomly <strong>shuffling</strong> the resulting array.</p>
 
-<p>给你一个数组&nbsp;<code>changed</code>&nbsp;，如果&nbsp;<code>change</code>&nbsp;是&nbsp;<strong>双倍</strong>&nbsp;数组，那么请你返回&nbsp;<code>original</code>数组，否则请返回空数组。<code>original</code>&nbsp;的元素可以以&nbsp;<strong>任意</strong>&nbsp;顺序返回。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>changed = [1,3,4,2,6,8]
-<b>输出：</b>[1,3,4]
-<b>解释：</b>一个可能的 original 数组为 [1,3,4] :
-- 将 1 乘以 2 ，得到 1 * 2 = 2 。
-- 将 3 乘以 2 ，得到 3 * 2 = 6 。
-- 将 4 乘以 2 ，得到 4 * 2 = 8 。
-其他可能的原数组方案为 [4,3,1] 或者 [3,1,4] 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>changed = [6,3,0,1]
-<b>输出：</b>[]
-<b>解释：</b>changed 不是一个双倍数组。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><b>输入：</b>changed = [1]
-<b>输出：</b>[]
-<b>解释：</b>changed 不是一个双倍数组。
-</pre>
+<p>Given an array <code>changed</code>, return <code>original</code><em> if </em><code>changed</code><em> is a <strong>doubled</strong> array. If </em><code>changed</code><em> is not a <strong>doubled</strong> array, return an empty array. The elements in</em> <code>original</code> <em>may be returned in <strong>any</strong> order</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> changed = [1,3,4,2,6,8]
+<strong>Output:</strong> [1,3,4]
+<strong>Explanation:</strong> One possible original array could be [1,3,4]:
+- Twice the value of 1 is 1 * 2 = 2.
+- Twice the value of 3 is 3 * 2 = 6.
+- Twice the value of 4 is 4 * 2 = 8.
+Other original arrays could be [4,3,1] or [3,1,4].
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> changed = [6,3,0,1]
+<strong>Output:</strong> []
+<strong>Explanation:</strong> changed is not a doubled array.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> changed = [1]
+<strong>Output:</strong> []
+<strong>Explanation:</strong> changed is not a doubled array.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= changed.length &lt;= 10<sup>5</sup></code></li>
@@ -63,19 +61,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序
+### Solution 1: Sorting
 
-我们注意到，如果数组 `changed` 是一个双倍数组，那么数组 `changed` 中最小的元素也一定是原数组中的元素，因此，我们可以先对数组 `changed` 进行排序，然后以第一个元素作为起点，从小到大遍历数组 `changed`。
+We notice that if the array `changed` is a double array, then the smallest element in the array `changed` must also be an element in the original array. Therefore, we can first sort the array `changed`, and then start from the first element to traverse the array `changed` in ascending order.
 
-我们使用一个哈希表或数组 $cnt$ 来统计数组 `changed` 中每个元素的出现次数。对于数组 `changed` 中的每个元素 $x$，我们首先检查 $x$ 是否存在于 $cnt$ 中。如果不存在，我们直接跳过这个元素。否则，我们将 $cnt[x]$ 减一，并检查 $x \times 2$ 是否存在于 $cnt$ 中。如果不存在，我们直接返回一个空数组。否则，我们将 $cnt[x \times 2]$ 减一，并将 $x$ 加入答案数组中。
+We use a hash table or array $cnt$ to count the occurrence of each element in the array `changed`. For each element $x$ in the array `changed`, we first check whether $x$ exists in $cnt$. If it does not exist, we skip this element. Otherwise, we subtract one from $cnt[x]$, and check whether $x \times 2$ exists in $cnt$. If it does not exist, we return an empty array directly. Otherwise, we subtract one from $cnt[x \times 2]$, and add $x$ to the answer array.
 
-遍历结束后，返回答案数组即可。
+After the traversal, we return the answer array.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$，其中 $n$ 为数组 `changed` 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$, where $n$ is the length of the array `changed`.
 
 <!-- tabs:start -->
 

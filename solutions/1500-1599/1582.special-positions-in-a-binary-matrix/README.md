@@ -1,72 +1,67 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1582.Special%20Positions%20in%20a%20Binary%20Matrix/README.md
+difficulty: Easy
 rating: 1321
-source: 第 206 场周赛 Q1
+source: Weekly Contest 206 Q1
 tags:
-    - 数组
-    - 矩阵
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [1582. 二进制矩阵中的特殊位置](https://leetcode.cn/problems/special-positions-in-a-binary-matrix)
+# [1582. Special Positions in a Binary Matrix](https://leetcode.com/problems/special-positions-in-a-binary-matrix)
 
-[English Version](/solution/1500-1599/1582.Special%20Positions%20in%20a%20Binary%20Matrix/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个 <code>m x n</code> 的二进制矩阵 <code>mat</code>，返回矩阵 <code>mat</code> 中特殊位置的数量。</p>
+<p>Given an <code>m x n</code> binary matrix <code>mat</code>, return <em>the number of special positions in </em><code>mat</code><em>.</em></p>
 
-<p>如果位置 <code>(i, j)</code> 满足 <code>mat[i][j] == 1</code> 并且行 <code>i</code> 与列 <code>j</code> 中的所有其他元素都是 <code>0</code>（行和列的下标从 <strong>0 </strong>开始计数），那么它被称为<strong> 特殊 </strong>位置。</p>
+<p>A position <code>(i, j)</code> is called <strong>special</strong> if <code>mat[i][j] == 1</code> and all other elements in row <code>i</code> and column <code>j</code> are <code>0</code> (rows and columns are <strong>0-indexed</strong>).</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1582.Special%20Positions%20in%20a%20Binary%20Matrix/images/special1.jpg" style="width: 244px; height: 245px;" />
 <pre>
-<strong>输入：</strong>mat = [[1,0,0],[0,0,1],[1,0,0]]
-<strong>输出：</strong>1
-<strong>解释：</strong>位置 (1, 2) 是一个特殊位置，因为 mat[1][2] == 1 且第 1 行和第 2 列的其他所有元素都是 0。
+<strong>Input:</strong> mat = [[1,0,0],[0,0,1],[1,0,0]]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> (1, 2) is a special position because mat[1][2] == 1 and all other elements in row 1 and column 2 are 0.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1582.Special%20Positions%20in%20a%20Binary%20Matrix/images/special-grid.jpg" style="width: 244px; height: 245px;" />
 <pre>
-<strong>输入：</strong>mat = [[1,0,0],[0,1,0],[0,0,1]]
-<strong>输出：</strong>3
-<strong>解释：</strong>位置 (0, 0)，(1, 1) 和 (2, 2) 都是特殊位置。
+<strong>Input:</strong> mat = [[1,0,0],[0,1,0],[0,0,1]]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> (0, 0), (1, 1) and (2, 2) are special positions.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == mat.length</code></li>
 	<li><code>n == mat[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 100</code></li>
-	<li><code>mat[i][j]</code> 是 <code>0</code> 或 <code>1</code>。</li>
+	<li><code>mat[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们可以用两个数组 $\textit{rows}$ 和 $\textit{cols}$ 分别记录每一行和每一列的 $1$ 的个数。
+We can use two arrays, $\textit{rows}$ and $\textit{cols}$, to record the number of $1$s in each row and each column, respectively.
 
-然后遍历矩阵，对于每一个 $1$，检查其所在的行和列是否只有一个 $1$，如果是则答案加一。
+Then, we traverse the matrix. For each $1$, we check whether there is only one $1$ in its row and column. If so, we increment the answer by one.
 
-遍历结束后，返回答案即可。
+After the traversal, we return the answer.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别是矩阵 $\textit{mat}$ 的行数和列数。
+The time complexity is $O(m \times n)$, and the space complexity is $O(m + n)$. Here, $m$ and $n$ are the number of rows and columns of the matrix $\textit{mat}$, respectively.
 
 <!-- tabs:start -->
 
@@ -254,7 +249,7 @@ int numSpecial(int** mat, int matSize, int* matColSize) {
     }
 
     return ans;
-}
+
 ```
 
 <!-- tabs:end -->

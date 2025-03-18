@@ -1,92 +1,80 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2062.Count%20Vowel%20Substrings%20of%20a%20String/README.md
+difficulty: Easy
 rating: 1458
-source: 第 266 场周赛 Q1
+source: Weekly Contest 266 Q1
 tags:
-    - 哈希表
-    - 字符串
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2062. 统计字符串中的元音子字符串](https://leetcode.cn/problems/count-vowel-substrings-of-a-string)
+# [2062. Count Vowel Substrings of a String](https://leetcode.com/problems/count-vowel-substrings-of-a-string)
 
-[English Version](/solution/2000-2099/2062.Count%20Vowel%20Substrings%20of%20a%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong>子字符串</strong> 是字符串中的一个连续（非空）的字符序列。</p>
+<p>A <strong>substring</strong> is a contiguous (non-empty) sequence of characters within a string.</p>
 
-<p><strong>元音子字符串</strong> 是 <strong>仅</strong> 由元音（<code>'a'</code>、<code>'e'</code>、<code>'i'</code>、<code>'o'</code> 和 <code>'u'</code>）组成的一个子字符串，且必须包含 <strong>全部五种</strong> 元音。</p>
+<p>A <strong>vowel substring</strong> is a substring that <strong>only</strong> consists of vowels (<code>&#39;a&#39;</code>, <code>&#39;e&#39;</code>, <code>&#39;i&#39;</code>, <code>&#39;o&#39;</code>, and <code>&#39;u&#39;</code>) and has <strong>all five</strong> vowels present in it.</p>
 
-<p>给你一个字符串 <code>word</code> ，统计并返回 <code>word</code> 中 <strong>元音子字符串的数目</strong> 。</p>
+<p>Given a string <code>word</code>, return <em>the number of <strong>vowel substrings</strong> in</em> <code>word</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>word = "aeiouu"
-<strong>输出：</strong>2
-<strong>解释：</strong>下面列出 word 中的元音子字符串（斜体加粗部分）：
-- "<em><strong>aeiou</strong></em>u"
-- "<strong><em>aeiouu</em></strong>"
+<strong>Input:</strong> word = &quot;aeiouu&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The vowel substrings of word are as follows (underlined):
+- &quot;<strong><u>aeiou</u></strong>u&quot;
+- &quot;<strong><u>aeiouu</u></strong>&quot;
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>word = "unicornarihan"
-<strong>输出：</strong>0
-<strong>解释：</strong>word 中不含 5 种元音，所以也不会存在元音子字符串。
+<strong>Input:</strong> word = &quot;unicornarihan&quot;
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> Not all 5 vowels are present, so there are no vowel substrings.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>word = "cuaieuouac"
-<strong>输出：</strong>7
-<strong>解释：</strong>下面列出 word 中的元音子字符串（斜体加粗部分）：
-- "c<em><strong>uaieuo</strong></em>uac"
-- "c<em><strong>uaieuou</strong></em>ac"
-- "c<em><strong>uaieuoua</strong></em>c"
-- "cu<em><strong>aieuo</strong></em>uac"
-- "cu<em><strong>aieuou</strong></em>ac"
-- "cu<em><strong>aieuoua</strong></em>c"
-- "cua<em><strong>ieuoua</strong></em>c"</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>word = "bbaeixoubb"
-<strong>输出：</strong>0
-<strong>解释：</strong>所有包含全部五种元音的子字符串都含有辅音，所以不存在元音子字符串。
+<strong>Input:</strong> word = &quot;cuaieuouac&quot;
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> The vowel substrings of word are as follows (underlined):
+- &quot;c<strong><u>uaieuo</u></strong>uac&quot;
+- &quot;c<strong><u>uaieuou</u></strong>ac&quot;
+- &quot;c<strong><u>uaieuoua</u></strong>c&quot;
+- &quot;cu<strong><u>aieuo</u></strong>uac&quot;
+- &quot;cu<strong><u>aieuou</u></strong>ac&quot;
+- &quot;cu<strong><u>aieuoua</u></strong>c&quot;
+- &quot;cua<strong><u>ieuoua</u></strong>c&quot;
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= word.length &lt;= 100</code></li>
-	<li><code>word</code> 仅由小写英文字母组成</li>
+	<li><code>word</code> consists of lowercase English letters only.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：暴力枚举 + 哈希表
+### Solution 1: Brute Force Enumeration + Hash Table
 
-我们可以枚举子字符串的左端点 $i$，对于当前左端点，维护一个哈希表，记录当前子字符串中出现的元音字母，然后枚举右端点 $j$，如果当前右端点对应的字母不是元音字母，则跳出循环，否则将当前右端点对应的字母加入哈希表，如果哈希表中的元素个数为 $5$，则说明当前子字符串是一个元音子字符串，将结果加 $1$。
+We can enumerate the left endpoint $i$ of the substring. For the current left endpoint, maintain a hash table to record the vowels that appear in the current substring. Then enumerate the right endpoint $j$. If the character at the current right endpoint is not a vowel, break the loop. Otherwise, add the character at the current right endpoint to the hash table. If the number of elements in the hash table is $5$, it means the current substring is a vowel substring, and increment the result by $1$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(C)$。其中 $n$ 为字符串 $word$ 的长度；而 $C$ 为字符集大小，本题中 $C=5$。
+The time complexity is $O(n^2)$, and the space complexity is $O(C)$. Here, $n$ is the length of the string $word$, and $C$ is the size of the character set, which is $5$ in this problem.
 
 <!-- tabs:start -->
 

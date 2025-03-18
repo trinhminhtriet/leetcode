@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1107.New%20Users%20Daily%20Count/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1107. 每日新用户统计 🔒](https://leetcode.cn/problems/new-users-daily-count)
+# [1107. New Users Daily Count 🔒](https://leetcode.com/problems/new-users-daily-count)
 
-[English Version](/solution/1100-1199/1107.New%20Users%20Daily%20Count/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><code>Traffic</code>&nbsp;表：</p>
+<p>Table: <code>Traffic</code></p>
 
 <pre>
 +---------------+---------+
@@ -26,28 +23,24 @@ tags:
 | activity      | enum    |
 | activity_date | date    |
 +---------------+---------+
-该表可能有重复的行。
-activity 列是 ENUM 类型，可能取 ('login', 'logout', 'jobs', 'groups', 'homepage') 几个值之一。
-
+This table may have duplicate rows.
+The activity column is an ENUM (category) type of (&#39;login&#39;, &#39;logout&#39;, &#39;jobs&#39;, &#39;groups&#39;, &#39;homepage&#39;).
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案，找出从今天起最多 90 天内，每个日期该日期首次登录的用户数。假设今天是&nbsp;<strong>2019-06-30 </strong>。</p>
+<p>Write a solution to reports for every date within at most <code>90</code> days from today, the number of users that logged in for the first time on that date. Assume today is <code>2019-06-30</code>.</p>
 
-<p>以 <strong>任意顺序</strong> 返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果格式如下所示。</p>
-
-<p>&nbsp;</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Traffic 表：
+<strong>Input:</strong> 
+Traffic table:
 +---------+----------+---------------+
 | user_id | activity | activity_date |
 +---------+----------+---------------+
@@ -67,25 +60,25 @@ Traffic 表：
 | 5       | login    | 2019-06-21    |
 | 5       | logout   | 2019-06-21    |
 +---------+----------+---------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +------------+-------------+
 | login_date | user_count  |
 +------------+-------------+
 | 2019-05-01 | 1           |
 | 2019-06-21 | 2           |
 +------------+-------------+
-<strong>解释：</strong>
-请注意，我们只关心用户数非零的日期.
-ID 为 5 的用户第一次登陆于 2019-03-01，因此他不算在 2019-06-21 的的统计内。
+<strong>Explanation:</strong> 
+Note that we only care about dates with non zero user count.
+The user with id 5 first logged in on 2019-03-01 so he&#39;s not counted on 2019-06-21.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

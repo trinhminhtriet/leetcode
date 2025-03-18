@@ -1,52 +1,49 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2231.Largest%20Number%20After%20Digit%20Swaps%20by%20Parity/README.md
+difficulty: Easy
 rating: 1365
-source: 第 288 场周赛 Q1
+source: Weekly Contest 288 Q1
 tags:
-    - 排序
-    - 堆（优先队列）
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2231. 按奇偶性交换后的最大数字](https://leetcode.cn/problems/largest-number-after-digit-swaps-by-parity)
+# [2231. Largest Number After Digit Swaps by Parity](https://leetcode.com/problems/largest-number-after-digit-swaps-by-parity)
 
-[English Version](/solution/2200-2299/2231.Largest%20Number%20After%20Digit%20Swaps%20by%20Parity/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数 <code>num</code> 。你可以交换 <code>num</code> 中 <strong>奇偶性</strong> 相同的任意两位数字（即，都是奇数或者偶数）。</p>
+<p>You are given a positive integer <code>num</code>. You may swap any two digits of <code>num</code> that have the same <strong>parity</strong> (i.e. both odd digits or both even digits).</p>
 
-<p>返回交换 <strong>任意</strong> 次之后 <code>num</code> 的 <strong>最大</strong> 可能值<em>。</em></p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>num = 1234
-<strong>输出：</strong>3412
-<strong>解释：</strong>交换数字 3 和数字 1 ，结果得到 3214 。
-交换数字 2 和数字 4 ，结果得到 3412 。
-注意，可能存在其他交换序列，但是可以证明 3412 是最大可能值。
-注意，不能交换数字 4 和数字 1 ，因为它们奇偶性不同。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>num = 65875
-<strong>输出：</strong>87655
-<strong>解释：</strong>交换数字 8 和数字 6 ，结果得到 85675 。
-交换数字 5 和数字 7 ，结果得到 87655 。
-注意，可能存在其他交换序列，但是可以证明 87655 是最大可能值。
-</pre>
+<p>Return<em> the <strong>largest</strong> possible value of </em><code>num</code><em> after <strong>any</strong> number of swaps.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> num = 1234
+<strong>Output:</strong> 3412
+<strong>Explanation:</strong> Swap the digit 3 with the digit 1, this results in the number 3214.
+Swap the digit 2 with the digit 4, this results in the number 3412.
+Note that there may be other sequences of swaps but it can be shown that 3412 is the largest possible number.
+Also note that we may not swap the digit 4 with the digit 1 since they are of different parities.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> num = 65875
+<strong>Output:</strong> 87655
+<strong>Explanation:</strong> Swap the digit 8 with the digit 6, this results in the number 85675.
+Swap the first digit 5 with the digit 7, this results in the number 87655.
+Note that there may be other sequences of swaps but it can be shown that 87655 is the largest possible number.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num &lt;= 10<sup>9</sup></code></li>
@@ -54,17 +51,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们可以用一个长度为 $10$ 的数组 $\textit{cnt}$ 统计整数 $\textit{num}$ 中所有数字出现的次数，用一个下标数组 $\textit{idx}$ 记录当前最大可用偶数和奇数，初始时 $\textit{idx}$ 为 $[8, 9]$。
+We can use an array $\textit{cnt}$ of length $10$ to count the occurrences of each digit in the integer $\textit{num}$. We also use an index array $\textit{idx}$ to record the largest available even and odd digits, initially set to $[8, 9]$.
 
-接下来，我们依次遍历整数 $\textit{num}$ 的每个数字，如果数字为奇数，则取 $\textit{idx}$ 下标为 $1$ 对应的数字，否则取下标为 $0$ 对应的数字。如果该数字出现的次数为 $0$，则需要将数字减 $2$，继续判断，直到存在满足条件的数。然后，我们更新答案，以及数字出现的次数，继续遍历，直到遍历到整数 $\textit{num}$。
+Next, we traverse each digit of the integer $\textit{num}$. If the digit is odd, we take the digit corresponding to index $1$ in $\textit{idx}$; otherwise, we take the digit corresponding to index $0$. If the count of the digit is $0$, we decrement the digit by $2$ and continue checking until we find a digit that meets the condition. Then, we update the answer and the count of the digit, and continue traversing until we have processed all digits of the integer $\textit{num}$.
 
-时间复杂度 $O(\log \textit{num})$，空间复杂度 $O(\log \textit{num})$。
+The time complexity is $O(\log \textit{num})$, and the space complexity is $O(\log \textit{num})$.
 
 <!-- tabs:start -->
 
@@ -191,12 +188,6 @@ function largestInteger(num: number): number {
 ```
 
 <!-- tabs:end -->
-
-<!-- solution:end -->
-
-<!-- solution:start -->
-
-### 方法二：分组 + 排序
 
 <!-- solution:end -->
 

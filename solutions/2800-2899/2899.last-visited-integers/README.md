@@ -1,90 +1,99 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2899.Last%20Visited%20Integers/README.md
+difficulty: Easy
 rating: 1372
-source: 第 115 场双周赛 Q1
+source: Biweekly Contest 115 Q1
 tags:
-    - 数组
-    - 模拟
+    - Array
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2899. 上一个遍历的整数](https://leetcode.cn/problems/last-visited-integers)
+# [2899. Last Visited Integers](https://leetcode.com/problems/last-visited-integers)
 
-[English Version](/solution/2800-2899/2899.Last%20Visited%20Integers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;，其中&nbsp;<code>nums[i]</code>&nbsp;要么是一个正整数，要么是&nbsp;<code>-1</code>&nbsp;。我们需要为每个 <code>-1</code> 找到相应的正整数，我们称之为最后访问的整数。</p>
+<p>Given an integer array <code>nums</code> where <code>nums[i]</code> is either a positive integer or <code>-1</code>. We need to find for each <code>-1</code> the respective positive integer, which we call the last visited integer.</p>
 
-<p>为了达到这个目标，定义两个空数组：<code>seen</code>&nbsp;和&nbsp;<code>ans</code>。</p>
+<p>To achieve this goal, let&#39;s define two empty arrays: <code>seen</code> and <code>ans</code>.</p>
 
-<p>从数组&nbsp;<code>nums</code>&nbsp;的头部开始遍历。</p>
+<p>Start iterating from the beginning of the array <code>nums</code>.</p>
 
 <ul>
-	<li>如果遇到正整数，把它添加到&nbsp;<code>seen</code>&nbsp;的&nbsp;<strong>头部</strong>。</li>
-	<li>如果遇到 <code>-1</code>，则设 <code>k</code> 是到目前为止看到的 <strong>连续</strong> <code>-1</code> 的数目(包括当前 <code>-1</code>)，
+	<li>If a positive integer is encountered, prepend it to the <strong>front</strong> of <code>seen</code>.</li>
+	<li>If <code>-1</code>&nbsp;is encountered, let <code>k</code> be the number of <strong>consecutive</strong> <code>-1</code>s seen so far (including the current <code>-1</code>),
 	<ul>
-		<li>如果&nbsp;<code>k</code>&nbsp;小于等于&nbsp;<code>seen</code>&nbsp;的长度，把&nbsp;<code>seen</code>&nbsp;的第&nbsp;<code>k</code>&nbsp;个元素添加到&nbsp;<code>ans</code>。</li>
-		<li>如果&nbsp;<code>k</code>&nbsp;严格大于&nbsp;<code>seen</code>&nbsp;的长度，把&nbsp;<code>-1</code>&nbsp;添加到&nbsp;<code>ans</code>。</li>
+		<li>If <code>k</code> is less than or equal to the length of <code>seen</code>, append the <code>k</code>-th element of <code>seen</code> to <code>ans</code>.</li>
+		<li>If <code>k</code> is strictly greater than the length of <code>seen</code>, append <code>-1</code> to <code>ans</code>.</li>
 	</ul>
 	</li>
 </ul>
 
-<p>请你返回数组&nbsp;<code>ans</code>。</p>
+<p>Return the array<em> </em><code>ans</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong class="example">示例 1：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,-1,-1,-1]</span></p>
 
-<pre>
-<b>输入：</b>nums = [1,2,-1,-1,-1]
-<b>输出：</b>[2,1,-1]
-<b>解释：</b> 开始时 seen = [] 且 ans = []。
-1.处理 nums[0]：nums 中的第一个元素是 1。我们将其放在 seen 的前面。现在，seen == [1]。
-2.处理 nums[1]：下一个元素是 2。我们将其放在 seen 的前面。现在，seen == [2, 1]。
-3.处理 nums[2]：下一个元素是 -1。这是 -1 的第一次出现，所以 k == 1。我们找到 seen 中的第一个元素，把 2 添加到 ans。现在，ans == [2]。
-4.处理 nums[3]：又一个 -1。这是 -1 的第二次出现，所以 k == 2。seen 中的第二个元素是 1，所以我们把 1 添加到 ans。现在，ans == [2, 1]。
-5.处理 nums[4]：又一个 -1。第三次出现，让 k = 3。然而，seen 中只有两个元素（[2, 1]）。因为 k 比 seen 中的元素数量更大，我们把 -1 添加到 ans。最终，ans == [2, 1, -1]。
-</pre>
+<p><strong>Output:</strong> <span class="example-io">[2,1,-1]</span></p>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<pre>
-<b>输入：</b>nums = [1,-1,2,-1,-1]
-<b>输出：</b>[1,2,1]
-<strong>解释：</strong> 开始时 seen = [] 且 ans = []。
-1.处理 nums[0]：nums 中的第一个元素是 1。我们将其放在 seen 的前面。现在，seen == [1]。
-2.处理 nums[1]：下一个元素是 -1。这是 -1 的第一次出现，所以 k == 1。我们找到 seen 中的第一个元素，即 1。把 1 添加到 ans。现在，ans == [1]。
-3.处理 nums[2]：下一个元素是 2。我们将其放在 seen 的前面。现在，seen == [2, 1]。
-4.处理 nums[3]：下一个元素是 -1。这个 -1 与 第一个 -1 不连续，因为中间有个 2。因此，k 重置为 1。seen 中的第一个元素是 2，所以我们把 2 添加到 ans。现在，ans == [1, 2]。
-5.处理 nums[4]：又一个 -1。它与前一个 -1 相邻，所以 k == 2。seen 中的第 2 个元素是 1。把 1 添加到 ans。最终，ans == [1, 2, 1]。
-</pre>
+<p>Start with <code>seen = []</code> and <code>ans = []</code>.</p>
+
+<ol>
+	<li>Process <code>nums[0]</code>: The first element in nums is <code>1</code>. We prepend it to the front of <code>seen</code>. Now, <code>seen == [1]</code>.</li>
+	<li>Process <code>nums[1]</code>: The next element is <code>2</code>. We prepend it to the front of <code>seen</code>. Now, <code>seen == [2, 1]</code>.</li>
+	<li>Process <code>nums[2]</code>: The next element is <code>-1</code>. This is the first occurrence of <code>-1</code>, so <code>k == 1</code>. We look for the first element in seen. We append <code>2</code> to <code>ans</code>. Now, <code>ans == [2]</code>.</li>
+	<li>Process <code>nums[3]</code>: Another <code>-1</code>. This is the second consecutive <code>-1</code>, so <code>k == 2</code>. The second element in <code>seen</code> is <code>1</code>, so we append <code>1</code> to <code>ans</code>. Now, <code>ans == [2, 1]</code>.</li>
+	<li>Process <code>nums[4]</code>: Another <code>-1</code>, the third in a row, making <code>k = 3</code>. However, <code>seen</code> only has two elements (<code>[2, 1]</code>). Since <code>k</code> is greater than the number of elements in <code>seen</code>, we append <code>-1</code> to <code>ans</code>. Finally, <code>ans == [2, 1, -1]</code>.</li>
+</ol>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,-1,2,-1,-1]</span></p>
+
+<p><strong>Output:</strong><span class="example-io"> [1,2,1]</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>Start with <code>seen = []</code> and <code>ans = []</code>.</p>
+
+<ol>
+	<li>Process <code>nums[0]</code>: The first element in nums is <code>1</code>. We prepend it to the front of <code>seen</code>. Now, <code>seen == [1]</code>.</li>
+	<li>Process <code>nums[1]</code>: The next element is <code>-1</code>. This is the first occurrence of <code>-1</code>, so <code>k == 1</code>. We look for the first element in <code>seen</code>, which is <code>1</code>. Append <code>1</code> to <code>ans</code>. Now, <code>ans == [1]</code>.</li>
+	<li>Process <code>nums[2]</code>: The next element is <code>2</code>. Prepend this to the front of <code>seen</code>. Now, <code>seen == [2, 1]</code>.</li>
+	<li>Process <code>nums[3]</code>: The next element is <code>-1</code>. This <code>-1</code> is not consecutive to the first <code>-1</code> since <code>2</code> was in between. Thus, <code>k</code> resets to <code>1</code>. The first element in <code>seen</code> is <code>2</code>, so append <code>2</code> to <code>ans</code>. Now, <code>ans == [1, 2]</code>.</li>
+	<li>Process <code>nums[4]</code>: Another <code>-1</code>. This is consecutive to the previous <code>-1</code>, so <code>k == 2</code>. The second element in <code>seen</code> is <code>1</code>, append <code>1</code> to <code>ans</code>. Finally, <code>ans == [1, 2, 1]</code>.</li>
+</ol>
+</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
-	<li><code>nums[i] == -1</code>&nbsp;或&nbsp;<code>1 &lt;= nums[i]&nbsp;&lt;= 100</code></li>
+	<li><code>nums[i] == -1</code> or <code>1 &lt;= nums[i]&nbsp;&lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们直接根据题意模拟即可。在实现上，我们使用一个数组 $nums$ 来存储遍历过的整数，使用一个整数 $k$ 来记录当前连续的 $prev$ 字符串数目。如果当前字符串是 $prev$，那么我们就从 $nums$ 中取出第 $|nums| - k$ 个整数，如果不存在，那么就返回 $-1$。
+We can directly simulate according to the problem statement. In the implementation, we use an array $nums$ to store the traversed integers, and an integer $k$ to record the current number of consecutive $prev$ strings. If the current string is $prev$, we take out the $|nums| - k-th$ integer from $nums$. If it does not exist, we return $-1$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $words$ 的长度。
+The time complexity is $O(n)$, where $n$ is the length of the array $words$. The space complexity is $O(n)$.
 
 <!-- tabs:start -->
 

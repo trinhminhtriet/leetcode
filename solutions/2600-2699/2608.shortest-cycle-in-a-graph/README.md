@@ -1,49 +1,46 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2608.Shortest%20Cycle%20in%20a%20Graph/README.md
+difficulty: Hard
 rating: 1904
-source: 第 101 场双周赛 Q4
+source: Biweekly Contest 101 Q4
 tags:
-    - 广度优先搜索
-    - 图
+    - Breadth-First Search
+    - Graph
 ---
 
 <!-- problem:start -->
 
-# [2608. 图中的最短环](https://leetcode.cn/problems/shortest-cycle-in-a-graph)
+# [2608. Shortest Cycle in a Graph](https://leetcode.com/problems/shortest-cycle-in-a-graph)
 
-[English Version](/solution/2600-2699/2608.Shortest%20Cycle%20in%20a%20Graph/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>现有一个含 <code>n</code> 个顶点的 <strong>双向</strong> 图，每个顶点按从 <code>0</code> 到 <code>n - 1</code> 标记。图中的边由二维整数数组 <code>edges</code> 表示，其中 <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> 表示顶点 <code>u<sub>i</sub></code> 和 <code>v<sub>i</sub></code> 之间存在一条边。每对顶点最多通过一条边连接，并且不存在与自身相连的顶点。</p>
+<p>There is a <strong>bi-directional </strong>graph with <code>n</code> vertices, where each vertex is labeled from <code>0</code> to <code>n - 1</code>. The edges in the graph are represented by a given 2D integer array <code>edges</code>, where <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> denotes an edge between vertex <code>u<sub>i</sub></code> and vertex <code>v<sub>i</sub></code>. Every vertex pair is connected by at most one edge, and no vertex has an edge to itself.</p>
 
-<p>返回图中 <strong>最短</strong> 环的长度。如果不存在环，则返回 <code>-1</code> 。</p>
+<p>Return <em>the length of the <strong>shortest </strong>cycle in the graph</em>. If no cycle exists, return <code>-1</code>.</p>
 
-<p><strong>环</strong> 是指以同一节点开始和结束，并且路径中的每条边仅使用一次。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2608.Shortest%20Cycle%20in%20a%20Graph/images/cropped.png" style="width: 387px; height: 331px;">
-<pre><strong>输入：</strong>n = 7, edges = [[0,1],[1,2],[2,0],[3,4],[4,5],[5,6],[6,3]]
-<strong>输出：</strong>3
-<strong>解释：</strong>长度最小的循环是：0 -&gt; 1 -&gt; 2 -&gt; 0 
-</pre>
-
-<p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2608.Shortest%20Cycle%20in%20a%20Graph/images/croppedagin.png" style="width: 307px; height: 307px;">
-<pre><strong>输入：</strong>n = 4, edges = [[0,1],[0,2]]
-<strong>输出：</strong>-1
-<strong>解释：</strong>图中不存在循环
-</pre>
+<p>A cycle is a path that starts and ends at the same node, and each edge in the path is used only once.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2608.Shortest%20Cycle%20in%20a%20Graph/images/cropped.png" style="width: 387px; height: 331px;" />
+<pre>
+<strong>Input:</strong> n = 7, edges = [[0,1],[1,2],[2,0],[3,4],[4,5],[5,6],[6,3]]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The cycle with the smallest length is : 0 -&gt; 1 -&gt; 2 -&gt; 0 
+</pre>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2608.Shortest%20Cycle%20in%20a%20Graph/images/croppedagin.png" style="width: 307px; height: 307px;" />
+<pre>
+<strong>Input:</strong> n = 4, edges = [[0,1],[0,2]]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> There are no cycles in this graph.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 1000</code></li>
@@ -51,22 +48,22 @@ tags:
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>0 &lt;= u<sub>i</sub>, v<sub>i</sub> &lt; n</code></li>
 	<li><code>u<sub>i</sub> != v<sub>i</sub></code></li>
-	<li>不存在重复的边</li>
+	<li>There are no repeated edges.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举删除的边 + BFS
+### Solution 1: Enumerate edges + BFS
 
-我们先根据数组 $edges$ 构建出邻接表 $g$，其中 $g[u]$ 表示顶点 $u$ 的所有邻接点。
+We first construct the adjacency list $g$ of the graph according to the array $edges$, where $g[u]$ represents all the adjacent vertices of vertex $u$.
 
-接下来，我们枚举双向边 $(u, v)$，如果删除该边后，从顶点 $u$ 到顶点 $v$ 的路径依然存在，则包含该边的最短环的长度为 $dist[v] + 1$，其中 $dist[v]$ 表示从顶点 $u$ 到顶点 $v$ 的最短路径长度。我们取所有这样的环的最小值即可。
+Then we enumerate the two-directional edge $(u, v)$, if the path from vertex $u$ to vertex $v$ still exists after deleting this edge, then the length of the shortest cycle containing this edge is $dist[v] + 1$, where $dist[v]$ represents the shortest path length from vertex $u$ to vertex $v$. We take the minimum of all these cycles.
 
-时间复杂度 $O(m^2)$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别为数组 $edges$ 的长度以及顶点数。
+The time complexity is $O(m^2)$ and the space complexity is $O(m + n)$, where $m$ and $n$ are the length of the array $edges$ and the number of vertices.
 
 <!-- tabs:start -->
 
@@ -263,13 +260,13 @@ function findShortestCycle(n: number, edges: number[][]): number {
 
 <!-- solution:start -->
 
-### 方法二：枚举点 + BFS
+### Solution 2: Enumerate points + BFS
 
-与方法一类似，我们先根据数组 $edges$ 构建出邻接表 $g$，其中 $g[u]$ 表示顶点 $u$ 的所有邻接点。
+Similar to Solution 1, we first construct the adjacency list $g$ of the graph according to the array $edges$, where $g[u]$ represents all the adjacent vertices of vertex $u$.
 
-接下来，我们枚举顶点 $u$，如果从顶点 $u$ 出发，有两条路径都到达了顶点 $v$，说明当前找到了一个环，长度为两条路径的长度之和。我们取所有这样的环的最小值即可。
+Then we enumerate the vertex $u$, if there are two paths from vertex $u$ to vertex $v$, then we currently find a cycle, the length is the sum of the length of the two paths. We take the minimum of all these cycles.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别为数组 $edges$ 的长度以及顶点数。
+The time complexity is $O(m \times n)$ and the space complexity is $O(m + n)$, where $m$ and $n$ are the length of the array $edges$ and the number of vertices.
 
 <!-- tabs:start -->
 

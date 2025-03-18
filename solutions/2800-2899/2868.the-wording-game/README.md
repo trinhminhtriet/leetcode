@@ -1,119 +1,103 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2868.The%20Wording%20Game/README.md
+difficulty: Hard
 tags:
-    - 贪心
-    - 数组
-    - 数学
-    - 双指针
-    - 字符串
-    - 博弈
+    - Greedy
+    - Array
+    - Math
+    - Two Pointers
+    - String
+    - Game Theory
 ---
 
 <!-- problem:start -->
 
-# [2868. 单词游戏 🔒](https://leetcode.cn/problems/the-wording-game)
+# [2868. The Wording Game 🔒](https://leetcode.com/problems/the-wording-game)
 
-[English Version](/solution/2800-2899/2868.The%20Wording%20Game/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>Alice 和 Bob 分别拥有一个&nbsp;<strong>按字典序排序&nbsp;</strong>的字符串数组，分别命名为 <code>a</code>&nbsp;和 <code>b</code>。</p>
+<p>Alice and Bob each have a <strong>lexicographically sorted</strong> array of strings named <code>a</code> and <code>b</code> respectively.</p>
 
-<p>他们正在玩一个单词游戏，遵循以下规则：</p>
-
-<ul>
-	<li>每一轮，当前玩家应该从他的列表中选择一个单词，并且选择的单词比上一个单词 <strong>紧邻大</strong>；然后轮到另一名玩家。</li>
-	<li>如果一名玩家在自己的回合中无法选择单词，则输掉比赛。</li>
-</ul>
-
-<p>Alice 通过选择在 <strong>字典序最小</strong> 的单词开始游戏。</p>
-
-<p>给定 <code>a</code> 和 <code>b</code>，已知两名玩家都按最佳策略玩游戏，如果 Alice 可以获胜，则返回 <code>true</code>&nbsp;，否则返回 <code>false</code>。</p>
-
-<p>如果满足以下条件，则称一个单词 <code>w</code>&nbsp;比另一个单词 <code>z</code>&nbsp;<strong>紧邻大</strong>：</p>
+<p>They are playing a wording game with the following rules:</p>
 
 <ul>
-	<li><code>w</code> 在&nbsp;<strong>字典序上大于</strong> <code>z</code>。</li>
-	<li>如果 <code>w<sub>1</sub></code> 是 <code>w</code> 的第一个字母，<code>z<sub>1</sub></code> 是 <code>z</code> 的第一个字母，那么 <code>w<sub>1</sub></code> 应该 <strong>等于</strong> <code>z<sub>1</sub></code> 或者是字母表中 <code>z<sub>1</sub></code> <strong>后面相邻&nbsp;</strong>的字母。</li>
-	<li>例如，单词 <code>"care"</code>&nbsp;比&nbsp;<code>"book"</code> 和 <code>"car"</code>&nbsp;紧邻大，但不比&nbsp;<code>"ant"</code> 或 <code>"cook"</code>&nbsp;紧邻大。</li>
+	<li>On each turn, the current player should play a word from their list such that the new word is <strong>closely greater</strong> than the last played word; then it&#39;s the other player&#39;s turn.</li>
+	<li>If a player can&#39;t play a word on their turn, they lose.</li>
 </ul>
 
-<p>如果在 <code>s</code> 和 <code>t</code> 不同的第一个位置处，字符串 <code>s</code>&nbsp;的字母比字符串 <code>t</code>&nbsp;的字母在字母表中的顺序更靠后，则称为字符串 <code>s</code> 在 <strong>字典序上大于</strong> 字符串 <code>t</code>。如果前 <code>min(s.length, t.length)</code> 个字符没有区别，那么较长的字符串是在字典序上较大的那一个。</p>
+<p>Alice starts the game by playing her <strong>lexicographically </strong><strong>smallest </strong>word.</p>
+
+<p>Given <code>a</code> and <code>b</code>, return <code>true</code> <em>if Alice can win knowing that both players play their best, and</em> <code>false</code> <em>otherwise.</em></p>
+
+<p>A word <code>w</code> is <strong>closely greater</strong> than a word <code>z</code> if the following conditions are met:</p>
+
+<ul>
+	<li><code>w</code> is <strong>lexicographically greater</strong> than <code>z</code>.</li>
+	<li>If <code>w<sub>1</sub></code> is the first letter of <code>w</code> and <code>z<sub>1</sub></code> is the first letter of <code>z</code>, <code>w<sub>1</sub></code> should either be <strong>equal</strong> to <code>z<sub>1</sub></code> or be the <strong>letter after</strong> <code>z<sub>1</sub></code> in the alphabet.</li>
+	<li>For example, the word <code>&quot;care&quot;</code> is closely greater than <code>&quot;book&quot;</code> and <code>&quot;car&quot;</code>, but is not closely greater than <code>&quot;ant&quot;</code> or <code>&quot;cook&quot;</code>.</li>
+</ul>
+
+<p>A string <code>s</code> is <b>lexicographically </b><strong>greater</strong> than a string <code>t</code> if in the first position where <code>s</code> and <code>t</code> differ, string <code>s</code> has a letter that appears later in the alphabet than the corresponding letter in <code>t</code>. If the first <code>min(s.length, t.length)</code> characters do not differ, then the longer string is the lexicographically greater one.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入:</strong> a = ["avokado","dabar"], b = ["brazil"]
-
-<strong>输出:</strong> false
-
-<strong>解释:</strong> Alice 必须从单词 "avokado" 来开始游戏，因为这是她最小的单词，然后 Bob 使用他唯一的单词 "brazil"，他可以使用它因为它的第一个字母 'b' 在 Alice 的单词的第一个字母 'a' 之后。
-
-Alice 无法出牌，因为剩下的唯一单词的第一个字母既不等于 'b' 也不是 'b' 之后的字母 'c'。
-
-所以，Alice 输了，游戏结束。</pre>
-
-<strong>示例 2：</strong>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> a = ["ananas","atlas","banana"], b = ["albatros","cikla","nogomet"]
+<strong>Input:</strong> a = [&quot;avokado&quot;,&quot;dabar&quot;], b = [&quot;brazil&quot;]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> Alice must start the game by playing the word &quot;avokado&quot; since it&#39;s her smallest word, then Bob plays his only word, &quot;brazil&quot;, which he can play because its first letter, &#39;b&#39;, is the letter after Alice&#39;s word&#39;s first letter, &#39;a&#39;.
+Alice can&#39;t play a word since the first letter of the only word left is not equal to &#39;b&#39; or the letter after &#39;b&#39;, &#39;c&#39;.
+So, Alice loses, and the game ends.</pre>
 
-<strong>输出:</strong> true
-
-<strong>解释:</strong> Alice 必须从单词 "ananas" 来开始游戏。
-
-Bob 无法出牌，因为他唯一拥有的以字母 'a' 或 'b' 开头的单词是 "albatros"，而它比 Alice 的单词小。
-
-所以，Alice 获胜，游戏结束。</pre>
-
-<strong>示例 3：</strong>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> a = ["hrvatska","zastava"], b = ["bijeli","galeb"]
+<strong>Input:</strong> a = [&quot;ananas&quot;,&quot;atlas&quot;,&quot;banana&quot;], b = [&quot;albatros&quot;,&quot;cikla&quot;,&quot;nogomet&quot;]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Alice must start the game by playing the word &quot;ananas&quot;.
+Bob can&#39;t play a word since the only word he has that starts with the letter &#39;a&#39; or &#39;b&#39; is &quot;albatros&quot;, which is smaller than Alice&#39;s word.
+So Alice wins, and the game ends.</pre>
 
-<strong>输出:</strong> true
+<p><strong class="example">Example 3:</strong></p>
 
-<strong>解释:</strong> Alice 必须从单词 "hrvatska" 来开始游戏。
-
-Bob 无法出牌，因为他的两个单词的第一个字母都比 Alice 的单词的第一个字母 'h' 小。
-
-所以，Alice 获胜，游戏结束。</pre>
+<pre>
+<strong>Input:</strong> a = [&quot;hrvatska&quot;,&quot;zastava&quot;], b = [&quot;bijeli&quot;,&quot;galeb&quot;]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Alice must start the game by playing the word &quot;hrvatska&quot;.
+Bob can&#39;t play a word since the first letter of both of his words are smaller than the first letter of Alice&#39;s word, &#39;h&#39;.
+So Alice wins, and the game ends.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>约束条件：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= a.length, b.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>a[i]</code> 和 <code>b[i]</code> 仅包含小写英文字母。</li>
-	<li><code>a</code> 和 <code>b</code> 按 <strong>字典序排序</strong>。</li>
-	<li><code>a</code> 和 <code>b</code> 中所有的单词都是&nbsp;<strong>不同的</strong>。</li>
-	<li><code>a</code> 和 <code>b</code> 中所有单词的长度之和不超过 <code>10<sup>6</sup></code>。</li>
+	<li><code>a[i]</code> and <code>b[i]</code> consist only of lowercase English letters.</li>
+	<li><code>a</code> and <code>b</code> are <strong>lexicographically sorted</strong>.</li>
+	<li>All the words in <code>a</code> and <code>b</code> combined are <strong>distinct</strong>.</li>
+	<li>The sum of the lengths of all the words in <code>a</code> and <code>b</code> combined does not exceed <code>10<sup>6</sup></code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们记当前轮到 $Alice$ 的回合为 $k=0$，轮到 $Bob$ 的回合为 $k=1$。我们用 $i$ 记录 $Alice$ 的下标，用 $j$ 记录 $Bob$ 的下标，用 $w$ 记录当前轮到的玩家的单词。初始时 $i=1$, $j=0$, $w=a[0]$。
+We use $k$ to record whose turn it is, where $k=0$ means it is Alice's turn, and $k=1$ means it is Bob's turn. We use $i$ to record Alice's index, $j$ to record Bob's index, and $w$ to record the current word. Initially, we set $i=1$, $j=0$, and $w=a[0]$.
 
-我们不断地进行如下操作：
+We perform the following steps repeatedly:
 
-如果 $k=1$，则我们判断 $j$ 是否等于 $b$ 的长度，如果等于则说明 $Alice$ 获胜，返回 $true$；否则我们判断 $b[j]$ 的第一个字母是否等于 $w$ 的第一个字母，如果等于则我们判断 $b[j]$ 是否大于 $w$，或者 $b[j]$ 的第一个字母是否比 $w$ 的第一个字母大 $1$，如果是则说明 $Bob$ 可以出第 $j$ 个单词，我们令 $w=b[j]$，并将 $k$ 取反；否则说明 $Bob$ 无法出第 $j$ 个单词，我们令 $j$ 加一。
+If $k=1$, we check if $j$ is equal to the length of $b$. If it is, then Alice wins and we return $true$. Otherwise, we check if the first letter of $b[j]$ is equal to the first letter of $w$. If it is, we check if $b[j]$ is greater than $w$, or if the first letter of $b[j]$ is one greater than the first letter of $w$. If either of these conditions is true, then Bob can play the $j$-th word. We set $w=b[j]$ and toggle $k$. Otherwise, Bob cannot play the $j$-th word, so we increment $j$.
 
-如果 $k=0$，则我们判断 $i$ 是否等于 $a$ 的长度，如果等于则说明 $Bob$ 获胜，返回 $false$；否则我们判断 $a[i]$ 的第一个字母是否等于 $w$ 的第一个字母，如果等于则我们判断 $a[i]$ 是否大于 $w$，或者 $a[i]$ 的第一个字母是否比 $w$ 的第一个字母大 $1$，如果是则说明 $Alice$ 可以出第 $i$ 个单词，我们令 $w=a[i]$，并将 $k$ 取反；否则说明 $Alice$ 无法出第 $i$ 个单词，我们令 $i$ 加一。
+If $k=0$, we check if $i$ is equal to the length of $a$. If it is, then Bob wins and we return $false$. Otherwise, we check if the first letter of $a[i]$ is equal to the first letter of $w$. If it is, we check if $a[i]$ is greater than $w$, or if the first letter of $a[i]$ is one greater than the first letter of $w$. If either of these conditions is true, then Alice can play the $i$-th word. We set $w=a[i]$ and toggle $k$. Otherwise, Alice cannot play the $i$-th word, so we increment $i$.
 
-时间复杂度 $O(m + n)$，其中 $m$ 和 $n$ 分别是数组 $a$ 和 $b$ 的长度。我们只需要遍历数组一次。空间复杂度 $O(1)$。
+The time complexity is $O(m+n)$, where $m$ and $n$ are the lengths of arrays $a$ and $b$, respectively. We only need to traverse the arrays once. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

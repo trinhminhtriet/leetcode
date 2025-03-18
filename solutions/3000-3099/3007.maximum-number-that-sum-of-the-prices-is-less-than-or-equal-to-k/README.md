@@ -1,26 +1,23 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3007.Maximum%20Number%20That%20Sum%20of%20the%20Prices%20Is%20Less%20Than%20or%20Equal%20to%20K/README.md
+difficulty: Medium
 rating: 2258
-source: 第 380 场周赛 Q3
+source: Weekly Contest 380 Q3
 tags:
-    - 位运算
-    - 二分查找
-    - 动态规划
+    - Bit Manipulation
+    - Binary Search
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3007. 价值和小于等于 K 的最大数字](https://leetcode.cn/problems/maximum-number-that-sum-of-the-prices-is-less-than-or-equal-to-k)
+# [3007. Maximum Number That Sum of the Prices Is Less Than or Equal to K](https://leetcode.com/problems/maximum-number-that-sum-of-the-prices-is-less-than-or-equal-to-k)
 
-[English Version](/solution/3000-3099/3007.Maximum%20Number%20That%20Sum%20of%20the%20Prices%20Is%20Less%20Than%20or%20Equal%20to%20K/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>k</code>&nbsp;和一个整数&nbsp;<code>x</code>&nbsp;。整数&nbsp;<code>num</code>&nbsp;的价值是它的二进制表示中在&nbsp;<code>x</code>，<code>2x</code>，<code>3x</code>&nbsp;等位置处&nbsp;<strong><span data-keyword="set-bit">设置位</span></strong>&nbsp;的数目（从最低有效位开始）。下面的表格包含了如何计算价值的例子。</p>
+<p>You are given an integer <code>k</code> and an integer <code>x</code>. The price of a number&nbsp;<code>num</code> is calculated by the count of <span data-keyword="set-bit">set bits</span> at positions <code>x</code>, <code>2x</code>, <code>3x</code>, etc., in its binary representation, starting from the least significant bit. The following table contains examples of how price is calculated.</p>
 
 <table border="1">
 	<tbody>
@@ -63,21 +60,21 @@ tags:
 	</tbody>
 </table>
 
-<p>&nbsp;</p>
+<p>The&nbsp;<strong>accumulated price</strong>&nbsp;of&nbsp;<code>num</code>&nbsp;is the <b>total</b>&nbsp;price of&nbsp;numbers from <code>1</code> to <code>num</code>. <code>num</code>&nbsp;is considered&nbsp;<strong>cheap</strong>&nbsp;if its accumulated price&nbsp;is less than or equal to <code>k</code>.</p>
 
-<p><code>num</code>&nbsp;的 <strong>累加价值</strong> 是从&nbsp;<code>1</code>&nbsp;到&nbsp;<code>num</code>&nbsp;的数字的 <strong>总</strong> 价值。如果&nbsp;<code>num</code>&nbsp;的累加价值小于或等于&nbsp;<code>k</code>&nbsp;则被认为是 <strong>廉价</strong> 的。</p>
-
-<p>请你返回<strong>&nbsp;最大</strong>&nbsp;的廉价数字。</p>
+<p>Return the <b>greatest</b>&nbsp;cheap number.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong class="example">示例 1：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">k = 9, x = 1</span></p>
 
-<pre>
-<b>输入：</b>k = 9, x = 1
-<b>输出：</b>6
-<b>解释：</b>由下表所示，6 是最大的廉价数字。
-</pre>
+<p><strong>Output:</strong> <span class="example-io">6</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>As shown in the table below, <code>6</code> is the greatest cheap number.</p>
 
 <table border="1">
 	<tbody>
@@ -139,14 +136,18 @@ tags:
 		</tr>
 	</tbody>
 </table>
+</div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre>
-<b>输入：</b>k = 7, x = 2
-<b>输出：</b>9
-<b>解释：</b>由下表所示，9 是最大的廉价数字。
-</pre>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">k = 7, x = 2</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">9</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>As shown in the table below, <code>9</code> is the greatest cheap number.</p>
 
 <table border="1">
 	<tbody>
@@ -229,10 +230,10 @@ tags:
 		</tr>
 	</tbody>
 </table>
+</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= 10<sup>15</sup></code></li>
@@ -241,21 +242,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找 + 数位 DP
+### Solution 1: Binary Search + Digit DP
 
-我们注意到，如果 $\textit{num}$ 增大，数字 $1$ 到 $\textit{num}$ 的总价值也会增大。因此，我们可以使用二分查找的方法找到最大的廉价数字。
+We notice that if $\textit{num}$ increases, the total value from $1$ to $\textit{num}$ also increases. Therefore, we can use a binary search method to find the largest cheap number.
 
-我们定义二分查找的左边界 $l = 1$，由于每 $2^x + 1$ 个数中至少有一个数字是有价值的，而总价值不超过 $10^15$，因此我们可以设定二分查找的右边界 $r = 10^{18}$。
+We define the left boundary of the binary search as $l = 1$. Since there is at least one valuable number in every $2^x + 1$ numbers, and the total value does not exceed $10^{15}$, we can set the right boundary of the binary search as $r = 10^{18}$.
 
-接下来，我们进行二分查找，对于每一个 $\textit{mid}$，我们使用数位 DP 的方法计算出 $1$ 到 $\textit{mid}$ 的总价值，如果总价值不超过 $k$，则说明 $\textit{mid}$ 是一个廉价数字，我们将左边界 $l$ 更新为 $\textit{mid}$，否则我们将右边界 $r$ 更新为 $\textit{mid} - 1$。
+Next, we perform a binary search. For each $\textit{mid}$, we use the digit DP method to calculate the total value from $1$ to $\textit{mid}$. If the total value does not exceed $k$, it means $\textit{mid}$ is a cheap number, and we update the left boundary $l$ to $\textit{mid}$. Otherwise, we update the right boundary $r$ to $\textit{mid} - 1$.
 
-最后，我们返回左边界 $l$ 即可。
+Finally, we return the left boundary $l$.
 
-时间复杂度 $O(\log^2 k)$，空间复杂度 $O(\log k)$。
+The time complexity is $O(\log^2 k)$, and the space complexity is $O(\log k)$.
 
 <!-- tabs:start -->
 

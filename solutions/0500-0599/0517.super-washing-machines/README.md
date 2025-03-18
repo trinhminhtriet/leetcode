@@ -1,63 +1,58 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0517.Super%20Washing%20Machines/README.md
+difficulty: Hard
 tags:
-    - 贪心
-    - 数组
+    - Greedy
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [517. 超级洗衣机](https://leetcode.cn/problems/super-washing-machines)
+# [517. Super Washing Machines](https://leetcode.com/problems/super-washing-machines)
 
-[English Version](/solution/0500-0599/0517.Super%20Washing%20Machines/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>假设有 <code>n</code><strong>&nbsp;</strong>台超级洗衣机放在同一排上。开始的时候，每台洗衣机内可能有一定量的衣服，也可能是空的。</p>
+<p>You have <code>n</code> super washing machines on a line. Initially, each washing machine has some dresses or is empty.</p>
 
-<p>在每一步操作中，你可以选择任意 <code>m</code> (<code>1 &lt;= m &lt;= n</code>) 台洗衣机，与此同时将每台洗衣机的一件衣服送到相邻的一台洗衣机。</p>
+<p>For each move, you could choose any <code>m</code> (<code>1 &lt;= m &lt;= n</code>) washing machines, and pass one dress of each washing machine to one of its adjacent washing machines at the same time.</p>
 
-<p>给定一个整数数组&nbsp;<code>machines</code> 代表从左至右每台洗衣机中的衣物数量，请给出能让所有洗衣机中剩下的衣物的数量相等的 <strong>最少的操作步数 </strong>。如果不能使每台洗衣机中衣物的数量相等，则返回 <code>-1</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>machines = [1,0,5]
-<strong>输出：</strong>3
-<strong>解释：</strong>
-第一步:    1     0 &lt;-- 5    =&gt;    1     1     4
-第二步:    1 &lt;-- 1 &lt;-- 4    =&gt;    2     1     3    
-第三步:    2     1 &lt;-- 3    =&gt;    2     2     2   
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>machines = [0,3,0]
-<strong>输出：</strong>2
-<strong>解释：</strong>
-第一步:    0 &lt;-- 3     0    =&gt;    1     2     0    
-第二步:    1     2 --&gt; 0    =&gt;    1     1     1     
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>machines = [0,2,0]
-<strong>输出：</strong>-1
-<strong>解释：</strong>
-不可能让所有三个洗衣机同时剩下相同数量的衣物。
-</pre>
+<p>Given an integer array <code>machines</code> representing the number of dresses in each washing machine from left to right on the line, return <em>the minimum number of moves to make all the washing machines have the same number of dresses</em>. If it is not possible to do it, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> machines = [1,0,5]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong>
+1st move:    1     0 &lt;-- 5    =&gt;    1     1     4
+2nd move:    1 &lt;-- 1 &lt;-- 4    =&gt;    2     1     3
+3rd move:    2     1 &lt;-- 3    =&gt;    2     2     2
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> machines = [0,3,0]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong>
+1st move:    0 &lt;-- 3     0    =&gt;    1     2     0
+2nd move:    1     2 --&gt; 0    =&gt;    1     1     1
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> machines = [0,2,0]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong>
+It&#39;s impossible to make all three washing machines have the same number of dresses.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == machines.length</code></li>
@@ -67,28 +62,28 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy
 
-如果洗衣机内的衣服总数不能被洗衣机的数量整除，那么不可能使得每台洗衣机内的衣服数量相等，直接返回 $-1$。
+If the total number of clothes in the washing machines cannot be divided evenly by the number of washing machines, it is impossible to make the number of clothes in each washing machine equal, so we directly return $-1$.
 
-否则，假设洗衣机内的衣服总数为 $s$，那么最终每台洗衣机内的衣服数量都会变为 $k = s / n$。
+Otherwise, suppose the total number of clothes in the washing machines is $s$, then the number of clothes in each washing machine will eventually become $k = s / n$.
 
-我们定义 $a_i$ 为第 $i$ 台洗衣机内的衣服数量与 $k$ 的差值，即 $a_i = \textit{machines}[i] - k$。若 $a_i > 0$，则表示第 $i$ 台洗衣机内有多余的衣服，需要向相邻的洗衣机传递；若 $a_i < 0$，则表示第 $i$ 台洗衣机内缺少衣服，需要从相邻的洗衣机获得。
+We define $a_i$ as the difference between the number of clothes in the $i$-th washing machine and $k$, that is, $a_i = \textit{machines}[i] - k$. If $a_i > 0$, it means that the $i$-th washing machine has extra clothes and needs to pass them to the adjacent washing machine; if $a_i < 0$, it means that the $i$-th washing machine lacks clothes and needs to get them from the adjacent washing machine.
 
-我们将前 $i$ 台洗衣机的衣服数量差值之和定义为 $s_i = \sum_{j=0}^{i-1} a_j$，如果把前 $i$ 台洗衣机视为一组，其余的洗衣机视为另一组。那么若 $s_i$ 为正数，表示第一组洗衣机内有多余的衣服，需要向第二组洗衣机传递；若 $s_i$ 为负数，表示第一组洗衣机内缺少衣服，需要从第二组洗衣机获得。
+We define the sum of the differences in the number of clothes in the first $i$ washing machines as $s_i = \sum_{j=0}^{i-1} a_j$. If we regard the first $i$ washing machines as one group and the remaining washing machines as another group. Then if $s_i$ is a positive number, it means that the first group of washing machines has extra clothes and needs to pass them to the second group of washing machines; if $s_i$ is a negative number, it means that the first group of washing machines lacks clothes and needs to get them from the second group of washing machines.
 
-那么有以下两种情况：
+Then there are the following two situations:
 
-1. 两组之间的衣服，最多需要移动的次数为 $\max_{i=0}^{n-1} \lvert s_i \rvert$；
-1. 组内某一台洗衣机的衣服数量过多，需要向左右两侧移出衣服，最多需要移动的次数为 $\max_{i=0}^{n-1} a_i$。
+1. The maximum number of times clothes need to be moved between the two groups is $\max_{i=0}^{n-1} \lvert s_i \rvert$;
+1. A washing machine in the group has too many clothes and needs to move clothes to both sides, the maximum number of times clothes need to be moved is $\max_{i=0}^{n-1} a_i$.
 
-我们取两者的最大值即可。
+We take the maximum of the two.
 
-时间复杂度 $O(n)$，其中 $n$ 为洗衣机的数量。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the number of washing machines. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

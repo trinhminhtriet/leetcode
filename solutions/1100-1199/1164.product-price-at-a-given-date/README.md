@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1164.Product%20Price%20at%20a%20Given%20Date/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1164. 指定日期的产品价格](https://leetcode.cn/problems/product-price-at-a-given-date)
+# [1164. Product Price at a Given Date](https://leetcode.com/problems/product-price-at-a-given-date)
 
-[English Version](/solution/1100-1199/1164.Product%20Price%20at%20a%20Given%20Date/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>产品数据表: <code>Products</code></p>
+<p>Table: <code>Products</code></p>
 
 <pre>
 +---------------+---------+
@@ -26,24 +23,23 @@ tags:
 | new_price     | int     |
 | change_date   | date    |
 +---------------+---------+
-(product_id, change_date) 是此表的主键（具有唯一值的列组合）。
-这张表的每一行分别记录了 某产品 在某个日期 更改后 的新价格。</pre>
+(product_id, change_date) is the primary key (combination of columns with unique values) of this table.
+Each row of this table indicates that the price of some product was changed to a new price at some date.</pre>
 
 <p>&nbsp;</p>
 
-<p>编写一个解决方案，找出在&nbsp;<code>2019-08-16</code><strong> </strong>时全部产品的价格，假设所有产品在修改前的价格都是&nbsp;<code>10</code><strong> 。</strong></p>
+<p>Write a solution to find the prices of all products on <code>2019-08-16</code>. Assume the price of all products before any change is <code>10</code>.</p>
 
-<p>以 <strong>任意顺序 </strong>返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果格式如下例所示。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Products 表:
+<strong>Input:</strong> 
+Products table:
 +------------+-----------+-------------+
 | product_id | new_price | change_date |
 +------------+-----------+-------------+
@@ -54,24 +50,25 @@ Products 表:
 | 2          | 65        | 2019-08-17  |
 | 3          | 20        | 2019-08-18  |
 +------------+-----------+-------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +------------+-------+
 | product_id | price |
 +------------+-------+
 | 2          | 50    |
 | 1          | 35    |
 | 3          | 10    |
-+------------+-------+</pre>
++------------+-------+
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：子查询 + 连接
+### Solution 1: Subquery + Join
 
-我们可以使用子查询，找出每个产品在给定日期之前最后一次价格变更的价格，记录在 `P` 表中。然后，我们再找出所有产品的 `product_id`，记录在 `T` 表中。最后，我们将 `T` 表和 `P` 表按照 `product_id` 进行左连接，即可得到最终结果。
+We can use a subquery to find the price of the last price change for each product before the given date, and record it in the `P` table. Then, we can find all `product_id`s in the `T` table. Finally, we can left join the `T` table with the `P` table on `product_id` to get the final result.
 
 <!-- tabs:start -->
 
@@ -104,7 +101,7 @@ FROM
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

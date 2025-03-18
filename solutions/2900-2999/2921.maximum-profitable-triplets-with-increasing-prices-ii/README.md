@@ -1,66 +1,61 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2921.Maximum%20Profitable%20Triplets%20With%20Increasing%20Prices%20II/README.md
+difficulty: Hard
 tags:
-    - 树状数组
-    - 线段树
-    - 数组
+    - Binary Indexed Tree
+    - Segment Tree
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2921. 价格递增的最大利润三元组 II 🔒](https://leetcode.cn/problems/maximum-profitable-triplets-with-increasing-prices-ii)
+# [2921. Maximum Profitable Triplets With Increasing Prices II 🔒](https://leetcode.com/problems/maximum-profitable-triplets-with-increasing-prices-ii)
 
-[English Version](/solution/2900-2999/2921.Maximum%20Profitable%20Triplets%20With%20Increasing%20Prices%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定长度为 <code>n</code>&nbsp; 的数组&nbsp;<code>prices</code>&nbsp;和&nbsp;<code>profits</code>&nbsp;（<strong>下标从 0 开始</strong>）。一个商店有&nbsp;<code>n</code>&nbsp;个商品，第&nbsp;<code>i</code>&nbsp;个商品的价格为&nbsp;<code>prices[i]</code>，利润为&nbsp;<code>profits[i]</code>。</p>
+<p>Given the <strong>0-indexed</strong> arrays <code>prices</code> and <code>profits</code> of length <code>n</code>. There are <code>n</code> items in an store where the <code>i<sup>th</sup></code> item has a price of <code>prices[i]</code> and a profit of <code>profits[i]</code>.</p>
 
-<p>需要选择三个商品，满足以下条件：</p>
+<p>We have to pick three items with the following condition:</p>
 
 <ul>
-	<li><code>prices[i] &lt; prices[j] &lt; prices[k]</code>，其中&nbsp;<code>i &lt; j &lt; k</code>。</li>
+	<li><code>prices[i] &lt; prices[j] &lt; prices[k]</code> where <code>i &lt; j &lt; k</code>.</li>
 </ul>
 
-<p>如果选择的商品&nbsp;<code>i</code>, <code>j</code>&nbsp;和&nbsp;<code>k</code>&nbsp;满足以下条件，那么利润将等于&nbsp;<code>profits[i] + profits[j] + profits[k]</code>。</p>
+<p>If we pick items with indices <code>i</code>, <code>j</code> and <code>k</code> satisfying the above condition, the profit would be <code>profits[i] + profits[j] + profits[k]</code>.</p>
 
-<p>返回能够获得的<em>&nbsp;<strong>最大利润</strong>，如果不可能满足给定条件，</em>返回<em>&nbsp;</em><code>-1</code><em>。</em></p>
+<p>Return<em> the <strong>maximum profit</strong> we can get, and </em><code>-1</code><em> if it&#39;s not possible to pick three items with the given condition.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>prices = [10,2,3,4], profits = [100,2,7,10]
-<b>输出：</b>19
-<b>解释：</b>不能选择下标 i=0 的商品，因为没有下标 j 和 k 的商品满足条件。
-只能选择下标为 1、2、3 的三个商品，这是有效的选择，因为 prices[1] &lt; prices[2] &lt; prices[3]。
-答案是它们的利润之和，即 2 + 7 + 10 = 19。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>prices = [1,2,3,4,5], profits = [1,5,3,4,6]
-<b>输出：</b>15
-<b>解释：</b>可以选择任意三个商品，因为对于每组满足下标为 i &lt; j &lt; k 的三个商品，条件都成立。
-因此，能得到的最大利润就是利润和最大的三个商品，即下标为 1，3 和 4 的商品。
-答案就是它们的利润之和，即 5 + 4 + 6 = 15。</pre>
+<strong>Input:</strong> prices = [10,2,3,4], profits = [100,2,7,10]
+<strong>Output:</strong> 19
+<strong>Explanation:</strong> We can&#39;t pick the item with index i=0 since there are no indices j and k such that the condition holds.
+So the only triplet we can pick, are the items with indices 1, 2 and 3 and it&#39;s a valid pick since prices[1] &lt; prices[2] &lt; prices[3].
+The answer would be sum of their profits which is 2 + 7 + 10 = 19.</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>prices = [4,3,2,1], profits = [33,20,19,87]
-<b>输出：</b>-1
-<b>解释：</b>找不到任何可以满足条件的三个商品，所以返回 -1.
+<strong>Input:</strong> prices = [1,2,3,4,5], profits = [1,5,3,4,6]
+<strong>Output:</strong> 15
+<strong>Explanation:</strong> We can select any triplet of items since for each triplet of indices i, j and k such that i &lt; j &lt; k, the condition holds.
+Therefore the maximum profit we can get would be the 3 most profitable items which are indices 1, 3 and 4.
+The answer would be sum of their profits which is 5 + 4 + 6 = 15.</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> prices = [4,3,2,1], profits = [33,20,19,87]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> We can&#39;t select any triplet of indices such that the condition holds, so we return -1.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= prices.length == profits.length &lt;= 50000</code></li>
@@ -70,15 +65,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：树状数组
+### Solution 1: Binary Indexed Tree
 
-我们可以用两个树状数组分别维护每个价格左边以及右边的最大利润，然后枚举中间的价格，通过树状数组查询左右两边的最大利润，最后取最大值即可。
+We can use two Binary Indexed Trees (BITs) to maintain the maximum profit on the left and right of each price, respectively. Then, we enumerate the middle price, query the maximum profit on both sides through the BIT, and finally take the maximum value.
 
-时间复杂度 $O(n \times \log M)$，空间复杂度 $O(M)$。其中 $n$ 是数组 $prices$ 的长度，而 $M$ 是数组 $prices$ 中的最大值，本题中 $M \le 5000$。
+The time complexity is $O(n \times \log M)$, and the space complexity is $O(M)$. Here, $n$ is the length of the array $prices$, and $M$ is the maximum value in the array $prices$. In this problem, $M \le 5000$.
 
 <!-- tabs:start -->
 

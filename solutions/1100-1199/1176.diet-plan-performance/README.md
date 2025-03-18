@@ -1,65 +1,68 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1176.Diet%20Plan%20Performance/README.md
+difficulty: Easy
 rating: 1397
-source: 第 152 场周赛 Q2
+source: Weekly Contest 152 Q2
 tags:
-    - 数组
-    - 滑动窗口
+    - Array
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [1176. 健身计划评估 🔒](https://leetcode.cn/problems/diet-plan-performance)
+# [1176. Diet Plan Performance 🔒](https://leetcode.com/problems/diet-plan-performance)
 
-[English Version](/solution/1100-1199/1176.Diet%20Plan%20Performance/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你的好友是一位健身爱好者。前段日子，他给自己制定了一份健身计划。现在想请你帮他评估一下这份计划是否合理。</p>
+<p>A dieter consumes&nbsp;<code>calories[i]</code>&nbsp;calories on the <code>i</code>-th day.&nbsp;</p>
 
-<p>他会有一份计划消耗的卡路里表，其中&nbsp;<code>calories[i]</code>&nbsp;给出了你的这位好友在第&nbsp;<code>i</code>&nbsp;天需要消耗的卡路里总量。</p>
-
-<p>为了更好地评估这份计划，对于卡路里表中的每一天，你都需要计算他 「这一天以及之后的连续几天」 （共&nbsp;<code>k</code> 天）内消耗的总卡路里 <em>T：</em></p>
+<p>Given an integer <code>k</code>, for <strong>every</strong> consecutive sequence of <code>k</code> days (<code>calories[i], calories[i+1], ..., calories[i+k-1]</code>&nbsp;for all <code>0 &lt;= i &lt;= n-k</code>), they look at <em>T</em>, the total calories consumed during that sequence of <code>k</code> days (<code>calories[i] + calories[i+1] + ... + calories[i+k-1]</code>):</p>
 
 <ul>
-	<li>如果&nbsp;<code>T &lt; lower</code>，那么这份计划相对糟糕，并失去 1 分；&nbsp;</li>
-	<li>如果 <code>T &gt; upper</code>，那么这份计划相对优秀，并获得 1 分；</li>
-	<li>否则，这份计划普普通通，分值不做变动。</li>
+	<li>If <code>T &lt; lower</code>, they performed poorly on their diet and lose 1 point;&nbsp;</li>
+	<li>If <code>T &gt; upper</code>, they performed well on their diet and gain 1 point;</li>
+	<li>Otherwise, they performed normally and there is no change in points.</li>
 </ul>
 
-<p>请返回统计完所有&nbsp;<code>calories.length</code>&nbsp;天后得到的总分作为评估结果。</p>
+<p>Initially, the dieter has zero points. Return the total number of points the dieter has after dieting for <code>calories.length</code>&nbsp;days.</p>
 
-<p>注意：总分可能是负数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>calories = [1,2,3,4,5], k = 1, lower = 3, upper = 3
-<strong>输出：</strong>0
-<strong>解释：</strong>calories[0], calories[1] &lt; lower 而 calories[3], calories[4] &gt; upper, 总分 = 0.</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>calories = [3,2], k = 2, lower = 0, upper = 1
-<strong>输出：</strong>1
-<strong>解释：</strong>calories[0] + calories[1] &gt; upper, 总分 = 1.
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>calories = [6,5,0,0], k = 2, lower = 1, upper = 5
-<strong>输出：</strong>0
-<strong>解释：</strong>calories[0] + calories[1] &gt; upper, calories[2] + calories[3] &lt; lower, 总分 = 0.
-</pre>
+<p>Note that the total points can be negative.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> calories = [1,2,3,4,5], k = 1, lower = 3, upper = 3
+<strong>Output:</strong> 0
+<strong>Explanation</strong>: Since k = 1, we consider each element of the array separately and compare it to lower and upper.
+calories[0] and calories[1] are less than lower so 2 points are lost.
+calories[3] and calories[4] are greater than upper so 2 points are gained.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> calories = [3,2], k = 2, lower = 0, upper = 1
+<strong>Output:</strong> 1
+<strong>Explanation</strong>: Since k = 2, we consider subarrays of length 2.
+calories[0] + calories[1] &gt; upper so 1 point is gained.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> calories = [6,5,0,0], k = 2, lower = 1, upper = 5
+<strong>Output:</strong> 0
+<strong>Explanation</strong>:
+calories[0] + calories[1] &gt; upper so 1 point is gained.
+lower &lt;= calories[1] + calories[2] &lt;= upper so no change in points.
+calories[2] + calories[3] &lt; lower so 1 point is lost.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= calories.length &lt;= 10^5</code></li>
@@ -69,17 +72,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和
+### Solution 1: Prefix Sum
 
-我们先预处理出长度为 $n+1$ 的前缀和数组 $s$，其中 $s[i]$ 表示前 $i$ 天的卡路里总和。
+First, we preprocess a prefix sum array $s$ of length $n+1$, where $s[i]$ represents the total calories of the first $i$ days.
 
-然后遍历前缀和数组 $s$，对于每个位置 $i$，计算 $s[i+k]-s[i]$，即为第 $i$ 天开始的连续 $k$ 天的卡路里总和。根据题意，对于每个 $s[i+k]-s[i]$，判断值与 $lower$ 和 $upper$ 的关系，更新答案即可。
+Then we traverse the prefix sum array $s$. For each position $i$, we calculate $s[i+k]-s[i]$, which is the total calories for the consecutive $k$ days starting from the $i$th day. According to the problem description, for each $s[i+k]-s[i]$, we judge its value with $lower$ and $upper$, and update the answer accordingly.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `calories` 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the `calories` array.
 
 <!-- tabs:start -->
 
@@ -200,11 +203,11 @@ function dietPlanPerformance(calories: number[], k: number, lower: number, upper
 
 <!-- solution:start -->
 
-### 方法二：滑动窗口
+### Solution 2: Sliding Window
 
-我们维护一个长度为 $k$ 的滑动窗口，窗口内元素之和记为 $s$。如果 $s \lt lower$，则分数减 $1$；如果 $ s \gt upper$，则分数加 $1$。
+We maintain a sliding window of length $k$, and the sum of the elements in the window is denoted as $s$. If $s \lt lower$, the score decreases by $1$; if $s > upper$, the score increases by $1$.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 `calories` 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the `calories` array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

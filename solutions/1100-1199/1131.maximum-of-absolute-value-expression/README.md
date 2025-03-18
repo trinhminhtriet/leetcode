@@ -1,46 +1,44 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1131.Maximum%20of%20Absolute%20Value%20Expression/README.md
+difficulty: Medium
 rating: 2059
-source: 第 146 场周赛 Q4
+source: Weekly Contest 146 Q4
 tags:
-    - 数组
-    - 数学
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [1131. 绝对值表达式的最大值](https://leetcode.cn/problems/maximum-of-absolute-value-expression)
+# [1131. Maximum of Absolute Value Expression](https://leetcode.com/problems/maximum-of-absolute-value-expression)
 
-[English Version](/solution/1100-1199/1131.Maximum%20of%20Absolute%20Value%20Expression/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个长度相等的整数数组，返回下面表达式的最大值：</p>
+<p>Given two arrays of integers with equal lengths, return the maximum value of:</p>
 
 <p><code>|arr1[i] - arr1[j]| + |arr2[i] - arr2[j]| + |i - j|</code></p>
 
-<p>其中下标 <code>i</code>，<code>j</code> 满足&nbsp;<code>0 &lt;= i, j &lt; arr1.length</code>。</p>
+<p>where the maximum is taken over all <code>0 &lt;= i, j &lt; arr1.length</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>arr1 = [1,2,3,4], arr2 = [-1,4,5,6]
-<strong>输出：</strong>13
+<pre>
+<strong>Input:</strong> arr1 = [1,2,3,4], arr2 = [-1,4,5,6]
+<strong>Output:</strong> 13
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>arr1 = [1,-2,-5,0,10], arr2 = [0,-2,-1,-7,-4]
-<strong>输出：</strong>20</pre>
+<pre>
+<strong>Input:</strong> arr1 = [1,-2,-5,0,10], arr2 = [0,-2,-1,-7,-4]
+<strong>Output:</strong> 20
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= arr1.length == arr2.length &lt;= 40000</code></li>
@@ -49,26 +47,26 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学 + 枚举
+### Solution 1: Mathematics + Enumeration
 
-我们不妨令 $x_i = arr1[i]$, $y_i = arr2[i]$，由于 $i$ 和 $j$ 的大小关系不影响表达式的值，我们不妨假设 $i \ge j$，那么表达式可以变为：
+Let's denote $x_i = arr1[i]$, $y_i = arr2[i]$. Since the size relationship between $i$ and $j$ does not affect the value of the expression, we can assume $i \ge j$. Then the expression can be transformed into:
 
 $$
 | x_i - x_j | + | y_i - y_j | + i - j = \max \begin{cases} (x_i + y_i) - (x_j + y_j) \\ (x_i - y_i) - (x_j - y_j) \\ (-x_i + y_i) - (-x_j + y_j) \\ (-x_i - y_i) - (-x_j - y_j) \end{cases} + i - j\\
 = \max \begin{cases} (x_i + y_i + i) - (x_j + y_j + j) \\ (x_i - y_i + i) - (x_j - y_j + j) \\ (-x_i + y_i + i) - (-x_j + y_j + j) \\ (-x_i - y_i + i) - (-x_j - y_j + j) \end{cases}
 $$
 
-因此，我们只要求出 $a \times x_i + b \times y_i + i$ 的最大值 $mx$，以及最小值 $mi$，其中 $a, b \in \{-1, 1\}$。那么答案就是所有 $mx - mi$ 中的最大值。
+Therefore, we just need to find the maximum value $mx$ and the minimum value $mi$ of $a \times x_i + b \times y_i + i$, where $a, b \in \{-1, 1\}$. The answer is the maximum value among all $mx - mi$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
-相似题目：
+Similar problems:
 
--   [1330. 翻转子数组得到最大的数组值](https://github.com/doocs/leetcode/blob/main/solution/1300-1399/1330.Reverse%20Subarray%20To%20Maximize%20Array%20Value/README.md)
+-   [1330. Reverse Subarray To Maximize Array Value](https://github.com/doocs/leetcode/blob/main/solution/1300-1399/1330.Reverse%20Subarray%20To%20Maximize%20Array%20Value/README_EN.md)
 
 <!-- tabs:start -->
 

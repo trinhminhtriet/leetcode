@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2339.All%20the%20Matches%20of%20the%20League/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2339. 联赛的所有比赛 🔒](https://leetcode.cn/problems/all-the-matches-of-the-league)
+# [2339. All the Matches of the League 🔒](https://leetcode.com/problems/all-the-matches-of-the-league)
 
-[English Version](/solution/2300-2399/2339.All%20the%20Matches%20of%20the%20League/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Teams</code></p>
+<p>Table: <code>Teams</code></p>
 
 <pre>
 +-------------+---------+
@@ -24,23 +21,24 @@ tags:
 +-------------+---------+
 | team_name   | varchar |
 +-------------+---------+
-team_name 是该表中具有唯一值的列。
-此表的每一行都显示了团队的名称。
+team_name is the column with unique values of this table.
+Each row of this table shows the name of a team.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案，获取联赛中所有比赛。每两支球队进行两场比赛，其中一支球队是主队&nbsp;<code>home_team</code>&nbsp;，另一支是客场队&nbsp;<code>away_team</code>。<br />
-按 <strong>任意顺序</strong> 返回结果表。<br />
-返回结果格式如下例所示。</p>
+<p>Write a solution to report&nbsp;all the possible matches of the league. Note that every two teams play two matches with each other, with one team being the <code>home_team</code> once and the other time being the <code>away_team</code>.</p>
+
+<p>Return the result table in <strong>any order</strong>.</p>
+
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
-Teams 表:
+<strong>Input:</strong> 
+Teams table:
 +-------------+
 | team_name   |
 +-------------+
@@ -48,7 +46,7 @@ Teams 表:
 | Ahly SC     |
 | Real Madrid |
 +-------------+
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +-------------+-------------+
 | home_team   | away_team   |
 +-------------+-------------+
@@ -59,16 +57,16 @@ Teams 表:
 | Ahly SC     | Real Madrid |
 | Ahly SC     | Leetcode FC |
 +-------------+-------------+
-<strong>解释:</strong> 该联赛的所有比赛都列在表格中。
+<strong>Explanation:</strong> All the matches of the league are shown in the table.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

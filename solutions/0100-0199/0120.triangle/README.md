@@ -1,88 +1,78 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0120.Triangle/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [120. 三角形最小路径和](https://leetcode.cn/problems/triangle)
+# [120. Triangle](https://leetcode.com/problems/triangle)
 
-[English Version](/solution/0100-0199/0120.Triangle/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个三角形 <code>triangle</code> ，找出自顶向下的最小路径和。</p>
+<p>Given a <code>triangle</code> array, return <em>the minimum path sum from top to bottom</em>.</p>
 
-<p>每一步只能移动到下一行中相邻的结点上。<strong>相邻的结点 </strong>在这里指的是 <strong>下标</strong> 与 <strong>上一层结点下标</strong> 相同或者等于 <strong>上一层结点下标 + 1</strong> 的两个结点。也就是说，如果正位于当前行的下标 <code>i</code> ，那么下一步可以移动到下一行的下标 <code>i</code> 或 <code>i + 1</code> 。</p>
+<p>For each step, you may move to an adjacent number of the row below. More formally, if you are on index <code>i</code> on the current row, you may move to either index <code>i</code> or index <code>i + 1</code> on the next row.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
-<strong>输出：</strong>11
-<strong>解释：</strong>如下面简图所示：
-   <strong>2</strong>
-  <strong>3</strong> 4
- 6 <strong>5</strong> 7
-4 <strong>1</strong> 8 3
-自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>triangle = [[-10]]
-<strong>输出：</strong>-10
+<strong>Input:</strong> triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
+<strong>Output:</strong> 11
+<strong>Explanation:</strong> The triangle looks like:
+   <u>2</u>
+  <u>3</u> 4
+ 6 <u>5</u> 7
+4 <u>1</u> 8 3
+The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined above).
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> triangle = [[-10]]
+<strong>Output:</strong> -10
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= triangle.length <= 200</code></li>
+	<li><code>1 &lt;= triangle.length &lt;= 200</code></li>
 	<li><code>triangle[0].length == 1</code></li>
 	<li><code>triangle[i].length == triangle[i - 1].length + 1</code></li>
-	<li><code>-10<sup>4</sup> <= triangle[i][j] <= 10<sup>4</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= triangle[i][j] &lt;= 10<sup>4</sup></code></li>
 </ul>
 
-<p> </p>
-
-<p><strong>进阶：</strong></p>
-
-<ul>
-	<li>你可以只使用 <code>O(n)</code> 的额外空间（<code>n</code> 为三角形的总行数）来解决这个问题吗？</li>
-</ul>
+<p>&nbsp;</p>
+<strong>Follow up:</strong> Could you&nbsp;do this using only <code>O(n)</code> extra space, where <code>n</code> is the total number of rows in the triangle?
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][j]$ 表示从三角形底部走到位置 $(i, j)$ 的最小路径和。这里的位置 $(i, j)$ 指的是三角形中第 $i$ 行第 $j$ 列（均从 $0$ 开始编号）的位置。那么我们有如下的状态转移方程：
+We define $f[i][j]$ as the minimum path sum from the bottom of the triangle to the position $(i, j)$. Here, the position $(i, j)$ refers to the position in the $i$th row and $j$th column of the triangle (both starting from $0$). Then we have the following state transition equation:
 
 $$
 f[i][j] = \min(f[i + 1][j], f[i + 1][j + 1]) + triangle[i][j]
 $$
 
-答案即为 $f[0][0]$。
+The answer is $f[0][0]$.
 
-我们注意到，状态 $f[i][j]$ 仅与状态 $f[i + 1][j]$ 和状态 $f[i + 1][j + 1]$ 有关，因此我们可以使用一维数组代替二维数组，将空间复杂度从 $O(n^2)$ 降低至 $O(n)$。
+We notice that the state $f[i][j]$ is only related to the states $f[i + 1][j]$ and $f[i + 1][j + 1]$, so we can use a one-dimensional array instead of a two-dimensional array, reducing the space complexity from $O(n^2)$ to $O(n)$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是三角形的行数。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the number of rows in the triangle.
 
-更进一步，我们还可以直接复用 $triangle$ 作为 $f$ 数组，这样就无需再额外创建 $f$ 数组，空间复杂度降低至 $O(1)$。
+Furthermore, we can directly reuse the `triangle` as the `f` array, so there is no need to create an additional `f` array, reducing the space complexity to $O(1)$.
 
 <!-- tabs:start -->
 
@@ -188,7 +178,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 
@@ -286,7 +276,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法三
+### Solution 3
 
 <!-- tabs:start -->
 

@@ -1,102 +1,85 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1471.The%20k%20Strongest%20Values%20in%20an%20Array/README.md
+difficulty: Medium
 rating: 1332
-source: 第 192 场周赛 Q2
+source: Weekly Contest 192 Q2
 tags:
-    - 数组
-    - 双指针
-    - 排序
+    - Array
+    - Two Pointers
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1471. 数组中的 k 个最强值](https://leetcode.cn/problems/the-k-strongest-values-in-an-array)
+# [1471. The k Strongest Values in an Array](https://leetcode.com/problems/the-k-strongest-values-in-an-array)
 
-[English Version](/solution/1400-1499/1471.The%20k%20Strongest%20Values%20in%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>arr</code> 和一个整数 <code>k</code> 。</p>
+<p>Given an array of integers <code>arr</code> and an integer <code>k</code>.</p>
 
-<p>设 <code>m</code> 为数组的中位数，只要满足下述两个前提之一，就可以判定 <code>arr[i]</code> 的值比 <code>arr[j]</code> 的值更强：</p>
+<p>A value <code>arr[i]</code> is said to be stronger than a value <code>arr[j]</code> if <code>|arr[i] - m| &gt; |arr[j] - m|</code> where <code>m</code> is the <strong>median</strong> of the array.<br />
+If <code>|arr[i] - m| == |arr[j] - m|</code>, then <code>arr[i]</code> is said to be stronger than <code>arr[j]</code> if <code>arr[i] &gt; arr[j]</code>.</p>
 
-<ul>
-	<li>&nbsp;<code>|arr[i] - m| &gt; |arr[j]&nbsp;- m|</code></li>
-	<li>&nbsp;<code>|arr[i] - m| == |arr[j] - m|</code>，且 <code>arr[i] &gt; arr[j]</code></li>
-</ul>
+<p>Return <em>a list of the strongest <code>k</code></em> values in the array. return the answer <strong>in any arbitrary order</strong>.</p>
 
-<p>请返回由数组中最强的 <code>k</code> 个值组成的列表。答案可以以 <strong>任意顺序</strong> 返回。</p>
-
-<p><strong>中位数</strong> 是一个有序整数列表中处于中间位置的值。形式上，如果列表的长度为 <code>n</code> ，那么中位数就是该有序列表（下标从 0 开始）中位于 <code>((n - 1) / 2)</code> 的元素。</p>
+<p><strong>Median</strong> is the middle value in an ordered integer list. More formally, if the length of the list is n, the median is the element in position <code>((n - 1) / 2)</code> in the sorted list <strong>(0-indexed)</strong>.</p>
 
 <ul>
-	<li>例如 <code>arr =&nbsp;[6, -3, 7, 2, 11]</code>，<code>n = 5</code>：数组排序后得到 <code>arr = [-3, 2, 6, 7, 11]</code> ，数组的中间位置为 <code>m = ((5 - 1) / 2) = 2</code> ，中位数 <code>arr[m]</code> 的值为 <code>6</code> 。</li>
-	<li>例如 <code>arr =&nbsp;[-7, 22, 17,&thinsp;3]</code>，<code>n = 4</code>：数组排序后得到&nbsp;<code>arr = [-7, 3, 17, 22]</code> ，数组的中间位置为&nbsp;<code>m = ((4 - 1) / 2) = 1</code> ，中位数 <code>arr[m]</code> 的值为 <code>3</code> 。</li>
+	<li>For <code>arr = [6, -3, 7, 2, 11]</code>, <code>n = 5</code> and the median is obtained by sorting the array <code>arr = [-3, 2, 6, 7, 11]</code> and the median is <code>arr[m]</code> where <code>m = ((5 - 1) / 2) = 2</code>. The median is <code>6</code>.</li>
+	<li>For <code>arr = [-7, 22, 17,&thinsp;3]</code>, <code>n = 4</code> and the median is obtained by sorting the array <code>arr = [-7, 3, 17, 22]</code> and the median is <code>arr[m]</code> where <code>m = ((4 - 1) / 2) = 1</code>. The median is <code>3</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>arr = [1,2,3,4,5], k = 2
-<strong>输出：</strong>[5,1]
-<strong>解释：</strong>中位数为 3，按从强到弱顺序排序后，数组变为 [5,1,4,2,3]。最强的两个元素是 [5, 1]。[1, 5] 也是正确答案。
-注意，尽管 |5 - 3| == |1 - 3| ，但是 5 比 1 更强，因为 5 &gt; 1 。
+<pre>
+<strong>Input:</strong> arr = [1,2,3,4,5], k = 2
+<strong>Output:</strong> [5,1]
+<strong>Explanation:</strong> Median is 3, the elements of the array sorted by the strongest are [5,1,4,2,3]. The strongest 2 elements are [5, 1]. [1, 5] is also <strong>accepted</strong> answer.
+Please note that although |5 - 3| == |1 - 3| but 5 is stronger than 1 because 5 &gt; 1.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>arr = [1,1,3,5,5], k = 2
-<strong>输出：</strong>[5,5]
-<strong>解释：</strong>中位数为 3, 按从强到弱顺序排序后，数组变为 [5,5,1,1,3]。最强的两个元素是 [5, 5]。
+<pre>
+<strong>Input:</strong> arr = [1,1,3,5,5], k = 2
+<strong>Output:</strong> [5,5]
+<strong>Explanation:</strong> Median is 3, the elements of the array sorted by the strongest are [5,5,1,1,3]. The strongest 2 elements are [5, 5].
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>arr = [6,7,11,7,6,8], k = 5
-<strong>输出：</strong>[11,8,6,6,7]
-<strong>解释：</strong>中位数为 7, 按从强到弱顺序排序后，数组变为 [11,8,6,6,7,7]。
-[11,8,6,6,7] 的任何排列都是正确答案。</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><strong>输入：</strong>arr = [6,-3,7,2,11], k = 3
-<strong>输出：</strong>[-3,11,2]
-</pre>
-
-<p><strong>示例 5：</strong></p>
-
-<pre><strong>输入：</strong>arr = [-7,22,17,3], k = 2
-<strong>输出：</strong>[22,17]
+<pre>
+<strong>Input:</strong> arr = [6,7,11,7,6,8], k = 5
+<strong>Output:</strong> [11,8,6,6,7]
+<strong>Explanation:</strong> Median is 7, the elements of the array sorted by the strongest are [11,8,6,6,7,7].
+Any permutation of [11,8,6,6,7] is <strong>accepted</strong>.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= arr.length &lt;= 10^5</code></li>
-	<li><code>-10^5 &lt;= arr[i] &lt;= 10^5</code></li>
+	<li><code>1 &lt;= arr.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>5</sup> &lt;= arr[i] &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= k &lt;= arr.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序
+### Solution 1: Sorting
 
-我们首先对数组 $\textit{arr}$ 进行排序，然后找到数组的中位数 $m$。
+We first sort the array $\textit{arr}$ and then find the median $m$ of the array.
 
-接下来，我们按照题目描述的规则对数组进行排序，最后返回数组的前 $k$ 个元素即可。
+Next, we sort the array according to the rules described in the problem, and finally return the first $k$ elements of the array.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{arr}$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{arr}$.
 
 <!-- tabs:start -->
 

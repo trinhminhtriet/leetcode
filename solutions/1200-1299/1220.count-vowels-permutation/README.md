@@ -1,60 +1,58 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1220.Count%20Vowels%20Permutation/README.md
+difficulty: Hard
 rating: 1729
-source: 第 157 场周赛 Q4
+source: Weekly Contest 157 Q4
 tags:
-    - 动态规划
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1220. 统计元音字母序列的数目](https://leetcode.cn/problems/count-vowels-permutation)
+# [1220. Count Vowels Permutation](https://leetcode.com/problems/count-vowels-permutation)
 
-[English Version](/solution/1200-1299/1220.Count%20Vowels%20Permutation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>n</code>，请你帮忙统计一下我们可以按下述规则形成多少个长度为&nbsp;<code>n</code>&nbsp;的字符串：</p>
+<p>Given an integer <code>n</code>, your task is to count how many strings of length <code>n</code> can be formed under the following rules:</p>
 
 <ul>
-	<li>字符串中的每个字符都应当是小写元音字母（<code>&#39;a&#39;</code>, <code>&#39;e&#39;</code>, <code>&#39;i&#39;</code>, <code>&#39;o&#39;</code>, <code>&#39;u&#39;</code>）</li>
-	<li>每个元音&nbsp;<code>&#39;a&#39;</code>&nbsp;后面都只能跟着&nbsp;<code>&#39;e&#39;</code></li>
-	<li>每个元音&nbsp;<code>&#39;e&#39;</code>&nbsp;后面只能跟着&nbsp;<code>&#39;a&#39;</code>&nbsp;或者是&nbsp;<code>&#39;i&#39;</code></li>
-	<li>每个元音&nbsp;<code>&#39;i&#39;</code>&nbsp;后面&nbsp;<strong>不能</strong> 再跟着另一个&nbsp;<code>&#39;i&#39;</code></li>
-	<li>每个元音&nbsp;<code>&#39;o&#39;</code>&nbsp;后面只能跟着&nbsp;<code>&#39;i&#39;</code>&nbsp;或者是&nbsp;<code>&#39;u&#39;</code></li>
-	<li>每个元音&nbsp;<code>&#39;u&#39;</code>&nbsp;后面只能跟着&nbsp;<code>&#39;a&#39;</code></li>
+	<li>Each character is a lower case vowel&nbsp;(<code>&#39;a&#39;</code>, <code>&#39;e&#39;</code>, <code>&#39;i&#39;</code>, <code>&#39;o&#39;</code>, <code>&#39;u&#39;</code>)</li>
+	<li>Each vowel&nbsp;<code>&#39;a&#39;</code> may only be followed by an <code>&#39;e&#39;</code>.</li>
+	<li>Each vowel&nbsp;<code>&#39;e&#39;</code> may only be followed by an <code>&#39;a&#39;</code>&nbsp;or an <code>&#39;i&#39;</code>.</li>
+	<li>Each vowel&nbsp;<code>&#39;i&#39;</code> <strong>may not</strong> be followed by another <code>&#39;i&#39;</code>.</li>
+	<li>Each vowel&nbsp;<code>&#39;o&#39;</code> may only be followed by an <code>&#39;i&#39;</code> or a&nbsp;<code>&#39;u&#39;</code>.</li>
+	<li>Each vowel&nbsp;<code>&#39;u&#39;</code> may only be followed by an <code>&#39;a&#39;</code>.</li>
 </ul>
 
-<p>由于答案可能会很大，所以请你返回 模&nbsp;<code>10^9 + 7</code>&nbsp;之后的结果。</p>
+<p>Since the answer&nbsp;may be too large,&nbsp;return it modulo&nbsp;<code>10^9 + 7</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>n = 1
-<strong>输出：</strong>5
-<strong>解释：</strong>所有可能的字符串分别是：&quot;a&quot;, &quot;e&quot;, &quot;i&quot; , &quot;o&quot; 和 &quot;u&quot;。
+<pre>
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> All possible strings are: &quot;a&quot;, &quot;e&quot;, &quot;i&quot; , &quot;o&quot; and &quot;u&quot;.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>n = 2
-<strong>输出：</strong>10
-<strong>解释：</strong>所有可能的字符串分别是：&quot;ae&quot;, &quot;ea&quot;, &quot;ei&quot;, &quot;ia&quot;, &quot;ie&quot;, &quot;io&quot;, &quot;iu&quot;, &quot;oi&quot;, &quot;ou&quot; 和 &quot;ua&quot;。
+<pre>
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> 10
+<strong>Explanation:</strong> All possible strings are: &quot;ae&quot;, &quot;ea&quot;, &quot;ei&quot;, &quot;ia&quot;, &quot;ie&quot;, &quot;io&quot;, &quot;iu&quot;, &quot;oi&quot;, &quot;ou&quot; and &quot;ua&quot;.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:&nbsp;</strong></p>
 
-<pre><strong>输入：</strong>n = 5
-<strong>输出：</strong>68</pre>
+<pre>
+<strong>Input:</strong> n = 5
+<strong>Output:</strong> 68</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 2 * 10^4</code></li>
@@ -62,15 +60,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-根据题目描述，我们先列出每个元音字母的后一个字母：
+Based on the problem description, we can list the possible subsequent vowels for each vowel:
 
-```
+```bash
 a [e]
 e [a|i]
 i [a|e|o|u]
@@ -78,9 +76,9 @@ o [i|u]
 u [a]
 ```
 
-那么我们可以推出每个元音字母的前一个字母：
+From this, we can deduce the possible preceding vowels for each vowel:
 
-```
+```bash
 [e|i|u]	a
 [a|i]	e
 [e|o]	i
@@ -88,9 +86,9 @@ u [a]
 [i|o]	u
 ```
 
-我们定义 $f[i]$ 表示当前长度以第 $i$ 个元音字母结尾的字符串的个数，如果长度为 $1$，那么 $f[i]=1$。
+We define $f[i]$ as the number of strings of the current length ending with the $i$-th vowel. If the length is $1$, then $f[i]=1$.
 
-当长度大于 $1$ 时，我们定义 $g[i]$ 表示当前长度以第 $i$ 个元音字母结尾的字符串的个数，那么 $g[i]$ 可以由 $f$ 转移而来，即：
+When the length is greater than $1$, we define $g[i]$ as the number of strings of the current length ending with the $i$-th vowel. Then $g[i]$ can be derived from $f$, that is:
 
 $$
 g[i]=
@@ -103,9 +101,9 @@ f[2]+f[3] & i=4
 \end{cases}
 $$
 
-最终答案为 $\sum_{i=0}^{4}f[i]$。注意由于答案可能会很大，所以需要对 $10^9+7$ 取模。
+The final answer is $\sum_{i=0}^{4}f[i]$. Note that the answer may be very large, so we need to take the modulus of $10^9+7$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 是字符串的长度，而 $C$ 是元音字母的个数。本题中 $C=5$。
+The time complexity is $O(n)$, and the space complexity is $O(C)$. Here, $n$ is the length of the string, and $C$ is the number of vowels. In this problem, $C=5$.
 
 <!-- tabs:start -->
 
@@ -249,9 +247,9 @@ var countVowelPermutation = function (n) {
 
 <!-- solution:start -->
 
-### 方法二：矩阵快速幂加速递推
+### Solution 2: Matrix Exponentiation to Accelerate Recursion
 
-时间复杂度 $O(C^3 \times \log n)$，空间复杂度 $O(C^2)$，其中 $C$ 是元音字母的个数，本题中 $C=5$。
+The time complexity is $O(C^3 \times \log n)$, and the space complexity is $O(C^2)$. Here, $C$ is the number of vowels. In this problem, $C=5$.
 
 <!-- tabs:start -->
 

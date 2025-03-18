@@ -1,73 +1,68 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1785.Minimum%20Elements%20to%20Add%20to%20Form%20a%20Given%20Sum/README.md
+difficulty: Medium
 rating: 1432
-source: 第 231 场周赛 Q2
+source: Weekly Contest 231 Q2
 tags:
-    - 贪心
-    - 数组
+    - Greedy
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [1785. 构成特定和需要添加的最少元素](https://leetcode.cn/problems/minimum-elements-to-add-to-form-a-given-sum)
+# [1785. Minimum Elements to Add to Form a Given Sum](https://leetcode.com/problems/minimum-elements-to-add-to-form-a-given-sum)
 
-[English Version](/solution/1700-1799/1785.Minimum%20Elements%20to%20Add%20to%20Form%20a%20Given%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> ，和两个整数 <code>limit</code> 与 <code>goal</code> 。数组 <code>nums</code> 有一条重要属性：<code>abs(nums[i]) <= limit</code> 。</p>
+<p>You are given an integer array <code>nums</code> and two integers <code>limit</code> and <code>goal</code>. The array <code>nums</code> has an interesting property that <code>abs(nums[i]) &lt;= limit</code>.</p>
 
-<p>返回使数组元素总和等于 <code>goal</code> 所需要向数组中添加的 <strong>最少元素数量</strong> ，添加元素 <strong>不应改变</strong> 数组中 <code>abs(nums[i]) <= limit</code> 这一属性。</p>
+<p>Return <em>the minimum number of elements you need to add to make the sum of the array equal to </em><code>goal</code>. The array must maintain its property that <code>abs(nums[i]) &lt;= limit</code>.</p>
 
-<p>注意，如果 <code>x >= 0</code> ，那么 <code>abs(x)</code> 等于 <code>x</code> ；否则，等于 <code>-x</code> 。</p>
+<p>Note that <code>abs(x)</code> equals <code>x</code> if <code>x &gt;= 0</code>, and <code>-x</code> otherwise.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,-1,1], limit = 3, goal = -4
-<strong>输出：</strong>2
-<strong>解释：</strong>可以将 -2 和 -3 添加到数组中，数组的元素总和变为 1 - 1 + 1 - 2 - 3 = -4 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,-10,9,1], limit = 100, goal = 0
-<strong>输出：</strong>1
+<strong>Input:</strong> nums = [1,-1,1], limit = 3, goal = -4
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> You can add -2 and -3, then the sum of the array will be 1 - 1 + 1 - 2 - 3 = -4.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,-10,9,1], limit = 100, goal = 0
+<strong>Output:</strong> 1
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= nums.length <= 10<sup>5</sup></code></li>
-	<li><code>1 <= limit <= 10<sup>6</sup></code></li>
-	<li><code>-limit <= nums[i] <= limit</code></li>
-	<li><code>-10<sup>9</sup> <= goal <= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= limit &lt;= 10<sup>6</sup></code></li>
+	<li><code>-limit &lt;= nums[i] &lt;= limit</code></li>
+	<li><code>-10<sup>9</sup> &lt;= goal &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy
 
-我们先计算数组元素总和 $s$，然后计算 $s$ 与 $goal$ 的差值 $d$。
+First, we calculate the sum of the array elements $s$, and then calculate the difference $d$ between $s$ and $goal$.
 
-那么需要添加的元素数量为 $d$ 的绝对值除以 $limit$ 向上取整，即 $\lceil \frac{|d|}{limit} \rceil$。
+The number of elements to be added is the absolute value of $d$ divided by $limit$ and rounded up, that is, $\lceil \frac{|d|}{limit} \rceil$.
 
-注意，本题中数组元素的数据范围为 $[-10^6, 10^6]$，元素个数最大为 $10^5$，总和 $s$ 以及差值 $d$ 可能会超过 $32$ 位整数的表示范围，因此需要使用 $64$ 位整数。
+Note that in this problem, the data range of array elements is $[-10^6, 10^6]$, the maximum number of elements is $10^5$, the total sum $s$ and the difference $d$ may exceed the range of 32-bit integers, so we need to use 64-bit integers.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

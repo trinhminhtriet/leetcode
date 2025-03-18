@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2853.Highest%20Salaries%20Difference/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2853. 最高薪水差异 🔒](https://leetcode.cn/problems/highest-salaries-difference)
+# [2853. Highest Salaries Difference 🔒](https://leetcode.com/problems/highest-salaries-difference)
 
-[English Version](/solution/2800-2899/2853.Highest%20Salaries%20Difference/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code><font face="monospace">Salaries</font></code></p>
+<p>Table: <code><font face="monospace">Salaries</font></code></p>
 
 <pre>
 +-------------+---------+ 
@@ -26,22 +23,21 @@ tags:
 | department  | varchar | 
 | salary      | int     |
 +-------------+---------+
-该表的主键（具有唯一值的列的组合）是 (emp_name, department)。 
-该表的每一行包含 emp_name、department 和 salary。工程部门和市场部门至少会有一条记录。
+(emp_name, department) is the primary key (combination of unique values) for this table.
+Each row of this table contains emp_name, department and salary. There will be <strong>at least one</strong> entry for the engineering and marketing departments.
 </pre>
 
-<p>编写一个解决方案，计算&nbsp;<strong>市场部门&nbsp;</strong>和&nbsp;<strong>工程部门&nbsp;</strong>中&nbsp;<strong>最高&nbsp;</strong>工资之间的差异。输出工资的绝对差异。</p>
+<p>Write a solution&nbsp;to calculate the difference between the <strong>highest</strong> salaries in the <strong>marketing</strong> and <strong>engineering</strong> <code>department</code>. Output the absolute difference in salaries.</p>
 
-<p>返回结果表。</p>
+<p>Return<em> the result table.</em></p>
 
-<p>返回结果格式如下示例所示。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>
+<strong>Input:</strong> 
 Salaries table:
 +----------+-------------+--------+
 | emp_name | department  | salary |
@@ -57,25 +53,25 @@ Salaries table:
 | Evelyn   | Marketing   | 53000  |
 | Arthur   | Engineering | 32000  |
 +----------+-------------+--------+
-<b>输出：</b>
+<strong>Output:</strong> 
 +-------------------+
 | salary_difference | 
 +-------------------+
 | 49000             | 
 +-------------------+
-<b>解释：</b>
-- 工程部门和市场部门的最高工资分别为 102,000 和 53,000，因此绝对差异为 49,000。
+<strong>Explanation:</strong> 
+- The Engineering and Marketing departments have the highest salaries of 102,000 and 53,000, respectively. Resulting in an absolute difference of 49,000.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：GROUP BY 分组
+### Solution 1: GROUP BY Clause
 
-我们可以先分别计算出每个部门的最高工资，然后再计算两个最高工资的差值。
+We can first calculate the highest salary for each department, and then calculate the difference between the two highest salaries.
 
 <!-- tabs:start -->
 

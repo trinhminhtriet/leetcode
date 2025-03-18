@@ -1,64 +1,56 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2054.Two%20Best%20Non-Overlapping%20Events/README.md
+difficulty: Medium
 rating: 1883
-source: 第 64 场双周赛 Q2
+source: Biweekly Contest 64 Q2
 tags:
-    - 数组
-    - 二分查找
-    - 动态规划
-    - 排序
-    - 堆（优先队列）
+    - Array
+    - Binary Search
+    - Dynamic Programming
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2054. 两个最好的不重叠活动](https://leetcode.cn/problems/two-best-non-overlapping-events)
+# [2054. Two Best Non-Overlapping Events](https://leetcode.com/problems/two-best-non-overlapping-events)
 
-[English Version](/solution/2000-2099/2054.Two%20Best%20Non-Overlapping%20Events/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的二维整数数组&nbsp;<code>events</code>&nbsp;，其中&nbsp;<code>events[i] = [startTime<sub>i</sub>, endTime<sub>i</sub>, value<sub>i</sub>]</code>&nbsp;。第&nbsp;<code>i</code>&nbsp;个活动开始于&nbsp;<code>startTime<sub>i</sub></code>&nbsp;，结束于&nbsp;<code>endTime<sub>i</sub></code>&nbsp;，如果你参加这个活动，那么你可以得到价值&nbsp;<code>value<sub>i</sub></code>&nbsp;。你 <strong>最多</strong>&nbsp;可以参加&nbsp;<strong>两个时间不重叠</strong>&nbsp;活动，使得它们的价值之和 <strong>最大</strong>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> 2D integer array of <code>events</code> where <code>events[i] = [startTime<sub>i</sub>, endTime<sub>i</sub>, value<sub>i</sub>]</code>. The <code>i<sup>th</sup></code> event starts at <code>startTime<sub>i</sub></code><sub> </sub>and ends at <code>endTime<sub>i</sub></code>, and if you attend this event, you will receive a value of <code>value<sub>i</sub></code>. You can choose <strong>at most</strong> <strong>two</strong> <strong>non-overlapping</strong> events to attend such that the sum of their values is <strong>maximized</strong>.</p>
 
-<p>请你返回价值之和的 <strong>最大值</strong>&nbsp;。</p>
+<p>Return <em>this <strong>maximum</strong> sum.</em></p>
 
-<p>注意，活动的开始时间和结束时间是 <strong>包括</strong>&nbsp;在活动时间内的，也就是说，你不能参加两个活动且它们之一的开始时间等于另一个活动的结束时间。更具体的，如果你参加一个活动，且结束时间为 <code>t</code>&nbsp;，那么下一个活动必须在&nbsp;<code>t + 1</code>&nbsp;或之后的时间开始。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2054.Two%20Best%20Non-Overlapping%20Events/images/picture5.png" style="width: 400px; height: 75px;"></p>
-
-<pre><b>输入：</b>events = [[1,3,2],[4,5,2],[2,4,3]]
-<b>输出：</b>4
-<strong>解释：</strong>选择绿色的活动 0 和 1 ，价值之和为 2 + 2 = 4 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="Example 1 Diagram" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2054.Two%20Best%20Non-Overlapping%20Events/images/picture1.png" style="width: 400px; height: 77px;"></p>
-
-<pre><b>输入：</b>events = [[1,3,2],[4,5,2],[1,5,5]]
-<b>输出：</b>5
-<strong>解释：</strong>选择活动 2 ，价值和为 5 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2054.Two%20Best%20Non-Overlapping%20Events/images/picture3.png" style="width: 400px; height: 66px;"></p>
-
-<pre><b>输入：</b>events = [[1,5,3],[1,5,1],[6,6,5]]
-<b>输出：</b>8
-<strong>解释：</strong>选择活动 0 和 2 ，价值之和为 3 + 5 = 8 。</pre>
+<p>Note that the start time and end time is <strong>inclusive</strong>: that is, you cannot attend two events where one of them starts and the other ends at the same time. More specifically, if you attend an event with end time <code>t</code>, the next event must start at or after <code>t + 1</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2054.Two%20Best%20Non-Overlapping%20Events/images/picture5.png" style="width: 400px; height: 75px;" />
+<pre>
+<strong>Input:</strong> events = [[1,3,2],[4,5,2],[2,4,3]]
+<strong>Output:</strong> 4
+<strong>Explanation: </strong>Choose the green events, 0 and 1 for a sum of 2 + 2 = 4.
+</pre>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+<img alt="Example 1 Diagram" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2054.Two%20Best%20Non-Overlapping%20Events/images/picture1.png" style="width: 400px; height: 77px;" />
+<pre>
+<strong>Input:</strong> events = [[1,3,2],[4,5,2],[1,5,5]]
+<strong>Output:</strong> 5
+<strong>Explanation: </strong>Choose event 2 for a sum of 5.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2054.Two%20Best%20Non-Overlapping%20Events/images/picture3.png" style="width: 400px; height: 66px;" />
+<pre>
+<strong>Input:</strong> events = [[1,5,3],[1,5,1],[6,6,5]]
+<strong>Output:</strong> 8
+<strong>Explanation: </strong>Choose events 0 and 2 for a sum of 3 + 5 = 8.</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= events.length &lt;= 10<sup>5</sup></code></li>
@@ -69,17 +61,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 二分查找
+### Solution 1: Sorting + Binary Search
 
-我们可以讲活动按照开始排序，然后预处理出以每个活动为作为开始的最大价值，即 $f[i]$ 表示从第 $i$ 个活动开始，到最后一个活动结束，选择其中一个活动的最大价值。
+We can sort the events by their start times, and then preprocess the maximum value starting from each event, i.e., $f[i]$ represents the maximum value of choosing one event from the $i$-th event to the last event.
 
-然后我们枚举每个活动，对于每个活动，我们使用二分查找找到第一个开始时间大于当前活动结束时间的活动，下标记为 $\textit{idx}$，那么以当前活动为开始的最大价值就是 $f[\textit{idx}]$，加上当前活动的价值，即为以当前活动为第一个活动，最终能获得的最大价值。求最大值即可。
+Then we enumerate each event. For each event, we use binary search to find the first event whose start time is greater than the end time of the current event, denoted as $\textit{idx}$. The maximum value starting from the current event is $f[\textit{idx}]$ plus the value of the current event, which is the maximum value that can be obtained by choosing the current event as the first event. We take the maximum value among all these values.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为活动的数量。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of events.
 
 <!-- tabs:start -->
 

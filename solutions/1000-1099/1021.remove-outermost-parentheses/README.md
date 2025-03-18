@@ -1,88 +1,80 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1021.Remove%20Outermost%20Parentheses/README.md
+difficulty: Easy
 rating: 1311
-source: 第 131 场周赛 Q1
+source: Weekly Contest 131 Q1
 tags:
-    - 栈
-    - 字符串
+    - Stack
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1021. 删除最外层的括号](https://leetcode.cn/problems/remove-outermost-parentheses)
+# [1021. Remove Outermost Parentheses](https://leetcode.com/problems/remove-outermost-parentheses)
 
-[English Version](/solution/1000-1099/1021.Remove%20Outermost%20Parentheses/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有效括号字符串为空 <code>""</code>、<code>"(" + A + ")"</code> 或 <code>A + B</code> ，其中 <code>A</code> 和 <code>B</code> 都是有效的括号字符串，<code>+</code> 代表字符串的连接。</p>
+<p>A valid parentheses string is either empty <code>&quot;&quot;</code>, <code>&quot;(&quot; + A + &quot;)&quot;</code>, or <code>A + B</code>, where <code>A</code> and <code>B</code> are valid parentheses strings, and <code>+</code> represents string concatenation.</p>
 
 <ul>
-	<li>例如，<code>""</code>，<code>"()"</code>，<code>"(())()"</code> 和 <code>"(()(()))"</code> 都是有效的括号字符串。</li>
+	<li>For example, <code>&quot;&quot;</code>, <code>&quot;()&quot;</code>, <code>&quot;(())()&quot;</code>, and <code>&quot;(()(()))&quot;</code> are all valid parentheses strings.</li>
 </ul>
 
-<p>如果有效字符串 <code>s</code> 非空，且不存在将其拆分为 <code>s = A + B</code> 的方法，我们称其为<strong>原语（primitive）</strong>，其中 <code>A</code> 和 <code>B</code> 都是非空有效括号字符串。</p>
+<p>A valid parentheses string <code>s</code> is primitive if it is nonempty, and there does not exist a way to split it into <code>s = A + B</code>, with <code>A</code> and <code>B</code> nonempty valid parentheses strings.</p>
 
-<p>给出一个非空有效字符串 <code>s</code>，考虑将其进行原语化分解，使得：<code>s = P_1 + P_2 + ... + P_k</code>，其中 <code>P_i</code> 是有效括号字符串原语。</p>
+<p>Given a valid parentheses string <code>s</code>, consider its primitive decomposition: <code>s = P<sub>1</sub> + P<sub>2</sub> + ... + P<sub>k</sub></code>, where <code>P<sub>i</sub></code> are primitive valid parentheses strings.</p>
 
-<p>对 <code>s</code> 进行原语化分解，删除分解中每个原语字符串的最外层括号，返回 <code>s</code> 。</p>
+<p>Return <code>s</code> <em>after removing the outermost parentheses of every primitive string in the primitive decomposition of </em><code>s</code>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "(()())(())"
-<strong>输出：</strong>"()()()"
-<strong>解释：
-</strong>输入字符串为 "(()())(())"，原语化分解得到 "(()())" + "(())"，
-删除每个部分中的最外层括号后得到 "()()" + "()" = "()()()"。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "(()())(())(()(()))"
-<strong>输出：</strong>"()()()()(())"
-<strong>解释：</strong>
-输入字符串为 "(()())(())(()(()))"，原语化分解得到 "(()())" + "(())" + "(()(()))"，
-删除每个部分中的最外层括号后得到 "()()" + "()" + "()(())" = "()()()()(())"。
+<strong>Input:</strong> s = &quot;(()())(())&quot;
+<strong>Output:</strong> &quot;()()()&quot;
+<strong>Explanation:</strong> 
+The input string is &quot;(()())(())&quot;, with primitive decomposition &quot;(()())&quot; + &quot;(())&quot;.
+After removing outer parentheses of each part, this is &quot;()()&quot; + &quot;()&quot; = &quot;()()()&quot;.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "()()"
-<strong>输出：</strong>""
-<strong>解释：</strong>
-输入字符串为 "()()"，原语化分解得到 "()" + "()"，
-删除每个部分中的最外层括号后得到 "" + "" = ""。
+<strong>Input:</strong> s = &quot;(()())(())(()(()))&quot;
+<strong>Output:</strong> &quot;()()()()(())&quot;
+<strong>Explanation:</strong> 
+The input string is &quot;(()())(())(()(()))&quot;, with primitive decomposition &quot;(()())&quot; + &quot;(())&quot; + &quot;(()(()))&quot;.
+After removing outer parentheses of each part, this is &quot;()()&quot; + &quot;()&quot; + &quot;()(())&quot; = &quot;()()()()(())&quot;.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;()()&quot;
+<strong>Output:</strong> &quot;&quot;
+<strong>Explanation:</strong> 
+The input string is &quot;()()&quot;, with primitive decomposition &quot;()&quot; + &quot;()&quot;.
+After removing outer parentheses of each part, this is &quot;&quot; + &quot;&quot; = &quot;&quot;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= s.length <= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code> 为 <code>'('</code> 或 <code>')'</code></li>
-	<li><code>s</code> 是一个有效括号字符串</li>
+	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>s[i]</code> is either <code>&#39;(&#39;</code> or <code>&#39;)&#39;</code>.</li>
+	<li><code>s</code> is a valid parentheses string.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
-
-遍历字符串，遇到左括号 `'('` 计数器加一，此时计数器不为 $1$ 时，说明当前括号不是最外层括号，将其加入结果字符串。遇到右括号 `')'` 计数器减一，此时计数器不为 $0$ 时，说明当前括号不是最外层括号，将其加入结果字符串。
-
-时间复杂度 $O(n)$，其中 $n$ 为字符串长度。忽略答案字符串的空间开销，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -226,7 +218,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

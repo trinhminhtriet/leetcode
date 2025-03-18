@@ -1,75 +1,76 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1177.Can%20Make%20Palindrome%20from%20Substring/README.md
+difficulty: Medium
 rating: 1848
-source: 第 152 场周赛 Q3
+source: Weekly Contest 152 Q3
 tags:
-    - 位运算
-    - 数组
-    - 哈希表
-    - 字符串
-    - 前缀和
+    - Bit Manipulation
+    - Array
+    - Hash Table
+    - String
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [1177. 构建回文串检测](https://leetcode.cn/problems/can-make-palindrome-from-substring)
+# [1177. Can Make Palindrome from Substring](https://leetcode.com/problems/can-make-palindrome-from-substring)
 
-[English Version](/solution/1100-1199/1177.Can%20Make%20Palindrome%20from%20Substring/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>s</code>，请你对&nbsp;<code>s</code>&nbsp;的子串进行检测。</p>
+<p>You are given a string <code>s</code> and array <code>queries</code> where <code>queries[i] = [left<sub>i</sub>, right<sub>i</sub>, k<sub>i</sub>]</code>. We may rearrange the substring <code>s[left<sub>i</sub>...right<sub>i</sub>]</code> for each query and then choose up to <code>k<sub>i</sub></code> of them to replace with any lowercase English letter.</p>
 
-<p>每次检测，待检子串都可以表示为&nbsp;<code>queries[i] = [left, right, k]</code>。我们可以 <strong>重新排列</strong> 子串&nbsp;<code>s[left], ..., s[right]</code>，并从中选择 <strong>最多</strong> <code>k</code>&nbsp;项替换成任何小写英文字母。&nbsp;</p>
+<p>If the substring is possible to be a palindrome string after the operations above, the result of the query is <code>true</code>. Otherwise, the result is <code>false</code>.</p>
 
-<p>如果在上述检测过程中，子串可以变成回文形式的字符串，那么检测结果为&nbsp;<code>true</code>，否则结果为&nbsp;<code>false</code>。</p>
+<p>Return a boolean array <code>answer</code> where <code>answer[i]</code> is the result of the <code>i<sup>th</sup></code> query <code>queries[i]</code>.</p>
 
-<p>返回答案数组&nbsp;<code>answer[]</code>，其中&nbsp;<code>answer[i]</code>&nbsp;是第&nbsp;<code>i</code>&nbsp;个待检子串&nbsp;<code>queries[i]</code>&nbsp;的检测结果。</p>
-
-<p>注意：在替换时，子串中的每个字母都必须作为 <strong>独立的</strong> 项进行计数，也就是说，如果&nbsp;<code>s[left..right] = &quot;aaa&quot;</code>&nbsp;且&nbsp;<code>k = 2</code>，我们只能替换其中的两个字母。（另外，任何检测都不会修改原始字符串 <code>s</code>，可以认为每次检测都是独立的）</p>
+<p>Note that each letter is counted individually for replacement, so if, for example <code>s[left<sub>i</sub>...right<sub>i</sub>] = &quot;aaa&quot;</code>, and <code>k<sub>i</sub> = 2</code>, we can only replace two of the letters. Also, note that no query modifies the initial string <code>s</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example :</strong></p>
 
-<p><strong>示例：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;abcda&quot;, queries = [[3,3,0],[1,2,0],[0,3,1],[0,3,2],[0,4,1]]
+<strong>Output:</strong> [true,false,false,true,true]
+<strong>Explanation:</strong>
+queries[0]: substring = &quot;d&quot;, is palidrome.
+queries[1]: substring = &quot;bc&quot;, is not palidrome.
+queries[2]: substring = &quot;abcd&quot;, is not palidrome after replacing only 1 character.
+queries[3]: substring = &quot;abcd&quot;, could be changed to &quot;abba&quot; which is palidrome. Also this can be changed to &quot;baab&quot; first rearrange it &quot;bacd&quot; then replace &quot;cd&quot; with &quot;ab&quot;.
+queries[4]: substring = &quot;abcda&quot;, could be changed to &quot;abcba&quot; which is palidrome.
+</pre>
 
-<pre><strong>输入：</strong>s = &quot;abcda&quot;, queries = [[3,3,0],[1,2,0],[0,3,1],[0,3,2],[0,4,1]]
-<strong>输出：</strong>[true,false,false,true,true]
-<strong>解释：</strong>
-queries[0] : 子串 = &quot;d&quot;，回文。
-queries[1] :&nbsp;子串 = &quot;bc&quot;，不是回文。
-queries[2] :&nbsp;子串 = &quot;abcd&quot;，只替换 1 个字符是变不成回文串的。
-queries[3] :&nbsp;子串 = &quot;abcd&quot;，可以变成回文的 &quot;abba&quot;。 也可以变成 &quot;baab&quot;，先重新排序变成 &quot;bacd&quot;，然后把 &quot;cd&quot; 替换为 &quot;ab&quot;。
-queries[4] :&nbsp;子串 = &quot;abcda&quot;，可以变成回文的 &quot;abcba&quot;。
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;lyb&quot;, queries = [[0,1,0],[2,2,1]]
+<strong>Output:</strong> [false,true]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length,&nbsp;queries.length&nbsp;&lt;= 10^5</code></li>
-	<li><code>0 &lt;= queries[i][0] &lt;= queries[i][1] &lt;&nbsp;s.length</code></li>
-	<li><code>0 &lt;= queries[i][2] &lt;= s.length</code></li>
-	<li><code>s</code> 中只有小写英文字母</li>
+	<li><code>1 &lt;= s.length, queries.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>0 &lt;= left<sub>i</sub> &lt;= right<sub>i</sub> &lt; s.length</code></li>
+	<li><code>0 &lt;= k<sub>i</sub> &lt;= s.length</code></li>
+	<li><code>s</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和
+### Solution 1: Prefix Sum
 
-我们先考虑一个子串能否在经过最多 $k$ 次替换后变成回文串，显然，我们需要统计子串中每个字符出现的次数，这可以通过前缀和来实现。对于出现偶数次的字符，我们不需要进行替换，对于出现奇数次的字符，我们需要进行替换，替换的次数为 $\lfloor \frac{x}{2} \rfloor$，其中 $x$ 为出现奇数次的字符的个数。如果 $\lfloor \frac{x}{2} \rfloor \leq k$，那么这个子串就可以变成回文串。
+First, consider whether a substring can become a palindrome after at most $k$ replacements. Obviously, we need to count the number of times each character appears in the substring, which can be implemented through prefix sum. For characters that appear an even number of times, we do not need to replace them. For characters that appear an odd number of times, we need to replace them. The number of replacements is $\lfloor \frac{x}{2} \rfloor$, where $x$ is the number of characters that appear an odd number of times. If $\lfloor \frac{x}{2} \rfloor \leq k$, then this substring can become a palindrome.
 
-因此，我们定义一个前缀和数组 $ss$，其中 $ss[i][j]$ 表示字符串 $s$ 的前 $i$ 个字符中，字符 $j$ 出现的次数。那么对于一个子串 $s[l..r]$，我们可以通过 $ss[r + 1][j] - ss[l][j]$ 得到子串中字符 $j$ 出现的次数。我们遍历所有的查询，对于每个查询 $[l, r, k]$，我们统计子串 $s[l..r]$ 中出现奇数次的字符的个数 $x$，如果 $\lfloor \frac{x}{2} \rfloor \leq k$，那么这个子串就可以变成回文串。
+Therefore, we define a prefix sum array $ss$, where $ss[i][j]$ represents the number of times character $j$ appears in the first $i$ characters of string $s$. Then for a substring $s[l..r]$, we can get the number of times character $j$ appears in the substring through $ss[r + 1][j] - ss[l][j]$. We traverse all queries. For each query $[l, r, k]$, we count the number of characters $x$ that appear an odd number of times in the substring $s[l..r]$. If $\lfloor \frac{x}{2} \rfloor \leq k$, then this substring can become a palindrome.
 
-时间复杂度 $O((n + m) \times C)$，空间复杂度 $O(n \times C)$，其中 $n$ 和 $m$ 分别为字符串 $s$ 和查询数组的长度；而 $C$ 为字符集的大小，本题中字符集为小写英文字母，因此 $C = 26$。
+The time complexity is $O((n + m) \times C)$, and the space complexity is $O(n \times C)$. Here, $n$ and $m$ are the lengths of the string $s$ and the query array respectively; and $C$ is the size of the character set. In this problem, the character set is lowercase English letters, so $C = 26$.
 
 <!-- tabs:start -->
 

@@ -1,94 +1,79 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1423.Maximum%20Points%20You%20Can%20Obtain%20from%20Cards/README.md
+difficulty: Medium
 rating: 1573
-source: 第 186 场周赛 Q2
+source: Weekly Contest 186 Q2
 tags:
-    - 数组
-    - 前缀和
-    - 滑动窗口
+    - Array
+    - Prefix Sum
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [1423. 可获得的最大点数](https://leetcode.cn/problems/maximum-points-you-can-obtain-from-cards)
+# [1423. Maximum Points You Can Obtain from Cards](https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards)
 
-[English Version](/solution/1400-1499/1423.Maximum%20Points%20You%20Can%20Obtain%20from%20Cards/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>几张卡牌<strong> 排成一行</strong>，每张卡牌都有一个对应的点数。点数由整数数组 <code>cardPoints</code> 给出。</p>
+<p>There are several cards <strong>arranged in a row</strong>, and each card has an associated number of points. The points are given in the integer array <code>cardPoints</code>.</p>
 
-<p>每次行动，你可以从行的开头或者末尾拿一张卡牌，最终你必须正好拿 <code>k</code> 张卡牌。</p>
+<p>In one step, you can take one card from the beginning or from the end of the row. You have to take exactly <code>k</code> cards.</p>
 
-<p>你的点数就是你拿到手中的所有卡牌的点数之和。</p>
+<p>Your score is the sum of the points of the cards you have taken.</p>
 
-<p>给你一个整数数组 <code>cardPoints</code> 和整数 <code>k</code>，请你返回可以获得的最大点数。</p>
+<p>Given the integer array <code>cardPoints</code> and the integer <code>k</code>, return the <em>maximum score</em> you can obtain.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>cardPoints = [1,2,3,4,5,6,1], k = 3
-<strong>输出：</strong>12
-<strong>解释：</strong>第一次行动，不管拿哪张牌，你的点数总是 1 。但是，先拿最右边的卡牌将会最大化你的可获得点数。最优策略是拿右边的三张牌，最终点数为 1 + 6 + 5 = 12 。
+<pre>
+<strong>Input:</strong> cardPoints = [1,2,3,4,5,6,1], k = 3
+<strong>Output:</strong> 12
+<strong>Explanation:</strong> After the first step, your score will always be 1. However, choosing the rightmost card first will maximize your total score. The optimal strategy is to take the three cards on the right, giving a final score of 1 + 6 + 5 = 12.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>cardPoints = [2,2,2], k = 2
-<strong>输出：</strong>4
-<strong>解释：</strong>无论你拿起哪两张卡牌，可获得的点数总是 4 。
+<pre>
+<strong>Input:</strong> cardPoints = [2,2,2], k = 2
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Regardless of which two cards you take, your score will always be 4.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>cardPoints = [9,7,7,9,7,7,9], k = 7
-<strong>输出：</strong>55
-<strong>解释：</strong>你必须拿起所有卡牌，可以获得的点数为所有卡牌的点数之和。
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><strong>输入：</strong>cardPoints = [1,1000,1], k = 1
-<strong>输出：</strong>1
-<strong>解释：</strong>你无法拿到中间那张卡牌，所以可以获得的最大点数为 1 。 
-</pre>
-
-<p><strong>示例 5：</strong></p>
-
-<pre><strong>输入：</strong>cardPoints = [1,79,80,1,1,1,200,1], k = 3
-<strong>输出：</strong>202
+<pre>
+<strong>Input:</strong> cardPoints = [9,7,7,9,7,7,9], k = 7
+<strong>Output:</strong> 55
+<strong>Explanation:</strong> You have to take all the cards. Your score is the sum of points of all cards.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= cardPoints.length &lt;= 10^5</code></li>
-	<li><code>1 &lt;= cardPoints[i] &lt;= 10^4</code></li>
+	<li><code>1 &lt;= cardPoints.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= cardPoints[i] &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= k &lt;= cardPoints.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：滑动窗口
+### Solution 1: Sliding Window
 
-我们可以用一个长度为 $k$ 的滑动窗口来模拟这个过程。
+We can use a sliding window of length $k$ to simulate this process.
 
-初始时我们将窗口放在数组的末尾，即索引为 $n-k$ 到索引 $n-1$ 的这 $k$ 个位置，窗口内卡牌的点数之和记为 $s$，初始答案 $ans$ 的值也为 $s$。这其实是从数组的开头拿走 $0$ 张卡牌的情况。
+Initially, we place the window at the end of the array, i.e., the $k$ positions from index $n-k$ to index $n-1$. The sum of the points of the cards in the window is denoted as $s$, and the initial value of the answer $ans$ is also $s$.
 
-接下来，我们考虑从数组的开头依次拿 $1, 2, ..., k$ 张卡牌的情况，假设取到的卡牌为 $cardPoints[i]$，那么我们将其加入 $s$，由于窗口的长度限制为 $k$，我们需要将 $cardPoints[n-k+i]$ 从 $s$ 中减去，这样我们就可以计算出拿到的 $k$ 张卡牌的点数之和，更新答案 $ans$。
+Next, we consider the situation where we take $1, 2, ..., k$ cards from the beginning of the array in turn. Suppose the card taken is $cardPoints[i]$. Then we add it to $s$. Due to the length limit of the window is $k$, we need to subtract $cardPoints[n-k+i]$ from $s$. In this way, we can calculate the sum of the points of the $k$ cards taken and update the answer $ans$.
 
-时间复杂度 $O(k)$，其中 $k$ 给题目中给出的整数。空间复杂度 $O(1)$。
+The time complexity is $O(k)$, where $k$ is the integer given in the problem. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

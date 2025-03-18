@@ -1,90 +1,78 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0773.Sliding%20Puzzle/README.md
+difficulty: Hard
 tags:
-    - 广度优先搜索
-    - 记忆化搜索
-    - 数组
-    - 动态规划
-    - 回溯
-    - 矩阵
+    - Breadth-First Search
+    - Memoization
+    - Array
+    - Dynamic Programming
+    - Backtracking
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [773. 滑动谜题](https://leetcode.cn/problems/sliding-puzzle)
+# [773. Sliding Puzzle](https://leetcode.com/problems/sliding-puzzle)
 
-[English Version](/solution/0700-0799/0773.Sliding%20Puzzle/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在一个 <code>2 x 3</code> 的板上（<code>board</code>）有 5 块砖瓦，用数字 <code>1~5</code> 来表示, 以及一块空缺用&nbsp;<code>0</code>&nbsp;来表示。一次 <strong>移动</strong> 定义为选择&nbsp;<code>0</code>&nbsp;与一个相邻的数字（上下左右）进行交换.</p>
+<p>On an <code>2 x 3</code> board, there are five tiles labeled from <code>1</code> to <code>5</code>, and an empty square represented by <code>0</code>. A <strong>move</strong> consists of choosing <code>0</code> and a 4-directionally adjacent number and swapping it.</p>
 
-<p>最终当板&nbsp;<code>board</code>&nbsp;的结果是&nbsp;<code>[[1,2,3],[4,5,0]]</code>&nbsp;谜板被解开。</p>
+<p>The state of the board is solved if and only if the board is <code>[[1,2,3],[4,5,0]]</code>.</p>
 
-<p>给出一个谜板的初始状态&nbsp;<code>board</code>&nbsp;，返回最少可以通过多少次移动解开谜板，如果不能解开谜板，则返回 <code>-1</code> 。</p>
+<p>Given the puzzle board <code>board</code>, return <em>the least number of moves required so that the state of the board is solved</em>. If it is impossible for the state of the board to be solved, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0773.Sliding%20Puzzle/images/slide1-grid.jpg" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0773.Sliding%20Puzzle/images/slide1-grid.jpg" style="width: 244px; height: 165px;" />
 <pre>
-<strong>输入：</strong>board = [[1,2,3],[4,0,5]]
-<strong>输出：</strong>1
-<strong>解释：</strong>交换 0 和 5 ，1 步完成
+<strong>Input:</strong> board = [[1,2,3],[4,0,5]]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> Swap the 0 and the 5 in one move.
 </pre>
 
-<p><strong>示例 2:</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0773.Sliding%20Puzzle/images/slide2-grid.jpg" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0773.Sliding%20Puzzle/images/slide2-grid.jpg" style="width: 244px; height: 165px;" />
 <pre>
-<strong>输入：</strong>board = [[1,2,3],[5,4,0]]
-<strong>输出：</strong>-1
-<strong>解释：</strong>没有办法完成谜板
+<strong>Input:</strong> board = [[1,2,3],[5,4,0]]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> No number of moves will make the board solved.
 </pre>
 
-<p><strong>示例 3:</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0773.Sliding%20Puzzle/images/slide3-grid.jpg" /></p>
-
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0773.Sliding%20Puzzle/images/slide3-grid.jpg" style="width: 244px; height: 165px;" />
 <pre>
-<strong>输入：</strong>board = [[4,1,2],[5,0,3]]
-<strong>输出：</strong>5
-<strong>解释：</strong>
-最少完成谜板的最少移动次数是 5 ，
-一种移动路径:
-尚未移动: [[4,1,2],[5,0,3]]
-移动 1 次: [[4,1,2],[0,5,3]]
-移动 2 次: [[0,1,2],[4,5,3]]
-移动 3 次: [[1,0,2],[4,5,3]]
-移动 4 次: [[1,2,0],[4,5,3]]
-移动 5 次: [[1,2,3],[4,5,0]]
+<strong>Input:</strong> board = [[4,1,2],[5,0,3]]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> 5 is the smallest number of moves that solves the board.
+An example path:
+After move 0: [[4,1,2],[5,0,3]]
+After move 1: [[4,1,2],[0,5,3]]
+After move 2: [[0,1,2],[4,5,3]]
+After move 3: [[1,0,2],[4,5,3]]
+After move 4: [[1,2,0],[4,5,3]]
+After move 5: [[1,2,3],[4,5,0]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>board.length == 2</code></li>
 	<li><code>board[i].length == 3</code></li>
 	<li><code>0 &lt;= board[i][j] &lt;= 5</code></li>
-	<li><code>board[i][j]</code>&nbsp;中每个值都 <strong>不同</strong></li>
+	<li>Each value <code>board[i][j]</code> is <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -312,7 +300,7 @@ public:
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

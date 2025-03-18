@@ -1,66 +1,59 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1608.Special%20Array%20With%20X%20Elements%20Greater%20Than%20or%20Equal%20X/README.md
+difficulty: Easy
 rating: 1369
-source: 第 209 场周赛 Q1
+source: Weekly Contest 209 Q1
 tags:
-    - 数组
-    - 二分查找
-    - 排序
+    - Array
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1608. 特殊数组的特征值](https://leetcode.cn/problems/special-array-with-x-elements-greater-than-or-equal-x)
+# [1608. Special Array With X Elements Greater Than or Equal X](https://leetcode.com/problems/special-array-with-x-elements-greater-than-or-equal-x)
 
-[English Version](/solution/1600-1699/1608.Special%20Array%20With%20X%20Elements%20Greater%20Than%20or%20Equal%20X/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个非负整数数组 <code>nums</code> 。如果存在一个数 <code>x</code> ，使得 <code>nums</code> 中恰好有 <code>x</code> 个元素 <strong>大于或者等于</strong> <code>x</code> ，那么就称 <code>nums</code> 是一个 <strong>特殊数组</strong> ，而 <code>x</code> 是该数组的 <strong>特征值</strong> 。</p>
+<p>You are given an array <code>nums</code> of non-negative integers. <code>nums</code> is considered <strong>special</strong> if there exists a number <code>x</code> such that there are <strong>exactly</strong> <code>x</code> numbers in <code>nums</code> that are <strong>greater than or equal to</strong> <code>x</code>.</p>
 
-<p>注意： <code>x</code> <strong>不必</strong> 是 <code>nums</code> 的中的元素。</p>
+<p>Notice that <code>x</code> <strong>does not</strong> have to be an element in <code>nums</code>.</p>
 
-<p>如果数组 <code>nums</code> 是一个 <strong>特殊数组</strong> ，请返回它的特征值 <code>x</code> 。否则，返回<em> </em><code>-1</code> 。可以证明的是，如果 <code>nums</code> 是特殊数组，那么其特征值 <code>x</code> 是 <strong>唯一的</strong> 。</p>
+<p>Return <code>x</code> <em>if the array is <strong>special</strong>, otherwise, return </em><code>-1</code>. It can be proven that if <code>nums</code> is special, the value for <code>x</code> is <strong>unique</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>nums = [3,5]
-<strong>输出：</strong>2
-<strong>解释：</strong>有 2 个元素（3 和 5）大于或等于 2 。
+<pre>
+<strong>Input:</strong> nums = [3,5]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> There are 2 values (3 and 5) that are greater than or equal to 2.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>nums = [0,0]
-<strong>输出：</strong>-1
-<strong>解释：</strong>没有满足题目要求的特殊数组，故而也不存在特征值 x 。
-如果 x = 0，应该有 0 个元素 &gt;= x，但实际有 2 个。
-如果 x = 1，应该有 1 个元素 &gt;= x，但实际有 0 个。
-如果 x = 2，应该有 2 个元素 &gt;= x，但实际有 0 个。
-x 不能取更大的值，因为 nums 中只有两个元素。</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>nums = [0,4,3,0,4]
-<strong>输出：</strong>3
-<strong>解释：</strong>有 3 个元素大于或等于 3 。
+<pre>
+<strong>Input:</strong> nums = [0,0]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> No numbers fit the criteria for x.
+If x = 0, there should be 0 numbers &gt;= x, but there are 2.
+If x = 1, there should be 1 number &gt;= x, but there are 0.
+If x = 2, there should be 2 numbers &gt;= x, but there are 0.
+x cannot be greater since there are only 2 numbers in nums.
 </pre>
 
-<p><strong>示例 4：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>nums = [3,6,7,7,0]
-<strong>输出：</strong>-1
+<pre>
+<strong>Input:</strong> nums = [0,4,3,0,4]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> There are 3 values that are greater than or equal to 3.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -69,15 +62,15 @@ x 不能取更大的值，因为 nums 中只有两个元素。</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：暴力枚举
+### Solution 1: Brute Force Enumeration
 
-我们在 $[1..n]$ 范围内枚举 $x$，然后统计数组中大于等于 $x$ 的元素个数，记为 $cnt$。若存在 $cnt$ 与 $x$ 相等，直接返回 $x$。
+We enumerate $x$ in the range of $[1..n]$, and then count the number of elements in the array that are greater than or equal to $x$, denoted as $cnt$. If there exists $cnt$ equal to $x$, return $x$ directly.
 
-时间复杂度 $O(n^2)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n^2)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -191,13 +184,13 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：排序 + 二分查找
+### Solution 2: Sorting + Binary Search
 
-我们也可以先对 `nums` 进行排序。
+We can also sort `nums` first.
 
-接下来同样枚举 $x$，利用二分查找，找到 `nums` 中第一个大于等于 $x$ 的元素，快速统计出 `nums` 中大于等于 $x$ 的元素个数。
+Next, we still enumerate $x$, and use binary search to find the first element in `nums` that is greater than or equal to $x$, quickly counting the number of elements in `nums` that are greater than or equal to $x$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

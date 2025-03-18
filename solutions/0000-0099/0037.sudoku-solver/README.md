@@ -1,78 +1,67 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0037.Sudoku%20Solver/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 哈希表
-    - 回溯
-    - 矩阵
+    - Array
+    - Hash Table
+    - Backtracking
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [37. 解数独](https://leetcode.cn/problems/sudoku-solver)
+# [37. Sudoku Solver](https://leetcode.com/problems/sudoku-solver)
 
-[English Version](/solution/0000-0099/0037.Sudoku%20Solver/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>编写一个程序，通过填充空格来解决数独问题。</p>
+<p>Write a program to solve a Sudoku puzzle by filling the empty cells.</p>
 
-<p>数独的解法需<strong> 遵循如下规则</strong>：</p>
+<p>A sudoku solution must satisfy <strong>all of the following rules</strong>:</p>
 
 <ol>
-	<li>数字&nbsp;<code>1-9</code>&nbsp;在每一行只能出现一次。</li>
-	<li>数字&nbsp;<code>1-9</code>&nbsp;在每一列只能出现一次。</li>
-	<li>数字&nbsp;<code>1-9</code>&nbsp;在每一个以粗实线分隔的&nbsp;<code>3x3</code>&nbsp;宫内只能出现一次。（请参考示例图）</li>
+	<li>Each of the digits <code>1-9</code> must occur exactly once in each row.</li>
+	<li>Each of the digits <code>1-9</code> must occur exactly once in each column.</li>
+	<li>Each of the digits <code>1-9</code> must occur exactly once in each of the 9 <code>3x3</code> sub-boxes of the grid.</li>
 </ol>
 
-<p>数独部分空格内已填入了数字，空白格用&nbsp;<code>'.'</code>&nbsp;表示。</p>
+<p>The <code>&#39;.&#39;</code> character indicates empty cells.</p>
 
 <p>&nbsp;</p>
-
-<div class="top-view__1vxA">
-<div class="original__bRMd">
-<div>
-<p><strong>示例 1：</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0037.Sudoku%20Solver/images/250px-sudoku-by-l2g-20050714svg.png" style="height:250px; width:250px" />
+<p><strong class="example">Example 1:</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0037.Sudoku%20Solver/images/250px-Sudoku-by-L2G-20050714.svg.png" style="height:250px; width:250px" />
 <pre>
-<strong>输入：</strong>board = [["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]
-<strong>输出：</strong>[["5","3","4","6","7","8","9","1","2"],["6","7","2","1","9","5","3","4","8"],["1","9","8","3","4","2","5","6","7"],["8","5","9","7","6","1","4","2","3"],["4","2","6","8","5","3","7","9","1"],["7","1","3","9","2","4","8","5","6"],["9","6","1","5","3","7","2","8","4"],["2","8","7","4","1","9","6","3","5"],["3","4","5","2","8","6","1","7","9"]]
-<strong>解释：</strong>输入的数独如上图所示，唯一有效的解决方案如下所示：
+<strong>Input:</strong> board = [[&quot;5&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],[&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;,&quot;9&quot;,&quot;5&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],[&quot;.&quot;,&quot;9&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;],[&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;3&quot;],[&quot;4&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;],[&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;],[&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;8&quot;,&quot;.&quot;],[&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;4&quot;,&quot;1&quot;,&quot;9&quot;,&quot;.&quot;,&quot;.&quot;,&quot;5&quot;],[&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;9&quot;]]
+<strong>Output:</strong> [[&quot;5&quot;,&quot;3&quot;,&quot;4&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;,&quot;1&quot;,&quot;2&quot;],[&quot;6&quot;,&quot;7&quot;,&quot;2&quot;,&quot;1&quot;,&quot;9&quot;,&quot;5&quot;,&quot;3&quot;,&quot;4&quot;,&quot;8&quot;],[&quot;1&quot;,&quot;9&quot;,&quot;8&quot;,&quot;3&quot;,&quot;4&quot;,&quot;2&quot;,&quot;5&quot;,&quot;6&quot;,&quot;7&quot;],[&quot;8&quot;,&quot;5&quot;,&quot;9&quot;,&quot;7&quot;,&quot;6&quot;,&quot;1&quot;,&quot;4&quot;,&quot;2&quot;,&quot;3&quot;],[&quot;4&quot;,&quot;2&quot;,&quot;6&quot;,&quot;8&quot;,&quot;5&quot;,&quot;3&quot;,&quot;7&quot;,&quot;9&quot;,&quot;1&quot;],[&quot;7&quot;,&quot;1&quot;,&quot;3&quot;,&quot;9&quot;,&quot;2&quot;,&quot;4&quot;,&quot;8&quot;,&quot;5&quot;,&quot;6&quot;],[&quot;9&quot;,&quot;6&quot;,&quot;1&quot;,&quot;5&quot;,&quot;3&quot;,&quot;7&quot;,&quot;2&quot;,&quot;8&quot;,&quot;4&quot;],[&quot;2&quot;,&quot;8&quot;,&quot;7&quot;,&quot;4&quot;,&quot;1&quot;,&quot;9&quot;,&quot;6&quot;,&quot;3&quot;,&quot;5&quot;],[&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;2&quot;,&quot;8&quot;,&quot;6&quot;,&quot;1&quot;,&quot;7&quot;,&quot;9&quot;]]
+<strong>Explanation:</strong>&nbsp;The input board is shown above and the only valid solution is shown below:
 
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0037.Sudoku%20Solver/images/250px-sudoku-by-l2g-20050714_solutionsvg.png" style="height:250px; width:250px" />
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0037.Sudoku%20Solver/images/250px-Sudoku-by-L2G-20050714_solution.svg.png" style="height:250px; width:250px" />
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>board.length == 9</code></li>
 	<li><code>board[i].length == 9</code></li>
-	<li><code>board[i][j]</code> 是一位数字或者 <code>'.'</code></li>
-	<li>题目数据 <strong>保证</strong> 输入数独仅有一个解</li>
+	<li><code>board[i][j]</code> is a digit or <code>&#39;.&#39;</code>.</li>
+	<li>It is <strong>guaranteed</strong> that the input board has only one solution.</li>
 </ul>
-</div>
-</div>
-</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：回溯
+### Solution 1: Backtracking
 
-我们用数组 `row`、`col`、`box` 分别记录每一行、每一列、每个 3x3 宫格中数字是否出现过。如果数字 `i` 在第 `r` 行、第 `c` 列、第 `b` 个 3x3 宫格中出现过，那么 `row[r][i]`、`col[c][i]`、`box[b][i]` 都为 `true`。
+We use arrays `row`, `col`, and `box` to record whether a number has appeared in each row, each column, and each 3x3 grid respectively. If the number `i` has appeared in the `r`th row, the `c`th column, and the `b`th 3x3 grid, then `row[r][i]`, `col[c][i]`, and `box[b][i]` are all `true`.
 
-我们遍历 `board` 的每一个空格，枚举它可以填入的数字 `v`，如果 `v` 在当前行、当前列、当前 3x3 宫格中没有出现过，那么我们就可以尝试填入数字 `v`，并继续搜索下一个空格。如果搜索到最后，所有空格填充完毕，那么就说明找到了一个可行解。
+We traverse each empty space in `board`, enumerate the numbers `v` that it can fill in. If `v` has not appeared in the current row, the current column, and the current 3x3 grid, then we can try to fill in the number `v` and continue to search for the next empty space. If we search to the end and all spaces are filled, it means that a feasible solution has been found.
 
-时间复杂度 $O(9^{81})$，空间复杂度 $O(9^2)$。
+The time complexity is $O(9^{81})$, and the space complexity is $O(9^2)$.
 
 <!-- tabs:start -->
 

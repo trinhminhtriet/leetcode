@@ -1,68 +1,63 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2817.Minimum%20Absolute%20Difference%20Between%20Elements%20With%20Constraint/README.md
+difficulty: Medium
 rating: 1889
-source: 第 358 场周赛 Q3
+source: Weekly Contest 358 Q3
 tags:
-    - 数组
-    - 二分查找
-    - 有序集合
+    - Array
+    - Binary Search
+    - Ordered Set
 ---
 
 <!-- problem:start -->
 
-# [2817. 限制条件下元素之间的最小绝对差](https://leetcode.cn/problems/minimum-absolute-difference-between-elements-with-constraint)
+# [2817. Minimum Absolute Difference Between Elements With Constraint](https://leetcode.com/problems/minimum-absolute-difference-between-elements-with-constraint)
 
-[English Version](/solution/2800-2899/2817.Minimum%20Absolute%20Difference%20Between%20Elements%20With%20Constraint/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>x</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> and an integer <code>x</code>.</p>
 
-<p>请你找到数组中下标距离至少为 <code>x</code>&nbsp;的两个元素的 <strong>差值绝对值</strong>&nbsp;的 <strong>最小值</strong>&nbsp;。</p>
+<p>Find the <strong>minimum absolute difference</strong> between two elements in the array that are at least <code>x</code> indices apart.</p>
 
-<p>换言之，请你找到两个下标&nbsp;<code>i</code> 和&nbsp;<code>j</code>&nbsp;，满足&nbsp;<code>abs(i - j) &gt;= x</code> 且&nbsp;<code>abs(nums[i] - nums[j])</code>&nbsp;的值最小。</p>
+<p>In other words, find two indices <code>i</code> and <code>j</code> such that <code>abs(i - j) &gt;= x</code> and <code>abs(nums[i] - nums[j])</code> is minimized.</p>
 
-<p>请你返回一个整数，表示下标距离至少为 <code>x</code>&nbsp;的两个元素之间的差值绝对值的 <strong>最小值</strong>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><b>示例 1：</b></p>
-
-<pre>
-<b>输入：</b>nums = [4,3,2,4], x = 2
-<b>输出：</b>0
-<b>解释：</b>我们选择 nums[0] = 4 和 nums[3] = 4 。
-它们下标距离满足至少为 2 ，差值绝对值为最小值 0 。
-0 是最优解。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [5,3,2,10,15], x = 1
-<b>输出：</b>1
-<b>解释：</b>我们选择 nums[1] = 3 和 nums[2] = 2 。
-它们下标距离满足至少为 1 ，差值绝对值为最小值 1 。
-1 是最优解。
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [1,2,3,4], x = 3
-<b>输出：</b>3
-<strong>解释：</strong>我们选择 nums[0] = 1 和 nums[3] = 4 。
-它们下标距离满足至少为 3 ，差值绝对值为最小值 3 。
-3 是最优解。
-</pre>
+<p>Return<em> an integer denoting the <strong>minimum</strong> absolute difference between two elements that are at least</em> <code>x</code> <em>indices apart</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [4,3,2,4], x = 2
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> We can select nums[0] = 4 and nums[3] = 4. 
+They are at least 2 indices apart, and their absolute difference is the minimum, 0. 
+It can be shown that 0 is the optimal answer.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [5,3,2,10,15], x = 1
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> We can select nums[1] = 3 and nums[2] = 2.
+They are at least 1 index apart, and their absolute difference is the minimum, 1.
+It can be shown that 1 is the optimal answer.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,2,3,4], x = 3
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We can select nums[0] = 1 and nums[3] = 4.
+They are at least 3 indices apart, and their absolute difference is the minimum, 3.
+It can be shown that 3 is the optimal answer.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -72,17 +67,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：有序集合
+### Solution 1: Ordered Set
 
-我们创建一个有序集合，用于存储距离当前下标至少为 $x$ 的元素。
+We create an ordered set to store the elements whose distance to the current index is at least $x$.
 
-接下来，我们从下标 $i = x$ 开始枚举，每次将 $nums[i - x]$ 加入到有序集合中。然后找出有序集合中与 $nums[i]$ 最接近的两个元素，它们的差值绝对值的最小值就是答案。
+Next, we enumerate from index $i = x$, each time we add $nums[i - x]$ into the ordered set. Then we find the two elements in the ordered set which are closest to $nums[i]$, and the minimum absolute difference between them is the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of array $nums$.
 
 <!-- tabs:start -->
 

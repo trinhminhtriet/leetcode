@@ -1,69 +1,64 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3360.Stone%20Removal%20Game/README.md
+difficulty: Easy
 rating: 1267
-source: 第 144 场双周赛 Q1
+source: Biweekly Contest 144 Q1
 tags:
-    - 数学
-    - 模拟
+    - Math
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [3360. 移除石头游戏](https://leetcode.cn/problems/stone-removal-game)
+# [3360. Stone Removal Game](https://leetcode.com/problems/stone-removal-game)
 
-[English Version](/solution/3300-3399/3360.Stone%20Removal%20Game/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>Alice 和 Bob 在玩一个游戏，他们俩轮流从一堆石头中移除石头，Alice 先进行操作。</p>
+<p>Alice and Bob are playing a game where they take turns removing stones from a pile, with <em>Alice going first</em>.</p>
 
 <ul>
-	<li>Alice 在第一次操作中移除 <strong>恰好</strong>&nbsp;10 个石头。</li>
-	<li>接下来的每次操作中，每位玩家移除的石头数 <strong>恰好</strong>&nbsp;为另一位玩家上一次操作的石头数减 1 。</li>
+	<li>Alice starts by removing <strong>exactly</strong> 10 stones on her first turn.</li>
+	<li>For each subsequent turn, each player removes <strong>exactly</strong> 1 fewer<strong> </strong>stone<strong> </strong>than the previous opponent.</li>
 </ul>
 
-<p>第一位没法进行操作的玩家输掉这个游戏。</p>
+<p>The player who cannot make a move loses the game.</p>
 
-<p>给你一个正整数&nbsp;<code>n</code>&nbsp;表示一开始石头的数目，如果 Alice 赢下这个游戏，请你返回&nbsp;<code>true</code>&nbsp;，否则返回 <code>false</code>&nbsp;。</p>
+<p>Given a positive integer <code>n</code>, return <code>true</code> if Alice wins the game and <code>false</code> otherwise.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>n = 12</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 12</span></p>
 
-<p><span class="example-io"><b>输出：</b>true</span></p>
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>Alice 第一次操作中移除 10 个石头，剩下 2 个石头给 Bob 。</li>
-	<li>Bob 无法移除 9 个石头，所以 Alice 赢下游戏。</li>
+	<li>Alice removes 10 stones on her first turn, leaving 2 stones for Bob.</li>
+	<li>Bob cannot remove 9 stones, so Alice wins.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>n = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 1</span></p>
 
-<p><span class="example-io"><b>输出：</b>false</span></p>
+<p><strong>Output:</strong> <span class="example-io">false</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>Alice 无法移除 10 个石头，所以 Alice 输掉游戏。</li>
+	<li>Alice cannot remove 10 stones, so Alice loses.</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 50</code></li>
@@ -71,21 +66,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们根据题意模拟游戏的过程，直到无法继续游戏为止。
+We simulate the game process according to the problem description until the game can no longer continue.
 
-具体地，我们维护两个变量 $x$ 和 $k$，分别表示当前可以移除的石头数和已经进行的操作次数。初始时 $x = 10$, $k = 0$。
+Specifically, we maintain two variables $x$ and $k$, representing the current number of stones that can be removed and the number of operations performed, respectively. Initially, $x = 10$ and $k = 0$.
 
-在每一轮操作中，如果当前可以移除的石头数 $x$ 不超过剩余的石头数 $n$，那么我们移除 $x$ 个石头，并将 $x$ 减小 $1$，然后将 $k$ 增加 $1$。否则，我们无法进行操作，游戏结束。
+In each round of operations, if the current number of stones that can be removed $x$ does not exceed the remaining number of stones $n$, we remove $x$ stones, decrease $x$ by $1$, and increase $k$ by $1$. Otherwise, we cannot perform the operation, and the game ends.
 
-最后，我们判断 $k$ 的奇偶性，如果 $k$ 是奇数，那么 Alice 赢得了游戏，否则 Bob 赢得了游戏。
+Finally, we check the parity of $k$. If $k$ is odd, Alice wins the game; otherwise, Bob wins the game.
 
-时间复杂度 $O(\sqrt{n})$。其中 $n$ 是石头的数目。空间复杂度 $O(1)$。
+The time complexity is $O(\sqrt{n})$, where $n$ is the number of stones. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

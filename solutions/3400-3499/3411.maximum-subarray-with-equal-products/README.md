@@ -1,76 +1,71 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3411.Maximum%20Subarray%20With%20Equal%20Products/README.md
+difficulty: Easy
 rating: 1443
-source: 第 431 场周赛 Q1
+source: Weekly Contest 431 Q1
 tags:
-    - 数组
-    - 数学
-    - 枚举
-    - 数论
-    - 滑动窗口
+    - Array
+    - Math
+    - Enumeration
+    - Number Theory
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [3411. 最长乘积等价子数组](https://leetcode.cn/problems/maximum-subarray-with-equal-products)
+# [3411. Maximum Subarray With Equal Products](https://leetcode.com/problems/maximum-subarray-with-equal-products)
 
-[English Version](/solution/3400-3499/3411.Maximum%20Subarray%20With%20Equal%20Products/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个由&nbsp;<strong>正整数&nbsp;</strong>组成的数组 <code>nums</code>。</p>
+<p>You are given an array of <strong>positive</strong> integers <code>nums</code>.</p>
 
-<p>如果一个数组 <code>arr</code> 满足 <code>prod(arr) == lcm(arr) * gcd(arr)</code>，则称其为&nbsp;<strong>乘积等价数组&nbsp;</strong>，其中：</p>
+<p>An array <code>arr</code> is called <strong>product equivalent</strong> if <code>prod(arr) == lcm(arr) * gcd(arr)</code>, where:</p>
 
 <ul>
-	<li><code>prod(arr)</code> 表示 <code>arr</code> 中所有元素的乘积。</li>
-	<li><code>gcd(arr)</code> 表示 <code>arr</code> 中所有元素的最大公因数 (<span data-keyword="gcd-function">GCD</span>)。</li>
-	<li><code>lcm(arr)</code> 表示 <code>arr</code> 中所有元素的最小公倍数 (<span data-keyword="lcm-function">LCM</span>)。</li>
+	<li><code>prod(arr)</code> is the product of all elements of <code>arr</code>.</li>
+	<li><code>gcd(arr)</code> is the <span data-keyword="gcd-function">GCD</span> of all elements of <code>arr</code>.</li>
+	<li><code>lcm(arr)</code> is the <span data-keyword="lcm-function">LCM</span> of all elements of <code>arr</code>.</li>
 </ul>
 
-<p>返回数组 <code>nums</code> 的&nbsp;<strong>最长</strong> <strong>乘积等价 <span data-keyword="subarray-nonempty">子数组</span>&nbsp;</strong>的长度。</p>
+<p>Return the length of the <strong>longest</strong> <strong>product equivalent</strong> <span data-keyword="subarray-nonempty">subarray</span> of <code>nums</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [1,2,1,2,1,1,1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,1,2,1,1,1]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">5</span></p>
+<p><strong>Output:</strong> <span class="example-io">5</span></p>
 
-<p><strong>解释：</strong>&nbsp;</p>
+<p><strong>Explanation:</strong>&nbsp;</p>
 
-<p>最长的乘积等价子数组是 <code>[1, 2, 1, 1, 1]</code>，其中&nbsp;<code>prod([1, 2, 1, 1, 1]) = 2</code>，&nbsp;<code>gcd([1, 2, 1, 1, 1]) = 1</code>，以及&nbsp;<code>lcm([1, 2, 1, 1, 1]) = 2</code>。</p>
+<p>The longest product equivalent subarray is <code>[1, 2, 1, 1, 1]</code>, where&nbsp;<code>prod([1, 2, 1, 1, 1]) = 2</code>,&nbsp;<code>gcd([1, 2, 1, 1, 1]) = 1</code>, and&nbsp;<code>lcm([1, 2, 1, 1, 1]) = 2</code>.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [2,3,4,5,6]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [2,3,4,5,6]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">3</span></p>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><strong>解释：</strong>&nbsp;</p>
+<p><strong>Explanation:</strong>&nbsp;</p>
 
-<p>最长的乘积等价子数组是 <code>[3, 4, 5]</code>。</p>
+<p>The longest product equivalent subarray is <code>[3, 4, 5].</code></p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [1,2,3,1,4,5,1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3,1,4,5,1]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">5</span></p>
+<p><strong>Output:</strong> <span class="example-io">5</span></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 100</code></li>
@@ -79,11 +74,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

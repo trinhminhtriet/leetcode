@@ -1,97 +1,96 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0097.Interleaving%20String/README.md
+difficulty: Medium
 tags:
-    - 字符串
-    - 动态规划
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [97. 交错字符串](https://leetcode.cn/problems/interleaving-string)
+# [97. Interleaving String](https://leetcode.com/problems/interleaving-string)
 
-[English Version](/solution/0000-0099/0097.Interleaving%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定三个字符串&nbsp;<code>s1</code>、<code>s2</code>、<code>s3</code>，请你帮忙验证&nbsp;<code>s3</code>&nbsp;是否是由&nbsp;<code>s1</code>&nbsp;和&nbsp;<code>s2</code><em> </em><strong>交错 </strong>组成的。</p>
+<p>Given strings <code>s1</code>, <code>s2</code>, and <code>s3</code>, find whether <code>s3</code> is formed by an <strong>interleaving</strong> of <code>s1</code> and <code>s2</code>.</p>
 
-<p>两个字符串 <code>s</code> 和 <code>t</code> <strong>交错</strong> 的定义与过程如下，其中每个字符串都会被分割成若干 <strong>非空</strong> <span data-keyword="substring-nonempty">子字符串</span>：</p>
+<p>An <strong>interleaving</strong> of two strings <code>s</code> and <code>t</code> is a configuration where <code>s</code> and <code>t</code> are divided into <code>n</code> and <code>m</code> <span data-keyword="substring-nonempty">substrings</span> respectively, such that:</p>
 
 <ul>
 	<li><code>s = s<sub>1</sub> + s<sub>2</sub> + ... + s<sub>n</sub></code></li>
 	<li><code>t = t<sub>1</sub> + t<sub>2</sub> + ... + t<sub>m</sub></code></li>
 	<li><code>|n - m| &lt;= 1</code></li>
-	<li><strong>交错</strong> 是 <code>s<sub>1</sub> + t<sub>1</sub> + s<sub>2</sub> + t<sub>2</sub> + s<sub>3</sub> + t<sub>3</sub> + ...</code> 或者 <code>t<sub>1</sub> + s<sub>1</sub> + t<sub>2</sub> + s<sub>2</sub> + t<sub>3</sub> + s<sub>3</sub> + ...</code></li>
+	<li>The <strong>interleaving</strong> is <code>s<sub>1</sub> + t<sub>1</sub> + s<sub>2</sub> + t<sub>2</sub> + s<sub>3</sub> + t<sub>3</sub> + ...</code> or <code>t<sub>1</sub> + s<sub>1</sub> + t<sub>2</sub> + s<sub>2</sub> + t<sub>3</sub> + s<sub>3</sub> + ...</code></li>
 </ul>
 
-<p><strong>注意：</strong><code>a + b</code> 意味着字符串 <code>a</code> 和 <code>b</code> 连接。</p>
+<p><strong>Note:</strong> <code>a + b</code> is the concatenation of strings <code>a</code> and <code>b</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0097.Interleaving%20String/images/interleave.jpg" />
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0097.Interleaving%20String/images/interleave.jpg" style="width: 561px; height: 203px;" />
 <pre>
-<strong>输入：</strong>s1 = "aabcc", s2 = "dbbca", s3 = "aadbbcbcac"
-<strong>输出：</strong>true
+<strong>Input:</strong> s1 = &quot;aabcc&quot;, s2 = &quot;dbbca&quot;, s3 = &quot;aadbbcbcac&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> One way to obtain s3 is:
+Split s1 into s1 = &quot;aa&quot; + &quot;bc&quot; + &quot;c&quot;, and s2 into s2 = &quot;dbbc&quot; + &quot;a&quot;.
+Interleaving the two splits, we get &quot;aa&quot; + &quot;dbbc&quot; + &quot;bc&quot; + &quot;a&quot; + &quot;c&quot; = &quot;aadbbcbcac&quot;.
+Since s3 can be obtained by interleaving s1 and s2, we return true.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s1 = "aabcc", s2 = "dbbca", s3 = "aadbbbaccc"
-<strong>输出：</strong>false
+<strong>Input:</strong> s1 = &quot;aabcc&quot;, s2 = &quot;dbbca&quot;, s3 = &quot;aadbbbaccc&quot;
+<strong>Output:</strong> false
+<strong>Explanation:</strong> Notice how it is impossible to interleave s2 with any other string to obtain s3.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>s1 = "", s2 = "", s3 = ""
-<strong>输出：</strong>true
+<strong>Input:</strong> s1 = &quot;&quot;, s2 = &quot;&quot;, s3 = &quot;&quot;
+<strong>Output:</strong> true
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= s1.length, s2.length &lt;= 100</code></li>
 	<li><code>0 &lt;= s3.length &lt;= 200</code></li>
-	<li><code>s1</code>、<code>s2</code>、和 <code>s3</code> 都由小写英文字母组成</li>
+	<li><code>s1</code>, <code>s2</code>, and <code>s3</code> consist of lowercase English letters.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>您能否仅使用 <code>O(s2.length)</code> 额外的内存空间来解决它?</p>
+<p><strong>Follow up:</strong> Could you solve it using only <code>O(s2.length)</code> additional memory space?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们记字符串 $s_1$ 的长度为 $m$，字符串 $s_2$ 的长度为 $n$，如果 $m + n \neq |s_3|$，那么 $s_3$ 一定不是 $s_1$ 和 $s_2$ 的交错字符串，返回 `false`。
+Let's denote the length of string $s_1$ as $m$ and the length of string $s_2$ as $n$. If $m + n \neq |s_3|$, then $s_3$ is definitely not an interleaving string of $s_1$ and $s_2$, so we return `false`.
 
-接下来，我们设计一个函数 $dfs(i, j)$，表示从 $s_1$ 的第 $i$ 个字符和 $s_2$ 的第 $j$ 个字符开始，能否交错组成 $s_3$ 的剩余部分。那么答案就是 $dfs(0, 0)$。
+Next, we design a function $dfs(i, j)$, which represents whether the remaining part of $s_3$ can be interleaved from the $i$th character of $s_1$ and the $j$th character of $s_2$. The answer is $dfs(0, 0)$.
 
-函数 $dfs(i, j)$ 的计算过程如下：
+The calculation process of function $dfs(i, j)$ is as follows:
 
-如果 $i \geq m$ 并且 $j \geq n$，那么说明 $s_1$ 和 $s_2$ 都已经遍历完毕，返回 `true`。
+If $i \geq m$ and $j \geq n$, it means that both $s_1$ and $s_2$ have been traversed, so we return `true`.
 
-如果 $i < m$ 并且 $s_1[i] = s_3[i + j]$，那么说明 $s_1[i]$ 这个字符是 $s_3[i + j]$ 中的一部分，因此递归地调用 $dfs(i + 1, j)$ 判断 $s_1$ 的下一个字符能否和 $s_2$ 的当前字符匹配，如果能匹配成功，就返回 `true`。
+If $i < m$ and $s_1[i] = s_3[i + j]$, it means that the character $s_1[i]$ is part of $s_3[i + j]$. Therefore, we recursively call $dfs(i + 1, j)$ to check whether the next character of $s_1$ can match the current character of $s_2$. If it can match, we return `true`.
 
-同理，如果 $j < n$ 并且 $s_2[j] = s_3[i + j]$，那么说明 $s_2[j]$ 这个字符是 $s_3[i + j]$ 中的一部分，因此递归地调用 $dfs(i, j + 1)$ 判断 $s_2$ 的下一个字符能否和 $s_1$ 的当前字符匹配，如果能匹配成功，就返回 `true`。
+Similarly, if $j < n$ and $s_2[j] = s_3[i + j]$, it means that the character $s_2[j]$ is part of $s_3[i + j]$. Therefore, we recursively call $dfs(i, j + 1)$ to check whether the next character of $s_2$ can match the current character of $s_1$. If it can match, we return `true`.
 
-否则，返回 `false`。
+Otherwise, we return `false`.
 
-为了避免重复计算，我们可以使用记忆化搜索。
+To avoid repeated calculations, we can use memoization search.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是字符串 $s_1$ 和 $s_2$ 的长度。
+The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the lengths of strings $s_1$ and $s_2$ respectively.
 
 <!-- tabs:start -->
 
@@ -369,11 +368,11 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二：动态规划
+### Solution 2: Dynamic Programming
 
-我们可以将方法一中的记忆化搜索转化为动态规划。
+We can convert the memoization search in Solution 1 into dynamic programming.
 
-定义 $f[i][j]$ 表示字符串 $s_1$ 的前 $i$ 个字符和字符串 $s_2$ 的前 $j$ 个字符是否能交错组成字符串 $s_3$ 的前 $i + j$ 个字符。在进行状态转移时，我们可以考虑当前字符是由 $s_1$ 的最后一个字符还是 $s_2$ 的最后一个字符得到的，因此有状态转移方程：
+We define $f[i][j]$ to represent whether the first $i$ characters of string $s_1$ and the first $j$ characters of string $s_2$ can interleave to form the first $i + j$ characters of string $s_3$. When transitioning states, we can consider whether the current character is obtained from the last character of $s_1$ or the last character of $s_2$. Therefore, we have the state transition equation:
 
 $$
 f[i][j] = \begin{cases}
@@ -383,11 +382,11 @@ f[i - 1][j] & \textit{if } s_1[i - 1] = s_3[i + j - 1] \\
 \end{cases}
 $$
 
-其中 $f[0][0] = \textit{true}$ 表示空串是两个空串的交错字符串。
+where $f[0][0] = \textit{true}$ indicates that an empty string is an interleaving string of two empty strings.
 
-答案即为 $f[m][n]$。
+The answer is $f[m][n]$.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是字符串 $s_1$ 和 $s_2$ 的长度。
+The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Here, $m$ and $n$ are the lengths of strings $s_1$ and $s_2$ respectively.
 
 <!-- tabs:start -->
 
@@ -550,7 +549,7 @@ public class Solution {
 
 <!-- tabs:end -->
 
-我们注意到，状态 $f[i][j]$ 只和状态 $f[i - 1][j]$、$f[i][j - 1]$、$f[i - 1][j - 1]$ 有关，因此我们可以使用滚动数组优化空间复杂度，将空间复杂度优化到 $O(n)$。
+We notice that the state $f[i][j]$ is only related to the states $f[i - 1][j]$, $f[i][j - 1]$, and $f[i - 1][j - 1]$. Therefore, we can use a rolling array to optimize the space complexity, reducing the original space complexity from $O(m \times n)$ to $O(n)$.
 
 <!-- tabs:start -->
 

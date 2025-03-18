@@ -1,79 +1,74 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2626.Array%20Reduce%20Transformation/README.md
+difficulty: Easy
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2626. 数组归约运算](https://leetcode.cn/problems/array-reduce-transformation)
+# [2626. Array Reduce Transformation](https://leetcode.com/problems/array-reduce-transformation)
 
-[English Version](/solution/2600-2699/2626.Array%20Reduce%20Transformation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数数组 <code>nums</code>、一个 reducer 函数 <code>fn</code> 和一个初始值 <code>init</code>，返回通过依次对数组的每个元素执行 <code>fn</code> 函数得到的最终结果。</p>
+<p>Given an integer array <code>nums</code>, a reducer function <code>fn</code>, and an initial value <code>init</code>, return the final result obtained by executing the <code>fn</code> function on each element of the array, sequentially, passing in the return value from the calculation on the preceding element.</p>
 
-<p>通过以下操作实现这个结果：<code>val = fn(init, nums[0])，val = fn(val, nums[1])，val = fn(val, nums[2])，...</code> 直到处理数组中的每个元素。然后返回 <code>val</code> 的最终值。</p>
+<p>This result is achieved through the following operations: <code>val = fn(init, nums[0]), val = fn(val, nums[1]), val = fn(val, nums[2]), ...</code> until every element in the array has been processed. The ultimate value of <code>val</code> is then returned.</p>
 
-<p>如果数组的长度为 0，则函数应返回 <code>init</code>。</p>
+<p>If the length of the array is 0, the function should return <code>init</code>.</p>
 
-<p>请你在不使用内置数组方法的&nbsp;<code>Array.reduce</code>&nbsp;前提下解决这个问题。</p>
+<p>Please solve it without using the built-in <code>Array.reduce</code> method.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 nums = [1,2,3,4]
 fn = function sum(accum, curr) { return accum + curr; }
 init = 0
-<strong>输出：</strong>10
-<strong>解释：</strong>
-初始值为 init=0 。
+<strong>Output:</strong> 10
+<strong>Explanation:</strong>
+initially, the value is init=0.
 (0) + nums[0] = 1
 (1) + nums[1] = 3
 (3) + nums[2] = 6
 (6) + nums[3] = 10
-Val 最终值为 10。
+The final answer is 10.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong> 
+<strong>Input:</strong> 
 nums = [1,2,3,4]
 fn = function sum(accum, curr) { return accum + curr * curr; }
 init = 100
-<strong>输出：</strong>130
-<strong>解释：</strong>
-初始值为 init=100 。
-(100) + nums[0]^2 = 101
-(101) + nums[1]^2 = 105
-(105) + nums[2]^2 = 114
-(114) + nums[3]^2 = 130
-Val 最终值为 130。
+<strong>Output:</strong> 130
+<strong>Explanation:</strong>
+initially, the value is init=100.
+(100) + nums[0] * nums[0] = 101
+(101) + nums[1] * nums[1] = 105
+(105) + nums[2] * nums[2] = 114
+(114) + nums[3] * nums[3] = 130
+The final answer is 130.
 </pre>
 
-<p><strong class="example">示例3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong> 
+<strong>Input:</strong> 
 nums = []
 fn = function sum(accum, curr) { return 0; }
 init = 25
-<strong>输出：</strong>25
-<b>解释：</b>这是一个空数组，所以返回 init 。
+<strong>Output:</strong> 25
+<strong>Explanation:</strong> For empty arrays, the answer is always init.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= nums.length &lt;= 1000</code></li>
@@ -83,11 +78,11 @@ init = 25
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

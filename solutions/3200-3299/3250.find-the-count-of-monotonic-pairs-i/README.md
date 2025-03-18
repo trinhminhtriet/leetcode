@@ -1,54 +1,50 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3250.Find%20the%20Count%20of%20Monotonic%20Pairs%20I/README.md
+difficulty: Hard
 rating: 1897
-source: 第 410 场周赛 Q3
+source: Weekly Contest 410 Q3
 tags:
-    - 数组
-    - 数学
-    - 动态规划
-    - 组合数学
-    - 前缀和
+    - Array
+    - Math
+    - Dynamic Programming
+    - Combinatorics
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [3250. 单调数组对的数目 I](https://leetcode.cn/problems/find-the-count-of-monotonic-pairs-i)
+# [3250. Find the Count of Monotonic Pairs I](https://leetcode.com/problems/find-the-count-of-monotonic-pairs-i)
 
-[English Version](/solution/3200-3299/3250.Find%20the%20Count%20of%20Monotonic%20Pairs%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为&nbsp;<code>n</code>&nbsp;的&nbsp;<strong>正</strong>&nbsp;整数数组&nbsp;<code>nums</code>&nbsp;。</p>
+<p>You are given an array of <strong>positive</strong> integers <code>nums</code> of length <code>n</code>.</p>
 
-<p>如果两个&nbsp;<strong>非负</strong>&nbsp;整数数组&nbsp;<code>(arr1, arr2)</code>&nbsp;满足以下条件，我们称它们是&nbsp;<strong>单调</strong>&nbsp;数组对：</p>
+<p>We call a pair of <strong>non-negative</strong> integer arrays <code>(arr1, arr2)</code> <strong>monotonic</strong> if:</p>
 
 <ul>
-	<li>两个数组的长度都是&nbsp;<code>n</code>&nbsp;。</li>
-	<li><code>arr1</code>&nbsp;是单调<strong>&nbsp;非递减</strong>&nbsp;的，换句话说&nbsp;<code>arr1[0] &lt;= arr1[1] &lt;= ... &lt;= arr1[n - 1]</code>&nbsp;。</li>
-	<li><code>arr2</code>&nbsp;是单调 <strong>非递增</strong>&nbsp;的，换句话说&nbsp;<code>arr2[0] &gt;= arr2[1] &gt;= ... &gt;= arr2[n - 1]</code>&nbsp;。</li>
-	<li>对于所有的&nbsp;<code>0 &lt;= i &lt;= n - 1</code>&nbsp;都有&nbsp;<code>arr1[i] + arr2[i] == nums[i]</code>&nbsp;。</li>
+	<li>The lengths of both arrays are <code>n</code>.</li>
+	<li><code>arr1</code> is monotonically <strong>non-decreasing</strong>, in other words, <code>arr1[0] &lt;= arr1[1] &lt;= ... &lt;= arr1[n - 1]</code>.</li>
+	<li><code>arr2</code> is monotonically <strong>non-increasing</strong>, in other words, <code>arr2[0] &gt;= arr2[1] &gt;= ... &gt;= arr2[n - 1]</code>.</li>
+	<li><code>arr1[i] + arr2[i] == nums[i]</code> for all <code>0 &lt;= i &lt;= n - 1</code>.</li>
 </ul>
 
-<p>请你返回所有 <strong>单调</strong>&nbsp;数组对的数目。</p>
+<p>Return the count of <strong>monotonic</strong> pairs.</p>
 
-<p>由于答案可能很大，请你将它对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
+<p>Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [2,3,2]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [2,3,2]</span></p>
 
-<p><span class="example-io"><b>输出：</b>4</span></p>
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>单调数组对包括：</p>
+<p>The good pairs are:</p>
 
 <ol>
 	<li><code>([0, 1, 1], [2, 2, 1])</code></li>
@@ -58,17 +54,16 @@ tags:
 </ol>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [5,5,5,5]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [5,5,5,5]</span></p>
 
-<p><span class="example-io"><b>输出：</b>126</span></p>
+<p><strong>Output:</strong> <span class="example-io">126</span></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == nums.length &lt;= 2000</code></li>
@@ -77,21 +72,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划 + 前缀和优化
+### Solution 1: Dynamic Programming + Prefix Sum Optimization
 
-我们定义 $f[i][j]$ 表示下标 $[0,..i]$ 的单调数组对的数目，且 $arr1[i] = j$。初始时 $[i][j] = 0$，答案为 $\sum_{j=0}^{\textit{nums}[n-1]} f[n-1][j]$。
+We define $f[i][j]$ to represent the number of monotonic array pairs for the subarray $[0, \ldots, i]$ where $arr1[i] = j$. Initially, $f[i][j] = 0$, and the answer is $\sum_{j=0}^{\textit{nums}[n-1]} f[n-1][j]$.
 
-当 $i = 0$ 时，有 $[0][j] = 1$，其中 $0 \leq j \leq \textit{nums}[0]$。
+When $i = 0$, we have $f[0][j] = 1$ for $0 \leq j \leq \textit{nums}[0]$.
 
-当 $i > 0$ 时，我们可以根据 $f[i-1][j']$ 计算 $f[i][j]$。由于 $\textit{arr1}$ 是单调非递减的，因此 $j' \leq j$。又由于 $\textit{arr2}$ 是单调非递增的，因此 $\textit{nums}[i] - j \leq \textit{nums}[i - 1] - j'$。即 $j' \leq \min(j, j + \textit{nums}[i - 1] - \textit{nums}[i])$。
+When $i > 0$, we can calculate $f[i][j]$ based on $f[i-1][j']$. Since $\textit{arr1}$ is non-decreasing, $j' \leq j$. Additionally, since $\textit{arr2}$ is non-increasing, $\textit{nums}[i] - j \leq \textit{nums}[i - 1] - j'$. Thus, $j' \leq \min(j, j + \textit{nums}[i - 1] - \textit{nums}[i])$.
 
-答案为 $\sum_{j=0}^{\textit{nums}[n-1]} f[n-1][j]$。
+The answer is $\sum_{j=0}^{\textit{nums}[n-1]} f[n-1][j]$.
 
-时间复杂度 $O(n \times m)$，空间复杂度 $O(n \times m)$。其中 $n$ 表示数组 $\textit{nums}$ 的长度，而 $m$ 表示数组 $\textit{nums}$ 中的最大值。
+The time complexity is $O(n \times m)$, and the space complexity is $O(n \times m)$. Here, $n$ represents the length of the array $\textit{nums}$, and $m$ represents the maximum value in the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

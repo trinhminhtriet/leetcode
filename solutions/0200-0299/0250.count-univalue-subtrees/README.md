@@ -1,59 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0250.Count%20Univalue%20Subtrees/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [250. 统计同值子树 🔒](https://leetcode.cn/problems/count-univalue-subtrees)
+# [250. Count Univalue Subtrees 🔒](https://leetcode.com/problems/count-univalue-subtrees)
 
-[English Version](/solution/0200-0299/0250.Count%20Univalue%20Subtrees/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个二叉树，统计该二叉树数值相同的<span data-keyword="subtree">子树</span>个数。</p>
+<p>Given the <code>root</code> of a binary tree, return <em>the number of <strong>uni-value</strong> </em><span data-keyword="subtree"><em>subtrees</em></span>.</p>
 
-<p>同值子树是指该子树的所有节点都拥有相同的数值。</p>
+<p>A <strong>uni-value subtree</strong> means all nodes of the subtree have the same value.</p>
 
-<p><strong>示例：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0250.Count%20Univalue%20Subtrees/images/unival_e1.jpg" style="width: 450px; height: 258px;" />
+<pre>
+<strong>Input:</strong> root = [5,1,5,5,5,null,5]
+<strong>Output:</strong> 4
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入: </strong>root = [5,1,5,5,5,null,5]
-
-              5
-             / \
-            1   5
-           / \   \
-          5   5   5
-
-<strong>输出:</strong> 4
+<strong>Input:</strong> root = []
+<strong>Output:</strong> 0
 </pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> root = [5,5,5,5,5,null,5]
+<strong>Output:</strong> 6
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li>The number of the node in the tree will be in the range <code>[0, 1000]</code>.</li>
+	<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
+</ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
-
-我们设计一个递归函数 $dfs(root)$，该函数返回以 $root$ 为根的子树中所有节点的值是否相同。
-
-函数 $dfs(root)$ 的递归过程如下：
-
--   如果 $root$ 为空，则返回 `true`；
--   否则，我们递归地计算 $root$ 的左右子树，记为 $l$ 和 $r$；如果 $l$ 为 `false` 或者 $r$ 为 `false`，则返回 `false`；如果 $root$ 的左子树不为空且 $root$ 的左子树的值不等于 $root$ 的值，或者 $root$ 的右子树不为空且 $root$ 的右子树的值不等于 $root$ 的值，则返回 `false`；否则，我们将答案加一，并返回 `true`。
-
-递归结束后，返回答案即可。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点个数。
+### Solution 1
 
 <!-- tabs:start -->
 

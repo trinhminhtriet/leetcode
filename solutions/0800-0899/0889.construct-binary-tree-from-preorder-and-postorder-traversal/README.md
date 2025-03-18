@@ -1,90 +1,83 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0889.Construct%20Binary%20Tree%20from%20Preorder%20and%20Postorder%20Traversal/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 数组
-    - 哈希表
-    - 分治
-    - 二叉树
+    - Tree
+    - Array
+    - Hash Table
+    - Divide and Conquer
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [889. 根据前序和后序遍历构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-postorder-traversal)
+# [889. Construct Binary Tree from Preorder and Postorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-preorder-and-postorder-traversal)
 
-[English Version](/solution/0800-0899/0889.Construct%20Binary%20Tree%20from%20Preorder%20and%20Postorder%20Traversal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个整数数组，<code>preorder</code>&nbsp;和 <code>postorder</code> ，其中 <code>preorder</code> 是一个具有 <strong>无重复</strong> 值的二叉树的前序遍历，<code>postorder</code> 是同一棵树的后序遍历，重构并返回二叉树。</p>
+<p>Given two integer arrays, <code>preorder</code> and <code>postorder</code> where <code>preorder</code> is the preorder traversal of a binary tree of <strong>distinct</strong> values and <code>postorder</code> is the postorder traversal of the same tree, reconstruct and return <em>the binary tree</em>.</p>
 
-<p>如果存在多个答案，您可以返回其中 <strong>任何</strong> 一个。</p>
+<p>If there exist multiple answers, you can <strong>return any</strong> of them.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0889.Construct%20Binary%20Tree%20from%20Preorder%20and%20Postorder%20Traversal/images/lc-prepost.jpg" style="height: 265px; width: 304px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0889.Construct%20Binary%20Tree%20from%20Preorder%20and%20Postorder%20Traversal/images/lc-prepost.jpg" style="width: 304px; height: 265px;" />
 <pre>
-<strong>输入：</strong>preorder = [1,2,4,5,3,6,7], postorder = [4,5,2,6,7,3,1]
-<strong>输出：</strong>[1,2,3,4,5,6,7]
+<strong>Input:</strong> preorder = [1,2,4,5,3,6,7], postorder = [4,5,2,6,7,3,1]
+<strong>Output:</strong> [1,2,3,4,5,6,7]
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> preorder = [1], postorder = [1]
-<strong>输出:</strong> [1]
+<strong>Input:</strong> preorder = [1], postorder = [1]
+<strong>Output:</strong> [1]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= preorder.length &lt;= 30</code></li>
 	<li><code>1 &lt;= preorder[i] &lt;= preorder.length</code></li>
-	<li><code>preorder</code>&nbsp;中所有值都 <strong>不同</strong></li>
+	<li>All the values of <code>preorder</code> are <strong>unique</strong>.</li>
 	<li><code>postorder.length == preorder.length</code></li>
 	<li><code>1 &lt;= postorder[i] &lt;= postorder.length</code></li>
-	<li><code>postorder</code>&nbsp;中所有值都 <strong>不同</strong></li>
-	<li>保证 <code>preorder</code>&nbsp;和 <code>postorder</code>&nbsp;是同一棵二叉树的前序遍历和后序遍历</li>
+	<li>All the values of <code>postorder</code> are <strong>unique</strong>.</li>
+	<li>It is guaranteed that <code>preorder</code> and <code>postorder</code> are the preorder traversal and postorder traversal of the same binary tree.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
+### Solution 1: Recursion
 
-前序遍历的顺序是：根节点 -> 左子树 -> 右子树，后序遍历的顺序是：左子树 -> 右子树 -> 根节点。
+The order of pre-order traversal is: root node -> left subtree -> right subtree, and the order of post-order traversal is: left subtree -> right subtree -> root node.
 
-因此，二叉树的根节点一定是前序遍历的第一个节点，也是后序遍历的最后一个节点。
+Therefore, the root node of the binary tree must be the first node of the pre-order traversal and the last node of the post-order traversal.
 
-接下来，我们需要确定二叉树的左子树范围和右子树范围。
+Next, we need to determine the range of the left and right subtrees of the binary tree.
 
-如果二叉树有左子树，那么左子树的根节点一定是前序遍历的第二个节点；如果二叉树没有左子树，那么前序遍历的第二个节点一定是右子树的根节点。由于这两种情况下，后序遍历的结果是一样的，因此，我们可以把前序遍历的第二个节点作为左子树的根节点，然后找到它在后序遍历中的位置，这样就确定了左子树的范围。
+If the binary tree has a left subtree, then the root node of the left subtree must be the second node of the pre-order traversal; if the binary tree does not have a left subtree, then the second node of the pre-order traversal must be the root node of the right subtree. Since the results of post-order traversal in these two cases are the same, we can take the second node of the pre-order traversal as the root node of the left subtree, and then find its position in the post-order traversal, so as to determine the range of the left subtree.
 
-具体地，我们设计一个递归函数 $dfs(a, b, c, d)$，其中 $[a, b]$ 表示前序遍历的范围，而 $[c, d]$ 表示后序遍历的范围。这个函数的功能是根据前序遍历 $[a, b]$ 和后序遍历 $[c, d]$ 构造出二叉树的根节点。那么答案就是 $dfs(0, n - 1, 0, n - 1)$，其中 $n$ 是前序遍历的长度。
+Specifically, we design a recursive function $dfs(a, b, c, d)$, where $[a, b]$ represents the range of pre-order traversal, and $[c, d]$ represents the range of post-order traversal. The function of this function is to construct the root node of the binary tree based on the pre-order traversal $[a, b]$ and the post-order traversal $[c, d]$. The answer is $dfs(0, n - 1, 0, n - 1)$, where $n$ is the length of the pre-order traversal.
 
-函数 $dfs(a, b, c, d)$ 的执行步骤如下：
+The execution steps of the function $dfs(a, b, c, d)$ are as follows:
 
-1. 如果 $a > b$，说明范围为空，直接返回空节点。
-1. 否则，我们构造一个新的节点 $root$，它的值为前序遍历中的第一个节点的值，也就是 $preorder[a]$。
-1. 如果 $a$ 等于 $b$，说明 $root$ 没有左子树也没有右子树，直接返回 $root$。
-1. 否则，左子树的根节点的值为 $preorder[a + 1]$，我们在后序遍历中找到 $preorder[a + 1]$ 的位置，记为 $i$。那么左子树的节点个数 $m = i - c + 1$，由此可知左子树在前序遍历中的范围是 $[a + 1, a + m]$，后序遍历中的范围是 $[c, i]$，右子树在前序遍历中的范围是 $[a + m + 1, b]$，后序遍历中的范围是 $[i + 1, d - 1]$。
-1. 知道了左右子树的范围，我们就可以递归地重建左右子树，然后将左右子树的根节点分别作为 $root$ 的左右子节点。最后返回 $root$。
+1. If $a > b$, the range is empty, return a null node directly.
+1. Otherwise, we construct a new node $root$, its value is the value of the first node in the pre-order traversal, which is $preorder[a]$.
+1. If $a$ equals $b$, it means that $root$ has neither a left subtree nor a right subtree, return $root$ directly.
+1. Otherwise, the value of the root node of the left subtree is $preorder[a + 1]$, we find the position of $preorder[a + 1]$ in the post-order traversal, denoted as $i$. The number of nodes in the left subtree $m = i - c + 1$, from this we know that the range of the left subtree in the pre-order traversal is $[a + 1, a + m]$, the range in the post-order traversal is $[c, i]$, the range of the right subtree in the pre-order traversal is $[a + m + 1, b]$, and the range in the post-order traversal is $[i + 1, d - 1]$.
+1. Knowing the range of the left and right subtrees, we can recursively rebuild the left and right subtrees, and then make the root nodes of the left and right subtrees as the left and right child nodes of $root$ respectively. Finally return $root$.
 
-在函数 $dfs(a, b, c, d)$ 中，我们需要用到一个哈希表 $pos$，它存储了后序遍历中每个节点的位置。在函数的开头，我们可以先计算出这个哈希表，这样就可以在 $O(1)$ 的时间内找到任意节点在后序遍历中的位置。
+In the function $dfs(a, b, c, d)$, we need to use a hash table $pos$, which stores the position of each node in the post-order traversal. At the beginning of the function, we can calculate this hash table first, so that we can find the position of any node in the post-order traversal in $O(1)$ time.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes.
 
 <!-- tabs:start -->
 
@@ -287,18 +280,18 @@ function constructFromPrePost(preorder: number[], postorder: number[]): TreeNode
 
 <!-- solution:start -->
 
-### 方法二：递归的另一种写法
+### Solution 2: Another Recursive Approach
 
-我们也可以设计一个递归函数 $dfs(i, j, n)$，其中 $i$ 和 $j$ 表示前序遍历和后序遍历的起点，而 $n$ 表示节点个数。这个函数的功能是根据前序遍历 $[i, i + n - 1]$ 和后序遍历 $[j, j + n - 1]$ 构造出二叉树的根节点。那么答案就是 $dfs(0, 0, n)$，其中 $n$ 是前序遍历的长度。
+We can design a recursive function $dfs(i, j, n)$, where $i$ and $j$ represent the starting points of the pre-order and post-order traversals, respectively, and $n$ represents the number of nodes. This function constructs the root node of the binary tree based on the pre-order traversal $[i, i + n - 1]$ and post-order traversal $[j, j + n - 1]$. The answer is $dfs(0, 0, n)$, where $n$ is the length of the pre-order traversal.
 
-函数 $dfs(i, j, n)$ 的执行步骤如下：
+The execution steps of the function $dfs(i, j, n)$ are as follows:
 
-1. 如果 $n = 0$，说明范围为空，直接返回空节点。
-1. 否则，我们构造一个新的节点 $root$，它的值为前序遍历中的第一个节点的值，也就是 $preorder[i]$。
-1. 如果 $n = 1$，说明 $root$ 没有左子树也没有右子树，直接返回 $root$。
-1. 否则，左子树的根节点的值为 $preorder[i + 1]$，我们在后序遍历中找到 $preorder[i + 1]$ 的位置，记为 $k$。那么左子树的节点个数 $m = k - j + 1$，右子树的节点数为 $n - m - 1$。我们递归地重建左右子树，然后将左右子树的根节点分别作为 $root$ 的左右子节点。最后返回 $root$。
+1. If $n = 0$, the range is empty, so return a null node directly.
+2. Otherwise, we construct a new node $root$, whose value is the value of the first node in the pre-order traversal, which is $preorder[i]$.
+3. If $n = 1$, it means that $root$ has neither a left subtree nor a right subtree, so return $root$ directly.
+4. Otherwise, the value of the root node of the left subtree is $preorder[i + 1]$. We find the position of $preorder[i + 1]$ in the post-order traversal, denoted as $k$. Then the number of nodes in the left subtree is $m = k - j + 1$, and the number of nodes in the right subtree is $n - m - 1$. We recursively rebuild the left and right subtrees, and then make the root nodes of the left and right subtrees the left and right child nodes of $root$, respectively. Finally, return $root$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes.
 
 <!-- tabs:start -->
 

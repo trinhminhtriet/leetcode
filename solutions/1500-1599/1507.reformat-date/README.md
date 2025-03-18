@@ -1,78 +1,72 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1507.Reformat%20Date/README.md
+difficulty: Easy
 rating: 1283
-source: 第 30 场双周赛 Q1
+source: Biweekly Contest 30 Q1
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1507. 转变日期格式](https://leetcode.cn/problems/reformat-date)
+# [1507. Reformat Date](https://leetcode.com/problems/reformat-date)
 
-[English Version](/solution/1500-1599/1507.Reformat%20Date/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>date</code>&nbsp;，它的格式为&nbsp;<code>Day Month Year</code>&nbsp;，其中：</p>
+<p>Given a <code>date</code> string in the form&nbsp;<code>Day Month Year</code>, where:</p>
 
 <ul>
-	<li><code>Day</code>&nbsp;是集合&nbsp;<code>{&quot;1st&quot;, &quot;2nd&quot;, &quot;3rd&quot;, &quot;4th&quot;, ..., &quot;30th&quot;, &quot;31st&quot;}</code>&nbsp;中的一个元素。</li>
-	<li><code>Month</code>&nbsp;是集合&nbsp;<code>{&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;}</code>&nbsp;中的一个元素。</li>
-	<li><code>Year</code>&nbsp;的范围在 ​<code>[1900, 2100]</code>&nbsp;之间。</li>
+	<li><code>Day</code>&nbsp;is in the set <code>{&quot;1st&quot;, &quot;2nd&quot;, &quot;3rd&quot;, &quot;4th&quot;, ..., &quot;30th&quot;, &quot;31st&quot;}</code>.</li>
+	<li><code>Month</code>&nbsp;is in the set <code>{&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;}</code>.</li>
+	<li><code>Year</code>&nbsp;is in the range <code>[1900, 2100]</code>.</li>
 </ul>
 
-<p>请你将字符串转变为&nbsp;<code>YYYY-MM-DD</code>&nbsp;的格式，其中：</p>
+<p>Convert the date string to the format <code>YYYY-MM-DD</code>, where:</p>
 
 <ul>
-	<li><code>YYYY</code>&nbsp;表示 4 位的年份。</li>
-	<li><code>MM</code>&nbsp;表示 2 位的月份。</li>
-	<li><code>DD</code>&nbsp;表示 2 位的天数。</li>
+	<li><code>YYYY</code> denotes the 4 digit year.</li>
+	<li><code>MM</code> denotes the 2 digit month.</li>
+	<li><code>DD</code> denotes the 2 digit day.</li>
 </ul>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>date = &quot;20th Oct 2052&quot;
-<strong>输出：</strong>&quot;2052-10-20&quot;
+<pre>
+<strong>Input:</strong> date = &quot;20th Oct 2052&quot;
+<strong>Output:</strong> &quot;2052-10-20&quot;
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>date = &quot;6th Jun 1933&quot;
-<strong>输出：</strong>&quot;1933-06-06&quot;
+<pre>
+<strong>Input:</strong> date = &quot;6th Jun 1933&quot;
+<strong>Output:</strong> &quot;1933-06-06&quot;
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>date = &quot;26th May 1960&quot;
-<strong>输出：</strong>&quot;1960-05-26&quot;
+<pre>
+<strong>Input:</strong> date = &quot;26th May 1960&quot;
+<strong>Output:</strong> &quot;1960-05-26&quot;
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>给定日期保证是合法的，所以不需要处理异常输入。</li>
+	<li>The given dates are guaranteed to be valid, so no error handling is necessary.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
-
-将字符串按空格分割为三个部分，分别为 `day`、`month` 和 `year`，然后拼接为 `YYYY-MM-DD` 的格式。
-
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 

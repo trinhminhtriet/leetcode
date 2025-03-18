@@ -1,95 +1,85 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1366.Rank%20Teams%20by%20Votes/README.md
+difficulty: Medium
 rating: 1626
-source: 第 178 场周赛 Q2
+source: Weekly Contest 178 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
-    - 计数
-    - 排序
+    - Array
+    - Hash Table
+    - String
+    - Counting
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1366. 通过投票对团队排名](https://leetcode.cn/problems/rank-teams-by-votes)
+# [1366. Rank Teams by Votes](https://leetcode.com/problems/rank-teams-by-votes)
 
-[English Version](/solution/1300-1399/1366.Rank%20Teams%20by%20Votes/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>现在有一个特殊的排名系统，依据参赛团队在投票人心中的次序进行排名，每个投票者都需要按从高到低的顺序对参与排名的所有团队进行排位。</p>
+<p>In a special ranking system, each voter gives a rank from highest to lowest to all teams participating in the competition.</p>
 
-<p>排名规则如下：</p>
+<p>The ordering of teams is decided by who received the most position-one votes. If two or more teams tie in the first position, we consider the second position to resolve the conflict, if they tie again, we continue this process until the ties are resolved. If two or more teams are still tied after considering all positions, we rank them alphabetically based on their team letter.</p>
 
-<ul>
-	<li>参赛团队的排名次序依照其所获「排位第一」的票的多少决定。如果存在多个团队并列的情况，将继续考虑其「排位第二」的票的数量。以此类推，直到不再存在并列的情况。</li>
-	<li>如果在考虑完所有投票情况后仍然出现并列现象，则根据团队字母的字母顺序进行排名。</li>
-</ul>
+<p>You are given an array of strings <code>votes</code> which is the votes of all voters in the ranking systems. Sort all teams according to the ranking system described above.</p>
 
-<p>给你一个字符串数组&nbsp;<code>votes</code> 代表全体投票者给出的排位情况，请你根据上述排名规则对所有参赛团队进行排名。</p>
-
-<p>请你返回能表示按排名系统 <strong>排序后</strong> 的所有团队排名的字符串。</p>
+<p>Return <em>a string of all teams <strong>sorted</strong> by the ranking system</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>votes = ["ABC","ACB","ABC","ACB","ACB"]
-<strong>输出：</strong>"ACB"
-<strong>解释：</strong>
-A 队获得五票「排位第一」，没有其他队获得「排位第一」，所以 A 队排名第一。
-B 队获得两票「排位第二」，三票「排位第三」。
-C 队获得三票「排位第二」，两票「排位第三」。
-由于 C 队「排位第二」的票数较多，所以 C 队排第二，B 队排第三。
+<strong>Input:</strong> votes = [&quot;ABC&quot;,&quot;ACB&quot;,&quot;ABC&quot;,&quot;ACB&quot;,&quot;ACB&quot;]
+<strong>Output:</strong> &quot;ACB&quot;
+<strong>Explanation:</strong> 
+Team A was ranked first place by 5 voters. No other team was voted as first place, so team A is the first team.
+Team B was ranked second by 2 voters and ranked third by 3 voters.
+Team C was ranked second by 3 voters and ranked third by 2 voters.
+As most of the voters ranked C second, team C is the second team, and team B is the third.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>votes = ["WXYZ","XYZW"]
-<strong>输出：</strong>"XWYZ"
-<strong>解释：</strong>
-X 队在并列僵局打破后成为排名第一的团队。X 队和 W 队的「排位第一」票数一样，但是 X 队有一票「排位第二」，而 W 没有获得「排位第二」。 
+<strong>Input:</strong> votes = [&quot;WXYZ&quot;,&quot;XYZW&quot;]
+<strong>Output:</strong> &quot;XWYZ&quot;
+<strong>Explanation:</strong>
+X is the winner due to the tie-breaking rule. X has the same votes as W for the first position, but X has one vote in the second position, while W does not have any votes in the second position. 
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>votes = ["ZMNAGUEDSJYLBOPHRQICWFXTVK"]
-<strong>输出：</strong>"ZMNAGUEDSJYLBOPHRQICWFXTVK"
-<strong>解释：</strong>只有一个投票者，所以排名完全按照他的意愿。
+<strong>Input:</strong> votes = [&quot;ZMNAGUEDSJYLBOPHRQICWFXTVK&quot;]
+<strong>Output:</strong> &quot;ZMNAGUEDSJYLBOPHRQICWFXTVK&quot;
+<strong>Explanation:</strong> Only one voter, so their votes are used for the ranking.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= votes.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= votes[i].length &lt;= 26</code></li>
-	<li><code>votes[i].length ==&nbsp;votes[j].length</code> for&nbsp;<code>0 &lt;= i, j &lt; votes.length</code></li>
-	<li><code>votes[i][j]</code>&nbsp;是英文 <strong>大写</strong> 字母</li>
-	<li><code>votes[i]</code>&nbsp;中的所有字母都是唯一的</li>
-	<li><code>votes[0]</code>&nbsp;中出现的所有字母 <strong>同样也</strong> 出现在&nbsp;<code>votes[j]</code>&nbsp;中，其中&nbsp;<code>1 &lt;= j &lt; votes.length</code></li>
+	<li><code>votes[i].length == votes[j].length</code> for <code>0 &lt;= i, j &lt; votes.length</code>.</li>
+	<li><code>votes[i][j]</code> is an English <strong>uppercase</strong> letter.</li>
+	<li>All characters of <code>votes[i]</code> are unique.</li>
+	<li>All the characters that occur in <code>votes[0]</code> <strong>also occur</strong> in <code>votes[j]</code> where <code>1 &lt;= j &lt; votes.length</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数 + 自定义排序
+### Solution 1: Counting + Custom Sorting
 
-对于每个候选人，我们可以统计他在每个排位上的票数，然后根据不同的排位依次比较票数，票数相同则比较字母。
+For each candidate, we can count the number of votes they receive at each rank, then compare the vote counts for different ranks in order. If the vote counts are the same, we compare the letters.
 
-时间复杂度 $O(n \times m + m^2 \times \log m)$，空间复杂度 $O(m^2)$。其中 $n$ 是 $\textit{votes}$ 的长度，而 $m$ 是候选人的数量，即 $\textit{votes}[0]$ 的长度。
+The time complexity is $O(n \times m + m^2 \times \log m)$, and the space complexity is $O(m^2)$. Here, $n$ is the length of $\textit{votes}$, and $m$ is the number of candidates, i.e., the length of $\textit{votes}[0]$.
 
 <!-- tabs:start -->
 

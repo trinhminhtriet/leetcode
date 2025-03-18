@@ -1,86 +1,71 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0033.Search%20in%20Rotated%20Sorted%20Array/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 二分查找
+    - Array
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [33. 搜索旋转排序数组](https://leetcode.cn/problems/search-in-rotated-sorted-array)
+# [33. Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array)
 
-[English Version](/solution/0000-0099/0033.Search%20in%20Rotated%20Sorted%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>整数数组 <code>nums</code> 按升序排列，数组中的值 <strong>互不相同</strong> 。</p>
+<p>There is an integer array <code>nums</code> sorted in ascending order (with <strong>distinct</strong> values).</p>
 
-<p>在传递给函数之前，<code>nums</code> 在预先未知的某个下标 <code>k</code>（<code>0 &lt;= k &lt; nums.length</code>）上进行了 <strong>旋转</strong>，使数组变为 <code>[nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]</code>（下标 <strong>从 0 开始</strong> 计数）。例如， <code>[0,1,2,4,5,6,7]</code> 在下标 <code>3</code> 处经旋转后可能变为&nbsp;<code>[4,5,6,7,0,1,2]</code> 。</p>
+<p>Prior to being passed to your function, <code>nums</code> is <strong>possibly rotated</strong> at an unknown pivot index <code>k</code> (<code>1 &lt;= k &lt; nums.length</code>) such that the resulting array is <code>[nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]</code> (<strong>0-indexed</strong>). For example, <code>[0,1,2,4,5,6,7]</code> might be rotated at pivot index <code>3</code> and become <code>[4,5,6,7,0,1,2]</code>.</p>
 
-<p>给你 <strong>旋转后</strong> 的数组 <code>nums</code> 和一个整数 <code>target</code> ，如果 <code>nums</code> 中存在这个目标值 <code>target</code> ，则返回它的下标，否则返回&nbsp;<code>-1</code>&nbsp;。</p>
+<p>Given the array <code>nums</code> <strong>after</strong> the possible rotation and an integer <code>target</code>, return <em>the index of </em><code>target</code><em> if it is in </em><code>nums</code><em>, or </em><code>-1</code><em> if it is not in </em><code>nums</code>.</p>
 
-<p>你必须设计一个时间复杂度为 <code>O(log n)</code> 的算法解决此问题。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [<code>4,5,6,7,0,1,2]</code>, target = 0
-<strong>输出：</strong>4
-</pre>
-
-<p><strong>示例&nbsp;2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [<code>4,5,6,7,0,1,2]</code>, target = 3
-<strong>输出：</strong>-1</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1], target = 0
-<strong>输出：</strong>-1
-</pre>
+<p>You must write an algorithm with <code>O(log n)</code> runtime complexity.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> nums = [4,5,6,7,0,1,2], target = 0
+<strong>Output:</strong> 4
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> nums = [4,5,6,7,0,1,2], target = 3
+<strong>Output:</strong> -1
+</pre><p><strong class="example">Example 3:</strong></p>
+<pre><strong>Input:</strong> nums = [1], target = 0
+<strong>Output:</strong> -1
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 5000</code></li>
 	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
-	<li><code>nums</code> 中的每个值都 <strong>独一无二</strong></li>
-	<li>题目数据保证 <code>nums</code> 在预先未知的某个下标上进行了旋转</li>
+	<li>All values of <code>nums</code> are <strong>unique</strong>.</li>
+	<li><code>nums</code> is an ascending array that is possibly rotated.</li>
 	<li><code>-10<sup>4</sup> &lt;= target &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-我们使用二分，将数组分割成 $[left,.. mid]$, $[mid + 1,.. right]$ 两部分，这时候可以发现，其中有一部分一定是有序的。
+We use binary search to divide the array into two parts, $[left,.. mid]$ and $[mid + 1,.. right]$. At this point, we can find that one part must be sorted.
 
-因此，我们可以根据有序的那一部分，判断 $target$ 是否在这一部分中：
+Therefore, we can determine whether $target$ is in this part based on the sorted part:
 
--   若 $[0,.. mid]$ 范围内的元素构成有序数组：
-    -   若满足 $nums[0] \leq target \leq nums[mid]$，那么我们搜索范围可以缩小为 $[left,.. mid]$；
-    -   否则，在 $[mid + 1,.. right]$ 中查找；
--   若 $[mid + 1, n - 1]$ 范围内的元素构成有序数组：
-    -   若满足 $nums[mid] \lt target \leq nums[n - 1]$，那么我们搜索范围可以缩小为 $[mid + 1,.. right]$；
-    -   否则，在 $[left,.. mid]$ 中查找。
+-   If the elements in the range $[0,.. mid]$ form a sorted array:
+    -   If $nums[0] \leq target \leq nums[mid]$, then our search range can be narrowed down to $[left,.. mid]$;
+    -   Otherwise, search in $[mid + 1,.. right]$;
+-   If the elements in the range $[mid + 1, n - 1]$ form a sorted array:
+    -   If $nums[mid] \lt target \leq nums[n - 1]$, then our search range can be narrowed down to $[mid + 1,.. right]$;
+    -   Otherwise, search in $[left,.. mid]$.
 
-二分查找终止条件是 $left \geq right$，若结束后发现 $nums[left]$ 与 $target$ 不等，说明数组中不存在值为 $target$ 的元素，返回 $-1$，否则返回下标 $left$。
+The termination condition for binary search is $left \geq right$. If at the end we find that $nums[left]$ is not equal to $target$, it means that there is no element with a value of $target$ in the array, and we return $-1$. Otherwise, we return the index $left$.
 
-时间复杂度 $O(\log n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(\log n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

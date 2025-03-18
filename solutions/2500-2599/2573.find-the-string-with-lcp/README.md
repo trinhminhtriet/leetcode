@@ -1,67 +1,62 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2573.Find%20the%20String%20with%20LCP/README.md
+difficulty: Hard
 rating: 2681
-source: 第 333 场周赛 Q4
+source: Weekly Contest 333 Q4
 tags:
-    - 贪心
-    - 并查集
-    - 数组
-    - 字符串
-    - 动态规划
-    - 矩阵
+    - Greedy
+    - Union Find
+    - Array
+    - String
+    - Dynamic Programming
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [2573. 找出对应 LCP 矩阵的字符串](https://leetcode.cn/problems/find-the-string-with-lcp)
+# [2573. Find the String with LCP](https://leetcode.com/problems/find-the-string-with-lcp)
 
-[English Version](/solution/2500-2599/2573.Find%20the%20String%20with%20LCP/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>对任一由 <code>n</code> 个小写英文字母组成的字符串 <code>word</code> ，我们可以定义一个 <code>n x n</code> 的矩阵，并满足：</p>
+<p>We define the <code>lcp</code> matrix of any <strong>0-indexed</strong> string <code>word</code> of <code>n</code> lowercase English letters as an <code>n x n</code> grid such that:</p>
 
 <ul>
-	<li><code>lcp[i][j]</code> 等于子字符串&nbsp;<code>word[i,...,n-1]</code> 和 <code>word[j,...,n-1]</code> 之间的最长公共前缀的长度。</li>
+	<li><code>lcp[i][j]</code> is equal to the length of the <strong>longest common prefix</strong> between the substrings <code>word[i,n-1]</code> and <code>word[j,n-1]</code>.</li>
 </ul>
 
-<p>给你一个 <code>n x n</code> 的矩阵 <code>lcp</code> 。返回与 <code>lcp</code> 对应的、按字典序最小的字符串&nbsp;<code>word</code> 。如果不存在这样的字符串，则返回空字符串。</p>
+<p>Given an&nbsp;<code>n x n</code> matrix <code>lcp</code>, return the alphabetically smallest string <code>word</code> that corresponds to <code>lcp</code>. If there is no such string, return an empty string.</p>
 
-<p>对于长度相同的两个字符串 <code>a</code> 和 <code>b</code> ，如果在 <code>a</code> 和 <code>b</code> 不同的第一个位置，字符串 <code>a</code> 的字母在字母表中出现的顺序先于 <code>b</code> 中的对应字母，则认为字符串 <code>a</code> 按字典序比字符串 <code>b</code> 小。例如，<code>"aabd"</code> 在字典上小于 <code>"aaca"</code> ，因为二者不同的第一位置是第三个字母，而&nbsp;<code>'b'</code> 先于 <code>'c'</code> 出现。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>lcp = [[4,0,2,0],[0,3,0,1],[2,0,2,0],[0,1,0,1]]
-<strong>输出：</strong>"abab"
-<strong>解释：</strong>lcp 对应由两个交替字母组成的任意 4 字母字符串，字典序最小的是 "abab" 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>lcp = [[4,3,2,1],[3,3,2,1],[2,2,2,1],[1,1,1,1]]
-<strong>输出：</strong>"aaaa"
-<strong>解释：</strong>lcp 对应只有一个不同字母的任意 4 字母字符串，字典序最小的是 "aaaa" 。 
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>lcp = [[4,3,2,1],[3,3,2,1],[2,2,2,1],[1,1,1,3]]
-<strong>输出：</strong>""
-<strong>解释：</strong>lcp[3][3] 无法等于 3 ，因为 word[3,...,3] 仅由单个字母组成；因此，不存在答案。
-</pre>
+<p>A string <code>a</code> is lexicographically smaller than a string <code>b</code> (of the same length) if in the first position where <code>a</code> and <code>b</code> differ, string <code>a</code> has a letter that appears earlier in the alphabet than the corresponding letter in <code>b</code>. For example, <code>&quot;aabd&quot;</code> is lexicographically smaller than <code>&quot;aaca&quot;</code> because the first position they differ is at the third letter, and <code>&#39;b&#39;</code> comes before <code>&#39;c&#39;</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> lcp = [[4,0,2,0],[0,3,0,1],[2,0,2,0],[0,1,0,1]]
+<strong>Output:</strong> &quot;abab&quot;
+<strong>Explanation:</strong> lcp corresponds to any 4 letter string with two alternating letters. The lexicographically smallest of them is &quot;abab&quot;.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> lcp = [[4,3,2,1],[3,3,2,1],[2,2,2,1],[1,1,1,1]]
+<strong>Output:</strong> &quot;aaaa&quot;
+<strong>Explanation:</strong> lcp corresponds to any 4 letter string with a single distinct letter. The lexicographically smallest of them is &quot;aaaa&quot;. 
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> lcp = [[4,3,2,1],[3,3,2,1],[2,2,2,1],[1,1,1,3]]
+<strong>Output:</strong> &quot;&quot;
+<strong>Explanation:</strong> lcp[3][3] cannot be equal to 3 since word[3,...,3] consists of only a single letter; Thus, no answer exists.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n ==&nbsp;</code><code>lcp.length == </code><code>lcp[i].length</code>&nbsp;<code>&lt;= 1000</code></li>
@@ -70,26 +65,26 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 构造
+### Solution 1: Greedy + Construction
 
-由于构造的字符串要求字典序最小，因此我们可以从字符 `'a'` 开始，填充到字符串 $s$ 中。
+Since the constructed string requires the lexicographically smallest order, we can start by filling the string $s$ with the character `'a'`.
 
-如果当前位置 $i$ 还未填充字符，那么我们可以将字符 `'a'` 填充到 $i$ 位置，然后枚举所有 $j \gt i$ 的位置，如果 $lcp[i][j] \gt 0$，那么位置 $j$ 也应该填充字符 `'a'`。然后我们将字符 `'a'` 的 ASCII 码加一，继续填充剩余未填充的位置。
+If the current position $i$ has not been filled with a character, then we can fill the character `'a'` at position $i$. Then we enumerate all positions $j > i$. If $lcp[i][j] > 0$, then position $j$ should also be filled with the character `'a'`. Then we add one to the ASCII code of the character `'a'` and continue to fill the remaining unfilled positions.
 
-填充结束后，如果字符串中存在未填充的位置，说明无法构造出对应的字符串，返回空字符串。
+After filling, if there are unfilled positions in the string, it means that the corresponding string cannot be constructed, so we return an empty string.
 
-接下来，我们可以从大到小枚举字符串中的每个位置 $i$ 和 $j$，然后判断 $s[i]$ 和 $s[j]$ 是否相等：
+Next, we can enumerate each position $i$ and $j$ in the string from large to small, and then judge whether $s[i]$ and $s[j]$ are equal:
 
--   如果 $s[i] = s[j]$，此时我们需要判断 $i$ 和 $j$ 是否为字符串的最后一个位置，如果是，那么 $lcp[i][j]$ 应该等于 $1$，否则 $lcp[i][j]$ 应该等于 $0$。如果不满足上述条件，说明无法构造出对应的字符串，返回空字符串。如果 $i$ 和 $j$ 不是字符串的最后一个位置，那么 $lcp[i][j]$ 应该等于 $lcp[i + 1][j + 1] + 1$，否则说明无法构造出对应的字符串，返回空字符串。
--   否则，如果 $lcp[i][j] \gt 0$，说明无法构造出对应的字符串，返回空字符串。
+-   If $s[i] = s[j]$, at this time we need to judge whether $i$ and $j$ are the last positions of the string. If so, then $lcp[i][j]$ should be equal to $1$, otherwise $lcp[i][j]$ should be equal to $0$. If the above conditions are not met, it means that the corresponding string cannot be constructed, so we return an empty string. If $i$ and $j$ are not the last positions of the string, then $lcp[i][j]$ should be equal to $lcp[i + 1][j + 1] + 1$, otherwise it means that the corresponding string cannot be constructed, so we return an empty string.
+-   Otherwise, if $lcp[i][j] > 0$, it means that the corresponding string cannot be constructed, so we return an empty string.
 
-如果字符串中的每个位置都满足上述条件，那么我们就可以构造出对应的字符串，返回即可。
+If every position in the string meets the above conditions, then we can construct the corresponding string and return it.
 
-时间复杂度为 $O(n^2)$，空间复杂度为 $O(n)$。其中 $n$ 为字符串的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Where $n$ is the length of the string.
 
 <!-- tabs:start -->
 

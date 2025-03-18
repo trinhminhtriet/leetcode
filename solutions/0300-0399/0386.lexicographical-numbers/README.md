@@ -1,45 +1,33 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0386.Lexicographical%20Numbers/README.md
+difficulty: Medium
 tags:
-    - 深度优先搜索
-    - 字典树
+    - Depth-First Search
+    - Trie
 ---
 
 <!-- problem:start -->
 
-# [386. 字典序排数](https://leetcode.cn/problems/lexicographical-numbers)
+# [386. Lexicographical Numbers](https://leetcode.com/problems/lexicographical-numbers)
 
-[English Version](/solution/0300-0399/0386.Lexicographical%20Numbers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>n</code> ，按字典序返回范围 <code>[1, n]</code> 内所有整数。</p>
+<p>Given an integer <code>n</code>, return all the numbers in the range <code>[1, n]</code> sorted in lexicographical order.</p>
 
-<p>你必须设计一个时间复杂度为 <code>O(n)</code> 且使用 <code>O(1)</code> 额外空间的算法。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 13
-<strong>输出：</strong>[1,10,11,12,13,2,3,4,5,6,7,8,9]
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 2
-<strong>输出：</strong>[1,2]
-</pre>
+<p>You must write an algorithm that runs in&nbsp;<code>O(n)</code>&nbsp;time and uses <code>O(1)</code> extra space.&nbsp;</p>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> n = 13
+<strong>Output:</strong> [1,10,11,12,13,2,3,4,5,6,7,8,9]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> n = 2
+<strong>Output:</strong> [1,2]
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 5 * 10<sup>4</sup></code></li>
@@ -47,15 +35,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：迭代
+### Solution 1: Iteration
 
-我们首先定义一个变量 $v$，初始时 $v = 1$。然后我们从 $1$ 开始迭代，每次迭代都将 $v$ 添加到答案数组中。然后，如果 $v \times 10 \leq n$，我们将 $v$ 更新为 $v \times 10$；否则，如果 $v \bmod 10 = 9$ 或者 $v + 1 > n$，我们就循环将 $v$ 除以 $10$。循环结束后，我们将 $v$ 加一。继续迭代，直到我们添加了 $n$ 个数到答案数组中。
+We first define a variable $v$, initially $v = 1$. Then we start iterating from $1$, adding $v$ to the answer array each time. Then, if $v \times 10 \leq n$, we update $v$ to $v \times 10$; otherwise, if $v \bmod 10 = 9$ or $v + 1 > n$, we loop to divide $v$ by $10$. After the loop ends, we increment $v$. Continue iterating until we have added $n$ numbers to the answer array.
 
-时间复杂度 $O(n)$，其中 $n$ 是给定的整数 $n$。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the given integer $n$. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

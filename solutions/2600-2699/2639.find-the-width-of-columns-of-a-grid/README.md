@@ -1,56 +1,53 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2639.Find%20the%20Width%20of%20Columns%20of%20a%20Grid/README.md
+difficulty: Easy
 rating: 1282
-source: 第 102 场双周赛 Q1
+source: Biweekly Contest 102 Q1
 tags:
-    - 数组
-    - 矩阵
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [2639. 查询网格图中每一列的宽度](https://leetcode.cn/problems/find-the-width-of-columns-of-a-grid)
+# [2639. Find the Width of Columns of a Grid](https://leetcode.com/problems/find-the-width-of-columns-of-a-grid)
 
-[English Version](/solution/2600-2699/2639.Find%20the%20Width%20of%20Columns%20of%20a%20Grid/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的&nbsp;<code>m x n</code>&nbsp;整数矩阵&nbsp;<code>grid</code>&nbsp;。矩阵中某一列的宽度是这一列数字的最大 <strong>字符串长度</strong>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> <code>m x n</code> integer matrix <code>grid</code>. The width of a column is the maximum <strong>length </strong>of its integers.</p>
 
 <ul>
-	<li>比方说，如果&nbsp;<code>grid = [[-10], [3], [12]]</code>&nbsp;，那么唯一一列的宽度是&nbsp;<code>3</code>&nbsp;，因为&nbsp;<code>-10</code>&nbsp;的字符串长度为&nbsp;<code>3</code>&nbsp;。</li>
+	<li>For example, if <code>grid = [[-10], [3], [12]]</code>, the width of the only column is <code>3</code> since <code>-10</code> is of length <code>3</code>.</li>
 </ul>
 
-<p>请你返回一个大小为 <code>n</code>&nbsp;的整数数组&nbsp;<code>ans</code>&nbsp;，其中&nbsp;<code>ans[i]</code>&nbsp;是第&nbsp;<code>i</code>&nbsp;列的宽度。</p>
+<p>Return <em>an integer array</em> <code>ans</code> <em>of size</em> <code>n</code> <em>where</em> <code>ans[i]</code> <em>is the width of the</em> <code>i<sup>th</sup></code> <em>column</em>.</p>
 
-<p>一个有 <code>len</code>&nbsp;个数位的整数 <code>x</code>&nbsp;，如果是非负数，那么&nbsp;<strong>字符串</strong><strong>长度</strong>&nbsp;为&nbsp;<code>len</code>&nbsp;，否则为&nbsp;<code>len + 1</code>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>grid = [[1],[22],[333]]
-<b>输出：</b>[3]
-<b>解释：</b>第 0 列中，333 字符串长度为 3 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>grid = [[-15,1,3],[15,7,12],[5,6,-2]]
-<b>输出：</b>[3,1,2]
-<b>解释：</b>
-第 0 列中，只有 -15 字符串长度为 3 。
-第 1 列中，所有整数的字符串长度都是 1 。
-第 2 列中，12 和 -2 的字符串长度都为 2 。
-</pre>
+<p>The <strong>length</strong> of an integer <code>x</code> with <code>len</code> digits is equal to <code>len</code> if <code>x</code> is non-negative, and <code>len + 1</code> otherwise.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> grid = [[1],[22],[333]]
+<strong>Output:</strong> [3]
+<strong>Explanation:</strong> In the 0<sup>th</sup> column, 333 is of length 3.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> grid = [[-15,1,3],[15,7,12],[5,6,-2]]
+<strong>Output:</strong> [3,1,2]
+<strong>Explanation:</strong> 
+In the 0<sup>th</sup> column, only -15 is of length 3.
+In the 1<sup>st</sup> column, all integers are of length 1. 
+In the 2<sup>nd</sup> column, both 12 and -2 are of length 2.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
@@ -61,19 +58,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们记矩阵的列数为 $n$，创建一个长度为 $n$ 的数组 $ans$，其中 $ans[i]$ 表示第 $i$ 列的宽度。初始时 $ans[i] = 0$。
+We denote the number of columns in the matrix as $n$, and create an array $ans$ of length $n$, where $ans[i]$ represents the width of the $i$-th column. Initially, $ans[i] = 0$.
 
-遍历矩阵中的每一行，对于每一行中的每个元素，计算其字符串长度 $w$，并更新 $ans[j]$ 的值为 $\max(ans[j], w)$。
+We traverse each row in the matrix. For each element in each row, we calculate its string length $w$, and update the value of $ans[j]$ to be $\max(ans[j], w)$.
 
-遍历完所有行后，数组 $ans$ 中的每个元素即为对应列的宽度。
+After traversing all rows, each element in the array $ans$ is the width of the corresponding column.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(\log M)$。其中 $m$ 和 $n$ 分别为矩阵的行数和列数，而 $M$ 为矩阵中的最大元素绝对值。
+The time complexity is $O(m \times n)$, and the space complexity is $O(\log M)$. Where $m$ and $n$ are the number of rows and columns in the matrix respectively, and $M$ is the absolute value of the maximum element in the matrix.
 
 <!-- tabs:start -->
 

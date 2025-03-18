@@ -1,80 +1,64 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0420.Strong%20Password%20Checker/README.md
+difficulty: Hard
 tags:
-    - 贪心
-    - 字符串
-    - 堆（优先队列）
+    - Greedy
+    - String
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [420. 强密码检验器](https://leetcode.cn/problems/strong-password-checker)
+# [420. Strong Password Checker](https://leetcode.com/problems/strong-password-checker)
 
-[English Version](/solution/0400-0499/0420.Strong%20Password%20Checker/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>满足以下条件的密码被认为是强密码：</p>
+<p>A password is considered strong if the below conditions are all met:</p>
 
 <ul>
-	<li>由至少 <code>6</code> 个，至多 <code>20</code> 个字符组成。</li>
-	<li>包含至少 <strong>一个小写 </strong>字母，至少&nbsp;<strong>一个大写</strong> 字母，和至少&nbsp;<strong>一个数字</strong> 。</li>
-	<li>不包含连续三个重复字符 (比如 <code>"B<em><strong>aaa</strong></em>bb0"</code> 是弱密码, 但是&nbsp;<code>"B<em><strong>aa</strong></em>b<em><strong>a</strong></em>0"</code> 是强密码)。</li>
+	<li>It has at least <code>6</code> characters and at most <code>20</code> characters.</li>
+	<li>It contains at least <strong>one lowercase</strong> letter, at least <strong>one uppercase</strong> letter, and at least <strong>one digit</strong>.</li>
+	<li>It does not contain three repeating characters in a row (i.e., <code>&quot;B<u><strong>aaa</strong></u>bb0&quot;</code> is weak, but <code>&quot;B<strong><u>aa</u></strong>b<u><strong>a</strong></u>0&quot;</code> is strong).</li>
 </ul>
 
-<p>给你一个字符串 <code>password</code> ，返回&nbsp;<em>将 <code>password</code> 修改到满足强密码条件需要的最少修改步数。如果 <code>password</code> 已经是强密码，则返回 <code>0</code> 。</em></p>
+<p>Given a string <code>password</code>, return <em>the minimum number of steps required to make <code>password</code> strong. if <code>password</code> is already strong, return <code>0</code>.</em></p>
 
-<p>在一步修改操作中，你可以：</p>
+<p>In one step, you can:</p>
 
 <ul>
-	<li>插入一个字符到 <code>password</code> ，</li>
-	<li>从 <code>password</code> 中删除一个字符，或</li>
-	<li>用另一个字符来替换 <code>password</code> 中的某个字符。</li>
+	<li>Insert one character to <code>password</code>,</li>
+	<li>Delete one character from <code>password</code>, or</li>
+	<li>Replace one character of <code>password</code> with another character.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>password = "a"
-<strong>输出：</strong>5
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> password = "a"
+<strong>Output:</strong> 5
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> password = "aA1"
+<strong>Output:</strong> 3
+</pre><p><strong class="example">Example 3:</strong></p>
+<pre><strong>Input:</strong> password = "1337C0d3"
+<strong>Output:</strong> 0
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>password = "aA1"
-<strong>输出：</strong>3
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>password = "1337C0d3"
-<strong>输出：</strong>0
-</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= password.length &lt;= 50</code></li>
-	<li><code>password</code> 由字母、数字、点 <code>'.'</code> 或者感叹号 <code>'!'</code> 组成</li>
+	<li><code>password</code> consists of letters, digits, dot&nbsp;<code>&#39;.&#39;</code> or exclamation mark <code>&#39;!&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

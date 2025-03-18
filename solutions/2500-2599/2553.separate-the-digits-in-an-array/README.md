@@ -1,57 +1,54 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2553.Separate%20the%20Digits%20in%20an%20Array/README.md
+difficulty: Easy
 rating: 1216
-source: 第 97 场双周赛 Q1
+source: Biweekly Contest 97 Q1
 tags:
-    - 数组
-    - 模拟
+    - Array
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2553. 分割数组中数字的数位](https://leetcode.cn/problems/separate-the-digits-in-an-array)
+# [2553. Separate the Digits in an Array](https://leetcode.com/problems/separate-the-digits-in-an-array)
 
-[English Version](/solution/2500-2599/2553.Separate%20the%20Digits%20in%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数数组&nbsp;<code>nums</code>&nbsp;，请你返回一个数组<em>&nbsp;</em><code>answer</code> ，你需要将&nbsp;<code>nums</code>&nbsp;中每个整数进行数位分割后，按照&nbsp;<code>nums</code>&nbsp;中出现的&nbsp;<strong>相同顺序</strong>&nbsp;放入答案数组中。</p>
+<p>Given an array of positive integers <code>nums</code>, return <em>an array </em><code>answer</code><em> that consists of the digits of each integer in </em><code>nums</code><em> after separating them in <strong>the same order</strong> they appear in </em><code>nums</code>.</p>
 
-<p>对一个整数进行数位分割，指的是将整数各个数位按原本出现的顺序排列成数组。</p>
+<p>To separate the digits of an integer is to get all the digits it has in the same order.</p>
 
 <ul>
-	<li>比方说，整数&nbsp;<code>10921</code>&nbsp;，分割它的各个数位得到&nbsp;<code>[1,0,9,2,1]</code>&nbsp;。</li>
+	<li>For example, for the integer <code>10921</code>, the separation of its digits is <code>[1,0,9,2,1]</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [13,25,83,77]
-<b>输出：</b>[1,3,2,5,8,3,7,7]
-<b>解释：</b>
-- 分割 13 得到 [1,3] 。
-- 分割 25 得到 [2,5] 。
-- 分割 83 得到 [8,3] 。
-- 分割 77 得到 [7,7] 。
-answer = [1,3,2,5,8,3,7,7] 。answer 中的数字分割结果按照原数字在数组中的相同顺序排列。
+<pre>
+<strong>Input:</strong> nums = [13,25,83,77]
+<strong>Output:</strong> [1,3,2,5,8,3,7,7]
+<strong>Explanation:</strong> 
+- The separation of 13 is [1,3].
+- The separation of 25 is [2,5].
+- The separation of 83 is [8,3].
+- The separation of 77 is [7,7].
+answer = [1,3,2,5,8,3,7,7]. Note that answer contains the separations in the same order.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>nums = [7,1,3,9]
-<b>输出：</b>[7,1,3,9]
-<b>解释：</b>nums 中每个整数的分割是它自己。
-answer = [7,1,3,9] 。
+<pre>
+<strong>Input:</strong> nums = [7,1,3,9]
+<strong>Output:</strong> [7,1,3,9]
+<strong>Explanation:</strong> The separation of each integer in nums is itself.
+answer = [7,1,3,9].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -60,15 +57,15 @@ answer = [7,1,3,9] 。
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-将数组中的每个数字进行数位分割，然后将分割后的数字依次放入答案数组中。
+Split each number in the array into digits, then put the split numbers into the answer array in order.
 
-时间复杂度 $O(n \times \log_{10} M)$，空间复杂度 $O(n \times \log_{10} M)$，其中 $n$ 为数组 $nums$ 的长度，而 $M$ 为数组 $nums$ 中的最大值。
+The time complexity is $O(n \times \log_{10} M)$, and the space complexity is $O(n \times \log_{10} M)$. Where $n$ is the length of the array $nums$, and $M$ is the maximum value in the array $nums$.
 
 <!-- tabs:start -->
 
@@ -221,7 +218,7 @@ int* separateDigits(int* nums, int numsSize, int* returnSize) {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

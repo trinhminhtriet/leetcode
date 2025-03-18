@@ -1,77 +1,67 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2029.Stone%20Game%20IX/README.md
+difficulty: Medium
 rating: 2277
-source: 第 261 场周赛 Q3
+source: Weekly Contest 261 Q3
 tags:
-    - 贪心
-    - 数组
-    - 数学
-    - 计数
-    - 博弈
+    - Greedy
+    - Array
+    - Math
+    - Counting
+    - Game Theory
 ---
 
 <!-- problem:start -->
 
-# [2029. 石子游戏 IX](https://leetcode.cn/problems/stone-game-ix)
+# [2029. Stone Game IX](https://leetcode.com/problems/stone-game-ix)
 
-[English Version](/solution/2000-2099/2029.Stone%20Game%20IX/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>Alice 和 Bob 再次设计了一款新的石子游戏。现有一行 n 个石子，每个石子都有一个关联的数字表示它的价值。给你一个整数数组 <code>stones</code> ，其中 <code>stones[i]</code> 是第 <code>i</code> 个石子的价值。</p>
+<p>Alice and Bob continue their games with stones. There is a row of n stones, and each stone has an associated value. You are given an integer array <code>stones</code>, where <code>stones[i]</code> is the <strong>value</strong> of the <code>i<sup>th</sup></code> stone.</p>
 
-<p>Alice 和 Bob 轮流进行自己的回合，<strong>Alice</strong> 先手。每一回合，玩家需要从 <code>stones</code>&nbsp;中移除任一石子。</p>
+<p>Alice and Bob take turns, with <strong>Alice</strong> starting first. On each turn, the player may remove any stone from <code>stones</code>. The player who removes a stone <strong>loses</strong> if the <strong>sum</strong> of the values of <strong>all removed stones</strong> is divisible by <code>3</code>. Bob will win automatically if there are no remaining stones (even if it is Alice&#39;s turn).</p>
 
-<ul>
-	<li>如果玩家移除石子后，导致 <strong>所有已移除石子</strong> 的价值&nbsp;<strong>总和</strong> 可以被 3 整除，那么该玩家就 <strong>输掉游戏</strong> 。</li>
-	<li>如果不满足上一条，且移除后没有任何剩余的石子，那么 Bob 将会直接获胜（即便是在 Alice 的回合）。</li>
-</ul>
-
-<p>假设两位玩家均采用&nbsp;<strong>最佳</strong> 决策。如果 Alice 获胜，返回 <code>true</code> ；如果 Bob 获胜，返回 <code>false</code> 。</p>
+<p>Assuming both players play <strong>optimally</strong>, return <code>true</code> <em>if Alice wins and</em> <code>false</code> <em>if Bob wins</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>stones = [2,1]
-<strong>输出：</strong>true
-<strong>解释：</strong>游戏进行如下：
-- 回合 1：Alice 可以移除任意一个石子。
-- 回合 2：Bob 移除剩下的石子。 
-已移除的石子的值总和为 1 + 2 = 3 且可以被 3 整除。因此，Bob 输，Alice 获胜。
+<strong>Input:</strong> stones = [2,1]
+<strong>Output:</strong> true
+<strong>Explanation:</strong>&nbsp;The game will be played as follows:
+- Turn 1: Alice can remove either stone.
+- Turn 2: Bob removes the remaining stone. 
+The sum of the removed stones is 1 + 2 = 3 and is divisible by 3. Therefore, Bob loses and Alice wins the game.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>stones = [2]
-<strong>输出：</strong>false
-<strong>解释：</strong>Alice 会移除唯一一个石子，已移除石子的值总和为 2 。 
-由于所有石子都已移除，且值总和无法被 3 整除，Bob 获胜。
+<strong>Input:</strong> stones = [2]
+<strong>Output:</strong> false
+<strong>Explanation:</strong>&nbsp;Alice will remove the only stone, and the sum of the values on the removed stones is 2. 
+Since all the stones are removed and the sum of values is not divisible by 3, Bob wins the game.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>stones = [5,1,2,4,3]
-<strong>输出：</strong>false
-<strong>解释：</strong>Bob 总会获胜。其中一种可能的游戏进行方式如下：
-- 回合 1：Alice 可以移除值为 1 的第 2 个石子。已移除石子值总和为 1 。
-- 回合 2：Bob 可以移除值为 3 的第 5 个石子。已移除石子值总和为 = 1 + 3 = 4 。
-- 回合 3：Alices 可以移除值为 4 的第 4 个石子。已移除石子值总和为 = 1 + 3 + 4 = 8 。
-- 回合 4：Bob 可以移除值为 2 的第 3 个石子。已移除石子值总和为 = 1 + 3 + 4 + 2 = 10.
-- 回合 5：Alice 可以移除值为 5 的第 1 个石子。已移除石子值总和为 = 1 + 3 + 4 + 2 + 5 = 15.
-Alice 输掉游戏，因为已移除石子值总和（15）可以被 3 整除，Bob 获胜。
+<strong>Input:</strong> stones = [5,1,2,4,3]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> Bob will always win. One possible way for Bob to win is shown below:
+- Turn 1: Alice can remove the second stone with value 1. Sum of removed stones = 1.
+- Turn 2: Bob removes the fifth stone with value 3. Sum of removed stones = 1 + 3 = 4.
+- Turn 3: Alices removes the fourth stone with value 4. Sum of removed stones = 1 + 3 + 4 = 8.
+- Turn 4: Bob removes the third stone with value 2. Sum of removed stones = 1 + 3 + 4 + 2 = 10.
+- Turn 5: Alice removes the first stone with value 5. Sum of removed stones = 1 + 3 + 4 + 2 + 5 = 15.
+Alice loses the game because the sum of the removed stones (15) is divisible by 3. Bob wins the game.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= stones.length &lt;= 10<sup>5</sup></code></li>
@@ -80,23 +70,23 @@ Alice 输掉游戏，因为已移除石子值总和（15）可以被 3 整除，
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 分情况讨论
+### Solution 1: Greedy + Case Discussion
 
-由于玩家的目标是使得已移除石子的价值总和不能被 $3$ 整除，因此我们只需要考虑每个石子的价值对 $3$ 的余数即可。
+Since the player's goal is to ensure the total value of the removed stones is not divisible by $3$, we only need to consider the remainder of each stone's value when divided by $3$.
 
-我们用一个长度为 $3$ 的数组 $\textit{cnt}$ 维护当前剩余石子的价值对 $3$ 的余数的个数，其中 $\textit{cnt}[0]$ 表示余数为 $0$ 的个数，而 $\textit{cnt}[1]$ 和 $\textit{cnt}[2]$ 分别表示余数为 $1$ 和 $2$ 的个数。
+We use an array $\textit{cnt}$ of length $3$ to maintain the count of the current remaining stones' values modulo $3$, where $\textit{cnt}[0]$ represents the count of stones with a remainder of $0$, and $\textit{cnt}[1]$ and $\textit{cnt}[2]$ respectively represent the counts of stones with remainders of $1$ and $2$.
 
-在第一回合，Alice 不能移除余数为 $0$ 的石子，因为这样会使得已移除石子的价值总和能被 $3$ 整除。因此，Alice 只能移除余数为 $1$ 或 $2$ 的石子。
+In the first round, Alice cannot remove stones with a remainder of $0$, as this would make the total value of the removed stones divisible by $3$. Therefore, Alice can only remove stones with a remainder of $1$ or $2$.
 
-我们首先考虑 Alice 移除余数为 $1$ 的石子的情况。如果 Alice 移除了一个余数为 $1$ 的石子，石子 $0$ 对石子价值总和对 $3$ 的余数不会改变，因此价值对 $3$ 的余数为 $0$ 的石子可以在任意回合被移除，我们暂时不考虑。所以 Bob 也只能移除余数为 $1$ 的石子，之后 Alice 移除余数为 $2$ 的石子，依次进行，序列为 $1, 1, 2, 1, 2, \ldots$。在这种情况下，如果最终回合数为奇数，且还有剩余石子，那么 Alice 获胜，否则 Bob 获胜。
+First, let's consider the case where Alice removes a stone with a remainder of $1$. If Alice removes a stone with a remainder of $1$, the remainder of the total value of stones $0$ against $3$ will not change, so stones with a value remainder of $0$ can be removed in any round, which we will not consider for now. Thus, Bob can only remove stones with a remainder of $1$, followed by Alice removing stones with a remainder of $2$, and so on, in the sequence $1, 1, 2, 1, 2, \ldots$. In this scenario, if the final round is odd and there are still remaining stones, then Alice wins; otherwise, Bob wins.
 
-对于第一回合 Alice 移除余数为 $2$ 的石子的情况，我们可以得到类似的结论。
+For the case where Alice removes a stone with a remainder of $2$ in the first round, we can draw a similar conclusion.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{stones}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{stones}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

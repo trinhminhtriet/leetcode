@@ -1,80 +1,75 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1876.Substrings%20of%20Size%20Three%20with%20Distinct%20Characters/README.md
+difficulty: Easy
 rating: 1248
-source: 第 53 场双周赛 Q1
+source: Biweekly Contest 53 Q1
 tags:
-    - 哈希表
-    - 字符串
-    - 计数
-    - 滑动窗口
+    - Hash Table
+    - String
+    - Counting
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [1876. 长度为三且各字符不同的子字符串](https://leetcode.cn/problems/substrings-of-size-three-with-distinct-characters)
+# [1876. Substrings of Size Three with Distinct Characters](https://leetcode.com/problems/substrings-of-size-three-with-distinct-characters)
 
-[English Version](/solution/1800-1899/1876.Substrings%20of%20Size%20Three%20with%20Distinct%20Characters/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>如果一个字符串不含有任何重复字符，我们称这个字符串为 <strong>好</strong> 字符串。</p>
+<p>A string is <strong>good</strong> if there are no repeated characters.</p>
 
-<p>给你一个字符串 <code>s</code> ，请你返回 <code>s</code> 中长度为 <strong>3</strong> 的 <strong>好子字符串</strong> 的数量。</p>
+<p>Given a string <code>s</code>​​​​​, return <em>the number of <strong>good substrings</strong> of length <strong>three </strong>in </em><code>s</code>​​​​​​.</p>
 
-<p>注意，如果相同的好子字符串出现多次，每一次都应该被记入答案之中。</p>
+<p>Note that if there are multiple occurrences of the same substring, every occurrence should be counted.</p>
 
-<p><strong>子字符串</strong> 是一个字符串中连续的字符序列。</p>
+<p>A <strong>substring</strong> is a contiguous sequence of characters in a string.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>s = "xyzzaz"
-<b>输出：</b>1
-<b>解释：</b>总共有 4 个长度为 3 的子字符串："xyz"，"yzz"，"zza" 和 "zaz" 。
-唯一的长度为 3 的好子字符串是 "xyz" 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>s = "aababcabc"
-<b>输出：</b>4
-<b>解释：</b>总共有 7 个长度为 3 的子字符串："aab"，"aba"，"bab"，"abc"，"bca"，"cab" 和 "abc" 。
-好子字符串包括 "abc"，"bca"，"cab" 和 "abc" 。
+<strong>Input:</strong> s = &quot;xyzzaz&quot;
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> There are 4 substrings of size 3: &quot;xyz&quot;, &quot;yzz&quot;, &quot;zza&quot;, and &quot;zaz&quot;. 
+The only good substring of length 3 is &quot;xyz&quot;.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;aababcabc&quot;
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> There are 7 substrings of size 3: &quot;aab&quot;, &quot;aba&quot;, &quot;bab&quot;, &quot;abc&quot;, &quot;bca&quot;, &quot;cab&quot;, and &quot;abc&quot;.
+The good substrings are &quot;abc&quot;, &quot;bca&quot;, &quot;cab&quot;, and &quot;abc&quot;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= s.length <= 100</code></li>
-	<li><code>s</code>​​​​​​ 只包含小写英文字母。</li>
+	<li><code>1 &lt;= s.length &lt;= 100</code></li>
+	<li><code>s</code>​​​​​​ consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：滑动窗口
+### Solution 1: Sliding Window
 
-我们可以维护一个滑动窗口，使得窗口内的字符不重复。初始时，我们用一个长度为 $26$ 的二进制整数 $\textit{mask}$ 表示窗口内的字符，其中第 $i$ 位为 $1$ 表示字符 $i$ 在窗口内出现过，否则表示字符 $i$ 在窗口内没有出现过。
+We can maintain a sliding window such that the characters within the window are not repeated. Initially, we use a binary integer $\textit{mask}$ of length $26$ to represent the characters within the window, where the $i$-th bit being $1$ indicates that character $i$ has appeared in the window, otherwise it indicates that character $i$ has not appeared in the window.
 
-然后，我们遍历字符串 $s$，对于每一个位置 $r$，如果 $\textit{s}[r]$ 在窗口内出现过，我们需要将窗口的左边界 $l$ 右移，直到窗口内不再有重复的字符。在这之后，我们将 $\textit{s}[r]$ 加入窗口内，此时如果窗口的长度大于等于 $3$，那么我们就找到了一个以 $\textit{s}[r]$ 结尾的长度为 $3$ 的好子字符串。
+Then, we traverse the string $s$. For each position $r$, if $\textit{s}[r]$ has appeared in the window, we need to move the left boundary $l$ of the window to the right until there are no repeated characters in the window. After this, we add $\textit{s}[r]$ to the window. At this point, if the length of the window is greater than or equal to $3$, then we have found a good substring of length $3$ ending at $\textit{s}[r]$.
 
-遍历结束后，我们就找到了所有的好子字符串的数量。
+After the traversal, we have found the number of all good substrings.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
 
-> 该解法可以拓展到长度为 $k$ 的好子字符串的数量。
+> This solution can be extended to find the number of good substrings of length $k$.
 
 <!-- tabs:start -->
 

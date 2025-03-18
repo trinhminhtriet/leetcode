@@ -1,88 +1,81 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2644.Find%20the%20Maximum%20Divisibility%20Score/README.md
+difficulty: Easy
 rating: 1257
-source: 第 341 场周赛 Q2
+source: Weekly Contest 341 Q2
 tags:
-    - 数组
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2644. 找出可整除性得分最大的整数](https://leetcode.cn/problems/find-the-maximum-divisibility-score)
+# [2644. Find the Maximum Divisibility Score](https://leetcode.com/problems/find-the-maximum-divisibility-score)
 
-[English Version](/solution/2600-2699/2644.Find%20the%20Maximum%20Divisibility%20Score/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数数组 <code>nums</code> 和 <code>divisors</code> 。</p>
+<p>You are given two integer arrays <code>nums</code> and <code>divisors</code>.</p>
 
-<p><code>divisors[i]</code> 的 <strong>可整除性得分</strong> 等于满足 <code>nums[j]</code> 能被 <code>divisors[i]</code> 整除的下标 <code>j</code> 的数量。</p>
+<p>The <strong>divisibility score</strong> of <code>divisors[i]</code> is the number of indices <code>j</code> such that <code>nums[j]</code> is divisible by <code>divisors[i]</code>.</p>
 
-<p>返回 <strong>可整除性得分</strong> 最大的整数 <code>divisors[i]</code> 。如果有多个整数具有最大得分，则返回数值最小的一个。</p>
+<p>Return the integer <code>divisors[i]</code> with the <strong>maximum</strong> divisibility score. If multiple integers have the maximum score, return the smallest one.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">nums = [2,9,15,50], divisors = [5,3,7,2]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [2,9,15,50], divisors = [5,3,7,2]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p><code>divisors[0]</code>&nbsp;的可整除性分数为 2 因为&nbsp;<code>nums[2]</code> 和&nbsp;<code>nums[3]</code>&nbsp;能被 5 整除。</p>
+<p>The divisibility score of <code>divisors[0]</code> is 2 since <code>nums[2]</code> and <code>nums[3]</code> are divisible by 5.</p>
 
-<p><code>divisors[1]</code> 的可整除性分数为 2 因为&nbsp;<code>nums[1]</code>&nbsp;和&nbsp;<code>nums[2]</code>&nbsp;能被 3 整除。</p>
+<p>The divisibility score of <code>divisors[1]</code> is 2 since <code>nums[1]</code> and <code>nums[2]</code> are divisible by 3.</p>
 
-<p><code>divisors[2]</code> 的可整除性分数为 0 因为&nbsp;<code>nums</code>&nbsp;中没有数字能被 7 整除。</p>
+<p>The divisibility score of <code>divisors[2]</code> is 0 since none of the numbers in <code>nums</code> is divisible by 7.</p>
 
-<p><code>divisors[3]</code> 的可整除性分数为 2 因为 <code>nums[0]</code> 和&nbsp;<code>nums[3]</code>&nbsp;能够被 2 整除。</p>
+<p>The divisibility score of <code>divisors[3]</code> is 2 since <code>nums[0]</code> and <code>nums[3]</code> are divisible by 2.</p>
 
-<p>因为&nbsp;<code>divisors[0]</code>&nbsp;、<code>divisor[1]</code> 和&nbsp;<code>divisors[3]</code>&nbsp;有相同的可整除性分数，我们返回更小的那个&nbsp;<code>divisors[3]</code>。</p>
+<p>As <code>divisors[0]</code>,&nbsp;<code>divisors[1]</code>, and <code>divisors[3]</code> have the same divisibility score, we return the smaller one which is <code>divisors[3]</code>.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">nums = [4,7,9,3,9], divisors = [5,2,3]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [4,7,9,3,9], divisors = [5,2,3]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">3</span></p>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p><code>divisors[0]</code> 的可整除性分数为 0&nbsp;因为&nbsp;<code>nums</code>&nbsp;中没有数字能被 5 整除。</p>
+<p>The divisibility score of <code>divisors[0]</code> is 0 since none of numbers in <code>nums</code> is divisible by 5.</p>
 
-<p><code>divisors[1]</code> 的可整除性分数为 1 因为只有 <code>nums[0]</code>&nbsp;能被 2 整除。</p>
+<p>The divisibility score of <code>divisors[1]</code> is 1 since only <code>nums[0]</code> is divisible by 2.</p>
 
-<p><code>divisors[2]</code> 的可整除性分数为 3 因为&nbsp;<code>nums[2]</code>&nbsp;，<code>nums[3]</code>&nbsp;和&nbsp;<code>nums[4]</code>&nbsp;能被 3 整除。</p>
+<p>The divisibility score of <code>divisors[2]</code> is 3 since <code>nums[2]</code>, <code>nums[3]</code> and <code>nums[4]</code> are divisible by 3.</p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">nums = [20,14,21,10], divisors = [10,16,20]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [20,14,21,10], divisors = [10,16,20]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">10</span></p>
+<p><strong>Output:</strong> <span class="example-io">10</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p><code>divisors[0]</code> 的可整除性分数为 2 因为&nbsp;<code>nums[0]</code>&nbsp;和&nbsp;<code>nums[3]</code> 能被 10 整除。</p>
+<p>The divisibility score of <code>divisors[0]</code> is 2 since <code>nums[0]</code> and <code>nums[3]</code> are divisible by 10.</p>
 
-<p><code>divisors[1]</code> 的可整除性分数为 0 因为&nbsp;<code>nums</code>&nbsp;中没有数字能被 16&nbsp;整除。</p>
+<p>The divisibility score of <code>divisors[1]</code> is 0 since none of the numbers in <code>nums</code> is divisible by 16.</p>
 
-<p><code>divisors[2]</code> 的可整除性分数为 1 因为&nbsp;<code>nums[0]</code>&nbsp;能被 20&nbsp;整除。</p>
-
-<p>因为&nbsp;<code>divisors[0]</code>&nbsp;的可整除性分数最大，我们返回&nbsp;<code>divisors[0]</code>。</p>
+<p>The divisibility score of <code>divisors[2]</code> is 1 since <code>nums[0]</code> is divisible by 20.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length, divisors.length &lt;= 1000</code></li>
@@ -91,20 +84,20 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们可以枚举 $divisors$ 中的每个元素 $div$，计算 $nums$ 中有多少个元素能被 $div$ 整除，记为 $cnt$。
+We can enumerate each element $div$ in $divisors$, and calculate how many elements in $nums$ can be divided by $div$, denoted as $cnt$.
 
--   如果 $cnt$ 大于当前最大的可整除性得分 $mx$，则更新 $mx = cnt$，并且更新 $ans = div$。
--   如果 $cnt$ 等于 $mx$ 并且 $div$ 小于 $ans$，则更新 $ans = div$。
+-   If $cnt$ is greater than the current maximum divisibility score $mx$, then update $mx = cnt$, and update $ans = div$.
+-   If $cnt$ equals $mx$ and $div$ is less than $ans$, then update $ans = div$.
 
-最后返回 $ans$ 即可。
+Finally, return $ans$.
 
-时间复杂度 $(m \times n)$，其中 $m$ 和 $n$ 分别是 $nums$ 和 $divisors$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(m \times n)$, where $m$ and $n$ are the lengths of $nums$ and $divisors$ respectively. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

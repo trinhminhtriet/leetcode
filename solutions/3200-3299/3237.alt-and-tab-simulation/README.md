@@ -1,93 +1,88 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3237.Alt%20and%20Tab%20Simulation/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
-    - 模拟
+    - Array
+    - Hash Table
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [3237. Alt 和 Tab 模拟 🔒](https://leetcode.cn/problems/alt-and-tab-simulation)
+# [3237. Alt and Tab Simulation 🔒](https://leetcode.com/problems/alt-and-tab-simulation)
 
-[English Version](/solution/3200-3299/3237.Alt%20and%20Tab%20Simulation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有&nbsp;<code>n</code>&nbsp;个编号从&nbsp; <code>1</code> 到&nbsp;<code>n</code>&nbsp;的打开的窗口，我们想要模拟使用&nbsp;alt + tab 键在窗口之间导航。</p>
+<p>There are <code>n</code> windows open numbered from <code>1</code> to <code>n</code>, we want to simulate using alt + tab to navigate between the windows.</p>
 
-<p>给定数组&nbsp;<code>windows</code>&nbsp;包含窗口的初始顺序（第一个元素在最前面，最后一个元素在最后面）。</p>
+<p>You are given an array <code>windows</code> which contains the initial order of the windows (the first element is at the top and the last one is at the bottom).</p>
 
-<p>同时给定数组&nbsp;<code>queries</code>&nbsp;表示每一次查询中，编号为&nbsp;<code>queries[i]</code>&nbsp;的窗口被切换到最前面。</p>
+<p>You are also given an array <code>queries</code> where for each query, the window <code>queries[i]</code> is brought to the top.</p>
 
-<p>返回&nbsp;<code>windows</code>&nbsp;数组的最后状态。</p>
+<p>Return the final state of the array <code>windows</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>windows = [1,2,3], queries = [3,3,2]</span></p>
+<p><strong>Input:</strong> <span class="example-io">windows = [1,2,3], queries = [3,3,2]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">[2,3,1]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[2,3,1]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>以下是每次查询后的 windows 数组：</p>
+<p>Here is the window array after each query:</p>
 
 <ul>
-	<li>初始顺序：<code>[1,2,3]</code></li>
-	<li>第一次查询后：<code>[<u><strong>3</strong></u>,1,2]</code></li>
-	<li>第二次查询后：<code>[<u><strong>3</strong></u>,1,2]</code></li>
-	<li>最后一次查询后：<code>[<u><strong>2</strong></u>,3,1]</code></li>
+	<li>Initial order: <code>[1,2,3]</code></li>
+	<li>After the first query: <code>[<u><strong>3</strong></u>,1,2]</code></li>
+	<li>After the second query: <code>[<u><strong>3</strong></u>,1,2]</code></li>
+	<li>After the last query: <code>[<u><strong>2</strong></u>,3,1]</code></li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>windows = [1,4,2,3], queries = [4,1,3]</span></p>
+<p><strong>Input:</strong> <span class="example-io">windows = [1,4,2,3], queries = [4,1,3]</span></p>
 
-<p><span class="example-io"><b>输出：</b>[3,1,4,2]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[3,1,4,2]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>以下是每次查询后的 windows 数组：</p>
+<p>Here is the window array after each query:</p>
 
 <ul>
-	<li>初始顺序：<code>[1,4,2,3]</code></li>
-	<li>第一次查询后：<code>[<u><strong>4</strong></u>,1,2,3]</code></li>
-	<li>第二次查询后：<code>[<u><strong>1</strong></u>,4,2,3]</code></li>
-	<li>最后一次查询后：<code>[<u><strong>3</strong></u>,1,4,2]</code></li>
+	<li>Initial order: <code>[1,4,2,3]</code></li>
+	<li>After the first query: <code>[<u><strong>4</strong></u>,1,2,3]</code></li>
+	<li>After the second query: <code>[<u><strong>1</strong></u>,4,2,3]</code></li>
+	<li>After the last query: <code>[<u><strong>3</strong></u>,1,4,2]</code></li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == windows.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>windows</code> 是&nbsp;<code>[1, n]</code>&nbsp;的一个排列。</li>
+	<li><code>windows</code> is a permutation of <code>[1, n]</code>.</li>
 	<li><code>1 &lt;= queries.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= queries[i] &lt;= n</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 逆序遍历
+### Solution 1: Hash Table + Reverse Traversal
 
-根据题目描述，越是后面的查询，越是出现在最前面的位置。因此，我们可以逆序遍历 $\textit{queries}$ 数组，用一个哈希表 $\textit{s}$ 记录已经出现过的窗口。对于每一个查询，如果当前窗口不在哈希表中，我们将其加入答案数组，并将其加入哈希表中。最后，我们再次遍历 $\textit{windows}$ 数组，将不在哈希表中的窗口加入答案数组。
+According to the problem description, the later the query, the earlier it appears in the result. Therefore, we can traverse the $\textit{queries}$ array in reverse order, using a hash table $\textit{s}$ to record the windows that have already appeared. For each query, if the current window is not in the hash table, we add it to the answer array and also add it to the hash table. Finally, we traverse the $\textit{windows}$ array again, adding the windows that are not in the hash table to the answer array.
 
-时间复杂度 $O(n + m)$，空间复杂度 $O(m)$。其中 $n$ 和 $m$ 分别为 $\textit{windows}$ 和 $\textit{queries}$ 数组的长度。
+The time complexity is $O(n + m)$, and the space complexity is $O(m)$. Here, $n$ and $m$ are the lengths of the $\textit{windows}$ and $\textit{queries}$ arrays, respectively.
 
 <!-- tabs:start -->
 

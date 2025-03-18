@@ -1,85 +1,80 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1314.Matrix%20Block%20Sum/README.md
+difficulty: Medium
 rating: 1483
-source: 第 17 场双周赛 Q2
+source: Biweekly Contest 17 Q2
 tags:
-    - 数组
-    - 矩阵
-    - 前缀和
+    - Array
+    - Matrix
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [1314. 矩阵区域和](https://leetcode.cn/problems/matrix-block-sum)
+# [1314. Matrix Block Sum](https://leetcode.com/problems/matrix-block-sum)
 
-[English Version](/solution/1300-1399/1314.Matrix%20Block%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>m x n</code> 的矩阵 <code>mat</code> 和一个整数 <code>k</code> ，请你返回一个矩阵 <code>answer</code> ，其中每个 <code>answer[i][j]</code> 是所有满足下述条件的元素 <code>mat[r][c]</code> 的和： </p>
+<p>Given a <code>m x n</code> matrix <code>mat</code> and an integer <code>k</code>, return <em>a matrix</em> <code>answer</code> <em>where each</em> <code>answer[i][j]</code> <em>is the sum of all elements</em> <code>mat[r][c]</code> <em>for</em>:</p>
 
 <ul>
-	<li><code>i - k <= r <= i + k, </code></li>
-	<li><code>j - k <= c <= j + k</code> 且</li>
-	<li><code>(r, c)</code> 在矩阵内。</li>
+	<li><code>i - k &lt;= r &lt;= i + k,</code></li>
+	<li><code>j - k &lt;= c &lt;= j + k</code>, and</li>
+	<li><code>(r, c)</code> is a valid position in the matrix.</li>
 </ul>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>mat = [[1,2,3],[4,5,6],[7,8,9]], k = 1
-<strong>输出：</strong>[[12,21,16],[27,45,33],[24,39,28]]
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>mat = [[1,2,3],[4,5,6],[7,8,9]], k = 2
-<strong>输出：</strong>[[45,45,45],[45,45,45],[45,45,45]]
+<strong>Input:</strong> mat = [[1,2,3],[4,5,6],[7,8,9]], k = 1
+<strong>Output:</strong> [[12,21,16],[27,45,33],[24,39,28]]
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> mat = [[1,2,3],[4,5,6],[7,8,9]], k = 2
+<strong>Output:</strong> [[45,45,45],[45,45,45],[45,45,45]]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>m == mat.length</code></li>
-	<li><code>n == mat[i].length</code></li>
-	<li><code>1 <= m, n, k <= 100</code></li>
-	<li><code>1 <= mat[i][j] <= 100</code></li>
+	<li><code>m ==&nbsp;mat.length</code></li>
+	<li><code>n ==&nbsp;mat[i].length</code></li>
+	<li><code>1 &lt;= m, n, k &lt;= 100</code></li>
+	<li><code>1 &lt;= mat[i][j] &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二维前缀和
+### Solution 1: Two-Dimensional Prefix Sum
 
-本题属于二维前缀和模板题。
+This problem is a template for two-dimensional prefix sum.
 
-我们定义 $s[i][j]$ 表示矩阵 $mat$ 前 $i$ 行，前 $j$ 列的元素和。那么 $s[i][j]$ 的计算公式为：
+We define $s[i][j]$ as the sum of the elements in the first $i$ rows and the first $j$ columns of the matrix $mat$. The calculation formula for $s[i][j]$ is:
 
 $$
 s[i][j] = s[i-1][j] + s[i][j-1] - s[i-1][j-1] + mat[i-1][j-1]
 $$
 
-这样我们就可以通过 $s$ 数组快速计算出任意矩形区域的元素和。
+In this way, we can quickly calculate the sum of elements in any rectangular area through the $s$ array.
 
-对于一个左上角坐标为 $(x_1, y_1)$，右下角坐标为 $(x_2, y_2)$ 的矩形区域的元素和，我们可以通过 $s$ 数组计算出来：
+For a rectangular area with the upper left coordinate $(x_1, y_1)$ and the lower right coordinate $(x_2, y_2)$, we can calculate the sum of its elements through the $s$ array:
 
 $$
 s[x_2+1][y_2+1] - s[x_1][y_2+1] - s[x_2+1][y_1] + s[x_1][y_1]
 $$
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
+The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the number of rows and columns in the matrix, respectively.
 
 <!-- tabs:start -->
 

@@ -1,30 +1,25 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0194.Transpose%20File/README.md
+difficulty: Medium
 tags:
     - Shell
 ---
 
 <!-- problem:start -->
 
-# [194. 转置文件](https://leetcode.cn/problems/transpose-file)
+# [194. Transpose File](https://leetcode.com/problems/transpose-file)
 
-[English Version](/solution/0100-0199/0194.Transpose%20File/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个文件 <code>file.txt</code>，转置它的内容。</p>
+<p>Given a text file <code>file.txt</code>, transpose its content.</p>
 
-<p>你可以假设每行列数相同，并且每个字段由 <code>' '</code> 分隔。</p>
+<p>You may assume that each row has the same number of columns, and each field is separated by the <code>&#39; &#39;</code> character.</p>
 
-<p> </p>
+<p><strong class="example">Example:</strong></p>
 
-<p><strong>示例：</strong></p>
-
-<p>假设 <code>file.txt</code> 文件内容如下：</p>
+<p>If <code>file.txt</code> has the following content:</p>
 
 <pre>
 name age
@@ -32,7 +27,7 @@ alice 21
 ryan 30
 </pre>
 
-<p>应当输出：</p>
+<p>Output the following:</p>
 
 <pre>
 name alice ryan
@@ -41,11 +36,11 @@ age 21 30
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：awk
+### Solution 1: awk
 
 <!-- tabs:start -->
 

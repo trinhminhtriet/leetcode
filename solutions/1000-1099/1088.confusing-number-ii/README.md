@@ -1,68 +1,63 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1088.Confusing%20Number%20II/README.md
+difficulty: Hard
 rating: 2076
-source: 第 2 场双周赛 Q4
+source: Biweekly Contest 2 Q4
 tags:
-    - 数学
-    - 回溯
+    - Math
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [1088. 易混淆数 II 🔒](https://leetcode.cn/problems/confusing-number-ii)
+# [1088. Confusing Number II 🔒](https://leetcode.com/problems/confusing-number-ii)
 
-[English Version](/solution/1000-1099/1088.Confusing%20Number%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong>易混淆数</strong>（Confusing Number）指的是一个数字在整体旋转 <code>180°</code> 以后，能够得到一个和原来&nbsp;<strong>不同&nbsp;</strong>的数，且 <strong>新数字的每一位都应该是有效的</strong>。</p>
+<p>A <strong>confusing number</strong> is a number that when rotated <code>180</code> degrees becomes a different number with <strong>each digit valid</strong>.</p>
 
-<p>本题我们会将数字旋转 <code>180°</code> 来生成一个新的数字。</p>
-
-<ul>
-	<li>当 <code>0、1、6、8、9</code> 旋转 <code>180°</code> 以后，我们得到的新数字分别为&nbsp;0、1、9、8、6。</li>
-	<li>当&nbsp;<code>2、3、4、5、7</code> 旋转 <code>180°</code> 后，是 <strong>无法</strong> 得到任何数字的。</li>
-</ul>
-
-<p>请注意，在旋转一个数字之后，我们可以忽略前导零。</p>
+<p>We can rotate digits of a number by <code>180</code> degrees to form new digits.</p>
 
 <ul>
-	<li>例如，在旋转 <code>8000</code> 之后，我们有 <code>0008</code> ，它被认为只是 <code>8</code> 。</li>
+	<li>When <code>0</code>, <code>1</code>, <code>6</code>, <code>8</code>, and <code>9</code> are rotated <code>180</code> degrees, they become <code>0</code>, <code>1</code>, <code>9</code>, <code>8</code>, and <code>6</code> respectively.</li>
+	<li>When <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code>, and <code>7</code> are rotated <code>180</code> degrees, they become <strong>invalid</strong>.</li>
 </ul>
 
-<p>给出正整数&nbsp;<code>n</code>，请你返回&nbsp;&nbsp;<em><code>[1, n]</code>&nbsp;范围内的 <strong>易混淆数</strong> 的数量&nbsp;</em>。</p>
+<p>Note that after rotating a number, we can ignore leading zeros.</p>
+
+<ul>
+	<li>For example, after rotating <code>8000</code>, we have <code>0008</code> which is considered as just <code>8</code>.</li>
+</ul>
+
+<p>Given an integer <code>n</code>, return <em>the number of <strong>confusing numbers</strong> in the inclusive range </em><code>[1, n]</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 20
-<strong>输出：</strong>6
-<strong>解释：</strong>易混淆数为 [6,9,10,16,18,19]。
-6 转换为 9
-9 转换为 6
-10 转换为 01 也就是 1
-16 转换为 91
-18 转换为 81
-19 转换为 61
+<strong>Input:</strong> n = 20
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The confusing numbers are [6,9,10,16,18,19].
+6 converts to 9.
+9 converts to 6.
+10 converts to 01 which is just 1.
+16 converts to 91.
+18 converts to 81.
+19 converts to 61.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 100
-<strong>输出：</strong>19
-<strong>解释：</strong>易混淆数为 [6,9,10,16,18,19,60,61,66,68,80,81,86,89,90,91,98,99,100]。
+<strong>Input:</strong> n = 100
+<strong>Output:</strong> 19
+<strong>Explanation:</strong> The confusing numbers are [6,9,10,16,18,19,60,61,66,68,80,81,86,89,90,91,98,99,100].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>9</sup></code></li>
@@ -70,29 +65,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数位 DP
-
-我们先将数字 $n$ 转成字符串 $s$。
-
-接下来，我们定义一个函数 $check(x)$，用来判断 $x$ 在旋转 $180^\circ$ 之后是否变成了一个不同的数。如果 $x$ 在旋转 $180^\circ$ 之后变成了一个不同的数，那么我们就称 $x$ 是一个易混淆数。
-
-然后，我们定义另一个函数 $dfs(pos, limit, x)$，用于搜索从高位到低位的每一位。其中：
-
--   参数 $pos$ 表示当前搜索到的位置，初始时为 $0$；
--   参数 $limit$ 表示当前搜索的数是否受到上界的限制，初始时为 $true$；
--   参数 $x$ 表示当前搜索的数，初始时为 $0$。
-
-在 $dfs(pos, limit, x)$ 中，如果 $pos \geq len(s)$，那么我们就判断 $x$ 是否是一个易混淆数，如果是则返回 $1$，否则返回 $0$。
-
-否则，我们计算出当前位置上的数字的上界 $up$，然后枚举当前位置上的数字 $i$，如果 $i$ 在旋转 $180^\circ$ 之后不是一个数字，那么我们就直接跳过这个数字。否则，我们将 $x$ 更新为 $x \times 10 + i$，并根据 $limit$ 的值决定下一步搜索的时候是否受到上界的限制，最后将答案返回。
-
-最终的答案即为 $dfs(0, true, 0)$。
-
-时间复杂度 $O(5^{\log_{10}n})$，空间复杂度 $O(\log_{10}n)$。其中 $5^{\log_{10}n}$ 表示 $n$ 的位数。
+### Solution 1
 
 <!-- tabs:start -->
 

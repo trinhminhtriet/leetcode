@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1322.Ads%20Performance/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1322. 广告效果 🔒](https://leetcode.cn/problems/ads-performance)
+# [1322. Ads Performance 🔒](https://leetcode.com/problems/ads-performance)
 
-[English Version](/solution/1300-1399/1322.Ads%20Performance/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Ads</code></p>
+<p>Table: <code>Ads</code></p>
 
 <pre>
 +---------------+---------+
@@ -26,32 +23,29 @@ tags:
 | user_id       | int     |
 | action        | enum    |
 +---------------+---------+
-(ad_id, user_id) 是该表的主键(具有唯一值的列的组合)
-该表的每一行包含一条广告的 ID(ad_id)，用户的 ID(user_id) 和用户对广告采取的行为 (action)
-action 列是一个枚举类型 ('Clicked', 'Viewed', 'Ignored') 。
+(ad_id, user_id) is the primary key (combination of columns with unique values) for this table.
+Each row of this table contains the ID of an Ad, the ID of a user, and the action taken by this user regarding this Ad.
+The action column is an ENUM (category) type of (&#39;Clicked&#39;, &#39;Viewed&#39;, &#39;Ignored&#39;).
 </pre>
 
 <p>&nbsp;</p>
 
-<p>一家公司正在运营这些广告并想计算每条广告的效果。</p>
+<p>A company is running Ads and wants to calculate the performance of each Ad.</p>
 
-<p>广告效果用点击通过率（Click-Through Rate：CTR）来衡量，公式如下:</p>
+<p>Performance of the Ad is measured using Click-Through Rate (CTR) where:</p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1322.Ads%20Performance/images/sql1.png" style="width: 600px; height: 54px;" />
+<p>Write a solution&nbsp;to find the <code>ctr</code> of each Ad. <strong>Round</strong> <code>ctr</code> to <strong>two decimal points</strong>.</p>
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1322.Ads%20Performance/images/sql1.png" style="height: 55px; width: 600px;" /></p>
+<p>Return the result table ordered by <code>ctr</code> in <strong>descending order</strong> and by <code>ad_id</code> in <strong>ascending order</strong> in case of a tie.</p>
 
-<p>编写解决方案找出每一条广告的&nbsp;<code>ctr</code>&nbsp;，<code>ctr</code>&nbsp;要 <strong>保留两位小数</strong> 。</p>
-
-<p>返回结果需要按&nbsp;<code>ctr</code>&nbsp;<strong>降序</strong>、按&nbsp;<code>ad_id</code>&nbsp;<strong>升序&nbsp;</strong>进行排序。</p>
-
-<p>返回结果示例如下：</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Ads 表:
+<strong>Input:</strong> 
+Ads table:
 +-------+---------+---------+
 | ad_id | user_id | action  |
 +-------+---------+---------+
@@ -66,7 +60,7 @@ Ads 表:
 | 2     | 11      | Viewed  |
 | 1     | 2       | Clicked |
 +-------+---------+---------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-------+-------+
 | ad_id | ctr   |
 +-------+-------+
@@ -75,21 +69,21 @@ Ads 表:
 | 2     | 33.33 |
 | 5     | 0.00  |
 +-------+-------+
-<strong>解释：</strong>
-对于 ad_id = 1, ctr = (2/(2+1)) * 100 = 66.67
-对于 ad_id = 2, ctr = (1/(1+2)) * 100 = 33.33
-对于 ad_id = 3, ctr = (1/(1+1)) * 100 = 50.00
-对于 ad_id = 5, ctr = 0.00, 注意 ad_id = 5 没有被点击 (Clicked) 或查看 (Viewed) 过
-注意我们不关心 action 为 Ingnored 的广告
+<strong>Explanation:</strong> 
+for ad_id = 1, ctr = (2/(2+1)) * 100 = 66.67
+for ad_id = 2, ctr = (1/(1+2)) * 100 = 33.33
+for ad_id = 3, ctr = (1/(1+1)) * 100 = 50.00
+for ad_id = 5, ctr = 0.00, Note that ad_id = 5 has no clicks or views.
+Note that we do not care about Ignored Ads.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

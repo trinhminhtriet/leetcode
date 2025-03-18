@@ -1,53 +1,49 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1885.Count%20Pairs%20in%20Two%20Arrays/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 双指针
-    - 二分查找
-    - 排序
+    - Array
+    - Two Pointers
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1885. 统计数对 🔒](https://leetcode.cn/problems/count-pairs-in-two-arrays)
+# [1885. Count Pairs in Two Arrays 🔒](https://leetcode.com/problems/count-pairs-in-two-arrays)
 
-[English Version](/solution/1800-1899/1885.Count%20Pairs%20in%20Two%20Arrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个长度为 <code>n</code> 的整数数组 <code>nums1</code>&nbsp;和&nbsp;<code>nums2</code> ，找出所有满足 <code>i &lt; j</code> 且 <code>nums1[i] + nums1[j] &gt; nums2[i] + nums2[j]</code>&nbsp;的数对 <code>(i, j)</code> 。</p>
+<p>Given two integer arrays <code>nums1</code> and <code>nums2</code> of length <code>n</code>, count the pairs of indices <code>(i, j)</code> such that <code>i &lt; j</code> and <code>nums1[i] + nums1[j] &gt; nums2[i] + nums2[j]</code>.</p>
 
-<p>返回满足条件数对的<strong> 个数</strong> 。</p>
+<p>Return <em>the <strong>number of pairs</strong> satisfying the condition.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums1 = [2,1,2,1], nums2 = [1,2,1,2]
-<strong>输出：</strong>1
-<strong>解释：</strong>满足条件的数对有 1 个：(0, 2) ，因为 nums1[0] + nums1[2] = 2 + 2 &gt; nums2[0] + nums2[2] = 1 + 1</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums1 = [1,10,6,2], nums2 = [1,4,1,5]
-<strong>输出：</strong>5
-<strong>解释：</strong>以下数对满足条件：
-- (0, 1) 因为 nums1[0] + nums1[1] = 1 + 10 &gt; nums2[0] + nums2[1] = 1 + 4
-- (0, 2) 因为 nums1[0] + nums1[2] = 1 + 6 &gt; nums2[0] + nums2[2] = 1 + 1
-- (1, 2) 因为 nums1[1] + nums1[2] = 10 + 6 &gt; nums2[1] + nums2[2] = 4 + 1
-- (1, 3) 因为 nums1[1] + nums1[3] = 10 + 2 &gt; nums2[1] + nums2[3] = 4 + 5
-- (2, 3) 因为 nums1[2] + nums1[3] = 6 + 2 &gt; nums2[2] + nums2[3] = 1 + 5
+<strong>Input:</strong> nums1 = [2,1,2,1], nums2 = [1,2,1,2]
+<strong>Output:</strong> 1
+<strong>Explanation</strong>: The pairs satisfying the condition are:
+- (0, 2) where 2 + 2 &gt; 1 + 1.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [1,10,6,2], nums2 = [1,4,1,5]
+<strong>Output:</strong> 5
+<strong>Explanation</strong>: The pairs satisfying the condition are:
+- (0, 1) where 1 + 10 &gt; 1 + 4.
+- (0, 2) where 1 + 6 &gt; 1 + 1.
+- (1, 2) where 10 + 6 &gt; 4 + 1.
+- (1, 3) where 10 + 2 &gt; 4 + 5.
+- (2, 3) where 6 + 2 &gt; 1 + 5.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums1.length == nums2.length</code></li>
@@ -57,19 +53,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 双指针
+### Solution 1: Sorting + Two Pointers
 
-我们可以将题目的不等式转化为 $\textit{nums1}[i] - \textit{nums2}[i] + \textit{nums1}[j] - \textit{nums2}[j] > 0$，即 $\textit{nums}[i] + \textit{nums}[j] > 0$，其中 $\textit{nums}[i] = \textit{nums1}[i] - \textit{nums2}[i]$。
+We can transform the inequality in the problem to $\textit{nums1}[i] - \textit{nums2}[i] + \textit{nums1}[j] - \textit{nums2}[j] > 0$, which simplifies to $\textit{nums}[i] + \textit{nums}[j] > 0$, where $\textit{nums}[i] = \textit{nums1}[i] - \textit{nums2}[i]$.
 
-即对于数组 $\textit{nums}$，我们要找到所有满足 $\textit{nums}[i] + \textit{nums}[j] > 0$ 的数对 $(i, j)$。
+For the array $\textit{nums}$, we need to find all pairs $(i, j)$ that satisfy $\textit{nums}[i] + \textit{nums}[j] > 0$.
 
-我们不妨对数组 $\textit{nums}$ 进行排序，然后使用双指针的方法，初始化左指针 $l = 0$，右指针 $r = n - 1$。每一次，我们判断 $\textit{nums}[l] + \textit{nums}[r]$ 是否小于等于 $0$，如果是，我们循环将左指针右移，直到 $\textit{nums}[l] + \textit{nums}[r] > 0$，此时，以 $l$, $l + 1$, $l + 2$, $\cdots$, $r - 1$ 为左指针，且 $r$ 为右指针的所有数对都满足条件，共有 $r - l$ 个数对，我们将其加入答案中。然后将右指针左移，继续进行上述操作，直到 $l \ge r$。
+We can sort the array $\textit{nums}$ and then use the two-pointer method. Initialize the left pointer $l = 0$ and the right pointer $r = n - 1$. Each time, we check if $\textit{nums}[l] + \textit{nums}[r]$ is less than or equal to $0$. If it is, we move the left pointer to the right in a loop until $\textit{nums}[l] + \textit{nums}[r] > 0$. At this point, all pairs with the left pointer at $l$, $l + 1$, $l + 2$, $\cdots$, $r - 1$ and the right pointer at $r$ satisfy the condition, and there are $r - l$ such pairs. We add these pairs to the answer. Then, move the right pointer to the left and continue the above process until $l \ge r$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

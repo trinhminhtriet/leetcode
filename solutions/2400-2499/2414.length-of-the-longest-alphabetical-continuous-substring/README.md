@@ -1,72 +1,69 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2414.Length%20of%20the%20Longest%20Alphabetical%20Continuous%20Substring/README.md
+difficulty: Medium
 rating: 1221
-source: 第 311 场周赛 Q2
+source: Weekly Contest 311 Q2
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2414. 最长的字母序连续子字符串的长度](https://leetcode.cn/problems/length-of-the-longest-alphabetical-continuous-substring)
+# [2414. Length of the Longest Alphabetical Continuous Substring](https://leetcode.com/problems/length-of-the-longest-alphabetical-continuous-substring)
 
-[English Version](/solution/2400-2499/2414.Length%20of%20the%20Longest%20Alphabetical%20Continuous%20Substring/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong>字母序连续字符串</strong> 是由字母表中连续字母组成的字符串。换句话说，字符串 <code>"abcdefghijklmnopqrstuvwxyz"</code> 的任意子字符串都是 <strong>字母序连续字符串</strong> 。</p>
+<p>An <strong>alphabetical continuous string</strong> is a string consisting of consecutive letters in the alphabet. In other words, it is any substring of the string <code>&quot;abcdefghijklmnopqrstuvwxyz&quot;</code>.</p>
 
 <ul>
-	<li>例如，<code>"abc"</code> 是一个字母序连续字符串，而 <code>"acb"</code> 和 <code>"za"</code> 不是。</li>
+	<li>For example, <code>&quot;abc&quot;</code> is an alphabetical continuous string, while <code>&quot;acb&quot;</code> and <code>&quot;za&quot;</code> are not.</li>
 </ul>
 
-<p>给你一个仅由小写英文字母组成的字符串 <code>s</code> ，返回其 <strong>最长</strong> 的 字母序连续子字符串 的长度。</p>
+<p>Given a string <code>s</code> consisting of lowercase letters only, return the <em>length of the <strong>longest</strong> alphabetical continuous substring.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>s = "abacaba"
-<strong>输出：</strong>2
-<strong>解释：</strong>共有 4 个不同的字母序连续子字符串 "a"、"b"、"c" 和 "ab" 。
-"ab" 是最长的字母序连续子字符串。
+<pre>
+<strong>Input:</strong> s = &quot;abacaba&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> There are 4 distinct continuous substrings: &quot;a&quot;, &quot;b&quot;, &quot;c&quot; and &quot;ab&quot;.
+&quot;ab&quot; is the longest continuous substring.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>s = "abcde"
-<strong>输出：</strong>5
-<strong>解释：</strong>"abcde" 是最长的字母序连续子字符串。
+<pre>
+<strong>Input:</strong> s = &quot;abcde&quot;
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> &quot;abcde&quot; is the longest continuous substring.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> 由小写英文字母组成</li>
+	<li><code>s</code> consists of only English lowercase letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：一次遍历
+### Solution 1: Single Pass
 
-我们可以遍历字符串 $s$，用一个变量 $\textit{ans}$ 记录最长的字母序连续子字符串的长度，用另一个变量 $\textit{cnt}$ 记录当前连续子字符串的长度。初始时 $\textit{ans} = \textit{cnt} = 1$。
+We can traverse the string $s$ and use a variable $\textit{ans}$ to record the length of the longest lexicographically consecutive substring, and another variable $\textit{cnt}$ to record the length of the current consecutive substring. Initially, $\textit{ans} = \textit{cnt} = 1$.
 
-接下来，我们从下标为 $1$ 的字符开始遍历字符串 $s$，对于每个字符 $s[i]$，如果 $s[i] - s[i - 1] = 1$，则说明当前字符和前一个字符是连续的，此时 $\textit{cnt} = \textit{cnt} + 1$，并更新 $\textit{ans} = \max(\textit{ans}, \textit{cnt})$；否则，说明当前字符和前一个字符不连续，此时 $\textit{cnt} = 1$。
+Next, we start traversing the string $s$ from the character at index $1$. For each character $s[i]$, if $s[i] - s[i - 1] = 1$, it means the current character and the previous character are consecutive. In this case, $\textit{cnt} = \textit{cnt} + 1$, and we update $\textit{ans} = \max(\textit{ans}, \textit{cnt})$. Otherwise, it means the current character and the previous character are not consecutive, so $\textit{cnt} = 1$.
 
-最终返回 $\textit{ans}$ 即可。
+Finally, we return $\textit{ans}$.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

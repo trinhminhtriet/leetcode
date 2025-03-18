@@ -1,87 +1,80 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0563.Binary%20Tree%20Tilt/README.md
+difficulty: Easy
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [563. 二叉树的坡度](https://leetcode.cn/problems/binary-tree-tilt)
+# [563. Binary Tree Tilt](https://leetcode.com/problems/binary-tree-tilt)
 
-[English Version](/solution/0500-0599/0563.Binary%20Tree%20Tilt/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二叉树的根节点 <code>root</code> ，计算并返回 <strong>整个树 </strong>的坡度 。</p>
+<p>Given the <code>root</code> of a binary tree, return <em>the sum of every tree node&#39;s <strong>tilt</strong>.</em></p>
 
-<p>一个树的<strong> 节点的坡度 </strong>定义即为，该节点左子树的节点之和和右子树节点之和的 <strong>差的绝对值 </strong>。如果没有左子树的话，左子树的节点之和为 0 ；没有右子树的话也是一样。空结点的坡度是 0 。</p>
-
-<p><strong>整个树</strong> 的坡度就是其所有节点的坡度之和。</p>
+<p>The <strong>tilt</strong> of a tree node is the <strong>absolute difference</strong> between the sum of all left subtree node <strong>values</strong> and all right subtree node <strong>values</strong>. If a node does not have a left child, then the sum of the left subtree node <strong>values</strong> is treated as <code>0</code>. The rule is similar if the node does not have a right child.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0563.Binary%20Tree%20Tilt/images/tilt1.jpg" style="width: 712px; height: 182px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,3]
-<strong>输出：</strong>1
-<strong>解释：</strong>
-节点 2 的坡度：|0-0| = 0（没有子节点）
-节点 3 的坡度：|0-0| = 0（没有子节点）
-节点 1 的坡度：|2-3| = 1（左子树就是左子节点，所以和是 2 ；右子树就是右子节点，所以和是 3 ）
-坡度总和：0 + 0 + 1 = 1
+<strong>Input:</strong> root = [1,2,3]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> 
+Tilt of node 2 : |0-0| = 0 (no children)
+Tilt of node 3 : |0-0| = 0 (no children)
+Tilt of node 1 : |2-3| = 1 (left subtree is just left child, so sum is 2; right subtree is just right child, so sum is 3)
+Sum of every tilt : 0 + 0 + 1 = 1
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0563.Binary%20Tree%20Tilt/images/tilt2.jpg" style="width: 800px; height: 203px;" />
 <pre>
-<strong>输入：</strong>root = [4,2,9,3,5,null,7]
-<strong>输出：</strong>15
-<strong>解释：</strong>
-节点 3 的坡度：|0-0| = 0（没有子节点）
-节点 5 的坡度：|0-0| = 0（没有子节点）
-节点 7 的坡度：|0-0| = 0（没有子节点）
-节点 2 的坡度：|3-5| = 2（左子树就是左子节点，所以和是 3 ；右子树就是右子节点，所以和是 5 ）
-节点 9 的坡度：|0-7| = 7（没有左子树，所以和是 0 ；右子树正好是右子节点，所以和是 7 ）
-节点 4 的坡度：|(3+5+2)-(9+7)| = |10-16| = 6（左子树值为 3、5 和 2 ，和是 10 ；右子树值为 9 和 7 ，和是 16 ）
-坡度总和：0 + 0 + 0 + 2 + 7 + 6 = 15
+<strong>Input:</strong> root = [4,2,9,3,5,null,7]
+<strong>Output:</strong> 15
+<strong>Explanation:</strong> 
+Tilt of node 3 : |0-0| = 0 (no children)
+Tilt of node 5 : |0-0| = 0 (no children)
+Tilt of node 7 : |0-0| = 0 (no children)
+Tilt of node 2 : |3-5| = 2 (left subtree is just left child, so sum is 3; right subtree is just right child, so sum is 5)
+Tilt of node 9 : |0-7| = 7 (no left child, so sum is 0; right subtree is just right child, so sum is 7)
+Tilt of node 4 : |(3+5+2)-(9+7)| = |10-16| = 6 (left subtree values are 3, 5, and 2, which sums to 10; right subtree values are 9 and 7, which sums to 16)
+Sum of every tilt : 0 + 0 + 0 + 2 + 7 + 6 = 15
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0563.Binary%20Tree%20Tilt/images/tilt3.jpg" style="width: 800px; height: 293px;" />
 <pre>
-<strong>输入：</strong>root = [21,7,14,1,1,2,2,3,3]
-<strong>输出：</strong>9
+<strong>Input:</strong> root = [21,7,14,1,1,2,2,3,3]
+<strong>Output:</strong> 9
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点数目的范围在 <code>[0, 10<sup>4</sup>]</code> 内</li>
+	<li>The number of nodes in the tree is in the range <code>[0, 10<sup>4</sup>]</code>.</li>
 	<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
+### Solution 1: Recursion
 
-我们设计一个函数 $\text{dfs}$，用来计算以当前节点为根节点的子树的节点之和。在 $\text{dfs}$ 函数中，我们首先判断当前节点是否为空，若为空则返回 0。然后递归调用 $\text{dfs}$ 函数计算左子树的节点之和 $l$ 和右子树的节点之和 $r$。接着计算当前节点的坡度，即 $|l - r|$，并将其加到答案中。最后返回当前节点的节点之和 $l + r + \textit{root.val}$。
+We design a function $\text{dfs}$ to calculate the sum of nodes in the subtree rooted at the current node. In the $\text{dfs}$ function, we first check if the current node is null. If it is, we return 0. Then we recursively call the $\text{dfs}$ function to calculate the sum of nodes in the left subtree $l$ and the sum of nodes in the right subtree $r$. Next, we calculate the tilt of the current node, which is $|l - r|$, and add it to the answer. Finally, we return the sum of nodes of the current node, which is $l + r + \textit{root.val}$.
 
-在主函数中，我们初始化答案为 0，然后调用 $\text{dfs}$ 函数计算整个树的坡度，并返回答案。
+In the main function, we initialize the answer to 0, then call the $\text{dfs}$ function to calculate the tilt of the entire tree and return the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为节点的数量。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the number of nodes.
 
 <!-- tabs:start -->
 

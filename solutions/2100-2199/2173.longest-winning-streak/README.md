@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2173.Longest%20Winning%20Streak/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2173. 最多连胜的次数 🔒](https://leetcode.cn/problems/longest-winning-streak)
+# [2173. Longest Winning Streak 🔒](https://leetcode.com/problems/longest-winning-streak)
 
-[English Version](/solution/2100-2199/2173.Longest%20Winning%20Streak/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Matches</code></p>
+<p>Table: <code>Matches</code></p>
 
 <pre>
 +-------------+------+
@@ -26,27 +23,27 @@ tags:
 | match_day   | date |
 | result      | enum |
 +-------------+------+
-(player_id, match_day) 是该表的主键（具有唯一值的列的组合）。
-每一行包括了：参赛选手 id、 比赛时间、 比赛结果。
-比赛结果（result）的枚举类型为 ('Win', 'Draw', 'Lose')。</pre>
+(player_id, match_day) is the primary key (combination of columns with unique values) for this table.
+Each row of this table contains the ID of a player, the day of the match they played, and the result of that match.
+The result column is an ENUM (category) type of (&#39;Win&#39;, &#39;Draw&#39;, &#39;Lose&#39;).
+</pre>
 
 <p>&nbsp;</p>
 
-<p>选手的&nbsp;<strong>连胜数</strong> 是指连续获胜的次数，且没有被平局或输球中断。</p>
+<p>The <strong>winning streak</strong> of a player is the number of consecutive wins uninterrupted by draws or losses.</p>
 
-<p>编写解决方案来计算每个参赛选手最多的<strong>连胜数</strong>。</p>
+<p>Write a solution to count the longest winning streak for each player.</p>
 
-<p>结果可以以 <strong>任何顺序</strong> 返回。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果格式如下例所示：</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
-Matches 表:
+<strong>Input:</strong> 
+Matches table:
 +-----------+------------+--------+
 | player_id | match_day  | result |
 +-----------+------------+--------+
@@ -59,7 +56,7 @@ Matches 表:
 | 2         | 2022-02-08 | Lose   |
 | 3         | 2022-03-30 | Win    |
 +-----------+------------+--------+
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +-----------+----------------+
 | player_id | longest_streak |
 +-----------+----------------+
@@ -67,33 +64,32 @@ Matches 表:
 | 2         | 0              |
 | 3         | 1              |
 +-----------+----------------+
-<strong>解释:</strong> 
+<strong>Explanation:</strong> 
 Player 1:
-从 2022-01-17 到 2022-01-25, player 1连续赢了三场比赛。
-2022-01-31, player 1 平局.
-2022-02-08, player 1 赢了一场比赛。
-最多连胜了三场比赛。
+From 2022-01-17 to 2022-01-25, player 1 won 3 consecutive matches.
+On 2022-01-31, player 1 had a draw.
+On 2022-02-08, player 1 won a match.
+The longest winning streak was 3 matches.
 
 Player 2:
-从 2022-02-06 到 2022-02-08, player 2 输了两场比赛。
-最多连赢了0场比赛。
+From 2022-02-06 to 2022-02-08, player 2 lost 2 consecutive matches.
+The longest winning streak was 0 matches.
 
 Player 3:
-2022-03-30, player 3 赢了一场比赛。
-最多连赢了一场比赛。
+On 2022-03-30, player 3 won a match.
+The longest winning streak was 1 match.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶:</strong> 如果我们想计算最长的连续不输的次数（即获胜或平局），你将如何调整？</p>
+<p><strong>Follow up:</strong> If we are interested in calculating the longest streak without losing (i.e., win or draw), how will your solution change?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

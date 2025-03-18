@@ -1,60 +1,54 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1569.Number%20of%20Ways%20to%20Reorder%20Array%20to%20Get%20Same%20BST/README.md
+difficulty: Hard
 rating: 2288
-source: 第 204 场周赛 Q4
+source: Weekly Contest 204 Q4
 tags:
-    - 树
-    - 并查集
-    - 二叉搜索树
-    - 记忆化搜索
-    - 数组
-    - 数学
-    - 分治
-    - 动态规划
-    - 二叉树
-    - 组合数学
+    - Tree
+    - Union Find
+    - Binary Search Tree
+    - Memoization
+    - Array
+    - Math
+    - Divide and Conquer
+    - Dynamic Programming
+    - Binary Tree
+    - Combinatorics
 ---
 
 <!-- problem:start -->
 
-# [1569. 将子数组重新排序得到同一个二叉搜索树的方案数](https://leetcode.cn/problems/number-of-ways-to-reorder-array-to-get-same-bst)
+# [1569. Number of Ways to Reorder Array to Get Same BST](https://leetcode.com/problems/number-of-ways-to-reorder-array-to-get-same-bst)
 
-[English Version](/solution/1500-1599/1569.Number%20of%20Ways%20to%20Reorder%20Array%20to%20Get%20Same%20BST/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组 <code>nums</code>&nbsp;表示 <code>1</code>&nbsp;到 <code>n</code>&nbsp;的一个排列。我们按照元素在 <code>nums</code>&nbsp;中的顺序依次插入一个初始为空的二叉搜索树（BST）。请你统计将 <code>nums</code>&nbsp;重新排序后，统计满足如下条件的方案数：重排后得到的二叉搜索树与 <code>nums</code>&nbsp;原本数字顺序得到的二叉搜索树相同。</p>
+<p>Given an array <code>nums</code> that represents a permutation of integers from <code>1</code> to <code>n</code>. We are going to construct a binary search tree (BST) by inserting the elements of <code>nums</code> in order into an initially empty BST. Find the number of different ways to reorder <code>nums</code> so that the constructed BST is identical to that formed from the original array <code>nums</code>.</p>
 
-<p>比方说，给你&nbsp;<code>nums = [2,1,3]</code>，我们得到一棵 2 为根，1 为左孩子，3 为右孩子的树。数组&nbsp;<code>[2,3,1]</code>&nbsp;也能得到相同的 BST，但&nbsp;<code>[3,2,1]</code>&nbsp;会得到一棵不同的&nbsp;BST 。</p>
+<ul>
+	<li>For example, given <code>nums = [2,1,3]</code>, we will have 2 as the root, 1 as a left child, and 3 as a right child. The array <code>[2,3,1]</code> also yields the same BST but <code>[3,2,1]</code> yields a different BST.</li>
+</ul>
 
-<p>请你返回重排 <code>nums</code>&nbsp;后，与原数组 <code>nums</code> 得到相同二叉搜索树的方案数。</p>
+<p>Return <em>the number of ways to reorder</em> <code>nums</code> <em>such that the BST formed is identical to the original BST formed from</em> <code>nums</code>.</p>
 
-<p>由于答案可能会很大，请将结果对<strong>&nbsp;</strong><code>10^9 + 7</code>&nbsp;取余数。</p>
+<p>Since the answer may be very large, <strong>return it modulo </strong><code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1569.Number%20of%20Ways%20to%20Reorder%20Array%20to%20Get%20Same%20BST/images/bb.png" style="height: 101px; width: 121px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1569.Number%20of%20Ways%20to%20Reorder%20Array%20to%20Get%20Same%20BST/images/bb.png" style="width: 121px; height: 101px;" />
 <pre>
-<strong>输入：</strong>nums = [2,1,3]
-<strong>输出：</strong>1
-<strong>解释：</strong>我们将 nums 重排， [2,3,1] 能得到相同的 BST 。没有其他得到相同 BST 的方案了。
+<strong>Input:</strong> nums = [2,1,3]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> We can reorder nums to be [2,3,1] which will yield the same BST. There are no other ways to reorder nums which will yield the same BST.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1569.Number%20of%20Ways%20to%20Reorder%20Array%20to%20Get%20Same%20BST/images/ex1.png" style="height: 161px; width: 241px;" /></strong></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1569.Number%20of%20Ways%20to%20Reorder%20Array%20to%20Get%20Same%20BST/images/ex1.png" style="width: 241px; height: 161px;" />
 <pre>
-<strong>输入：</strong>nums = [3,4,5,1,2]
-<strong>输出：</strong>5
-<strong>解释：</strong>下面 5 个数组会得到相同的 BST：
+<strong>Input:</strong> nums = [3,4,5,1,2]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The following 5 arrays will yield the same BST: 
 [3,1,2,4,5]
 [3,1,4,2,5]
 [3,1,4,5,2]
@@ -62,49 +56,46 @@ tags:
 [3,4,1,5,2]
 </pre>
 
-<p><strong>示例 3：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1569.Number%20of%20Ways%20to%20Reorder%20Array%20to%20Get%20Same%20BST/images/ex4.png" style="height: 161px; width: 121px;" /></strong></p>
-
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1569.Number%20of%20Ways%20to%20Reorder%20Array%20to%20Get%20Same%20BST/images/ex4.png" style="width: 121px; height: 161px;" />
 <pre>
-<strong>输入：</strong>nums = [1,2,3]
-<strong>输出：</strong>0
-<strong>解释：</strong>没有别的排列顺序能得到相同的 BST 。
+<strong>Input:</strong> nums = [1,2,3]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There are no other orderings of nums that will yield the same BST.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= nums[i] &lt;= nums.length</code></li>
-	<li><code>nums</code>&nbsp;中所有数 <strong>互不相同</strong>&nbsp;。</li>
+	<li>All integers in <code>nums</code> are <strong>distinct</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：组合计数 + 递归
+### Solution 1: Combination Counting + Recursion
 
-我们设计一个函数 $dfs(nums)$，它的功能是计算以 $nums$ 为节点构成的二叉搜索树的方案数。那么答案就是 $dfs(nums)-1$，因为 $dfs(nums)$ 计算的是以 $nums$ 为节点构成的二叉搜索树的方案数，而题目要求的是重排后与原数组 $nums$ 得到相同二叉搜索树的方案数，因此答案需要减去一。
+We design a function $dfs(nums)$, which is used to calculate the number of solutions of the binary search tree with $nums$ as nodes. Then the answer is $dfs(nums)-1$, because $dfs(nums)$ calculates the number of solutions of the binary search tree with $nums$ as nodes, while the problem requires the number of solutions of the binary search tree with $nums$ as nodes after reordering, so the answer needs to be subtracted by one.
 
-接下来，我们来看一下 $dfs(nums)$ 的计算方法。
+Next, let's take a look at how $dfs(nums)$ is calculated.
 
-对于一个数组 $nums$，它的第一个元素是根节点，那么它的左子树的元素都小于它，右子树的元素都大于它。因此，我们可以将数组分为三部分，第一部分是根节点，第二部分是左子树的元素，记为 $left$，第三部分是右子树的元素，记为 $right$。那么，左子树的元素个数为 $m$，右子树的元素个数为 $n$，那么 $left$ 和 $right$ 的方案数分别为 $dfs(left)$ 和 $dfs(right)$。我们可以在数组 $nums$ 的 $m + n$ 个位置中选择 $m$ 个位置放置左子树的元素，剩下的 $n$ 个位置放置右子树的元素，这样就能保证重排后与原数组 $nums$ 得到相同二叉搜索树。因此，$dfs(nums)$ 的计算方法为：
+For an array $nums$, its first element is the root node, so its left subtree elements are smaller than it, and its right subtree elements are larger than it. So we can divide the array into three parts, the first part is the root node, the second part is the elements of the left subtree, denoted as $left$, and the third part is the elements of the right subtree, denoted as $right$. Then, the number of elements in the left subtree is $m$, and the number of elements in the right subtree is $n$, so the number of solutions for $left$ and $right$ are $dfs(left)$ and $dfs(right)$ respectively. We can choose $m$ positions from $m + n$ positions in array $nums$ to place the elements of the left subtree, and the remaining $n$ positions to place the elements of the right subtree, so that we can ensure that the reordered binary search tree is the same as the original array $nums$. Therefore, the calculation method of $dfs(nums)$ is:
 
 $$
 dfs(nums) = C_{m+n}^m \times dfs(left) \times dfs(right)
 $$
 
-其中 $C_{m+n}^m$ 表示从 $m + n$ 个位置中选择 $m$ 个位置的方案数，我们可以通过预处理得到。
+where $C_{m+n}^m$ represents the number of schemes to select $m$ positions from $m + n$ positions, which we can get through preprocessing.
 
-注意答案的取模运算，因为 $dfs(nums)$ 的值可能会很大，所以我们需要在计算过程中对每一步的结果取模，最后再对整个结果取模。
+Note the modulo operation of the answer, because the value of $dfs(nums)$ may be very large, so we need to take the modulo of each step in the calculation process, and finally take the modulo of the entire result.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Where $n$ is the length of array $nums$.
 
 <!-- tabs:start -->
 

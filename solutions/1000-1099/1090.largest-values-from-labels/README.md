@@ -1,79 +1,74 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1090.Largest%20Values%20From%20Labels/README.md
+difficulty: Medium
 rating: 1501
-source: 第 141 场周赛 Q2
+source: Weekly Contest 141 Q2
 tags:
-    - 贪心
-    - 数组
-    - 哈希表
-    - 计数
-    - 排序
+    - Greedy
+    - Array
+    - Hash Table
+    - Counting
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1090. 受标签影响的最大值](https://leetcode.cn/problems/largest-values-from-labels)
+# [1090. Largest Values From Labels](https://leetcode.com/problems/largest-values-from-labels)
 
-[English Version](/solution/1000-1099/1090.Largest%20Values%20From%20Labels/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>以两个整数数组 &nbsp;<code>values</code>&nbsp;和 <code>labels</code>&nbsp;给定&nbsp;<code>n</code>&nbsp;个项的值和标签，并且给出两个整数&nbsp;<code>numWanted</code>&nbsp;和 <code>useLimit</code> 。</p>
+<p>You are given <code>n</code> item&#39;s value and label as two integer arrays <code>values</code> and <code>labels</code>. You are also given two integers <code>numWanted</code> and <code>useLimit</code>.</p>
 
-<p>你的任务是从这些项中找到一个值的和 <strong>最大</strong> 的子集使得：</p>
+<p>Your task is to find a subset of items with the <strong>maximum sum</strong> of their values such that:</p>
 
 <ul>
-	<li>项的数量 <strong>最多</strong> 为&nbsp;<code>numWanted</code>。</li>
-	<li>相同标签的项的数量&nbsp;<strong>最多 </strong>为&nbsp;<code>useLimit</code>。</li>
+	<li>The number of items is <strong>at most</strong> <code>numWanted</code>.</li>
+	<li>The number of items with the same label is <strong>at most</strong> <code>useLimit</code>.</li>
 </ul>
 
-<p>返回最大的和。</p>
+<p>Return the maximum sum.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">values = [5,4,3,2,1], labels = [1,1,2,2,3], numWanted = 3, useLimit = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">values = [5,4,3,2,1], labels = [1,1,2,2,3], numWanted = 3, useLimit = 1</span></p>
 
-<p><strong>输出：</strong><span class="example-io">9</span></p>
+<p><strong>Output:</strong> <span class="example-io">9</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>选择的子集是第一个、第三个和第五个项，其值之和为 5 + 3 + 1。</p>
+<p>The subset chosen is the first, third, and fifth items with the sum of values 5 + 3 + 1.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">values = [5,4,3,2,1], labels = [1,3,3,3,2], numWanted = 3, useLimit = 2</span></p>
+<p><strong>Input:</strong> <span class="example-io">values = [5,4,3,2,1], labels = [1,3,3,3,2], numWanted = 3, useLimit = 2</span></p>
 
-<p><strong>输出：</strong><span class="example-io">12</span></p>
+<p><strong>Output:</strong> <span class="example-io">12</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>选择的子集是第一个、第二个和第三个项，其值之和为 5 + 4 + 3。</p>
+<p>The subset chosen is the first, second, and third items with the sum of values 5 + 4 + 3.</p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">values = [9,8,8,7,6], labels = [0,0,0,1,1], numWanted = 3, useLimit = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">values = [9,8,8,7,6], labels = [0,0,0,1,1], numWanted = 3, useLimit = 1</span></p>
 
-<p><strong>输出：</strong><span class="example-io">16</span></p>
+<p><strong>Output:</strong> <span class="example-io">16</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>选择的子集是第一个和第四个项，其值之和为 9 + 7。</p>
+<p>The subset chosen is the first and fourth items with the sum of values 9 + 7.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == values.length == labels.length</code></li>
@@ -84,19 +79,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 排序 + 哈希表
-
-根据题目描述，我们需要从 $n$ 个元素的集合中选出一个子集，子集元素个数不超过 $numWanted$，且子集中最多有相同标签的 $useLimit$ 项，使得子集的值之和最大。因此，我们应该贪心地选择集合中值较大的元素，同时记录每个标签出现的次数，当某个标签出现的次数达到 $useLimit$ 时，我们就不能再选择该标签对应的元素了。
-
-具体地，我们先将集合中的元素按照值从大到小进行排序，然后从前向后遍历排序后的元素。在遍历的过程中，我们使用一个哈希表 $cnt$ 记录每个标签出现的次数，如果某个标签出现的次数达到了 $useLimit$，那么我们就跳过该元素，否则我们就将该元素的值加到最终的答案中，并将该标签出现的次数加 $1$。同时，我们用一个变量 $num$ 记录当前子集中的元素个数，当 $num$ 达到 $numWanted$ 时，我们就可以结束遍历了。
-
-遍历结束后，我们就得到了最大的分数。
-
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是集合中的元素个数。
+### Solution 1
 
 <!-- tabs:start -->
 

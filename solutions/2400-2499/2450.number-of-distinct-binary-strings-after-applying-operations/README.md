@@ -1,86 +1,79 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2450.Number%20of%20Distinct%20Binary%20Strings%20After%20Applying%20Operations/README.md
+difficulty: Medium
 tags:
-    - 数学
-    - 字符串
+    - Math
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2450. 应用操作后不同二进制字符串的数量 🔒](https://leetcode.cn/problems/number-of-distinct-binary-strings-after-applying-operations)
+# [2450. Number of Distinct Binary Strings After Applying Operations 🔒](https://leetcode.com/problems/number-of-distinct-binary-strings-after-applying-operations)
 
-[English Version](/solution/2400-2499/2450.Number%20of%20Distinct%20Binary%20Strings%20After%20Applying%20Operations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个&nbsp;<strong>二进制&nbsp;</strong>字符串 <code>s</code> 和一个正整数 <code>k</code>。</p>
+<p>You are given a <strong>binary</strong> string <code>s</code> and a positive integer <code>k</code>.</p>
 
-<p>你可以对字符串应用以下操作&nbsp;<strong>任意&nbsp;</strong>次数:</p>
+<p>You can apply the following operation on the string <strong>any</strong> number of times:</p>
 
 <ul>
-	<li>从 <code>s</code> 中选择任何大小为 <code>k</code> 的子字符串，将其所有字符&nbsp;<strong>翻转</strong>，即将所有 <code>1</code>&nbsp;都变成 <code>0</code>，所有 <code>0</code>&nbsp;都变成 <code>1</code>。</li>
+	<li>Choose any substring of size <code>k</code> from <code>s</code> and <strong>flip</strong> all its characters, that is, turn all <code>1</code>&#39;s into <code>0</code>&#39;s, and all <code>0</code>&#39;s into <code>1</code>&#39;s.</li>
 </ul>
 
-<p>返回<em>您可以获得的&nbsp;<strong>不同&nbsp;</strong>字符串的数量。</em>因为答案可能太大，所以对 <code>10<sup>9</sup> + 7</code>&nbsp;<strong>取模&nbsp;</strong>后返回。</p>
+<p>Return <em>the number of <strong>distinct</strong> strings you can obtain</em>. Since the answer may be too large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
-<p><b>注意</b>:</p>
+<p><strong>Note</strong> that:</p>
 
 <ul>
-	<li>二进制字符串是&nbsp;<strong>仅由&nbsp;</strong>字符 <code>0</code> 和 <code>1</code> 组成的字符串。</li>
-	<li>
-	<p data-group="1-1">子字符串是字符串的连续部分。</p>
-	</li>
+	<li>A binary string is a string that consists <strong>only</strong> of the characters <code>0</code> and <code>1</code>.</li>
+	<li>A substring is a contiguous part of a string.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入:</strong> s = "1001", k = 3
-<strong>输出:</strong> 4
-<strong>解释:</strong> 我们可以获得以下字符串:
-- 对字符串不应用任何操作将得到 s = "1001"。
-- 对从下标 0 开始的子字符串应用一个操作，得到 s = "<u><strong>011</strong></u>1"。
-- 对从下标 1 开始的子字符串应用一个操作，得到 s = "1<u><strong>110</strong></u>"。
-- 对从下标 0 和 1 开始的两个子字符串都应用一个操作，得到 s = "<u><strong>0000</strong></u>"。
-可以证明，我们不能获得任何其他字符串，所以答案是 4。</pre>
-
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> s = "10110", k = 5
-<strong>输出:</strong> 2
-<strong>解释:</strong> 我们可以获得以下字符串:
-- 对字符串不执行任何操作，将得到 s = "10110"。
-- 对整个字符串应用一个操作将得到 s = "01001"。
-可以证明，我们不能获得任何其他字符串，所以答案是 2。
+<strong>Input:</strong> s = &quot;1001&quot;, k = 3
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> We can obtain the following strings:
+- Applying no operation on the string gives s = &quot;1001&quot;.
+- Applying one operation on the substring starting at index 0 gives s = &quot;<u><strong>011</strong></u>1&quot;.
+- Applying one operation on the substring starting at index 1 gives s = &quot;1<u><strong>110</strong></u>&quot;.
+- Applying one operation on both the substrings starting at indices 0 and 1 gives s = &quot;<u><strong>0000</strong></u>&quot;.
+It can be shown that we cannot obtain any other string, so the answer is 4.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;10110&quot;, k = 5
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> We can obtain the following strings:
+- Applying no operation on the string gives s = &quot;10110&quot;.
+- Applying one operation on the whole string gives s = &quot;01001&quot;.
+It can be shown that we cannot obtain any other string, so the answer is 2.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code>&nbsp;是&nbsp;<code>0</code> 或&nbsp;<code>1</code>。</li>
+	<li><code>s[i]</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
+### Solution 1: Mathematics
 
-假设字符串 $s$ 长度为 $n$，那么长度为 $k$ 的子串共有 $n - k + 1$ 个，每个子串都可以翻转，因此共有 $2^{n - k + 1}$ 种翻转方式。
+Assume the length of the string $s$ is $n$. Then there are $n - k + 1$ substrings of length $k$, and each substring can be flipped, so there are $2^{n - k + 1}$ ways to flip.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

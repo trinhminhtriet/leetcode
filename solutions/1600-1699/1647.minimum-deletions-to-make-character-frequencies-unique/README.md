@@ -1,85 +1,80 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1647.Minimum%20Deletions%20to%20Make%20Character%20Frequencies%20Unique/README.md
+difficulty: Medium
 rating: 1509
-source: 第 214 场周赛 Q2
+source: Weekly Contest 214 Q2
 tags:
-    - 贪心
-    - 哈希表
-    - 字符串
-    - 排序
+    - Greedy
+    - Hash Table
+    - String
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1647. 字符频次唯一的最小删除次数](https://leetcode.cn/problems/minimum-deletions-to-make-character-frequencies-unique)
+# [1647. Minimum Deletions to Make Character Frequencies Unique](https://leetcode.com/problems/minimum-deletions-to-make-character-frequencies-unique)
 
-[English Version](/solution/1600-1699/1647.Minimum%20Deletions%20to%20Make%20Character%20Frequencies%20Unique/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>如果字符串 <code>s</code> 中 <strong>不存在</strong> 两个不同字符 <strong>频次</strong> 相同的情况，就称 <code>s</code> 是 <strong>优质字符串</strong> 。</p>
+<p>A string <code>s</code> is called <strong>good</strong> if there are no two different characters in <code>s</code> that have the same <strong>frequency</strong>.</p>
 
-<p>给你一个字符串 <code>s</code>，返回使 <code>s</code> 成为 <strong>优质字符串</strong> 需要删除的 <strong>最小</strong> 字符数。</p>
+<p>Given a string <code>s</code>, return<em> the <strong>minimum</strong> number of characters you need to delete to make </em><code>s</code><em> <strong>good</strong>.</em></p>
 
-<p>字符串中字符的 <strong>频次</strong> 是该字符在字符串中的出现次数。例如，在字符串 <code>"aab"</code> 中，<code>'a'</code> 的频次是 <code>2</code>，而 <code>'b'</code> 的频次是 <code>1</code> 。</p>
+<p>The <strong>frequency</strong> of a character in a string is the number of times it appears in the string. For example, in the string <code>&quot;aab&quot;</code>, the <strong>frequency</strong> of <code>&#39;a&#39;</code> is <code>2</code>, while the <strong>frequency</strong> of <code>&#39;b&#39;</code> is <code>1</code>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "aab"
-<strong>输出：</strong>0
-<strong>解释：</strong><code>s</code> 已经是优质字符串。
+<strong>Input:</strong> s = &quot;aab&quot;
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> <code>s</code> is already good.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "aaabbbcc"
-<strong>输出：</strong>2
-<strong>解释：</strong>可以删除两个 'b' , 得到优质字符串 "aaabcc" 。
-另一种方式是删除一个 'b' 和一个 'c' ，得到优质字符串 "aaabbc" 。</pre>
+<strong>Input:</strong> s = &quot;aaabbbcc&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> You can delete two &#39;b&#39;s resulting in the good string &quot;aaabcc&quot;.
+Another way it to delete one &#39;b&#39; and one &#39;c&#39; resulting in the good string &quot;aaabbc&quot;.</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "ceabaacb"
-<strong>输出：</strong>2
-<strong>解释：</strong>可以删除两个 'c' 得到优质字符串 "eabaab" 。
-注意，只需要关注结果字符串中仍然存在的字符。（即，频次为 0 的字符会忽略不计。）
+<strong>Input:</strong> s = &quot;ceabaacb&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> You can delete both &#39;c&#39;s resulting in the good string &quot;eabaab&quot;.
+Note that we only care about characters that are still in the string at the end (i.e. frequency of 0 is ignored).
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= s.length <= 10<sup>5</sup></code></li>
-	<li><code>s</code> 仅含小写英文字母</li>
+	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>s</code>&nbsp;contains only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数组 + 排序
+### Solution 1: Array + Sorting
 
-我们先用一个长度为 $26$ 的数组 $\textit{cnt}$ 统计字符串 $s$ 中每个字母出现的次数。
+First, we use an array $\textit{cnt}$ of length $26$ to count the occurrences of each letter in the string $s$.
 
-然后我们对数组 $\textit{cnt}$ 进行倒序排序。定义一个变量 $\textit{pre}$ 记录当前字母的出现次数。
+Then, we sort the array $\textit{cnt}$ in descending order. We define a variable $\textit{pre}$ to record the current number of occurrences of the letter.
 
-接下来，遍历数组 $\textit{cnt}$ 每个元素 $v$，如果当前 $\textit{pre}$ 等于 $0$，我们直接将答案加上 $v$；否则，如果 $v \geq \textit{pre}$，我们将答案加上 $v-\textit{pre}+1$，并且将 $\textit{pre}$ 减去 $1$，否则，我们直接将 $\textit{pre}$ 更新为 $v$。然后继续遍历下个元素。
+Next, we traverse each element $v$ in the array $\textit{cnt}$. If the current $\textit{pre}$ is $0$, we directly add $v$ to the answer. Otherwise, if $v \geq \textit{pre}$, we add $v - \textit{pre} + 1$ to the answer and decrement $\textit{pre}$ by $1$. Otherwise, we directly update $\textit{pre}$ to $v$. Then, we continue to the next element.
 
-遍历结束，返回答案即可。
+After traversing, we return the answer.
 
-时间复杂度 $O(n + |\Sigma| \times \log |\Sigma|)$，空间复杂度 $O(|\Sigma|)$。其中 $n$ 是字符串 $s$ 的长度，而 $|\Sigma|$ 为字母集的大小。本题中 $|\Sigma|=26$。
+The time complexity is $O(n + |\Sigma| \times \log |\Sigma|)$, and the space complexity is $O(|\Sigma|)$. Here, $n$ is the length of the string $s$, and $|\Sigma|$ is the size of the alphabet. In this problem, $|\Sigma| = 26$.
 
 <!-- tabs:start -->
 
@@ -217,7 +212,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

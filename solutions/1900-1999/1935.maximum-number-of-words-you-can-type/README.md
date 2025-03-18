@@ -1,78 +1,76 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1935.Maximum%20Number%20of%20Words%20You%20Can%20Type/README.md
+difficulty: Easy
 rating: 1226
-source: 第 250 场周赛 Q1
+source: Weekly Contest 250 Q1
 tags:
-    - 哈希表
-    - 字符串
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1935. 可以输入的最大单词数](https://leetcode.cn/problems/maximum-number-of-words-you-can-type)
+# [1935. Maximum Number of Words You Can Type](https://leetcode.com/problems/maximum-number-of-words-you-can-type)
 
-[English Version](/solution/1900-1999/1935.Maximum%20Number%20of%20Words%20You%20Can%20Type/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>键盘出现了一些故障，有些字母键无法正常工作。而键盘上所有其他键都能够正常工作。</p>
+<p>There is a malfunctioning keyboard where some letter keys do not work. All other keys on the keyboard work properly.</p>
 
-<p>给你一个由若干单词组成的字符串 <code>text</code> ，单词间由单个空格组成（不含前导和尾随空格）；另有一个字符串 <code>brokenLetters</code> ，由所有已损坏的不同字母键组成，返回你可以使用此键盘完全输入的 <code>text</code> 中单词的数目。</p>
+<p>Given a string <code>text</code> of words separated by a single space (no leading or trailing spaces) and a string <code>brokenLetters</code> of all <strong>distinct</strong> letter keys that are broken, return <em>the <strong>number of words</strong> in</em> <code>text</code> <em>you can fully type using this keyboard</em>.</p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>text = "hello world", brokenLetters = "ad"
-<strong>输出：</strong>1
-<strong>解释：</strong>无法输入 "world" ，因为字母键 'd' 已损坏。
+<pre>
+<strong>Input:</strong> text = &quot;hello world&quot;, brokenLetters = &quot;ad&quot;
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> We cannot type &quot;world&quot; because the &#39;d&#39; key is broken.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>text = "leet code", brokenLetters = "lt"
-<strong>输出：</strong>1
-<strong>解释：</strong>无法输入 "leet" ，因为字母键 'l' 和 't' 已损坏。
+<pre>
+<strong>Input:</strong> text = &quot;leet code&quot;, brokenLetters = &quot;lt&quot;
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> We cannot type &quot;leet&quot; because the &#39;l&#39; and &#39;t&#39; keys are broken.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>text = "leet code", brokenLetters = "e"
-<strong>输出：</strong>0
-<strong>解释：</strong>无法输入任何单词，因为字母键 'e' 已损坏。
+<pre>
+<strong>Input:</strong> text = &quot;leet code&quot;, brokenLetters = &quot;e&quot;
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> We cannot type either word because the &#39;e&#39; key is broken.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= text.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= brokenLetters.length &lt;= 26</code></li>
-	<li><code>text</code> 由若干用单个空格分隔的单词组成，且不含任何前导和尾随空格</li>
-	<li>每个单词仅由小写英文字母组成</li>
-	<li><code>brokenLetters</code> 由 <strong>互不相同</strong> 的小写英文字母组成</li>
+	<li><code>text</code> consists of words separated by a single space without any leading or trailing spaces.</li>
+	<li>Each word only consists of lowercase English letters.</li>
+	<li><code>brokenLetters</code> consists of <strong>distinct</strong> lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数组或哈希表
+### Solution 1: Array or Hash Table
 
-我们可以用哈希表或者一个长度为 $26$ 的数组 $s$ 来记录所有损坏的字母键。
+We can use a hash table or an array $s$ of length $26$ to record all the broken letter keys.
 
-然后，我们遍历字符串 $text$ 中的每个单词 $w$，如果 $w$ 中的某个字母 $c$ 在 $s$ 中出现过，那么说明这个单词无法输入，答案不需要加一，否则答案需要加一。
+Then, we traverse each word $w$ in the string $text$, and if any letter $c$ in $w$ appears in $s$, it means that the word cannot be typed, and we do not need to add one to the answer. Otherwise, we need to add one to the answer.
 
-遍历结束后，返回答案即可。
+After the traversal, we return the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(|\Sigma|)$，其中 $n$ 是字符串 $text$ 的长度，而 $|\Sigma|$ 是字母表的大小，本题中 $|\Sigma|=26$。
+The time complexity is $O(n)$, and the space complexity is $O(|\Sigma|)$, where $n$ is the length of the string $text$, and $|\Sigma|$ is the size of the alphabet. In this problem, $|\Sigma|=26$.
 
 <!-- tabs:start -->
 

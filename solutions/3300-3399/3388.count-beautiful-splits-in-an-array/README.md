@@ -1,73 +1,64 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3388.Count%20Beautiful%20Splits%20in%20an%20Array/README.md
+difficulty: Medium
 rating: 2364
-source: 第 428 场周赛 Q3
+source: Weekly Contest 428 Q3
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3388. 统计数组中的美丽分割](https://leetcode.cn/problems/count-beautiful-splits-in-an-array)
+# [3388. Count Beautiful Splits in an Array](https://leetcode.com/problems/count-beautiful-splits-in-an-array)
 
-[English Version](/solution/3300-3399/3388.Count%20Beautiful%20Splits%20in%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;。</p>
+<p>You are given an array <code>nums</code>.</p>
 
-<p>如果数组&nbsp;<code>nums</code>&nbsp;的一个分割满足以下条件，我们称它是一个 <strong>美丽</strong>&nbsp;分割：</p>
+<p>A split of an array <code>nums</code> is <strong>beautiful</strong> if:</p>
 
 <ol>
-	<li>数组&nbsp;<code>nums</code>&nbsp;分为三段 <span data-keyword="subarray-nonempty">非空子数组</span>：<code>nums1</code>&nbsp;，<code>nums2</code>&nbsp;和&nbsp;<code>nums3</code>&nbsp;，三个数组&nbsp;<code>nums1</code>&nbsp;，<code>nums2</code>&nbsp;和&nbsp;<code>nums3</code>&nbsp;按顺序连接可以得到 <code>nums</code>&nbsp;。</li>
-	<li>子数组&nbsp;<code>nums1</code>&nbsp;是子数组&nbsp;<code>nums2</code>&nbsp;的 <span data-keyword="array-prefix">前缀</span> <strong>或者</strong>&nbsp;<code>nums2</code>&nbsp;是&nbsp;<code>nums3</code>&nbsp;的 <span data-keyword="array-prefix">前缀</span>。</li>
+	<li>The array <code>nums</code> is split into three <span data-keyword="subarray-nonempty">subarrays</span>: <code>nums1</code>, <code>nums2</code>, and <code>nums3</code>, such that <code>nums</code> can be formed by concatenating <code>nums1</code>, <code>nums2</code>, and <code>nums3</code> in that order.</li>
+	<li>The subarray <code>nums1</code> is a <span data-keyword="array-prefix">prefix</span> of <code>nums2</code> <strong>OR</strong> <code>nums2</code> is a <span data-keyword="array-prefix">prefix</span> of <code>nums3</code>.</li>
 </ol>
 
-<p>请你返回满足以上条件的分割 <strong>数目</strong>&nbsp;。</p>
-
-<p><strong>子数组</strong>&nbsp;指的是一个数组里一段连续 <strong>非空</strong>&nbsp;的元素。</p>
-
-<p><strong>前缀</strong>&nbsp;指的是一个数组从头开始到中间某个元素结束的子数组。</p>
+<p>Return the <strong>number of ways</strong> you can make this split.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,1,2,1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,1,2,1]</span></p>
 
-<p><span class="example-io"><b>输出：</b>2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>美丽分割如下：</p>
+<p>The beautiful splits are:</p>
 
 <ol>
-	<li><code>nums1 = [1]</code>&nbsp;，<code>nums2 = [1,2]</code>&nbsp;，<code>nums3 = [1]</code>&nbsp;。</li>
-	<li><code>nums1 = [1]</code>&nbsp;，<code>nums2 = [1]</code>&nbsp;，<code>nums3 = [2,1]</code>&nbsp;。</li>
+	<li>A split with <code>nums1 = [1]</code>, <code>nums2 = [1,2]</code>, <code>nums3 = [1]</code>.</li>
+	<li>A split with <code>nums1 = [1]</code>, <code>nums2 = [1]</code>, <code>nums3 = [2,1]</code>.</li>
 </ol>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,2,3,4]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3,4]</span></p>
 
-<p><span class="example-io"><b>输出：</b>0</span></p>
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>没有美丽分割。</p>
+<p>There are 0 beautiful splits.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 5000</code></li>
@@ -76,21 +67,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：LCP + 枚举
+### Solution 1: LCP + Enumeration
 
-我们可以预处理 $\text{LCP}[i][j]$ 表示 $\textit{nums}[i:]$ 和 $\textit{nums}[j:]$ 的最长公共前缀长度。初始时 $\text{LCP}[i][j] = 0$。
+We can preprocess $\text{LCP}[i][j]$ to represent the length of the longest common prefix of $\textit{nums}[i:]$ and $\textit{nums}[j:]$. Initially, $\text{LCP}[i][j] = 0$.
 
-接下来，我们倒序枚举 $i$ 和 $j$，对于每一对 $i$ 和 $j$，如果 $\textit{nums}[i] = \textit{nums}[j]$，那么我们可以得到 $\text{LCP}[i][j] = \text{LCP}[i + 1][j + 1] + 1$。
+Next, we enumerate $i$ and $j$ in reverse order. For each pair of $i$ and $j$, if $\textit{nums}[i] = \textit{nums}[j]$, then we can get $\text{LCP}[i][j] = \text{LCP}[i + 1][j + 1] + 1$.
 
-最后，我们枚举第一个子数组的结尾位置 $i$（不包括位置 $i$），以及第二个子数组的结尾位置 $j$（不包括位置 $j$），那么第一个子数组的长度为 $i$，第二个子数组的长度为 $j - i$，第三个子数组的长度为 $n - j$。如果 $i \leq j - i$ 且 $\text{LCP}[0][i] \geq i$，或者 $j - i \leq n - j$ 且 $\text{LCP}[i][j] \geq j - i$，那么这个分割是美丽的，答案加一。
+Finally, we enumerate the ending position $i$ of the first subarray (excluding position $i$) and the ending position $j$ of the second subarray (excluding position $j$). The length of the first subarray is $i$, the length of the second subarray is $j - i$, and the length of the third subarray is $n - j$. If $i \leq j - i$ and $\text{LCP}[0][i] \geq i$, or $j - i \leq n - j$ and $\text{LCP}[i][j] \geq j - i$, then this split is beautiful, and we increment the answer by one.
 
-枚举结束后，答案即为美丽的分割数目。
+After enumerating, the answer is the number of beautiful splits.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

@@ -1,63 +1,51 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0137.Single%20Number%20II/README.md
+difficulty: Medium
 tags:
-    - 位运算
-    - 数组
+    - Bit Manipulation
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [137. 只出现一次的数字 II](https://leetcode.cn/problems/single-number-ii)
+# [137. Single Number II](https://leetcode.com/problems/single-number-ii)
 
-[English Version](/solution/0100-0199/0137.Single%20Number%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code> ，除某个元素仅出现 <strong>一次</strong> 外，其余每个元素都恰出现 <strong>三次 。</strong>请你找出并返回那个只出现了一次的元素。</p>
+<p>Given an integer array <code>nums</code> where&nbsp;every element appears <strong>three times</strong> except for one, which appears <strong>exactly once</strong>. <em>Find the single element and return it</em>.</p>
 
-<p>你必须设计并实现线性时间复杂度的算法且使用常数级空间来解决此问题。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [2,2,3,2]
-<strong>输出：</strong>3
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [0,1,0,1,0,1,99]
-<strong>输出：</strong>99
-</pre>
+<p>You must&nbsp;implement a solution with a linear runtime complexity and use&nbsp;only constant&nbsp;extra space.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> nums = [2,2,3,2]
+<strong>Output:</strong> 3
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> nums = [0,1,0,1,0,1,99]
+<strong>Output:</strong> 99
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 3 * 10<sup>4</sup></code></li>
 	<li><code>-2<sup>31</sup> &lt;= nums[i] &lt;= 2<sup>31</sup> - 1</code></li>
-	<li><code>nums</code> 中，除某个元素仅出现 <strong>一次</strong> 外，其余每个元素都恰出现 <strong>三次</strong></li>
+	<li>Each element in <code>nums</code> appears exactly <strong>three times</strong> except for one element which appears <strong>once</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算
+### Solution 1: Bitwise Operation
 
-我们可以枚举每个二进制位 $i$，对于每个二进制位，我们统计所有数字在该二进制位上的和，如果该二进制位上的和能被 $3$ 整除，那么只出现一次的数字在该二进制位上为 $0$，否则为 $1$。
+We can enumerate each binary bit $i$, and for each binary bit, we calculate the sum of all numbers on that bit. If the sum of the numbers on that bit can be divided by 3, then the number that only appears once on that bit is 0, otherwise it is 1.
 
-时间复杂度 $O(n \times \log M)$，空间复杂度 $O(1)$。其中 $n$ 和 $M$ 分别是数组的长度和数组中元素的范围。
+The time complexity is $O(n \times \log M)$, where $n$ and $M$ are the length of the array and the range of elements in the array, respectively. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -215,42 +203,42 @@ class Solution {
 
 <!-- solution:start -->
 
-### 方法二：数字电路
+### Solution 2: Digital Circuit
 
-我们考虑一种更高效的方法，该方法使用数字电路来模拟上述的位运算。
+We can use a more efficient method that uses digital circuits to simulate the above bitwise operation.
 
-一个整数的每个二进制位是 $0$ 或 $1$，只能表示 $2$ 种状态。但我们需要表示当前遍历过的所有整数的第 $i$ 位之和模 $3$ 的结果，因此，我们可以使用 $a$ 和 $b$ 两个整数来表示。那么会有以下三种情况：
+Each binary bit of an integer can only represent 2 states, 0 or 1. However, we need to represent the sum of the $i$-th bit of all integers traversed so far modulo 3. Therefore, we can use two integers $a$ and $b$ to represent it. There are three possible cases:
 
-1. 整数 $a$ 的第 $i$ 位为 $0$ 且整数 $b$ 的第 $i$ 位为 $0$，表示模 $3$ 结果是 $0$；
-1. 整数 $a$ 的第 $i$ 位为 $0$ 且整数 $b$ 的第 $i$ 位为 $1$，表示模 $3$ 结果是 $1$；
-1. 整数 $a$ 的第 $i$ 位为 $1$ 且整数 $b$ 的第 $i$ 位为 $0$，表示模 $3$ 结果是 $2$。
+1. The $i$-th bit of integer $a$ is 0 and the $i$-th bit of integer $b$ is 0, which means the modulo 3 result is 0;
+2. The $i$-th bit of integer $a$ is 0 and the $i$-th bit of integer $b$ is 1, which means the modulo 3 result is 1;
+3. The $i$-th bit of integer $a$ is 1 and the $i$-th bit of integer $b$ is 0, which means the modulo 3 result is 2.
 
-我们用整数 $c$ 表示当前要读入的数，那么有以下真值表：
+We use integer $c$ to represent the number to be read in, and the truth table is as follows:
 
-| $a_i$ | $b_i$ | $c_i$ | 新的 $a_i$ | 新的 $b_i$ |
-| ----- | ----- | ----- | ---------- | ---------- |
-| 0     | 0     | 0     | 0          | 0          |
-| 0     | 0     | 1     | 0          | 1          |
-| 0     | 1     | 0     | 0          | 1          |
-| 0     | 1     | 1     | 1          | 0          |
-| 1     | 0     | 0     | 1          | 0          |
-| 1     | 0     | 1     | 0          | 0          |
+| $a_i$ | $b_i$ | $c_i$ | New $a_i$ | New $b_i$ |
+| ----- | ----- | ----- | --------- | --------- |
+| 0     | 0     | 0     | 0         | 0         |
+| 0     | 0     | 1     | 0         | 1         |
+| 0     | 1     | 0     | 0         | 1         |
+| 0     | 1     | 1     | 1         | 0         |
+| 1     | 0     | 0     | 1         | 0         |
+| 1     | 0     | 1     | 0         | 0         |
 
-基于以上真值表，我们可以写出逻辑表达式：
+Based on the truth table, we can write the logical expression:
 
 $$
 a_i = a_i' b_i c_i + a_i b_i' c_i'
 $$
 
-以及：
+and:
 
 $$
 b_i = a_i' b_i' c_i + a_i' b_i c_i' = a_i' (b_i \oplus c_i)
 $$
 
-最后结果是 $b$，因为 $b$ 的二进制位上为 $1$ 时表示这个数字出现了 $1$ 次。
+The final result is $b$, because when the binary bit of $b$ is 1, it means that the number appears only once.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -374,7 +362,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法三：哈希表 + 数学
+### Solution 3: Set + Math
 
 <!-- tabs:start -->
 
@@ -404,7 +392,7 @@ function singleNumber(nums) {
 
 <!-- solution:start -->
 
-### 方法四：位运算
+### Solution 4: Bit Manipulation
 
 <!-- tabs:start -->
 

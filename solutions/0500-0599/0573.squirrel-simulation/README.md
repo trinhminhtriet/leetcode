@@ -1,56 +1,51 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0573.Squirrel%20Simulation/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 数学
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [573. 松鼠模拟 🔒](https://leetcode.cn/problems/squirrel-simulation)
+# [573. Squirrel Simulation 🔒](https://leetcode.com/problems/squirrel-simulation)
 
-[English Version](/solution/0500-0599/0573.Squirrel%20Simulation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数 <code>height</code> 和 <code>width</code> ，代表一个大小为 <code>height x width</code> 的花园。你还得到了以下信息：</p>
+<p>You are given two integers <code>height</code> and <code>width</code> representing a garden of size <code>height x width</code>. You are also given:</p>
 
 <ul>
-	<li>一个数组 <code>tree</code> ，其中 <code>tree = [tree<sub>r</sub>, tree<sub>c</sub>]</code> 是花园中树的位置，</li>
-	<li>一个数组 <code>squirrel</code> ，其中 <code>squirrel = [squirrel<sub>r</sub>, squirrel<sub>c</sub>]</code> 是花园中松鼠的位置，</li>
-	<li>一个数组 <code>nuts</code> ，其中 <code>nuts[i] = [nut<sub>i<sub>r</sub></sub>, nut<sub>i<sub>c</sub></sub>]</code> 是花园中第 <code>i<sup>th</sup></code> 个坚果的位置。</li>
+	<li>an array <code>tree</code> where <code>tree = [tree<sub>r</sub>, tree<sub>c</sub>]</code> is the position of the tree in the garden,</li>
+	<li>an array <code>squirrel</code> where <code>squirrel = [squirrel<sub>r</sub>, squirrel<sub>c</sub>]</code> is the position of the squirrel in the garden,</li>
+	<li>and an array <code>nuts</code> where <code>nuts[i] = [nut<sub>i<sub>r</sub></sub>, nut<sub>i<sub>c</sub></sub>]</code> is the position of the <code>i<sup>th</sup></code> nut in the garden.</li>
 </ul>
 
-<p>松鼠一次最多只能携带一个坚果，并且能够向上、下、左、右四个方向移动到相邻的单元格。</p>
+<p>The squirrel can only take at most one nut at one time and can move in four directions: up, down, left, and right, to the adjacent cell.</p>
 
-<p>返回松鼠收集所有坚果并逐一放在树下的 <strong>最小距离</strong> 。</p>
+<p>Return <em>the <strong>minimal distance</strong> for the squirrel to collect all the nuts and put them under the tree one by one</em>.</p>
 
-<p><strong>距离</strong> 是指移动的次数。</p>
+<p>The <strong>distance</strong> is the number of moves.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0573.Squirrel%20Simulation/images/squirrel1-grid.jpg" style="width: 573px; height: 413px;" />
 <pre>
-<strong>输入：</strong>height = 5, width = 7, tree = [2,2], squirrel = [4,4], nuts = [[3,0], [2,5]]
-<strong>输出：</strong>12
-<strong>解释：</strong>为实现最小的距离，松鼠应该先摘 [2, 5] 位置的坚果。
+<strong>Input:</strong> height = 5, width = 7, tree = [2,2], squirrel = [4,4], nuts = [[3,0], [2,5]]
+<strong>Output:</strong> 12
+<strong>Explanation:</strong> The squirrel should go to the nut at [2, 5] first to achieve a minimal distance.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0573.Squirrel%20Simulation/images/squirrel2-grid.jpg" style="width: 253px; height: 93px;" />
 <pre>
-<strong>输入：</strong>height = 1, width = 3, tree = [0,1], squirrel = [0,0], nuts = [[0,2]]
-<strong>输出：</strong>3
+<strong>Input:</strong> height = 1, width = 3, tree = [0,1], squirrel = [0,0], nuts = [[0,2]]
+<strong>Output:</strong> 3
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= height, width &lt;= 100</code></li>
@@ -64,17 +59,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
+### Solution 1: Mathematics
 
-我们观察松鼠的移动路径，可以发现，松鼠会首先移动到某个坚果的位置，然后移动到树的位置。接下来，松鼠的移动路径之和等于“其余坚果到树的位置之和”再乘以 $2$。
+Observing the squirrel's movement path, we can see that the squirrel will first move to the position of a nut, then move to the position of the tree. After that, the total movement path of the squirrel is equal to "the sum of the distances from the remaining nuts to the tree" multiplied by $2$.
 
-因此，我们只需要选出一个坚果，作为松鼠的第一个目标，使得其到树的位置之和最小，即可得到最小路径。
+Therefore, we only need to select a nut as the squirrel's first target, such that the sum of its distance to the tree is minimized, to obtain the shortest path.
 
-时间复杂度 $O(n)$，其中 $n$ 为坚果的数量。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the number of nuts. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

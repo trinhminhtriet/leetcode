@@ -1,50 +1,46 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1179.Reformat%20Department%20Table/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1179. 重新格式化部门表](https://leetcode.cn/problems/reformat-department-table)
+# [1179. Reformat Department Table](https://leetcode.com/problems/reformat-department-table)
 
-[English Version](/solution/1100-1199/1179.Reformat%20Department%20Table/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表&nbsp;<code>Department</code>：</p>
+<p>Table: <code>Department</code></p>
 
 <pre>
-+---------------+---------+
-| Column Name   | Type    |
-+---------------+---------+
-| id            | int     |
-| revenue       | int     |
-| month         | varchar |
-+---------------+---------+
-在 SQL 中，(id, month) 是表的联合主键。
-这个表格有关于每个部门每月收入的信息。
-月份（month）可以取下列值 ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]。
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| revenue     | int     |
+| month       | varchar |
++-------------+---------+
+In SQL,(id, month) is the primary key of this table.
+The table has information about the revenue of each department per month.
+The month has values in [&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Aug&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dec&quot;].
 </pre>
 
 <p>&nbsp;</p>
 
-<p>重新格式化表格，使得&nbsp;<strong>每个月&nbsp;</strong>都有一个部门 id 列和一个收入列。</p>
+<p>Reformat the table such that there is a department id column and a revenue column <strong>for each month</strong>.</p>
 
-<p>以 <strong>任意顺序</strong> 返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果格式如以下示例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>
+<strong>Input:</strong> 
 Department table:
 +------+---------+-------+
 | id   | revenue | month |
@@ -55,7 +51,7 @@ Department table:
 | 1    | 7000    | Feb   |
 | 1    | 6000    | Mar   |
 +------+---------+-------+
-<b>输出：</b>
+<strong>Output:</strong> 
 +------+-------------+-------------+-------------+-----+-------------+
 | id   | Jan_Revenue | Feb_Revenue | Mar_Revenue | ... | Dec_Revenue |
 +------+-------------+-------------+-------------+-----+-------------+
@@ -63,16 +59,17 @@ Department table:
 | 2    | 9000        | null        | null        | ... | null        |
 | 3    | null        | 10000       | null        | ... | null        |
 +------+-------------+-------------+-------------+-----+-------------+
-<b>解释：</b>四月到十二月的收入为空。 
-请注意，结果表共有 13 列（1 列用于部门 ID，其余 12 列用于各个月份）。</pre>
+<strong>Explanation:</strong> The revenue from Apr to Dec is null.
+Note that the result table has 13 columns (1 for the department id + 12 for the months).
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

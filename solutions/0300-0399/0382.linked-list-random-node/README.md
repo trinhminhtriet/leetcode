@@ -1,79 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0382.Linked%20List%20Random%20Node/README.md
+difficulty: Medium
 tags:
-    - 水塘抽样
-    - 链表
-    - 数学
-    - 随机化
+    - Reservoir Sampling
+    - Linked List
+    - Math
+    - Randomized
 ---
 
 <!-- problem:start -->
 
-# [382. 链表随机节点](https://leetcode.cn/problems/linked-list-random-node)
+# [382. Linked List Random Node](https://leetcode.com/problems/linked-list-random-node)
 
-[English Version](/solution/0300-0399/0382.Linked%20List%20Random%20Node/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个单链表，随机选择链表的一个节点，并返回相应的节点值。每个节点<strong> 被选中的概率一样</strong> 。</p>
+<p>Given a singly linked list, return a random node&#39;s value from the linked list. Each node must have the <strong>same probability</strong> of being chosen.</p>
 
-<p>实现 <code>Solution</code> 类：</p>
+<p>Implement the <code>Solution</code> class:</p>
 
 <ul>
-	<li><code>Solution(ListNode head)</code> 使用整数数组初始化对象。</li>
-	<li><code>int getRandom()</code> 从链表中随机选择一个节点并返回该节点的值。链表中所有节点被选中的概率相等。</li>
+	<li><code>Solution(ListNode head)</code> Initializes the object with the head of the singly-linked list <code>head</code>.</li>
+	<li><code>int getRandom()</code> Chooses a node randomly from the list and returns its value. All the nodes of the list should be equally likely to be chosen.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0382.Linked%20List%20Random%20Node/images/getrand-linked-list.jpg" style="width: 302px; height: 62px;" />
 <pre>
-<strong>输入</strong>
-["Solution", "getRandom", "getRandom", "getRandom", "getRandom", "getRandom"]
+<strong>Input</strong>
+[&quot;Solution&quot;, &quot;getRandom&quot;, &quot;getRandom&quot;, &quot;getRandom&quot;, &quot;getRandom&quot;, &quot;getRandom&quot;]
 [[[1, 2, 3]], [], [], [], [], []]
-<strong>输出</strong>
+<strong>Output</strong>
 [null, 1, 3, 2, 2, 3]
 
-<strong>解释</strong>
+<strong>Explanation</strong>
 Solution solution = new Solution([1, 2, 3]);
-solution.getRandom(); // 返回 1
-solution.getRandom(); // 返回 3
-solution.getRandom(); // 返回 2
-solution.getRandom(); // 返回 2
-solution.getRandom(); // 返回 3
-// getRandom() 方法应随机返回 1、2、3中的一个，每个元素被返回的概率相等。</pre>
+solution.getRandom(); // return 1
+solution.getRandom(); // return 3
+solution.getRandom(); // return 2
+solution.getRandom(); // return 2
+solution.getRandom(); // return 3
+// getRandom() should return either 1, 2, or 3 randomly. Each element should have equal probability of returning.
+
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>链表中的节点数在范围 <code>[1, 10<sup>4</sup>]</code> 内</li>
+	<li>The number of nodes in the linked list will be in the range <code>[1, 10<sup>4</sup>]</code>.</li>
 	<li><code>-10<sup>4</sup> &lt;= Node.val &lt;= 10<sup>4</sup></code></li>
-	<li>至多调用&nbsp;<code>getRandom</code> 方法 <code>10<sup>4</sup></code> 次</li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>getRandom</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong></p>
+<p><strong>Follow up:</strong></p>
 
 <ul>
-	<li>如果链表非常大且长度未知，该怎么处理？</li>
-	<li>你能否在不使用额外空间的情况下解决此问题？</li>
+	<li>What if the linked list is extremely large and its length is unknown to you?</li>
+	<li>Could you solve this efficiently without using extra space?</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

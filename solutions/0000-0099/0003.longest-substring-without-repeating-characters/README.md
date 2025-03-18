@@ -1,76 +1,71 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0003.Longest%20Substring%20Without%20Repeating%20Characters/README.md
+difficulty: Medium
 tags:
-    - 哈希表
-    - 字符串
-    - 滑动窗口
+    - Hash Table
+    - String
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [3. 无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters)
+# [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters)
 
-[English Version](/solution/0000-0099/0003.Longest%20Substring%20Without%20Repeating%20Characters/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个字符串 <code>s</code> ，请你找出其中不含有重复字符的&nbsp;<strong>最长 <span data-keyword="substring-nonempty">子串</span></strong><strong>&nbsp;</strong>的长度。</p>
+<p>Given a string <code>s</code>, find the length of the <strong>longest</strong> <span data-keyword="substring-nonempty"><strong>substring</strong></span> without duplicate characters.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入: </strong>s = "abcabcbb"
-<strong>输出: </strong>3 
-<strong>解释:</strong> 因为无重复字符的最长子串是 <code>"abc"</code>，所以其长度为 3。
+<strong>Input:</strong> s = &quot;abcabcbb&quot;
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The answer is &quot;abc&quot;, with the length of 3.
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入: </strong>s = "bbbbb"
-<strong>输出: </strong>1
-<strong>解释: </strong>因为无重复字符的最长子串是 <code>"b"</code>，所以其长度为 1。
+<strong>Input:</strong> s = &quot;bbbbb&quot;
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The answer is &quot;b&quot;, with the length of 1.
 </pre>
 
-<p><strong>示例 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入: </strong>s = "pwwkew"
-<strong>输出: </strong>3
-<strong>解释: </strong>因为无重复字符的最长子串是&nbsp;<code>"wke"</code>，所以其长度为 3。
-&nbsp;    请注意，你的答案必须是 <strong>子串 </strong>的长度，<code>"pwke"</code>&nbsp;是一个<em>子序列，</em>不是子串。
+<strong>Input:</strong> s = &quot;pwwkew&quot;
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The answer is &quot;wke&quot;, with the length of 3.
+Notice that the answer must be a substring, &quot;pwke&quot; is a subsequence and not a substring.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= s.length &lt;= 5 * 10<sup>4</sup></code></li>
-	<li><code>s</code>&nbsp;由英文字母、数字、符号和空格组成</li>
+	<li><code>s</code> consists of English letters, digits, symbols and spaces.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：滑动窗口
+### Solution 1: Sliding Window
 
-我们可以用两个指针 $l$ 和 $r$ 维护一个滑动窗口，使其始终满足窗口内没有重复字符，初始时 $l$ 和 $r$ 都指向字符串的第一个字符。用一个哈希表或者长度为 $128$ 的数组 $\textit{cnt}$ 来记录每个字符出现的次数，其中 $\textit{cnt}[c]$ 表示字符 $c$ 出现的次数。
+We can use two pointers $l$ and $r$ to maintain a sliding window that always satisfies the condition of having no repeating characters within the window. Initially, both $l$ and $r$ point to the first character of the string. We use a hash table or an array of length $128$ called $\textit{cnt}$ to record the number of occurrences of each character, where $\textit{cnt}[c]$ represents the number of occurrences of character $c$.
 
-接下来，我们依次移动右指针 $r$，每次移动时，将 $\textit{cnt}[s[r]]$ 的值加 $1$，然后判断当前窗口 $[l, r]$ 内 $\textit{cnt}[s[r]]$ 是否大于 $1$，如果大于 $1$，说明当前窗口内有重复字符，我们需要移动左指针 $l$，直到窗口内没有重复字符为止。然后，我们更新答案 $\textit{ans} = \max(\textit{ans}, r - l + 1)$。
+Next, we move the right pointer $r$ one step at a time. Each time we move it, we increment the value of $\textit{cnt}[s[r]]$ by $1$, and then check if the value of $\textit{cnt}[s[r]]$ is greater than $1$ within the current window $[l, r]$. If it is greater than $1$, it means there are repeating characters within the current window, and we need to move the left pointer $l$ until there are no repeating characters within the window. Then, we update the answer $\textit{ans} = \max(\textit{ans}, r - l + 1)$.
 
-最终，我们返回答案 $\textit{ans}$ 即可。
+Finally, we return the answer $\textit{ans}$.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串的长度。空间复杂度 $O(|\Sigma|)$，其中 $\Sigma$ 表示字符集，这里 $\Sigma$ 的大小为 $128$。
+The time complexity is $O(n)$, where $n$ is the length of the string. The space complexity is $O(|\Sigma|)$, where $\Sigma$ represents the character set, and the size of $\Sigma$ is $128$.
 
 <!-- tabs:start -->
 

@@ -1,72 +1,66 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0673.Number%20of%20Longest%20Increasing%20Subsequence/README.md
+difficulty: Medium
 tags:
-    - 树状数组
-    - 线段树
-    - 数组
-    - 动态规划
+    - Binary Indexed Tree
+    - Segment Tree
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [673. 最长递增子序列的个数](https://leetcode.cn/problems/number-of-longest-increasing-subsequence)
+# [673. Number of Longest Increasing Subsequence](https://leetcode.com/problems/number-of-longest-increasing-subsequence)
 
-[English Version](/solution/0600-0699/0673.Number%20of%20Longest%20Increasing%20Subsequence/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个未排序的整数数组<meta charset="UTF-8" />&nbsp;<code>nums</code>&nbsp;，&nbsp;<em>返回最长递增子序列的个数</em>&nbsp;。</p>
+<p>Given an integer array&nbsp;<code>nums</code>, return <em>the number of longest increasing subsequences.</em></p>
 
-<p><strong>注意</strong>&nbsp;这个数列必须是 <strong>严格</strong> 递增的。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入:</strong> [1,3,5,4,7]
-<strong>输出:</strong> 2
-<strong>解释:</strong> 有两个最长递增子序列，分别是 [1, 3, 4, 7] 和[1, 3, 5, 7]。
-</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> [2,2,2,2,2]
-<strong>输出:</strong> 5
-<strong>解释:</strong> 最长递增子序列的长度是1，并且存在5个子序列的长度为1，因此输出5。
-</pre>
+<p><strong>Notice</strong> that the sequence has to be <strong>strictly</strong> increasing.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示:</strong>&nbsp;</p>
+<pre>
+<strong>Input:</strong> nums = [1,3,5,4,7]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The two longest increasing subsequences are [1, 3, 4, 7] and [1, 3, 5, 7].
+</pre>
 
-<p><meta charset="UTF-8" /></p>
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,2,2,2,2]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The length of the longest increasing subsequence is 1, and there are 5 increasing subsequences of length 1, so output 5.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 2000</code></li>
-	<li><code>-10<sup>6</sup>&nbsp;&lt;= nums[i] &lt;= 10<sup>6</sup></code></li>
+	<li><code>-10<sup>6</sup> &lt;= nums[i] &lt;= 10<sup>6</sup></code></li>
+	<li>The answer is guaranteed to fit inside a 32-bit integer.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i]$ 表示以 $nums[i]$ 结尾的最长递增子序列的长度，定义 $cnt[i]$ 表示以 $nums[i]$ 结尾的最长递增子序列的个数。初始时 $f[i]=1$, $cnt[i]=1$。另外，定义 $mx$ 表示最长递增子序列的长度，定义 $ans$ 表示最长递增子序列的个数。
+We define $f[i]$ as the length of the longest increasing subsequence ending with $nums[i]$, and $cnt[i]$ as the number of longest increasing subsequences ending with $nums[i]$. Initially, $f[i]=1$, $cnt[i]=1$. Also, we define $mx$ as the length of the longest increasing subsequence, and $ans$ as the number of longest increasing subsequences.
 
-对于每一个 $nums[i]$，我们枚举 $nums[0:i-1]$ 中的所有元素 $nums[j]$，如果 $nums[j] \lt nums[i]$，则 $nums[i]$ 可以接在 $nums[j]$ 后面，形成一个更长的递增子序列。如果 $f[i] \lt f[j] + 1$，说明以 $nums[i]$ 结尾的最长递增子序列的长度增加了，那么我们需要更新 $f[i]=f[j]+1$，并且 $cnt[i]=cnt[j]$。如果 $f[i]=f[j]+1$，说明我们找到了一条长度与之前相同的最长递增子序列，那么我们需要将 $cnt[i]$ 增加 $cnt[j]$。然后，如果 $mx \lt f[i]$，说明最长递增子序列的长度增加了，那么我们需要更新 $mx=f[i]$，并且 $ans=cnt[i]$。如果 $mx=f[i]$，说明我们找到了一条长度与之前相同的最长递增子序列，那么我们需要将 $ans$ 增加 $cnt[i]$。
+For each $nums[i]$, we enumerate all elements $nums[j]$ in $nums[0:i-1]$. If $nums[j] < nums[i]$, then $nums[i]$ can be appended after $nums[j]$ to form a longer increasing subsequence. If $f[i] < f[j] + 1$, it means the length of the longest increasing subsequence ending with $nums[i]$ has increased, so we need to update $f[i]=f[j]+1$ and $cnt[i]=cnt[j]$. If $f[i]=f[j]+1$, it means we have found a longest increasing subsequence with the same length as before, so we need to increase $cnt[i]$ by $cnt[j]$. Then, if $mx < f[i]$, it means the length of the longest increasing subsequence has increased, so we need to update $mx=f[i]$ and $ans=cnt[i]$. If $mx=f[i]$, it means we have found a longest increasing subsequence with the same length as before, so we need to increase $ans$ by $cnt[i]$.
 
-最后，我们返回 $ans$ 即可。
+Finally, we return $ans$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 
@@ -260,11 +254,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：树状数组
+### Solution 2: Binary Indexed Tree
 
-我们可以用树状数组维护前缀区间的最长递增子序列的长度和个数。我们将数组 $nums$ 中的元素去重并排序，得到数组 $arr$，然后我们枚举 $nums$ 中的每一个元素 $x$，在数组 $arr$ 中二分查找 $x$ 的位置 $i$，然后查询 $[1,i-1]$ 的最长递增子序列的长度和个数，记为 $v$ 和 $cnt$，然后更新 $[i]$ 的最长递增子序列的长度和个数为 $v+1$ 和 $\max(cnt,1)$。最后，我们查询 $[1,m]$ 的最长递增子序列的长度和个数，其中 $m$ 是数组 $arr$ 的长度，即为答案。
+We can use a binary indexed tree to maintain the length and count of the longest increasing subsequence in the prefix interval. We remove duplicates from the array $nums$ and sort it to get the array $arr$. Then we enumerate each element $x$ in $nums$, find the position $i$ of $x$ in the array $arr$ by binary search, then query the length and count of the longest increasing subsequence in $[1,i-1]$, denoted as $v$ and $cnt$, then update the length and count of the longest increasing subsequence in $[i]$ to $v+1$ and $\max(cnt,1)$. Finally, we query the length and count of the longest increasing subsequence in $[1,m]$, where $m$ is the length of the array $arr$, which is the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

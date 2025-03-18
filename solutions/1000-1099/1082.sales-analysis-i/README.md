@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1082.Sales%20Analysis%20I/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1082. 销售分析 I 🔒](https://leetcode.cn/problems/sales-analysis-i)
+# [1082. Sales Analysis I 🔒](https://leetcode.com/problems/sales-analysis-i)
 
-[English Version](/solution/1000-1099/1082.Sales%20Analysis%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>产品表：<code>Product</code></p>
+<p>Table: <code>Product</code></p>
 
 <pre>
 +--------------+---------+
@@ -26,11 +23,11 @@ tags:
 | product_name | varchar |
 | unit_price   | int     |
 +--------------+---------+
-product_id 是这个表的主键(具有唯一值的列)。
-该表的每一行显示每个产品的名称和价格。
+product_id is the primary key (column with unique values) of this table.
+Each row of this table indicates the name and the price of each product.
 </pre>
 
-<p>销售表：<code>Sales</code></p>
+<p>Table: <code>Sales</code></p>
 
 <pre>
 +-------------+---------+
@@ -42,27 +39,26 @@ product_id 是这个表的主键(具有唯一值的列)。
 | sale_date   | date    |
 | quantity    | int     |
 | price       | int     |
-+------ ------+---------+
-这个表它可以有重复的行。 
-product_id 是 Product 表的外键(reference 列)。
-该表的每一行包含关于一个销售的一些信息。
++-------------+---------+
+This table can have repeated rows.
+product_id is a foreign key (reference column) to the Product table.
+Each row of this table contains some information about one sale.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案，找出总销售额最高的销售者，如果有并列的，就都展示出来。</p>
+<p>Write a solution that reports the best <strong>seller</strong> by total sales price, If there is a tie, report them all.</p>
 
-<p>以 <strong>任意顺序</strong> 返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>返回结果格式如下所示。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Product 表：
+<strong>Input:</strong> 
+Product table:
 +------------+--------------+------------+
 | product_id | product_name | unit_price |
 +------------+--------------+------------+
@@ -70,7 +66,7 @@ Product 表：
 | 2          | G4           | 800        |
 | 3          | iPhone       | 1400       |
 +------------+--------------+------------+
-<code>Sales </code>表：
+Sales table:
 +-----------+------------+----------+------------+----------+-------+
 | seller_id | product_id | buyer_id | sale_date  | quantity | price |
 +-----------+------------+----------+------------+----------+-------+
@@ -79,22 +75,23 @@ Product 表：
 | 2         | 2          | 3        | 2019-06-02 | 1        | 800   |
 | 3         | 3          | 4        | 2019-05-13 | 2        | 2800  |
 +-----------+------------+----------+------------+----------+-------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-------------+
 | seller_id   |
 +-------------+
 | 1           |
 | 3           |
 +-------------+
-<strong>解释：</strong>Id 为 1 和 3 的销售者，销售总金额都为最高的 2800。</pre>
+<strong>Explanation:</strong> Both sellers with id 1 and 3 sold products with the most total price of 2800.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -119,7 +116,7 @@ HAVING
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3220.Odd%20and%20Even%20Transactions/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3220. 奇数和偶数交易](https://leetcode.cn/problems/odd-and-even-transactions)
+# [3220. Odd and Even Transactions](https://leetcode.com/problems/odd-and-even-transactions)
 
-[English Version](/solution/3200-3299/3220.Odd%20and%20Even%20Transactions/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>transactions</code></p>
+<p>Table: <code>transactions</code></p>
 
 <pre>
 +------------------+------+
@@ -26,24 +23,23 @@ tags:
 | amount           | int  |
 | transaction_date | date |
 +------------------+------+
-transactions_id 列唯一标识了表中的每一行。
-这张表的每一行包含交易 id，金额总和和交易日期。
+The transactions_id column uniquely identifies each row in this table.
+Each row of this table contains the transaction id, amount and transaction date.
 </pre>
 
-<p>编写一个解决方案来查找每天 <strong>奇数</strong> 交易金额和 <strong>偶数</strong> 交易金额的 <strong>总和</strong>。如果某天没有奇数或偶数交易，显示为&nbsp;<code>0</code>。</p>
+<p>Write a solution to find the <strong>sum of amounts</strong> for <strong>odd</strong> and <strong>even</strong> transactions for each day. If there are no odd or even transactions for a specific date, display as <code>0</code>.</p>
 
-<p>返回结果表以&nbsp;<code>transaction_date</code> <strong>升序</strong>&nbsp;排序。</p>
+<p>Return <em>the result table ordered by</em> <code>transaction_date</code> <em>in <strong>ascending</strong> order</em>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><b>输入：</b></p>
+<p><strong>Input:</strong></p>
 
-<p><code>transactions</code> 表：</p>
+<p><code>transactions</code> table:</p>
 
 <pre class="example-io">
 +----------------+--------+------------------+
@@ -58,7 +54,7 @@ transactions_id 列唯一标识了表中的每一行。
 +----------------+--------+------------------+
   </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +------------------+---------+----------+
@@ -70,45 +66,45 @@ transactions_id 列唯一标识了表中的每一行。
 +------------------+---------+----------+
   </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>对于交易日期：
+	<li>For transaction dates:
 	<ul>
 		<li>2024-07-01:
 		<ul>
-			<li>奇数交易金额总和：75</li>
-			<li>偶数交易金额总和：150 + 200 = 350</li>
+			<li>Sum of amounts for odd transactions: 75</li>
+			<li>Sum of amounts for even transactions: 150 + 200 = 350</li>
 		</ul>
 		</li>
 		<li>2024-07-02:
 		<ul>
-			<li>奇数交易金额总和：0</li>
-			<li>偶数交易金额总和：300 + 50 = 350</li>
+			<li>Sum of amounts for odd transactions: 0</li>
+			<li>Sum of amounts for even transactions: 300 + 50 = 350</li>
 		</ul>
 		</li>
 		<li>2024-07-03:
 		<ul>
-			<li>奇数交易金额总和：0</li>
-			<li>偶数交易金额总和：120</li>
+			<li>Sum of amounts for odd transactions: 0</li>
+			<li>Sum of amounts for even transactions: 120</li>
 		</ul>
 		</li>
 	</ul>
 	</li>
 </ul>
 
-<p><b>注意：</b>输出表以&nbsp;<code>transaction_date</code>&nbsp;升序排序。</p>
+<p><strong>Note:</strong> The output table is ordered by <code>transaction_date</code> in ascending order.</p>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组求和
+### Solution 1: Grouping and Summing
 
-我们可以将数据按照 `transaction_date` 进行分组，然后分别计算奇数和偶数的交易金额之和。最后按照 `transaction_date` 升序排序。
+We can group the data by `transaction_date`, and then calculate the sum of transaction amounts for odd and even dates separately. Finally, sort by `transaction_date` in ascending order.
 
 <!-- tabs:start -->
 

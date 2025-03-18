@@ -1,89 +1,68 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0963.Minimum%20Area%20Rectangle%20II/README.md
+difficulty: Medium
 tags:
-    - 几何
-    - 数组
-    - 数学
+    - Geometry
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [963. 最小面积矩形 II](https://leetcode.cn/problems/minimum-area-rectangle-ii)
+# [963. Minimum Area Rectangle II](https://leetcode.com/problems/minimum-area-rectangle-ii)
 
-[English Version](/solution/0900-0999/0963.Minimum%20Area%20Rectangle%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定在 xy 平面上的一组点，确定由这些点组成的任何矩形的最小面积，其中矩形的边<strong>不一定平行于</strong> x 轴和 y 轴。</p>
+<p>You are given an array of points in the <strong>X-Y</strong> plane <code>points</code> where <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code>.</p>
 
-<p>如果没有任何矩形，就返回 0。</p>
+<p>Return <em>the minimum area of any rectangle formed from these points, with sides <strong>not necessarily parallel</strong> to the X and Y axes</em>. If there is not any such rectangle, return <code>0</code>.</p>
+
+<p>Answers within <code>10<sup>-5</sup></code> of the actual answer will be accepted.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0963.Minimum%20Area%20Rectangle%20II/images/1a.png" style="height: 151px; width: 150px;"></strong></p>
-
-<pre><strong>输入：</strong>[[1,2],[2,1],[1,0],[0,1]]
-<strong>输出：</strong>2.00000
-<strong>解释：</strong>最小面积的矩形出现在 [1,2],[2,1],[1,0],[0,1] 处，面积为 2。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0963.Minimum%20Area%20Rectangle%20II/images/2.png" style="height: 94px; width: 150px;"></p>
-
-<pre><strong>输入：</strong>[[0,1],[2,1],[1,1],[1,0],[2,0]]
-<strong>输出：</strong>1.00000
-<strong>解释：</strong>最小面积的矩形出现在 [1,0],[1,1],[2,1],[2,0] 处，面积为 1。
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0963.Minimum%20Area%20Rectangle%20II/images/1a.png" style="width: 398px; height: 400px;" />
+<pre>
+<strong>Input:</strong> points = [[1,2],[2,1],[1,0],[0,1]]
+<strong>Output:</strong> 2.00000
+<strong>Explanation:</strong> The minimum area rectangle occurs at [1,2],[2,1],[1,0],[0,1], with an area of 2.
 </pre>
 
-<p><strong>示例 3：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0963.Minimum%20Area%20Rectangle%20II/images/3.png" style="height: 94px; width: 150px;"></p>
-
-<pre><strong>输入：</strong>[[0,3],[1,2],[3,1],[1,3],[2,1]]
-<strong>输出：</strong>0
-<strong>解释：</strong>没法从这些点中组成任何矩形。
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0963.Minimum%20Area%20Rectangle%20II/images/2.png" style="width: 400px; height: 251px;" />
+<pre>
+<strong>Input:</strong> points = [[0,1],[2,1],[1,1],[1,0],[2,0]]
+<strong>Output:</strong> 1.00000
+<strong>Explanation:</strong> The minimum area rectangle occurs at [1,0],[1,1],[2,1],[2,0], with an area of 1.
 </pre>
 
-<p><strong>示例 4：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0963.Minimum%20Area%20Rectangle%20II/images/4c.png" style="height: 155px; width: 160px;"></strong></p>
-
-<pre><strong>输入：</strong>[[3,1],[1,1],[0,1],[2,1],[3,3],[3,2],[0,2],[2,3]]
-<strong>输出：</strong>2.00000
-<strong>解释：</strong>最小面积的矩形出现在 [2,1],[2,3],[3,3],[3,1] 处，面积为 2。
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0963.Minimum%20Area%20Rectangle%20II/images/3.png" style="width: 383px; height: 400px;" />
+<pre>
+<strong>Input:</strong> points = [[0,3],[1,2],[3,1],[1,3],[2,1]]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There is no possible rectangle to form from these points.
 </pre>
 
 <p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
-<p><strong>提示：</strong></p>
-
-<ol>
+<ul>
 	<li><code>1 &lt;= points.length &lt;= 50</code></li>
-	<li><code>0 &lt;=&nbsp;points[i][0] &lt;=&nbsp;40000</code></li>
-	<li><code>0 &lt;=&nbsp;points[i][1] &lt;=&nbsp;40000</code></li>
-	<li>所有的点都是不同的。</li>
-	<li>与真实值误差不超过 <code>10^-5</code>&nbsp;的答案将视为正确结果。</li>
-</ol>
+	<li><code>points[i].length == 2</code></li>
+	<li><code>0 &lt;= x<sub>i</sub>, y<sub>i</sub> &lt;= 4 * 10<sup>4</sup></code></li>
+	<li>All the given points are <strong>unique</strong>.</li>
+</ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 枚举
-
-我们用哈希表存放所有的点，然后枚举三个点 $p_1 = (x_1, y_1)$, $p_2 = (x_2, y_2)$, $p_3 = (x_3, y_3)$，其中 $p_2$ 和 $p_3$ 是矩形的对角线的两个端点。如果 $p_1$ 和 $p_2$ 构成的直线以及 $p_1$ 和 $p_3$ 构成的直线垂直，并且第四个点 $(x_4, y_4)=(x_2 - x_1 + x_3, y_2 - y_1 + y_3)$ 存在于哈希表中，那么就找到了一个矩形。此时，我们可以计算出矩形的面积，并更新答案。
-
-最后，如果找到满足条件的矩形，返回其中面积的最小值。否则，返回 $0$。
-
-时间复杂度 $O(n^3)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $points$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

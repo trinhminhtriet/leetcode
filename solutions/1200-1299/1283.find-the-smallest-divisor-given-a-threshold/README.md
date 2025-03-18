@@ -1,82 +1,68 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1283.Find%20the%20Smallest%20Divisor%20Given%20a%20Threshold/README.md
+difficulty: Medium
 rating: 1541
-source: 第 166 场周赛 Q3
+source: Weekly Contest 166 Q3
 tags:
-    - 数组
-    - 二分查找
+    - Array
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [1283. 使结果不超过阈值的最小除数](https://leetcode.cn/problems/find-the-smallest-divisor-given-a-threshold)
+# [1283. Find the Smallest Divisor Given a Threshold](https://leetcode.com/problems/find-the-smallest-divisor-given-a-threshold)
 
-[English Version](/solution/1200-1299/1283.Find%20the%20Smallest%20Divisor%20Given%20a%20Threshold/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code> 和一个正整数&nbsp;<code>threshold</code> &nbsp;，你需要选择一个正整数作为除数，然后将数组里每个数都除以它，并对除法结果求和。</p>
+<p>Given an array of integers <code>nums</code> and an integer <code>threshold</code>, we will choose a positive integer <code>divisor</code>, divide all the array by it, and sum the division&#39;s result. Find the <strong>smallest</strong> <code>divisor</code> such that the result mentioned above is less than or equal to <code>threshold</code>.</p>
 
-<p>请你找出能够使上述结果小于等于阈值&nbsp;<code>threshold</code>&nbsp;的除数中 <strong>最小</strong> 的那个。</p>
+<p>Each result of the division is rounded to the nearest integer greater than or equal to that element. (For example: <code>7/3 = 3</code> and <code>10/2 = 5</code>).</p>
 
-<p>每个数除以除数后都向上取整，比方说 7/3 = 3 ， 10/2 = 5 。</p>
-
-<p>题目保证一定有解。</p>
+<p>The test cases are generated so&nbsp;that there will be an answer.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,5,9], threshold = 6
-<strong>输出：</strong>5
-<strong>解释：</strong>如果除数为 1 ，我们可以得到和为 17 （1+2+5+9）。
-如果除数为 4 ，我们可以得到和为 7 (1+1+2+3) 。如果除数为 5 ，和为 5 (1+1+1+2)。
+<strong>Input:</strong> nums = [1,2,5,9], threshold = 6
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> We can get a sum to 17 (1+2+5+9) if the divisor is 1. 
+If the divisor is 4 we can get a sum of 7 (1+1+2+3) and if the divisor is 5 the sum will be 5 (1+1+1+2). 
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2,3,5,7,11], threshold = 11
-<strong>输出：</strong>3
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [19], threshold = 5
-<strong>输出：</strong>4
+<strong>Input:</strong> nums = [44,22,33,11,1], threshold = 5
+<strong>Output:</strong> 44
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= nums.length &lt;= 5 * 10^4</code></li>
-	<li><code>1 &lt;= nums[i] &lt;= 10^6</code></li>
-	<li><code>nums.length &lt;=&nbsp;threshold &lt;= 10^6</code></li>
+	<li><code>1 &lt;= nums.length &lt;= 5 * 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= nums[i] &lt;= 10<sup>6</sup></code></li>
+	<li><code>nums.length &lt;= threshold &lt;= 10<sup>6</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-我们注意到，对于一个数字 $v$，如果将 $nums$ 中的每个数字都除以 $v$ 的结果之和小于等于 $threshold$，那么所有大于 $v$ 的值都满足条件。这存在着单调性，因此我们可以使用二分查找的方法找到最小的满足条件的 $v$。
+Notice that for number $v$, if the sum of results of dividing each number in $nums$ by $v$ is less than or equal to $threshold$, then all values greater than $v$ satisfy the condition. There is a monotonicity, so we can use binary search to find the smallest $v$ that satisfies the condition.
 
-我们定义二分查找的左边界 $l=1$, $r=\max(nums)$，每次取 $mid=(l+r)/2$，计算 $nums$ 中每个数字除以 $mid$ 的结果之和 $s$，如果 $s$ 小于等于 $threshold$，那么说明 $mid$ 满足条件，我们将 $r$ 更新为 $mid$，否则将 $l$ 更新为 $mid+1$。
+We define the left boundary of the binary search $l=1$, $r=\max(nums)$. Each time we take $mid=(l+r)/2$, calculate the sum of the results of dividing each number in $nums$ by $mid$ $s$, if $s$ is less than or equal to $threshold$, then it means that $mid$ satisfies the condition, we will update $r$ to $mid$, otherwise we will update $l$ to $mid+1$.
 
-最后返回 $l$ 即可。
+Finally, return $l$.
 
-时间复杂度 $O(n \times \log M)$，其中 $n$ 是数组 $nums$ 的长度，而 $M$ 是数组 $nums$ 中的最大值。空间复杂度 $O(1)$。
+The time complexity is $O(n \times \log M)$, where $n$ is the length of the array $nums$ and $M$ is the maximum value in the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

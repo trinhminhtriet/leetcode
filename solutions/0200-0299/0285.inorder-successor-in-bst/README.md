@@ -1,78 +1,69 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0285.Inorder%20Successor%20in%20BST/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉搜索树
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Binary Search Tree
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [285. 二叉搜索树中的中序后继 🔒](https://leetcode.cn/problems/inorder-successor-in-bst)
+# [285. Inorder Successor in BST 🔒](https://leetcode.com/problems/inorder-successor-in-bst)
 
-[English Version](/solution/0200-0299/0285.Inorder%20Successor%20in%20BST/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一棵二叉搜索树和其中的一个节点 <code>p</code> ，找到该节点在树中的中序后继。如果节点没有中序后继，请返回 <code>null</code> 。</p>
+<p>Given the <code>root</code> of a binary search tree and a node <code>p</code> in it, return <em>the in-order successor of that node in the BST</em>. If the given node has no in-order successor in the tree, return <code>null</code>.</p>
 
-<p>节点 <code>p</code> 的后继是值比 <code>p.val</code> 大的节点中键值最小的节点。</p>
+<p>The successor of a node <code>p</code> is the node with the smallest key greater than <code>p.val</code>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0285.Inorder%20Successor%20in%20BST/images/285_example_1.png" style="height: 117px; width: 122px;" /></p>
-
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0285.Inorder%20Successor%20in%20BST/images/285_example_1.png" style="width: 122px; height: 117px;" />
 <pre>
-<strong>输入：</strong>root = [2,1,3], p = 1
-<strong>输出：</strong>2
-<strong>解释：</strong>这里 1 的中序后继是 2。请注意 p 和返回值都应是 TreeNode 类型。
+<strong>Input:</strong> root = [2,1,3], p = 1
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 1&#39;s in-order successor node is 2. Note that both p and the return value is of TreeNode type.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0285.Inorder%20Successor%20in%20BST/images/285_example_2.png" style="height: 229px; width: 246px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0200-0299/0285.Inorder%20Successor%20in%20BST/images/285_example_2.png" style="width: 246px; height: 229px;" />
 <pre>
-<strong>输入：</strong>root = [5,3,6,2,4,null,null,1], p = 6
-<strong>输出：</strong>null
-<strong>解释：</strong>因为给出的节点没有中序后继，所以答案就返回 <code>null 了。</code>
+<strong>Input:</strong> root = [5,3,6,2,4,null,null,1], p = 6
+<strong>Output:</strong> null
+<strong>Explanation:</strong> There is no in-order successor of the current node, so the answer is <code>null</code>.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点的数目在范围 <code>[1, 10<sup>4</sup>]</code> 内。</li>
-	<li><code>-10<sup>5</sup> <= Node.val <= 10<sup>5</sup></code></li>
-	<li>树中各节点的值均保证唯一。</li>
+	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>4</sup>]</code>.</li>
+	<li><code>-10<sup>5</sup> &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
+	<li>All Nodes will have unique values.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分搜索
+### Solution 1: Binary Search
 
-二叉搜索树的中序遍历是一个升序序列，因此可以使用二分搜索的方法。
+The in-order traversal of a binary search tree is an ascending sequence, so we can use the binary search method.
 
-二叉搜索树节点 $p$ 的中序后继节点满足：
+The in-order successor node of a binary search tree node $p$ satisfies:
 
-1. 中序后继的节点值大于 $p$ 的节点值
-2. 中序后继是所有大于 $p$ 的节点中值最小的节点
+1. The value of the in-order successor node is greater than the value of node $p$.
+2. The in-order successor is the node with the smallest value among all nodes greater than $p$.
 
-因此，对于当前节点 $root$，如果 $root.val \gt p.val$，则 $root$ 可能是 $p$ 的中序后继节点，将 $root$ 记为 $ans$，然后搜索左子树，即 $root = root.left$；如果 $root.val \leq p.val$，则 $root$ 不能是 $p$ 的中序后继节点，搜索右子树，即 $root = root.right$。
+Therefore, for the current node $root$, if $root.val > p.val$, then $root$ could be the in-order successor of $p$. We record $root$ as $ans$ and then search the left subtree, i.e., $root = root.left$. If $root.val \leq p.val$, then $root$ cannot be the in-order successor of $p$, and we search the right subtree, i.e., $root = root.right$.
 
-时间复杂度 $O(h)$，其中 $h$ 为二叉搜索树的高度。空间复杂度 $O(1)$。
+The time complexity is $O(h)$, where $h$ is the height of the binary search tree. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

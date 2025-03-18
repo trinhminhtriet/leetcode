@@ -1,73 +1,58 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0669.Trim%20a%20Binary%20Search%20Tree/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉搜索树
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Binary Search Tree
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [669. 修剪二叉搜索树](https://leetcode.cn/problems/trim-a-binary-search-tree)
+# [669. Trim a Binary Search Tree](https://leetcode.com/problems/trim-a-binary-search-tree)
 
-[English Version](/solution/0600-0699/0669.Trim%20a%20Binary%20Search%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你二叉搜索树的根节点 <code>root</code> ，同时给定最小边界<code>low</code> 和最大边界 <code>high</code>。通过修剪二叉搜索树，使得所有节点的值在<code>[low, high]</code>中。修剪树 <strong>不应该</strong>&nbsp;改变保留在树中的元素的相对结构 (即，如果没有被移除，原有的父代子代关系都应当保留)。 可以证明，存在&nbsp;<strong>唯一的答案</strong>&nbsp;。</p>
+<p>Given the <code>root</code> of a binary search tree and the lowest and highest boundaries as <code>low</code> and <code>high</code>, trim the tree so that all its elements lies in <code>[low, high]</code>. Trimming the tree should <strong>not</strong> change the relative structure of the elements that will remain in the tree (i.e., any node&#39;s descendant should remain a descendant). It can be proven that there is a <strong>unique answer</strong>.</p>
 
-<p>所以结果应当返回修剪好的二叉搜索树的新的根节点。注意，根节点可能会根据给定的边界发生改变。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0669.Trim%20a%20Binary%20Search%20Tree/images/trim1.jpg" style="height: 126px; width: 450px;" />
-<pre>
-<strong>输入：</strong>root = [1,0,2], low = 1, high = 2
-<strong>输出：</strong>[1,null,2]
-</pre>
-
-<p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0669.Trim%20a%20Binary%20Search%20Tree/images/trim2.jpg" style="height: 277px; width: 450px;" />
-<pre>
-<strong>输入：</strong>root = [3,0,4,null,2,null,null,1], low = 1, high = 3
-<strong>输出：</strong>[3,2,null,1]
-</pre>
+<p>Return <em>the root of the trimmed binary search tree</em>. Note that the root may change depending on the given bounds.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0669.Trim%20a%20Binary%20Search%20Tree/images/trim1.jpg" style="width: 450px; height: 126px;" />
+<pre>
+<strong>Input:</strong> root = [1,0,2], low = 1, high = 2
+<strong>Output:</strong> [1,null,2]
+</pre>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0600-0699/0669.Trim%20a%20Binary%20Search%20Tree/images/trim2.jpg" style="width: 450px; height: 277px;" />
+<pre>
+<strong>Input:</strong> root = [3,0,4,null,2,null,null,1], low = 1, high = 3
+<strong>Output:</strong> [3,2,null,1]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点数在范围 <code>[1, 10<sup>4</sup>]</code> 内</li>
+	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>4</sup>]</code>.</li>
 	<li><code>0 &lt;= Node.val &lt;= 10<sup>4</sup></code></li>
-	<li>树中每个节点的值都是 <strong>唯一</strong> 的</li>
-	<li>题目数据保证输入是一棵有效的二叉搜索树</li>
+	<li>The value of each node in the tree is <strong>unique</strong>.</li>
+	<li><code>root</code> is guaranteed to be a valid binary search tree.</li>
 	<li><code>0 &lt;= low &lt;= high &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
-
-判断 `root.val` 与 `low` 和 `high` 的大小关系：
-
--   若 `root.val` 大于 `high`，说明当前 `root` 节点与其右子树所有节点的值均大于 `high`，那么递归修剪 `root.left` 即可；
--   若 `root.val` 小于 `low`，说明当前 `root` 节点与其左子树所有节点的值均小于 `low`，那么递归修剪 `root.right` 即可；
--   若 `root.val` 在 `[low, high]` 之间，说明当前 `root` 应该保留，递归修剪 `root.left`, `root.right`，并且返回 `root`。
-
-递归的终止条件是 `root` 节点为空。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉搜索树的节点个数。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -340,21 +325,7 @@ struct TreeNode* trimBST(struct TreeNode* root, int low, int high) {
 
 <!-- solution:start -->
 
-### 方法二：迭代
-
-我们先循环判断 `root`，若 `root.val` 不在 `[low, high]` 之间，那么直接将 `root` 置为对应的左孩子或右孩子，循环直至 `root` 为空或者 `root.val` 在 `[low, high]` 之间。
-
-若此时 `root` 为空，直接返回。否则，说明 `root` 是一个需要保留的节点。接下来只需要分别迭代修剪 `root` 的左右子树。
-
-以左子树 `node = root.left` 为例：
-
--   若 `node.left.val` 小于 `low`，那么 `node.left` 及其左孩子均不满足条件，我们直接将 `node.left` 置为 `node.left.right`；
--   否则，我们将 `node` 置为 `node.left`；
--   循环判断，直至 `node.left` 为空。
-
-右子树的修剪过程与之类似。
-
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 是二叉搜索树的节点个数。
+### Solution 2
 
 <!-- tabs:start -->
 

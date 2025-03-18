@@ -1,98 +1,75 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0191.Number%20of%201%20Bits/README.md
+difficulty: Easy
 tags:
-    - 位运算
-    - 分治
+    - Bit Manipulation
+    - Divide and Conquer
 ---
 
 <!-- problem:start -->
 
-# [191. 位1的个数](https://leetcode.cn/problems/number-of-1-bits)
+# [191. Number of 1 Bits](https://leetcode.com/problems/number-of-1-bits)
 
-[English Version](/solution/0100-0199/0191.Number%20of%201%20Bits/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个正整数 <code>n</code>，编写一个函数，获取一个正整数的二进制形式并返回其二进制表达式中 <span data-keyword="set-bit">设置位</span> 的个数（也被称为<a href="https://baike.baidu.com/item/%E6%B1%89%E6%98%8E%E9%87%8D%E9%87%8F" target="_blank">汉明重量</a>）。</p>
+<p>Given a positive integer <code>n</code>, write a function that returns the number of <span data-keyword="set-bit">set bits</span> in its binary representation (also known as the <a href="http://en.wikipedia.org/wiki/Hamming_weight" target="_blank">Hamming weight</a>).</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">n = 11</span></p>
 
-<pre>
-<strong>输入：</strong>n = 11
-<strong>输出：</strong>3
-<strong>解释：</strong>输入的二进制串 <code><strong>1011</strong>&nbsp;中，共有 3 个设置位。</code>
-</pre>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><strong>示例 2：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<pre>
-<strong>输入：</strong>n = 128
-<strong>输出：</strong>1
-<strong>解释：</strong>输入的二进制串 <strong>10000000</strong>&nbsp;中，共有 1 个设置位。
-</pre>
+<p>The input binary string <strong>1011</strong> has a total of three set bits.</p>
+</div>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre>
-<strong>输入：</strong>n = 2147483645
-<strong>输出：</strong>30
-<strong>解释：</strong>输入的二进制串 <strong>1111111111111111111111111111101</strong> 中，共有 30 个设置位。</pre>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">n = 128</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">1</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The input binary string <strong>10000000</strong> has a total of one set bit.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">n = 2147483645</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">30</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The input binary string <strong>1111111111111111111111111111101</strong> has a total of thirty set bits.</p>
+</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 2<sup>31</sup> - 1</code></li>
 </ul>
 
-<ul>
-</ul>
-
 <p>&nbsp;</p>
-
-<p><strong>进阶</strong>：</p>
-
-<ul>
-	<li>如果多次调用这个函数，你将如何优化你的算法？</li>
-</ul>
+<strong>Follow up:</strong> If this function is called many times, how would you optimize it?
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算
-
-利用 `n & (n - 1)` 消除 `n` 中最后一位 1 这一特点，优化过程：
-
-```txt
-HAMMING-WEIGHT(n)
-    r = 0
-    while n != 0
-        n &= n - 1
-        r += 1
-    r
-```
-
-以 5 为例，演示推演过程：
-
-```txt
-[0, 1, 0, 1] // 5
-[0, 1, 0, 0] // 5 - 1 = 4
-[0, 1, 0, 0] // 5 & 4 = 4
-
-[0, 1, 0, 0] // 4
-[0, 0, 1, 1] // 4 - 1 = 3
-[0, 0, 0, 0] // 4 & 3 = 0
-```
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -228,11 +205,7 @@ class Solution {
 
 <!-- solution:start -->
 
-### 方法二：lowbit
-
-`x -= (x & -x)` 可以消除二进制形式的最后一位 1。
-
-同 [剑指 Offer 15. 二进制中 1 的个数](https://github.com/doocs/leetcode/blob/main/lcof/面试题15.%20二进制中1的个数/README.md)
+### Solution 2
 
 <!-- tabs:start -->
 

@@ -1,54 +1,48 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0334.Increasing%20Triplet%20Subsequence/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数组
+    - Greedy
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [334. 递增的三元子序列](https://leetcode.cn/problems/increasing-triplet-subsequence)
+# [334. Increasing Triplet Subsequence](https://leetcode.com/problems/increasing-triplet-subsequence)
 
-[English Version](/solution/0300-0399/0334.Increasing%20Triplet%20Subsequence/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code> ，判断这个数组中是否存在长度为 <code>3</code> 的递增子序列。</p>
-
-<p>如果存在这样的三元组下标 <code>(i, j, k)</code>&nbsp;且满足 <code>i &lt; j &lt; k</code> ，使得&nbsp;<code>nums[i] &lt; nums[j] &lt; nums[k]</code> ，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
+<p>Given an integer array <code>nums</code>, return <code>true</code><em> if there exists a triple of indices </em><code>(i, j, k)</code><em> such that </em><code>i &lt; j &lt; k</code><em> and </em><code>nums[i] &lt; nums[j] &lt; nums[k]</code>. If no such indices exists, return <code>false</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3,4,5]
-<strong>输出：</strong>true
-<strong>解释：</strong>任何 i &lt; j &lt; k 的三元组都满足题意
+<strong>Input:</strong> nums = [1,2,3,4,5]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Any triplet where i &lt; j &lt; k is valid.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [5,4,3,2,1]
-<strong>输出：</strong>false
-<strong>解释：</strong>不存在满足题意的三元组</pre>
+<strong>Input:</strong> nums = [5,4,3,2,1]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> No triplet exists.
+</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2,1,5,0,4,6]
-<strong>输出：</strong>true
-<strong>解释：</strong>三元组 (3, 4, 5) 满足题意，因为 nums[3] == 0 &lt; nums[4] == 4 &lt; nums[5] == 6
+<strong>Input:</strong> nums = [2,1,5,0,4,6]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The triplet (3, 4, 5) is valid because nums[3] == 0 &lt; nums[4] == 4 &lt; nums[5] == 6.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 5 * 10<sup>5</sup></code></li>
@@ -56,16 +50,15 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>你能实现时间复杂度为 <code>O(n)</code> ，空间复杂度为 <code>O(1)</code> 的解决方案吗？</p>
+<strong>Follow up:</strong> Could you implement a solution that runs in <code>O(n)</code> time complexity and <code>O(1)</code> space complexity?
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -201,7 +194,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

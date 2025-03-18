@@ -1,96 +1,91 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2490.Circular%20Sentence/README.md
+difficulty: Easy
 rating: 1262
-source: 第 322 场周赛 Q1
+source: Weekly Contest 322 Q1
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2490. 回环句](https://leetcode.cn/problems/circular-sentence)
+# [2490. Circular Sentence](https://leetcode.com/problems/circular-sentence)
 
-[English Version](/solution/2400-2499/2490.Circular%20Sentence/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong>句子</strong> 是由单个空格分隔的一组单词，且不含前导或尾随空格。</p>
+<p>A <strong>sentence</strong> is a list of words that are separated by a<strong> single</strong> space with no leading or trailing spaces.</p>
 
 <ul>
-	<li>例如，<code>"Hello World"</code>、<code>"HELLO"</code>、<code>"hello world hello world"</code> 都是符合要求的句子。</li>
+	<li>For example, <code>&quot;Hello World&quot;</code>, <code>&quot;HELLO&quot;</code>, <code>&quot;hello world hello world&quot;</code> are all sentences.</li>
 </ul>
 
-<p>单词 <strong>仅</strong> 由大写和小写英文字母组成。且大写和小写字母会视作不同字符。</p>
+<p>Words consist of <strong>only</strong> uppercase and lowercase English letters. Uppercase and lowercase English letters are considered different.</p>
 
-<p>如果句子满足下述全部条件，则认为它是一个 <strong>回环句</strong> ：</p>
+<p>A sentence is <strong>circular </strong>if:</p>
 
 <ul>
-	<li>句子中每个单词的最后一个字符等于下一个单词的第一个字符。</li>
-	<li>最后一个单词的最后一个字符和第一个单词的第一个字符相等。</li>
+	<li>The last character of each word in the sentence is equal to the first character of its next word.</li>
+	<li>The last character of the last word is equal to the first character of the first word.</li>
 </ul>
 
-<p>例如，<code>"leetcode exercises sound delightful"</code>、<code>"eetcode"</code>、<code>"leetcode eats soul"</code> 都是回环句。然而，<code>"Leetcode is cool"</code>、<code>"happy Leetcode"</code>、<code>"Leetcode"</code> 和 <code>"I like Leetcode"</code> 都 <strong>不</strong> 是回环句。</p>
+<p>For example, <code>&quot;leetcode exercises sound delightful&quot;</code>, <code>&quot;eetcode&quot;</code>, <code>&quot;leetcode eats soul&quot; </code>are all circular sentences. However, <code>&quot;Leetcode is cool&quot;</code>, <code>&quot;happy Leetcode&quot;</code>, <code>&quot;Leetcode&quot;</code> and <code>&quot;I like Leetcode&quot;</code> are <strong>not</strong> circular sentences.</p>
 
-<p>给你一个字符串 <code>sentence</code> ，请你判断它是不是一个回环句。如果是，返回 <code>true</code><em> </em>；否则，返回 <code>false</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>sentence = "leetcode exercises sound delightful"
-<strong>输出：</strong>true
-<strong>解释：</strong>句子中的单词是 ["leetcode", "exercises", "sound", "delightful"] 。
-- leetcod<strong><em>e</em></strong> 的最后一个字符和 <strong><em>e</em></strong>xercises 的第一个字符相等。
-- exercise<em><strong>s</strong></em> 的最后一个字符和 <em><strong>s</strong></em>ound 的第一个字符相等。
-- <em><strong>s</strong></em>ound 的最后一个字符和 delightfu<em><strong>l</strong></em> 的第一个字符相等。
-- delightfu<em><strong>l</strong></em> 的最后一个字符和 <em><strong>l</strong></em>eetcode 的第一个字符相等。
-这个句子是回环句。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>sentence = "eetcode"
-<strong>输出：</strong>true
-<strong>解释：</strong>句子中的单词是 ["eetcode"] 。
-- eetcod<em><strong>e</strong></em> 的最后一个字符和 <em><strong>e</strong></em>etcod<em>e</em> 的第一个字符相等。
-这个句子是回环句。</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>sentence = "Leetcode is cool"
-<strong>输出：</strong>false
-<strong>解释：</strong>句子中的单词是 ["Leetcode", "is", "cool"] 。
-- Leetcod<em><strong>e</strong></em>&nbsp;的最后一个字符和 <em><strong>i</strong></em>s 的第一个字符 <strong>不</strong> 相等。 
-这个句子 <strong>不</strong> 是回环句。</pre>
+<p>Given a string <code>sentence</code>, return <code>true</code><em> if it is circular</em>. Otherwise, return <code>false</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> sentence = &quot;leetcode exercises sound delightful&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The words in sentence are [&quot;leetcode&quot;, &quot;exercises&quot;, &quot;sound&quot;, &quot;delightful&quot;].
+- leetcod<u>e</u>&#39;s&nbsp;last character is equal to <u>e</u>xercises&#39;s first character.
+- exercise<u>s</u>&#39;s&nbsp;last character is equal to <u>s</u>ound&#39;s first character.
+- soun<u>d</u>&#39;s&nbsp;last character is equal to <u>d</u>elightful&#39;s first character.
+- delightfu<u>l</u>&#39;s&nbsp;last character is equal to <u>l</u>eetcode&#39;s first character.
+The sentence is circular.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> sentence = &quot;eetcode&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The words in sentence are [&quot;eetcode&quot;].
+- eetcod<u>e</u>&#39;s&nbsp;last character is equal to <u>e</u>etcode&#39;s first character.
+The sentence is circular.</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> sentence = &quot;Leetcode is cool&quot;
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The words in sentence are [&quot;Leetcode&quot;, &quot;is&quot;, &quot;cool&quot;].
+- Leetcod<u>e</u>&#39;s&nbsp;last character is <strong>not</strong> equal to <u>i</u>s&#39;s first character.
+The sentence is <strong>not</strong> circular.</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= sentence.length &lt;= 500</code></li>
-	<li><code>sentence</code> 仅由大小写英文字母和空格组成</li>
-	<li><code>sentence</code> 中的单词由单个空格进行分隔</li>
-	<li>不含任何前导或尾随空格</li>
+	<li><code>sentence</code> consist of only lowercase and uppercase English letters and spaces.</li>
+	<li>The words in <code>sentence</code> are separated by a single space.</li>
+	<li>There are no leading or trailing spaces.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们将字符串按照空格分割成单词，然后判断每个单词的最后一个字符和下一个单词的第一个字符是否相等，如果不相等则返回 `false`，否则遍历完所有单词后返回 `true`。
+We split the string into words by spaces, then check whether the last character of each word is equal to the first character of the next word. If they are not equal, return `false`. Otherwise, return `true` after traversing all the words.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the string.
 
 <!-- tabs:start -->
 
@@ -221,11 +216,11 @@ var isCircularSentence = function (sentence) {
 
 <!-- solution:start -->
 
-### 方法二：模拟（空间优化）
+### Solution 2: Simulation (Space Optimization)
 
-我们可以先判断字符串的第一个字符和最后一个字符是否相等，如果不相等则返回 `false`，否则遍历字符串，如果当前字符是空格，则判断前一个字符和后一个字符是否相等，如果不相等则返回 `false`，否则遍历完所有字符后返回 `true`。
+We can first check whether the first and last characters of the string are equal. If they are not equal, return `false`. Otherwise, traverse the string. If the current character is a space, check whether the previous character and the next character are equal. If they are not equal, return `false`. Otherwise, return `true` after traversing all the characters.
 
-时间复杂度 $O(n)$，其中 $n$ 是字符串的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

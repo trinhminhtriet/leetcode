@@ -1,75 +1,65 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0445.Add%20Two%20Numbers%20II/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 链表
-    - 数学
+    - Stack
+    - Linked List
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [445. 两数相加 II](https://leetcode.cn/problems/add-two-numbers-ii)
+# [445. Add Two Numbers II](https://leetcode.com/problems/add-two-numbers-ii)
 
-[English Version](/solution/0400-0499/0445.Add%20Two%20Numbers%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个 <strong>非空 </strong>链表来代表两个非负整数。数字最高位位于链表开始位置。它们的每个节点只存储一位数字。将这两数相加会返回一个新的链表。</p>
+<p>You are given two <strong>non-empty</strong> linked lists representing two non-negative integers. The most significant digit comes first and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.</p>
 
-<p>你可以假设除了数字 0 之外，这两个数字都不会以零开头。</p>
+<p>You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0445.Add%20Two%20Numbers%20II/images/1626420025-fZfzMX-image.png" style="width: 302px; " /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0400-0499/0445.Add%20Two%20Numbers%20II/images/sumii-linked-list.jpg" style="width: 523px; height: 342px;" />
 <pre>
-<strong>输入：</strong>l1 = [7,2,4,3], l2 = [5,6,4]
-<strong>输出：</strong>[7,8,0,7]
+<strong>Input:</strong> l1 = [7,2,4,3], l2 = [5,6,4]
+<strong>Output:</strong> [7,8,0,7]
 </pre>
 
-<p><strong>示例2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>l1 = [2,4,3], l2 = [5,6,4]
-<strong>输出：</strong>[8,0,7]
+<strong>Input:</strong> l1 = [2,4,3], l2 = [5,6,4]
+<strong>Output:</strong> [8,0,7]
 </pre>
 
-<p><strong>示例3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>l1 = [0], l2 = [0]
-<strong>输出：</strong>[0]
+<strong>Input:</strong> l1 = [0], l2 = [0]
+<strong>Output:</strong> [0]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>链表的长度范围为<code> [1, 100]</code></li>
-	<li><code>0 &lt;= node.val &lt;= 9</code></li>
-	<li>输入数据保证链表代表的数字无前导 0</li>
+	<li>The number of nodes in each linked list is in the range <code>[1, 100]</code>.</li>
+	<li><code>0 &lt;= Node.val &lt;= 9</code></li>
+	<li>It is guaranteed that the list represents a number that does not have leading zeros.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>如果输入链表不能翻转该如何解决？</p>
+<p><strong>Follow up:</strong>&nbsp;Could you solve it without reversing the input lists?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：翻转
-
-手动翻转链表 `l1` 与 `l2`，将此题转换为 [2. 两数相加](https://leetcode.cn/problems/add-two-numbers/)，相加过程一致。对于最后返回的结果链表也需要进行翻转，共计三次。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -323,15 +313,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：栈
-
-我们可以使用两个栈 $s1$ 和 $s2$ 分别存储两个链表元素，然后同时遍历两个栈，并使用变量 $carry$ 表示当前是否有进位。
-
-遍历时，我们弹出对应栈的栈顶元素，计算它们与进位 $carry$ 的和，然后更新进位的值，并创建一个链表节点，插入答案链表的头部。如果两个栈都遍历结束，并且进位为 $0$ 时，遍历结束。
-
-最后我们返回答案链表的头节点即可。
-
-时间复杂度 $O(\max(m, n))$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别为两个链表的长度。
+### Solution 2
 
 <!-- tabs:start -->
 

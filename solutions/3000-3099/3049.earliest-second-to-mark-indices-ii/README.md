@@ -1,90 +1,85 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3049.Earliest%20Second%20to%20Mark%20Indices%20II/README.md
+difficulty: Hard
 rating: 3111
-source: 第 386 场周赛 Q4
+source: Weekly Contest 386 Q4
 tags:
-    - 贪心
-    - 数组
-    - 二分查找
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Binary Search
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [3049. 标记所有下标的最早秒数 II](https://leetcode.cn/problems/earliest-second-to-mark-indices-ii)
+# [3049. Earliest Second to Mark Indices II](https://leetcode.com/problems/earliest-second-to-mark-indices-ii)
 
-[English Version](/solution/3000-3099/3049.Earliest%20Second%20to%20Mark%20Indices%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个下标从 <strong>1</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code> 和&nbsp;<code>changeIndices</code>&nbsp;，数组的长度分别为&nbsp;<code>n</code> 和&nbsp;<code>m</code>&nbsp;。</p>
+<p>You are given two <strong>1-indexed</strong> integer arrays, <code>nums</code> and, <code>changeIndices</code>, having lengths <code>n</code> and <code>m</code>, respectively.</p>
 
-<p>一开始，<code>nums</code>&nbsp;中所有下标都是未标记的，你的任务是标记 <code>nums</code>&nbsp;中 <strong>所有</strong>&nbsp;下标。</p>
+<p>Initially, all indices in <code>nums</code> are unmarked. Your task is to mark <strong>all</strong> indices in <code>nums</code>.</p>
 
-<p>从第 <code>1</code>&nbsp;秒到第 <code>m</code>&nbsp;秒（<b>包括&nbsp;</b>第&nbsp;<code>m</code>&nbsp;秒），对于每一秒 <code>s</code>&nbsp;，你可以执行以下操作 <strong>之一</strong>&nbsp;：</p>
+<p>In each second, <code>s</code>, in order from <code>1</code> to <code>m</code> (<strong>inclusive</strong>), you can perform <strong>one</strong> of the following operations:</p>
 
 <ul>
-	<li>选择范围&nbsp;<code>[1, n]</code>&nbsp;中的一个下标 <code>i</code>&nbsp;，并且将&nbsp;<code>nums[i]</code> <strong>减少</strong>&nbsp;<code>1</code>&nbsp;。</li>
-	<li>将&nbsp;<code>nums[changeIndices[s]]</code>&nbsp;设置成任意的 <strong>非负</strong>&nbsp;整数。</li>
-	<li>选择范围&nbsp;<code>[1, n]</code>&nbsp;中的一个下标&nbsp;<code>i</code>&nbsp;， 满足&nbsp;<code>nums[i]</code> <strong>等于</strong> <code>0</code>, 并 <strong>标记</strong>&nbsp;下标&nbsp;<code>i</code> 。</li>
-	<li>什么也不做。</li>
+	<li>Choose an index <code>i</code> in the range <code>[1, n]</code> and <strong>decrement</strong> <code>nums[i]</code> by <code>1</code>.</li>
+	<li>Set <code>nums[changeIndices[s]]</code> to any <strong>non-negative</strong> value.</li>
+	<li>Choose an index <code>i</code> in the range <code>[1, n]</code>, where <code>nums[i]</code> is <strong>equal</strong> to <code>0</code>, and <strong>mark</strong> index <code>i</code>.</li>
+	<li>Do nothing.</li>
 </ul>
 
-<p>请你返回范围 <code>[1, m]</code>&nbsp;中的一个整数，表示最优操作下，标记&nbsp;<code>nums</code>&nbsp;中 <strong>所有</strong>&nbsp;下标的 <strong>最早秒数</strong>&nbsp;，如果无法标记所有下标，返回 <code>-1</code>&nbsp;。</p>
+<p>Return <em>an integer denoting the <strong>earliest second</strong> in the range </em><code>[1, m]</code><em> when <strong>all</strong> indices in </em><code>nums</code><em> can be marked by choosing operations optimally, or </em><code>-1</code><em> if it is impossible.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [3,2,3], changeIndices = [1,3,2,2,2,2,3]
-<b>输出：</b>6
-<b>解释：</b>这个例子中，我们总共有 7 秒。按照以下操作标记所有下标：
-第 1 秒：将 nums[changeIndices[1]] 变为 0 。nums 变为 [0,2,3] 。
-第 2 秒：将 nums[changeIndices[2]] 变为 0 。nums 变为 [0,2,0] 。
-第 3 秒：将 nums[changeIndices[3]] 变为 0 。nums 变为 [0,0,0] 。
-第 4 秒：标记下标 1 ，因为 nums[1] 等于 0 。
-第 5 秒：标记下标 2 ，因为 nums[2] 等于 0 。
-第 6 秒：标记下标 3 ，因为 nums[3] 等于 0 。
-现在所有下标已被标记。
-最早可以在第 6 秒标记所有下标。
-所以答案是 6 。
+<strong>Input:</strong> nums = [3,2,3], changeIndices = [1,3,2,2,2,2,3]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> In this example, we have 7 seconds. The following operations can be performed to mark all indices:
+Second 1: Set nums[changeIndices[1]] to 0. nums becomes [0,2,3].
+Second 2: Set nums[changeIndices[2]] to 0. nums becomes [0,2,0].
+Second 3: Set nums[changeIndices[3]] to 0. nums becomes [0,0,0].
+Second 4: Mark index 1, since nums[1] is equal to 0.
+Second 5: Mark index 2, since nums[2] is equal to 0.
+Second 6: Mark index 3, since nums[3] is equal to 0.
+Now all indices have been marked.
+It can be shown that it is not possible to mark all indices earlier than the 6th second.
+Hence, the answer is 6.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [0,0,1,2], changeIndices = [1,2,1,2,1,2,1,2]
-<b>输出：</b>7
-<b>解释：</b>这个例子中，我们总共有 8 秒。按照以下操作标记所有下标：
-第 1 秒：标记下标 1 ，因为 nums[1] 等于 0 。
-第 2 秒：标记下标 2 ，因为 nums[2] 等于 0 。
-第 3 秒：将 nums[4] 减少 1 。nums 变为 [0,0,1,1] 。
-第 4 秒：将 nums[4] 减少 1 。nums 变为 [0,0,1,0] 。
-第 5 秒：将 nums[3] 减少 1 。nums 变为 [0,0,0,0] 。
-第 6 秒：标记下标 3 ，因为 nums[3] 等于 0 。
-第 7 秒：标记下标 4 ，因为 nums[4] 等于 0 。
-现在所有下标已被标记。
-最早可以在第 7 秒标记所有下标。
-所以答案是 7 。
+<strong>Input:</strong> nums = [0,0,1,2], changeIndices = [1,2,1,2,1,2,1,2]
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> In this example, we have 8 seconds. The following operations can be performed to mark all indices:
+Second 1: Mark index 1, since nums[1] is equal to 0.
+Second 2: Mark index 2, since nums[2] is equal to 0.
+Second 3: Decrement index 4 by one. nums becomes [0,0,1,1].
+Second 4: Decrement index 4 by one. nums becomes [0,0,1,0].
+Second 5: Decrement index 3 by one. nums becomes [0,0,0,0].
+Second 6: Mark index 3, since nums[3] is equal to 0.
+Second 7: Mark index 4, since nums[4] is equal to 0.
+Now all indices have been marked.
+It can be shown that it is not possible to mark all indices earlier than the 7th second.
+Hence, the answer is 7.
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,2,3], changeIndices = [1,2,3]
-<b>输出：</b>-1
-<strong>解释：</strong>这个例子中，无法标记所有下标，因为我们没有足够的秒数。
-所以答案是 -1 。
+<strong>Input:</strong> nums = [1,2,3], changeIndices = [1,2,3]
+<strong>Output:</strong> -1
+<strong>Explanation: </strong>In this example, it can be shown that it is impossible to mark all indices, as we don&#39;t have enough seconds. 
+Hence, the answer is -1.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == nums.length &lt;= 5000</code></li>
@@ -95,11 +90,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

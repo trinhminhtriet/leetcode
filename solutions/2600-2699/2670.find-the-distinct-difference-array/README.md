@@ -1,63 +1,56 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2670.Find%20the%20Distinct%20Difference%20Array/README.md
+difficulty: Easy
 rating: 1266
-source: 第 344 场周赛 Q1
+source: Weekly Contest 344 Q1
 tags:
-    - 数组
-    - 哈希表
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [2670. 找出不同元素数目差数组](https://leetcode.cn/problems/find-the-distinct-difference-array)
+# [2670. Find the Distinct Difference Array](https://leetcode.com/problems/find-the-distinct-difference-array)
 
-[English Version](/solution/2600-2699/2670.Find%20the%20Distinct%20Difference%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的数组 <code>nums</code> ，数组长度为 <code>n</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> array <code>nums</code> of length <code>n</code>.</p>
 
-<p><code>nums</code> 的 <strong>不同元素数目差</strong> 数组可以用一个长度为 <code>n</code> 的数组 <code>diff</code> 表示，其中 <code>diff[i]</code> 等于前缀 <code>nums[0, ..., i]</code> 中不同元素的数目 <strong>减去</strong> 后缀 <code>nums[i + 1, ..., n - 1]</code> 中不同元素的数目。</p>
+<p>The <strong>distinct difference</strong> array of <code>nums</code> is an array <code>diff</code> of length <code>n</code> such that <code>diff[i]</code> is equal to the number of distinct elements in the suffix <code>nums[i + 1, ..., n - 1]</code> <strong>subtracted from</strong> the number of distinct elements in the prefix <code>nums[0, ..., i]</code>.</p>
 
-<p>返回<em> </em><code>nums</code> 的 <strong>不同元素数目差</strong> 数组。</p>
+<p>Return <em>the <strong>distinct difference</strong> array of </em><code>nums</code>.</p>
 
-<p>注意 <code>nums[i, ..., j]</code> 表示 <code>nums</code> 的一个从下标 <code>i</code> 开始到下标 <code>j</code> 结束的子数组（包含下标 <code>i</code> 和 <code>j</code> 对应元素）。特别需要说明的是，如果 <code>i &gt; j</code> ，则 <code>nums[i, ..., j]</code> 表示一个空子数组。</p>
+<p>Note that <code>nums[i, ..., j]</code> denotes the subarray of <code>nums</code> starting at index <code>i</code> and ending at index <code>j</code> inclusive. Particularly, if <code>i &gt; j</code> then <code>nums[i, ..., j]</code> denotes an empty subarray.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3,4,5]
-<strong>输出：</strong>[-3,-1,1,3,5]
-<strong>解释：
-</strong>对于 i = 0，前缀中有 1 个不同的元素，而在后缀中有 4 个不同的元素。因此，diff[0] = 1 - 4 = -3 。
-对于 i = 1，前缀中有 2 个不同的元素，而在后缀中有 3 个不同的元素。因此，diff[1] = 2 - 3 = -1 。
-对于 i = 2，前缀中有 3 个不同的元素，而在后缀中有 2 个不同的元素。因此，diff[2] = 3 - 2 = 1 。
-对于 i = 3，前缀中有 4 个不同的元素，而在后缀中有 1 个不同的元素。因此，diff[3] = 4 - 1 = 3 。
-对于 i = 4，前缀中有 5 个不同的元素，而在后缀中有 0 个不同的元素。因此，diff[4] = 5 - 0 = 5 。
+<strong>Input:</strong> nums = [1,2,3,4,5]
+<strong>Output:</strong> [-3,-1,1,3,5]
+<strong>Explanation:</strong> For index i = 0, there is 1 element in the prefix and 4 distinct elements in the suffix. Thus, diff[0] = 1 - 4 = -3.
+For index i = 1, there are 2 distinct elements in the prefix and 3 distinct elements in the suffix. Thus, diff[1] = 2 - 3 = -1.
+For index i = 2, there are 3 distinct elements in the prefix and 2 distinct elements in the suffix. Thus, diff[2] = 3 - 2 = 1.
+For index i = 3, there are 4 distinct elements in the prefix and 1 distinct element in the suffix. Thus, diff[3] = 4 - 1 = 3.
+For index i = 4, there are 5 distinct elements in the prefix and no elements in the suffix. Thus, diff[4] = 5 - 0 = 5.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,2,3,4,2]
-<strong>输出：</strong>[-2,-1,0,2,3]
-<strong>解释：</strong>
-对于 i = 0，前缀中有 1 个不同的元素，而在后缀中有 3 个不同的元素。因此，diff[0] = 1 - 3 = -2 。
-对于 i = 1，前缀中有 2 个不同的元素，而在后缀中有 3 个不同的元素。因此，diff[1] = 2 - 3 = -1 。
-对于 i = 2，前缀中有 2 个不同的元素，而在后缀中有 2 个不同的元素。因此，diff[2] = 2 - 2 = 0 。
-对于 i = 3，前缀中有 3 个不同的元素，而在后缀中有 1 个不同的元素。因此，diff[3] = 3 - 1 = 2 。
-对于 i = 4，前缀中有 3 个不同的元素，而在后缀中有 0 个不同的元素。因此，diff[4] = 3 - 0 = 3 。 
+<strong>Input:</strong> nums = [3,2,3,4,2]
+<strong>Output:</strong> [-2,-1,0,2,3]
+<strong>Explanation:</strong> For index i = 0, there is 1 element in the prefix and 3 distinct elements in the suffix. Thus, diff[0] = 1 - 3 = -2.
+For index i = 1, there are 2 distinct elements in the prefix and 3 distinct elements in the suffix. Thus, diff[1] = 2 - 3 = -1.
+For index i = 2, there are 2 distinct elements in the prefix and 2 distinct elements in the suffix. Thus, diff[2] = 2 - 2 = 0.
+For index i = 3, there are 3 distinct elements in the prefix and 1 distinct element in the suffix. Thus, diff[3] = 3 - 1 = 2.
+For index i = 4, there are 3 distinct elements in the prefix and no elements in the suffix. Thus, diff[4] = 3 - 0 = 3.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == nums.length&nbsp;&lt;= 50</code></li>
@@ -66,17 +59,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 预处理后缀
+### Solution 1: Hash Table + Preprocessed Suffix
 
-我们可以预处理出一个后缀数组 $suf$，其中 $suf[i]$ 表示后缀 $nums[i, ..., n - 1]$ 中不同元素的数目，在预处理过程中，我们使用一个哈希表 $s$ 来维护后缀中出现过的元素，这样我们就可以在 $O(1)$ 的时间内查询后缀中不同元素的数目。
+We can preprocess a suffix array $suf$, where $suf[i]$ represents the number of distinct elements in the suffix $nums[i, ..., n - 1]$. During the preprocessing, we use a hash table $s$ to maintain the elements that have appeared in the suffix, so we can query the number of distinct elements in the suffix in $O(1)$ time.
 
-预处理完后缀数组 $suf$ 后，我们清空哈希表 $s$，然后再次遍历数组 $nums$，用哈希表 $s$ 来维护前缀中出现过的元素，那么位置 $i$ 的答案就是 $s$ 中不同元素的数目减去 $suf[i + 1]$，即 $|s| - suf[i + 1]$。
+After preprocessing the suffix array $suf$, we clear the hash table $s$, and then traverse the array $nums$ again, using the hash table $s$ to maintain the elements that have appeared in the prefix. The answer at position $i$ is the number of distinct elements in $s$ minus $suf[i + 1]$, that is, $s.size() - suf[i + 1]$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

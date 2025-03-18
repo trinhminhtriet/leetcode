@@ -1,83 +1,79 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0381.Insert%20Delete%20GetRandom%20O%281%29%20-%20Duplicates%20allowed/README.md
+difficulty: Hard
 tags:
-    - 设计
-    - 数组
-    - 哈希表
-    - 数学
-    - 随机化
+    - Design
+    - Array
+    - Hash Table
+    - Math
+    - Randomized
 ---
 
 <!-- problem:start -->
 
-# [381. O(1) 时间插入、删除和获取随机元素 - 允许重复](https://leetcode.cn/problems/insert-delete-getrandom-o1-duplicates-allowed)
+# [381. Insert Delete GetRandom O(1) - Duplicates allowed](https://leetcode.com/problems/insert-delete-getrandom-o1-duplicates-allowed)
 
-[English Version](/solution/0300-0399/0381.Insert%20Delete%20GetRandom%20O%281%29%20-%20Duplicates%20allowed/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><code>RandomizedCollection</code> 是一种包含数字集合(可能是重复的)的数据结构。它应该支持插入和删除特定元素，以及删除随机元素。</p>
+<p><code>RandomizedCollection</code> is a data structure that contains a collection of numbers, possibly duplicates (i.e., a multiset). It should support inserting and removing specific elements and also reporting a random element.</p>
 
-<p>实现 <code>RandomizedCollection</code> 类:</p>
+<p>Implement the <code>RandomizedCollection</code> class:</p>
 
 <ul>
-	<li><code>RandomizedCollection()</code>初始化空的 <code>RandomizedCollection</code> 对象。</li>
-	<li><code>bool insert(int val)</code>&nbsp;将一个 <code>val</code> 项插入到集合中，即使该项已经存在。如果该项不存在，则返回 <code>true</code> ，否则返回 <code>false</code> 。</li>
-	<li><code>bool remove(int val)</code>&nbsp;如果存在，从集合中移除一个 <code>val</code> 项。如果该项存在，则返回 <code>true</code> ，否则返回 <code>false</code> 。注意，如果 <code>val</code> 在集合中出现多次，我们只删除其中一个。</li>
-	<li><code>int getRandom()</code> 从当前的多个元素集合中返回一个随机元素。每个元素被返回的概率与集合中包含的相同值的数量 <strong>线性相关</strong> 。</li>
+	<li><code>RandomizedCollection()</code> Initializes the empty <code>RandomizedCollection</code> object.</li>
+	<li><code>bool insert(int val)</code> Inserts an item <code>val</code> into the multiset, even if the item is already present. Returns <code>true</code> if the item is not present, <code>false</code> otherwise.</li>
+	<li><code>bool remove(int val)</code> Removes an item <code>val</code> from the multiset if present. Returns <code>true</code> if the item is present, <code>false</code> otherwise. Note that if <code>val</code> has multiple occurrences in the multiset, we only remove one of them.</li>
+	<li><code>int getRandom()</code> Returns a random element from the current multiset of elements. The probability of each element being returned is <strong>linearly related</strong> to the number of the same values the multiset contains.</li>
 </ul>
 
-<p>您必须实现类的函数，使每个函数的 <strong>平均</strong> 时间复杂度为 <code>O(1)</code> 。</p>
+<p>You must implement the functions of the class such that each function works on <strong>average</strong> <code>O(1)</code> time complexity.</p>
 
-<p><strong>注意：</strong>生成测试用例时，只有在 <code>RandomizedCollection</code> 中 <strong>至少有一项</strong> 时，才会调用 <code>getRandom</code> 。</p>
+<p><strong>Note:</strong> The test cases are generated such that <code>getRandom</code> will only be called if there is <strong>at least one</strong> item in the <code>RandomizedCollection</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["RandomizedCollection", "insert", "insert", "insert", "getRandom", "remove", "getRandom"]
+<strong>Input</strong>
+[&quot;RandomizedCollection&quot;, &quot;insert&quot;, &quot;insert&quot;, &quot;insert&quot;, &quot;getRandom&quot;, &quot;remove&quot;, &quot;getRandom&quot;]
 [[], [1], [1], [2], [], [1], []]
-<strong>输出</strong>
+<strong>Output</strong>
 [null, true, false, true, 2, true, 1]
 
-<strong>解释</strong>
-RandomizedCollection collection = new RandomizedCollection();// 初始化一个空的集合。
-collection.insert(1);   // 返回 true，因为集合不包含 1。
-                        // 将 1 插入到集合中。
-collection.insert(1);   // 返回 false，因为集合包含 1。
-&nbsp;                       // 将另一个 1 插入到集合中。集合现在包含 [1,1]。
-collection.insert(2);   // 返回 true，因为集合不包含 2。
-&nbsp;                       // 将 2 插入到集合中。集合现在包含 [1,1,2]。
-collection.getRandom(); // getRandom 应当:
-&nbsp;                       // 有 2/3 的概率返回 1,
-&nbsp;                       // 1/3 的概率返回 2。
-collection.remove(1);   // 返回 true，因为集合包含 1。
-&nbsp;                       // 从集合中移除 1。集合现在包含 [1,2]。
-collection.getRandom(); // getRandom 应该返回 1 或 2，两者的可能性相同。</pre>
+<strong>Explanation</strong>
+RandomizedCollection randomizedCollection = new RandomizedCollection();
+randomizedCollection.insert(1);   // return true since the collection does not contain 1.
+                                  // Inserts 1 into the collection.
+randomizedCollection.insert(1);   // return false since the collection contains 1.
+                                  // Inserts another 1 into the collection. Collection now contains [1,1].
+randomizedCollection.insert(2);   // return true since the collection does not contain 2.
+                                  // Inserts 2 into the collection. Collection now contains [1,1,2].
+randomizedCollection.getRandom(); // getRandom should:
+                                  // - return 1 with probability 2/3, or
+                                  // - return 2 with probability 1/3.
+randomizedCollection.remove(1);   // return true since the collection contains 1.
+                                  // Removes 1 from the collection. Collection now contains [1,2].
+randomizedCollection.getRandom(); // getRandom should return 1 or 2, both equally likely.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>-2<sup>31</sup>&nbsp;&lt;= val &lt;= 2<sup>31</sup>&nbsp;- 1</code></li>
-	<li><code>insert</code>,&nbsp;<code>remove</code>&nbsp;和&nbsp;<code>getRandom</code>&nbsp;最多 <strong>总共</strong> 被调用&nbsp;<code>2 * 10<sup>5</sup></code>&nbsp;次</li>
-	<li>当调用 <code>getRandom</code> 时，数据结构中 <strong>至少有一个</strong> 元素</li>
+	<li><code>-2<sup>31</sup> &lt;= val &lt;= 2<sup>31</sup> - 1</code></li>
+	<li>At most <code>2 * 10<sup>5</sup></code> calls <strong>in total</strong> will be made to <code>insert</code>, <code>remove</code>, and <code>getRandom</code>.</li>
+	<li>There will be <strong>at least one</strong> element in the data structure when <code>getRandom</code> is called.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

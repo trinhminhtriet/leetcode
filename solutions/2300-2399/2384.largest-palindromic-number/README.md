@@ -1,85 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2384.Largest%20Palindromic%20Number/README.md
+difficulty: Medium
 rating: 1636
-source: 第 307 场周赛 Q2
+source: Weekly Contest 307 Q2
 tags:
-    - 贪心
-    - 哈希表
-    - 字符串
-    - 计数
+    - Greedy
+    - Hash Table
+    - String
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [2384. 最大回文数字](https://leetcode.cn/problems/largest-palindromic-number)
+# [2384. Largest Palindromic Number](https://leetcode.com/problems/largest-palindromic-number)
 
-[English Version](/solution/2300-2399/2384.Largest%20Palindromic%20Number/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个仅由数字（<code>0 - 9</code>）组成的字符串 <code>num</code> 。</p>
+<p>You are given a string <code>num</code> consisting of digits only.</p>
 
-<p>请你找出能够使用 <code>num</code> 中数字形成的 <strong>最大回文</strong> 整数，并以字符串形式返回。该整数不含 <strong>前导零</strong> 。</p>
+<p>Return <em>the <strong>largest palindromic</strong> integer (in the form of a string) that can be formed using digits taken from </em><code>num</code>. It should not contain <strong>leading zeroes</strong>.</p>
 
-<p><strong>注意：</strong></p>
+<p><strong>Notes:</strong></p>
 
 <ul>
-	<li>你 <strong>无需</strong> 使用 <code>num</code> 中的所有数字，但你必须使用 <strong>至少</strong> 一个数字。</li>
-	<li>数字可以重新排序。</li>
+	<li>You do <strong>not</strong> need to use all the digits of <code>num</code>, but you must use <strong>at least</strong> one digit.</li>
+	<li>The digits can be reordered.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>num = "444947137"
-<strong>输出：</strong>"7449447"
-<strong>解释：</strong>
-从 "<em><strong>44494</strong></em><em><strong>7</strong></em>13<em><strong>7</strong></em>" 中选用数字 "4449477"，可以形成回文整数 "7449447" 。
-可以证明 "7449447" 是能够形成的最大回文整数。
+<strong>Input:</strong> num = &quot;444947137&quot;
+<strong>Output:</strong> &quot;7449447&quot;
+<strong>Explanation:</strong> 
+Use the digits &quot;4449477&quot; from &quot;<u><strong>44494</strong></u><u><strong>7</strong></u>13<u><strong>7</strong></u>&quot; to form the palindromic integer &quot;7449447&quot;.
+It can be shown that &quot;7449447&quot; is the largest palindromic integer that can be formed.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>num = "00009"
-<strong>输出：</strong>"9"
-<strong>解释：</strong>
-可以证明 "9" 能够形成的最大回文整数。
-注意返回的整数不应含前导零。
+<strong>Input:</strong> num = &quot;00009&quot;
+<strong>Output:</strong> &quot;9&quot;
+<strong>Explanation:</strong> 
+It can be shown that &quot;9&quot; is the largest palindromic integer that can be formed.
+Note that the integer returned should not contain leading zeroes.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>num</code> 由数字（<code>0 - 9</code>）组成</li>
+	<li><code>num</code> consists of digits.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：统计 + 贪心
-
-用 $cnt$ 数组记录每个数字出现的次数。
-
-回文数字需要满足回文串中最多有一个数字出现了奇数次，因此我们先找最大的、出现了奇数次的数字 $v$（也可能不存在），作为回文数字的中间数字，对应的 $cnt$ 减 $1$。
-
-接下来我们从回文数字中间，按数字从小到大的顺序，往左右两边扩散（也可以枚举回文串的右半部分，然后将右半部分反转，得到左半部分）。这样我们可以得到一个“可能”含有前导零的回文串。
-
-我们去除回文串的前导零，若回文串为空，则返回“0”。否则返回该回文串。
-
-时间复杂度 $O(n)$，其中 $n$ 为 $num$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

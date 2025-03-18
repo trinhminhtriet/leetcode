@@ -1,58 +1,53 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2557.Maximum%20Number%20of%20Integers%20to%20Choose%20From%20a%20Range%20II/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数组
-    - 二分查找
-    - 排序
+    - Greedy
+    - Array
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2557. 从一个范围内选择最多整数 II 🔒](https://leetcode.cn/problems/maximum-number-of-integers-to-choose-from-a-range-ii)
+# [2557. Maximum Number of Integers to Choose From a Range II 🔒](https://leetcode.com/problems/maximum-number-of-integers-to-choose-from-a-range-ii)
 
-[English Version](/solution/2500-2599/2557.Maximum%20Number%20of%20Integers%20to%20Choose%20From%20a%20Range%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>banned</code> 和两个整数 <code>n</code> 和 <code>maxSum</code>&nbsp;。你需要按照以下规则选择一些整数：</p>
+<p>You are given an integer array <code>banned</code> and two integers <code>n</code> and <code>maxSum</code>. You are choosing some number of integers following the below rules:</p>
 
 <ul>
-	<li>被选择整数的范围是 <code>[1, n]</code> 。</li>
-	<li>每个整数 <strong>至多</strong> 选择 <strong>一次</strong> 。</li>
-	<li>被选择整数不能在数组 <code>banned</code> 中。</li>
-	<li>被选择整数的和不超过 <code>maxSum</code> 。</li>
+	<li>The chosen integers have to be in the range <code>[1, n]</code>.</li>
+	<li>Each integer can be chosen <strong>at most once</strong>.</li>
+	<li>The chosen integers should not be in the array <code>banned</code>.</li>
+	<li>The sum of the chosen integers should not exceed <code>maxSum</code>.</li>
 </ul>
 
-<p>请你返回按照上述规则 <strong>最多</strong> 可以选择的整数数目。</p>
+<p>Return <em>the <strong>maximum</strong> number of integers you can choose following the mentioned rules</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>banned = [1,4,6], n = 6, maxSum = 4
-<strong>输出：</strong>1
-<strong>解释：</strong>你可以选择整数 3 。
-3 在范围 [1, 6] 内，且不在 banned 中，所选整数的和为 3 ，也没有超过 maxSum 。
+<strong>Input:</strong> banned = [1,4,6], n = 6, maxSum = 4
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> You can choose the integer 3.
+3 is in the range [1, 6], and do not appear in banned. The sum of the chosen integers is 3, which does not exceed maxSum.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>banned = [4,3,5,6], n = 7, maxSum = 18
-<strong>输出：</strong>3
-<strong>解释：</strong>你可以选择整数 1, 2&nbsp;和 7 。
-它们都在范围 [1, 7] 中，且都没出现在 banned 中，所选整数的和为 10 ，没有超过 maxSum 。
+<strong>Input:</strong> banned = [4,3,5,6], n = 7, maxSum = 18
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> You can choose the integers 1, 2, and 7.
+All these integers are in the range [1, 7], all do not appear in banned, and their sum is 10, which does not exceed maxSum.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= banned.length &lt;= 10<sup>5</sup></code></li>
@@ -62,17 +57,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：去重 + 排序 + 二分查找
+### Solution 1: Deduplication + Sorting + Binary Search
 
-我们可以在数组 `banned` 中加入 $0$ 和 $n + 1$，将数组 `banned` 去重并排序。
+We can add $0$ and $n + 1$ to the array `banned`, then deduplicate and sort the array `banned`.
 
-接下来，我们枚举数组 `banned` 中的每两个相邻元素 $i$ 和 $j$，那么可选的整数范围就是 $[i + 1, j - 1]$。二分枚举我们在此区间内能够选择的元素个数，找到最大的可选元素个数，然后将其加到 $ans$ 中。同时在 `maxSum` 中减去这些元素的和。如果 `maxSum` 小于 $0$，那么我们跳出循环。返回答案即可。
+Next, we enumerate every two adjacent elements $i$ and $j$ in the array `banned`. The range of selectable integers is $[i + 1, j - 1]$. We use binary search to enumerate the number of elements we can select in this range, find the maximum number of selectable elements, and then add it to $ans$. At the same time, we subtract the sum of these elements from `maxSum`. If `maxSum` is less than $0$, we break the loop. Return the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `banned` 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array `banned`.
 
 <!-- tabs:start -->
 

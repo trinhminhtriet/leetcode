@@ -1,88 +1,74 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1612.Check%20If%20Two%20Expression%20Trees%20are%20Equivalent/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 深度优先搜索
-    - 哈希表
-    - 二叉树
-    - 计数
+    - Tree
+    - Depth-First Search
+    - Hash Table
+    - Binary Tree
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [1612. 检查两棵二叉表达式树是否等价 🔒](https://leetcode.cn/problems/check-if-two-expression-trees-are-equivalent)
+# [1612. Check If Two Expression Trees are Equivalent 🔒](https://leetcode.com/problems/check-if-two-expression-trees-are-equivalent)
 
-[English Version](/solution/1600-1699/1612.Check%20If%20Two%20Expression%20Trees%20are%20Equivalent/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong><a href="https://en.wikipedia.org/wiki/Binary_expression_tree" target="_blank">二叉表达式树</a></strong>是一种表达算术表达式的二叉树。二叉表达式树中的每一个节点都有零个或两个子节点。&nbsp;叶节点（有 0 个子节点的节点）表示操作数，非叶节点（有 2 个子节点的节点）表示运算符。在本题中，我们只考虑 <code>'+'</code> 运算符（即加法）。</p>
+<p>A <strong><a href="https://en.wikipedia.org/wiki/Binary_expression_tree" target="_blank">binary expression tree</a></strong> is a kind of binary tree used to represent arithmetic expressions. Each node of a binary expression tree has either zero or two children. Leaf nodes (nodes with 0 children) correspond to operands (variables), and internal nodes (nodes with two children) correspond to the operators. In this problem, we only consider the <code>&#39;+&#39;</code> operator (i.e. addition).</p>
 
-<p>给定两棵二叉表达式树的根节点&nbsp;<code>root1</code>&nbsp;和&nbsp;<code>root2</code>&nbsp;。<em>如果两棵二叉表达式树等价</em>，返回&nbsp;<code>true</code>&nbsp;，否则返回&nbsp;<code>false</code>&nbsp;。</p>
+<p>You are given the roots of two binary expression trees, <code>root1</code> and <code>root2</code>. Return <code>true</code><em> if the two binary expression trees are equivalent</em>. Otherwise, return <code>false</code>.</p>
 
-<p>当两棵二叉搜索树中的变量取任意值，<strong>分别求得的值都相等</strong>时，我们称这两棵二叉表达式树是等价的。</p>
+<p>Two binary expression trees are equivalent if they <strong>evaluate to the same value</strong> regardless of what the variables are set to.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b> root1 = [x], root2 = [x]
-<b>输出：</b> true
+<strong>Input:</strong> root1 = [x], root2 = [x]
+<strong>Output:</strong> true
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1612.Check%20If%20Two%20Expression%20Trees%20are%20Equivalent/images/tree1.png" style="width: 211px; height: 131px;" /></strong></p>
 
 <pre>
-<b>输入：</b>root1 = [+,a,+,null,null,b,c], root2 = [+,+,a,b,c]
-<b>输出：</b>true
-<code><span style=""><b>解释：</b></span>a + (b + c) == (b + c) + a</code></pre>
+<strong>Input:</strong> root1 = [+,a,+,null,null,b,c], root2 = [+,+,a,b,c]
+<strong>Output:</strong> true
+<strong>Explanation</strong><strong>:</strong> <code>a + (b + c) == (b + c) + a</code></pre>
 
-<p><strong>示例 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1612.Check%20If%20Two%20Expression%20Trees%20are%20Equivalent/images/tree2.png" style="width: 211px; height: 131px;" /></strong></p>
 
 <pre>
-<b>输入：</b> root1 = [+,a,+,null,null,b,c], root2 = [+,+,a,b,d]
-<b>输出：</b> false
-<b>解释：</b> <code>a + (b + c) != (b + d) + a</code>
+<strong>Input:</strong> root1 = [+,a,+,null,null,b,c], root2 = [+,+,a,b,d]
+<strong>Output:</strong> false
+<strong>Explanation</strong><strong>:</strong> <code>a + (b + c) != (b + d) + a</code>
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>两棵树中的节点个数相等，且节点个数为范围&nbsp;<code>[1, 4999]</code>&nbsp;内的奇数。</li>
-	<li><code>Node.val</code>&nbsp;是&nbsp;<code>'+'</code>&nbsp;或小写英文字母。</li>
-	<li>给定的树<strong>保证</strong>是有效的二叉表达式树。</li>
+	<li>The number of nodes in both trees are equal, odd and, in the range <code>[1, 4999]</code>.</li>
+	<li><code>Node.val</code> is <code>&#39;+&#39;</code> or a lower-case English letter.</li>
+	<li>It&#39;s <strong>guaranteed</strong> that the tree given is a valid binary expression tree.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><b>进阶：</b>当你的答案需同时支持&nbsp;<code>'-'</code>&nbsp;运算符（减法）时，你该如何修改你的答案</p>
+<p><strong>Follow up:</strong> What will you change in your solution if the tree also supports the <code>&#39;-&#39;</code> operator (i.e. subtraction)?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
-
-我们定义一个计数器 $cnt$，用于统计每个字母出现的次数。
-
-然后我们分别对两棵二叉表达式树进行深度优先搜索，如果字母出现在左子树，则 $cnt$ 中对应的字母的值加 $1$，如果出现在右子树，则 $cnt$ 中对应的字母的值减 $1$。
-
-最后，我们遍历 $cnt$，如果所有字母的值都为 $0$，则返回 `true`，否则返回 `false`。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉表达式树的节点个数。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -241,7 +227,7 @@ var checkEquivalence = function (root1, root2) {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

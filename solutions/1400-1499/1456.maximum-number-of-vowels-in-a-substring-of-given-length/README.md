@@ -1,91 +1,74 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1456.Maximum%20Number%20of%20Vowels%20in%20a%20Substring%20of%20Given%20Length/README.md
+difficulty: Medium
 rating: 1263
-source: 第 190 场周赛 Q2
+source: Weekly Contest 190 Q2
 tags:
-    - 字符串
-    - 滑动窗口
+    - String
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [1456. 定长子串中元音的最大数目](https://leetcode.cn/problems/maximum-number-of-vowels-in-a-substring-of-given-length)
+# [1456. Maximum Number of Vowels in a Substring of Given Length](https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length)
 
-[English Version](/solution/1400-1499/1456.Maximum%20Number%20of%20Vowels%20in%20a%20Substring%20of%20Given%20Length/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你字符串 <code>s</code> 和整数 <code>k</code> 。</p>
+<p>Given a string <code>s</code> and an integer <code>k</code>, return <em>the maximum number of vowel letters in any substring of </em><code>s</code><em> with length </em><code>k</code>.</p>
 
-<p>请返回字符串 <code>s</code> 中长度为 <code>k</code> 的单个子字符串中可能包含的最大元音字母数。</p>
-
-<p>英文中的 <strong>元音字母 </strong>为（<code>a</code>, <code>e</code>, <code>i</code>, <code>o</code>, <code>u</code>）。</p>
+<p><strong>Vowel letters</strong> in English are <code>&#39;a&#39;</code>, <code>&#39;e&#39;</code>, <code>&#39;i&#39;</code>, <code>&#39;o&#39;</code>, and <code>&#39;u&#39;</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;abciiidef&quot;, k = 3
-<strong>输出：</strong>3
-<strong>解释：</strong>子字符串 &quot;iii&quot; 包含 3 个元音字母。
+<pre>
+<strong>Input:</strong> s = &quot;abciiidef&quot;, k = 3
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The substring &quot;iii&quot; contains 3 vowel letters.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>s = &quot;aeiou&quot;, k = 2
-<strong>输出：</strong>2
-<strong>解释：</strong>任意长度为 2 的子字符串都包含 2 个元音字母。
+<pre>
+<strong>Input:</strong> s = &quot;aeiou&quot;, k = 2
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> Any substring of length 2 contains 2 vowels.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>s = &quot;leetcode&quot;, k = 3
-<strong>输出：</strong>2
-<strong>解释：</strong>&quot;lee&quot;、&quot;eet&quot; 和 &quot;ode&quot; 都包含 2 个元音字母。
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;rhythms&quot;, k = 4
-<strong>输出：</strong>0
-<strong>解释：</strong>字符串 s 中不含任何元音字母。
-</pre>
-
-<p><strong>示例 5：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;tryhard&quot;, k = 4
-<strong>输出：</strong>1
+<pre>
+<strong>Input:</strong> s = &quot;leetcode&quot;, k = 3
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> &quot;lee&quot;, &quot;eet&quot; and &quot;ode&quot; contain 2 vowels.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;= 10^5</code></li>
-	<li><code>s</code> 由小写英文字母组成</li>
+	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>s</code> consists of lowercase English letters.</li>
 	<li><code>1 &lt;= k &lt;= s.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：滑动窗口
+### Solution 1: Sliding Window
 
-我们首先统计前 $k$ 个字符中元音字母的个数，记为 $cnt$，初始化答案 $ans$ 为 $cnt$。
+First, we count the number of vowels in the first $k$ characters, denoted as $cnt$, and initialize the answer $ans$ as $cnt$.
 
-然后我们从 $k$ 开始遍历字符串，每次遍历时，我们将当前字符加入窗口，如果当前字符是元音字母，则 $cnt$ 加一；将窗口第一个字符移出窗口，如果移除的字符是元音字母，则 $cnt$ 减一。然后，我们更新答案 $ans = \max(ans, cnt)$。
+Then we start traversing the string from $k$. For each iteration, we add the current character to the window. If the current character is a vowel, we increment $cnt$. We remove the first character from the window. If the removed character is a vowel, we decrement $cnt$. Then, we update the answer $ans = \max(ans, cnt)$.
 
-遍历结束后，返回答案即可。
+After the traversal, we return the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

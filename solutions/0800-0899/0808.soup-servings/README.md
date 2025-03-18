@@ -1,98 +1,93 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0808.Soup%20Servings/README.md
+difficulty: Medium
 tags:
-    - 数学
-    - 动态规划
-    - 概率与统计
+    - Math
+    - Dynamic Programming
+    - Probability and Statistics
 ---
 
 <!-- problem:start -->
 
-# [808. 分汤](https://leetcode.cn/problems/soup-servings)
+# [808. Soup Servings](https://leetcode.com/problems/soup-servings)
 
-[English Version](/solution/0800-0899/0808.Soup%20Servings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有&nbsp;<strong>A&nbsp;和&nbsp;B 两种类型&nbsp;</strong>的汤。一开始每种类型的汤有&nbsp;<code>n</code>&nbsp;毫升。有四种分配操作：</p>
+<p>There are two types of soup: <strong>type A</strong> and <strong>type B</strong>. Initially, we have <code>n</code> ml of each type of soup. There are four kinds of operations:</p>
 
 <ol>
-	<li>提供 <code>100ml</code> 的 <strong>汤A</strong> 和 <code>0ml</code> 的 <strong>汤B</strong> 。</li>
-	<li>提供 <code>75ml</code> 的 <strong>汤A</strong> 和 <code>25ml</code> 的 <strong>汤B</strong> 。</li>
-	<li>提供 <code>50ml</code> 的 <strong>汤A</strong> 和 <code>50ml</code> 的 <strong>汤B</strong> 。</li>
-	<li>提供 <code>25ml</code> 的 <strong>汤A</strong> 和 <code>75ml</code> 的 <strong>汤B</strong> 。</li>
+	<li>Serve <code>100</code> ml of <strong>soup A</strong> and <code>0</code> ml of <strong>soup B</strong>,</li>
+	<li>Serve <code>75</code> ml of <strong>soup A</strong> and <code>25</code> ml of <strong>soup B</strong>,</li>
+	<li>Serve <code>50</code> ml of <strong>soup A</strong> and <code>50</code> ml of <strong>soup B</strong>, and</li>
+	<li>Serve <code>25</code> ml of <strong>soup A</strong> and <code>75</code> ml of <strong>soup B</strong>.</li>
 </ol>
 
-<p>当我们把汤分配给某人之后，汤就没有了。每个回合，我们将从四种概率同为 <code>0.25</code> 的操作中进行分配选择。如果汤的剩余量不足以完成某次操作，我们将尽可能分配。当两种类型的汤都分配完时，停止操作。</p>
+<p>When we serve some soup, we give it to someone, and we no longer have it. Each turn, we will choose from the four operations with an equal probability <code>0.25</code>. If the remaining volume of soup is not enough to complete the operation, we will serve as much as possible. We stop once we no longer have some quantity of both types of soup.</p>
 
-<p><strong>注意&nbsp;</strong>不存在先分配 <code>100</code> ml <strong>汤B</strong> 的操作。</p>
+<p><strong>Note</strong> that we do not have an operation where all <code>100</code> ml&#39;s of <strong>soup B</strong> are used first.</p>
 
-<p>需要返回的值：&nbsp;<strong>汤A&nbsp;</strong>先分配完的概率 +&nbsp;&nbsp;<strong>汤A和汤B&nbsp;</strong>同时分配完的概率 / 2。返回值在正确答案&nbsp;<code>10<sup>-5</sup></code>&nbsp;的范围内将被认为是正确的。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入:</strong> n = 50
-<strong>输出:</strong> 0.62500
-<strong>解释:</strong>如果我们选择前两个操作<strong>，</strong>A 首先将变为空。
-对于第三个操作，A 和 B 会同时变为空。
-对于第四个操作，B 首先将变为空。<strong>
-</strong>所以 A 变为空的总概率加上 A 和 B 同时变为空的概率的一半是 0.25 *(1 + 1 + 0.5 + 0)= 0.625。
-</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> n = 100
-<strong>输出:</strong> 0.71875
-</pre>
+<p>Return <em>the probability that <strong>soup A</strong> will be empty first, plus half the probability that <strong>A</strong> and <strong>B</strong> become empty at the same time</em>. Answers within <code>10<sup>-5</sup></code> of the actual answer will be accepted.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示:</strong></p>
+<pre>
+<strong>Input:</strong> n = 50
+<strong>Output:</strong> 0.62500
+<strong>Explanation:</strong> If we choose the first two operations, A will become empty first.
+For the third operation, A and B will become empty at the same time.
+For the fourth operation, B will become empty first.
+So the total probability of A becoming empty first plus half the probability that A and B become empty at the same time, is 0.25 * (1 + 1 + 0.5 + 0) = 0.625.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 100
+<strong>Output:</strong> 0.71875
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>0 &lt;= n &lt;= 10<sup>9</sup></code>​​​​​​​</li>
+	<li><code>0 &lt;= n &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-在这道题中，由于每次操作都是 $25$ 的倍数，因此，我们可以将每 $25ml$ 的汤视为一份。这样就能将数据规模缩小到 $\left \lceil \frac{n}{25} \right \rceil$。
+In this problem, since each operation is a multiple of $25$, we can consider every $25ml$ of soup as one unit. This reduces the data scale to $\left \lceil \frac{n}{25} \right \rceil$.
 
-我们设计一个函数 $dfs(i, j)$，表示当前剩余 $i$ 份汤 $A$ 和 $j$ 份汤 $B$ 的结果概率。
+We design a function $dfs(i, j)$, which represents the probability result when there are $i$ units of soup $A$ and $j$ units of soup $B$ remaining.
 
-当 $i \leq 0$ 并且 $j \leq 0$ 时，表示两种汤都分配完了，此时应该返回 $0.5$；当 $i \leq 0$ 时，表示汤 $A$ 先分配完了，此时应该返回 $1$；当 $j \leq 0$ 时，表示汤 $B$ 先分配完了，此时应该返回 $0$。
+When $i \leq 0$ and $j \leq 0$, it means both soups are finished, and we should return $0.5$. When $i \leq 0$, it means soup $A$ is finished first, and we should return $1$. When $j \leq 0$, it means soup $B$ is finished first, and we should return $0$.
 
-接下来，对于每一次操作，我们都有四种选择，即：
+Next, for each operation, we have four choices:
 
--   从 $i$ 份汤 $A$ 中取出 $4$ 份，从 $j$ 份汤 $B$ 中取出 $0$ 份；
--   从 $i$ 份汤 $A$ 中取出 $3$ 份，从 $j$ 份汤 $B$ 中取出 $1$ 份；
--   从 $i$ 份汤 $A$ 中取出 $2$ 份，从 $j$ 份汤 $B$ 中取出 $2$ 份；
--   从 $i$ 份汤 $A$ 中取出 $1$ 份，从 $j$ 份汤 $B$ 中取出 $3$ 份；
+-   Take $4$ units from soup $A$ and $0$ units from soup $B$;
+-   Take $3$ units from soup $A$ and $1$ unit from soup $B$;
+-   Take $2$ units from soup $A$ and $2$ units from soup $B$;
+-   Take $1$ unit from soup $A$ and $3$ units from soup $B$.
 
-每一种选择的概率都是 $0.25$，因此，我们可以得到：
+Each choice has a probability of $0.25$, so we can derive:
 
 $$
 dfs(i, j) = 0.25 \times (dfs(i - 4, j) + dfs(i - 3, j - 1) + dfs(i - 2, j - 2) + dfs(i - 1, j - 3))
 $$
 
-记忆化搜索即可。
+We use memoization to store the results of the function.
 
-另外，我们发现在 $n=4800$ 时，结果为 $0.999994994426$，而题目要求的精度为 $10^{-5}$，并且随着 $n$ 的增大，结果越来越接近 $1$，因此，当 $n \gt 4800$ 时，直接返回 $1$ 即可。
+Additionally, we find that when $n=4800$, the result is $0.999994994426$, and the required precision is $10^{-5}$. As $n$ increases, the result gets closer to $1$. Therefore, when $n \gt 4800$, we can directly return $1$.
 
-时间复杂度 $O(C^2)$，空间复杂度 $O(C^2)$。本题中 $C=200$。
+The time complexity is $O(C^2)$, and the space complexity is $O(C^2)$. In this problem, $C=200$.
 
 <!-- tabs:start -->
 

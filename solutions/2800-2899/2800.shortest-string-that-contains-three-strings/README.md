@@ -1,73 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2800.Shortest%20String%20That%20Contains%20Three%20Strings/README.md
+difficulty: Medium
 rating: 1855
-source: 第 356 场周赛 Q3
+source: Weekly Contest 356 Q3
 tags:
-    - 贪心
-    - 字符串
-    - 枚举
+    - Greedy
+    - String
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [2800. 包含三个字符串的最短字符串](https://leetcode.cn/problems/shortest-string-that-contains-three-strings)
+# [2800. Shortest String That Contains Three Strings](https://leetcode.com/problems/shortest-string-that-contains-three-strings)
 
-[English Version](/solution/2800-2899/2800.Shortest%20String%20That%20Contains%20Three%20Strings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-给你三个字符串&nbsp;<code>a</code>&nbsp;，<code>b</code>&nbsp;和&nbsp;<code>c</code>&nbsp;， 你的任务是找到长度&nbsp;<strong>最短</strong>&nbsp;的字符串，且这三个字符串都是它的 <strong>子字符串</strong>&nbsp;。
+Given three strings <code>a</code>, <code>b</code>, and <code>c</code>, your task is to find a string that has the<strong> minimum</strong> length and contains all three strings as <strong>substrings</strong>.
 
-<p>如果有多个这样的字符串，请你返回 <strong>字典序最小</strong>&nbsp;的一个。</p>
+<p>If there are multiple such strings, return the<em> </em><strong>lexicographically<em> </em>smallest </strong>one.</p>
 
-<p>请你返回满足题目要求的字符串。</p>
+<p>Return <em>a string denoting the answer to the problem.</em></p>
 
-<p><strong>注意：</strong></p>
+<p><strong>Notes</strong></p>
 
 <ul>
-	<li>两个长度相同的字符串 <code>a</code>&nbsp;和 <code>b</code>&nbsp;，如果在第一个不相同的字符处，<code>a</code>&nbsp;的字母在字母表中比 <code>b</code>&nbsp;的字母 <strong>靠前</strong>&nbsp;，那么字符串&nbsp;<code>a</code>&nbsp;比字符串&nbsp;<code>b</code> <strong>字典序小</strong>&nbsp;。</li>
-	<li><strong>子字符串</strong>&nbsp;是一个字符串中一段连续的字符序列。</li>
+	<li>A string <code>a</code> is <strong>lexicographically smaller</strong> than a string <code>b</code> (of the same length) if in the first position where <code>a</code> and <code>b</code> differ, string <code>a</code> has a letter that appears <strong>earlier </strong>in the alphabet than the corresponding letter in <code>b</code>.</li>
+	<li>A <strong>substring</strong> is a contiguous sequence of characters within a string.</li>
 </ul>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<pre>
+<strong>Input:</strong> a = &quot;abc&quot;, b = &quot;bca&quot;, c = &quot;aaa&quot;
+<strong>Output:</strong> &quot;aaabca&quot;
+<strong>Explanation:</strong>  We show that &quot;aaabca&quot; contains all the given strings: a = ans[2...4], b = ans[3..5], c = ans[0..2]. It can be shown that the length of the resulting string would be at least 6 and &quot;aaabca&quot; is the lexicographically smallest one.</pre>
 
-<pre><code><span style=""><b>输入：</b></span>a</code> = "abc", <code>b</code> = "bca", <code>c</code> = "aaa"
-<b>输出：</b>"aaabca"
-<b>解释：</b>字符串 "aaabca" 包含所有三个字符串：a = ans[2...4] ，b = ans[3..5] ，c = ans[0..2] 。结果字符串的长度至少为 6 ，且"aaabca" 是字典序最小的一个。</pre>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>示例 2：</strong></p>
-
-<pre><code><span style=""><b>输入：</b></span>a</code> = "ab", <code>b</code> = "ba", <code>c</code> = "aba"
-<b>输出：</b>"aba"
-<strong>解释：</strong>字符串 "aba" 包含所有三个字符串：a = ans[0..1] ，b = ans[1..2] ，c = ans[0..2] 。由于 c 的长度为 3 ，结果字符串的长度至少为 3 。"aba" 是字典序最小的一个。
+<pre>
+<strong>Input:</strong> a = &quot;ab&quot;, b = &quot;ba&quot;, c = &quot;aba&quot;
+<strong>Output:</strong> &quot;aba&quot;
+<strong>Explanation: </strong>We show that the string &quot;aba&quot; contains all the given strings: a = ans[0..1], b = ans[1..2], c = ans[0..2]. Since the length of c is 3, the length of the resulting string would be at least 3. It can be shown that &quot;aba&quot; is the lexicographically smallest one.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= a.length, b.length, c.length &lt;= 100</code></li>
-	<li><code>a</code>&nbsp;，<code>b</code>&nbsp;，<code>c</code>&nbsp;只包含小写英文字母。</li>
+	<li><code>a</code>, <code>b</code>, <code>c</code> consist only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们枚举三个字符串的所有排列，然后对于每个排列，对三个字符串进行合并，找到最短的且字典序最小的字符串。
+We enumerate all permutations of the three strings, and for each permutation, we merge the three strings to find the shortest string with the smallest lexicographical order.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是三个字符串的长度的最大值。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Where $n$ is the maximum length of the three strings.
 
 <!-- tabs:start -->
 
@@ -290,11 +287,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：枚举 + KMP
+### Solution 2: Enumeration + KMP
 
-我们可以使用 KMP 算法来优化字符串的合并过程。
+We can use the KMP algorithm to optimize the string merging process.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是三个字符串的长度之和。
+Time complexity is $O(n)$, and space complexity is $O(n)$. Here, $n$ is the sum of the lengths of the three strings.
 
 <!-- tabs:start -->
 

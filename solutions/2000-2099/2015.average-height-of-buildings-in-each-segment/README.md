@@ -1,85 +1,83 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2015.Average%20Height%20of%20Buildings%20in%20Each%20Segment/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数组
-    - 排序
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2015. 每段建筑物的平均高度 🔒](https://leetcode.cn/problems/average-height-of-buildings-in-each-segment)
+# [2015. Average Height of Buildings in Each Segment 🔒](https://leetcode.com/problems/average-height-of-buildings-in-each-segment)
 
-[English Version](/solution/2000-2099/2015.Average%20Height%20of%20Buildings%20in%20Each%20Segment/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一条完全笔直的街道由一条数字线表示。街道上有建筑物，由二维整数阵列&nbsp;<code>buildings</code> 表示，其中 <code>buildings[i] = [start<sub>i</sub>, end<sub>i</sub>, height<sub>i</sub>]</code>。这意味着在 <strong>半封闭的位置</strong><code>[starti，endi)</code>&nbsp;有一座高度为&nbsp;<code>height<sub>i</sub></code>&nbsp;的建筑。<br />
-你想用 <strong>最少</strong> 数量的非重叠 <strong>部分</strong> 来 <strong>描述</strong> 街道上建筑物的高度。街道可以用2D整数数组&nbsp;<code>street</code>&nbsp;来表示，其中&nbsp;<code>street[j] = [left<sub>j</sub>, right<sub>j</sub>, average<sub>j</sub>]</code>&nbsp;描述了道路的 <strong>半封闭区域</strong>&nbsp;<code>[left<sub>j</sub>, right<sub>j</sub>)</code>&nbsp;，该段中建筑物的 <strong>平均</strong> 高度为&nbsp;<code>average<sub>j</sub></code> 。</p>
+<p>A perfectly straight street is represented by a number line. The street has building(s) on it and is represented by a 2D integer array <code>buildings</code>, where <code>buildings[i] = [start<sub>i</sub>, end<sub>i</sub>, height<sub>i</sub>]</code>. This means that there is a building with <code>height<sub>i</sub></code> in the <strong>half-closed segment</strong> <code>[start<sub>i</sub>, end<sub>i</sub>)</code>.</p>
+
+<p>You want to <strong>describe</strong> the heights of the buildings on the street with the <strong>minimum</strong> number of non-overlapping <strong>segments</strong>. The street can be represented by the 2D integer array <code>street</code> where <code>street[j] = [left<sub>j</sub>, right<sub>j</sub>, average<sub>j</sub>]</code> describes a <strong>half-closed segment</strong> <code>[left<sub>j</sub>, right<sub>j</sub>)</code> of the road where the <strong>average</strong> heights of the buildings in the<strong> segment</strong> is <code>average<sub>j</sub></code>.</p>
 
 <ul>
-	<li>例如，如果&nbsp;<code>buildings = [[1,5,2],[3,10,4]]</code>&nbsp;，&nbsp;<code>street = [[1,3,2],[3,5,3],[5,10,4]]</code>&nbsp;可以表示街道，因为：
+	<li>For example, if <code>buildings = [[1,5,2],[3,10,4]],</code> the street could be represented by <code>street = [[1,3,2],[3,5,3],[5,10,4]]</code> because:
 
     <ul>
-    	<li>从 1 到 3 ，只有第一栋建筑的平均高度为 <code>2 / 1 = 2</code> 。</li>
-    	<li>从 3 到 5 ，第一和第二栋建筑的平均高度均为&nbsp;<code>（2+4） / 2 = 3 </code>。</li>
-    	<li>从 5 到 10 ，只有第二栋建筑的平均高度为 <code>4 / 1 = 4</code> 。</li>
+    	<li>From 1 to 3, there is only the first building with an average height of <code>2 / 1 = 2</code>.</li>
+    	<li>From 3 to 5, both the first and the second building are there with an average height of <code>(2+4) / 2 = 3</code>.</li>
+    	<li>From 5 to 10, there is only the second building with an average height of <code>4 / 1 = 4</code>.</li>
     </ul>
     </li>
 
 </ul>
 
-<p>给定&nbsp;<code>buildings</code> ，返回如上所述的二维整数矩阵<em>&nbsp;</em><code>street</code><em>&nbsp;</em>（ <strong>不包括</strong> 街道上没有建筑物的任何区域）。您可以按 <strong>任何顺序</strong> 返回数组。<br />
-<code>n</code> 个元素的 <strong>平均值</strong> 是 <code>n</code> 个元素除以&nbsp;<code>n</code> 的 <strong>总和</strong> （<strong>整数除法</strong>）。<br />
-<strong>半闭合段</strong>&nbsp;<code>[a, b)</code>&nbsp;是点&nbsp;<code>a</code>&nbsp;和 <code>b</code> 之间的数字线的截面，<strong>包括</strong> 点 <code>a</code> ，<strong>不包括&nbsp;</strong>点 <code>b</code> 。</p>
+<p>Given <code>buildings</code>, return <em>the 2D integer array </em><code>street</code><em> as described above (<strong>excluding</strong> any areas of the street where there are no buldings). You may return the array in <strong>any order</strong></em>.</p>
+
+<p>The <strong>average</strong> of <code>n</code> elements is the <strong>sum</strong> of the <code>n</code> elements divided (<strong>integer division</strong>) by <code>n</code>.</p>
+
+<p>A <strong>half-closed segment</strong> <code>[a, b)</code> is the section of the number line between points <code>a</code> and <code>b</code> <strong>including</strong> point <code>a</code> and <strong>not including</strong> point <code>b</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例1：</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2015.Average%20Height%20of%20Buildings%20in%20Each%20Segment/images/image-20210921224001-2.png" />
+<p><strong class="example">Example 1:</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2015.Average%20Height%20of%20Buildings%20in%20Each%20Segment/images/image-20210921224001-2.png" style="width: 500px; height: 349px;" />
 <pre>
-<strong>输入:</strong> buildings = [[1,4,2],[3,9,4]]
-<strong>输出:</strong> [[1,3,2],[3,4,3],[4,9,4]]
-<strong>解释:</strong>
-从 1 到 3 ，只有第一栋建筑的平均高度为 2 / 1 = 2。
-从 3 到 4 ，第一和第二栋建筑的平均高度均为（2+4）/ 2 = 3。
-从 4 到 9 ，只有第二栋建筑的平均高度为 4 / 1 = 4。
+<strong>Input:</strong> buildings = [[1,4,2],[3,9,4]]
+<strong>Output:</strong> [[1,3,2],[3,4,3],[4,9,4]]
+<strong>Explanation:</strong>
+From 1 to 3, there is only the first building with an average height of 2 / 1 = 2.
+From 3 to 4, both the first and the second building are there with an average height of (2+4) / 2 = 3.
+From 4 to 9, there is only the second building with an average height of 4 / 1 = 4.
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> buildings = [[1,3,2],[2,5,3],[2,8,3]]
-<strong>输出:</strong> [[1,3,2],[3,8,3]]
-<strong>解释:</strong>
-从 1 到 2 ，只有第一栋建筑的平均高度为 2 / 1 = 2。
-从 2 到 3 ，这三座建筑的平均高度均为 （2+3+3） / 3 = 2。
-从 3 到 5 ，第二和第三栋楼都在那里，平均高度为 （3+3） / 2 = 3。
-从 5 到 8 ，只有最后一栋建筑的平均高度为 3 / 1 = 3。
-从 1 到 3 的平均高度是相同的，所以我们可以把它们分成一个部分。
-从 3 到 8 的平均高度是相同的，所以我们可以把它们分成一个部分。
+<strong>Input:</strong> buildings = [[1,3,2],[2,5,3],[2,8,3]]
+<strong>Output:</strong> [[1,3,2],[3,8,3]]
+<strong>Explanation:</strong>
+From 1 to 2, there is only the first building with an average height of 2 / 1 = 2.
+From 2 to 3, all three buildings are there with an average height of (2+3+3) / 3 = 2.
+From 3 to 5, both the second and the third building are there with an average height of (3+3) / 2 = 3.
+From 5 to 8, there is only the last building with an average height of 3 / 1 = 3.
+The average height from 1 to 3 is the same so we can group them into one segment.
+The average height from 3 to 8 is the same so we can group them into one segment.
 </pre>
 
-<p><strong>示例 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入:</strong> buildings = [[1,2,1],[5,6,1]]
-<strong>输出:</strong> [[1,2,1],[5,6,1]]
-<strong>解释:</strong>
-从 1 到 2 ，只有第一栋建筑的平均高度为 1 / 1 = 1。
-从 2 到 5 ，没有建筑物，因此不包括在输出中。
-从 5 到 6 ，只有第二栋建筑的平均高度为 1 / 1 = 1。
-我们无法将这些部分组合在一起，因为没有建筑的空白空间将这些部分隔开。
+<strong>Input:</strong> buildings = [[1,2,1],[5,6,1]]
+<strong>Output:</strong> [[1,2,1],[5,6,1]]
+<strong>Explanation:</strong>
+From 1 to 2, there is only the first building with an average height of 1 / 1 = 1.
+From 2 to 5, there are no buildings, so it is not included in the output.
+From 5 to 6, there is only the second building with an average height of 1 / 1 = 1.
+We cannot group the segments together because an empty space with no buildings seperates the segments.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= buildings.length &lt;= 10<sup>5</sup></code></li>
@@ -90,21 +88,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：差分思想 + 哈希表
+### Solution 1: Difference Array + Hash Table
 
-我们可以利用差分思想，用一个哈希表 $\textit{cnt}$ 记录每个位置的建筑物数量变化，用另一个哈希表 $\textit{d}$ 记录每个位置的高度变化。
+We can use the difference array concept, utilizing a hash table $\textit{cnt}$ to record the change in the number of buildings at each position, and another hash table $\textit{d}$ to record the change in height at each position.
 
-接下来，我们对哈希表 $\textit{d}$ 按照键值进行排序，用一个变量 $\textit{s}$ 记录当前位置的高度和，用一个变量 $\textit{m}$ 记录当前位置的建筑物数量。
+Next, we sort the hash table $\textit{d}$ by its keys, use a variable $\textit{s}$ to record the current total height, and a variable $\textit{m}$ to record the current number of buildings.
 
-然后遍历哈希表 $\textit{d}$，对于每个位置，如果 $\textit{m}$ 不为 0，说明此前有建筑物，我们计算出平均高度，如果当前位置的建筑物与上个建筑物的平均高度相同，则合并，否则加入结果集。
+Then, we traverse the hash table $\textit{d}$. For each position, if $\textit{m}$ is not 0, it means there are buildings at the previous positions. We calculate the average height. If the average height of the buildings at the current position is the same as that of the previous buildings, we merge them; otherwise, we add the current position to the result set.
 
-最后返回结果集即可。
+Finally, we return the result set.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为建筑物数量。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of buildings.
 
 <!-- tabs:start -->
 

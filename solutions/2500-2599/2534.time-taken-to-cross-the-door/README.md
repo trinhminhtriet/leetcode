@@ -1,101 +1,97 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2534.Time%20Taken%20to%20Cross%20the%20Door/README.md
+difficulty: Hard
 tags:
-    - 队列
-    - 数组
-    - 模拟
+    - Queue
+    - Array
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2534. 通过门的时间 🔒](https://leetcode.cn/problems/time-taken-to-cross-the-door)
+# [2534. Time Taken to Cross the Door 🔒](https://leetcode.com/problems/time-taken-to-cross-the-door)
 
-[English Version](/solution/2500-2599/2534.Time%20Taken%20to%20Cross%20the%20Door/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><code>n</code> 个人，按从 <code>0</code> 到 <code>n - 1</code> 编号。现在有一扇门，每个人只能通过门进入或离开一次，耗时一秒。</p>
+<p>There are <code>n</code> persons numbered from <code>0</code> to <code>n - 1</code> and a door. Each person can enter or exit through the door once, taking one second.</p>
 
-<p>给你一个 <strong>非递减顺序</strong> 排列的整数数组 <code>arrival</code> ，数组长度为 <code>n</code> ，其中 <code>arrival[i]</code> 是第 <code>i</code> 个人到达门前的时间。另给你一个长度为 <code>n</code> 的数组 <code>state</code> ，其中 <code>state[i]</code> 是 <code>0</code> 则表示第 <code>i</code> 个人希望进入这扇门，是 <code>1</code> 则表示 TA 想要离开这扇门。</p>
+<p>You are given a <strong>non-decreasing</strong> integer array <code>arrival</code> of size <code>n</code>, where <code>arrival[i]</code> is the arrival time of the <code>i<sup>th</sup></code> person at the door. You are also given an array <code>state</code> of size <code>n</code>, where <code>state[i]</code> is <code>0</code> if person <code>i</code> wants to enter through the door or <code>1</code> if they want to exit through the door.</p>
 
-<p>如果 <strong>同时</strong> 有两个或更多人想要使用这扇门，则必须遵循以下规则：</p>
+<p>If two or more persons want to use the door at the <strong>same</strong> time, they follow the following rules:</p>
 
 <ul>
-	<li>如果前一秒 <strong>没有</strong> 使用门，那么想要 <strong>离开</strong> 的人会先离开。</li>
-	<li>如果前一秒使用门 <strong>进入</strong> ，那么想要 <strong>进入</strong> 的人会先进入。</li>
-	<li>如果前一秒使用门 <strong>离开</strong> ，那么想要 <strong>离开</strong> 的人会先离开。</li>
-	<li>如果多个人都想朝同一方向走（都进入或都离开），编号最小的人会先通过门。</li>
+	<li>If the door was <strong>not</strong> used in the previous second, then the person who wants to <strong>exit</strong> goes first.</li>
+	<li>If the door was used in the previous second for <strong>entering</strong>, the person who wants to enter goes first.</li>
+	<li>If the door was used in the previous second for <strong>exiting</strong>, the person who wants to <strong>exit</strong> goes first.</li>
+	<li>If multiple persons want to go in the same direction, the person with the <strong>smallest</strong> index goes first.</li>
 </ul>
 
-<p>返回一个长度为 <code>n</code> 的数组<em> </em><code>answer</code><em> </em>，其中<em> </em><code>answer[i]</code><em> </em>是第 <code>i</code> 个人通过门的时刻（秒）。</p>
-<strong>注意：</strong>
+<p>Return <em>an array </em><code>answer</code><em> of size </em><code>n</code><em> where </em><code>answer[i]</code><em> is the second at which the </em><code>i<sup>th</sup></code><em> person crosses the door</em>.</p>
+
+<p><strong>Note</strong> that:</p>
 
 <ul>
-	<li>每秒只有一个人可以通过门。</li>
-	<li>为遵循上述规则，一个人可以在到达门附近后等待，而不通过门进入或离开。</li>
+	<li>Only one person can cross the door at each second.</li>
+	<li>A person may arrive at the door and wait without entering or exiting to follow the mentioned rules.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong>Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>arrival = [0,1,1,2,4], state = [0,1,0,0,1]
-<strong>输出：</strong>[0,3,1,2,4]
-<strong>解释：</strong>每秒发生的情况如下：
-- t = 0 ：第 0 个人是唯一一个想要进入的人，所以 TA 可以直接进入。
-- t = 1 ：第 1 个人想要离开，第 2 个人想要进入。因为前一秒有人使用门进入，所以第 2 个人先进入。
-- t = 2 ：第 1 个人还是想要离开，第 3 个人想要进入。因为前一秒有人使用门进入，所以第 3 个人先进入。
-- t = 3 ：第 1 个人是唯一一个想要离开的人，所以 TA 可以直接离开。
-- t = 4 ：第 4 个人是唯一一个想要进入的人，所以 TA 可以直接离开。
+<strong>Input:</strong> arrival = [0,1,1,2,4], state = [0,1,0,0,1]
+<strong>Output:</strong> [0,3,1,2,4]
+<strong>Explanation:</strong> At each second we have the following:
+- At t = 0: Person 0 is the only one who wants to enter, so they just enter through the door.
+- At t = 1: Person 1 wants to exit, and person 2 wants to enter. Since the door was used the previous second for entering, person 2 enters.
+- At t = 2: Person 1 still wants to exit, and person 3 wants to enter. Since the door was used the previous second for entering, person 3 enters.
+- At t = 3: Person 1 is the only one who wants to exit, so they just exit through the door.
+- At t = 4: Person 4 is the only one who wants to exit, so they just exit through the door.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong>Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>arrival = [0,0,0], state = [1,0,1]
-<strong>输出：</strong>[0,2,1]
-<strong>解释：</strong>每秒发生的情况如下：
-- t = 0 ：第 1 个人想要进入，但是第 0 个人和第 2 个人都想要离开。因为前一秒没有使用门，所以想要离开的人会先离开。又因为第 0 个人的编号更小，所以 TA 先离开。
-- t = 1 ：第 1 个人想要进入，第 2 个人想要离开。因为前一秒有人使用门离开，所以第 2 个人先离开。
-- t = 2 ：第 1 个人是唯一一个想要进入的人，所以 TA 可以直接进入。
+<strong>Input:</strong> arrival = [0,0,0], state = [1,0,1]
+<strong>Output:</strong> [0,2,1]
+<strong>Explanation:</strong> At each second we have the following:
+- At t = 0: Person 1 wants to enter while persons 0 and 2 want to exit. Since the door was not used in the previous second, the persons who want to exit get to go first. Since person 0 has a smaller index, they exit first.
+- At t = 1: Person 1 wants to enter, and person 2 wants to exit. Since the door was used in the previous second for exiting, person 2 exits.
+- At t = 2: Person 1 is the only one who wants to enter, so they just enter through the door.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == arrival.length == state.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= arrival[i] &lt;= n</code></li>
-	<li><code>arrival</code> 按 <strong>非递减顺序</strong> 排列</li>
-	<li><code>state[i]</code> 为 <code>0</code> 或 <code>1</code></li>
+	<li><code>arrival</code> is sorted in <strong>non-decreasing</strong> order.</li>
+	<li><code>state[i]</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：队列 + 模拟
+### Solution 1: Queue + Simulation
 
-我们定义两个队列，其中 $q[0]$ 存放想要进入的人的编号，而 $q[1]$ 存放想要离开的人的编号。
+We define two queues, where $q[0]$ stores the indices of people who want to enter, and $q[1]$ stores the indices of people who want to exit.
 
-我们维护一个时间 $t$，表示当前时间，一个状态 $st$，表示当前门的状态，当 $st = 1$ 表示门没使用或者上一秒有人离开，当 $st = 0$ 表示上一秒有人进入。初始时 $t = 0$，而 $st = 1$。
+We maintain a variable $t$ to represent the current time, and a variable $st$ to represent the current state of the door. When $st = 1$, it means the door is not in use or someone exited in the previous second. When $st = 0$, it means someone entered in the previous second. Initially, $t = 0$ and $st = 1$.
 
-我们遍历数组 $\textit{arrival}$，对于每个人，如果当前时间 $t$ 小于等于该人到达门前的时间 $arrival[i]$，我们将该人的编号加入对应的队列 $q[\text{state}[i]]$ 中。
+We traverse the array $\textit{arrival}$. For each person, if the current time $t$ is less than or equal to the time the person arrives at the door $\textit{arrival}[i]$, we add the person's index to the corresponding queue $q[\text{state}[i]]$.
 
-然后我们判断当前队列 $q[0]$ 和 $q[1]$ 是否都不为空，如果都不为空，我们将 $q[st]$ 队列的队首元素出队，并将当前时间 $t$ 赋值给该人的通过时间；如果只有一个队列不为空，我们根据哪个队列不为空，更新 $st$ 的值，然后将该队列的队首元素出队，并将当前时间 $t$ 赋值给该人的通过时间；如果两个队列都为空，我们将 $st$ 的值更新为 $1$，表示门没使用。
+Then we check if both queues $q[0]$ and $q[1]$ are not empty. If both are not empty, we dequeue the front element from the queue $q[st]$ and assign the current time $t$ to the person's passing time. If only one queue is not empty, we update the value of $st$ based on which queue is not empty, then dequeue the front element from that queue and assign the current time $t$ to the person's passing time. If both queues are empty, we update the value of $st$ to $1$, indicating the door is not in use.
 
-接下来，我们将时间 $t$ 自增 $1$，继续遍历数组 $\textit{arrival}$，直到所有人都通过门。
+Next, we increment the time $t$ by $1$ and continue traversing the array $\textit{arrival}$ until all people have passed through the door.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 表示数组 $\textit{arrival}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ represents the length of the array $\textit{arrival}$.
 
 <!-- tabs:start -->
 

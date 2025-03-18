@@ -1,61 +1,57 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2955.Number%20of%20Same-End%20Substrings/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
-    - 计数
-    - 前缀和
+    - Array
+    - Hash Table
+    - String
+    - Counting
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [2955. 同端子串的数量 🔒](https://leetcode.cn/problems/number-of-same-end-substrings)
+# [2955. Number of Same-End Substrings 🔒](https://leetcode.com/problems/number-of-same-end-substrings)
 
-[English Version](/solution/2900-2999/2955.Number%20of%20Same-End%20Substrings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个 <strong>下标从0开始</strong>&nbsp;的字符串 <code>s</code>，以及一个二维整数数组 <code>queries</code>，其中 <code>queries[i] = [l<sub>i</sub>, r<sub>i</sub>]</code> 表示 <code>s</code> 中从索引 <code>l<sub>i</sub></code> 开始到索引 <code>r<sub>i</sub></code> 结束的子串（<strong>包括两端</strong>），即 <code>s[l<sub>i</sub>..r<sub>i</sub>]</code>。</p>
+<p>You are given a <strong>0-indexed</strong> string <code>s</code>, and a 2D array of integers <code>queries</code>, where <code>queries[i] = [l<sub>i</sub>, r<sub>i</sub>]</code> indicates a substring of <code>s</code> starting from the index <code>l<sub>i</sub></code> and ending at the index <code>r<sub>i</sub></code> (both <strong>inclusive</strong>), i.e. <code>s[l<sub>i</sub>..r<sub>i</sub>]</code>.</p>
 
-<p>返回一个数组 <code>ans</code>，其中 <code>ans[i]</code> 是 <code>queries[i]</code> 的 <strong>同端</strong> 子串的数量。</p>
+<p>Return <em>an array </em><code>ans</code><em> where</em> <code>ans[i]</code> <em>is the number of <strong>same-end</strong> substrings of</em> <code>queries[i]</code>.</p>
 
-<p>如果一个&nbsp;<strong>下标从0开始 </strong>且长度为 <code>n</code> 的字符串 <code>t</code> 两端的字符相同，即 <code>t[0] == t[n - 1]</code>，则该字符串被称为 <strong>同端</strong>。</p>
+<p>A <strong>0-indexed</strong> string <code>t</code> of length <code>n</code> is called <strong>same-end</strong> if it has the same character at both of its ends, i.e., <code>t[0] == t[n - 1]</code>.</p>
 
-<p><strong>子串</strong> 是一个字符串中连续的非空字符序列。</p>
+<p>A <b>substring</b> is a contiguous non-empty sequence of characters within a string.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1：</b></p>
-
-<pre>
-<b>输入：</b>s = "abcaab", queries = [[0,0],[1,4],[2,5],[0,5]]
-<b>输出：</b>[1,5,5,10]
-<b>解释：</b>每个查询的同端子串如下：
-第一个查询：s[0..0] 是 "a"，有 1 个同端子串："<strong><u>a</u></strong>"。
-第二个查询：s[1..4] 是 "bcaa"，有 5 个同端子串："<strong><u>b</u></strong>caa", "b<strong><u>c</u></strong>aa", "bc<strong><u>a</u></strong>a", "bca<strong><u>a</u></strong>", "bc<strong><u>aa</u></strong>"。
-第三个查询：s[2..5] 是 "caab"，有 5 个同端子串："<strong><u>c</u></strong>aab", "c<strong><u>a</u></strong>ab", "ca<strong><u>a</u></strong>b", "caa<strong><u>b</u></strong>", "c<strong><u>aa</u></strong>b"。
-第四个查询：s[0..5] 是 "abcaab"，有 10 个同端子串："<strong><u>a</u></strong>bcaab", "a<strong><u>b</u></strong>caab", "ab<strong><u>c</u></strong>aab", "abc<strong><u>a</u></strong>ab", "abca<strong><u>a</u></strong>b", "abcaa<strong><u>b</u></strong>", "abc<strong><u>aa</u></strong>b", "<strong><u>abca</u></strong>ab", "<strong><u>abcaa</u></strong>b", "a<strong><u>bcaab</u></strong>"。</pre>
-
-<p><b>示例 2：</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>s = "abcd", queries = [[0,3]]
-<b>输出：</b>[4]
-<b>解释：</b>唯一的查询是 s[0..3]，它有 4 个同端子串："<strong><u>a</u></strong>bcd", "a<strong><u>b</u></strong>cd", "ab<strong><u>c</u></strong>d", "abc<strong><u>d</u></strong>"。
+<strong>Input:</strong> s = &quot;abcaab&quot;, queries = [[0,0],[1,4],[2,5],[0,5]]
+<strong>Output:</strong> [1,5,5,10]
+<strong>Explanation:</strong> Here is the same-end substrings of each query:
+1<sup>st</sup> query: s[0..0] is &quot;a&quot; which has 1 same-end substring: &quot;<strong><u>a</u></strong>&quot;.
+2<sup>nd</sup> query: s[1..4] is &quot;bcaa&quot; which has 5 same-end substrings: &quot;<strong><u>b</u></strong>caa&quot;, &quot;b<strong><u>c</u></strong>aa&quot;, &quot;bc<strong><u>a</u></strong>a&quot;, &quot;bca<strong><u>a</u></strong>&quot;, &quot;bc<strong><u>aa</u></strong>&quot;.
+3<sup>rd</sup> query: s[2..5] is &quot;caab&quot; which has 5 same-end substrings: &quot;<strong><u>c</u></strong>aab&quot;, &quot;c<strong><u>a</u></strong>ab&quot;, &quot;ca<strong><u>a</u></strong>b&quot;, &quot;caa<strong><u>b</u></strong>&quot;, &quot;c<strong><u>aa</u></strong>b&quot;.
+4<sup>th</sup> query: s[0..5] is &quot;abcaab&quot; which has 10 same-end substrings: &quot;<strong><u>a</u></strong>bcaab&quot;, &quot;a<strong><u>b</u></strong>caab&quot;, &quot;ab<strong><u>c</u></strong>aab&quot;, &quot;abc<strong><u>a</u></strong>ab&quot;, &quot;abca<strong><u>a</u></strong>b&quot;, &quot;abcaa<strong><u>b</u></strong>&quot;, &quot;abc<strong><u>aa</u></strong>b&quot;, &quot;<strong><u>abca</u></strong>ab&quot;, &quot;<strong><u>abcaa</u></strong>b&quot;, &quot;a<strong><u>bcaab</u></strong>&quot;.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;abcd&quot;, queries = [[0,3]]
+<strong>Output:</strong> [4]
+<strong>Explanation:</strong> The only query is s[0..3] which is &quot;abcd&quot;. It has 4 same-end substrings: &quot;<strong><u>a</u></strong>bcd&quot;, &quot;a<strong><u>b</u></strong>cd&quot;, &quot;ab<strong><u>c</u></strong>d&quot;, &quot;abc<strong><u>d</u></strong>&quot;.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= s.length &lt;= 3 * 10<sup>4</sup></code></li>
-	<li><code>s</code> 仅包含小写英文字母。</li>
+	<li><code>s</code> consists only of lowercase English letters.</li>
 	<li><code>1 &lt;= queries.length &lt;= 3 * 10<sup>4</sup></code></li>
 	<li><code>queries[i] = [l<sub>i</sub>, r<sub>i</sub>]</code></li>
 	<li><code>0 &lt;= l<sub>i</sub> &lt;= r<sub>i</sub> &lt; s.length</code></li>
@@ -63,15 +59,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和 + 枚举
+### Solution 1: Prefix Sum + Enumeration
 
-我们可以预处理出每个字母的前缀和，记录在数组 $cnt$ 中，其中 $cnt[i][j]$ 表示第 $i$ 个字母在前 $j$ 个字符中出现的次数。这样，对于每个区间 $[l, r]$，我们可以枚举区间中的每个字母 $c$，利用前缀和数组快速计算出 $c$ 在区间中出现的次数 $x$，我们任取其中两个，即可组成一个同尾子串，子串数为 $C_x^2=\frac{x(x-1)}{2}$，加上区间中每个字母可以单独组成同尾子串的情况，一共有 $r - l + 1$ 个字母。因此，对于每个查询 $[l, r]$，满足条件的同尾子串数为 $r - l + 1 + \sum_{c \in \Sigma} \frac{x_c(x_c-1)}{2}$，其中 $x_c$ 表示字母 $c$ 在区间 $[l, r]$ 中出现的次数。
+We can preprocess the prefix sum for each letter and record it in the array $cnt$, where $cnt[i][j]$ represents the number of times the $i$-th letter appears in the first $j$ characters. In this way, for each interval $[l, r]$, we can enumerate each letter $c$ in the interval, quickly calculate the number of times $c$ appears in the interval $x$ using the prefix sum array. We can arbitrarily choose two of them to form a tail-equal substring, the number of substrings is $C_x^2=\frac{x(x-1)}{2}$, plus the situation where each letter in the interval can form a tail-equal substring alone, there are $r - l + 1$ letters in total. Therefore, for each query $[l, r]$, the number of tail-equal substrings that meet the conditions is $r - l + 1 + \sum_{c \in \Sigma} \frac{x_c(x_c-1)}{2}$, where $x_c$ represents the number of times the letter $c$ appears in the interval $[l, r]$.
 
-时间复杂度 $O((n + m) \times |\Sigma|)$，空间复杂度 $O(n \times |\Sigma|)$。其中 $n$ 和 $m$ 分别为字符串 $s$ 的长度和查询数，而 $\Sigma$ 表示字符串 $s$ 中出现的字母集合，本题中 $|\Sigma|=26$。
+The time complexity is $O((n + m) \times |\Sigma|)$, and the space complexity is $O(n \times |\Sigma|)$. Here, $n$ and $m$ are the lengths of the string $s$ and the number of queries, respectively, and $\Sigma$ represents the set of letters appearing in the string $s$, in this problem $|\Sigma|=26$.
 
 <!-- tabs:start -->
 

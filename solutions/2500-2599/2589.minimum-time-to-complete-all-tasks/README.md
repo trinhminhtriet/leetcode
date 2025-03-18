@@ -1,60 +1,57 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2589.Minimum%20Time%20to%20Complete%20All%20Tasks/README.md
+difficulty: Hard
 rating: 2380
-source: 第 336 场周赛 Q4
+source: Weekly Contest 336 Q4
 tags:
-    - 栈
-    - 贪心
-    - 数组
-    - 二分查找
-    - 排序
+    - Stack
+    - Greedy
+    - Array
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2589. 完成所有任务的最少时间](https://leetcode.cn/problems/minimum-time-to-complete-all-tasks)
+# [2589. Minimum Time to Complete All Tasks](https://leetcode.com/problems/minimum-time-to-complete-all-tasks)
 
-[English Version](/solution/2500-2599/2589.Minimum%20Time%20to%20Complete%20All%20Tasks/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有一台电脑，它可以 <strong>同时</strong>&nbsp;运行无数个任务。给你一个二维整数数组&nbsp;<code>tasks</code>&nbsp;，其中&nbsp;<code>tasks[i] = [start<sub>i</sub>, end<sub>i</sub>, duration<sub>i</sub>]</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;个任务需要在 <strong>闭区间</strong>&nbsp;时间段&nbsp;<code>[start<sub>i</sub>, end<sub>i</sub>]</code>&nbsp;内运行&nbsp;<code>duration<sub>i</sub></code>&nbsp;个整数时间点（但不需要连续）。</p>
+<p>There is a computer that can run an unlimited number of tasks <strong>at the same time</strong>. You are given a 2D integer array <code>tasks</code> where <code>tasks[i] = [start<sub>i</sub>, end<sub>i</sub>, duration<sub>i</sub>]</code> indicates that the <code>i<sup>th</sup></code> task should run for a total of <code>duration<sub>i</sub></code> seconds (not necessarily continuous) within the <strong>inclusive</strong> time range <code>[start<sub>i</sub>, end<sub>i</sub>]</code>.</p>
 
-<p>当电脑需要运行任务时，你可以打开电脑，如果空闲时，你可以将电脑关闭。</p>
+<p>You may turn on the computer only when it needs to run a task. You can also turn it off if it is idle.</p>
 
-<p>请你返回完成所有任务的情况下，电脑最少需要运行多少秒。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>tasks = [[2,3,1],[4,5,1],[1,5,2]]
-<b>输出：</b>2
-<b>解释：</b>
-- 第一个任务在闭区间 [2, 2] 运行。
-- 第二个任务在闭区间 [5, 5] 运行。
-- 第三个任务在闭区间 [2, 2] 和 [5, 5] 运行。
-电脑总共运行 2 个整数时间点。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>tasks = [[1,3,2],[2,5,3],[5,6,2]]
-<b>输出：</b>4
-<b>解释：</b>
-- 第一个任务在闭区间 [2, 3] 运行
-- 第二个任务在闭区间 [2, 3] 和 [5, 5] 运行。
-- 第三个任务在闭区间 [5, 6] 运行。
-电脑总共运行 4 个整数时间点。
-</pre>
+<p>Return <em>the minimum time during which the computer should be turned on to complete all tasks</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> tasks = [[2,3,1],[4,5,1],[1,5,2]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 
+- The first task can be run in the inclusive time range [2, 2].
+- The second task can be run in the inclusive time range [5, 5].
+- The third task can be run in the two inclusive time ranges [2, 2] and [5, 5].
+The computer will be on for a total of 2 seconds.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> tasks = [[1,3,2],[2,5,3],[5,6,2]]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> 
+- The first task can be run in the inclusive time range [2, 3].
+- The second task can be run in the inclusive time ranges [2, 3] and [5, 5].
+- The third task can be run in the two inclusive time range [5, 6].
+The computer will be on for a total of 4 seconds.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= tasks.length &lt;= 2000</code></li>
@@ -65,21 +62,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 排序
+### Solution 1: Greedy + Sorting
 
-我们观察发现，题目相当于在每一个区间 $[start,..,end]$ 中，选择 $duration$ 个整数时间点，使得总共选择的整数时间点最少。
+We observe that the problem is equivalent to selecting $duration$ integer time points in each interval $[start,..,end]$, so that the total number of selected integer time points is minimized.
 
-因此，我们可以先对 $tasks$ 按照结束时间 $end$ 从小到大排序。然后贪心地进行选择，对于每一个任务，我们从结束时间 $end$ 开始，从后往前选择尽可能靠后的点，这样这些点更有可能被后面的任务重复利用。
+Therefore, we can first sort $tasks$ in ascending order of end time $end$. Then we greedily make selections. For each task, we start from the end time $end$ and choose the points as late as possible from back to front. This way, these points are more likely to be reused by later tasks.
 
-我们在实现上，可以用一个长度为 $2010$ 的数组 $vis$ 记录每个时间点是否被选择过。然后对于每一个任务，我们先统计 $[start,..,end]$ 区间内已经被选择过的点的个数 $cnt$，然后从后往前选择 $duration - cnt$ 个点，同时记录选择的点的个数 $ans$ 以及更新 $vis$ 数组。
+In our implementation, we can use an array $vis$ of length $2010$ to record whether each time point has been selected. Then for each task, we first count the number of points $cnt$ that have been selected in the interval $[start,..,end]$, and then select $duration - cnt$ points from back to front, while recording the number of selected points $ans$ and updating the $vis$ array.
 
-最后，我们返回 $ans$ 即可。
+Finally, we return $ans$.
 
-时间复杂度 $O(n \times \log n + n \times m)$，空间复杂度 $O(m)$。其中 $n$ 和 $m$ 分别为 $tasks$ 的长度和 $vis$ 数组的长度。本题中 $m = 2010$。
+The time complexity is $O(n \times \log n + n \times m)$, and the space complexity is $O(m)$. Here, $n$ and $m$ are the lengths of $tasks$ and $vis$ array, respectively. In this problem, $m = 2010$.
 
 <!-- tabs:start -->
 

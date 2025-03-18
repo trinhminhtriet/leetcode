@@ -1,60 +1,56 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2600.K%20Items%20With%20the%20Maximum%20Sum/README.md
+difficulty: Easy
 rating: 1434
-source: 第 338 场周赛 Q1
+source: Weekly Contest 338 Q1
 tags:
-    - 贪心
-    - 数学
+    - Greedy
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [2600. K 件物品的最大和](https://leetcode.cn/problems/k-items-with-the-maximum-sum)
+# [2600. K Items With the Maximum Sum](https://leetcode.com/problems/k-items-with-the-maximum-sum)
 
-[English Version](/solution/2600-2699/2600.K%20Items%20With%20the%20Maximum%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>袋子中装有一些物品，每个物品上都标记着数字 <code>1</code> 、<code>0</code> 或 <code>-1</code> 。</p>
+<p>There is a bag that consists of items, each item&nbsp;has a number <code>1</code>, <code>0</code>, or <code>-1</code> written on it.</p>
 
-<p>给你四个非负整数 <code>numOnes</code> 、<code>numZeros</code> 、<code>numNegOnes</code> 和 <code>k</code> 。</p>
+<p>You are given four <strong>non-negative </strong>integers <code>numOnes</code>, <code>numZeros</code>, <code>numNegOnes</code>, and <code>k</code>.</p>
 
-<p>袋子最初包含：</p>
+<p>The bag initially contains:</p>
 
 <ul>
-	<li><code>numOnes</code> 件标记为 <code>1</code> 的物品。</li>
-	<li><code>numZeros</code> 件标记为 <code>0</code> 的物品。</li>
-	<li><code>numNegOnes</code> 件标记为 <code>-1</code> 的物品。</li>
+	<li><code>numOnes</code> items with <code>1</code>s written on them.</li>
+	<li><code>numZeroes</code> items with <code>0</code>s written on them.</li>
+	<li><code>numNegOnes</code> items with <code>-1</code>s written on them.</li>
 </ul>
 
-<p>现计划从这些物品中恰好选出 <code>k</code> 件物品。返回所有可行方案中，物品上所标记数字之和的最大值。</p>
+<p>We want to pick exactly <code>k</code> items among the available items. Return <em>the <strong>maximum</strong> possible sum of numbers written on the items</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>numOnes = 3, numZeros = 2, numNegOnes = 0, k = 2
-<strong>输出：</strong>2
-<strong>解释：</strong>袋子中的物品分别标记为 {1, 1, 1, 0, 0} 。取 2 件标记为 1 的物品，得到的数字之和为 2 。
-可以证明 2 是所有可行方案中的最大值。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>numOnes = 3, numZeros = 2, numNegOnes = 0, k = 4
-<strong>输出：</strong>3
-<strong>解释：</strong>袋子中的物品分别标记为 {1, 1, 1, 0, 0} 。取 3 件标记为 1 的物品，1 件标记为 0 的物品，得到的数字之和为 3 。
-可以证明 3 是所有可行方案中的最大值。
+<strong>Input:</strong> numOnes = 3, numZeros = 2, numNegOnes = 0, k = 2
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> We have a bag of items with numbers written on them {1, 1, 1, 0, 0}. We take 2 items with 1 written on them and get a sum in a total of 2.
+It can be proven that 2 is the maximum possible sum.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> numOnes = 3, numZeros = 2, numNegOnes = 0, k = 4
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We have a bag of items with numbers written on them {1, 1, 1, 0, 0}. We take 3 items with 1 written on them, and 1 item with 0 written on it, and get a sum in a total of 3.
+It can be proven that 3 is the maximum possible sum.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= numOnes, numZeros, numNegOnes &lt;= 50</code></li>
@@ -63,21 +59,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
-
-根据题目描述，我们应该尽可能多地取标记为 $1$ 的物品，然后取标记为 $0$ 的物品，最后取标记为 $-1$ 的物品。
-
-因此：
-
--   如果袋子中的物品标记为 $1$ 的数量大于等于 $k$，那么取 $k$ 件物品，数字之和为 $k$；
--   如果袋子中的物品标记为 $1$ 的数量小于 $k$，那么取 $numOnes$ 件物品，数字之和为 $numOnes$；如果标记为 $0$ 的物品数量大于等于 $k - numOnes$，那么再取 $k - numOnes$ 件物品，数字之和还是 $numOnes$；
--   否则，我们再从标记为 $-1$ 的物品中取 $k - numOnes - numZeros$ 件物品，数字之和为 $numOnes - (k - numOnes - numZeros)$。
-
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 

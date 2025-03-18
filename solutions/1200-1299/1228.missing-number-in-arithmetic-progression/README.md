@@ -1,72 +1,67 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1228.Missing%20Number%20In%20Arithmetic%20Progression/README.md
+difficulty: Easy
 rating: 1244
-source: 第 11 场双周赛 Q1
+source: Biweekly Contest 11 Q1
 tags:
-    - 数组
-    - 数学
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [1228. 等差数列中缺失的数字 🔒](https://leetcode.cn/problems/missing-number-in-arithmetic-progression)
+# [1228. Missing Number In Arithmetic Progression 🔒](https://leetcode.com/problems/missing-number-in-arithmetic-progression)
 
-[English Version](/solution/1200-1299/1228.Missing%20Number%20In%20Arithmetic%20Progression/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在某个数组&nbsp;<code>arr</code>&nbsp;中，值符合等差数列的数值规律：在&nbsp;<code>0 &lt;= i &lt; arr.length - 1</code>&nbsp;的前提下，<code>arr[i+1] - arr[i]</code>&nbsp;的值都相等。</p>
+<p>In some array <code>arr</code>, the values were in arithmetic progression: the values <code>arr[i + 1] - arr[i]</code> are all equal for every <code>0 &lt;= i &lt; arr.length - 1</code>.</p>
 
-<p>我们会从该数组中删除一个 <strong>既不是第一个 </strong>也<strong>&nbsp;不是最后一个的值</strong>，得到一个新的数组&nbsp;&nbsp;<code>arr</code>。</p>
+<p>A value from <code>arr</code> was removed that <strong>was not the first or last value in the array</strong>.</p>
 
-<p>给你这个缺值的数组&nbsp;<code>arr</code>，返回 <em>被删除的那个数</em> 。</p>
+<p>Given <code>arr</code>, return <em>the removed value</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [5,7,11,13]
-<strong>输出：</strong>9
-<strong>解释：</strong>原来的数组是 [5,7,<strong>9</strong>,11,13]。
+<strong>Input:</strong> arr = [5,7,11,13]
+<strong>Output:</strong> 9
+<strong>Explanation:</strong> The previous array was [5,7,<strong>9</strong>,11,13].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [15,13,12]
-<strong>输出：</strong>14
-<strong>解释：</strong>原来的数组是 [15,<strong>14</strong>,13,12]。</pre>
+<strong>Input:</strong> arr = [15,13,12]
+<strong>Output:</strong> 14
+<strong>Explanation:</strong> The previous array was [15,<strong>14</strong>,13,12].</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= arr.length &lt;= 1000</code></li>
 	<li><code>0 &lt;= arr[i] &lt;= 10<sup>5</sup></code></li>
-	<li>给定的数组 <strong>保证</strong> 是一个有效的数组。</li>
+	<li>The given array is <strong>guaranteed</strong> to be a valid array.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：等差数列求和公式
+### Solution 1: Arithmetic Series Sum Formula
 
-等差数列求和公式为 $\frac{(a_1 + a_n)n}{2}$，其中 $n$ 为等差数列的项数，等差数列的首项为 $a_1$，末项为 $a_n$。
+The sum formula for an arithmetic series is $\frac{(a_1 + a_n)n}{2}$, where $n$ is the number of terms in the arithmetic series, the first term is $a_1$, and the last term is $a_n$.
 
-因为题目中给出的数组是一个等差数列，且缺失了一个数，所以数组的项数为 $n + 1$，首项为 $a_1$，末项为 $a_n$，则数组的和为 $\frac{(a_1 + a_n)(n + 1)}{2}$。
+Since the array given in the problem is an arithmetic series with one missing number, the number of terms in the array is $n + 1$, the first term is $a_1$, and the last term is $a_n$. Therefore, the sum of the array is $\frac{(a_1 + a_n)(n + 1)}{2}$.
 
-因此，缺失的数为 $\frac{(a_1 + a_n)(n + 1)}{2} - \sum_{i = 0}^n a_i$。
+Thus, the missing number is $\frac{(a_1 + a_n)(n + 1)}{2} - \sum_{i = 0}^n a_i$.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -135,15 +130,15 @@ function missingNumber(arr: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二：求公差 + 遍历
+### Solution 2: Find Common Difference + Traverse
 
-因为题目中给出的数组是一个等差数列，且缺失了一个数，首项为 $a_1$，末项为 $a_n$，那么公差 $d = \frac{a_n - a_1}{n}$。
+Since the array given in the problem is an arithmetic series with one missing number, the first term is $a_1$, and the last term is $a_n$. The common difference $d$ is $\frac{a_n - a_1}{n}$.
 
-遍历数组，如果 $a_i \neq a_{i - 1} + d$，则返回 $a_{i - 1} + d$。
+Traverse the array, and if $a_i \neq a_{i - 1} + d$, then return $a_{i - 1} + d$.
 
-如果遍历完数组都没有找到缺失的数，说明数组的所有数都相等，直接返回数组的第一个数即可。
+If the traversal completes without finding the missing number, it means all numbers in the array are equal. In this case, directly return the first number of the array.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

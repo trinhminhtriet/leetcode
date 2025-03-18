@@ -1,60 +1,71 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2021.Brightest%20Position%20on%20Street/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 有序集合
-    - 前缀和
-    - 排序
+    - Array
+    - Ordered Set
+    - Prefix Sum
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2021. 街上最亮的位置 🔒](https://leetcode.cn/problems/brightest-position-on-street)
+# [2021. Brightest Position on Street 🔒](https://leetcode.com/problems/brightest-position-on-street)
 
-[English Version](/solution/2000-2099/2021.Brightest%20Position%20on%20Street/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一条街上有很多的路灯，路灯的坐标由数组&nbsp;<code>lights&nbsp;</code>的形式给出。&nbsp;每个&nbsp;<code>lights[i] = [position<sub>i</sub>, range<sub>i</sub>]</code>&nbsp;代表坐标为&nbsp;<code>position<sub>i</sub></code>&nbsp;的路灯照亮的范围为&nbsp;<code>[position<sub>i</sub> - range<sub>i</sub>, position<sub>i</sub> + range<sub>i</sub>]</code>&nbsp;<strong>（包括顶点）。</strong></p>
+<p>A perfectly straight street is represented by a number line. The street has street lamp(s) on it and is represented by a 2D integer array <code>lights</code>. Each <code>lights[i] = [position<sub>i</sub>, range<sub>i</sub>]</code> indicates that there is a street lamp at position <code>position<sub>i</sub></code> that lights up the area from <code>[position<sub>i</sub> - range<sub>i</sub>, position<sub>i</sub> + range<sub>i</sub>]</code> (<strong>inclusive</strong>).</p>
 
-<p>位置&nbsp;<code>p</code>&nbsp;的亮度由能够照到&nbsp;<code>p</code>的路灯的数量来决定的。</p>
+<p>The <strong>brightness</strong> of a position <code>p</code> is defined as the number of street lamp that light up the position <code>p</code>.</p>
 
-<p>给出&nbsp;<code>lights</code>, 返回<strong>最亮</strong>的位置&nbsp;。如果有很多，返回坐标最小的。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2021.Brightest%20Position%20on%20Street/images/image-20210928155140-1.png" style="width: 700px; height: 165px;">
-<pre><strong>输入:</strong> lights = [[-3,2],[1,2],[3,3]]
-<strong>输出:</strong> -1
-<strong>解释:</strong>
-第一个路灯照亮的范围是[(-3) - 2, (-3) + 2] = [-5, -1].
-第二个路灯照亮的范围是 [1 - 2, 1 + 2] = [-1, 3].
-第三个路灯照亮的范围是 [3 - 3, 3 + 3] = [0, 6].
-
-坐标-1被第一个和第二个路灯照亮，亮度为2
-坐标0，1，2都被第二个和第三个路灯照亮，亮度为2.
-对于以上坐标，-1最小，所以返回-1</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入:</strong> lights = [[1,0],[0,1]]
-<strong>输出:</strong> 1
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入:</strong> lights = [[1,2]]
-<strong>输出:</strong> -1
-</pre>
+<p>Given <code>lights</code>, return <em>the <strong>brightest</strong> position on the</em><em> street. If there are multiple brightest positions, return the <strong>smallest</strong> one.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2021.Brightest%20Position%20on%20Street/images/image-20210928155140-1.png" style="width: 700px; height: 165px;" />
+<pre>
+<strong>Input:</strong> lights = [[-3,2],[1,2],[3,3]]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong>
+The first street lamp lights up the area from [(-3) - 2, (-3) + 2] = [-5, -1].
+The second street lamp lights up the area from [1 - 2, 1 + 2] = [-1, 3].
+The third street lamp lights up the area from [3 - 3, 3 + 3] = [0, 6].
 
-<p><strong>提示:</strong></p>
+Position -1 has a brightness of 2, illuminated by the first and second street light.
+Positions 0, 1, 2, and 3 have a brightness of 2, illuminated by the second and third street light.
+Out of all these positions, -1 is the smallest, so return it.
+
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> lights = [[1,0],[0,1]]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong>
+The first street lamp lights up the area from [1 - 0, 1 + 0] = [1, 1].
+The second street lamp lights up the area from [0 - 1, 0 + 1] = [-1, 1].
+
+Position 1 has a brightness of 2, illuminated by the first and second street light.
+Return 1 because it is the brightest position on the street.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> lights = [[1,2]]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong>
+The first street lamp lights up the area from [1 - 2, 1 + 2] = [-1, 3].
+
+Positions -1, 0, 1, 2, and 3 have a brightness of 1, illuminated by the first street light.
+Out of all these positions, -1 is the smallest, so return it.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= lights.length &lt;= 10<sup>5</sup></code></li>
@@ -65,19 +76,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：差分数组 + 哈希表 + 排序
+### Solution 1: Difference Array + Hash Table + Sorting
 
-我们可以将每个路灯照亮的范围看作是一个区间，区间左端点 $l = position_i - range_i$，区间右端点 $r = position_i + range_i$。我们可以利用差分数组的思想，对于每个区间 $[l, r]$，将位置 $l$ 的值加 $1$，将位置 $r + 1$ 的值减 $1$，用哈希表维护每个位置的变化值。
+We can consider the range illuminated by each street light as an interval, with the left endpoint $l = position_i - range_i$ and the right endpoint $r = position_i + range_i$. We can use the idea of a difference array. For each interval $[l, r]$, we add $1$ to the value at position $l$ and subtract $1$ from the value at position $r + 1$. We use a hash table to maintain the change value at each position.
 
-然后从小到大遍历每个位置，计算当前位置的亮度 $s$，如果此前的最大亮度 $mx \lt s$，则更新最大亮度 $mx = s$，并记录当前位置 $ans = i$。
+Then we traverse each position in ascending order, calculate the brightness $s$ at the current position. If the previous maximum brightness $mx < s$, then update the maximum brightness $mx = s$ and record the current position $ans = i$.
 
-最后返回 $ans$ 即可。
+Finally, return $ans$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为 $lights$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of `lights`.
 
 <!-- tabs:start -->
 

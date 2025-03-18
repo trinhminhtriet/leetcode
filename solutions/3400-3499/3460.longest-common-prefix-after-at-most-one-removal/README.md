@@ -1,103 +1,98 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3460.Longest%20Common%20Prefix%20After%20at%20Most%20One%20Removal/README.md
+difficulty: Medium
 tags:
-    - 双指针
-    - 字符串
+    - Two Pointers
+    - String
 ---
 
 <!-- problem:start -->
 
-# [3460. 最多删除一次后的最长公共前缀 🔒](https://leetcode.cn/problems/longest-common-prefix-after-at-most-one-removal)
+# [3460. Longest Common Prefix After at Most One Removal 🔒](https://leetcode.com/problems/longest-common-prefix-after-at-most-one-removal)
 
-[English Version](/solution/3400-3499/3460.Longest%20Common%20Prefix%20After%20at%20Most%20One%20Removal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个字符串&nbsp;<code>s</code> 和&nbsp;<code>t</code>。</p>
+<p>You are given two strings <code>s</code> and <code>t</code>.</p>
 
-<p>返回从&nbsp;<code>s</code>&nbsp;<strong>最多 </strong>删除一个字母后，<code>s</code> 和&nbsp;<code>t</code>&nbsp;的 <strong>最长公共 <span data-keyword="string-prefix">前缀</span></strong>&nbsp;的 <strong>长度</strong>。</p>
+<p>Return the <strong>length</strong> of the <strong>longest common <span data-keyword="string-prefix">prefix</span></strong> between <code>s</code> and <code>t</code> after removing <strong>at most</strong> one character from <code>s</code>.</p>
 
-<p><strong>注意：</strong>可以保留<strong>&nbsp;</strong><code>s</code>&nbsp;而不做任何删除。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "madxa", t = "madam"</span></p>
-
-<p><strong>输出：</strong><span class="example-io">4</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>从&nbsp;<code>s</code>&nbsp;删除&nbsp;<code>s[3]</code>&nbsp;得到&nbsp;<code>"mada"</code>，与 <code>t</code>&nbsp;的最长公共前缀长度为 4。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "leetcode", t = "eetcode"</span></p>
-
-<p><span class="example-io"><b>输出：</b>7</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>从&nbsp;<code>s</code>&nbsp;删除&nbsp;<code>s[0]</code>&nbsp;得到&nbsp;<code>"eetcode"</code>，与&nbsp;<code>t</code>&nbsp;匹配。</p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "one", t = "one"</span></p>
-
-<p><span class="example-io"><b>输出：</b>3</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>不需要删除。</p>
-</div>
-
-<p><strong class="example">示例 4：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "a", t = "b"</span></p>
-
-<p><span class="example-io"><b>输出：</b>0</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p><code>s</code>&nbsp;和&nbsp;<code>t</code>&nbsp;不可能有公共前缀。</p>
-</div>
+<p><strong>Note:</strong> <code>s</code> can be left without any removal.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;madxa&quot;, t = &quot;madam&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>Removing <code>s[3]</code> from <code>s</code> results in <code>&quot;mada&quot;</code>, which has a longest common prefix of length 4 with <code>t</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;leetcode&quot;, t = &quot;eetcode&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">7</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>Removing <code>s[0]</code> from <code>s</code> results in <code>&quot;eetcode&quot;</code>, which matches <code>t</code>.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;one&quot;, t = &quot;one&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>No removal is needed.</p>
+</div>
+
+<p><strong class="example">Example 4:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;a&quot;, t = &quot;b&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p><code>s</code> and <code>t</code> cannot have a common prefix.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= t.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code> 和&nbsp;<code>t</code>&nbsp;只包含小写英文字母。</li>
+	<li><code>s</code> and <code>t</code> contain only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1: Two Pointers
 
-我们记录字符串 $s$ 和 $t$ 的长度分别为 $n$ 和 $m$，然后用两个指针 $i$ 和 $j$ 分别指向字符串 $s$ 和 $t$ 的开头，用一个布尔变量 $\textit{rem}$ 记录是否已经删除过字符。
+We record the lengths of the strings $s$ and $t$ as $n$ and $m$, respectively. Then, we use two pointers $i$ and $j$ to point to the beginning of the strings $s$ and $t$, and use a boolean variable $\textit{rem}$ to record whether a character has been removed.
 
-接下来，我们开始遍历字符串 $s$ 和 $t$，如果 $s[i]$ 不等于 $t[j]$，我们就判断是否已经删除过字符，如果已经删除过字符，我们就退出循环，否则我们标记已经删除过字符，然后跳过 $s[i]$；否则，我们跳过 $s[i]$ 和 $t[j]$。继续遍历，直到 $i \geq n$ 或 $j \geq m$。
+Next, we start traversing the strings $s$ and $t$. If $s[i]$ is not equal to $t[j]$, we check if a character has already been removed. If a character has been removed, we exit the loop; otherwise, we mark that a character has been removed and skip $s[i]$. Otherwise, we skip both $s[i]$ and $t[j]$. Continue traversing until $i \geq n$ or $j \geq m$.
 
-最后返回 $j$ 即可。
+Finally, return $j$.
 
-时间复杂度 $O(n+m)$，其中 $n$ 和 $m$ 分别是字符串 $s$ 和 $t$ 的长度。
+The time complexity is $O(n+m)$, where $n$ and $m$ are the lengths of the strings $s$ and $t$, respectively.
 
 <!-- tabs:start -->
 

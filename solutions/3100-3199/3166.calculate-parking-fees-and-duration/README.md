@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3166.Calculate%20Parking%20Fees%20and%20Duration/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3166. 计算停车费与时长 🔒](https://leetcode.cn/problems/calculate-parking-fees-and-duration)
+# [3166. Calculate Parking Fees and Duration 🔒](https://leetcode.com/problems/calculate-parking-fees-and-duration)
 
-[English Version](/solution/3100-3199/3166.Calculate%20Parking%20Fees%20and%20Duration/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>ParkingTransactions</code></p>
+<p>Table: <code>ParkingTransactions</code></p>
 
 <pre>
 +--------------+-----------+
@@ -28,26 +25,25 @@ tags:
 | exit_time    | datetime  |
 | fee_paid     | decimal   |
 +--------------+-----------+
-(lot_id, car_id, entry_time) 是这张表的主键（有不同值的列的组合）。
-这张表的每一行包含停车场的 ID，车的 ID，入场和出场时间，以及停车时长的支付费用。
+(lot_id, car_id, entry_time) is the primary key (combination of columns with unique values) for this table.
+Each row of this table contains the ID of the parking lot, the ID of the car, the entry and exit times, and the fee paid for the parking duration.
 </pre>
 
-<p>编写一个解决方案来找到 <strong>所有停车场</strong>&nbsp;中每辆车支付的 <strong>总停车费</strong>，以及 <strong>每</strong> 辆车支付的&nbsp;<strong>每小时平均费用</strong>（舍入到&nbsp;<code>2</code> 位小数）。同时，找到每辆车 <strong>总花费时间</strong> 最多的 <strong>停车场</strong>。</p>
+<p>Write a solution to find the <strong>total parking fee</strong> paid by each car <strong>across all parking lots</strong>, and the <strong>average hourly fee</strong> (rounded to <code>2</code> decimal places) paid by <strong>each</strong> car. Also, find the <strong>parking lot</strong> where each car spent the <strong>most total time</strong>.</p>
 
-<p>返回结果表以<em>&nbsp;</em><code>car_id</code><em><b>&nbsp;升序 </b>排序。</em></p>
+<p>Return <em>the result table ordered by </em><code>car_id</code><em><b> </b>in<b> ascending </b></em><em> order.</em></p>
 
-<p><strong>注意：</strong>测试用例的生成方式使得单辆汽车不能同时位于多个停车场。</p>
+<p><strong>Note:</strong> Test cases are generated in such a way that an individual car cannot be in multiple parking lots at the same time.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p>ParkingTransactions 表：</p>
+<p>ParkingTransactions table:</p>
 
 <pre class="example-io">
 +--------+--------+---------------------+---------------------+----------+
@@ -62,7 +58,7 @@ tags:
 +--------+--------+---------------------+---------------------+----------+
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +--------+----------------+----------------+---------------+
@@ -73,39 +69,39 @@ tags:
 +--------+----------------+----------------+---------------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>对于汽车 ID 1001：
+	<li>For car ID 1001:
 	<ul>
-		<li>从 2023-06-01 08:00:00 到 2023-06-01 10:30:00 在停车场&nbsp;1：2.5 小时，费用&nbsp;5.00</li>
-		<li>从 2023-06-02 11:00:00 到 2023-06-02 12:45:00 在停车场 1：1.75 小时，费用 3.00</li>
-		<li>从 2023-06-01 10:45:00 到 2023-06-01 12:00:00 在停车场 2：1.25 小时，费用 6.00</li>
-		<li>从 2023-06-03 07:00:00 到 2023-06-03 09:00:00 在停车场 3：2 小时，费用 4.00</li>
+		<li>From 2023-06-01 08:00:00 to 2023-06-01 10:30:00 in lot 1: 2.5 hours, fee 5.00</li>
+		<li>From 2023-06-02 11:00:00 to 2023-06-02 12:45:00 in lot 1: 1.75 hours, fee 3.00</li>
+		<li>From 2023-06-01 10:45:00 to 2023-06-01 12:00:00 in lot 2: 1.25 hours, fee 6.00</li>
+		<li>From 2023-06-03 07:00:00 to 2023-06-03 09:00:00 in lot 3: 2 hours, fee 4.00</li>
 	</ul>
-	总共支付费用：18.00，总小时：7.5，每小时平均费用：2.40，停车场 1 总花费时间最长：4.25&nbsp;小时。</li>
-	<li>对于汽车 ID 1002：
+	Total fee paid: 18.00, total hours: 7.5, average hourly fee: 2.40, most time spent in lot 1: 4.25 hours.</li>
+	<li>For car ID 1002:
 	<ul>
-		<li>从 2023-06-01 09:00:00 到 2023-06-01 11:30:00 在停车场 2：2.5 小时，费用 4.00</li>
-		<li>从 2023-06-02 12:00:00 到 2023-06-02 14:00:00 在停车场 3：2 小时，费用 2.00</li>
+		<li>From 2023-06-01 09:00:00 to 2023-06-01 11:30:00 in lot 2: 2.5 hours, fee 4.00</li>
+		<li>From 2023-06-02 12:00:00 to 2023-06-02 14:00:00 in lot 3: 2 hours, fee 2.00</li>
 	</ul>
-	总共支付费用：6.00，总小时：4.5，每小时平均费用：1.33，停车场 2 总花费时间最长：2.5 小时。</li>
+	Total fee paid: 6.00, total hours: 4.5, average hourly fee: 1.33, most time spent in lot 2: 2.5 hours.</li>
 </ul>
 
-<p><b>注意：</b>&nbsp;输出表以 car_id 升序排序。</p>
+<p><b>Note:</b> Output table is ordered by car_id in ascending order.</p>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组 + 连接
+### Solution 1: Grouping + Joining
 
-我们可以先按照 `car_id` 和 `lot_id` 进行分组，计算每辆车在每个停车场的停车时长，然后利用 `RANK()` 函数对每辆车在每个停车场的停车时长进行排名，找到每辆车在停车时长最长的停车场。
+We can first group by `car_id` and `lot_id` to calculate the parking duration for each car in each parking lot. Then, we use the `RANK()` function to rank the parking duration of each car in each parking lot to find the parking lot where each car has the longest parking duration.
 
-最后，我们可以根据 `car_id` 进行分组，计算每辆车的总停车费、每小时平均费用和停车时长最长的停车场。
+Finally, we can group by `car_id` to calculate the total parking fee, average hourly fee, and the parking lot with the longest parking duration for each car.
 
 <!-- tabs:start -->
 

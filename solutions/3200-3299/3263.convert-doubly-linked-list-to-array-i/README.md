@@ -1,75 +1,70 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3263.Convert%20Doubly%20Linked%20List%20to%20Array%20I/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 链表
-    - 双向链表
+    - Array
+    - Linked List
+    - Doubly-Linked List
 ---
 
 <!-- problem:start -->
 
-# [3263. 将双链表转换为数组 I 🔒](https://leetcode.cn/problems/convert-doubly-linked-list-to-array-i)
+# [3263. Convert Doubly Linked List to Array I 🔒](https://leetcode.com/problems/convert-doubly-linked-list-to-array-i)
 
-[English Version](/solution/3200-3299/3263.Convert%20Doubly%20Linked%20List%20to%20Array%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个 <strong>双链表&nbsp;</strong>的&nbsp;<code>head</code>&nbsp;节点，其中的节点具有指向下一个节点的指针和上一个节点的指针。</p>
+<p>You are given the <code>head</code> of a <strong>doubly linked list</strong>, which contains nodes that have a next pointer and a previous pointer.</p>
 
-<p>返回一个 <strong>按顺序</strong> 包含链表中元素的整数数组。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>head = [1,2,3,4,3,2,1]</span></p>
-
-<p><span class="example-io"><b>输出：</b>[1,2,3,4,3,2,1]</span></p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>head = [2,2,2,2,2]</span></p>
-
-<p><span class="example-io"><b>输出：</b>[2,2,2,2,2]</span></p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>head = [3,2,3,2,3,2]</span></p>
-
-<p><span class="example-io"><b>输出：</b>[3,2,3,2,3,2]</span></p>
-</div>
+<p>Return an integer array which contains the elements of the linked list <strong>in order</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><b>提示：</b></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">head = [1,2,3,4,3,2,1]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[1,2,3,4,3,2,1]</span></p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">head = [2,2,2,2,2]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[2,2,2,2,2]</span></p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">head = [3,2,3,2,3,2]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[3,2,3,2,3,2]</span></p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>给定链表中节点的数量在&nbsp;<code>[1, 50]</code>&nbsp;范围。</li>
+	<li>The number of nodes in the given list is in the range <code>[1, 50]</code>.</li>
 	<li><code>1 &lt;= Node.val &lt;= 50</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：直接遍历
+### Solution 1: Direct Traversal
 
-我们可以直接遍历链表，将节点的值依次添加到答案数组 $\textit{ans}$ 中。
+We can directly traverse the linked list, adding the values of the nodes to the answer array $\textit{ans}$ one by one.
 
-遍历结束后，返回答案数组 $\textit{ans}$ 即可。
+After the traversal is complete, return the answer array $\textit{ans}$.
 
-时间复杂度 $O(n)$，其中 $n$ 为链表的长度。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the linked list. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

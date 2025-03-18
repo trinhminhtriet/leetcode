@@ -1,99 +1,94 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3217.Delete%20Nodes%20From%20Linked%20List%20Present%20in%20Array/README.md
+difficulty: Medium
 rating: 1341
-source: 第 406 场周赛 Q2
+source: Weekly Contest 406 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 链表
+    - Array
+    - Hash Table
+    - Linked List
 ---
 
 <!-- problem:start -->
 
-# [3217. 从链表中移除在数组中存在的节点](https://leetcode.cn/problems/delete-nodes-from-linked-list-present-in-array)
+# [3217. Delete Nodes From Linked List Present in Array](https://leetcode.com/problems/delete-nodes-from-linked-list-present-in-array)
 
-[English Version](/solution/3200-3299/3217.Delete%20Nodes%20From%20Linked%20List%20Present%20in%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 和一个链表的头节点 <code>head</code>。从链表中<strong>移除</strong>所有存在于 <code>nums</code> 中的节点后，返回修改后的链表的头节点。</p>
+<p>You are given an array of integers <code>nums</code> and the <code>head</code> of a linked list. Return the <code>head</code> of the modified linked list after <strong>removing</strong> all nodes from the linked list that have a value that exists in <code>nums</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [1,2,3], head = [1,2,3,4,5]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3], head = [1,2,3,4,5]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">[4,5]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[4,5]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3217.Delete%20Nodes%20From%20Linked%20List%20Present%20in%20Array/images/linkedlistexample0.png" style="width: 400px; height: 66px;" /></strong></p>
 
-<p>移除数值为 1, 2 和 3 的节点。</p>
+<p>Remove the nodes with values 1, 2, and 3.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [1], head = [1,2,1,2,1,2]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1], head = [1,2,1,2,1,2]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">[2,2,2]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[2,2,2]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3217.Delete%20Nodes%20From%20Linked%20List%20Present%20in%20Array/images/linkedlistexample1.png" style="height: 62px; width: 450px;" /></p>
 
-<p>移除数值为 1 的节点。</p>
+<p>Remove the nodes with value 1.</p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">nums = [5], head = [1,2,3,4]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [5], head = [1,2,3,4]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">[1,2,3,4]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[1,2,3,4]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3217.Delete%20Nodes%20From%20Linked%20List%20Present%20in%20Array/images/linkedlistexample2.png" style="width: 400px; height: 83px;" /></strong></p>
 
-<p>链表中不存在值为 5 的节点。</p>
+<p>No node has value 5.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
-	<li><code>nums</code> 中的所有元素都是唯一的。</li>
-	<li>链表中的节点数在 <code>[1, 10<sup>5</sup>]</code> 的范围内。</li>
+	<li>All elements in <code>nums</code> are unique.</li>
+	<li>The number of nodes in the given list is in the range <code>[1, 10<sup>5</sup>]</code>.</li>
 	<li><code>1 &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
-	<li>输入保证链表中至少有一个值没有在&nbsp;<code>nums</code> 中出现过。</li>
+	<li>The input is generated such that there is at least one node in the linked list that has a value not present in <code>nums</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们可以使用一个哈希表 $\textit{s}$ 来存储数组 $\textit{nums}$ 中的所有元素，然后定义一个虚拟节点 $\textit{dummy}$，将其指向链表的头节点 $\textit{head}$。
+We can use a hash table $\textit{s}$ to store all the elements in the array $\textit{nums}$. Then, we define a dummy node $\textit{dummy}$ and point it to the head node of the list $\textit{head}$.
 
-接下来，我们遍历从虚拟节点 $\textit{dummy}$ 开始的链表，如果当前节点的下一个节点的值在哈希表 $\textit{s}$ 中，我们就将当前节点的指针指向下下个节点，否则我们就将当前节点指针指向下一个节点。
+Next, we traverse the list starting from the dummy node $\textit{dummy}$. If the value of the next node of the current node is in the hash table $\textit{s}$, we make the current node point to the next next node; otherwise, we move the current node pointer to the next node.
 
-最后，我们返回虚拟节点 $\textit{dummy}$ 的下一个节点。
+Finally, we return the next node of the dummy node $\textit{dummy}$.
 
-时间复杂度 $O(n + m)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度，而 $m$ 为链表 $\textit{head}$ 的长度。
+The time complexity is $O(n + m)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$, and $m$ is the length of the list $\textit{head}$.
 
 <!-- tabs:start -->
 

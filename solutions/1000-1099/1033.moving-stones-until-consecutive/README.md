@@ -1,78 +1,74 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1033.Moving%20Stones%20Until%20Consecutive/README.md
+difficulty: Medium
 rating: 1421
-source: 第 134 场周赛 Q1
+source: Weekly Contest 134 Q1
 tags:
-    - 脑筋急转弯
-    - 数学
+    - Brainteaser
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [1033. 移动石子直到连续](https://leetcode.cn/problems/moving-stones-until-consecutive)
+# [1033. Moving Stones Until Consecutive](https://leetcode.com/problems/moving-stones-until-consecutive)
 
-[English Version](/solution/1000-1099/1033.Moving%20Stones%20Until%20Consecutive/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>三枚石子放置在数轴上，位置分别为 <code>a</code>，<code>b</code>，<code>c</code>。</p>
+<p>There are three stones in different positions on the X-axis. You are given three integers <code>a</code>, <code>b</code>, and <code>c</code>, the positions of the stones.</p>
 
-<p>每一回合，你可以从两端之一拿起一枚石子（位置最大或最小），并将其放入两端之间的任一空闲位置。形式上，假设这三枚石子当前分别位于位置 <code>x, y, z</code> 且 <code>x < y < z</code>。那么就可以从位置 <code>x</code> 或者是位置 <code>z</code> 拿起一枚石子，并将该石子移动到某一整数位置 <code>k</code> 处，其中 <code>x < k < z</code> 且 <code>k != y</code>。</p>
+<p>In one move, you pick up a stone at an endpoint (i.e., either the lowest or highest position stone), and move it to an unoccupied position between those endpoints. Formally, let&#39;s say the stones are currently at positions <code>x</code>, <code>y</code>, and <code>z</code> with <code>x &lt; y &lt; z</code>. You pick up the stone at either position <code>x</code> or position <code>z</code>, and move that stone to an integer position <code>k</code>, with <code>x &lt; k &lt; z</code> and <code>k != y</code>.</p>
 
-<p>当你无法进行任何移动时，即，这些石子的位置连续时，游戏结束。</p>
+<p>The game ends when you cannot make any more moves (i.e., the stones are in three consecutive positions).</p>
 
-<p>要使游戏结束，你可以执行的最小和最大移动次数分别是多少？ 以长度为 2 的数组形式返回答案：<code>answer = [minimum_moves, maximum_moves]</code></p>
+<p>Return <em>an integer array </em><code>answer</code><em> of length </em><code>2</code><em> where</em>:</p>
 
-<p> </p>
+<ul>
+	<li><code>answer[0]</code> <em>is the minimum number of moves you can play, and</em></li>
+	<li><code>answer[1]</code> <em>is the maximum number of moves you can play</em>.</li>
+</ul>
 
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>a = 1, b = 2, c = 5
-<strong>输出：</strong>[1, 2]
-<strong>解释：</strong>将石子从 5 移动到 4 再移动到 3，或者我们可以直接将石子移动到 3。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>a = 4, b = 3, c = 2
-<strong>输出：</strong>[0, 0]
-<strong>解释：</strong>我们无法进行任何移动。
+<strong>Input:</strong> a = 1, b = 2, c = 5
+<strong>Output:</strong> [1,2]
+<strong>Explanation:</strong> Move the stone from 5 to 3, or move the stone from 5 to 4 to 3.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> a = 4, b = 3, c = 2
+<strong>Output:</strong> [0,0]
+<strong>Explanation:</strong> We cannot make any moves.
+</pre>
 
-<ol>
-	<li><code>1 <= a <= 100</code></li>
-	<li><code>1 <= b <= 100</code></li>
-	<li><code>1 <= c <= 100</code></li>
-	<li><code>a != b, b != c, c != a</code></li>
-</ol>
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> a = 3, b = 5, c = 1
+<strong>Output:</strong> [1,2]
+<strong>Explanation:</strong> Move the stone from 1 to 4; or move the stone from 1 to 2 to 4.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= a, b, c &lt;= 100</code></li>
+	<li><code>a</code>, <code>b</code>, and <code>c</code> have different values.</li>
+</ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分类讨论
-
-我们先将 $a, b, c$ 排序，记为 $x, y, z$，即 $x \lt y \lt z$。
-
-接下来分情况讨论：
-
-1. 如果 $z - x \leq 2$，说明 $3$ 个数已经相邻，不用移动，结果为 $[0, 0]$；
-1. 否则，如果 $y - x \lt 3$，或者 $z - y \lt 3$，说明有两个数只间隔一个位置，我们只需要把另一个数移动到这两个数的中间，最小移动次数为 $1$；其他情况，最小移动次数为 $2$；
-1. 最大移动次数就是两边的数字逐个往中间靠，最多移动 $z - x - 2$ 次。
-
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 

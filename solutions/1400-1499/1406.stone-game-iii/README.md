@@ -1,97 +1,93 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1406.Stone%20Game%20III/README.md
+difficulty: Hard
 rating: 2026
-source: 第 183 场周赛 Q4
+source: Weekly Contest 183 Q4
 tags:
-    - 数组
-    - 数学
-    - 动态规划
-    - 博弈
+    - Array
+    - Math
+    - Dynamic Programming
+    - Game Theory
 ---
 
 <!-- problem:start -->
 
-# [1406. 石子游戏 III](https://leetcode.cn/problems/stone-game-iii)
+# [1406. Stone Game III](https://leetcode.com/problems/stone-game-iii)
 
-[English Version](/solution/1400-1499/1406.Stone%20Game%20III/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>Alice 和 Bob 继续他们的石子游戏。几堆石子 <strong>排成一行</strong> ，每堆石子都对应一个得分，由数组 <code>stoneValue</code> 给出。</p>
+<p>Alice and Bob continue their games with piles of stones. There are several stones <strong>arranged in a row</strong>, and each stone has an associated value which is an integer given in the array <code>stoneValue</code>.</p>
 
-<p>Alice 和 Bob 轮流取石子，<strong>Alice</strong> 总是先开始。在每个玩家的回合中，该玩家可以拿走剩下石子中的的前 <strong>1、2 或 3 堆石子</strong> 。比赛一直持续到所有石头都被拿走。</p>
+<p>Alice and Bob take turns, with Alice starting first. On each player&#39;s turn, that player can take <code>1</code>, <code>2</code>, or <code>3</code> stones from the <strong>first</strong> remaining stones in the row.</p>
 
-<p>每个玩家的最终得分为他所拿到的每堆石子的对应得分之和。每个玩家的初始分数都是 <strong>0</strong> 。</p>
+<p>The score of each player is the sum of the values of the stones taken. The score of each player is <code>0</code> initially.</p>
 
-<p>比赛的目标是决出最高分，得分最高的选手将会赢得比赛，比赛也可能会出现平局。</p>
+<p>The objective of the game is to end with the highest score, and the winner is the player with the highest score and there could be a tie. The game continues until all the stones have been taken.</p>
 
-<p>假设 Alice 和 Bob 都采取 <strong>最优策略</strong> 。</p>
+<p>Assume Alice and Bob <strong>play optimally</strong>.</p>
 
-<p>如果 Alice 赢了就返回 <code>"Alice"</code> <em>，</em>Bob 赢了就返回<em> </em><code>"Bob"</code><em>，</em>分数相同返回 <code>"Tie"</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>values = [1,2,3,7]
-<strong>输出：</strong>"Bob"
-<strong>解释：</strong>Alice 总是会输，她的最佳选择是拿走前三堆，得分变成 6 。但是 Bob 的得分为 7，Bob 获胜。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>values = [1,2,3,-9]
-<strong>输出：</strong>"Alice"
-<strong>解释：</strong>Alice 要想获胜就必须在第一个回合拿走前三堆石子，给 Bob 留下负分。
-如果 Alice 只拿走第一堆，那么她的得分为 1，接下来 Bob 拿走第二、三堆，得分为 5 。之后 Alice 只能拿到分数 -9 的石子堆，输掉比赛。
-如果 Alice 拿走前两堆，那么她的得分为 3，接下来 Bob 拿走第三堆，得分为 3 。之后 Alice 只能拿到分数 -9 的石子堆，同样会输掉比赛。
-注意，他们都应该采取 <strong>最优策略 </strong>，所以在这里 Alice 将选择能够使她获胜的方案。</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>values = [1,2,3,6]
-<strong>输出：</strong>"Tie"
-<strong>解释：</strong>Alice 无法赢得比赛。如果她决定选择前三堆，她可以以平局结束比赛，否则她就会输。
-</pre>
+<p>Return <code>&quot;Alice&quot;</code><em> if Alice will win, </em><code>&quot;Bob&quot;</code><em> if Bob will win, or </em><code>&quot;Tie&quot;</code><em> if they will end the game with the same score</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> stoneValue = [1,2,3,7]
+<strong>Output:</strong> &quot;Bob&quot;
+<strong>Explanation:</strong> Alice will always lose. Her best move will be to take three piles and the score become 6. Now the score of Bob is 7 and Bob wins.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> stoneValue = [1,2,3,-9]
+<strong>Output:</strong> &quot;Alice&quot;
+<strong>Explanation:</strong> Alice must choose all the three piles at the first move to win and leave Bob with negative score.
+If Alice chooses one pile her score will be 1 and the next move Bob&#39;s score becomes 5. In the next move, Alice will take the pile with value = -9 and lose.
+If Alice chooses two piles her score will be 3 and the next move Bob&#39;s score becomes 3. In the next move, Alice will take the pile with value = -9 and also lose.
+Remember that both play optimally so here Alice will choose the scenario that makes her win.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> stoneValue = [1,2,3,6]
+<strong>Output:</strong> &quot;Tie&quot;
+<strong>Explanation:</strong> Alice cannot win this game. She can end the game in a draw if she decided to choose all the first three piles, otherwise she will lose.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= stoneValue.length &lt;= 5 * 10<sup>4</sup></code></li>
-	<li><code>-1000&nbsp;&lt;= stoneValue[i] &lt;= 1000</code></li>
+	<li><code>-1000 &lt;= stoneValue[i] &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们设计一个函数 $dfs(i)$，表示当前玩家在 $[i, n)$ 范围内进行游戏时，可以获得的最大得分差值。如果 $dfs(0) \gt 0$，则表示先手玩家 Alice 可以获胜；如果 $dfs(0) \lt 0$，则表示后手玩家 Bob 可以获胜；否则，表示两人打成平局。
+We design a function $dfs(i)$, which represents the maximum score difference that the current player can obtain when playing the game in the range $[i, n)$. If $dfs(0) > 0$, it means that the first player Alice can win; if $dfs(0) < 0$, it means that the second player Bob can win; otherwise, it means that the two players tie.
 
-函数 $dfs(i)$ 的执行逻辑如下：
+The execution logic of the function $dfs(i)$ is as follows:
 
--   如果 $i \geq n$，说明当前没有石子可以拿了，直接返回 $0$ 即可；
--   否则，我们枚举当前玩家拿走前 $j+1$ 堆石子，其中 $j \in \{0, 1, 2\}$，那么另一个玩家在下一轮可以获得的得分差值为 $dfs(i + j + 1)$，从而当前玩家可以获得的得分差值为 $\sum_{k=i}^{i+j} stoneValue[k] - dfs(i + j + 1)$。我们要使得当前玩家的得分差值最大，因此可以用 $\max$ 函数得到最大得分差值，即：
+-   If $i \geq n$, it means that there are no stones to take now, so we can directly return $0$;
+-   Otherwise, we enumerate that the current player takes the first $j+1$ piles of stones, where $j \in \{0, 1, 2\}$. Then the score difference that the other player can get in the next round is $dfs(i + j + 1)$, so the score difference that the current player can get is $\sum_{k=i}^{i+j} stoneValue[k] - dfs(i + j + 1)$. We want to maximize the score difference of the current player, so we can use the $\max$ function to get the maximum score difference, that is:
 
 $$
 dfs(i) = \max_{j \in \{0, 1, 2\}} \left\{\sum_{k=i}^{i+j} stoneValue[k] - dfs(i + j + 1)\right\}
 $$
 
-为了防止重复计算，我们可以使用记忆化搜索。
+To prevent repeated calculations, we can use memoization search.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是石子的堆数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the number of piles of stones.
 
 <!-- tabs:start -->
 

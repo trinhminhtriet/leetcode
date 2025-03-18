@@ -1,174 +1,169 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3376.Minimum%20Time%20to%20Break%20Locks%20I/README.md
+difficulty: Medium
 rating: 1793
-source: 第 145 场双周赛 Q2
+source: Biweekly Contest 145 Q2
 tags:
-    - 位运算
-    - 深度优先搜索
-    - 数组
-    - 动态规划
-    - 回溯
-    - 状态压缩
+    - Bit Manipulation
+    - Depth-First Search
+    - Array
+    - Dynamic Programming
+    - Backtracking
+    - Bitmask
 ---
 
 <!-- problem:start -->
 
-# [3376. 破解锁的最少时间 I](https://leetcode.cn/problems/minimum-time-to-break-locks-i)
+# [3376. Minimum Time to Break Locks I](https://leetcode.com/problems/minimum-time-to-break-locks-i)
 
-[English Version](/solution/3300-3399/3376.Minimum%20Time%20to%20Break%20Locks%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>Bob 被困在了一个地窖里，他需要破解 <code>n</code>&nbsp;个锁才能逃出地窖，每一个锁都需要一定的 <strong>能量</strong>&nbsp;才能打开。每一个锁需要的能量存放在一个数组&nbsp;<code>strength</code>&nbsp;里，其中&nbsp;<code>strength[i]</code>&nbsp;表示打开第 <code>i</code>&nbsp;个锁需要的能量。</p>
+<p>Bob is stuck in a dungeon and must break <code>n</code> locks, each requiring some amount of <strong>energy</strong> to break. The required energy for each lock is stored in an array called <code>strength</code> where <code>strength[i]</code> indicates the energy needed to break the <code>i<sup>th</sup></code> lock.</p>
 
-<p>Bob 有一把剑，它具备以下的特征：</p>
+<p>To break a lock, Bob uses a sword with the following characteristics:</p>
 
 <ul>
-	<li>一开始剑的能量为 0 。</li>
-	<li>剑的能量增加因子&nbsp;<code><font face="monospace">X</font></code>&nbsp;一开始的值为 1 。</li>
-	<li>每分钟，剑的能量都会增加当前的&nbsp;<code>X</code>&nbsp;值。</li>
-	<li>打开第 <code>i</code>&nbsp;把锁，剑的能量需要到达 <strong>至少</strong>&nbsp;<code>strength[i]</code>&nbsp;。</li>
-	<li>打开一把锁以后，剑的能量会变回 0 ，<code>X</code>&nbsp;的值会增加一个给定的值 <code>K</code>&nbsp;。</li>
+	<li>The initial energy of the sword is 0.</li>
+	<li>The initial factor <code><font face="monospace">x</font></code> by which the energy of the sword increases is 1.</li>
+	<li>Every minute, the energy of the sword increases by the current factor <code>x</code>.</li>
+	<li>To break the <code>i<sup>th</sup></code> lock, the energy of the sword must reach <strong>at least</strong> <code>strength[i]</code>.</li>
+	<li>After breaking a lock, the energy of the sword resets to 0, and the factor <code>x</code> increases by a given value <code>k</code>.</li>
 </ul>
 
-<p>你的任务是打开所有 <code>n</code>&nbsp;把锁并逃出地窖，请你求出需要的 <strong>最少</strong>&nbsp;分钟数。</p>
+<p>Your task is to determine the <strong>minimum</strong> time in minutes required for Bob to break all <code>n</code> locks and escape the dungeon.</p>
 
-<p>请你返回 Bob<strong>&nbsp;</strong>打开所有 <code>n</code>&nbsp;把锁需要的 <strong>最少</strong>&nbsp;时间。</p>
+<p>Return the <strong>minimum </strong>time required for Bob to break all <code>n</code> locks.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>strength = [3,4,1], K = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">strength = [3,4,1], k = 1</span></p>
 
-<p><span class="example-io"><b>输出：</b>4</span></p>
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
 <table style="border: 1px solid black;">
 	<tbody>
 		<tr>
-			<th style="border: 1px solid black;">时间</th>
-			<th style="border: 1px solid black;">能量</th>
-			<th style="border: 1px solid black;">X</th>
-			<th style="border: 1px solid black;">操作</th>
-			<th style="border: 1px solid black;">更新后的 X</th>
+			<th style="border: 1px solid black;">Time</th>
+			<th style="border: 1px solid black;">Energy</th>
+			<th style="border: 1px solid black;">x</th>
+			<th style="border: 1px solid black;">Action</th>
+			<th style="border: 1px solid black;">Updated x</th>
 		</tr>
 		<tr>
 			<td style="border: 1px solid black;">0</td>
 			<td style="border: 1px solid black;">0</td>
 			<td style="border: 1px solid black;">1</td>
-			<td style="border: 1px solid black;">什么也不做</td>
+			<td style="border: 1px solid black;">Nothing</td>
 			<td style="border: 1px solid black;">1</td>
 		</tr>
 		<tr>
 			<td style="border: 1px solid black;">1</td>
 			<td style="border: 1px solid black;">1</td>
 			<td style="border: 1px solid black;">1</td>
-			<td style="border: 1px solid black;">打开第 3&nbsp;把锁</td>
+			<td style="border: 1px solid black;">Break 3<sup>rd</sup> Lock</td>
 			<td style="border: 1px solid black;">2</td>
 		</tr>
 		<tr>
 			<td style="border: 1px solid black;">2</td>
 			<td style="border: 1px solid black;">2</td>
 			<td style="border: 1px solid black;">2</td>
-			<td style="border: 1px solid black;">什么也不做</td>
+			<td style="border: 1px solid black;">Nothing</td>
 			<td style="border: 1px solid black;">2</td>
 		</tr>
 		<tr>
 			<td style="border: 1px solid black;">3</td>
 			<td style="border: 1px solid black;">4</td>
 			<td style="border: 1px solid black;">2</td>
-			<td style="border: 1px solid black;">打开第 2 把锁</td>
+			<td style="border: 1px solid black;">Break 2<sup>nd</sup> Lock</td>
 			<td style="border: 1px solid black;">3</td>
 		</tr>
 		<tr>
 			<td style="border: 1px solid black;">4</td>
 			<td style="border: 1px solid black;">3</td>
 			<td style="border: 1px solid black;">3</td>
-			<td style="border: 1px solid black;">打开第 1 把锁</td>
+			<td style="border: 1px solid black;">Break 1<sup>st</sup> Lock</td>
 			<td style="border: 1px solid black;">3</td>
 		</tr>
 	</tbody>
 </table>
 
-<p>无法用少于 4 分钟打开所有的锁，所以答案为 4 。</p>
+<p>The locks cannot be broken in less than 4 minutes; thus, the answer is 4.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>strength = [2,5,4], K = 2</span></p>
+<p><strong>Input:</strong> <span class="example-io">strength = [2,5,4], k = 2</span></p>
 
-<p><span class="example-io"><b>输出：</b>5</span></p>
+<p><strong>Output:</strong> <span class="example-io">5</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
 <table style="border: 1px solid black;">
 	<tbody>
 		<tr>
-			<th style="border: 1px solid black;">时间</th>
-			<th style="border: 1px solid black;">能量</th>
-			<th style="border: 1px solid black;">X</th>
-			<th style="border: 1px solid black;">操作</th>
-			<th style="border: 1px solid black;">更新后的 X</th>
+			<th style="border: 1px solid black;">Time</th>
+			<th style="border: 1px solid black;">Energy</th>
+			<th style="border: 1px solid black;">x</th>
+			<th style="border: 1px solid black;">Action</th>
+			<th style="border: 1px solid black;">Updated x</th>
 		</tr>
 		<tr>
 			<td style="border: 1px solid black;">0</td>
 			<td style="border: 1px solid black;">0</td>
 			<td style="border: 1px solid black;">1</td>
-			<td style="border: 1px solid black;">什么也不做</td>
+			<td style="border: 1px solid black;">Nothing</td>
 			<td style="border: 1px solid black;">1</td>
 		</tr>
 		<tr>
 			<td style="border: 1px solid black;">1</td>
 			<td style="border: 1px solid black;">1</td>
 			<td style="border: 1px solid black;">1</td>
-			<td style="border: 1px solid black;">什么也不做</td>
+			<td style="border: 1px solid black;">Nothing</td>
 			<td style="border: 1px solid black;">1</td>
 		</tr>
 		<tr>
 			<td style="border: 1px solid black;">2</td>
 			<td style="border: 1px solid black;">2</td>
 			<td style="border: 1px solid black;">1</td>
-			<td style="border: 1px solid black;">打开第 1 把锁</td>
+			<td style="border: 1px solid black;">Break 1<sup>st</sup> Lock</td>
 			<td style="border: 1px solid black;">3</td>
 		</tr>
 		<tr>
 			<td style="border: 1px solid black;">3</td>
 			<td style="border: 1px solid black;">3</td>
 			<td style="border: 1px solid black;">3</td>
-			<td style="border: 1px solid black;">什么也不做</td>
+			<td style="border: 1px solid black;">Nothing</td>
 			<td style="border: 1px solid black;">3</td>
 		</tr>
 		<tr>
 			<td style="border: 1px solid black;">4</td>
 			<td style="border: 1px solid black;">6</td>
 			<td style="border: 1px solid black;">3</td>
-			<td style="border: 1px solid black;">打开第 2 把锁</td>
+			<td style="border: 1px solid black;">Break 2<sup>n</sup><sup>d</sup> Lock</td>
 			<td style="border: 1px solid black;">5</td>
 		</tr>
 		<tr>
 			<td style="border: 1px solid black;">5</td>
 			<td style="border: 1px solid black;">5</td>
 			<td style="border: 1px solid black;">5</td>
-			<td style="border: 1px solid black;">打开第 3 把锁</td>
+			<td style="border: 1px solid black;">Break 3<sup>r</sup><sup>d</sup> Lock</td>
 			<td style="border: 1px solid black;">7</td>
 		</tr>
 	</tbody>
 </table>
 
-<p>无法用少于 5 分钟打开所有的锁，所以答案为 5 。</p>
+<p>The locks cannot be broken in less than 5 minutes; thus, the answer is 5.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == strength.length</code></li>
@@ -179,11 +174,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,86 +1,90 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1140.Stone%20Game%20II/README.md
+difficulty: Medium
 rating: 2034
-source: 第 147 场周赛 Q4
+source: Weekly Contest 147 Q4
 tags:
-    - 数组
-    - 数学
-    - 动态规划
-    - 博弈
-    - 前缀和
+    - Array
+    - Math
+    - Dynamic Programming
+    - Game Theory
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [1140. 石子游戏 II](https://leetcode.cn/problems/stone-game-ii)
+# [1140. Stone Game II](https://leetcode.com/problems/stone-game-ii)
 
-[English Version](/solution/1100-1199/1140.Stone%20Game%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>Alice&nbsp;和 Bob 继续他们的石子游戏。许多堆石子&nbsp;<strong>排成一行</strong>，每堆都有正整数颗石子&nbsp;<code>piles[i]</code>。游戏以谁手中的石子最多来决出胜负。</p>
+<p>Alice and Bob continue their games with piles of stones. There are a number of piles <strong>arranged in a row</strong>, and each pile has a positive integer number of stones <code>piles[i]</code>. The objective of the game is to end with the most stones.</p>
 
-<p>Alice&nbsp;和 Bob 轮流进行，Alice 先开始。最初，<code>M = 1</code>。</p>
+<p>Alice and Bob take turns, with Alice starting first.</p>
 
-<p>在每个玩家的回合中，该玩家可以拿走剩下的&nbsp;<strong>前</strong>&nbsp;<code>X</code>&nbsp;堆的所有石子，其中&nbsp;<code>1 &lt;= X &lt;= 2M</code>。然后，令&nbsp;<code>M = max(M, X)</code>。</p>
+<p>On each player&#39;s turn, that player can take <strong>all the stones</strong> in the <strong>first</strong> <code>X</code> remaining piles, where <code>1 &lt;= X &lt;= 2M</code>. Then, we set <code>M = max(M, X)</code>. Initially, M = 1.</p>
 
-<p>游戏一直持续到所有石子都被拿走。</p>
+<p>The game continues until all the stones have been taken.</p>
 
-<p>假设 Alice 和 Bob 都发挥出最佳水平，返回 Alice 可以得到的最大数量的石头。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>piles = [2,7,9,4,4]
-<strong>输出：</strong>10
-<strong>解释：</strong>如果一开始 Alice 取了一堆，Bob 取了两堆，然后 Alice 再取两堆。Alice 可以得到 2 + 4 + 4 = 10 堆。
-如果 Alice 一开始拿走了两堆，那么 Bob 可以拿走剩下的三堆。在这种情况下，Alice 得到 2 + 7 = 9 堆。返回 10，因为它更大。
-</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入：</strong>piles = [1,2,3,4,5,100]
-<strong>输出：</strong>104
-</pre>
+<p>Assuming Alice and Bob play optimally, return the maximum number of stones Alice can get.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">piles = [2,7,9,4,4]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">10</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<ul>
+	<li>If Alice takes one pile at the beginning, Bob takes two piles, then Alice takes 2 piles again. Alice can get <code>2 + 4 + 4 = 10</code> stones in total.</li>
+	<li>If Alice takes two piles at the beginning, then Bob can take all three piles left. In this case, Alice get <code>2 + 7 = 9</code> stones in total.</li>
+</ul>
+
+<p>So we return 10 since it&#39;s larger.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">piles = [1,2,3,4,5,100]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">104</span></p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= piles.length &lt;= 100</code></li>
-	<li><meta charset="UTF-8" /><code>1 &lt;= piles[i]&nbsp;&lt;= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= piles[i]&nbsp;&lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和 + 记忆化搜索
+### Solution 1: Prefix Sum + Memoization Search
 
-由于玩家每次可以拿走前 $X$ 堆的所有石子，也就是说能拿走一个区间的石子，因此，我们可以先预处理出一个长度为 $n+1$ 的前缀和数组 $s$，其中 $s[i]$ 表示数组 `piles` 的前 $i$ 个元素的和。
+Since the player can take all the stones from the first $X$ piles each time, that is, they can take the stones from an interval, we can first preprocess a prefix sum array $s$ of length $n+1$, where $s[i]$ represents the sum of the first $i$ elements of the array `piles`.
 
-然后我们设计一个函数 $dfs(i, m)$，表示当前轮到的人可以从数组 `piles` 的下标 $i$ 开始拿，且当前的 $M$ 为 $m$ 时，当前轮到的人能够拿到的最大石子数。初始时爱丽丝从下标 $0$ 开始，且 $M=1$，所以我们需要求的答案为 $dfs(0, 1)$。
+Then we design a function $dfs(i, m)$, which represents the maximum number of stones that the current player can take when they can start from index $i$ of the array `piles`, and the current $M$ is $m$. Initially, Alice starts from index $0$, and $M=1$, so the answer we need to find is $dfs(0, 1)$.
 
-函数 $dfs(i, m)$ 的计算过程如下：
+The calculation process of the function $dfs(i, m)$ is as follows:
 
--   如果当前轮到的人可以拿走剩下的所有石子，能够拿到的最大石子数为 $s[n] - s[i]$；
--   否则，当前轮到的人可以拿走剩下的前 $x$ 堆的所有石子，其中 $1 \leq x \leq 2m$，能够拿到的最大石子数为 $s[n] - s[i] - dfs(i + x, max(m, x))$。也即是说，当前轮的人能够拿到的石子数为当前剩下的所有石子数减去下一轮对手能够拿到的石子数。我们需要枚举所有的 $x$，取其中的最大值作为函数 $dfs(i, m)$ 的返回值。
+-   If the current player can take all the remaining stones, the maximum number of stones they can take is $s[n] - s[i]$;
+-   Otherwise, the current player can take all the stones from the first $x$ piles of the remaining ones, where $1 \leq x \leq 2m$, and the maximum number of stones they can take is $s[n] - s[i] - dfs(i + x, max(m, x))$. That is to say, the number of stones that the current player can take is the number of all the remaining stones minus the number of stones that the opponent can take in the next round. We need to enumerate all $x$, and take the maximum value as the return value of the function $dfs(i, m)$.
 
-为了避免重复计算，我们可以使用记忆化搜索。
+To avoid repeated calculations, we can use memoization search.
 
-最后，我们返回将 $dfs(0, 1)$ 作为答案返回即可。
+Finally, we return $dfs(0, 1)$ as the answer.
 
-时间复杂度为 $O(n^3)$，空间复杂度为 $O(n^2)$。其中 $n$ 为数组 `piles` 的长度。
+The time complexity is $O(n^3)$, and the space complexity is $O(n^2)$. Here, $n$ is the length of the array `piles`.
 
 <!-- tabs:start -->
 
@@ -230,7 +234,7 @@ function stoneGameII(piles: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

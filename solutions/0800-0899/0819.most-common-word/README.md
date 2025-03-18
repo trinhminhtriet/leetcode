@@ -1,71 +1,64 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0819.Most%20Common%20Word/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
-    - 计数
+    - Array
+    - Hash Table
+    - String
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [819. 最常见的单词](https://leetcode.cn/problems/most-common-word)
+# [819. Most Common Word](https://leetcode.com/problems/most-common-word)
 
-[English Version](/solution/0800-0899/0819.Most%20Common%20Word/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>paragraph</code> 和一个表示禁用词的字符串数组 <code>banned</code> ，返回出现频率最高的非禁用词。题目数据 <strong>保证 </strong>至少存在一个非禁用词，且答案<strong> 唯一 </strong>。</p>
+<p>Given a string <code>paragraph</code> and a string array of the banned words <code>banned</code>, return <em>the most frequent word that is not banned</em>. It is <strong>guaranteed</strong> there is <strong>at least one word</strong> that is not banned, and that the answer is <strong>unique</strong>.</p>
 
-<p><code>paragraph</code> 中的单词 <strong>不区分大小写</strong> ，答案应以 <strong>小写 </strong>形式返回。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>paragraph = "Bob hit a ball, the hit BALL flew far after it was hit.", banned = ["hit"]
-<strong>输出：</strong>"ball"
-<strong>解释：</strong>
-"hit" 出现了 3 次，但它是禁用词。
-"ball" 出现了两次（没有其他单词出现这么多次），因此它是段落中出现频率最高的非禁用词。
-请注意，段落中的单词不区分大小写，
-标点符号会被忽略（即使它们紧挨着单词，如 "ball,"），
-并且尽管 "hit" 出现的次数更多，但它不能作为答案，因为它是禁用词。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>paragraph = "a.", banned = []
-<strong>输出：</strong>"a"
-</pre>
+<p>The words in <code>paragraph</code> are <strong>case-insensitive</strong> and the answer should be returned in <strong>lowercase</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> paragraph = &quot;Bob hit a ball, the hit BALL flew far after it was hit.&quot;, banned = [&quot;hit&quot;]
+<strong>Output:</strong> &quot;ball&quot;
+<strong>Explanation:</strong> 
+&quot;hit&quot; occurs 3 times, but it is a banned word.
+&quot;ball&quot; occurs twice (and no other word does), so it is the most frequent non-banned word in the paragraph. 
+Note that words in the paragraph are not case sensitive,
+that punctuation is ignored (even if adjacent to words, such as &quot;ball,&quot;), 
+and that &quot;hit&quot; isn&#39;t the answer even though it occurs more because it is banned.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> paragraph = &quot;a.&quot;, banned = []
+<strong>Output:</strong> &quot;a&quot;
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= paragraph.length &lt;= 1000</code></li>
-	<li><code>paragraph</code> 由英文字母、空格 <code>' '</code>、和以下符号组成：<code>"!?',;."</code></li>
+	<li>paragraph consists of English letters, space <code>&#39; &#39;</code>, or one of the symbols: <code>&quot;!?&#39;,;.&quot;</code>.</li>
 	<li><code>0 &lt;= banned.length &lt;= 100</code></li>
 	<li><code>1 &lt;= banned[i].length &lt;= 10</code></li>
-	<li><code>banned[i]</code> 仅由小写英文字母组成</li>
+	<li><code>banned[i]</code> consists of only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：正则匹配/双指针 + 哈希表
-
-正则匹配（或双指针）找出所有单词，用哈希表统计每个单词出现的频率，找到出现未在 banned 中出现且频率最大的单词。
+### Solution 1
 
 <!-- tabs:start -->
 

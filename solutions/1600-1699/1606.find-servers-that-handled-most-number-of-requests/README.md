@@ -1,118 +1,87 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1606.Find%20Servers%20That%20Handled%20Most%20Number%20of%20Requests/README.md
+difficulty: Hard
 rating: 2275
-source: 第 36 场双周赛 Q4
+source: Biweekly Contest 36 Q4
 tags:
-    - 贪心
-    - 数组
-    - 有序集合
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Ordered Set
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1606. 找到处理最多请求的服务器](https://leetcode.cn/problems/find-servers-that-handled-most-number-of-requests)
+# [1606. Find Servers That Handled Most Number of Requests](https://leetcode.com/problems/find-servers-that-handled-most-number-of-requests)
 
-[English Version](/solution/1600-1699/1606.Find%20Servers%20That%20Handled%20Most%20Number%20of%20Requests/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有 <code>k</code>&nbsp;个服务器，编号为 <code>0</code>&nbsp;到 <code>k-1</code>&nbsp;，它们可以同时处理多个请求组。每个服务器有无穷的计算能力但是 <strong>不能同时处理超过一个请求</strong>&nbsp;。请求分配到服务器的规则如下：</p>
+<p>You have <code>k</code> servers numbered from <code>0</code> to <code>k-1</code> that are being used to handle multiple requests simultaneously. Each server has infinite computational capacity but <strong>cannot handle more than one request at a time</strong>. The requests are assigned to servers according to a specific algorithm:</p>
 
 <ul>
-	<li>第&nbsp;<code>i</code>&nbsp;（序号从 0 开始）个请求到达。</li>
-	<li>如果所有服务器都已被占据，那么该请求被舍弃（完全不处理）。</li>
-	<li>如果第&nbsp;<code>(i % k)</code>&nbsp;个服务器空闲，那么对应服务器会处理该请求。</li>
-	<li>否则，将请求安排给下一个空闲的服务器（服务器构成一个环，必要的话可能从第 0 个服务器开始继续找下一个空闲的服务器）。比方说，如果第 <code>i</code>&nbsp;个服务器在忙，那么会查看第 <code>(i+1)</code>&nbsp;个服务器，第 <code>(i+2)</code>&nbsp;个服务器等等。</li>
+	<li>The <code>i<sup>th</sup></code> (0-indexed) request arrives.</li>
+	<li>If all servers are busy, the request is dropped (not handled at all).</li>
+	<li>If the <code>(i % k)<sup>th</sup></code> server is available, assign the request to that server.</li>
+	<li>Otherwise, assign the request to the next available server (wrapping around the list of servers and starting from 0 if necessary). For example, if the <code>i<sup>th</sup></code> server is busy, try to assign the request to the <code>(i+1)<sup>th</sup></code> server, then the <code>(i+2)<sup>th</sup></code> server, and so on.</li>
 </ul>
 
-<p>给你一个 <strong>严格递增</strong>&nbsp;的正整数数组&nbsp;<code>arrival</code>&nbsp;，表示第&nbsp;<code>i</code>&nbsp;个任务的到达时间，和另一个数组&nbsp;<code>load</code>&nbsp;，其中&nbsp;<code>load[i]</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;个请求的工作量（也就是服务器完成它所需要的时间）。你的任务是找到 <strong>最繁忙的服务器</strong>&nbsp;。最繁忙定义为一个服务器处理的请求数是所有服务器里最多的。</p>
+<p>You are given a <strong>strictly increasing</strong> array <code>arrival</code> of positive integers, where <code>arrival[i]</code> represents the arrival time of the <code>i<sup>th</sup></code> request, and another array <code>load</code>, where <code>load[i]</code> represents the load of the <code>i<sup>th</sup></code> request (the time it takes to complete). Your goal is to find the <strong>busiest server(s)</strong>. A server is considered <strong>busiest</strong> if it handled the most number of requests successfully among all the servers.</p>
 
-<p>请你返回包含所有&nbsp;<strong>最繁忙服务器</strong>&nbsp;序号的列表，你可以以任意顺序返回这个列表。</p>
+<p>Return <em>a list containing the IDs (0-indexed) of the <strong>busiest server(s)</strong></em>. You may return the IDs in any order.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1606.Find%20Servers%20That%20Handled%20Most%20Number%20of%20Requests/images/load-1.png" style="height: 221px; width: 389px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1606.Find%20Servers%20That%20Handled%20Most%20Number%20of%20Requests/images/load-1.png" style="width: 389px; height: 221px;" />
 <pre>
-<strong>输入：</strong>k = 3, arrival = [1,2,3,4,5], load = [5,2,3,3,3] 
-<strong>输出：</strong>[1] 
-<strong>解释：</strong>
-所有服务器一开始都是空闲的。
-前 3 个请求分别由前 3 台服务器依次处理。
-请求 3 进来的时候，服务器 0 被占据，所以它被安排到下一台空闲的服务器，也就是服务器 1 。
-请求 4 进来的时候，由于所有服务器都被占据，该请求被舍弃。
-服务器 0 和 2 分别都处理了一个请求，服务器 1 处理了两个请求。所以服务器 1 是最忙的服务器。
+<strong>Input:</strong> k = 3, arrival = [1,2,3,4,5], load = [5,2,3,3,3] 
+<strong>Output:</strong> [1] 
+<strong>Explanation:</strong> 
+All of the servers start out available.
+The first 3 requests are handled by the first 3 servers in order.
+Request 3 comes in. Server 0 is busy, so it&#39;s assigned to the next available server, which is 1.
+Request 4 comes in. It cannot be handled since all servers are busy, so it is dropped.
+Servers 0 and 2 handled one request each, while server 1 handled two requests. Hence server 1 is the busiest server.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>k = 3, arrival = [1,2,3,4], load = [1,2,1,2]
-<strong>输出：</strong>[0]
-<strong>解释：</strong>
-前 3 个请求分别被前 3 个服务器处理。
-请求 3 进来，由于服务器 0 空闲，它被服务器 0 处理。
-服务器 0 处理了两个请求，服务器 1 和 2 分别处理了一个请求。所以服务器 0 是最忙的服务器。
+<strong>Input:</strong> k = 3, arrival = [1,2,3,4], load = [1,2,1,2]
+<strong>Output:</strong> [0]
+<strong>Explanation:</strong> 
+The first 3 requests are handled by first 3 servers.
+Request 3 comes in. It is handled by server 0 since the server is available.
+Server 0 handled two requests, while servers 1 and 2 handled one request each. Hence server 0 is the busiest server.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>k = 3, arrival = [1,2,3], load = [10,12,11]
-<strong>输出：</strong>[0,1,2]
-<strong>解释：</strong>每个服务器分别处理了一个请求，所以它们都是最忙的服务器。
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>k = 3, arrival = [1,2,3,4,8,9,10], load = [5,2,10,3,1,2,2]
-<strong>输出：</strong>[1]
-</pre>
-
-<p><strong>示例 5：</strong></p>
-
-<pre>
-<strong>输入：</strong>k = 1, arrival = [1], load = [1]
-<strong>输出：</strong>[0]
+<strong>Input:</strong> k = 3, arrival = [1,2,3], load = [10,12,11]
+<strong>Output:</strong> [0,1,2]
+<strong>Explanation:</strong> Each server handles a single request, so they are all considered the busiest.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= arrival.length, load.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>arrival.length == load.length</code></li>
 	<li><code>1 &lt;= arrival[i], load[i] &lt;= 10<sup>9</sup></code></li>
-	<li><code>arrival</code>&nbsp;保证 <strong>严格递增</strong>&nbsp;。</li>
+	<li><code>arrival</code> is <strong>strictly increasing</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：有序集合 + 优先队列
-
-题目求的是最繁忙的服务器列表，因此可以想到用**哈希表**记录每个服务器处理的任务数，然后获取所有处理了最大任务数 mx 的服务器列表即可。关键的问题就在于，求出每个任务分配给了哪台服务器处理。
-
-我们用 有序集合 free 存放所有的空闲服务器，优先队列 busy 存放正在处理请求的服务器的处理结束时间和对应的服务器编号，即二元组 `(end, server)`，优先队列满足队首元素的处理结束时间最小，用一个哈希表 cnt 记录每台服务器处理的任务数。
-
-当第 i 个请求到达时，如果 busy 不为空，我们循环判断 busy 队首的任务结束时间是否小于等于当前请求的到达时间 `arrival[i]`，即 start。如果是，说明队首任务在此时刻已经处理结束，可以从 busy 队列中移出，循环判断。
-
-接下来，如果 free 为空，说明当前没有空闲服务器能够处理第 i 个请求，直接 continue 丢弃；否则，查找 free 中大于等于 `i % k` 的第一个服务器，如果查找成功，那么由该服务器来处理该请求，否则，由 free 的第一个服务器（编号最小）来处理。假设该服务器是 server, 那么 `cnt[server]` 加 1，同时将二元组 `(end, server)` 放入优先队列 busy 中，并且将该 server 中有序集合 free 中移出。
-
-最后，只需要获取 cnt 中的最大值 mx，找出处理了 mx 个任务数的服务器列表，即为答案。
+### Solution 1
 
 <!-- tabs:start -->
 

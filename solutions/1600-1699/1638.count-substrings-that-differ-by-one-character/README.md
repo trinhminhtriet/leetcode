@@ -1,99 +1,74 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1638.Count%20Substrings%20That%20Differ%20by%20One%20Character/README.md
+difficulty: Medium
 rating: 1744
-source: 第 38 场双周赛 Q3
+source: Biweekly Contest 38 Q3
 tags:
-    - 哈希表
-    - 字符串
-    - 动态规划
-    - 枚举
+    - Hash Table
+    - String
+    - Dynamic Programming
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [1638. 统计只差一个字符的子串数目](https://leetcode.cn/problems/count-substrings-that-differ-by-one-character)
+# [1638. Count Substrings That Differ by One Character](https://leetcode.com/problems/count-substrings-that-differ-by-one-character)
 
-[English Version](/solution/1600-1699/1638.Count%20Substrings%20That%20Differ%20by%20One%20Character/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串&nbsp;<code>s</code> 和&nbsp;<code>t</code>&nbsp;，请你找出 <code>s</code>&nbsp;中的非空子串的数目，这些子串满足替换 <strong>一个不同字符</strong>&nbsp;以后，是 <code>t</code>&nbsp;串的子串。换言之，请你找到 <code>s</code>&nbsp;和 <code>t</code>&nbsp;串中 <strong>恰好</strong>&nbsp;只有一个字符不同的子字符串对的数目。</p>
+<p>Given two strings <code>s</code> and <code>t</code>, find the number of ways you can choose a non-empty substring of <code>s</code> and replace a <strong>single character</strong> by a different character such that the resulting substring is a substring of <code>t</code>. In other words, find the number of substrings in <code>s</code> that differ from some substring in <code>t</code> by <strong>exactly</strong> one character.</p>
 
-<p>比方说，&nbsp;<code>"<u>compute</u>r"</code>&nbsp;and&nbsp;<code>"<u>computa</u>tion"&nbsp;</code>只有一个字符不同：&nbsp;<code>'e'</code>/<code>'a'</code>&nbsp;，所以这一对子字符串会给答案加 1 。</p>
+<p>For example, the underlined substrings in <code>&quot;<u>compute</u>r&quot;</code> and <code>&quot;<u>computa</u>tion&quot;</code> only differ by the <code>&#39;e&#39;</code>/<code>&#39;a&#39;</code>, so this is a valid way.</p>
 
-<p>请你返回满足上述条件的不同子字符串对数目。</p>
+<p>Return <em>the number of substrings that satisfy the condition above.</em></p>
 
-<p>一个 <strong>子字符串</strong>&nbsp;是一个字符串中连续的字符。</p>
+<p>A <strong>substring</strong> is a contiguous sequence of characters within a string.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>s = "aba", t = "baba"
-<b>输出：</b>6
-<strong>解释：</strong>以下为只相差 1 个字符的 s 和 t 串的子字符串对：
-("<strong>a</strong>ba", "<strong>b</strong>aba")
-("<strong>a</strong>ba", "ba<strong>b</strong>a")
-("ab<strong>a</strong>", "<strong>b</strong>aba")
-("ab<strong>a</strong>", "ba<strong>b</strong>a")
-("a<strong>b</strong>a", "b<strong>a</strong>ba")
-("a<strong>b</strong>a", "bab<strong>a</strong>")
-加粗部分分别表示 s 和 t 串选出来的子字符串。
+<strong>Input:</strong> s = &quot;aba&quot;, t = &quot;baba&quot;
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The following are the pairs of substrings from s and t that differ by exactly 1 character:
+(&quot;<u>a</u>ba&quot;, &quot;<u>b</u>aba&quot;)
+(&quot;<u>a</u>ba&quot;, &quot;ba<u>b</u>a&quot;)
+(&quot;ab<u>a</u>&quot;, &quot;<u>b</u>aba&quot;)
+(&quot;ab<u>a</u>&quot;, &quot;ba<u>b</u>a&quot;)
+(&quot;a<u>b</u>a&quot;, &quot;b<u>a</u>ba&quot;)
+(&quot;a<u>b</u>a&quot;, &quot;bab<u>a</u>&quot;)
+The underlined portions are the substrings that are chosen from s and t.
 </pre>
 
-<strong>示例 2：</strong>
+​​<strong class="example">Example 2:</strong>
 
 <pre>
-<b>输入：</b>s = "ab", t = "bb"
-<b>输出：</b>3
-<strong>解释：</strong>以下为只相差 1 个字符的 s 和 t 串的子字符串对：
-("<strong>a</strong>b", "<strong>b</strong>b")
-("<strong>a</strong>b", "b<strong>b</strong>")
-("<strong>ab</strong>", "<strong>bb</strong>")
-加粗部分分别表示 s 和 t 串选出来的子字符串。
-</pre>
-
-<strong>示例 3：</strong>
-
-<pre>
-<b>输入：</b>s = "a", t = "a"
-<b>输出：</b>0
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<b>输入：</b>s = "abe", t = "bbc"
-<b>输出：</b>10
+<strong>Input:</strong> s = &quot;ab&quot;, t = &quot;bb&quot;
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The following are the pairs of substrings from s and t that differ by 1 character:
+(&quot;<u>a</u>b&quot;, &quot;<u>b</u>b&quot;)
+(&quot;<u>a</u>b&quot;, &quot;b<u>b</u>&quot;)
+(&quot;<u>ab</u>&quot;, &quot;<u>bb</u>&quot;)
+​​​​The underlined portions are the substrings that are chosen from s and t.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length, t.length &lt;= 100</code></li>
-	<li><code>s</code> 和&nbsp;<code>t</code>&nbsp;都只包含小写英文字母。</li>
+	<li><code>s</code> and <code>t</code> consist of lowercase English letters only.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
-
-我们可以枚举字符串 $s$ 和 $t$ 中不同的那个字符位置，然后分别向两边扩展，直到遇到不同的字符为止，这样就可以得到以该位置为中心的满足条件的子串对数目。我们记左边扩展的相同字符个数为 $l$，右边扩展的相同字符个数为 $r$，那么以该位置为中心的满足条件的子串对数目为 $(l + 1) \times (r + 1)$，累加到答案中即可。
-
-枚举结束后，即可得到答案。
-
-时间复杂度 $O(m \times n \times \min(m, n))$，空间复杂度 $O(1)$。其中 $m$ 和 $n$ 分别为字符串 $s$ 和 $t$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -201,13 +176,7 @@ func countSubstrings(s string, t string) (ans int) {
 
 <!-- solution:start -->
 
-### 方法二：预处理 + 枚举
-
-方法一中，我们每次需要分别往左右两边扩展，得出 $l$ 和 $r$ 的值。实际上，我们可以预处理出以每个位置 $(i, j)$ 结尾的最长相同后缀的长度，以及以每个位置 $(i, j)$ 开头的最长相同前缀的长度，分别记录在数组 $f$ 和 $g$ 中。
-
-接下来，与方法一类似，我们枚举字符串 $s$ 和 $t$ 中不同的那个字符位置 $(i, j)$，那么以该位置为中心的满足条件的子串对数目为 $(f[i][j] + 1) \times (g[i + 1][j + 1] + 1)$，累加到答案中即可。
-
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别为字符串 $s$ 和 $t$ 的长度。
+### Solution 2
 
 <!-- tabs:start -->
 

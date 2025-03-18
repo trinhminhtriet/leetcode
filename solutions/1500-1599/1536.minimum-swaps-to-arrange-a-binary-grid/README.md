@@ -1,82 +1,73 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1536.Minimum%20Swaps%20to%20Arrange%20a%20Binary%20Grid/README.md
+difficulty: Medium
 rating: 1880
-source: 第 200 场周赛 Q3
+source: Weekly Contest 200 Q3
 tags:
-    - 贪心
-    - 数组
-    - 矩阵
+    - Greedy
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [1536. 排布二进制网格的最少交换次数](https://leetcode.cn/problems/minimum-swaps-to-arrange-a-binary-grid)
+# [1536. Minimum Swaps to Arrange a Binary Grid](https://leetcode.com/problems/minimum-swaps-to-arrange-a-binary-grid)
 
-[English Version](/solution/1500-1599/1536.Minimum%20Swaps%20to%20Arrange%20a%20Binary%20Grid/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个&nbsp;<code>n&nbsp;x n</code>&nbsp;的二进制网格&nbsp;<code>grid</code>，每一次操作中，你可以选择网格的&nbsp;<strong>相邻两行</strong>&nbsp;进行交换。</p>
+<p>Given an <code>n x n</code> binary <code>grid</code>, in one step you can choose two <strong>adjacent rows</strong> of the grid and swap them.</p>
 
-<p>一个符合要求的网格需要满足主对角线以上的格子全部都是 <strong>0</strong>&nbsp;。</p>
+<p>A grid is said to be <strong>valid</strong> if all the cells above the main diagonal are <strong>zeros</strong>.</p>
 
-<p>请你返回使网格满足要求的最少操作次数，如果无法使网格符合要求，请你返回 <strong>-1</strong>&nbsp;。</p>
+<p>Return <em>the minimum number of steps</em> needed to make the grid valid, or <strong>-1</strong> if the grid cannot be valid.</p>
 
-<p>主对角线指的是从&nbsp;<code>(1, 1)</code>&nbsp;到&nbsp;<code>(n, n)</code>&nbsp;的这些格子。</p>
+<p>The main diagonal of a grid is the diagonal that starts at cell <code>(1, 1)</code> and ends at cell <code>(n, n)</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1536.Minimum%20Swaps%20to%20Arrange%20a%20Binary%20Grid/images/fw.jpg" style="height: 141px; width: 750px;"></p>
-
-<pre><strong>输入：</strong>grid = [[0,0,1],[1,1,0],[1,0,0]]
-<strong>输出：</strong>3
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1536.Minimum%20Swaps%20to%20Arrange%20a%20Binary%20Grid/images/fw.jpg" style="width: 750px; height: 141px;" />
+<pre>
+<strong>Input:</strong> grid = [[0,0,1],[1,1,0],[1,0,0]]
+<strong>Output:</strong> 3
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1536.Minimum%20Swaps%20to%20Arrange%20a%20Binary%20Grid/images/e2.jpg" style="height: 270px; width: 270px;"></p>
-
-<pre><strong>输入：</strong>grid = [[0,1,1,0],[0,1,1,0],[0,1,1,0],[0,1,1,0]]
-<strong>输出：</strong>-1
-<strong>解释：</strong>所有行都是一样的，交换相邻行无法使网格符合要求。
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1536.Minimum%20Swaps%20to%20Arrange%20a%20Binary%20Grid/images/e2.jpg" style="width: 270px; height: 270px;" />
+<pre>
+<strong>Input:</strong> grid = [[0,1,1,0],[0,1,1,0],[0,1,1,0],[0,1,1,0]]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> All rows are similar, swaps have no effect on the grid.
 </pre>
 
-<p><strong>示例 3：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1536.Minimum%20Swaps%20to%20Arrange%20a%20Binary%20Grid/images/e3.jpg" style="height: 210px; width: 210px;"></p>
-
-<pre><strong>输入：</strong>grid = [[1,0,0],[1,1,0],[1,1,1]]
-<strong>输出：</strong>0
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1536.Minimum%20Swaps%20to%20Arrange%20a%20Binary%20Grid/images/e3.jpg" style="width: 200px; height: 200px;" />
+<pre>
+<strong>Input:</strong> grid = [[1,0,0],[1,1,0],[1,1,1]]
+<strong>Output:</strong> 0
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>n == grid.length</code></li>
-	<li><code>n == grid[i].length</code></li>
-	<li><code>1 &lt;= n&nbsp;&lt;= 200</code></li>
-	<li><code>grid[i][j]</code>&nbsp;要么是&nbsp;<code>0</code>&nbsp;要么是&nbsp;<code>1</code>&nbsp;。</li>
+	<li><code>n == grid.length</code> <code>== grid[i].length</code></li>
+	<li><code>1 &lt;= n &lt;= 200</code></li>
+	<li><code>grid[i][j]</code> is either <code>0</code> or <code>1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy
 
-我们逐行处理，对于第 $i$ 行，最后一个 $1$ 所在的位置必须小于等于 $i$，我们在 $[i, n)$ 中找到第一个满足条件的行，记为 $k$。然后从第 $k$ 行开始，依次向上交换相邻的两行，直到第 $i$ 行。
+We process row by row. For the $i$-th row, the position of the last '1' must be less than or equal to $i$. We find the first row that meets the condition in $[i, n)$, denoted as $k$. Then, starting from the $k$-th row, we swap the adjacent two rows upwards until the $i$-th row.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是网格的边长。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the side length of the grid.
 
 <!-- tabs:start -->
 

@@ -1,88 +1,90 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2301.Match%20Substring%20After%20Replacement/README.md
+difficulty: Hard
 rating: 1860
-source: 第 80 场双周赛 Q3
+source: Biweekly Contest 80 Q3
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
-    - 字符串匹配
+    - Array
+    - Hash Table
+    - String
+    - String Matching
 ---
 
 <!-- problem:start -->
 
-# [2301. 替换字符后匹配](https://leetcode.cn/problems/match-substring-after-replacement)
+# [2301. Match Substring After Replacement](https://leetcode.com/problems/match-substring-after-replacement)
 
-[English Version](/solution/2300-2399/2301.Match%20Substring%20After%20Replacement/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串&nbsp;<code>s</code> 和&nbsp;<code>sub</code>&nbsp;。同时给你一个二维字符数组&nbsp;<code>mappings</code> ，其中&nbsp;<code>mappings[i] = [old<sub>i</sub>, new<sub>i</sub>]</code>&nbsp;表示你可以将&nbsp;<code>sub</code>&nbsp;中任意数目的&nbsp;<code>old<sub>i</sub></code>&nbsp;字符替换为&nbsp;<code>new<sub>i</sub></code>&nbsp;。<code>sub</code>&nbsp;中每个字符 <b>不能</b>&nbsp;被替换超过一次。</p>
+<p>You are given two strings <code>s</code> and <code>sub</code>. You are also given a 2D character array <code>mappings</code> where <code>mappings[i] = [old<sub>i</sub>, new<sub>i</sub>]</code> indicates that you may perform the following operation <strong>any</strong> number of times:</p>
 
-<p>如果使用 <code>mappings</code>&nbsp;替换 0 个或者若干个字符，可以将 <code>sub</code>&nbsp;变成 <code>s</code>&nbsp;的一个子字符串，请你返回&nbsp;<code>true</code>，否则返回&nbsp;<code>false</code>&nbsp;。</p>
+<ul>
+	<li><strong>Replace</strong> a character <code>old<sub>i</sub></code> of <code>sub</code> with <code>new<sub>i</sub></code>.</li>
+</ul>
 
-<p>一个 <strong>子字符串</strong>&nbsp;是字符串中连续非空的字符序列。</p>
+<p>Each character in <code>sub</code> <strong>cannot</strong> be replaced more than once.</p>
 
-<p>&nbsp;</p>
+<p>Return <code>true</code><em> if it is possible to make </em><code>sub</code><em> a substring of </em><code>s</code><em> by replacing zero or more characters according to </em><code>mappings</code>. Otherwise, return <code>false</code>.</p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>s = "fool3e7bar", sub = "leet", mappings = [["e","3"],["t","7"],["t","8"]]
-<b>输出：</b>true
-<b>解释：</b>将 sub 中第一个 'e' 用 '3' 替换，将 't' 用 '7' 替换。
-现在 sub = "l3e7" ，它是 s 的子字符串，所以我们返回 true 。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>s = "fooleetbar", sub = "f00l", mappings = [["o","0"]]
-<b>输出：</b>false
-<b>解释：</b>字符串 "f00l" 不是 s 的子串且没有可以进行的修改。
-注意我们不能用 'o' 替换 '0' 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>s = "Fool33tbaR", sub = "leetd", mappings = [["e","3"],["t","7"],["t","8"],["d","b"],["p","b"]]
-<b>输出：</b>true
-<b>解释：</b>将 sub 里第一个和第二个 'e' 用 '3' 替换，用 'b' 替换 sub 里的 'd' 。
-得到 sub = "l33tb" ，它是 s 的子字符串，所以我们返回 true 。
-</pre>
+<p>A <strong>substring</strong> is a contiguous non-empty sequence of characters within a string.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;fool3e7bar&quot;, sub = &quot;leet&quot;, mappings = [[&quot;e&quot;,&quot;3&quot;],[&quot;t&quot;,&quot;7&quot;],[&quot;t&quot;,&quot;8&quot;]]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Replace the first &#39;e&#39; in sub with &#39;3&#39; and &#39;t&#39; in sub with &#39;7&#39;.
+Now sub = &quot;l3e7&quot; is a substring of s, so we return true.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;fooleetbar&quot;, sub = &quot;f00l&quot;, mappings = [[&quot;o&quot;,&quot;0&quot;]]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The string &quot;f00l&quot; is not a substring of s and no replacements can be made.
+Note that we cannot replace &#39;0&#39; with &#39;o&#39;.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;Fool33tbaR&quot;, sub = &quot;leetd&quot;, mappings = [[&quot;e&quot;,&quot;3&quot;],[&quot;t&quot;,&quot;7&quot;],[&quot;t&quot;,&quot;8&quot;],[&quot;d&quot;,&quot;b&quot;],[&quot;p&quot;,&quot;b&quot;]]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Replace the first and second &#39;e&#39; in sub with &#39;3&#39; and &#39;d&#39; in sub with &#39;b&#39;.
+Now sub = &quot;l33tb&quot; is a substring of s, so we return true.
+
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= sub.length &lt;= s.length &lt;= 5000</code></li>
 	<li><code>0 &lt;= mappings.length &lt;= 1000</code></li>
 	<li><code>mappings[i].length == 2</code></li>
 	<li><code>old<sub>i</sub> != new<sub>i</sub></code></li>
-	<li><code>s</code> 和&nbsp;<code>sub</code>&nbsp;只包含大写和小写英文字母和数字。</li>
-	<li><code>old<sub>i</sub></code> 和&nbsp;<code>new<sub>i</sub></code>&nbsp;是大写、小写字母或者是个数字。</li>
+	<li><code>s</code> and <code>sub</code> consist of uppercase and lowercase English letters and digits.</li>
+	<li><code>old<sub>i</sub></code> and <code>new<sub>i</sub></code> are either uppercase or lowercase English letters or digits.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 枚举
+### Solution 1: Hash Table + Enumeration
 
-我们先用哈希表 $d$ 记录每个字符可以替换成的字符集合。
+First, we use a hash table $d$ to record the set of characters that each character can be replaced with.
 
-然后我们枚举 $s$ 中所有长度为 $sub$ 长度的子串，判断字符串 $sub$ 是否可以通过替换得到该子串，如果可以则返回 `true`，否则枚举下一个子串。
+Then we enumerate all substrings of length $sub$ in $s$, and judge whether the string $sub$ can be obtained by replacement. If it can, return `true`, otherwise enumerate the next substring.
 
-枚举结束，说明 $sub$ 无法通过替换得到 $s$ 中的任何子串，返回 `false`。
+At the end of the enumeration, it means that $sub$ cannot be obtained by replacing any substring in $s$, so return `false`.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(C^2)$。其中 $m$ 和 $n$ 分别是字符串 $s$ 和 $sub$ 的长度，而 $C$ 是字符集的大小。
+The time complexity is $O(m \times n)$, and the space complexity is $O(C^2)$. Here, $m$ and $n$ are the lengths of the strings $s$ and $sub$ respectively, and $C$ is the size of the character set.
 
 <!-- tabs:start -->
 
@@ -188,11 +190,11 @@ func matchReplacement(s string, sub string, mappings [][]byte) bool {
 
 <!-- solution:start -->
 
-### 方法二：数组 + 枚举
+### Solution 2: Array + Enumeration
 
-由于字符集只包含大写和小写英文字母和数字，因此我们可以直接用一个 $128 \times 128$ 的数组 $d$ 记录每个字符可以替换成的字符集合。
+Since the character set only contains uppercase and lowercase English letters and numbers, we can directly use a $128 \times 128$ array $d$ to record the set of characters that each character can be replaced with.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(C^2)$。
+The time complexity is $O(m \times n)$, and the space complexity is $O(C^2)$.
 
 <!-- tabs:start -->
 

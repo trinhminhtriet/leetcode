@@ -1,76 +1,67 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0820.Short%20Encoding%20of%20Words/README.md
+difficulty: Medium
 tags:
-    - 字典树
-    - 数组
-    - 哈希表
-    - 字符串
+    - Trie
+    - Array
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [820. 单词的压缩编码](https://leetcode.cn/problems/short-encoding-of-words)
+# [820. Short Encoding of Words](https://leetcode.com/problems/short-encoding-of-words)
 
-[English Version](/solution/0800-0899/0820.Short%20Encoding%20of%20Words/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>单词数组 <code>words</code> 的 <strong>有效编码</strong> 由任意助记字符串 <code>s</code> 和下标数组 <code>indices</code> 组成，且满足：</p>
+<p>A <strong>valid encoding</strong> of an array of <code>words</code> is any reference string <code>s</code> and array of indices <code>indices</code> such that:</p>
 
 <ul>
 	<li><code>words.length == indices.length</code></li>
-	<li>助记字符串 <code>s</code> 以 <code>'#'</code> 字符结尾</li>
-	<li>对于每个下标 <code>indices[i]</code> ，<code>s</code> 的一个从 <code>indices[i]</code> 开始、到下一个 <code>'#'</code> 字符结束（但不包括 <code>'#'</code>）的 <strong>子字符串</strong> 恰好与 <code>words[i]</code> 相等</li>
+	<li>The reference string <code>s</code> ends with the <code>&#39;#&#39;</code> character.</li>
+	<li>For each index <code>indices[i]</code>, the <strong>substring</strong> of <code>s</code> starting from <code>indices[i]</code> and up to (but not including) the next <code>&#39;#&#39;</code> character is equal to <code>words[i]</code>.</li>
 </ul>
 
-<p>给你一个单词数组 <code>words</code> ，返回成功对 <code>words</code> 进行编码的最小助记字符串 <code>s</code> 的长度 。</p>
+<p>Given an array of <code>words</code>, return <em>the <strong>length of the shortest reference string</strong> </em><code>s</code><em> possible of any <strong>valid encoding</strong> of </em><code>words</code><em>.</em></p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>words = ["time", "me", "bell"]
-<strong>输出：</strong>10
-<strong>解释：</strong>一组有效编码为 s = <code>"time#bell#" 和 indices = [0, 2, 5</code>] 。
-words[0] = "time" ，s 开始于 indices[0] = 0 到下一个 '#' 结束的子字符串，如加粗部分所示 "<strong>time</strong>#bell#"
-words[1] = "me" ，s 开始于 indices[1] = 2 到下一个 '#' 结束的子字符串，如加粗部分所示 "ti<strong>me</strong>#bell#"
-words[2] = "bell" ，s 开始于 indices[2] = 5 到下一个 '#' 结束的子字符串，如加粗部分所示 "time#<strong>bell</strong>#"
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>words = ["t"]
-<strong>输出：</strong>2
-<strong>解释：</strong>一组有效编码为 s = "t#" 和 indices = [0] 。
+<strong>Input:</strong> words = [&quot;time&quot;, &quot;me&quot;, &quot;bell&quot;]
+<strong>Output:</strong> 10
+<strong>Explanation:</strong> A valid encoding would be s = <code>&quot;time#bell#&quot; and indices = [0, 2, 5</code>].
+words[0] = &quot;time&quot;, the substring of s starting from indices[0] = 0 to the next &#39;#&#39; is underlined in &quot;<u>time</u>#bell#&quot;
+words[1] = &quot;me&quot;, the substring of s starting from indices[1] = 2 to the next &#39;#&#39; is underlined in &quot;ti<u>me</u>#bell#&quot;
+words[2] = &quot;bell&quot;, the substring of s starting from indices[2] = 5 to the next &#39;#&#39; is underlined in &quot;time#<u>bell</u>#&quot;
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> words = [&quot;t&quot;]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> A valid encoding would be s = &quot;t#&quot; and indices = [0].
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= words.length <= 2000</code></li>
-	<li><code>1 <= words[i].length <= 7</code></li>
-	<li><code>words[i]</code> 仅由小写字母组成</li>
+	<li><code>1 &lt;= words.length &lt;= 2000</code></li>
+	<li><code>1 &lt;= words[i].length &lt;= 7</code></li>
+	<li><code>words[i]</code> consists of only lowercase letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀树
-
-题目大意：充分利用重叠的后缀，使有效编码尽可能短。
-
-判断当前单词是否是其他单词的后缀，若是，就不用写入助记字符串中，否则需要写入并且加上一个 # 后缀。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -228,7 +219,7 @@ func dfs(cur *trie, l int) int {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

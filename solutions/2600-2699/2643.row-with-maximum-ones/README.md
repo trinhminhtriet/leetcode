@@ -1,77 +1,73 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2643.Row%20With%20Maximum%20Ones/README.md
+difficulty: Easy
 rating: 1174
-source: 第 341 场周赛 Q1
+source: Weekly Contest 341 Q1
 tags:
-    - 数组
-    - 矩阵
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [2643. 一最多的行](https://leetcode.cn/problems/row-with-maximum-ones)
+# [2643. Row With Maximum Ones](https://leetcode.com/problems/row-with-maximum-ones)
 
-[English Version](/solution/2600-2699/2643.Row%20With%20Maximum%20Ones/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个大小为 <code>m x n</code> 的二进制矩阵 <code>mat</code> ，请你找出包含最多 <strong>1</strong> 的行的下标（从 <strong>0</strong> 开始）以及这一行中 <strong>1</strong> 的数目。</p>
+<p>Given a <code>m x n</code> binary matrix <code>mat</code>, find the <strong>0-indexed</strong> position of the row that contains the <strong>maximum</strong> count of <strong>ones,</strong> and the number of ones in that row.</p>
 
-<p>如果有多行包含最多的 1 ，只需要选择 <strong>行下标最小</strong> 的那一行。</p>
+<p>In case there are multiple rows that have the maximum count of ones, the row with the <strong>smallest row number</strong> should be selected.</p>
 
-<p>返回一个由行下标和该行中 1 的数量组成的数组。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>mat = [[0,1],[1,0]]
-<strong>输出：</strong>[0,1]
-<strong>解释：</strong>两行中 1 的数量相同。所以返回下标最小的行，下标为 0 。该行 1 的数量为 1 。所以，答案为 [0,1] 。 
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>mat = [[0,0,0],[0,1,1]]
-<strong>输出：</strong>[1,2]
-<strong>解释：</strong>下标为 1 的行中 1 的数量最多<code>。</code>该行 1 的数量<code>为 2 。所以，答案为</code> [1,2] 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>mat = [[0,0],[1,1],[0,0]]
-<strong>输出：</strong>[1,2]
-<strong>解释：</strong>下标为 1 的行中 1 的数量最多。该行 1 的数量<code>为 2 。所以，答案为</code> [1,2] 。</pre>
+<p>Return<em> an array containing the index of the row, and the number of ones in it.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> mat = [[0,1],[1,0]]
+<strong>Output:</strong> [0,1]
+<strong>Explanation:</strong> Both rows have the same number of 1&#39;s. So we return the index of the smaller row, 0, and the maximum count of ones (1<code>)</code>. So, the answer is [0,1]. 
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> mat = [[0,0,0],[0,1,1]]
+<strong>Output:</strong> [1,2]
+<strong>Explanation:</strong> The row indexed 1 has the maximum count of ones <code>(2)</code>. So we return its index, <code>1</code>, and the count. So, the answer is [1,2].
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> mat = [[0,0],[1,1],[0,0]]
+<strong>Output:</strong> [1,2]
+<strong>Explanation:</strong> The row indexed 1 has the maximum count of ones (2). So the answer is [1,2].
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == mat.length</code>&nbsp;</li>
 	<li><code>n == mat[i].length</code>&nbsp;</li>
 	<li><code>1 &lt;= m, n &lt;= 100</code>&nbsp;</li>
-	<li><code>mat[i][j]</code> 为 <code>0</code> 或 <code>1</code></li>
+	<li><code>mat[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们直接遍历矩阵，统计每一行中 $1$ 的个数，更新最大值和对应的行下标。注意，如果当前行的 $1$ 的个数与最大值相等，我们需要选择行下标较小的那一行。
+We directly traverse the matrix, count the number of $1$s in each row, and update the maximum value and the corresponding row index. Note that if the number of $1$s in the current row is equal to the maximum value, we need to choose the row with the smaller index.
 
-时间复杂度 $(m \times n)$，其中 $m$ 和 $n$ 分别为矩阵的行数和列数。空间复杂度 $O(1)$。
+The time complexity is $O(m \times n)$, where $m$ and $n$ are the number of rows and columns of the matrix, respectively. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

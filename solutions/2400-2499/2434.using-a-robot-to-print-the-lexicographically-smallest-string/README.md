@@ -1,94 +1,92 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2434.Using%20a%20Robot%20to%20Print%20the%20Lexicographically%20Smallest%20String/README.md
+difficulty: Medium
 rating: 1953
-source: 第 314 场周赛 Q3
+source: Weekly Contest 314 Q3
 tags:
-    - 栈
-    - 贪心
-    - 哈希表
-    - 字符串
+    - Stack
+    - Greedy
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2434. 使用机器人打印字典序最小的字符串](https://leetcode.cn/problems/using-a-robot-to-print-the-lexicographically-smallest-string)
+# [2434. Using a Robot to Print the Lexicographically Smallest String](https://leetcode.com/problems/using-a-robot-to-print-the-lexicographically-smallest-string)
 
-[English Version](/solution/2400-2499/2434.Using%20a%20Robot%20to%20Print%20the%20Lexicographically%20Smallest%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>s</code>&nbsp;和一个机器人，机器人当前有一个空字符串&nbsp;<code>t</code>&nbsp;。执行以下操作之一，直到&nbsp;<code>s</code> 和&nbsp;<code>t</code>&nbsp;<strong>都变成空字符串：</strong></p>
+<p>You are given a string <code>s</code> and a robot that currently holds an empty string <code>t</code>. Apply one of the following operations until <code>s</code> and <code>t</code> <strong>are both empty</strong>:</p>
 
 <ul>
-	<li>删除字符串&nbsp;<code>s</code>&nbsp;的 <strong>第一个</strong>&nbsp;字符，并将该字符给机器人。机器人把这个字符添加到 <code>t</code>&nbsp;的尾部。</li>
-	<li>删除字符串&nbsp;<code>t</code>&nbsp;的&nbsp;<strong>最后一个</strong>&nbsp;字符，并将该字符给机器人。机器人将该字符写到纸上。</li>
+	<li>Remove the <strong>first</strong> character of a string <code>s</code> and give it to the robot. The robot will append this character to the string <code>t</code>.</li>
+	<li>Remove the <strong>last</strong> character of a string <code>t</code> and give it to the robot. The robot will write this character on paper.</li>
 </ul>
 
-<p>请你返回纸上能写出的字典序最小的字符串。</p>
+<p>Return <em>the lexicographically smallest string that can be written on the paper.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>s = "zza"
-<b>输出：</b>"azz"
-<b>解释：</b>用 p 表示写出来的字符串。
-一开始，p="" ，s="zza" ，t="" 。
-执行第一个操作三次，得到 p="" ，s="" ，t="zza" 。
-执行第二个操作三次，得到 p="azz" ，s="" ，t="" 。
+<pre>
+<strong>Input:</strong> s = &quot;zza&quot;
+<strong>Output:</strong> &quot;azz&quot;
+<strong>Explanation:</strong> Let p denote the written string.
+Initially p=&quot;&quot;, s=&quot;zza&quot;, t=&quot;&quot;.
+Perform first operation three times p=&quot;&quot;, s=&quot;&quot;, t=&quot;zza&quot;.
+Perform second operation three times p=&quot;azz&quot;, s=&quot;&quot;, t=&quot;&quot;.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>s = "bac"
-<b>输出：</b>"abc"
-<b>解释：</b>用 p 表示写出来的字符串。
-执行第一个操作两次，得到 p="" ，s="c" ，t="ba" 。
-执行第二个操作两次，得到 p="ab" ，s="c" ，t="" 。
-执行第一个操作，得到 p="ab" ，s="" ，t="c" 。
-执行第二个操作，得到 p="abc" ，s="" ，t="" 。
+<pre>
+<strong>Input:</strong> s = &quot;bac&quot;
+<strong>Output:</strong> &quot;abc&quot;
+<strong>Explanation:</strong> Let p denote the written string.
+Perform first operation twice p=&quot;&quot;, s=&quot;c&quot;, t=&quot;ba&quot;. 
+Perform second operation twice p=&quot;ab&quot;, s=&quot;c&quot;, t=&quot;&quot;. 
+Perform first operation p=&quot;ab&quot;, s=&quot;&quot;, t=&quot;c&quot;. 
+Perform second operation p=&quot;abc&quot;, s=&quot;&quot;, t=&quot;&quot;.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><b>输入：</b>s = "bdda"
-<b>输出：</b>"addb"
-<b>解释：</b>用 p 表示写出来的字符串。
-一开始，p="" ，s="bdda" ，t="" 。
-执行第一个操作四次，得到 p="" ，s="" ，t="bdda" 。
-执行第二个操作四次，得到 p="addb" ，s="" ，t="" 。
+<pre>
+<strong>Input:</strong> s = &quot;bdda&quot;
+<strong>Output:</strong> &quot;addb&quot;
+<strong>Explanation:</strong> Let p denote the written string.
+Initially p=&quot;&quot;, s=&quot;bdda&quot;, t=&quot;&quot;.
+Perform first operation four times p=&quot;&quot;, s=&quot;&quot;, t=&quot;bdda&quot;.
+Perform second operation four times p=&quot;addb&quot;, s=&quot;&quot;, t=&quot;&quot;.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code>&nbsp;只包含小写英文字母。</li>
+	<li><code>s</code> consists of only English lowercase letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 栈
+### Solution 1: Greedy + Stack
 
-题目可以转化为，给定一个字符串序列，在借助一个辅助栈的情况下，将其转化为字典序最小的字符串序列。
+The problem can be transformed into, given a string sequence, convert it into the lexicographically smallest string sequence with the help of an auxiliary stack.
 
-我们可以用数组 `cnt` 维护字符串 $s$ 中每个字符的出现次数，用栈 `stk` 作为题目中的辅助栈，用变量 `mi` 维护还未遍历到的字符串中最小的字符。
+We can use an array `cnt` to maintain the occurrence count of each character in string $s$, use a stack `stk` as the auxiliary stack in the problem, and use a variable `mi` to maintain the smallest character in the string that has not been traversed yet.
 
-遍历字符串 $s$，对于每个字符 $c$，我们先将字符 $c$ 在数组 `cnt` 中的出现次数减一，更新 `mi`。然后将字符 $c$ 入栈，此时如果栈顶元素小于等于 `mi`，则循环将栈顶元素出栈，并将出栈的字符加入答案。
+Traverse the string $s$, for each character $c$, we first decrement the occurrence count of character $c$ in array `cnt`, and update `mi`. Then push character $c$ into the stack. At this point, if the top element of the stack is less than or equal to `mi`, then loop to pop the top element of the stack, and add the popped character to the answer.
 
-遍历结束，返回答案即可。
+After the traversal ends, return the answer.
 
-时间复杂度 $O(n+C)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $s$ 的长度，而 $C$ 为字符集大小，本题中 $C=26$。
+The time complexity is $O(n+C)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string $s$, and $C$ is the size of the character set, in this problem $C=26$.
 
 <!-- tabs:start -->
 
@@ -218,7 +216,7 @@ function robotWithString(s: string): string {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

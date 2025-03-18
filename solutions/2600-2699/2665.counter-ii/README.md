@@ -1,51 +1,47 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2665.Counter%20II/README.md
+difficulty: Easy
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2665. 计数器 II](https://leetcode.cn/problems/counter-ii)
+# [2665. Counter II](https://leetcode.com/problems/counter-ii)
 
-[English Version](/solution/2600-2699/2665.Counter%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你写一个函数&nbsp;<code>createCounter</code>。这个函数接收一个初始的整数值 <code>init</code>。并返回一个包含三个函数的对象。</p>
+<p>Write a function&nbsp;<code>createCounter</code>. It should accept an initial integer&nbsp;<code>init</code>. It should return an object with three functions.</p>
 
-<p>这三个函数是：</p>
+<p>The three functions are:</p>
 
 <ul>
-	<li><code>increment()</code>&nbsp;将当前值加 1 并返回。</li>
-	<li><code>decrement()</code>&nbsp;将当前值减 1 并返回。</li>
-	<li><code>reset()</code>&nbsp;将当前值设置为 <code>init</code> 并返回。</li>
+	<li><code>increment()</code>&nbsp;increases&nbsp;the current value by 1 and then returns it.</li>
+	<li><code>decrement()</code>&nbsp;reduces the current value by 1 and then returns it.</li>
+	<li><code>reset()</code>&nbsp;sets the current value to&nbsp;<code>init</code>&nbsp;and then returns it.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>init = 5, calls = ["increment","reset","decrement"]
-<strong>输出：</strong>[6,5,4]
-<strong>解释：</strong>
+<strong>Input:</strong> init = 5, calls = [&quot;increment&quot;,&quot;reset&quot;,&quot;decrement&quot;]
+<strong>Output:</strong> [6,5,4]
+<strong>Explanation:</strong>
 const counter = createCounter(5);
 counter.increment(); // 6
 counter.reset(); // 5
 counter.decrement(); // 4
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>init = 0, calls = ["increment","increment","decrement","reset","reset"]
-<strong>输出：</strong>[1,2,1,0,0]
-<strong>解释：</strong>
+<strong>Input:</strong> init = 0, calls = [&quot;increment&quot;,&quot;increment&quot;,&quot;decrement&quot;,&quot;reset&quot;,&quot;reset&quot;]
+<strong>Output:</strong> [1,2,1,0,0]
+<strong>Explanation:</strong>
 const counter = createCounter(0);
 counter.increment(); // 1
 counter.increment(); // 2
@@ -55,22 +51,21 @@ counter.reset(); // 0
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>-1000 &lt;= init &lt;= 1000</code></li>
 	<li><code>0 &lt;= calls.length &lt;= 1000</code></li>
-	<li><code>calls[i]</code> 是 “increment”、“decrement” 和 “reset” 中的一个</li>
+	<li><code>calls[i]</code> is one of &quot;increment&quot;, &quot;decrement&quot; and&nbsp;&quot;reset&quot;</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

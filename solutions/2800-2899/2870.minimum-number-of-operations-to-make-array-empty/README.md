@@ -1,80 +1,78 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2870.Minimum%20Number%20of%20Operations%20to%20Make%20Array%20Empty/README.md
+difficulty: Medium
 rating: 1392
-source: 第 114 场双周赛 Q2
+source: Biweekly Contest 114 Q2
 tags:
-    - 贪心
-    - 数组
-    - 哈希表
-    - 计数
+    - Greedy
+    - Array
+    - Hash Table
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [2870. 使数组为空的最少操作次数](https://leetcode.cn/problems/minimum-number-of-operations-to-make-array-empty)
+# [2870. Minimum Number of Operations to Make Array Empty](https://leetcode.com/problems/minimum-number-of-operations-to-make-array-empty)
 
-[English Version](/solution/2800-2899/2870.Minimum%20Number%20of%20Operations%20to%20Make%20Array%20Empty/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的正整数数组&nbsp;<code>nums</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> array <code>nums</code> consisting of positive integers.</p>
 
-<p>你可以对数组执行以下两种操作 <strong>任意次</strong>&nbsp;：</p>
+<p>There are two types of operations that you can apply on the array <strong>any</strong> number of times:</p>
 
 <ul>
-	<li>从数组中选择 <strong>两个</strong>&nbsp;值 <strong>相等</strong>&nbsp;的元素，并将它们从数组中 <strong>删除</strong>&nbsp;。</li>
-	<li>从数组中选择 <strong>三个</strong>&nbsp;值 <strong>相等</strong>&nbsp;的元素，并将它们从数组中 <strong>删除</strong>&nbsp;。</li>
+	<li>Choose <strong>two</strong> elements with <strong>equal</strong> values and <strong>delete</strong> them from the array.</li>
+	<li>Choose <strong>three</strong> elements with <strong>equal</strong> values and <strong>delete</strong> them from the array.</li>
 </ul>
 
-<p>请你返回使数组为空的 <strong>最少</strong>&nbsp;操作次数，如果无法达成，请返回 <code>-1</code>&nbsp;。</p>
+<p>Return <em>the <strong>minimum</strong> number of operations required to make the array empty, or </em><code>-1</code><em> if it is not possible</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2,3,3,2,2,4,2,3,4]
-<b>输出：</b>4
-<b>解释：</b>我们可以执行以下操作使数组为空：
-- 对下标为 0 和 3 的元素执行第一种操作，得到 nums = [3,3,2,4,2,3,4] 。
-- 对下标为 2 和 4 的元素执行第一种操作，得到 nums = [3,3,4,3,4] 。
-- 对下标为 0 ，1 和 3 的元素执行第二种操作，得到 nums = [4,4] 。
-- 对下标为 0 和 1 的元素执行第一种操作，得到 nums = [] 。
-至少需要 4 步操作使数组为空。
+<strong>Input:</strong> nums = [2,3,3,2,2,4,2,3,4]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> We can apply the following operations to make the array empty:
+- Apply the first operation on the elements at indices 0 and 3. The resulting array is nums = [3,3,2,4,2,3,4].
+- Apply the first operation on the elements at indices 2 and 4. The resulting array is nums = [3,3,4,3,4].
+- Apply the second operation on the elements at indices 0, 1, and 3. The resulting array is nums = [4,4].
+- Apply the first operation on the elements at indices 0 and 1. The resulting array is nums = [].
+It can be shown that we cannot make the array empty in less than 4 operations.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [2,1,2,2,3,3]
-<b>输出：</b>-1
-<b>解释：</b>无法使数组为空。
+<strong>Input:</strong> nums = [2,1,2,2,3,3]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> It is impossible to empty the array.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 10<sup>6</sup></code></li>
 </ul>
 
+<p>&nbsp;</p>
+<p><strong>Note:</strong> This question is the same as <a href="https://leetcode.com/problems/minimum-rounds-to-complete-all-tasks/description/" target="_blank">2244: Minimum Rounds to Complete All Tasks.</a></p>
+
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 贪心
+### Solution 1: Hash Table + Greedy
 
-我们用一个哈希表 $count$ 统计数组中每个元素出现的次数，然后遍历哈希表，对于每个元素 $x$，如果 $x$ 出现的次数为 $c$，那么我们可以进行 $\lfloor \frac{c+2}{3} \rfloor$ 次操作，将 $x$ 删除，最后我们返回所有元素的操作次数之和即可。
+We use a hash table $count$ to count the number of occurrences of each element in the array. Then we traverse the hash table. For each element $x$, if it appears $c$ times, we can perform $\lfloor \frac{c+2}{3} \rfloor$ operations to delete $x$. Finally, we return the sum of the number of operations for all elements.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(n)$.
 
 <!-- tabs:start -->
 

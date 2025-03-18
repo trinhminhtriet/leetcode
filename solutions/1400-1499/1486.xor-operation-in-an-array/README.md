@@ -1,61 +1,47 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1486.XOR%20Operation%20in%20an%20Array/README.md
+difficulty: Easy
 rating: 1180
-source: 第 194 场周赛 Q1
+source: Weekly Contest 194 Q1
 tags:
-    - 位运算
-    - 数学
+    - Bit Manipulation
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [1486. 数组异或操作](https://leetcode.cn/problems/xor-operation-in-an-array)
+# [1486. XOR Operation in an Array](https://leetcode.com/problems/xor-operation-in-an-array)
 
-[English Version](/solution/1400-1499/1486.XOR%20Operation%20in%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数，<code>n</code> 和 <code>start</code> 。</p>
+<p>You are given an integer <code>n</code> and an integer <code>start</code>.</p>
 
-<p>数组 <code>nums</code> 定义为：<code>nums[i] = start + 2*i</code>（下标从 0 开始）且 <code>n == nums.length</code> 。</p>
+<p>Define an array <code>nums</code> where <code>nums[i] = start + 2 * i</code> (<strong>0-indexed</strong>) and <code>n == nums.length</code>.</p>
 
-<p>请返回 <code>nums</code> 中所有元素按位异或（<strong>XOR</strong>）后得到的结果。</p>
+<p>Return <em>the bitwise XOR of all elements of</em> <code>nums</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>n = 5, start = 0
-<strong>输出：</strong>8
-<strong>解释：</strong>数组 nums 为 [0, 2, 4, 6, 8]，其中 (0 ^ 2 ^ 4 ^ 6 ^ 8) = 8 。
-     &quot;^&quot; 为按位异或 XOR 运算符。
+<pre>
+<strong>Input:</strong> n = 5, start = 0
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> Array nums is equal to [0, 2, 4, 6, 8] where (0 ^ 2 ^ 4 ^ 6 ^ 8) = 8.
+Where &quot;^&quot; corresponds to bitwise XOR operator.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>n = 4, start = 3
-<strong>输出：</strong>8
-<strong>解释：</strong>数组 nums 为 [3, 5, 7, 9]，其中 (3 ^ 5 ^ 7 ^ 9) = 8.</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>n = 1, start = 7
-<strong>输出：</strong>7
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><strong>输入：</strong>n = 10, start = 5
-<strong>输出：</strong>2
+<pre>
+<strong>Input:</strong> n = 4, start = 3
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> Array nums is equal to [3, 5, 7, 9] where (3 ^ 5 ^ 7 ^ 9) = 8.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
@@ -65,15 +51,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以直接模拟算出数组中所有元素的异或结果。
+We can directly simulate to calculate the XOR result of all elements in the array.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

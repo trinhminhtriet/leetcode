@@ -1,90 +1,56 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1067.Digit%20Count%20in%20Range/README.md
+difficulty: Hard
 rating: 2025
-source: 第 1 场双周赛 Q4
+source: Biweekly Contest 1 Q4
 tags:
-    - 数学
-    - 动态规划
+    - Math
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1067. 范围内的数字计数 🔒](https://leetcode.cn/problems/digit-count-in-range)
+# [1067. Digit Count in Range 🔒](https://leetcode.com/problems/digit-count-in-range)
 
-[English Version](/solution/1000-1099/1067.Digit%20Count%20in%20Range/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个在 <code>0</code>&nbsp;到&nbsp;<code>9</code> 之间的整数&nbsp;<code>d</code>，和两个正整数&nbsp;<code>low</code>&nbsp;和&nbsp;<code>high</code>&nbsp;分别作为上下界。返回&nbsp;<code>d</code> 在&nbsp;<code>low</code>&nbsp;和&nbsp;<code>high</code>&nbsp;之间的整数中出现的次数，包括边界&nbsp;<code>low</code> 和&nbsp;<code>high</code>。</p>
+<p>Given a single-digit integer <code>d</code> and two integers <code>low</code> and <code>high</code>, return <em>the number of times that </em><code>d</code><em> occurs as a digit in all integers in the inclusive range </em><code>[low, high]</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>d = 1, low = 1, high = 13
-<strong>输出：</strong>6
-<strong>解释： </strong>
-数字 <code>d=1</code> 在 <code>1,10,11,12,13 中出现 6 次</code>。注意 <code>d=1</code> 在数字 11 中出现两次。
+<pre>
+<strong>Input:</strong> d = 1, low = 1, high = 13
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The digit d = 1 occurs 6 times in 1, 10, 11, 12, 13.
+Note that the digit d = 1 occurs twice in the number 11.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>d = 3, low = 100, high = 250
-<strong>输出：</strong>35
-<strong>解释：</strong>
-数字 <code>d=3</code> 在 <code>103,113,123,130,131,...,238,239,243 出现 35 次。</code>
+<pre>
+<strong>Input:</strong> d = 3, low = 100, high = 250
+<strong>Output:</strong> 35
+<strong>Explanation:</strong> The digit d = 3 occurs 35 times in 103,113,123,130,131,...,238,239,243.
 </pre>
 
 <p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
-<p><strong>提示：</strong></p>
-
-<ol>
+<ul>
 	<li><code>0 &lt;= d &lt;= 9</code></li>
-	<li><code>1 &lt;= low &lt;= high &lt;= 2&times;10^8</code></li>
-</ol>
+	<li><code>1 &lt;= low &lt;= high &lt;= 2 * 10<sup>8</sup></code></li>
+</ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数位 DP
-
-这道题实际上是求在给定区间 $[l,..r]$ 中，数字中出现 $d$ 的个数。个数与数的位数以及每一位上的数字有关。我们可以用数位 DP 的思路来解决这道题。数位 DP 中，数的大小对复杂度的影响很小。
-
-对于区间 $[l,..r]$ 问题，我们一般会将其转化为 $[1,..r]$ 然后再减去 $[1,..l - 1]$ 的问题，即：
-
-$$
-ans = \sum_{i=1}^{r} ans_i -  \sum_{i=1}^{l-1} ans_i
-$$
-
-这里我们用记忆化搜索来实现数位 DP。从起点向下搜索，到最底层得到方案数，一层层向上返回答案并累加，最后从搜索起点得到最终的答案。
-
-基本步骤如下：
-
-1. 将数字 $n$ 转为 int 数组 $a$，其中 $a[1]$ 为最低位，而 $a[len]$ 为最高位；
-1. 根据题目信息，设计函数 $dfs()$，对于本题，我们定义 $dfs(pos, cnt, lead, limit)$，答案为 $dfs(len, 0, true, true)$。
-
-其中：
-
--   `pos` 表示数字的位数，从末位或者第一位开始，一般根据题目的数字构造性质来选择顺序。对于本题，我们选择从高位开始，因此，`pos` 的初始值为 `len`；
--   `cnt` 表示当前数字中包含 $d$ 的个数；
--   `lead` 表示当前数字是否有前导零，如果有前导零，则 `lead` 为 `true`，否则为 `false`，初始化为 `true`；
--   `limit` 表示可填的数字的限制，如果无限制，那么可以选择 $[0,1,..9]$，否则，只能选择 $[0,..a[pos]]$。如果 `limit` 为 `true` 且已经取到了能取到的最大值，那么下一个 `limit` 同样为 `true`；如果 `limit` 为 `true` 但是还没有取到最大值，或者 `limit` 为 `false`，那么下一个 `limit` 为 `false`。
-
-关于函数的实现细节，可以参考下面的代码。
-
-时间复杂度 $O(\log m + \log n)$。其中 $m$, $n$ 分别为题目中的 `low` 和 `high`。
-
-相似题目：
-
--   [233. 数字 1 的个数](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0233.Number%20of%20Digit%20One/README.md)
+### Solution 1
 
 <!-- tabs:start -->
 

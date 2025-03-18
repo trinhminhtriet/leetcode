@@ -1,88 +1,77 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1485.Clone%20Binary%20Tree%20With%20Random%20Pointer/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 哈希表
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
+    - Hash Table
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [1485. 克隆含随机指针的二叉树 🔒](https://leetcode.cn/problems/clone-binary-tree-with-random-pointer)
+# [1485. Clone Binary Tree With Random Pointer 🔒](https://leetcode.com/problems/clone-binary-tree-with-random-pointer)
 
-[English Version](/solution/1400-1499/1485.Clone%20Binary%20Tree%20With%20Random%20Pointer/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二叉树，树中每个节点都含有一个附加的随机指针，该指针可以指向树中的任何节点或者指向空（<code>null</code>）。</p>
+<p>A binary tree is given such that each node contains an additional random pointer which could point to any node in the tree or null.</p>
 
-<p>请返回该树的 <strong><a href="https://baike.baidu.com/item/%E6%B7%B1%E6%8B%B7%E8%B4%9D/22785317?fr=aladdin" target="_blank">深拷贝</a></strong> 。</p>
+<p>Return a <a href="https://en.wikipedia.org/wiki/Object_copying#Deep_copy" target="_blank"><strong>deep copy</strong></a> of the tree.</p>
 
-<p>该树的输入/输出形式与普通二叉树相同，每个节点都用 <code>[val, random_index]</code> 表示：</p>
+<p>The tree is represented in the same input/output way as normal binary trees where each node is represented as a pair of <code>[val, random_index]</code> where:</p>
 
 <ul>
-	<li><code>val</code>：表示 <code>Node.val</code> 的整数</li>
-	<li><code>random_index</code>：随机指针指向的节点（在输入的树数组中）的下标；如果未指向任何节点，则为 <code>null</code> 。</li>
+	<li><code>val</code>: an integer representing <code>Node.val</code></li>
+	<li><code>random_index</code>: the index of the node (in the input) where the random pointer points to, or <code>null</code> if it does not point to any node.</li>
 </ul>
 
-<p>该树以 <code>Node</code> 类的形式给出，而你需要以 <code>NodeCopy</code> 类的形式返回克隆得到的树。<code>NodeCopy</code> 类和<code>Node</code> 类定义一致。</p>
+<p>You will be given the tree in class <code>Node</code> and you should return the cloned tree in class <code>NodeCopy</code>. <code>NodeCopy</code> class is just a clone of <code>Node</code> class with the same attributes and constructors.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1485.Clone%20Binary%20Tree%20With%20Random%20Pointer/images/clone_1.png" style="height: 473px; width: 500px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1485.Clone%20Binary%20Tree%20With%20Random%20Pointer/images/clone_1.png" style="width: 500px; height: 473px;" />
 <pre>
-<strong>输入：</strong>root = [[1,null],null,[4,3],[7,0]]
-<strong>输出：</strong>[[1,null],null,[4,3],[7,0]]
-<strong>解释：</strong>初始二叉树为 [1,null,4,7] 。
-节点 1 的随机指针指向 null，所以表示为 [1, null] 。
-节点 4 的随机指针指向 7，所以表示为 [4, 3] 其中 3 是树数组中节点 7 对应的下标。
-节点 7 的随机指针指向 1，所以表示为 [7, 0] 其中 0 是树数组中节点 1 对应的下标。
+<strong>Input:</strong> root = [[1,null],null,[4,3],[7,0]]
+<strong>Output:</strong> [[1,null],null,[4,3],[7,0]]
+<strong>Explanation:</strong> The original binary tree is [1,null,4,7].
+The random pointer of node one is null, so it is represented as [1, null].
+The random pointer of node 4 is node 7, so it is represented as [4, 3] where 3 is the index of node 7 in the array representing the tree.
+The random pointer of node 7 is node 1, so it is represented as [7, 0] where 0 is the index of node 1 in the array representing the tree.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1485.Clone%20Binary%20Tree%20With%20Random%20Pointer/images/clone_2.png" style="height: 540px; width: 500px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1485.Clone%20Binary%20Tree%20With%20Random%20Pointer/images/clone_2.png" style="width: 500px; height: 540px;" />
 <pre>
-<strong>输入：</strong>root = [[1,4],null,[1,0],null,[1,5],[1,5]]
-<strong>输出：</strong>[[1,4],null,[1,0],null,[1,5],[1,5]]
-<strong>解释：</strong>节点的随机指针可以指向它自身。
+<strong>Input:</strong> root = [[1,4],null,[1,0],null,[1,5],[1,5]]
+<strong>Output:</strong> [[1,4],null,[1,0],null,[1,5],[1,5]]
+<strong>Explanation:</strong> The random pointer of a node can be the node itself.
 </pre>
 
-<p><strong>示例 3：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1485.Clone%20Binary%20Tree%20With%20Random%20Pointer/images/e2.png" style="height: 426px; width: 500px;" /></p>
-
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1485.Clone%20Binary%20Tree%20With%20Random%20Pointer/images/clone_3.png" style="width: 500px; height: 426px;" />
 <pre>
-<strong>输入：</strong>root = [[1,6],[2,5],[3,4],[4,3],[5,2],[6,1],[7,0]]
-<strong>输出：</strong>[[1,6],[2,5],[3,4],[4,3],[5,2],[6,1],[7,0]]
+<strong>Input:</strong> root = [[1,6],[2,5],[3,4],[4,3],[5,2],[6,1],[7,0]]
+<strong>Output:</strong> [[1,6],[2,5],[3,4],[4,3],[5,2],[6,1],[7,0]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>tree</code> 中节点数目范围是 <code>[0, 1000]</code></li>
-	<li>每个节点的值的范围是 <code>[1, 10^6]</code></li>
+	<li>The number of nodes in the <code>tree</code> is in the range <code>[0, 1000].</code></li>
+	<li><code>1 &lt;= Node.val &lt;= 10<sup>6</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

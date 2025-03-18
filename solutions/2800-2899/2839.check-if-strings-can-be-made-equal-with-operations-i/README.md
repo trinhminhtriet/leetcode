@@ -1,79 +1,74 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2839.Check%20if%20Strings%20Can%20be%20Made%20Equal%20With%20Operations%20I/README.md
+difficulty: Easy
 rating: 1285
-source: 第 112 场双周赛 Q1
+source: Biweekly Contest 112 Q1
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2839. 判断通过操作能否让字符串相等 I](https://leetcode.cn/problems/check-if-strings-can-be-made-equal-with-operations-i)
+# [2839. Check if Strings Can be Made Equal With Operations I](https://leetcode.com/problems/check-if-strings-can-be-made-equal-with-operations-i)
 
-[English Version](/solution/2800-2899/2839.Check%20if%20Strings%20Can%20be%20Made%20Equal%20With%20Operations%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串&nbsp;<code>s1</code> 和&nbsp;<code>s2</code>&nbsp;，两个字符串的长度都为&nbsp;<code>4</code>&nbsp;，且只包含 <strong>小写</strong> 英文字母。</p>
+<p>You are given two strings <code>s1</code> and <code>s2</code>, both of length <code>4</code>, consisting of <strong>lowercase</strong> English letters.</p>
 
-<p>你可以对两个字符串中的 <strong>任意一个</strong>&nbsp;执行以下操作 <strong>任意</strong>&nbsp;次：</p>
+<p>You can apply the following operation on any of the two strings <strong>any</strong> number of times:</p>
 
 <ul>
-	<li>选择两个下标&nbsp;<code>i</code> 和&nbsp;<code>j</code>&nbsp;且满足&nbsp;<code>j - i = 2</code>&nbsp;，然后 <strong>交换</strong> 这个字符串中两个下标对应的字符。</li>
+	<li>Choose any two indices <code>i</code> and <code>j</code> such that <code>j - i = 2</code>, then <strong>swap</strong> the two characters at those indices in the string.</li>
 </ul>
 
-<p>如果你可以让字符串<em>&nbsp;</em><code>s1</code><em> </em>和<em>&nbsp;</em><code>s2</code>&nbsp;相等，那么返回 <code>true</code>&nbsp;，否则返回 <code>false</code>&nbsp;。</p>
+<p>Return <code>true</code><em> if you can make the strings </em><code>s1</code><em> and </em><code>s2</code><em> equal, and </em><code>false</code><em> otherwise</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>s1 = "abcd", s2 = "cdab"
-<b>输出：</b>true
-<strong>解释：</strong> 我们可以对 s1 执行以下操作：
-- 选择下标 i = 0 ，j = 2 ，得到字符串 s1 = "cbad" 。
-- 选择下标 i = 1 ，j = 3 ，得到字符串 s1 = "cdab" = s2 。
+<strong>Input:</strong> s1 = &quot;abcd&quot;, s2 = &quot;cdab&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> We can do the following operations on s1:
+- Choose the indices i = 0, j = 2. The resulting string is s1 = &quot;cbad&quot;.
+- Choose the indices i = 1, j = 3. The resulting string is s1 = &quot;cdab&quot; = s2.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>s1 = "abcd", s2 = "dacb"
-<b>输出：</b>false
-<b>解释：</b>无法让两个字符串相等。
+<strong>Input:</strong> s1 = &quot;abcd&quot;, s2 = &quot;dacb&quot;
+<strong>Output:</strong> false
+<strong>Explanation:</strong> It is not possible to make the two strings equal.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>s1.length == s2.length == 4</code></li>
-	<li><code>s1</code> 和&nbsp;<code>s2</code>&nbsp;只包含小写英文字母。</li>
+	<li><code>s1</code> and <code>s2</code> consist only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们观察题目中的操作，可以发现，如果字符串的两个下标 $i$ 和 $j$ 的奇偶性相同，那么它们可以通过交换改变顺序。
+We observe the operation in the problem, and find that if the parity of the two indices $i$ and $j$ of the string is the same, then their order can be changed by swapping.
 
-因此，我们可以统计两个字符串中奇数下标的字符的出现次数，以及偶数下标的字符的出现次数，如果两个字符串的统计结果相同，那么我们就可以通过操作使得两个字符串相等。
+Therefore, we can count the occurrence times of the characters at odd indices and even indices in the two strings. If the counting results of the two strings are the same, then we can make the two strings equal through the operation.
 
-时间复杂度 $O(n + |\Sigma|)$，空间复杂度 $O(|\Sigma|)$。其中 $n$ 是字符串的长度，而 $\Sigma$ 是字符集。
+The time complexity is $O(n + |\Sigma|)$, and the space complexity is $O(|\Sigma|)$. Here, $n$ is the length of the string, and $\Sigma$ is the character set.
 
-相似题目：
+Similar problems:
 
--   [2840. 判断通过操作能否让字符串相等 II](https://github.com/doocs/leetcode/blob/main/solution/2800-2899/2840.Check%20if%20Strings%20Can%20be%20Made%20Equal%20With%20Operations%20II/README.md)
+-   [2840. Check if Strings Can be Made Equal With Operations II](https://github.com/doocs/leetcode/blob/main/solution/2800-2899/2840.Check%20if%20Strings%20Can%20be%20Made%20Equal%20With%20Operations%20II/README_EN.md)
 
 <!-- tabs:start -->
 

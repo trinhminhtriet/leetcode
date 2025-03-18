@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2984.Find%20Peak%20Calling%20Hours%20for%20Each%20City/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2984. 找到每座城市的高峰通话时间 🔒](https://leetcode.cn/problems/find-peak-calling-hours-for-each-city)
+# [2984. Find Peak Calling Hours for Each City 🔒](https://leetcode.com/problems/find-peak-calling-hours-for-each-city)
 
-[English Version](/solution/2900-2999/2984.Find%20Peak%20Calling%20Hours%20for%20Each%20City/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：&nbsp;<code>Calls</code></p>
+<p>Table: <code>Calls</code></p>
 
 <pre>
 +--------------+----------+
@@ -27,22 +24,21 @@ tags:
 | call_time    | datetime |
 | city         | varchar  |
 +--------------+----------+
-(caller_id, recipient_id, call_time) 是该表的主键(具有唯一值的列)。
-每一行包含 caller id, recipient id, call time,和 city。
+(caller_id, recipient_id, call_time) is the primary key (combination of columns with unique values) for this table.
+Each row contains caller id, recipient id, call time, and city.
 </pre>
 
-<p>编写一个查询，找到每个 <code>city</code>&nbsp;的 <strong>高峰</strong> 通话 <b>时间</b>。如果 <strong>多个时间</strong>&nbsp;有 <strong>相同</strong> 数量的通话，则所有这些时间都将被视为该特定城市的 <strong>高峰时间</strong>。</p>
+<p>Write a solution to find the <strong>peak</strong> calling <strong>hour</strong> for each <code>city</code>. If <strong>multiple hours</strong> have the <strong>same</strong> number of calls, all of those hours will be recognized as <strong>peak hours </strong>for that specific city.</p>
 
-<p>按照 <strong>高峰时间</strong>&nbsp;和<em> </em><code>city</code><em> </em>按 <strong>降序</strong> 排序返回结果表。</p>
+<p>Return <em>the result table ordered by <strong>peak calling hour</strong> and </em><code>city</code><em> in <strong>descending</strong></em><em><strong> </strong>order.</em></p>
 
-<p>结果格式如下例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1:</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>
+<strong>Input:</strong> 
 Calls table:
 +-----------+--------------+---------------------+----------+
 | caller_id | recipient_id | call_time           | city     |
@@ -54,7 +50,7 @@ Calls table:
 | 11        | 3            | 2021-08-17 13:07:00 | New York |
 | 8         | 11           | 2021-08-17 14:22:22 | New York |
 +-----------+--------------+---------------------+----------+
-<b>输出：</b>
+<strong>Output:</strong> 
 +----------+-------------------+-----------------+
 | city     | peak_calling_hour | number_of_calls |
 +----------+-------------------+-----------------+
@@ -62,20 +58,20 @@ Calls table:
 | New York | 14                | 1               |
 | New York | 13                | 1               |
 +----------+-------------------+-----------------+
-<b>解释：</b>
-对于 Houston：
-  - 高峰时间是 22:00，总共记录了 3 次通话。 
-对于 New York：
-  - 3:00 和 14:00 都有相同数量的通话，因此这两个时间都被视为高峰时间。
-输出表按照高峰时间和城市按降序排序。</pre>
+<strong>Explanation:</strong> 
+For Houston:
+  - The peak time is 22:00, with a total of 3 calls recorded. 
+For New York:
+  - Both 13:00 and 14:00 hours have equal call counts of 1, so both times are considered peak hours.
+Output table is ordered by peak_calling_hour and city in descending order.</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

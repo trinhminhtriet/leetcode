@@ -1,85 +1,72 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1029.Two%20City%20Scheduling/README.md
+difficulty: Medium
 rating: 1348
-source: 第 133 场周赛 Q1
+source: Weekly Contest 133 Q1
 tags:
-    - 贪心
-    - 数组
-    - 排序
+    - Greedy
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1029. 两地调度](https://leetcode.cn/problems/two-city-scheduling)
+# [1029. Two City Scheduling](https://leetcode.com/problems/two-city-scheduling)
 
-[English Version](/solution/1000-1099/1029.Two%20City%20Scheduling/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>公司计划面试 <code>2n</code> 人。给你一个数组 <code>costs</code> ，其中 <code>costs[i] = [aCost<sub>i</sub>, bCost<sub>i</sub>]</code> 。第 <code>i</code> 人飞往 <code>a</code> 市的费用为 <code>aCost<sub>i</sub></code> ，飞往 <code>b</code> 市的费用为 <code>bCost<sub>i</sub></code> 。</p>
+<p>A company is planning to interview <code>2n</code> people. Given the array <code>costs</code> where <code>costs[i] = [aCost<sub>i</sub>, bCost<sub>i</sub>]</code>,&nbsp;the cost of flying the <code>i<sup>th</sup></code> person to city <code>a</code> is <code>aCost<sub>i</sub></code>, and the cost of flying the <code>i<sup>th</sup></code> person to city <code>b</code> is <code>bCost<sub>i</sub></code>.</p>
 
-<p>返回将每个人都飞到 <code>a</code> 、<code>b</code> 中某座城市的最低费用，要求每个城市都有 <code>n</code> 人抵达<strong>。</strong></p>
+<p>Return <em>the minimum cost to fly every person to a city</em> such that exactly <code>n</code> people arrive in each city.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>costs = [[10,20],[30,200],[400,50],[30,20]]
-<strong>输出：</strong>110
-<strong>解释：</strong>
-第一个人去 a 市，费用为 10。
-第二个人去 a 市，费用为 30。
-第三个人去 b 市，费用为 50。
-第四个人去 b 市，费用为 20。
-
-最低总费用为 10 + 30 + 50 + 20 = 110，每个城市都有一半的人在面试。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>costs = [[259,770],[448,54],[926,667],[184,139],[840,118],[577,469]]
-<strong>输出：</strong>1859
+<strong>Input:</strong> costs = [[10,20],[30,200],[400,50],[30,20]]
+<strong>Output:</strong> 110
+<strong>Explanation: </strong>
+The first person goes to city A for a cost of 10.
+The second person goes to city A for a cost of 30.
+The third person goes to city B for a cost of 50.
+The fourth person goes to city B for a cost of 20.
+
+The total minimum cost is 10 + 30 + 50 + 20 = 110 to have half the people interviewing in each city.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>costs = [[515,563],[451,713],[537,709],[343,819],[855,779],[457,60],[650,359],[631,42]]
-<strong>输出：</strong>3086
+<strong>Input:</strong> costs = [[259,770],[448,54],[926,667],[184,139],[840,118],[577,469]]
+<strong>Output:</strong> 1859
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> costs = [[515,563],[451,713],[537,709],[343,819],[855,779],[457,60],[650,359],[631,42]]
+<strong>Output:</strong> 3086
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 * n == costs.length</code></li>
-	<li><code>2 <= costs.length <= 100</code></li>
-	<li><code>costs.length</code> 为偶数</li>
-	<li><code>1 <= aCost<sub>i</sub>, bCost<sub>i</sub> <= 1000</code></li>
+	<li><code>2 &lt;= costs.length &lt;= 100</code></li>
+	<li><code>costs.length</code> is even.</li>
+	<li><code>1 &lt;= aCost<sub>i</sub>, bCost<sub>i</sub> &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 贪心
-
-我们不妨先假设所有人都去 $b$ 市，然后我们要从中选出 $n$ 个人去 $a$ 市，使得总费用最小。如果一个人去 $a$ 市的费用比去 $b$ 市的费用小，我们把这个人从 $b$ 市调到 $a$ 市，这样总费用就会减少。因此，我们可以将所有人按照去 $a$ 市的费用与去 $b$ 市的费用的差值从小到大排序，然后选出前 $n$ 个人去 $a$ 市，剩下的人去 $b$ 市，这样总费用就是最小的。
-
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 `costs` 的长度。
-
-相似题目：
-
--   [2611. 老鼠和奶酪](https://github.com/doocs/leetcode/blob/main/solution/2600-2699/2611.Mice%20and%20Cheese/README.md)
+### Solution 1
 
 <!-- tabs:start -->
 

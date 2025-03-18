@@ -1,80 +1,75 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3142.Check%20if%20Grid%20Satisfies%20Conditions/README.md
+difficulty: Easy
 rating: 1303
-source: 第 130 场双周赛 Q1
+source: Biweekly Contest 130 Q1
 tags:
-    - 数组
-    - 矩阵
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [3142. 判断矩阵是否满足条件](https://leetcode.cn/problems/check-if-grid-satisfies-conditions)
+# [3142. Check if Grid Satisfies Conditions](https://leetcode.com/problems/check-if-grid-satisfies-conditions)
 
-[English Version](/solution/3100-3199/3142.Check%20if%20Grid%20Satisfies%20Conditions/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个大小为 <code>m x n</code>&nbsp;的二维矩阵&nbsp;<code>grid</code>&nbsp;。你需要判断每一个格子&nbsp;<code>grid[i][j]</code>&nbsp;是否满足：</p>
+<p>You are given a 2D matrix <code>grid</code> of size <code>m x n</code>. You need to check if each cell <code>grid[i][j]</code> is:</p>
 
 <ul>
-	<li>如果它下面的格子存在，那么它需要等于它下面的格子，也就是&nbsp;<code>grid[i][j] == grid[i + 1][j]</code>&nbsp;。</li>
-	<li>如果它右边的格子存在，那么它需要不等于它右边的格子，也就是&nbsp;<code>grid[i][j] != grid[i][j + 1]</code>&nbsp;。</li>
+	<li>Equal to the cell below it, i.e. <code>grid[i][j] == grid[i + 1][j]</code> (if it exists).</li>
+	<li>Different from the cell to its right, i.e. <code>grid[i][j] != grid[i][j + 1]</code> (if it exists).</li>
 </ul>
 
-<p>如果 <strong>所有</strong>&nbsp;格子都满足以上条件，那么返回 <code>true</code>&nbsp;，否则返回 <code>false</code>&nbsp;。</p>
+<p>Return <code>true</code> if <strong>all</strong> the cells satisfy these conditions, otherwise, return <code>false</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>grid = [[1,0,2],[1,0,2]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">grid = [[1,0,2],[1,0,2]]</span></p>
 
-<p><span class="example-io"><b>输出：</b>true</span></p>
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3142.Check%20if%20Grid%20Satisfies%20Conditions/images/examplechanged.png" style="width: 254px; height: 186px;padding: 10px; background: #fff; border-radius: .5rem;" /></strong></p>
 
-<p>网格图中所有格子都符合条件。</p>
+<p>All the cells in the grid satisfy the conditions.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>grid = [[1,1,1],[0,0,0]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">grid = [[1,1,1],[0,0,0]]</span></p>
 
-<p><span class="example-io"><b>输出：</b>false</span></p>
+<p><strong>Output:</strong> <span class="example-io">false</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3142.Check%20if%20Grid%20Satisfies%20Conditions/images/example21.png" style="width: 254px; height: 186px;padding: 10px; background: #fff; border-radius: .5rem;" /></strong></p>
 
-<p>同一行中的格子值都相等。</p>
+<p>All cells in the first row are equal.</p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>grid = [[1],[2],[3]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">grid = [[1],[2],[3]]</span></p>
 
-<p><span class="example-io"><b>输出：</b>false</span></p>
+<p><strong>Output:</strong> <span class="example-io">false</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3142.Check%20if%20Grid%20Satisfies%20Conditions/images/changed.png" style="width: 86px; height: 277px;padding: 10px; background: #fff; border-radius: .5rem;" /></p>
 
-<p>同一列中的格子值不相等。</p>
+<p>Cells in the first column have different values.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n, m &lt;= 10</code></li>
@@ -83,15 +78,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以遍历每一个格子，判断其是否满足题目条件，如果有一个格子不满足条件，我们就返回 `false`，否则返回 `true`。
+We can iterate through each cell and determine whether it meets the conditions specified in the problem. If there is a cell that does not meet the conditions, we return `false`, otherwise, we return `true`.
 
-时间复杂度 $O(m \times n)$，其中 $m$ 和 $n$ 分别是矩阵 `grid` 的行数和列数。空间复杂度 $O(1)$。
+The time complexity is $O(m \times n)$, where $m$ and $n$ are the number of rows and columns of the matrix `grid` respectively. The space complexity is $O(1)`.
 
 <!-- tabs:start -->
 

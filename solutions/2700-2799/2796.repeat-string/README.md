@@ -1,71 +1,65 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2796.Repeat%20String/README.md
+difficulty: Easy
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2796. 重复字符串 🔒](https://leetcode.cn/problems/repeat-string)
+# [2796. Repeat String 🔒](https://leetcode.com/problems/repeat-string)
 
-[English Version](/solution/2700-2799/2796.Repeat%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>编写代码实现字符串方法 <code>string.replicate(x)</code> ，它将返回重复的字符串 <code>x</code> 次。</p>
+<p>Write code that enhances all strings such that you can call the&nbsp;<code>string.replicate(x)</code>&nbsp;method on any string and it will return repeated string <code>x</code> times.</p>
 
-<p>请尝试在不使用内置方法 <code>string.repeat</code> 的情况下实现它。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>str = "hello", times = 2
-<b>输出：</b>"hellohello"
-<b>解释：</b>"hello" 被重复了 2 次
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>str = "code", times = 3
-<b>输出：</b>codecodecode"
-<b>解释：</b> "code" 被重复了 3 次
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>str = "js", times = 1
-<b>输出：</b>"js"
-<b>解释：</b>"js" 被重复了 1 次
-</pre>
+<p>Try to implement it without using the built-in method <code>string.repeat</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> str = &quot;hello&quot;, times = 2
+<strong>Output:</strong> &quot;hellohello&quot;
+<strong>Explanation:</strong> &quot;hello&quot; is repeated 2 times
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> str = &quot;code&quot;, times = 3
+<strong>Output:</strong> &quot;codecodecode&quot;
+<strong>Explanation:</strong> &quot;code&quot; is repeated 3 times
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> str = &quot;js&quot;, times = 1
+<strong>Output:</strong> &quot;js&quot;
+<strong>Explanation:</strong> &quot;js&quot; is repeated 1 time
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= times &lt;=&nbsp;10<sup>5</sup></code></li>
-	<li><code>1 &lt;= str.length &lt;= 1000</code></li>
+	<li><code>1 &lt;=&nbsp;str.length &lt;= 1000</code></li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶</strong>：为了简化分析，让我们假设连接字符串是一个常数时间操作 <code>O(1)</code>。考虑到这个假设，您能编写时间复杂度为 <code>O(log n)</code>&nbsp;的算法吗？</p>
+<strong>Follow up:</strong> Let&#39;s assume, for the sake of simplifying analysis, that concatenating strings is a constant time operation <code>O(1)</code>. With this assumption in mind, can you write an algorithm with a runtime complexity of <code>O(log n)</code>?
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

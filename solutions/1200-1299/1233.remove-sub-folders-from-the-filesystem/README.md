@@ -1,85 +1,81 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1233.Remove%20Sub-Folders%20from%20the%20Filesystem/README.md
+difficulty: Medium
 rating: 1544
-source: 第 159 场周赛 Q2
+source: Weekly Contest 159 Q2
 tags:
-    - 深度优先搜索
-    - 字典树
-    - 数组
-    - 字符串
+    - Depth-First Search
+    - Trie
+    - Array
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1233. 删除子文件夹](https://leetcode.cn/problems/remove-sub-folders-from-the-filesystem)
+# [1233. Remove Sub-Folders from the Filesystem](https://leetcode.com/problems/remove-sub-folders-from-the-filesystem)
 
-[English Version](/solution/1200-1299/1233.Remove%20Sub-Folders%20from%20the%20Filesystem/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你是一位系统管理员，手里有一份文件夹列表 <code>folder</code>，你的任务是要删除该列表中的所有 <strong>子文件夹</strong>，并以 <strong>任意顺序</strong> 返回剩下的文件夹。</p>
+<p>Given a list of folders <code>folder</code>, return <em>the folders after removing all <strong>sub-folders</strong> in those folders</em>. You may return the answer in <strong>any order</strong>.</p>
 
-<p>如果文件夹&nbsp;<code>folder[i]</code>&nbsp;位于另一个文件夹&nbsp;<code>folder[j]</code>&nbsp;下，那么&nbsp;<code>folder[i]</code>&nbsp;就是&nbsp;<code>folder[j]</code>&nbsp;的 <strong>子文件夹</strong> 。<code>folder[j]</code>&nbsp;的子文件夹必须以&nbsp;<code>folder[j]</code> 开头，后跟一个 <code>"/"</code>。例如，<code>"/a/b"</code> 是&nbsp;<code>"/a"</code>&nbsp;的一个子文件夹，但&nbsp;<code>"/b"</code> 不是&nbsp;<code>"/a/b/c"</code> 的一个子文件夹。</p>
+<p>If a <code>folder[i]</code> is located within another <code>folder[j]</code>, it is called a <strong>sub-folder</strong> of it. A sub-folder of <code>folder[j]</code> must start with <code>folder[j]</code>, followed by a <code>&quot;/&quot;</code>. For example, <code>&quot;/a/b&quot;</code> is a sub-folder of <code>&quot;/a&quot;</code>, but <code>&quot;/b&quot;</code> is not a sub-folder of <code>&quot;/a/b/c&quot;</code>.</p>
 
-<p>文件夹的「路径」是由一个或多个按以下格式串联形成的字符串：<font color="#c7254e"><font face="Menlo, Monaco, Consolas, Courier New, monospace"><span style="font-size:12.6px"><span style="background-color:#f9f2f4">'/'</span></span></font></font>&nbsp;后跟一个或者多个小写英文字母。</p>
+<p>The format of a path is one or more concatenated strings of the form: <code>&#39;/&#39;</code> followed by one or more lowercase English letters.</p>
 
 <ul>
-	<li>例如，<code>"/leetcode"</code>&nbsp;和&nbsp;<code>"/leetcode/problems"</code>&nbsp;都是有效的路径，而空字符串和&nbsp;<code>"/"</code>&nbsp;不是。</li>
+	<li>For example, <code>&quot;/leetcode&quot;</code> and <code>&quot;/leetcode/problems&quot;</code> are valid paths while an empty string and <code>&quot;/&quot;</code> are not.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>folder = ["/a","/a/b","/c/d","/c/d/e","/c/f"]
-<strong>输出：</strong>["/a","/c/d","/c/f"]
-<strong>解释：</strong>"/a/b" 是 "/a" 的子文件夹，而 "/c/d/e" 是 "/c/d" 的子文件夹。
+<strong>Input:</strong> folder = [&quot;/a&quot;,&quot;/a/b&quot;,&quot;/c/d&quot;,&quot;/c/d/e&quot;,&quot;/c/f&quot;]
+<strong>Output:</strong> [&quot;/a&quot;,&quot;/c/d&quot;,&quot;/c/f&quot;]
+<strong>Explanation:</strong> Folders &quot;/a/b&quot; is a subfolder of &quot;/a&quot; and &quot;/c/d/e&quot; is inside of folder &quot;/c/d&quot; in our filesystem.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>folder = ["/a","/a/b/c","/a/b/d"]
-<strong>输出：</strong>["/a"]
-<strong>解释：</strong>文件夹 "/a/b/c" 和 "/a/b/d" 都会被删除，因为它们都是 "/a" 的子文件夹。
+<strong>Input:</strong> folder = [&quot;/a&quot;,&quot;/a/b/c&quot;,&quot;/a/b/d&quot;]
+<strong>Output:</strong> [&quot;/a&quot;]
+<strong>Explanation:</strong> Folders &quot;/a/b/c&quot; and &quot;/a/b/d&quot; will be removed because they are subfolders of &quot;/a&quot;.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入:</strong> folder = ["/a/b/c","/a/b/ca","/a/b/d"]
-<strong>输出:</strong> ["/a/b/c","/a/b/ca","/a/b/d"]</pre>
+<strong>Input:</strong> folder = [&quot;/a/b/c&quot;,&quot;/a/b/ca&quot;,&quot;/a/b/d&quot;]
+<strong>Output:</strong> [&quot;/a/b/c&quot;,&quot;/a/b/ca&quot;,&quot;/a/b/d&quot;]
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= folder.length &lt;= 4 * 10<sup>4</sup></code></li>
 	<li><code>2 &lt;= folder[i].length &lt;= 100</code></li>
-	<li><code>folder[i]</code>&nbsp;只包含小写字母和 <code>'/'</code></li>
-	<li><code>folder[i]</code>&nbsp;总是以字符 <code>'/'</code>&nbsp;起始</li>
-	<li><code>folder</code>&nbsp;每个元素都是 <strong>唯一</strong> 的</li>
+	<li><code>folder[i]</code> contains only lowercase letters and <code>&#39;/&#39;</code>.</li>
+	<li><code>folder[i]</code> always starts with the character <code>&#39;/&#39;</code>.</li>
+	<li>Each folder name is <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序
+### Solution 1: Sorting
 
-我们先将数组 `folder` 按照字典序排序，然后遍历数组，对于当前遍历到的文件夹 $f$，如果它的长度大于等于答案数组中最后一个文件夹的长度，并且它的前缀包含答案数组的最后一个文件夹再加上一个 `/`，则说明 $f$ 是答案数组中最后一个文件夹的子文件夹，我们不需要将其加入答案数组中。否则，我们将 $f$ 加入答案数组中。
+First, we sort the array `folder` in lexicographical order, then traverse the array. For the current folder $f$ we are traversing, if its length is greater than or equal to the length of the last folder in the answer array, and its prefix includes the last folder in the answer array plus a `/`, then $f$ is a subfolder of the last folder in the answer array, and we don't need to add it to the answer array. Otherwise, we add $f$ to the answer array.
 
-遍历结束后，答案数组中的文件夹即为题目要求的答案。
+After the traversal ends, the folders in the answer array are the answer required by the problem.
 
-时间复杂度 $O(n \times \log n \times m)$，空间复杂度 $O(m)$。其中 $n$ 和 $m$ 分别为数组 `folder` 的长度和数组 `folder` 中字符串的最大长度。
+The time complexity is $O(n \times \log n \times m)$, and the space complexity is $O(m)$. Where $n$ and $m$ are the length of the array `folder` and the maximum length of the strings in the array `folder`, respectively.
 
 <!-- tabs:start -->
 
@@ -179,13 +175,13 @@ function removeSubfolders(folder) {
 
 <!-- solution:start -->
 
-### 方法二：字典树
+### Solution 2: Trie
 
-我们可以使用字典树存储数组 `folder` 中的所有文件夹。字典树的每个节点包含 `children` 字段，用于存储当前节点的子节点，以及 `fid` 字段，用于存储当前节点对应的文件夹在数组 `folder` 中的下标。
+We can use a trie to store all the folders in the array `folder`. Each node of the trie contains a `children` field, used to store the child nodes of the current node, and a `fid` field, used to store the index of the folder corresponding to the current node in the array `folder`.
 
-对于数组 `folder` 中的每个文件夹 $f$，我们先将 $f$ 按照 `/` 分割成若干个子串，然后从根节点开始，依次将子串加入字典树中。接下来，我们从根节点开始搜索字典树，如果当前节点的 `fid` 字段不为 `-1`，则说明当前节点对应的文件夹是答案数组中的一个文件夹，我们将其加入答案数组并且返回。否则，我们递归地搜索当前节点的所有子节点，最终返回答案数组。
+For each folder $f$ in the array `folder`, we first split $f$ into several substrings according to `/`, then start from the root node and add the substrings to the trie in turn. Next, we start from the root node to search the trie. If the `fid` field of the current node is not `-1`, it means that the folder corresponding to the current node is a folder in the answer array. We add it to the answer array and return. Otherwise, we recursively search all child nodes of the current node and finally return the answer array.
 
-时间复杂度 $O(n \times m)$，空间复杂度 $O(n \times m)$。其中 $n$ 和 $m$ 分别为数组 `folder` 的长度和数组 `folder` 中字符串的最大长度。
+The time complexity is $O(n \times m)$, and the space complexity is $O(n \times m)$. Where $n$ and $m$ are the length of the array `folder` and the maximum length of the strings in the array `folder`, respectively.
 
 <!-- tabs:start -->
 
@@ -482,7 +478,7 @@ function removeSubfolders(folder) {
 
 <!-- solution:start -->
 
-### 方法三
+### Solution 3
 
 <!-- tabs:start -->
 

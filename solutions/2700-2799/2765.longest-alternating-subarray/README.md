@@ -1,59 +1,60 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2765.Longest%20Alternating%20Subarray/README.md
+difficulty: Easy
 rating: 1580
-source: 第 108 场双周赛 Q1
+source: Biweekly Contest 108 Q1
 tags:
-    - 数组
-    - 枚举
+    - Array
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [2765. 最长交替子数组](https://leetcode.cn/problems/longest-alternating-subarray)
+# [2765. Longest Alternating Subarray](https://leetcode.com/problems/longest-alternating-subarray)
 
-[English Version](/solution/2700-2799/2765.Longest%20Alternating%20Subarray/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;。如果 <code>nums</code>&nbsp;中长度为&nbsp;<code>m</code>&nbsp;的子数组&nbsp;<code>s</code>&nbsp;满足以下条件，我们称它是一个 <strong>交替子数组</strong> ：</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. A subarray <code>s</code> of length <code>m</code> is called <strong>alternating</strong> if:</p>
 
 <ul>
-	<li><code>m</code>&nbsp;大于&nbsp;<code>1</code>&nbsp;。</li>
-	<li><code>s<sub>1</sub> = s<sub>0</sub> + 1</code>&nbsp;。</li>
-	<li>下标从 <strong>0</strong> 开始的子数组&nbsp;<code>s</code>&nbsp;与数组&nbsp;<code>[s<sub>0</sub>, s<sub>1</sub>, s<sub>0</sub>, s<sub>1</sub>,...,s<sub>(m-1) % 2</sub>]</code>&nbsp;一样。也就是说，<code>s<sub>1</sub> - s<sub>0</sub> = 1</code>&nbsp;，<code>s<sub>2</sub> - s<sub>1</sub> = -1</code>&nbsp;，<code>s<sub>3</sub> - s<sub>2</sub> = 1</code>&nbsp;，<code>s<sub>4</sub> - s<sub>3</sub> = -1</code>&nbsp;，以此类推，直到&nbsp;<code>s[m - 1] - s[m - 2] = (-1)<sup>m</sup></code>&nbsp;。</li>
+	<li><code>m</code> is greater than <code>1</code>.</li>
+	<li><code>s<sub>1</sub> = s<sub>0</sub> + 1</code>.</li>
+	<li>The <strong>0-indexed</strong> subarray <code>s</code> looks like <code>[s<sub>0</sub>, s<sub>1</sub>, s<sub>0</sub>, s<sub>1</sub>,...,s<sub>(m-1) % 2</sub>]</code>. In other words, <code>s<sub>1</sub> - s<sub>0</sub> = 1</code>, <code>s<sub>2</sub> - s<sub>1</sub> = -1</code>, <code>s<sub>3</sub> - s<sub>2</sub> = 1</code>, <code>s<sub>4</sub> - s<sub>3</sub> = -1</code>, and so on up to <code>s[m - 1] - s[m - 2] = (-1)<sup>m</sup></code>.</li>
 </ul>
 
-<p>请你返回 <code>nums</code>&nbsp;中所有 <strong>交替</strong>&nbsp;子数组中，最长的长度，如果不存在交替子数组，请你返回 <code>-1</code>&nbsp;。</p>
+<p>Return <em>the maximum length of all <strong>alternating</strong> subarrays present in </em><code>nums</code> <em>or </em><code>-1</code><em> if no such subarray exists</em><em>.</em></p>
 
-<p>子数组是一个数组中一段连续 <strong>非空</strong>&nbsp;的元素序列。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block"><b>输入：</b>nums = [2,3,4,3,4]</div>
-
-<div class="example-block"><b>输出：</b>4</div>
-
-<div class="example-block"><b>解释：</b>交替子数组有 <code>[2,3]</code>，<code>[3,4]</code>，<code>[3,4,3]</code> 和 <code>[3,4,3,4]</code>。最长的子数组为 <code>[3,4,3,4]</code>，长度为 4。</div>
+<p>A subarray is a contiguous <strong>non-empty</strong> sequence of elements within an array.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong class="example">示例 2：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [2,3,4,3,4]</span></p>
 
-<div class="example-block"><b>输入：</b>nums = [4,5,6]</div>
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
 
-<div class="example-block"><b>输出：</b>2</div>
+<p><strong>Explanation:</strong></p>
 
-<div class="example-block"><strong>解释：</strong><code>[4,5]</code> 和 <code>[5,6]</code> 是仅有的两个交替子数组。它们长度都为 2 。</div>
+<p>The alternating subarrays are <code>[2, 3]</code>, <code>[3,4]</code>, <code>[3,4,3]</code>, and <code>[3,4,3,4]</code>. The longest of these is <code>[3,4,3,4]</code>, which is of length 4.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [4,5,6]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p><code>[4,5]</code> and <code>[5,6]</code> are the only two alternating subarrays. They are both of length 2.</p>
+</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 100</code></li>
@@ -62,15 +63,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们可以枚举子数组的左端点 $i$，对于每个 $i$，我们需要找到最长的满足条件的子数组。我们可以从 $i$ 开始向右遍历，每次遇到相邻元素差值不满足交替条件时，我们就找到了一个满足条件的子数组。我们可以用一个变量 $k$ 来记录当前元素的差值应该是 $1$ 还是 $-1$，如果当前元素的差值应该是 $-k$，那么我们就将 $k$ 取反。当我们找到一个满足条件的子数组 $nums[i..j]$ 时，我们更新答案为 $\max(ans, j - i + 1)$。
+We can enumerate the left endpoint $i$ of the subarray, and for each $i$, we need to find the longest subarray that satisfies the condition. We can start traversing to the right from $i$, and each time we encounter adjacent elements whose difference does not satisfy the alternating condition, we find a subarray that satisfies the condition. We can use a variable $k$ to record whether the difference of the current element should be $1$ or $-1$. If the difference of the current element should be $-k$, then we take the opposite of $k$. When we find a subarray $nums[i..j]$ that satisfies the condition, we update the answer to $\max(ans, j - i + 1)$.
 
-时间复杂度 $O(n^2)$，其中 $n$ 是数组的长度。我们需要枚举子数组的左端点 $i$，对于每个 $i$，我们需要 $O(n)$ 的时间来找到最长的满足条件的子数组。空间复杂度 $O(1)$。
+The time complexity is $O(n^2)$, where $n$ is the length of the array. We need to enumerate the left endpoint $i$ of the subarray, and for each $i$, we need $O(n)$ time to find the longest subarray that satisfies the condition. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

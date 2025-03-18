@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1517.Find%20Users%20With%20Valid%20E-Mails/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1517. 查找拥有有效邮箱的用户](https://leetcode.cn/problems/find-users-with-valid-e-mails)
+# [1517. Find Users With Valid E-Mails](https://leetcode.com/problems/find-users-with-valid-e-mails)
 
-[English Version](/solution/1500-1599/1517.Find%20Users%20With%20Valid%20E-Mails/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Users</code></p>
+<p>Table: <code>Users</code></p>
 
 <pre>
 +---------------+---------+
@@ -26,32 +23,31 @@ tags:
 | name          | varchar |
 | mail          | varchar |
 +---------------+---------+
-user_id 是该表的主键（具有唯一值的列）。
-该表包含了网站已注册用户的信息。有一些电子邮件是无效的。
+user_id is the primary key (column with unique values) for this table.
+This table contains information of the users signed up in a website. Some e-mails are invalid.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写一个解决方案，以查找具有有效电子邮件的用户。</p>
+<p>Write a solution to find the users who have <strong>valid emails</strong>.</p>
 
-<p>一个有效的电子邮件具有前缀名称和域，其中：</p>
+<p>A valid e-mail has a prefix name and a domain where:</p>
 
-<ol>
-	<li>&nbsp;<strong>前缀</strong> 名称是一个字符串，可以包含字母（大写或小写），数字，下划线 <code>'_'</code> ，点 <code>'.'</code> 和/或破折号 <code>'-'</code> 。前缀名称 <strong>必须</strong> 以字母开头。</li>
-	<li><strong>域</strong> 为 <code>'@leetcode.com'</code> 。</li>
-</ol>
+<ul>
+	<li><strong>The prefix name</strong> is a string that may contain letters (upper or lower case), digits, underscore <code>&#39;_&#39;</code>, period <code>&#39;.&#39;</code>, and/or dash <code>&#39;-&#39;</code>. The prefix name <strong>must</strong> start with a letter.</li>
+	<li><strong>The domain</strong> is <code>&#39;@leetcode.com&#39;</code>.</li>
+</ul>
 
-<p>以任何顺序返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果的格式如以下示例所示：</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>
-Users 表:
+<strong>Input:</strong> 
+Users table:
 +---------+-----------+-------------------------+
 | user_id | name      | mail                    |
 +---------+-----------+-------------------------+
@@ -63,7 +59,7 @@ Users 表:
 | 6       | David     | david69@gmail.com       |
 | 7       | Shapiro   | .shapo@leetcode.com     |
 +---------+-----------+-------------------------+
-<b>输出：</b>
+<strong>Output:</strong> 
 +---------+-----------+-------------------------+
 | user_id | name      | mail                    |
 +---------+-----------+-------------------------+
@@ -71,20 +67,20 @@ Users 表:
 | 3       | Annabelle | bella-@leetcode.com     |
 | 4       | Sally     | sally.come@leetcode.com |
 +---------+-----------+-------------------------+
-<b>解释：</b>
-用户 2 的电子邮件没有域。 
-用户 5 的电子邮件带有不允许的 '#' 符号。
-用户 6 的电子邮件没有 leetcode 域。 
-用户 7 的电子邮件以点开头。
+<strong>Explanation:</strong> 
+The mail of user 2 does not have a domain.
+The mail of user 5 has the # sign which is not allowed.
+The mail of user 6 does not have the leetcode domain.
+The mail of user 7 starts with a period.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：REGEXP 正则匹配
+### Solution 1
 
 <!-- tabs:start -->
 

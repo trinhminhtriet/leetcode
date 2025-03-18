@@ -1,56 +1,53 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2524.Maximum%20Frequency%20Score%20of%20a%20Subarray/README.md
+difficulty: Hard
 tags:
-    - 栈
-    - 数组
-    - 哈希表
-    - 数学
-    - 滑动窗口
+    - Stack
+    - Array
+    - Hash Table
+    - Math
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [2524. 子数组的最大频率分数 🔒](https://leetcode.cn/problems/maximum-frequency-score-of-a-subarray)
+# [2524. Maximum Frequency Score of a Subarray 🔒](https://leetcode.com/problems/maximum-frequency-score-of-a-subarray)
 
-[English Version](/solution/2500-2599/2524.Maximum%20Frequency%20Score%20of%20a%20Subarray/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数数组 <code>nums</code> 和一个 <strong>正</strong> 整数 <code>k</code> 。</p>
+<p>You are given an integer array <code>nums</code> and a <strong>positive</strong> integer <code>k</code>.</p>
 
-<p>数组的 <strong>频率得分</strong> 是数组中 <strong>不同</strong> 值的 <strong>幂次</strong> 之和，并将和对&nbsp;<code>10<sup>9</sup>&nbsp;+ 7</code> <strong>取模</strong>。</p>
+<p>The <strong>frequency score</strong> of an array is the sum of the <strong>distinct</strong> values in the array raised to the power of their <strong>frequencies</strong>, taking the sum <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
-<p>例如，数组 <code>[5,4,5,7,4,4]</code> 的频率得分为 <code>(4<sup>3</sup>&nbsp;+ 5<sup>2</sup>&nbsp;+ 7<sup>1</sup>) modulo (10<sup>9</sup>&nbsp;+ 7) = 96</code> 。</p>
+<ul>
+	<li>For example, the frequency score of the array <code>[5,4,5,7,4,4]</code> is <code>(4<sup>3</sup> + 5<sup>2</sup> + 7<sup>1</sup>) modulo (10<sup>9</sup> + 7) = 96</code>.</li>
+</ul>
 
-<p>返回 <code>nums</code> 中长度为 <code>k</code> 的 <strong>子数组</strong> 的 <strong>最大&nbsp;</strong>频率得分。你需要返回取模后的最大值，而不是实际值。</p>
+<p>Return <em>the <strong>maximum</strong> frequency score of a <strong>subarray</strong> of size </em><code>k</code><em> in </em><code>nums</code>. You should maximize the value under the modulo and not the actual value.</p>
 
-<p><strong>子数组</strong>&nbsp;是一个数组的连续部分。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1 ：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [1,1,1,2,1,2], k = 3
-<b>输出：</b>5
-<b>解释：</b>子数组 [2,1,2] 的频率分数等于 5。可以证明这是我们可以获得的最大频率分数。
-</pre>
-
-<p><strong class="example">示例 2 ：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [1,1,1,1,1,1], k = 4
-<b>输出：</b>1
-<b>解释：</b>所有长度为 4 的子数组的频率得分都等于 1。
-</pre>
+<p>A <strong>subarray</strong> is a contiguous part of an array.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,1,1,2,1,2], k = 3
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The subarray [2,1,2] has a frequency score equal to 5. It can be shown that it is the maximum frequency score we can have.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,1,1,1,1,1], k = 4
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> All the subarrays of length 4 have a frequency score equal to 1.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -59,17 +56,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 滑动窗口 + 快速幂
+### Solution 1: Hash Table + Sliding Window + Fast Power
 
-我们用哈希表 $\textit{cnt}$ 维护窗口大小为 $k$ 的元素及其出现的次数。
+We use a hash table $\textit{cnt}$ to maintain the elements of the window of size $k$ and their frequencies.
 
-先算出初始窗口为 $k$ 的所有元素的分数。然后利用滑动窗口，每次加入一个元素，并移除最左边的元素，同时利用快速幂更新分数。
+First, calculate the score of all elements in the initial window of size $k$. Then, use a sliding window to add one element at a time and remove the leftmost element, while updating the score using fast power.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

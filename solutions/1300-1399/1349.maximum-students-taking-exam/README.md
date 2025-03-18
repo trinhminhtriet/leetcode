@@ -1,77 +1,71 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1349.Maximum%20Students%20Taking%20Exam/README.md
+difficulty: Hard
 rating: 2385
-source: 第 175 场周赛 Q4
+source: Weekly Contest 175 Q4
 tags:
-    - 位运算
-    - 数组
-    - 动态规划
-    - 状态压缩
-    - 矩阵
+    - Bit Manipulation
+    - Array
+    - Dynamic Programming
+    - Bitmask
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [1349. 参加考试的最大学生数](https://leetcode.cn/problems/maximum-students-taking-exam)
+# [1349. Maximum Students Taking Exam](https://leetcode.com/problems/maximum-students-taking-exam)
 
-[English Version](/solution/1300-1399/1349.Maximum%20Students%20Taking%20Exam/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个&nbsp;<code>m&nbsp;* n</code>&nbsp;的矩阵 <code>seats</code>&nbsp;表示教室中的座位分布。如果座位是坏的（不可用），就用&nbsp;<code>'#'</code>&nbsp;表示；否则，用&nbsp;<code>'.'</code>&nbsp;表示。</p>
+<p>Given a <code>m&nbsp;* n</code>&nbsp;matrix <code>seats</code>&nbsp;&nbsp;that represent seats distributions&nbsp;in a classroom.&nbsp;If a seat&nbsp;is&nbsp;broken, it is denoted by <code>&#39;#&#39;</code> character otherwise it is denoted by a <code>&#39;.&#39;</code> character.</p>
 
-<p>学生可以看到左侧、右侧、左上、右上这四个方向上紧邻他的学生的答卷，但是看不到直接坐在他前面或者后面的学生的答卷。请你计算并返回该考场可以容纳的同时参加考试且无法作弊的&nbsp;<strong>最大&nbsp;</strong>学生人数。</p>
+<p>Students can see the answers of those sitting next to the left, right, upper left and upper right, but he cannot see the answers of the student sitting&nbsp;directly in front or behind him. Return the <strong>maximum </strong>number of students that can take the exam together&nbsp;without any cheating being possible.</p>
 
-<p>学生必须坐在状况良好的座位上。</p>
+<p>Students must be placed in seats in good condition.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1349.Maximum%20Students%20Taking%20Exam/images/image.png" style="height: 197px; width: 339px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img height="200" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1349.Maximum%20Students%20Taking%20Exam/images/image.png" width="339" />
 <pre>
-<strong>输入：</strong>seats = [["#",".","#","#",".","#"],
-&nbsp;             [".","#","#","#","#","."],
-&nbsp;             ["#",".","#","#",".","#"]]
-<strong>输出：</strong>4
-<strong>解释：</strong>教师可以让 4 个学生坐在可用的座位上，这样他们就无法在考试中作弊。 
+<strong>Input:</strong> seats = [[&quot;#&quot;,&quot;.&quot;,&quot;#&quot;,&quot;#&quot;,&quot;.&quot;,&quot;#&quot;],
+&nbsp;               [&quot;.&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;#&quot;,&quot;.&quot;],
+&nbsp;               [&quot;#&quot;,&quot;.&quot;,&quot;#&quot;,&quot;#&quot;,&quot;.&quot;,&quot;#&quot;]]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Teacher can place 4 students in available seats so they don&#39;t cheat on the exam. 
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>seats = [[".","#"],
-&nbsp;             ["#","#"],
-&nbsp;             ["#","."],
-&nbsp;             ["#","#"],
-&nbsp;             [".","#"]]
-<strong>输出：</strong>3
-<strong>解释：</strong>让所有学生坐在可用的座位上。
+<strong>Input:</strong> seats = [[&quot;.&quot;,&quot;#&quot;],
+&nbsp;               [&quot;#&quot;,&quot;#&quot;],
+&nbsp;               [&quot;#&quot;,&quot;.&quot;],
+&nbsp;               [&quot;#&quot;,&quot;#&quot;],
+&nbsp;               [&quot;.&quot;,&quot;#&quot;]]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> Place all students in available seats. 
+
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>seats = [["#",".","<strong>.</strong>",".","#"],
-&nbsp;             ["<strong>.</strong>","#","<strong>.</strong>","#","<strong>.</strong>"],
-&nbsp;             ["<strong>.</strong>",".","#",".","<strong>.</strong>"],
-&nbsp;             ["<strong>.</strong>","#","<strong>.</strong>","#","<strong>.</strong>"],
-&nbsp;             ["#",".","<strong>.</strong>",".","#"]]
-<strong>输出：</strong>10
-<strong>解释：</strong>让学生坐在第 1、3 和 5 列的可用座位上。
+<strong>Input:</strong> seats = [[&quot;#&quot;,&quot;.&quot;,&quot;<strong>.</strong>&quot;,&quot;.&quot;,&quot;#&quot;],
+&nbsp;               [&quot;<strong>.</strong>&quot;,&quot;#&quot;,&quot;<strong>.</strong>&quot;,&quot;#&quot;,&quot;<strong>.</strong>&quot;],
+&nbsp;               [&quot;<strong>.</strong>&quot;,&quot;.&quot;,&quot;#&quot;,&quot;.&quot;,&quot;<strong>.</strong>&quot;],
+&nbsp;               [&quot;<strong>.</strong>&quot;,&quot;#&quot;,&quot;<strong>.</strong>&quot;,&quot;#&quot;,&quot;<strong>.</strong>&quot;],
+&nbsp;               [&quot;#&quot;,&quot;.&quot;,&quot;<strong>.</strong>&quot;,&quot;.&quot;,&quot;#&quot;]]
+<strong>Output:</strong> 10
+<strong>Explanation:</strong> Place students in available seats in column 1, 3 and 5.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>seats</code>&nbsp;只包含字符&nbsp;<code>'.'&nbsp;和</code><code>'#'</code></li>
+	<li><code>seats</code>&nbsp;contains only characters&nbsp;<code>&#39;.&#39;<font face="sans-serif, Arial, Verdana, Trebuchet MS">&nbsp;and</font></code><code>&#39;#&#39;.</code></li>
 	<li><code>m ==&nbsp;seats.length</code></li>
 	<li><code>n ==&nbsp;seats[i].length</code></li>
 	<li><code>1 &lt;= m &lt;= 8</code></li>
@@ -80,28 +74,28 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：状态压缩 + 记忆化搜索
+### Solution 1: State Compression + Memoization Search
 
-我们注意到，每个座位有两种状态：可选和不可选。因此，我们可以使用二进制数来表示每一行的座位状态，其中 $1$ 表示可选，而 $0$ 表示不可选。例如，对于示例 $1$ 中的第一行，我们可以表示为 $010010$。因此，我们将初始座位转换为一个一维数组 $ss$，其中 $ss[i]$ 表示第 $i$ 行的座位状态。
+We notice that each seat has two states: selectable and non-selectable. Therefore, we can use a binary number to represent the seat state of each row, where $1$ represents selectable, and $0$ represents non-selectable. For example, for the first row in Example 1, we can represent it as $010010$. Therefore, we convert the initial seats into a one-dimensional array $ss$, where $ss[i]$ represents the seat state of the $i$th row.
 
-接下来，我们设计一个函数 $dfs(seat, i)$，表示从第 $i$ 行开始，当前行的座位状态为 $seat$，可以容纳的最多学生人数。
+Next, we design a function $dfs(seat, i)$, which represents the maximum number of students that can be accommodated starting from the $i$th row, and the seat state of the current row is $seat$.
 
-我们可以枚举第 $i$ 行的所有选座状态 $mask$，并且判断 $mask$ 是否满足以下条件：
+We can enumerate all the seat selection states $mask$ of the $i$th row, and judge whether $mask$ meets the following conditions:
 
--   状态 $mask$ 不能选择 $seat$ 之外的座位；
--   状态 $mask$ 不能选择相邻的座位。
+-   The state $mask$ cannot select seats outside of $seat$;
+-   The state $mask$ cannot select adjacent seats.
 
-如果满足条件，我们求出当前行选择的座位个数 $cnt$，如果当前是最后一行，则更新函数的返回值，即 $ans = \max(ans, cnt)$。否则，我们继续递归地求解下一行的最大人数，下一行的座位状态 $nxt = ss[i + 1]$，并且需要排除当前行已选座位的左右两侧。然后我们递归地求解下一行的最大人数，即 $ans = \max(ans, cnt + dfs(nxt, i + 1))$。
+If the conditions are met, we calculate the number of seats selected in the current row $cnt$. If it is the last row, update the return value of the function, that is, $ans = \max(ans, cnt)$. Otherwise, we continue to recursively solve the maximum number of the next row. The seat state of the next row is $nxt = ss[i + 1]$, and we need to exclude the left and right sides of the selected seats in the current row. Then we recursively solve the maximum number of the next row, that is, $ans = \max(ans, cnt + dfs(nxt, i + 1))$.
 
-最后，我们将 $ans$ 作为函数的返回值返回。
+Finally, we return $ans$ as the return value of the function.
 
-为了避免重复计算，我们可以使用记忆化搜索，将函数 $dfs(seat, i)$ 的返回值保存在一个二维数组 $f$ 中，其中 $f[seat][i]$ 表示从第 $i$ 行开始，当前行的座位状态为 $seat$，可以容纳的最多学生人数。
+To avoid repeated calculations, we can use memoization search to save the return value of the function $dfs(seat, i)$ in a two-dimensional array $f$, where $f[seat][i]$ represents the maximum number of students that can be accommodated starting from the $i$th row, and the seat state of the current row is $seat$.
 
-时间复杂度 $O(4^n \times n \times m)$，空间复杂度 $O(2^n \times m)$。其中 $m$ 和 $n$ 分别为座位的行数和列数。
+The time complexity is $O(4^n \times n \times m)$, and the space complexity is $O(2^n \times m)$. Where $m$ and $n$ are the number of rows and columns of the seats, respectively.
 
 <!-- tabs:start -->
 

@@ -1,69 +1,65 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1115.Print%20FooBar%20Alternately/README.md
+difficulty: Medium
 tags:
-    - 多线程
+    - Concurrency
 ---
 
 <!-- problem:start -->
 
-# [1115. 交替打印 FooBar](https://leetcode.cn/problems/print-foobar-alternately)
+# [1115. Print FooBar Alternately](https://leetcode.com/problems/print-foobar-alternately)
 
-[English Version](/solution/1100-1199/1115.Print%20FooBar%20Alternately/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个类：</p>
+<p>Suppose you are given the following code:</p>
 
 <pre>
 class FooBar {
   public void foo() {
-&nbsp; &nbsp; for (int i = 0; i &lt; n; i++) {
-&nbsp; &nbsp; &nbsp; print("foo");
-&nbsp;   }
+    for (int i = 0; i &lt; n; i++) {
+      print(&quot;foo&quot;);
+    }
   }
 
   public void bar() {
-&nbsp; &nbsp; for (int i = 0; i &lt; n; i++) {
-&nbsp; &nbsp; &nbsp; print("bar");
-&nbsp; &nbsp; }
+    for (int i = 0; i &lt; n; i++) {
+      print(&quot;bar&quot;);
+    }
   }
 }
 </pre>
 
-<p>两个不同的线程将会共用一个 <code>FooBar</code>&nbsp;实例：</p>
+<p>The same instance of <code>FooBar</code> will be passed to two different threads:</p>
 
 <ul>
-	<li>线程 A 将会调用&nbsp;<code>foo()</code>&nbsp;方法，而</li>
-	<li>线程 B 将会调用&nbsp;<code>bar()</code>&nbsp;方法</li>
+	<li>thread <code>A</code> will call <code>foo()</code>, while</li>
+	<li>thread <code>B</code> will call <code>bar()</code>.</li>
 </ul>
 
-<p>请设计修改程序，以确保 <code>"foobar"</code> 被输出 <code>n</code> 次。</p>
+<p>Modify the given program to output <code>&quot;foobar&quot;</code> <code>n</code> times.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 1
-<strong>输出：</strong>"foobar"
-<strong>解释：</strong>这里有两个线程被异步启动。其中一个调用 foo() 方法, 另一个调用 bar() 方法，"foobar" 将被输出一次。
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> &quot;foobar&quot;
+<strong>Explanation:</strong> There are two threads being fired asynchronously. One of them calls foo(), while the other calls bar().
+&quot;foobar&quot; is being output 1 time.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 2
-<strong>输出：</strong>"foobarfoobar"
-<strong>解释：</strong>"foobar" 将被输出两次。
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> &quot;foobarfoobar&quot;
+<strong>Explanation:</strong> &quot;foobar&quot; is being output 2 times.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
@@ -71,21 +67,21 @@ class FooBar {
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：多线程 + 信号量
+### Solution 1: Multithreading + Semaphore
 
-我们用两个信号量 $f$ 和 $b$ 来控制两个线程的执行顺序，其中 $f$ 初始值为 $1$，而 $b$ 初始值为 $0$，表示线程 $A$ 先执行。
+We use two semaphores $f$ and $b$ to control the execution order of the two threads, where $f$ is initially set to $1$ and $b$ is set to $0$, indicating that thread $A$ executes first.
 
-当线程 $A$ 执行时，首先会执行 $f$ 的 $acquire$ 操作，此时 $f$ 的值变为 $0$，线程 $A$ 获得了 $f$ 的使用权，可以执行 $foo$ 函数，然后执行 $b$ 的 $release$ 操作，此时 $b$ 的值变为 $1$，线程 $B$ 获得了 $b$ 的使用权，可以执行 $bar$ 函数。
+When thread $A$ executes, it first performs the $acquire$ operation on $f$, which changes the value of $f$ to $0$. Thread $A$ then gains the right to use $f$ and can execute the $foo$ function. After that, it performs the $release$ operation on $b$, changing the value of $b$ to $1$. This allows thread $B$ to gain the right to use $b$ and execute the $bar$ function.
 
-当线程 $B$ 执行时，首先会执行 $b$ 的 $acquire$ 操作，此时 $b$ 的值变为 $0$，线程 $B$ 获得了 $b$ 的使用权，可以执行 $bar$ 函数，然后执行 $f$ 的 $release$ 操作，此时 $f$ 的值变为 $1$，线程 $A$ 获得了 $f$ 的使用权，可以执行 $foo$ 函数。
+When thread $B$ executes, it first performs the $acquire$ operation on $b$, which changes the value of $b$ to $0$. Thread $B$ then gains the right to use $b$ and can execute the $bar$ function. After that, it performs the $release$ operation on $f$, changing the value of $f$ to $1$. This allows thread $A$ to gain the right to use $f$ and execute the $foo$ function.
 
-因此，我们只需要循环 $n$ 次，每次执行 $foo$ 和 $bar$ 函数时，先执行 $acquire$ 操作，再执行 $release$ 操作即可。
+Therefore, we only need to loop $n$ times, each time executing the $foo$ and $bar$ functions, first performing the $acquire$ operation, and then the $release$ operation.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

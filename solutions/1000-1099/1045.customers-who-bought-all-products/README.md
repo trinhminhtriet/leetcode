@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1045.Customers%20Who%20Bought%20All%20Products/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1045. 买下所有产品的客户](https://leetcode.cn/problems/customers-who-bought-all-products)
+# [1045. Customers Who Bought All Products](https://leetcode.com/problems/customers-who-bought-all-products)
 
-[English Version](/solution/1000-1099/1045.Customers%20Who%20Bought%20All%20Products/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><code>Customer</code>&nbsp;表：</p>
+<p>Table: <code>Customer</code></p>
 
 <pre>
 +-------------+---------+
@@ -25,12 +22,14 @@ tags:
 | customer_id | int     |
 | product_key | int     |
 +-------------+---------+
-该表可能包含重复的行。
-customer_id 不为 NULL。
-product_key 是 Product 表的外键(reference 列)。
+This table may contain duplicates rows. 
+<code>customer_id</code> is not NULL<code>.</code>
+product_key is a foreign key (reference column) to <code>Product</code> table.
 </pre>
 
-<p><code>Product</code>&nbsp;表：</p>
+<p>&nbsp;</p>
+
+<p>Table: <code>Product</code></p>
 
 <pre>
 +-------------+---------+
@@ -38,24 +37,23 @@ product_key 是 Product 表的外键(reference 列)。
 +-------------+---------+
 | product_key | int     |
 +-------------+---------+
-product_key 是这张表的主键（具有唯一值的列）。
+product_key is the primary key (column with unique values) for this table.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案，报告&nbsp;<code>Customer</code> 表中购买了 <code>Product</code> 表中所有产品的客户的 id。</p>
+<p>Write a solution to report the customer ids from the <code>Customer</code> table that bought all the products in the <code>Product</code> table.</p>
 
-<p>返回结果表 <strong>无顺序要求</strong> 。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>返回结果格式如下所示。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Customer 表：
+<strong>Input:</strong> 
+Customer table:
 +-------------+-------------+
 | customer_id | product_key |
 +-------------+-------------+
@@ -65,33 +63,33 @@ Customer 表：
 | 3           | 6           |
 | 1           | 6           |
 +-------------+-------------+
-Product 表：
+Product table:
 +-------------+
 | product_key |
 +-------------+
 | 5           |
 | 6           |
 +-------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-------------+
 | customer_id |
 +-------------+
 | 1           |
 | 3           |
 +-------------+
-<strong>解释：</strong>
-购买了所有产品（5 和 6）的客户的 id 是 1 和 3 。
+<strong>Explanation:</strong> 
+The customers who bought all the products (5 and 6) are customers with IDs 1 and 3.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组统计 + 子查询
+### Solution 1: Grouping and Subquery
 
-我们将 `Customer` 表按照 `customer_id` 进行分组，然后使用 `HAVING` 子句筛选出购买了所有产品的客户。
+We can group the `Customer` table by `customer_id`, and then use the `HAVING` clause to filter out the customers who have not purchased all products. To do this, we can use a subquery to find the total number of distinct products, and then compare it with the number of distinct products purchased by each customer.
 
 <!-- tabs:start -->
 

@@ -1,84 +1,78 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2531.Make%20Number%20of%20Distinct%20Characters%20Equal/README.md
+difficulty: Medium
 rating: 1775
-source: 第 327 场周赛 Q3
+source: Weekly Contest 327 Q3
 tags:
-    - 哈希表
-    - 字符串
-    - 计数
+    - Hash Table
+    - String
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [2531. 使字符串中不同字符的数目相等](https://leetcode.cn/problems/make-number-of-distinct-characters-equal)
+# [2531. Make Number of Distinct Characters Equal](https://leetcode.com/problems/make-number-of-distinct-characters-equal)
 
-[English Version](/solution/2500-2599/2531.Make%20Number%20of%20Distinct%20Characters%20Equal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个下标从 <strong>0</strong> 开始的字符串 <code>word1</code> 和 <code>word2</code> 。</p>
+<p>You are given two <strong>0-indexed</strong> strings <code>word1</code> and <code>word2</code>.</p>
 
-<p>一次 <strong>移动</strong> 由以下两个步骤组成：</p>
+<p>A <strong>move</strong> consists of choosing two indices <code>i</code> and <code>j</code> such that <code>0 &lt;= i &lt; word1.length</code> and <code>0 &lt;= j &lt; word2.length</code> and swapping <code>word1[i]</code> with <code>word2[j]</code>.</p>
 
-<ul>
-	<li>选中两个下标&nbsp;<code>i</code> 和 <code>j</code> ，分别满足 <code>0 &lt;= i &lt; word1.length</code> 和 <code>0 &lt;= j &lt; word2.length</code> ，</li>
-	<li>交换 <code>word1[i]</code> 和 <code>word2[j]</code> 。</li>
-</ul>
-
-<p>如果可以通过 <strong>恰好一次</strong> 移动，使 <code>word1</code> 和 <code>word2</code> 中不同字符的数目相等，则返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
+<p>Return <code>true</code> <em>if it is possible to get the number of distinct characters in</em> <code>word1</code> <em>and</em> <code>word2</code> <em>to be equal with <strong>exactly one</strong> move. </em>Return <code>false</code> <em>otherwise</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>word1 = "ac", word2 = "b"
-<strong>输出：</strong>false
-<strong>解释：</strong>交换任何一组下标都会导致第一个字符串中有 2 个不同的字符，而在第二个字符串中只有 1 个不同字符。
+<pre>
+<strong>Input:</strong> word1 = &quot;ac&quot;, word2 = &quot;b&quot;
+<strong>Output:</strong> false
+<strong>Explanation:</strong> Any pair of swaps would yield two distinct characters in the first string, and one in the second string.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>word1 = "abcc", word2 = "aab"
-<strong>输出：</strong>true
-<strong>解释：</strong>交换第一个字符串的下标 2 和第二个字符串的下标 0 。之后得到 word1 = "abac" 和 word2 = "cab" ，各有 3 个不同字符。
+<pre>
+<strong>Input:</strong> word1 = &quot;abcc&quot;, word2 = &quot;aab&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> We swap index 2 of the first string with index 0 of the second string. The resulting strings are word1 = &quot;abac&quot; and word2 = &quot;cab&quot;, which both have 3 distinct characters.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>word1 = "abcde", word2 = "fghij"
-<strong>输出：</strong>true
-<strong>解释：</strong>无论交换哪一组下标，两个字符串中都会有 5 个不同字符。</pre>
+<pre>
+<strong>Input:</strong> word1 = &quot;abcde&quot;, word2 = &quot;fghij&quot;
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Both resulting strings will have 5 distinct characters, regardless of which indices we swap.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= word1.length, word2.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>word1</code> 和 <code>word2</code> 仅由小写英文字母组成。</li>
+	<li><code>word1</code> and <code>word2</code> consist of only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数 + 枚举
+### Solution 1: Counting + Enumeration
 
-我们先用两个长度为 $26$ 的数组 $\textit{cnt1}$ 和 $\textit{cnt2}$ 分别记录字符串 $\textit{word1}$ 和 $\textit{word2}$ 中每个字符的出现次数。
+We first use two arrays $\textit{cnt1}$ and $\textit{cnt2}$ of length $26$ to record the frequency of each character in the strings $\textit{word1}$ and $\textit{word2}$, respectively.
 
-然后我们分别统计 $\textit{word1}$ 和 $\textit{word2}$ 中不同字符的个数，分别记为 $x$ 和 $y$。
+Then, we count the number of distinct characters in $\textit{word1}$ and $\textit{word2}$, denoted as $x$ and $y$ respectively.
 
-接下来我们枚举 $\textit{word1}$ 中的每个字符 $c1$ 和 $\textit{word2}$ 中的每个字符 $c2$，如果 $c1 = c2$，那么我们只需要判断 $x$ 和 $y$ 是否相等；否则，我们需要判断 $x - (\textit{cnt1}[c1] = 1) + (\textit{cnt1}[c2] = 0)$ 和 $y - (\textit{cnt2}[c2] = 1) + (\textit{cnt2}[c1] = 0)$ 是否相等。如果相等，那么我们就找到了一种方案，返回 $\text{true}$。
+Next, we enumerate each character $c1$ in $\textit{word1}$ and each character $c2$ in $\textit{word2}$. If $c1 = c2$, we only need to check if $x$ and $y$ are equal; otherwise, we need to check if $x - (\textit{cnt1}[c1] = 1) + (\textit{cnt1}[c2] = 0)$ and $y - (\textit{cnt2}[c2] = 1) + (\textit{cnt2}[c1] = 0)$ are equal. If they are equal, then we have found a solution and return $\text{true}$.
 
-如果我们枚举完所有的字符都没有找到合适的方案，那么我们就返回 $\text{false}$。
+If we have enumerated all characters and have not found a suitable solution, we return $\text{false}$.
 
-时间复杂度 $O(m + n + |\Sigma|^2)$，其中 $m$ 和 $n$ 分别是字符串 $\textit{word1}$ 和 $\textit{word2}$ 的长度，而 $\Sigma$ 是字符集，本题中字符集为小写字母，所以 $|\Sigma| = 26$。
+The time complexity is $O(m + n + |\Sigma|^2)$, where $m$ and $n$ are the lengths of the strings $\textit{word1}$ and $\textit{word2}$, and $\Sigma$ is the character set. In this problem, the character set consists of lowercase letters, so $|\Sigma| = 26$.
 
 <!-- tabs:start -->
 

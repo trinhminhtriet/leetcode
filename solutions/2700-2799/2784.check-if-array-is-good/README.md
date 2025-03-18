@@ -1,64 +1,63 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2784.Check%20if%20Array%20is%20Good/README.md
+difficulty: Easy
 rating: 1376
-source: 第 109 场双周赛 Q1
+source: Biweekly Contest 109 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 排序
+    - Array
+    - Hash Table
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2784. 检查数组是否是好的](https://leetcode.cn/problems/check-if-array-is-good)
+# [2784. Check if Array is Good](https://leetcode.com/problems/check-if-array-is-good)
 
-[English Version](/solution/2700-2799/2784.Check%20if%20Array%20is%20Good/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;，如果它是数组&nbsp;<code>base[n]</code>&nbsp;的一个排列，我们称它是个&nbsp;<strong>好</strong>&nbsp;数组。</p>
+<p>You are given an integer array <code>nums</code>. We consider an array <strong>good </strong>if it is a permutation of an array <code>base[n]</code>.</p>
 
-<p><code>base[n] = [1, 2, ..., n - 1, n, n]</code>&nbsp;（换句话说，它是一个长度为 <code>n + 1</code>&nbsp;且包含&nbsp;<code>1</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;恰好各一次，包含 <code>n</code>&nbsp; 两次的一个数组）。比方说，<code>base[1] = [1, 1]</code>&nbsp;，<code>base[3] = [1, 2, 3, 3]</code>&nbsp;。</p>
+<p><code>base[n] = [1, 2, ..., n - 1, n, n] </code>(in other words, it is an array of length <code>n + 1</code> which contains <code>1</code> to <code>n - 1 </code>exactly once, plus two occurrences of <code>n</code>). For example, <code>base[1] = [1, 1]</code> and<code> base[3] = [1, 2, 3, 3]</code>.</p>
 
-<p>如果数组是一个好数组，请你返回&nbsp;<code>true</code>&nbsp;，否则返回&nbsp;<code>false</code>&nbsp;。</p>
+<p>Return <code>true</code> <em>if the given array is good, otherwise return</em><em> </em><code>false</code>.</p>
 
-<p><strong>注意：</strong>数组的排列是这些数字按任意顺序排布后重新得到的数组。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [2, 1, 3]
-<b>输出：</b>false
-<b>解释：</b>因为数组的最大元素是 3 ，唯一可以构成这个数组的 base[n] 对应的 n = 3 。但是 base[3] 有 4 个元素，但数组 nums 只有 3 个元素，所以无法得到 base[3] = [1, 2, 3, 3] 的排列，所以答案为 false 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>nums = [1, 3, 3, 2]
-<b>输出：</b>true
-<b>解释：因为</b>数组的最大元素是 3 ，唯一可以构成这个数组的 base[n] 对应的 n = 3 ，可以看出数组是 base[3] = [1, 2, 3, 3] 的一个排列（交换 nums 中第二个和第四个元素）。所以答案为 true 。</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><b>输入：</b>nums = [1, 1]
-<b>输出：</b>true
-<b>解释：</b>因为数组的最大元素是 1 ，唯一可以构成这个数组的 base[n] 对应的 n = 1，可以看出数组是 base[1] = [1, 1] 的一个排列。所以答案为 true 。</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><b>输入：</b>nums = [3, 4, 4, 1, 2, 1]
-<b>输出：</b>false
-<b>解释：</b>因为数组的最大元素是 4 ，唯一可以构成这个数组的 base[n] 对应的 n = 4 。但是 base[n] 有 5 个元素而 nums 有 6 个元素。所以答案为 false 。
-</pre>
+<p><strong>Note: </strong>A permutation of integers represents an arrangement of these numbers.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [2, 1, 3]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> Since the maximum element of the array is 3, the only candidate n for which this array could be a permutation of base[n], is n = 3. However, base[3] has four elements but array nums has three. Therefore, it can not be a permutation of base[3] = [1, 2, 3, 3]. So the answer is false.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1, 3, 3, 2]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Since the maximum element of the array is 3, the only candidate n for which this array could be a permutation of base[n], is n = 3. It can be seen that nums is a permutation of base[3] = [1, 2, 3, 3] (by swapping the second and fourth elements in nums, we reach base[3]). Therefore, the answer is true.</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1, 1]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Since the maximum element of the array is 1, the only candidate n for which this array could be a permutation of base[n], is n = 1. It can be seen that nums is a permutation of base[1] = [1, 1]. Therefore, the answer is true.</pre>
+
+<p><strong class="example">Example 4:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [3, 4, 4, 1, 2, 1]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> Since the maximum element of the array is 4, the only candidate n for which this array could be a permutation of base[n], is n = 4. However, base[4] has five elements but array nums has six. Therefore, it can not be a permutation of base[4] = [1, 2, 3, 4, 4]. So the answer is false.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -67,20 +66,20 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们可以用一个哈希表或数组 $cnt$ 记录数组 $nums$ 中每个元素出现的次数。然后我们判断是否满足以下条件：
+We can use a hash table or array $cnt$ to record the number of occurrences of each element in the array $nums$. Then we determine whether the following conditions are met:
 
-1. $cnt[n] = 2$，即数组中最大的元素出现了两次；
-2. 对于 $1 \leq i \leq n-1$，均满足 $cnt[i] = 1$，即数组中除了最大的元素外，其他元素都只出现了一次。
+1. $cnt[n] = 2$, i.e., the largest element in the array appears twice;
+2. For $1 \leq i \leq n-1$, it holds that $cnt[i] = 1$, i.e., except for the largest element, all other elements appear only once.
 
-如果满足以上两个条件，那么数组 $nums$ 是一个好数组，否则不是。
+If the above two conditions are met, then the array $nums$ is a good array, otherwise it is not.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

@@ -1,80 +1,73 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1353.Maximum%20Number%20of%20Events%20That%20Can%20Be%20Attended/README.md
+difficulty: Medium
 rating: 2015
-source: 第 176 场周赛 Q3
+source: Weekly Contest 176 Q3
 tags:
-    - 贪心
-    - 数组
-    - 排序
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1353. 最多可以参加的会议数目](https://leetcode.cn/problems/maximum-number-of-events-that-can-be-attended)
+# [1353. Maximum Number of Events That Can Be Attended](https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended)
 
-[English Version](/solution/1300-1399/1353.Maximum%20Number%20of%20Events%20That%20Can%20Be%20Attended/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组&nbsp;<code>events</code>，其中&nbsp;<code>events[i] = [startDay<sub>i</sub>, endDay<sub>i</sub>]</code>&nbsp;，表示会议&nbsp;<code>i</code>&nbsp;开始于&nbsp;<code>startDay<sub>i</sub></code>&nbsp;，结束于&nbsp;<code>endDay<sub>i</sub></code>&nbsp;。</p>
+<p>You are given an array of <code>events</code> where <code>events[i] = [startDay<sub>i</sub>, endDay<sub>i</sub>]</code>. Every event <code>i</code> starts at <code>startDay<sub>i</sub></code><sub> </sub>and ends at <code>endDay<sub>i</sub></code>.</p>
 
-<p>你可以在满足&nbsp;<code>startDay<sub>i</sub>&nbsp;&lt;= d &lt;= endDay<sub>i</sub></code><sub>&nbsp;</sub>中的任意一天&nbsp;<code>d</code>&nbsp;参加会议&nbsp;<code>i</code>&nbsp;。在任意一天&nbsp;<code>d</code>&nbsp;中只能参加一场会议。</p>
+<p>You can attend an event <code>i</code> at any day <code>d</code> where <code>startTime<sub>i</sub> &lt;= d &lt;= endTime<sub>i</sub></code>. You can only attend one event at any time <code>d</code>.</p>
 
-<p>请你返回你可以参加的&nbsp;<strong>最大&nbsp;</strong>会议数目。</p>
+<p>Return <em>the maximum number of events you can attend</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1353.Maximum%20Number%20of%20Events%20That%20Can%20Be%20Attended/images/e1.png" style="height: 267px; width: 400px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1353.Maximum%20Number%20of%20Events%20That%20Can%20Be%20Attended/images/e1.png" style="width: 400px; height: 267px;" />
 <pre>
-<strong>输入：</strong>events = [[1,2],[2,3],[3,4]]
-<strong>输出：</strong>3
-<strong>解释：</strong>你可以参加所有的三个会议。
-安排会议的一种方案如上图。
-第 1 天参加第一个会议。
-第 2 天参加第二个会议。
-第 3 天参加第三个会议。
+<strong>Input:</strong> events = [[1,2],[2,3],[3,4]]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> You can attend all the three events.
+One way to attend them all is as shown.
+Attend the first event on day 1.
+Attend the second event on day 2.
+Attend the third event on day 3.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>events= [[1,2],[2,3],[3,4],[1,2]]
-<strong>输出：</strong>4
+<strong>Input:</strong> events= [[1,2],[2,3],[3,4],[1,2]]
+<strong>Output:</strong> 4
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong>​​​​​​</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= events.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>events[i].length == 2</code></li>
-	<li><code>1 &lt;= startDay<sub>i</sub>&nbsp;&lt;= endDay<sub>i</sub>&nbsp;&lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= startDay<sub>i</sub> &lt;= endDay<sub>i</sub> &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 贪心 + 优先队列
+### Solution 1: Hash Table + Greedy + Priority Queue
 
-定义哈希表记录每个会议的开始和结束时间，其中键为会议开始时间，值为结束时间列表。
+Define a hash table to record the start and end times of each meeting, where the key is the start time of the meeting, and the value is a list of end times.
 
-枚举当前时间 $s$，找出所有开始时间等于当前时间的会议，将其结束时间加入优先队列（小根堆）中。同时，优先队列要移除所有结束时间小于当前时间的会议。
+Enumerate the current time $s$, find all meetings that start at the current time, and add their end times to the priority queue (min heap). At the same time, the priority queue needs to remove all meetings that end before the current time.
 
-然后从优先队列中取出结束时间最小的会议，即为当前时间可以参加的会议，累加答案数。如果优先队列为空，则说明当前时间没有可以参加的会议。
+Then, take out the meeting with the smallest end time from the priority queue, which is the meeting that can be attended at the current time, and accumulate the answer count. If the priority queue is empty, it means that there are no meetings that can be attended at the current time.
 
-时间复杂度 $O(m \times \log n)$，空间复杂度 $O(n)$。其中 $m$, $n$ 分别表示会议的最大结束时间，以及会议的数量。
+The time complexity is $O(m \times \log n)$, and the space complexity is $O(n)$. Where $m$ and $n$ represent the maximum end time of the meetings and the number of meetings, respectively.
 
 <!-- tabs:start -->
 

@@ -1,100 +1,112 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2901.Longest%20Unequal%20Adjacent%20Groups%20Subsequence%20II/README.md
+difficulty: Medium
 rating: 1898
-source: 第 115 场双周赛 Q3
+source: Biweekly Contest 115 Q3
 tags:
-    - 数组
-    - 字符串
-    - 动态规划
+    - Array
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2901. 最长相邻不相等子序列 II](https://leetcode.cn/problems/longest-unequal-adjacent-groups-subsequence-ii)
+# [2901. Longest Unequal Adjacent Groups Subsequence II](https://leetcode.com/problems/longest-unequal-adjacent-groups-subsequence-ii)
 
-[English Version](/solution/2900-2999/2901.Longest%20Unequal%20Adjacent%20Groups%20Subsequence%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>n</code>&nbsp;和一个下标从&nbsp;<strong>0</strong>&nbsp;开始的字符串数组&nbsp;<code>words</code>&nbsp;，和一个下标从&nbsp;<strong>0</strong>&nbsp;开始的数组&nbsp;<code>groups</code>&nbsp;，两个数组长度都是&nbsp;<code>n</code>&nbsp;。</p>
+<p>You are given a string array <code>words</code>, and an array <code>groups</code>, both arrays having length <code>n</code>.</p>
 
-<p>两个长度相等字符串的 <strong>汉明距离</strong>&nbsp;定义为对应位置字符&nbsp;<strong>不同</strong>&nbsp;的数目。</p>
+<p>The <strong>hamming distance</strong> between two strings of equal length is the number of positions at which the corresponding characters are <strong>different</strong>.</p>
 
-<p>你需要从下标&nbsp;<code>[0, 1, ..., n - 1]</code>&nbsp;中选出一个&nbsp;<strong>最长<span data-keyword="subsequence-array">子序列</span></strong>&nbsp;，将这个子序列记作长度为 <code>k</code> 的&nbsp;<code>[i<sub>0</sub>, i<sub>1</sub>, ..., i<sub>k - 1</sub>]</code>&nbsp;，它需要满足以下条件：</p>
+<p>You need to select the <strong>longest</strong> <span data-keyword="subsequence-array">subsequence</span> from an array of indices <code>[0, 1, ..., n - 1]</code>, such that for the subsequence denoted as <code>[i<sub>0</sub>, i<sub>1</sub>, ..., i<sub>k-1</sub>]</code> having length <code>k</code>, the following holds:</p>
 
 <ul>
-	<li><strong>相邻</strong> 下标对应的 <code>groups</code> 值 <strong>不同</strong>。即，对于所有满足&nbsp;<code>0 &lt; j + 1 &lt; k</code>&nbsp;的&nbsp;<code>j</code>&nbsp;都有&nbsp;<code>groups[i<sub>j</sub>] != groups[i<sub>j + 1</sub>]</code>&nbsp;。</li>
-	<li>对于所有&nbsp;<code>0 &lt; j + 1 &lt; k</code>&nbsp;的下标&nbsp;<code>j</code>&nbsp;，都满足&nbsp;<code>words[i<sub>j</sub>]</code> 和&nbsp;<code>words[i<sub>j + 1</sub>]</code>&nbsp;的长度 <strong>相等</strong>&nbsp;，且两个字符串之间的 <strong>汉明距离</strong>&nbsp;为 <code>1</code>&nbsp;。</li>
+	<li>For <strong>adjacent</strong> indices in the subsequence, their corresponding groups are <strong>unequal</strong>, i.e., <code>groups[i<sub>j</sub>] != groups[i<sub>j+1</sub>]</code>, for each <code>j</code> where <code>0 &lt; j + 1 &lt; k</code>.</li>
+	<li><code>words[i<sub>j</sub>]</code> and <code>words[i<sub>j+1</sub>]</code> are <strong>equal</strong> in length, and the <strong>hamming distance</strong> between them is <code>1</code>, where <code>0 &lt; j + 1 &lt; k</code>, for all indices in the subsequence.</li>
 </ul>
 
-<p>请你返回一个字符串数组，它是下标子序列&nbsp;<strong>依次</strong>&nbsp;对应&nbsp;<code>words</code>&nbsp;数组中的字符串连接形成的字符串数组。如果有多个答案，返回任意一个。</p>
+<p>Return <em>a string array containing the words corresponding to the indices <strong>(in order)</strong> in the selected subsequence</em>. If there are multiple answers, return <em>any of them</em>.</p>
 
-<p><strong>子序列</strong>&nbsp;指的是从原数组中删掉一些（也可能一个也不删掉）元素，剩余元素不改变相对位置得到的新的数组。</p>
-
-<p><b>注意：</b><code>words</code>&nbsp;中的字符串长度可能&nbsp;<strong>不相等</strong>&nbsp;。</p>
+<p><strong>Note:</strong> strings in <code>words</code> may be <strong>unequal</strong> in length.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong class="example">示例 1：</strong></p>
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input: </strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">words = [&quot;bab&quot;,&quot;dab&quot;,&quot;cab&quot;], groups = [1,2,2]</span></p>
 
-<pre>
-<b>输入：</b>n = 3, words = ["bab","dab","cab"], groups = [1,2,2]
-<b>输出：</b>["bab","cab"]
-<b>解释：</b>一个可行的子序列是 [0,2] 。
-- groups[0] != groups[2]
-- words[0].length == words[2].length 且它们之间的汉明距离为 1 。
-所以一个可行的答案是 [words[0],words[2]] = ["bab","cab"] 。
-另一个可行的子序列是 [0,1] 。
-- groups[0] != groups[1]
-- words[0].length = words[1].length 且它们之间的汉明距离为 1 。
-所以另一个可行的答案是 [words[0],words[1]] = ["bab","dab"] 。
-符合题意的最长子序列的长度为 2 。</pre>
+<p><strong>Output: </strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">[&quot;bab&quot;,&quot;cab&quot;]</span></p>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong>Explanation: </strong>A subsequence that can be selected is <code>[0,2]</code>.</p>
 
-<pre>
-<b>输入：</b>n = 4, words = ["a","b","c","d"], groups = [1,2,3,4]
-<b>输出：</b>["a","b","c","d"]
-<b>解释：</b>我们选择子序列 [0,1,2,3] 。
-它同时满足两个条件。
-所以答案为 [words[0],words[1],words[2],words[3]] = ["a","b","c","d"] 。
-它是所有下标子序列里最长且满足所有条件的。
-所以它是唯一的答案。
-</pre>
+<ul>
+	<li><code>groups[0] != groups[2]</code></li>
+	<li><code>words[0].length == words[2].length</code>, and the hamming distance between them is 1.</li>
+</ul>
+
+<p>So, a valid answer is <code>[words[0],words[2]] = [&quot;bab&quot;,&quot;cab&quot;]</code>.</p>
+
+<p>Another subsequence that can be selected is <code>[0,1]</code>.</p>
+
+<ul>
+	<li><code>groups[0] != groups[1]</code></li>
+	<li><code>words[0].length == words[1].length</code>, and the hamming distance between them is <code>1</code>.</li>
+</ul>
+
+<p>So, another valid answer is <code>[words[0],words[1]] = [&quot;bab&quot;,&quot;dab&quot;]</code>.</p>
+
+<p>It can be shown that the length of the longest subsequence of indices that satisfies the conditions is <code>2</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input: </strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">words = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;], groups = [1,2,3,4]</span></p>
+
+<p><strong>Output: </strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;]</span></p>
+
+<p><strong>Explanation: </strong>We can select the subsequence <code>[0,1,2,3]</code>.</p>
+
+<p>It satisfies both conditions.</p>
+
+<p>Hence, the answer is <code>[words[0],words[1],words[2],words[3]] = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;]</code>.</p>
+
+<p>It has the longest length among all subsequences of indices that satisfy the conditions.</p>
+
+<p>Hence, it is the only answer.</p>
+</div>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == words.length == groups.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 10</code></li>
 	<li><code>1 &lt;= groups[i] &lt;= n</code></li>
-	<li><code>words</code>&nbsp;中的字符串&nbsp;<strong>互不相同</strong>&nbsp;。</li>
-	<li><code>words[i]</code> 只包含小写英文字母。</li>
+	<li><code>words</code> consists of <strong>distinct</strong> strings.</li>
+	<li><code>words[i]</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i]$ 表示以第 $i$ 个单词结尾的最长相邻不相等子序列的长度，定义 $g[i]$ 表示以第 $i$ 个单词结尾的最长相邻不相等子序列的前驱下标。初始时 $f[i] = 1$, $g[i] = -1$。
+We define $f[i]$ as the length of the longest adjacent non-equal subsequence ending with the $i$-th word, and $g[i]$ as the predecessor index of the longest adjacent non-equal subsequence ending with the $i$-th word. Initially, we set $f[i] = 1$ and $g[i] = -1$.
 
-另外，我们定义一个变量 $mx$ 表示最长相邻不相等子序列的长度。
+In addition, we define a variable $mx$ to represent the length of the longest adjacent non-equal subsequence.
 
-我们枚举 $i$，枚举 $j \in [0, i)$，如果 $groups[i] \neq groups[j]$ 且 $f[i] \lt f[j] + 1$ 且 $words[i]$ 和 $words[j]$ 之间的汉明距离为 $1$，则更新 $f[i] = f[j] + 1$，$g[i] = j$，并且更新 $mx = \max(mx, f[i])$。
+We traverse $i$ and $j \in [0, i)$, and if $groups[i] \neq groups[j]$, $f[i] \lt f[j] + 1$, and the Hamming distance between $words[i]$ and $words[j]$ is $1$, we update $f[i] = f[j] + 1$, $g[i] = j$, and update $mx = \max(mx, f[i])$.
 
-最后，我们从 $f$ 数组中找到最大值对应的下标 $i$，然后从 $i$ 开始不断往前找，直到找到 $g[i] = -1$，这样就找到了最长相邻不相等子序列。
+Finally, we find the index $i$ corresponding to the maximum value in the $f$ array, and then continuously search backwards from $i$ until we find $g[i] = -1$, which gives us the longest adjacent non-equal subsequence.
 
-时间复杂度 $O(n^2 \times L)$，空间复杂度 $O(n)$。其中 $L$ 表示单词的最大长度。
+The time complexity is $O(n^2 \times L)$, and the space complexity is $O(n)$. Here, $L$ represents the maximum length of a word.
 
 <!-- tabs:start -->
 
@@ -366,9 +378,9 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：动态规划 + 通配符哈希表
+### Solution 2: Dynamic Programming + Hash Table
 
-在方法一中，我们需要枚举所有的 $i$ 和 $j$ 组合, 这一步可以通过维护一个通配符哈希表来优化. 对于每个字符串 $word[i]$, 我们枚举它的每个字符, 将其替换为通配符, 然后将替换后的字符串作为键, 将其下标作为值存入哈希表中. 这样我们可以在 $O(L)$ 时间内找到所有距离 $word[i]$ 汉明距离为 1 的 $word[j]$. 尽管时间复杂度仍然是 $O(n^2 \times L)$, 但平均复杂度会有所降低.
+In Solution 1, we need to enumerate all $i$ and $j$ combinations, a step that can be optimized by maintaining a wildcard hash table. For each string $word[i]$, we enumerate each character, replace it with a wildcard, and then use the replaced string as the key and add its subscript to the list which is the value in the hash table. This allows us to find all $word[j]$ with a Hamming distance of 1 from $word[i]$ in $O(L)$ time. Although the time complexity is still $O(n^2 \times L)$, the average complexity is reduced.
 
 <!-- tabs:start -->
 

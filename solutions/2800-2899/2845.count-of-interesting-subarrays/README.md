@@ -1,75 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2845.Count%20of%20Interesting%20Subarrays/README.md
+difficulty: Medium
 rating: 2073
-source: 第 361 场周赛 Q3
+source: Weekly Contest 361 Q3
 tags:
-    - 数组
-    - 哈希表
-    - 前缀和
+    - Array
+    - Hash Table
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [2845. 统计趣味子数组的数目](https://leetcode.cn/problems/count-of-interesting-subarrays)
+# [2845. Count of Interesting Subarrays](https://leetcode.com/problems/count-of-interesting-subarrays)
 
-[English Version](/solution/2800-2899/2845.Count%20of%20Interesting%20Subarrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> ，以及整数 <code>modulo</code> 和整数 <code>k</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>, an integer <code>modulo</code>, and an integer <code>k</code>.</p>
 
-<p>请你找出并统计数组中 <strong>趣味子数组</strong> 的数目。</p>
+<p>Your task is to find the count of subarrays that are <strong>interesting</strong>.</p>
 
-<p>如果 <strong>子数组</strong> <code>nums[l..r]</code> 满足下述条件，则称其为 <strong>趣味子数组</strong> ：</p>
+<p>A <strong>subarray</strong> <code>nums[l..r]</code> is <strong>interesting</strong> if the following condition holds:</p>
 
 <ul>
-	<li>在范围 <code>[l, r]</code> 内，设 <code>cnt</code> 为满足 <code>nums[i] % modulo == k</code> 的索引 <code>i</code> 的数量。并且 <code>cnt % modulo == k</code> 。</li>
+	<li>Let <code>cnt</code> be the number of indices <code>i</code> in the range <code>[l, r]</code> such that <code>nums[i] % modulo == k</code>. Then, <code>cnt % modulo == k</code>.</li>
 </ul>
 
-<p>以整数形式表示并返回趣味子数组的数目。<em> </em></p>
+<p>Return <em>an integer denoting the count of interesting subarrays. </em></p>
 
-<p><span><strong>注意：</strong>子数组是数组中的一个连续非空的元素序列。</span></p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [3,2,4], modulo = 2, k = 1
-<strong>输出：</strong>3
-<strong>解释：</strong>在这个示例中，趣味子数组分别是： 
-子数组 nums[0..0] ，也就是 [3] 。 
-- 在范围 [0, 0] 内，只存在 1 个下标 i = 0 满足 nums[i] % modulo == k 。
-- 因此 cnt = 1 ，且 cnt % modulo == k 。
-子数组 nums[0..1] ，也就是 [3,2] 。
-- 在范围 [0, 1] 内，只存在 1 个下标 i = 0 满足 nums[i] % modulo == k 。
-- 因此 cnt = 1 ，且 cnt % modulo == k 。
-子数组 nums[0..2] ，也就是 [3,2,4] 。
-- 在范围 [0, 2] 内，只存在 1 个下标 i = 0 满足 nums[i] % modulo == k 。
-- 因此 cnt = 1 ，且 cnt % modulo == k 。
-可以证明不存在其他趣味子数组。因此，答案为 3 。</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [3,1,9,6], modulo = 3, k = 0
-<strong>输出：</strong>2
-<strong>解释：</strong>在这个示例中，趣味子数组分别是： 
-子数组 nums[0..3] ，也就是 [3,1,9,6] 。
-- 在范围 [0, 3] 内，只存在 3 个下标 i = 0, 2, 3 满足 nums[i] % modulo == k 。
-- 因此 cnt = 3 ，且 cnt % modulo == k 。
-子数组 nums[1..1] ，也就是 [1] 。
-- 在范围 [1, 1] 内，不存在下标满足 nums[i] % modulo == k 。
-- 因此 cnt = 0 ，且 cnt % modulo == k 。
-可以证明不存在其他趣味子数组，因此答案为 2 。</pre>
+<p><span><strong>Note:</strong> A subarray is <em>a contiguous non-empty sequence of elements within an array</em>.</span></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [3,2,4], modulo = 2, k = 1
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> In this example the interesting subarrays are: 
+The subarray nums[0..0] which is [3]. 
+- There is only one index, i = 0, in the range [0, 0] that satisfies nums[i] % modulo == k. 
+- Hence, cnt = 1 and cnt % modulo == k.  
+The subarray nums[0..1] which is [3,2].
+- There is only one index, i = 0, in the range [0, 1] that satisfies nums[i] % modulo == k.  
+- Hence, cnt = 1 and cnt % modulo == k.
+The subarray nums[0..2] which is [3,2,4]. 
+- There is only one index, i = 0, in the range [0, 2] that satisfies nums[i] % modulo == k. 
+- Hence, cnt = 1 and cnt % modulo == k. 
+It can be shown that there are no other interesting subarrays. So, the answer is 3.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [3,1,9,6], modulo = 3, k = 0
+<strong>Output:</strong> 2
+<strong>Explanation: </strong>In this example the interesting subarrays are: 
+The subarray nums[0..3] which is [3,1,9,6]. 
+- There are three indices, i = 0, 2, 3, in the range [0, 3] that satisfy nums[i] % modulo == k. 
+- Hence, cnt = 3 and cnt % modulo == k. 
+The subarray nums[1..1] which is [1]. 
+- There is no index, i, in the range [1, 1] that satisfies nums[i] % modulo == k. 
+- Hence, cnt = 0 and cnt % modulo == k. 
+It can be shown that there are no other interesting subarrays. So, the answer is 2.</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5 </sup></code></li>
@@ -80,23 +75,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 前缀和
+### Solution 1: Hash Table + Prefix Sum
 
-题目要求一个区间内满足 $nums[i] \bmod modulo = k$ 的索引 $i$ 的数量，我们可以将数组 $nums$ 转换为一个 $0-1$ 数组 $arr$，其中 $arr[i] = 1$ 表示 $nums[i] \bmod modulo = k$，否则 $arr[i] = 0$。
+The problem requires the number of indices $i$ in an interval that satisfy $nums[i] \bmod modulo = k$. We can transform the array $nums$ into a $0-1$ array $arr$, where $arr[i] = 1$ indicates $nums[i] \bmod modulo = k$, otherwise $arr[i] = 0$.
 
-那么对于一个区间 $[l, r]$，我们可以通过前缀和数组 $s$ 来计算 $arr[l..r]$ 中 $1$ 的数量，即 $s[r] - s[l - 1]$，其中 $s[0] = 0$。
+For an interval $[l, r]$, we can calculate the number of $1$s in $arr[l..r]$ through the prefix sum array $s$, i.e., $s[r] - s[l - 1]$, where $s[0] = 0$.
 
-我们用哈希表 $cnt$ 记录前缀和 $s \bmod modulo$ 出现的次数，初始时 $cnt[0]=1$。
+We use a hash table $cnt$ to record the number of occurrences of the prefix sum $s \bmod modulo$, initially $cnt[0]=1$.
 
-接下来，我们遍历数组 $arr$，计算前缀和 $s$，将 $(s-k) \bmod modulo$ 出现的次数累加到答案中，然后将 $s \bmod modulo$ 出现的次数加 $1$。
+Next, we traverse the array $arr$, calculate the prefix sum $s$, add the number of occurrences of $(s-k) \bmod modulo$ to the answer, and then add $1$ to the number of occurrences of $s \bmod modulo$.
 
-遍历结束后，返回答案即可。
+After the traversal ends, return the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

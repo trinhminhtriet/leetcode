@@ -1,76 +1,73 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0403.Frog%20Jump/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [403. 青蛙过河](https://leetcode.cn/problems/frog-jump)
+# [403. Frog Jump](https://leetcode.com/problems/frog-jump)
 
-[English Version](/solution/0400-0499/0403.Frog%20Jump/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一只青蛙想要过河。 假定河流被等分为若干个单元格，并且在每一个单元格内都有可能放有一块石子（也有可能没有）。 青蛙可以跳上石子，但是不可以跳入水中。</p>
+<p>A frog is crossing a river. The river is divided into some number of units, and at each unit, there may or may not exist a stone. The frog can jump on a stone, but it must not jump into the water.</p>
 
-<p>给你石子的位置列表 <code>stones</code>（用单元格序号 <strong>升序</strong> 表示），&nbsp;请判定青蛙能否成功过河（即能否在最后一步跳至最后一块石子上）。开始时，&nbsp;青蛙默认已站在第一块石子上，并可以假定它第一步只能跳跃 <code>1</code> 个单位（即只能从单元格 1 跳至单元格 2 ）。</p>
+<p>Given a list of <code>stones</code>&nbsp;positions (in units) in sorted <strong>ascending order</strong>, determine if the frog can cross the river by landing on the last stone. Initially, the frog is on the first stone and assumes the first jump must be <code>1</code> unit.</p>
 
-<p>如果青蛙上一步跳跃了&nbsp;<code>k</code><em>&nbsp;</em>个单位，那么它接下来的跳跃距离只能选择为&nbsp;<code>k - 1</code>、<code>k</code><em>&nbsp;</em>或&nbsp;<code>k + 1</code> 个单位。&nbsp;另请注意，青蛙只能向前方（终点的方向）跳跃。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>stones = [0,1,3,5,6,8,12,17]
-<strong>输出：</strong>true
-<strong>解释：</strong>青蛙可以成功过河，按照如下方案跳跃：跳 1 个单位到第 2 块石子, 然后跳 2 个单位到第 3 块石子, 接着 跳 2 个单位到第 4 块石子, 然后跳 3 个单位到第 6 块石子, 跳 4 个单位到第 7 块石子, 最后，跳 5 个单位到第 8 个石子（即最后一块石子）。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>stones = [0,1,2,3,4,8,9,11]
-<strong>输出：</strong>false
-<strong>解释：</strong>这是因为第 5 和第 6 个石子之间的间距太大，没有可选的方案供青蛙跳跃过去。</pre>
+<p>If the frog&#39;s last jump was <code>k</code> units, its next jump must be either <code>k - 1</code>, <code>k</code>, or <code>k + 1</code> units. The frog can only jump in the forward direction.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> stones = [0,1,3,5,6,8,12,17]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The frog can jump to the last stone by jumping 1 unit to the 2nd stone, then 2 units to the 3rd stone, then 2 units to the 4th stone, then 3 units to the 6th stone, 4 units to the 7th stone, and 5 units to the 8th stone.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> stones = [0,1,2,3,4,8,9,11]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> There is no way to jump to the last stone as the gap between the 5th and 6th stone is too large.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= stones.length &lt;= 2000</code></li>
 	<li><code>0 &lt;= stones[i] &lt;= 2<sup>31</sup> - 1</code></li>
 	<li><code>stones[0] == 0</code></li>
-	<li><code>stones</code>&nbsp;按严格升序排列</li>
+	<li><code>stones</code>&nbsp;is sorted in a strictly increasing order.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 记忆化搜索
+### Solution 1: Hash Table + Memoization
 
-我们用哈希表 $pos$ 记录每个石子的下标，接下来设计一个函数 $dfs(i, k)$，表示青蛙从第 $i$ 个石子跳跃且上一次跳跃距离为 $k$，如果青蛙能够到达终点，那么函数返回 `true`，否则返回 `false`。
+We use a hash table $pos$ to record the index of each stone. Next, we design a function $dfs(i, k)$, which means that the frog jumps from the $i$-th stone and the last jump distance is $k$. If the frog can reach the end, the function returns `true`, otherwise it returns `false`.
 
-函数 $dfs(i, k)$ 的计算过程如下：
+The calculation process of function $dfs(i, k)$ is as follows:
 
-如果 $i$ 是最后一个石子的下标，那么青蛙已经到达终点，返回 `true`；
+If $i$ is the index of the last stone, the frog has reached the end, and return `true`;
 
-否则，我们需要枚举青蛙接下来的跳跃距离 $j$，其中 $j \in [k-1, k, k+1]$。如果 $j$ 是正数，并且哈希表 $pos$ 中存在位置 $stones[i] + j$，那么青蛙在第 $i$ 个石子上可以选择跳跃 $j$ 个单位，如果 $dfs(pos[stones[i] + j], j)$ 返回 `true`，那么青蛙可以从第 $i$ 个石子成功跳跃到终点，我们就可以返回 `true`。
+Otherwise, we need to enumerate the frog's next jump distance $j$, where $j \in [k-1, k, k+1]$. If $j$ is a positive integer and the hash table $pos$ exists the position $stones[i] + j$, then the frog can choose to jump $j$ units on the $i$-th stone, if $dfs(pos[stones[i] + j], j)$ returns `true`, the frog can successfully jump to the end from the $i$-th stone, and we can return `true`.
 
-枚举结束，说明青蛙在第 $i$ 个石子上无法选择合适的跳跃距离跳到终点，我们就返回 `false`。
+The enumeration is over, indicating that the frog cannot choose the appropriate jump distance on the $i$-th stone to jump to the end, so we return `false`.
 
-为了防止函数 $dfs(i, k)$ 中出现重复计算，我们可以使用记忆化搜索，将 $dfs(i, k)$ 的结果记录在一个数组 $f$ 中，每当函数 $dfs(i, k)$ 返回结果，我们就将 $f[i][k]$ 进行赋值，并在下次遇到 $dfs(i, k)$ 时直接返回 $f[i][k]$。
+In order to prevent repeated calculations in the function $dfs(i, k)$, we can use memoization, record the result of $dfs(i, k)$ in an array $f$, and assign $f[i][k]$ each time the function $dfs(i, k)$ returns result, and return $f[i][k]$ directly when encountering $dfs(i, k)$ next time.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是石子的数量。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Where $n$ is the number of stones.
 
 <!-- tabs:start -->
 
@@ -293,15 +290,15 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：动态规划
+### Solution 2: Dynamic Programming
 
-我们定义 $f[i][k]$ 表示青蛙能否达到「现在所处的石子编号」为 $i$，「上一次跳跃距离」为 $k$ 的状态。初始时 $f[0][0] = true$，其余均为 `false`。
+We define $f[i][k]$ to be true if and only if it is possible to reach stone $i$ with last jump of size $k$. Initially $f[0][0] = true$, and all other elements of $f$ are false.
 
-考虑 $f[i]$，我们可以枚举上一块石子的编号 $j$，那么上一次跳跃的距离 $k=stones[i]-stones[j]$。如果 $k-1 \gt j$，那么青蛙无法从第 $j$ 块石子跳跃到第 $i$ 块石子，我们可以直接跳过这种情况。否则，青蛙可以从第 $j$ 块石子跳跃到第 $i$ 块石子，那么 $f[i][k] = f[j][k-1] \lor f[j][k] \lor f[j][k+1]$。如果 $i=n-1$，且 $f[i][k]=true$，那么青蛙可以成功过河，我们就可以返回 `true`。
+We can determine the value of $f[i][k]$ for all $i$ and $k$ using a double loop. For each possible jump size $k$, we look at the stones we could have jumped from: $i-k$, $i-k+1$, $i-k+2$. If any of these stones exist and if we can reach them with a last jump of size $k-1$, $k$, or $k+1$, then we can reach stone $i$ with a last jump of size $k$.
 
-否则，我们最后返回 `false`。
+If we can reach the last stone, the answer is true. Otherwise, the answer is false.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是石子的数量。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Where $n$ is the number of stones.
 
 <!-- tabs:start -->
 

@@ -1,64 +1,59 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1005.Maximize%20Sum%20Of%20Array%20After%20K%20Negations/README.md
+difficulty: Easy
 rating: 1274
-source: 第 127 场周赛 Q1
+source: Weekly Contest 127 Q1
 tags:
-    - 贪心
-    - 数组
-    - 排序
+    - Greedy
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1005. K 次取反后最大化的数组和](https://leetcode.cn/problems/maximize-sum-of-array-after-k-negations)
+# [1005. Maximize Sum Of Array After K Negations](https://leetcode.com/problems/maximize-sum-of-array-after-k-negations)
 
-[English Version](/solution/1000-1099/1005.Maximize%20Sum%20Of%20Array%20After%20K%20Negations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> ，按以下方法修改该数组：</p>
+<p>Given an integer array <code>nums</code> and an integer <code>k</code>, modify the array in the following way:</p>
 
 <ul>
-	<li>选择某个下标 <code>i</code>&nbsp;并将 <code>nums[i]</code> 替换为 <code>-nums[i]</code> 。</li>
+	<li>choose an index <code>i</code> and replace <code>nums[i]</code> with <code>-nums[i]</code>.</li>
 </ul>
 
-<p>重复这个过程恰好 <code>k</code> 次。可以多次选择同一个下标 <code>i</code> 。</p>
+<p>You should apply this process exactly <code>k</code> times. You may choose the same index <code>i</code> multiple times.</p>
 
-<p>以这种方式修改数组后，返回数组 <strong>可能的最大和</strong> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [4,2,3], k = 1
-<strong>输出：</strong>5
-<strong>解释：</strong>选择下标 1 ，nums 变为 [4,-2,3] 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [3,-1,0,2], k = 3
-<strong>输出：</strong>6
-<strong>解释：</strong>选择下标 (1, 2, 2) ，nums 变为 [3,1,0,2] 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [2,-3,-1,5,-4], k = 2
-<strong>输出：</strong>13
-<strong>解释：</strong>选择下标 (1, 4) ，nums 变为 [2,3,-1,5,4] 。
-</pre>
+<p>Return <em>the largest possible sum of the array after modifying it in this way</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [4,2,3], k = 1
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> Choose index 1 and nums becomes [4,-2,3].
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [3,-1,0,2], k = 3
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> Choose indices (1, 2, 2) and nums becomes [3,1,0,2].
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,-3,-1,5,-4], k = 2
+<strong>Output:</strong> 13
+<strong>Explanation:</strong> Choose indices (1, 4) and nums becomes [2,3,-1,5,4].
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
@@ -68,21 +63,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 计数
+### Solution 1: Greedy + Counting
 
-我们观察发现，要使得数组的和尽可能大，就应该尽可能地将数组中的最小负数变成正数。
+We observe that to maximize the sum of the array, we should try to turn the smallest negative numbers into positive numbers.
 
-而题目中元素的范围为 $[-100,100]$，因此，我们可以先用哈希表 $\textit{cnt}$ 统计数组 $\textit{nums}$ 中每个元素出现的次数。接着从 $-100$ 开始遍历 $x$，如果哈希表中存在 $x$，那么我们取 $m = \min(cnt[x], k)$ 作为元素 $x$ 取反的个数，然后我们将 $\textit{cnt}[x]$ 减去 $m$，将 $\textit{cnt}[-x]$ 加上 $m$，并将 $k$ 减去 $m$。如果 $k$ 为 $0$，说明操作已经结束，直接退出循环即可。
+Given that the range of elements is $[-100, 100]$, we can use a hash table $\textit{cnt}$ to count the occurrences of each element in the array $\textit{nums}$. Then, starting from $-100$, we iterate through $x$. If $x$ exists in the hash table, we take $m = \min(\textit{cnt}[x], k)$ as the number of times to negate the element $x$. We then subtract $m$ from $\textit{cnt}[x]$, add $m$ to $\textit{cnt}[-x]$, and subtract $m$ from $k$. If $k$ becomes $0$, the operation is complete, and we exit the loop.
 
-如果 $k$ 仍然为奇数，且 $\textit{cnt}[0]=0$，那么我们还需要取 $\textit{cnt}$ 中最小的一个正数 $x$，将 $\textit{cnt}[x]$ 减去 $1$，将 $\textit{cnt}[-x]$ 加上 $1$。
+If $k$ is still odd and $\textit{cnt}[0] = 0$, we need to take the smallest positive number $x$ in $\textit{cnt}$, subtract $1$ from $\textit{cnt}[x]$, and add $1$ to $\textit{cnt}[-x]$.
 
-最后，我们遍历哈希表 $\textit{cnt}$，将 $x$ 与 $\textit{cnt}[x]$ 相乘的结果累加，即为答案。
+Finally, we traverse the hash table $\textit{cnt}$ and sum the products of $x$ and $\textit{cnt}[x]$ to get the answer.
 
-时间复杂度 $O(n + M)$，空间复杂度 $O(M)$。其中 $n$ 和 $M$ 分别为数组 $\textit{nums}$ 的长度和 $\textit{nums}$ 的数据范围大小。
+The time complexity is $O(n + M)$, and the space complexity is $O(M)$. Here, $n$ and $M$ are the length of the array $\textit{nums}$ and the size of the data range of $\textit{nums}$, respectively.
 
 <!-- tabs:start -->
 

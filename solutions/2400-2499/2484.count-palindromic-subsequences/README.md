@@ -1,76 +1,74 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2484.Count%20Palindromic%20Subsequences/README.md
+difficulty: Hard
 rating: 2223
-source: 第 92 场双周赛 Q4
+source: Biweekly Contest 92 Q4
 tags:
-    - 字符串
-    - 动态规划
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2484. 统计回文子序列数目](https://leetcode.cn/problems/count-palindromic-subsequences)
+# [2484. Count Palindromic Subsequences](https://leetcode.com/problems/count-palindromic-subsequences)
 
-[English Version](/solution/2400-2499/2484.Count%20Palindromic%20Subsequences/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你数字字符串&nbsp;<code>s</code>&nbsp;，请你返回&nbsp;<code>s</code>&nbsp;中长度为&nbsp;<code>5</code>&nbsp;的 <b>回文子序列</b>&nbsp;数目。由于答案可能很大，请你将答案对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
+<p>Given a string of digits <code>s</code>, return <em>the number of <strong>palindromic subsequences</strong> of</em> <code>s</code><em> having length </em><code>5</code>. Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
-<p><strong>提示：</strong></p>
+<p><strong>Note:</strong></p>
 
 <ul>
-	<li>如果一个字符串从前往后和从后往前读相同，那么它是 <strong>回文字符串</strong>&nbsp;。</li>
-	<li>子序列是一个字符串中删除若干个字符后，不改变字符顺序，剩余字符构成的字符串。</li>
+	<li>A string is <strong>palindromic</strong> if it reads the same forward and backward.</li>
+	<li>A <strong>subsequence</strong> is a string that can be derived from another string by deleting some or no characters without changing the order of the remaining characters.</li>
 </ul>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>s = "103301"
-<b>输出：</b>2
-<b>解释：</b>
-总共有 6 长度为 5 的子序列："10330" ，"10331" ，"10301" ，"10301" ，"13301" ，"03301" 。
-它们中有两个（都是 "10301"）是回文的。
+<pre>
+<strong>Input:</strong> s = &quot;103301&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 
+There are 6 possible subsequences of length 5: &quot;10330&quot;,&quot;10331&quot;,&quot;10301&quot;,&quot;10301&quot;,&quot;13301&quot;,&quot;03301&quot;. 
+Two of them (both equal to &quot;10301&quot;) are palindromic.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>s = "0000000"
-<b>输出：</b>21
-<b>解释：</b>所有 21 个长度为 5 的子序列都是 "00000" ，都是回文的。
+<pre>
+<strong>Input:</strong> s = &quot;0000000&quot;
+<strong>Output:</strong> 21
+<strong>Explanation:</strong> All 21 subsequences are &quot;00000&quot;, which is palindromic.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><b>输入：</b>s = "9999900000"
-<b>输出：</b>2
-<b>解释：</b>仅有的两个回文子序列是 "99999" 和 "00000" 。
+<pre>
+<strong>Input:</strong> s = &quot;9999900000&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The only two palindromic subsequences are &quot;99999&quot; and &quot;00000&quot;.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>s</code>&nbsp;只包含数字字符。</li>
+	<li><code>s</code> consists of digits.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举 + 计数
+### Solution 1: Enumeration + Counting
 
-时间复杂度 $O(100 \times n)$，空间复杂度 $O(100 \times n)$。其中 $n$ 为字符串 $s$ 的长度。
+The time complexity is $O(100 \times n)$, and the space complexity is $O(100 \times n)$. Where $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

@@ -1,65 +1,60 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0293.Flip%20Game/README.md
+difficulty: Easy
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [293. 翻转游戏 🔒](https://leetcode.cn/problems/flip-game)
+# [293. Flip Game 🔒](https://leetcode.com/problems/flip-game)
 
-[English Version](/solution/0200-0299/0293.Flip%20Game/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你和朋友玩一个叫做「翻转游戏」的游戏。游戏规则如下：</p>
+<p>You are playing a Flip Game with your friend.</p>
 
-<p>给你一个字符串 <code>currentState</code> ，其中只含 <code>'+'</code> 和 <code>'-'</code> 。你和朋友轮流将 <strong>连续 </strong>的两个 <code>"++"</code> 反转成 <code>"--"</code> 。当一方无法进行有效的翻转时便意味着游戏结束，则另一方获胜。</p>
+<p>You are given a string <code>currentState</code> that contains only <code>&#39;+&#39;</code> and <code>&#39;-&#39;</code>. You and your friend take turns to flip <strong>two consecutive</strong> <code>&quot;++&quot;</code> into <code>&quot;--&quot;</code>. The game ends when a person can no longer make a move, and therefore the other person will be the winner.</p>
 
-<p>计算并返回 <strong>一次有效操作</strong> 后，字符串 <code>currentState</code> 所有的可能状态，返回结果可以按 <strong>任意顺序</strong> 排列。如果不存在可能的有效操作，请返回一个空列表 <code>[]</code> 。</p>
+<p>Return all possible states of the string <code>currentState</code> after <strong>one valid move</strong>. You may return the answer in <strong>any order</strong>. If there is no valid move, return an empty list <code>[]</code>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>currentState = "++++"
-<strong>输出：</strong>["--++","+--+","++--"]
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>currentState = "+"
-<strong>输出：</strong>[]
+<strong>Input:</strong> currentState = &quot;++++&quot;
+<strong>Output:</strong> [&quot;--++&quot;,&quot;+--+&quot;,&quot;++--&quot;]
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> currentState = &quot;+&quot;
+<strong>Output:</strong> []
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= currentState.length <= 500</code></li>
-	<li><code>currentState[i]</code> 不是 <code>'+'</code> 就是 <code>'-'</code></li>
+	<li><code>1 &lt;= currentState.length &lt;= 500</code></li>
+	<li><code>currentState[i]</code> is either <code>&#39;+&#39;</code> or <code>&#39;-&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：遍历 + 模拟
+### Solution 1: Traversal + Simulation
 
-我们遍历字符串，如果当前字符和下一个字符都是 `+`，那么我们就将这两个字符变成 `-`，然后将结果加入到结果数组中，再将这两个字符变回 `+`。
+We traverse the string. If the current character and the next character are both `+`, we change these two characters to `-`, add the result to the result array, and then change these two characters back to `+`.
 
-遍历结束后，返回结果数组即可。
+After the traversal ends, we return the result array.
 
-时间复杂度 $O(n^2)$，其中 $n$ 是字符串长度。忽略答案数组的空间复杂度，空间复杂度 $O(n)$ 或 $O(1)$。
+The time complexity is $O(n^2)$, where $n$ is the length of the string. Ignoring the space complexity of the result array, the space complexity is $O(n)$ or $O(1)$.
 
 <!-- tabs:start -->
 

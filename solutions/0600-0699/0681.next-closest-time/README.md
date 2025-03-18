@@ -1,68 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0681.Next%20Closest%20Time/README.md
+difficulty: Medium
 tags:
-    - 哈希表
-    - 字符串
-    - 回溯
-    - 枚举
+    - Hash Table
+    - String
+    - Backtracking
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [681. 最近时刻 🔒](https://leetcode.cn/problems/next-closest-time)
+# [681. Next Closest Time 🔒](https://leetcode.com/problems/next-closest-time)
 
-[English Version](/solution/0600-0699/0681.Next%20Closest%20Time/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个形如<meta charset="UTF-8" />&nbsp;<code>"HH:MM"</code> 表示的时刻<meta charset="UTF-8" />&nbsp;<code>time</code>&nbsp;，利用当前出现过的数字构造下一个距离当前时间最近的时刻。每个出现数字都可以被无限次使用。</p>
+<p>Given a <code>time</code> represented in the format <code>&quot;HH:MM&quot;</code>, form the next closest time by reusing the current digits. There is no limit on how many times a digit can be reused.</p>
 
-<p>你可以认为给定的字符串一定是合法的。例如，<meta charset="UTF-8" />&nbsp;<code>"01:34"</code> 和 <meta charset="UTF-8" />&nbsp;<code>"12:09"</code> 是合法的，<code>“1:34”</code> 和 <code>“12:9”</code> 是不合法的。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入:</strong> "19:34"
-<strong>输出:</strong> "19:39"
-<strong>解释:</strong> 利用数字 <strong>1, 9, 3, 4</strong> 构造出来的最近时刻是 <strong>19:39</strong>，是 5 分钟之后。
-结果不是 <strong>19:33</strong> 因为这个时刻是 23 小时 59 分钟之后。
-</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> "23:59"
-<strong>输出:</strong> "22:22"
-<strong>解释:</strong> 利用数字 <strong>2, 3, 5, 9</strong> 构造出来的最近时刻是 <strong>22:22</strong>。 
-答案一定是第二天的某一时刻，所以选择可构造的最小时刻。
-</pre>
+<p>You may assume the given input string is always valid. For example, <code>&quot;01:34&quot;</code>, <code>&quot;12:09&quot;</code> are all valid. <code>&quot;1:34&quot;</code>, <code>&quot;12:9&quot;</code> are all invalid.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> time = &quot;19:34&quot;
+<strong>Output:</strong> &quot;19:39&quot;
+<strong>Explanation:</strong> The next closest time choosing from digits <strong>1</strong>, <strong>9</strong>, <strong>3</strong>, <strong>4</strong>, is <strong>19:39</strong>, which occurs 5 minutes later.
+It is not <strong>19:33</strong>, because this occurs 23 hours and 59 minutes later.
+</pre>
 
-<p><meta charset="UTF-8" /></p>
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> time = &quot;23:59&quot;
+<strong>Output:</strong> &quot;22:22&quot;
+<strong>Explanation:</strong> The next closest time choosing from digits <strong>2</strong>, <strong>3</strong>, <strong>5</strong>, <strong>9</strong>, is <strong>22:22</strong>.
+It may be assumed that the returned time is next day&#39;s time since it is smaller than the input time numerically.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>time.length == 5</code></li>
-	<li><code>time</code>&nbsp;为有效时间，格式为&nbsp;<code>"HH:MM"</code>.</li>
+	<li><code>time</code> is a valid time in the form <code>&quot;HH:MM&quot;</code>.</li>
 	<li><code>0 &lt;= HH &lt; 24</code></li>
 	<li><code>0 &lt;= MM &lt; 60</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

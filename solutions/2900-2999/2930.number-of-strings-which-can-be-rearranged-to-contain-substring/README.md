@@ -1,63 +1,60 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2930.Number%20of%20Strings%20Which%20Can%20Be%20Rearranged%20to%20Contain%20Substring/README.md
+difficulty: Medium
 rating: 2227
-source: 第 117 场双周赛 Q3
+source: Biweekly Contest 117 Q3
 tags:
-    - 数学
-    - 动态规划
-    - 组合数学
+    - Math
+    - Dynamic Programming
+    - Combinatorics
 ---
 
 <!-- problem:start -->
 
-# [2930. 重新排列后包含指定子字符串的字符串数目](https://leetcode.cn/problems/number-of-strings-which-can-be-rearranged-to-contain-substring)
+# [2930. Number of Strings Which Can Be Rearranged to Contain Substring](https://leetcode.com/problems/number-of-strings-which-can-be-rearranged-to-contain-substring)
 
-[English Version](/solution/2900-2999/2930.Number%20of%20Strings%20Which%20Can%20Be%20Rearranged%20to%20Contain%20Substring/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>n</code>&nbsp;。</p>
+<p>You are given an integer <code>n</code>.</p>
 
-<p>如果一个字符串&nbsp;<code>s</code>&nbsp;只包含小写英文字母，<strong>且</strong>&nbsp;将 <code>s</code>&nbsp;的字符重新排列后，新字符串包含&nbsp;<strong>子字符串</strong>&nbsp;<code>"leet"</code> ，那么我们称字符串 <code>s</code>&nbsp;是一个 <strong>好</strong>&nbsp;字符串。</p>
+<p>A string <code>s</code> is called <strong>good </strong>if it contains only lowercase English characters <strong>and</strong> it is possible to rearrange the characters of <code>s</code> such that the new string contains <code>&quot;leet&quot;</code> as a <strong>substring</strong>.</p>
 
-<p>比方说：</p>
+<p>For example:</p>
 
 <ul>
-	<li>字符串&nbsp;<code>"lteer"</code>&nbsp;是好字符串，因为重新排列后可以得到&nbsp;<code>"leetr"</code>&nbsp;。</li>
-	<li><code>"letl"</code>&nbsp;不是好字符串，因为无法重新排列并得到子字符串&nbsp;<code>"leet"</code>&nbsp;。</li>
+	<li>The string <code>&quot;lteer&quot;</code> is good because we can rearrange it to form <code>&quot;leetr&quot;</code> .</li>
+	<li><code>&quot;letl&quot;</code> is not good because we cannot rearrange it to contain <code>&quot;leet&quot;</code> as a substring.</li>
 </ul>
 
-<p>请你返回长度为 <code>n</code>&nbsp;的好字符串 <strong>总</strong>&nbsp;数目。</p>
+<p>Return <em>the <strong>total</strong> number of good strings of length </em><code>n</code>.</p>
 
-<p>由于答案可能很大，将答案对<strong>&nbsp;</strong><code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
+<p>Since the answer may be large, return it <strong>modulo </strong><code>10<sup>9</sup> + 7</code>.</p>
 
-<p><strong>子字符串</strong>&nbsp;是一个字符串中一段连续的字符序列。</p>
+<p>A <strong>substring</strong> is a contiguous sequence of characters within a string.</p>
 
 <div class="notranslate" style="all: initial;">&nbsp;</div>
 
-<p><strong class="example">示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>n = 4
-<b>输出：</b>12
-<b>解释：</b>总共有 12 个字符串重新排列后包含子字符串 "leet" ："eelt" ，"eetl" ，"elet" ，"elte" ，"etel" ，"etle" ，"leet" ，"lete" ，"ltee" ，"teel" ，"tele" 和 "tlee" 。
+<strong>Input:</strong> n = 4
+<strong>Output:</strong> 12
+<strong>Explanation:</strong> The 12 strings which can be rearranged to have &quot;leet&quot; as a substring are: &quot;eelt&quot;, &quot;eetl&quot;, &quot;elet&quot;, &quot;elte&quot;, &quot;etel&quot;, &quot;etle&quot;, &quot;leet&quot;, &quot;lete&quot;, &quot;ltee&quot;, &quot;teel&quot;, &quot;tele&quot;, and &quot;tlee&quot;.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>n = 10
-<b>输出：</b>83943898
-<b>解释：</b>长度为 10 的字符串重新排列后包含子字符串 "leet" 的方案数为 526083947580 。所以答案为 526083947580 % (10<sup>9</sup> + 7) = 83943898 。
+<strong>Input:</strong> n = 10
+<strong>Output:</strong> 83943898
+<strong>Explanation:</strong> The number of strings with length 10 which can be rearranged to have &quot;leet&quot; as a substring is 526083947580. Hence the answer is 526083947580 % (10<sup>9</sup> + 7) = 83943898.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
@@ -65,25 +62,25 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memorization Search
 
-我们设计一个函数 $dfs(i, l, e, t)$，表示当前剩余字符串长度为 $i$，且已至少有 $l$ 个字符 `'l'`, $e$ 个字符 `'e'` 和 $t$ 个字符 `'t'`，构成的字符串是一个好字符串的方案数。那么答案为 $dfs(n, 0, 0, 0)$。
+We design a function $dfs(i, l, e, t)$, which represents the number of good strings that can be formed when the remaining string length is $i$, and there are at least $l$ characters 'l', $e$ characters 'e' and $t$ characters 't'. The answer is $dfs(n, 0, 0, 0)$.
 
-函数 $dfs(i, l, e, t)$ 的执行逻辑如下：
+The execution logic of the function $dfs(i, l, e, t)$ is as follows:
 
-如果 $i = 0$，说明当前字符串已经构造完毕，如果 $l = 1$, $e = 2$ 且 $t = 1$，说明当前字符串是一个好字符串，返回 $1$，否则返回 $0$。
+If $i = 0$, it means that the current string has been constructed. If $l = 1$, $e = 2$ and $t = 1$, it means that the current string is a good string, return $1$, otherwise return $0$.
 
-否则，我们可以考虑在当前位置添加除 `'l'`, `'e'`, `'t'` 以外的任意一个小写字母，一共有 $23$ 种，那么此时得到的方案数为 $dfs(i - 1, l, e, t) \times 23$。
+Otherwise, we can consider adding any lowercase letter other than 'l', 'e', 't' at the current position, there are 23 in total, so the number of schemes obtained at this time is $dfs(i - 1, l, e, t) \times 23$.
 
-我们也可以考虑在当前位置添加 `'l'`，此时得到的方案数为 $dfs(i - 1, \min(1, l + 1), e, t)$。同理，添加 `'e'` 和 `'t'` 的方案数分别为 $dfs(i - 1, l, \min(2, e + 1), t)$ 和 $dfs(i - 1, l, e, \min(1, t + 1))$。累加起来，并对 $10^9 + 7$ 取模，即可得到 $dfs(i, l, e, t)$ 的值。
+We can also consider adding 'l' at the current position, and the number of schemes obtained at this time is $dfs(i - 1, \min(1, l + 1), e, t)$. Similarly, the number of schemes for adding 'e' and 't' are $dfs(i - 1, l, \min(2, e + 1), t)$ and $dfs(i - 1, l, e, \min(1, t + 1))$ respectively. Add them up and take the modulus of $10^9 + 7$ to get the value of $dfs(i, l, e, t)$.
 
-为了避免重复计算，我们可以使用记忆化搜索。
+To avoid repeated calculations, we can use memorization search.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the string.
 
 <!-- tabs:start -->
 
@@ -231,25 +228,25 @@ function stringCount(n: number): number {
 
 <!-- solution:start -->
 
-### 方法二：逆向思维 + 容斥原理
+### Solution 2: Reverse Thinking + Inclusion-Exclusion Principle
 
-我们可以考虑逆向思维，即计算不包含子字符串 `"leet"` 的字符串数目，然后用总数减去该数目即可。
+We can consider reverse thinking, that is, calculate the number of strings that do not contain the substring "leet", and then subtract this number from the total.
 
-我们分成以下几种情况：
+We divide it into the following cases:
 
--   情况 $a$：表示字符串中不包含字符 `'l'` 的方案数，那么有 $a = 25^n$。
--   情况 $b$：与 $a$ 类似，表示字符串中不包含字符 `'t'` 的方案数，那么有 $b = 25^n$。
--   情况 $c$：表示字符串中不包含字符 `'e'` 或者只包含一个字符 `'e'` 的方案数，那么有 $c = 25^n + n \times 25^{n - 1}$。
--   情况 $ab$：表示字符串中不包含字符 `'l'` 和 `'t'` 的方案数，那么有 $ab = 24^n$。
--   情况 $ac$：表示字符串中不包含字符 `'l'` 和 `'e'` 或者只包含一个字符 `'e'` 的方案数，那么有 $ac = 24^n + n \times 24^{n - 1}$。
--   情况 $bc$：与 $ac$ 类似，表示字符串中不包含字符 `'t'` 和 `'e'` 或者只包含一个字符 `'e'` 的方案数，那么有 $bc = 24^n + n \times 24^{n - 1}$。
--   情况 $abc$：表示字符串中不包含字符 `'l'`、`'t'` 和 `'e'` 或者只包含一个字符 `'e'` 的方案数，那么有 $abc = 23^n + n \times 23^{n - 1}$。
+-   Case $a$: represents the number of schemes where the string does not contain the character 'l', so we have $a = 25^n$.
+-   Case $b$: similar to $a$, represents the number of schemes where the string does not contain the character 't', so we have $b = 25^n$.
+-   Case $c$: represents the number of schemes where the string does not contain the character 'e' or only contains one character 'e', so we have $c = 25^n + n \times 25^{n - 1}$.
+-   Case $ab$: represents the number of schemes where the string does not contain the characters 'l' and 't', so we have $ab = 24^n$.
+-   Case $ac$: represents the number of schemes where the string does not contain the characters 'l' and 'e' or only contains one character 'e', so we have $ac = 24^n + n \times 24^{n - 1}$.
+-   Case $bc$: similar to $ac$, represents the number of schemes where the string does not contain the characters 't' and 'e' or only contains one character 'e', so we have $bc = 24^n + n \times 24^{n - 1}$.
+-   Case $abc$: represents the number of schemes where the string does not contain the characters 'l', 't' and 'e' or only contains one character 'e', so we have $abc = 23^n + n \times 23^{n - 1}$.
 
-那么根据容斥原理，可以得到 $a + b + c - ab - ac - bc + abc$，就是不包含子字符串 `"leet"` 的字符串数目。
+Then according to the inclusion-exclusion principle, $a + b + c - ab - ac - bc + abc$ is the number of strings that do not contain the substring "leet".
 
-而总数 $tot = 26^n$，所以答案为 $tot - (a + b + c - ab - ac - bc + abc)$，注意要对 $10^9 + 7$ 取模。
+The total number $tot = 26^n$, so the answer is $tot - (a + b + c - ab - ac - bc + abc)$, remember to take the modulus of $10^9 + 7$.
 
-时间复杂度 $O(\log n)$，其中 $n$ 为字符串长度。空间复杂度 $O(1)$。
+The time complexity is $O(\log n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the string.
 
 <!-- tabs:start -->
 

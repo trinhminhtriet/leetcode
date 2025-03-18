@@ -1,50 +1,46 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0189.Rotate%20Array/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 数学
-    - 双指针
+    - Array
+    - Math
+    - Two Pointers
 ---
 
 <!-- problem:start -->
 
-# [189. 轮转数组](https://leetcode.cn/problems/rotate-array)
+# [189. Rotate Array](https://leetcode.com/problems/rotate-array)
 
-[English Version](/solution/0100-0199/0189.Rotate%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数数组 <code>nums</code>，将数组中的元素向右轮转 <code>k</code><em>&nbsp;</em>个位置，其中&nbsp;<code>k</code><em>&nbsp;</em>是非负数。</p>
+<p>Given an integer array <code>nums</code>, rotate the array to the right by <code>k</code> steps, where <code>k</code> is non-negative.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> nums = [1,2,3,4,5,6,7], k = 3
-<strong>输出:</strong> <code>[5,6,7,1,2,3,4]</code>
-<strong>解释:</strong>
-向右轮转 1 步: <code>[7,1,2,3,4,5,6]</code>
-向右轮转 2 步: <code>[6,7,1,2,3,4,5]
-</code>向右轮转 3 步: <code>[5,6,7,1,2,3,4]</code>
+<strong>Input:</strong> nums = [1,2,3,4,5,6,7], k = 3
+<strong>Output:</strong> [5,6,7,1,2,3,4]
+<strong>Explanation:</strong>
+rotate 1 steps to the right: [7,1,2,3,4,5,6]
+rotate 2 steps to the right: [6,7,1,2,3,4,5]
+rotate 3 steps to the right: [5,6,7,1,2,3,4]
 </pre>
 
-<p><strong>示例&nbsp;2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [-1,-100,3,99], k = 2
-<strong>输出：</strong>[3,99,-1,-100]
-<strong>解释:</strong> 
-向右轮转 1 步: [99,-1,-100,3]
-向右轮转 2 步: [3,99,-1,-100]</pre>
+<strong>Input:</strong> nums = [-1,-100,3,99], k = 2
+<strong>Output:</strong> [3,99,-1,-100]
+<strong>Explanation:</strong> 
+rotate 1 steps to the right: [99,-1,-100,3]
+rotate 2 steps to the right: [3,99,-1,-100]
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -53,37 +49,36 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong></p>
+<p><strong>Follow up:</strong></p>
 
 <ul>
-	<li>尽可能想出更多的解决方案，至少有 <strong>三种</strong> 不同的方法可以解决这个问题。</li>
-	<li>你可以使用空间复杂度为&nbsp;<code>O(1)</code> 的&nbsp;<strong>原地&nbsp;</strong>算法解决这个问题吗？</li>
+	<li>Try to come up with as many solutions as you can. There are at least <strong>three</strong> different ways to solve this problem.</li>
+	<li>Could you do it in-place with <code>O(1)</code> extra space?</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：三次翻转
+### Solution 1: Reverse three times
 
-我们不妨记数组长度为 $n$，然后将 $k$ 对 $n$ 取模，得到实际需要旋转的步数 $k$。
+We can assume the length of the array is $n$ and calculate the actual number of steps needed by taking the module of $k$ and $n$, which is $k \bmod n$.
 
-接下来，我们进行三次翻转，即可得到最终结果：
+Next, let us reverse three times to get the final result:
 
-1. 将整个数组翻转
-2. 将前 $k$ 个元素翻转
-3. 将后 $n - k$ 个元素翻转
+1. Reverse the entire array.
+2. Reverse the first $k$ elements.
+3. Reverse the last $n - k$ elements.
 
-举个例子，对于数组 $[1, 2, 3, 4, 5, 6, 7]$, $k = 3$, $n = 7$, $k \bmod n = 3$。
+For example, for the array $[1, 2, 3, 4, 5, 6, 7]$, $k = 3$, $n = 7$, $k \bmod n = 3$.
 
-1. 第一次翻转，将整个数组翻转，得到 $[7, 6, 5, 4, 3, 2, 1]$。
-2. 第二次翻转，将前 $k$ 个元素翻转，得到 $[5, 6, 7, 4, 3, 2, 1]$。
-3. 第三次翻转，将后 $n - k$ 个元素翻转，得到 $[5, 6, 7, 1, 2, 3, 4]$，即为最终结果。
+1. In the first reverse, reverse the entire array. We get $[7, 6, 5, 4, 3, 2, 1]$.
+2. In the second reverse, reverse the first $k$ elements. We get $[5, 6, 7, 4, 3, 2, 1]$.
+3. In the third reverse, reverse the last $n - k$ elements. We get $[5, 6, 7, 1, 2, 3, 4]$, which is the final result.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

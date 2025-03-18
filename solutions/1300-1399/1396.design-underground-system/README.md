@@ -1,137 +1,133 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1396.Design%20Underground%20System/README.md
+difficulty: Medium
 rating: 1464
-source: 第 182 场周赛 Q3
+source: Weekly Contest 182 Q3
 tags:
-    - 设计
-    - 哈希表
-    - 字符串
+    - Design
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1396. 设计地铁系统](https://leetcode.cn/problems/design-underground-system)
+# [1396. Design Underground System](https://leetcode.com/problems/design-underground-system)
 
-[English Version](/solution/1300-1399/1396.Design%20Underground%20System/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>地铁系统跟踪不同车站之间的乘客出行时间，并使用这一数据来计算从一站到另一站的平均时间。</p>
+<p>An underground railway system is keeping track of customer travel times between different stations. They are using this data to calculate the average time it takes to travel from one station to another.</p>
 
-<p>实现 <code>UndergroundSystem</code> 类：</p>
+<p>Implement the <code>UndergroundSystem</code> class:</p>
 
 <ul>
 	<li><code>void checkIn(int id, string stationName, int t)</code>
 
     <ul>
-    	<li>通行卡 ID 等于 <code>id</code> 的乘客，在时间 <code>t</code> ，从 <code>stationName</code> 站进入</li>
-    	<li>乘客一次只能从一个站进入</li>
+    	<li>A customer with a card ID equal to <code>id</code>, checks in at the station <code>stationName</code> at time <code>t</code>.</li>
+    	<li>A customer can only be checked into one place at a time.</li>
     </ul>
     </li>
     <li><code>void checkOut(int id, string stationName, int t)</code>
     <ul>
-    	<li>通行卡 ID 等于 <code>id</code> 的乘客，在时间 <code>t</code> ，从 <code>stationName</code> 站离开</li>
+    	<li>A customer with a card ID equal to <code>id</code>, checks out from the station <code>stationName</code> at time <code>t</code>.</li>
     </ul>
     </li>
     <li><code>double getAverageTime(string startStation, string endStation)</code>
     <ul>
-    	<li>返回从 <code>startStation</code> 站到 <code>endStation</code> 站的平均时间</li>
-    	<li>平均时间会根据截至目前所有从 <code>startStation</code> 站 <strong>直接</strong> 到达 <code>endStation</code> 站的行程进行计算，也就是从 <code>startStation</code> 站进入并从 <code>endStation</code> 离开的行程</li>
-    	<li>从 <code>startStation</code> 到 <code>endStation</code> 的行程时间与从 <code>endStation</code> 到 <code>startStation</code> 的行程时间可能不同</li>
-    	<li>在调用 <code>getAverageTime</code> 之前，至少有一名乘客从 <code>startStation</code> 站到达 <code>endStation</code> 站</li>
+    	<li>Returns the average time it takes to travel from <code>startStation</code> to <code>endStation</code>.</li>
+    	<li>The average time is computed from all the previous traveling times from <code>startStation</code> to <code>endStation</code> that happened <strong>directly</strong>, meaning a check in at <code>startStation</code> followed by a check out from <code>endStation</code>.</li>
+    	<li>The time it takes to travel from <code>startStation</code> to <code>endStation</code> <strong>may be different</strong> from the time it takes to travel from <code>endStation</code> to <code>startStation</code>.</li>
+    	<li>There will be at least one customer that has traveled from <code>startStation</code> to <code>endStation</code> before <code>getAverageTime</code> is called.</li>
     </ul>
     </li>
 
 </ul>
 
-<p>你可以假设对 <code>checkIn</code> 和 <code>checkOut</code> 方法的所有调用都是符合逻辑的。如果一名乘客在时间 <code>t<sub>1</sub></code> 进站、时间 <code>t<sub>2</sub></code> 出站，那么 <code>t<sub>1</sub> &lt; t<sub>2</sub></code> 。所有时间都按时间顺序发生。</p>
-&nbsp;
+<p>You may assume all calls to the <code>checkIn</code> and <code>checkOut</code> methods are consistent. If a customer checks in at time <code>t<sub>1</sub></code> then checks out at time <code>t<sub>2</sub></code>, then <code>t<sub>1</sub> &lt; t<sub>2</sub></code>. All events happen in chronological order.</p>
 
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["UndergroundSystem","checkIn","checkIn","checkIn","checkOut","checkOut","checkOut","getAverageTime","getAverageTime","checkIn","getAverageTime","checkOut","getAverageTime"]
-[[],[45,"Leyton",3],[32,"Paradise",8],[27,"Leyton",10],[45,"Waterloo",15],[27,"Waterloo",20],[32,"Cambridge",22],["Paradise","Cambridge"],["Leyton","Waterloo"],[10,"Leyton",24],["Leyton","Waterloo"],[10,"Waterloo",38],["Leyton","Waterloo"]]
+<strong>Input</strong>
+[&quot;UndergroundSystem&quot;,&quot;checkIn&quot;,&quot;checkIn&quot;,&quot;checkIn&quot;,&quot;checkOut&quot;,&quot;checkOut&quot;,&quot;checkOut&quot;,&quot;getAverageTime&quot;,&quot;getAverageTime&quot;,&quot;checkIn&quot;,&quot;getAverageTime&quot;,&quot;checkOut&quot;,&quot;getAverageTime&quot;]
+[[],[45,&quot;Leyton&quot;,3],[32,&quot;Paradise&quot;,8],[27,&quot;Leyton&quot;,10],[45,&quot;Waterloo&quot;,15],[27,&quot;Waterloo&quot;,20],[32,&quot;Cambridge&quot;,22],[&quot;Paradise&quot;,&quot;Cambridge&quot;],[&quot;Leyton&quot;,&quot;Waterloo&quot;],[10,&quot;Leyton&quot;,24],[&quot;Leyton&quot;,&quot;Waterloo&quot;],[10,&quot;Waterloo&quot;,38],[&quot;Leyton&quot;,&quot;Waterloo&quot;]]
 
-<strong>输出</strong>
+<strong>Output</strong>
 [null,null,null,null,null,null,null,14.00000,11.00000,null,11.00000,null,12.00000]
 
-<strong>解释</strong>
+<strong>Explanation</strong>
 UndergroundSystem undergroundSystem = new UndergroundSystem();
-undergroundSystem.checkIn(45, "Leyton", 3);
-undergroundSystem.checkIn(32, "Paradise", 8);
-undergroundSystem.checkIn(27, "Leyton", 10);
-undergroundSystem.checkOut(45, "Waterloo", 15);  // 乘客 45 "Leyton" -&gt; "Waterloo" ，用时 15-3 = 12
-undergroundSystem.checkOut(27, "Waterloo", 20);  // 乘客 27 "Leyton" -&gt; "Waterloo" ，用时 20-10 = 10
-undergroundSystem.checkOut(32, "Cambridge", 22); // 乘客 32 "Paradise" -&gt; "Cambridge" ，用时 22-8 = 14
-undergroundSystem.getAverageTime("Paradise", "Cambridge"); // 返回 14.00000 。只有一个 "Paradise" -&gt; "Cambridge" 的行程，(14) / 1 = 14
-undergroundSystem.getAverageTime("Leyton", "Waterloo");    // 返回 11.00000 。有两个 "Leyton" -&gt; "Waterloo" 的行程，(10 + 12) / 2 = 11
-undergroundSystem.checkIn(10, "Leyton", 24);
-undergroundSystem.getAverageTime("Leyton", "Waterloo");    // 返回 11.00000
-undergroundSystem.checkOut(10, "Waterloo", 38);  // 乘客 10 "Leyton" -&gt; "Waterloo" ，用时 38-24 = 14
-undergroundSystem.getAverageTime("Leyton", "Waterloo");    // 返回 12.00000 。有三个 "Leyton" -&gt; "Waterloo" 的行程，(10 + 12 + 14) / 3 = 12
+undergroundSystem.checkIn(45, &quot;Leyton&quot;, 3);
+undergroundSystem.checkIn(32, &quot;Paradise&quot;, 8);
+undergroundSystem.checkIn(27, &quot;Leyton&quot;, 10);
+undergroundSystem.checkOut(45, &quot;Waterloo&quot;, 15);  // Customer 45 &quot;Leyton&quot; -&gt; &quot;Waterloo&quot; in 15-3 = 12
+undergroundSystem.checkOut(27, &quot;Waterloo&quot;, 20);  // Customer 27 &quot;Leyton&quot; -&gt; &quot;Waterloo&quot; in 20-10 = 10
+undergroundSystem.checkOut(32, &quot;Cambridge&quot;, 22); // Customer 32 &quot;Paradise&quot; -&gt; &quot;Cambridge&quot; in 22-8 = 14
+undergroundSystem.getAverageTime(&quot;Paradise&quot;, &quot;Cambridge&quot;); // return 14.00000. One trip &quot;Paradise&quot; -&gt; &quot;Cambridge&quot;, (14) / 1 = 14
+undergroundSystem.getAverageTime(&quot;Leyton&quot;, &quot;Waterloo&quot;);    // return 11.00000. Two trips &quot;Leyton&quot; -&gt; &quot;Waterloo&quot;, (10 + 12) / 2 = 11
+undergroundSystem.checkIn(10, &quot;Leyton&quot;, 24);
+undergroundSystem.getAverageTime(&quot;Leyton&quot;, &quot;Waterloo&quot;);    // return 11.00000
+undergroundSystem.checkOut(10, &quot;Waterloo&quot;, 38);  // Customer 10 &quot;Leyton&quot; -&gt; &quot;Waterloo&quot; in 38-24 = 14
+undergroundSystem.getAverageTime(&quot;Leyton&quot;, &quot;Waterloo&quot;);    // return 12.00000. Three trips &quot;Leyton&quot; -&gt; &quot;Waterloo&quot;, (10 + 12 + 14) / 3 = 12
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["UndergroundSystem","checkIn","checkOut","getAverageTime","checkIn","checkOut","getAverageTime","checkIn","checkOut","getAverageTime"]
-[[],[10,"Leyton",3],[10,"Paradise",8],["Leyton","Paradise"],[5,"Leyton",10],[5,"Paradise",16],["Leyton","Paradise"],[2,"Leyton",21],[2,"Paradise",30],["Leyton","Paradise"]]
+<strong>Input</strong>
+[&quot;UndergroundSystem&quot;,&quot;checkIn&quot;,&quot;checkOut&quot;,&quot;getAverageTime&quot;,&quot;checkIn&quot;,&quot;checkOut&quot;,&quot;getAverageTime&quot;,&quot;checkIn&quot;,&quot;checkOut&quot;,&quot;getAverageTime&quot;]
+[[],[10,&quot;Leyton&quot;,3],[10,&quot;Paradise&quot;,8],[&quot;Leyton&quot;,&quot;Paradise&quot;],[5,&quot;Leyton&quot;,10],[5,&quot;Paradise&quot;,16],[&quot;Leyton&quot;,&quot;Paradise&quot;],[2,&quot;Leyton&quot;,21],[2,&quot;Paradise&quot;,30],[&quot;Leyton&quot;,&quot;Paradise&quot;]]
 
-<strong>输出</strong>
+<strong>Output</strong>
 [null,null,null,5.00000,null,null,5.50000,null,null,6.66667]
 
-<strong>解释</strong>
+<strong>Explanation</strong>
 UndergroundSystem undergroundSystem = new UndergroundSystem();
-undergroundSystem.checkIn(10, "Leyton", 3);
-undergroundSystem.checkOut(10, "Paradise", 8); // 乘客 10 "Leyton" -&gt; "Paradise" ，用时 8-3 = 5
-undergroundSystem.getAverageTime("Leyton", "Paradise"); // 返回 5.00000 ，(5) / 1 = 5
-undergroundSystem.checkIn(5, "Leyton", 10);
-undergroundSystem.checkOut(5, "Paradise", 16); // 乘客 5 "Leyton" -&gt; "Paradise" ，用时 16-10 = 6
-undergroundSystem.getAverageTime("Leyton", "Paradise"); // 返回 5.50000 ，(5 + 6) / 2 = 5.5
-undergroundSystem.checkIn(2, "Leyton", 21);
-undergroundSystem.checkOut(2, "Paradise", 30); // 乘客 2 "Leyton" -&gt; "Paradise" ，用时 30-21 = 9
-undergroundSystem.getAverageTime("Leyton", "Paradise"); // 返回 6.66667 ，(5 + 6 + 9) / 3 = 6.66667
+undergroundSystem.checkIn(10, &quot;Leyton&quot;, 3);
+undergroundSystem.checkOut(10, &quot;Paradise&quot;, 8); // Customer 10 &quot;Leyton&quot; -&gt; &quot;Paradise&quot; in 8-3 = 5
+undergroundSystem.getAverageTime(&quot;Leyton&quot;, &quot;Paradise&quot;); // return 5.00000, (5) / 1 = 5
+undergroundSystem.checkIn(5, &quot;Leyton&quot;, 10);
+undergroundSystem.checkOut(5, &quot;Paradise&quot;, 16); // Customer 5 &quot;Leyton&quot; -&gt; &quot;Paradise&quot; in 16-10 = 6
+undergroundSystem.getAverageTime(&quot;Leyton&quot;, &quot;Paradise&quot;); // return 5.50000, (5 + 6) / 2 = 5.5
+undergroundSystem.checkIn(2, &quot;Leyton&quot;, 21);
+undergroundSystem.checkOut(2, &quot;Paradise&quot;, 30); // Customer 2 &quot;Leyton&quot; -&gt; &quot;Paradise&quot; in 30-21 = 9
+undergroundSystem.getAverageTime(&quot;Leyton&quot;, &quot;Paradise&quot;); // return 6.66667, (5 + 6 + 9) / 3 = 6.66667
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= id, t &lt;= 10<sup>6</sup></code></li>
-	<li><code>1 &lt;= stationName.length, startStation.length, endStation.length &lt;= 10</code> 次</li>
-	<li>所有字符串由大小写英文字母与数字组成</li>
-	<li>总共最多调用 <code>checkIn</code>、<code>checkOut</code> 和 <code>getAverageTime</code> 方法 <code>2 * 10<sup>4 </sup></code></li>
-	<li>与标准答案误差在 <code>10<sup>-5</sup></code> 以内的结果都被视为正确结果</li>
+	<li><code>1 &lt;= stationName.length, startStation.length, endStation.length &lt;= 10</code></li>
+	<li>All strings consist of uppercase and lowercase English letters and digits.</li>
+	<li>There will be at most <code>2 * 10<sup>4</sup></code> calls <strong>in total</strong> to <code>checkIn</code>, <code>checkOut</code>, and <code>getAverageTime</code>.</li>
+	<li>Answers within <code>10<sup>-5</sup></code> of the actual value will be accepted.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们用两个哈希表来存储数据，其中：
+We use two hash tables to store data:
 
--   `ts`：存储乘客的 id 和乘客的进站时间和进站站点。其中键为乘客的 id，值为元组 `(t, stationName)`。
--   `d`：存储乘客的进站站点和出站站点，以及乘客的行程时间和行程次数。其中键为元组 `(startStation, endStation)`，值为元组 `(totalTime, count)`。
+-   `ts`: Stores the passenger's id, check-in time, and check-in station. The key is the passenger's id, and the value is a tuple `(t, stationName)`.
+-   `d`: Stores the passenger's check-in station, check-out station, travel time, and number of trips. The key is a tuple `(startStation, endStation)`, and the value is a tuple `(totalTime, count)`.
 
-当乘客进站时，我们将乘客的 id 和进站时间和进站站点存入 `ts` 中，即 `ts[id] = (t, stationName)`。
+When a passenger checks in, we store the passenger's id, check-in time, and check-in station in `ts`, i.e., `ts[id] = (t, stationName)`.
 
-当乘客出站时，我们从 `ts` 中取出乘客的进站时间和进站站点 `(t0, station)`，然后计算乘客的行程时间 $t - t_0$，并将乘客的行程时间和行程次数存入 `d` 中。
+When a passenger checks out, we retrieve the passenger's check-in time and station `(t0, station)` from `ts`, then calculate the passenger's travel time $t - t_0$, and store the passenger's travel time and number of trips in `d`.
 
-当我们要求某个乘客的平均行程时间时，我们从 `d` 中取出乘客的行程时间和行程次数 `(totalTime, count)`，然后计算平均行程时间 $totalTime / count$ 即可。
+When we want to calculate a passenger's average travel time, we retrieve the passenger's total travel time and number of trips `(totalTime, count)` from `d`, then calculate the average travel time as $totalTime / count$.
 
-时间复杂度 $O(1)$，空间复杂度 $O(n)$。其中 $n$ 为乘客的数量。
+The time complexity is $O(1)$, and the space complexity is $O(n)$. Where $n$ is the number of passengers.
 
 <!-- tabs:start -->
 

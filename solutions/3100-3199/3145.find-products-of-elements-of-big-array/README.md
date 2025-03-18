@@ -1,33 +1,30 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3145.Find%20Products%20of%20Elements%20of%20Big%20Array/README.md
+difficulty: Hard
 rating: 2859
-source: 第 130 场双周赛 Q4
+source: Biweekly Contest 130 Q4
 tags:
-    - 位运算
-    - 数组
-    - 二分查找
+    - Bit Manipulation
+    - Array
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [3145. 大数组元素的乘积](https://leetcode.cn/problems/find-products-of-elements-of-big-array)
+# [3145. Find Products of Elements of Big Array](https://leetcode.com/problems/find-products-of-elements-of-big-array)
 
-[English Version](/solution/3100-3199/3145.Find%20Products%20of%20Elements%20of%20Big%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个非负整数 <code>x</code>&nbsp;的 <strong>强数组</strong>&nbsp;指的是满足元素为 2 的幂且元素总和为 <code>x</code> 的最短有序数组。下表说明了如何确定 <strong>强数组</strong> 的示例。可以证明，<code>x</code>&nbsp;对应的强数组是独一无二的。</p>
+<p>The <strong>powerful array</strong> of a non-negative integer <code>x</code> is defined as the shortest sorted array of powers of two that sum up to <code>x</code>. The table below illustrates examples of how the <strong>powerful array</strong> is determined. It can be proven that the powerful array of <code>x</code> is unique.</p>
 
 <table border="1">
 	<tbody>
 		<tr>
-			<th>数字</th>
-			<th>二进制表示</th>
-			<th>强数组</th>
+			<th>num</th>
+			<th>Binary Representation</th>
+			<th>powerful array</th>
 		</tr>
 		<tr>
 			<td>1</td>
@@ -57,45 +54,45 @@ tags:
 	</tbody>
 </table>
 
-<p>&nbsp;</p>
+<p>The array <code>big_nums</code> is created by concatenating the <strong>powerful arrays</strong> for every positive integer <code>i</code> in ascending order: 1, 2, 3, and so on. Thus, <code>big_nums</code> begins as <code>[<u>1</u>, <u>2</u>, <u>1, 2</u>, <u>4</u>, <u>1, 4</u>, <u>2, 4</u>, <u>1, 2, 4</u>, <u>8</u>, ...]</code>.</p>
 
-<p>我们将每一个升序的正整数 <code>i</code>&nbsp;（即1，2，3等等）的 <strong>强数组</strong>&nbsp;连接得到数组&nbsp;<code>big_nums</code>&nbsp;，<code>big_nums</code>&nbsp;开始部分为&nbsp;<code>[<u>1</u>, <u>2</u>, <u>1, 2</u>, <u>4</u>, <u>1, 4</u>, <u>2, 4</u>, <u>1, 2, 4</u>, <u>8</u>, ...]</code>&nbsp;。</p>
+<p>You are given a 2D integer matrix <code>queries</code>, where for <code>queries[i] = [from<sub>i</sub>, to<sub>i</sub>, mod<sub>i</sub>]</code> you should calculate <code>(big_nums[from<sub>i</sub>] * big_nums[from<sub>i</sub> + 1] * ... * big_nums[to<sub>i</sub>]) % mod<sub>i</sub></code><!-- notionvc: a71131cc-7b52-4786-9a4b-660d6d864f89 -->.</p>
 
-<p>给你一个二维整数数组&nbsp;<code>queries</code>&nbsp;，其中&nbsp;<code>queries[i] = [from<sub>i</sub>, to<sub>i</sub>, mod<sub>i</sub>]</code>&nbsp;，你需要计算&nbsp;<code>(big_nums[from<sub>i</sub>] * big_nums[from<sub>i</sub> + 1] * ... * big_nums[to<sub>i</sub>]) % mod<sub>i</sub></code>&nbsp;。</p>
-
-<p>请你返回一个整数数组&nbsp;<code>answer</code>&nbsp;，其中&nbsp;<code>answer[i]</code>&nbsp;是第 <code>i</code>&nbsp;个查询的答案。</p>
+<p>Return an integer array <code>answer</code> such that <code>answer[i]</code> is the answer to the <code>i<sup>th</sup></code> query.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">queries = [[1,3,7]]</span></p>
 
-<p><b>输入：</b>queries = [[1,3,7]]</p>
+<p><strong>Output:</strong> <span class="example-io">[4]</span></p>
 
-<p><b>输出：</b>[4]</p>
+<p><strong>Explanation:</strong></p>
 
-<p><strong>解释：</strong></p>
+<p>There is one query.</p>
 
-<p>只有一个查询。</p>
+<p><code>big_nums[1..3] = [2,1,2]</code>. The product of them is 4. The result is <code>4 % 7 = 4.</code></p>
+</div>
 
-<p><code>big_nums[1..3] = [2,1,2]</code>&nbsp;。它们的乘积为 4。结果为&nbsp;<code>4 % 7 = 4</code>。</p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>示例 2：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">queries = [[2,5,3],[7,7,4]]</span></p>
 
-<p><b>输入：</b>queries = [[2,5,3],[7,7,4]]</p>
+<p><strong>Output:</strong> <span class="example-io">[2,2]</span></p>
 
-<p><b>输出：</b>[2,2]</p>
+<p><strong>Explanation:</strong></p>
 
-<p><strong>解释：</strong></p>
+<p>There are two queries.</p>
 
-<p>有两个查询。</p>
+<p>First query: <code>big_nums[2..5] = [1,2,4,1]</code>. The product of them is 8. The result is <code>8 % 3 = 2</code>.</p>
 
-<p>第一个查询：<code>big_nums[2..5] = [1,2,4,1]</code>&nbsp;。它们的乘积为 8 。结果为&nbsp; <code>8 % 3 = 2</code>。</p>
-
-<p>第二个查询：<code>big_nums[7] = 2</code>&nbsp;。结果为 <code>2 % 4 = 2</code>。</p>
+<p>Second query: <code>big_nums[7] = 2</code>. The result is <code>2 % 4 = 2</code>.</p>
+</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= queries.length &lt;= 500</code></li>
@@ -104,23 +101,21 @@ tags:
 	<li><code>1 &lt;= queries[i][2] &lt;= 10<sup>5</sup></code></li>
 </ul>
 
-<p>&nbsp;</p>
-
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找 + 位运算
+### Solution 1: Binary Search + Bit Manipulation
 
-连续的正整数数字对应的强整数数组连接得到数组 $\textit{bignums}$，题目需要我们求出对于每个查询 $[\textit{left}, \textit{right}, \textit{mod}]$，子数组 $\textit{bignums}[\textit{left}..\textit{right}]$ 的乘积对 $\textit{mod}$ 取模的结果。由于子数组每个元素都是 $2$ 的幂，这等价于求子数组的幂次之和 $\textit{power}$，然后计算 $2^{\textit{power}} \bmod \textit{mod}$。例如，对于子数组 $[1, 4, 8]$，即 $[2^0, 2^2, 2^3]$，其幂次之和为 $0 + 2 + 3 = 5$，所以 $2^5 \bmod \textit{mod}$ 就是我们要求的结果。
+The continuous positive integer numbers correspond to the strong integer array, forming the array $\textit{bignums}$. The problem requires us to find the result of the product of the subarray $\textit{bignums}[\textit{left}..\textit{right}]$ modulo $\textit{mod}$ for each query $[\textit{left}, \textit{right}, \textit{mod}]$. Since each element of the subarray is a power of 2, this is equivalent to finding the sum of the powers $\textit{power}$ of the subarray, and then calculating $2^{\textit{power}} \bmod \textit{mod}$. For example, for the subarray $[1, 4, 8]$, i.e., $[2^0, 2^2, 2^3]$, the sum of the powers is $0 + 2 + 3 = 5$, so $2^5 \bmod \textit{mod}$ is the result we need.
 
-因此，我们不妨将 $\textit{bignums}$ 转换为幂次数组，即对于子数组 $[1, 4, 8]$，我们将其转换为 $[0, 2, 3]$。这样，问题转换为求幂次数组的子数组之和，即 $\textit{power} = \textit{f}(\textit{right} + 1) - \textit{f}(\textit{left})$，其中 $\textit{f}(i)$ 表示 $\textit{bignums}[0..i)$ 的幂次之和，也即是前缀和。
+Therefore, we can convert $\textit{bignums}$ into an array of powers. For example, for the subarray $[1, 4, 8]$, we convert it to $[0, 2, 3]$. Thus, the problem is transformed into finding the sum of the subarray of powers, i.e., $\textit{power} = \textit{f}(\textit{right} + 1) - \textit{f}(\textit{left})$, where $\textit{f}(i)$ represents the sum of the powers of $\textit{bignums}[0..i)$, which is the prefix sum.
 
-接下来，就是根据下标 $i$ 计算 $\textit{f}(i)$ 的值。我们可以使用二分查找的方法，先找到强数组长度和小于 $i$ 的最大数字，然后再计算剩下的数字的幂次之和。
+Next, we calculate the value of $\textit{f}(i)$ based on the index $i$. We can use binary search to find the largest number whose strong array length is less than $i$, and then calculate the sum of the powers of the remaining numbers.
 
-我们根据题目描述，列出数字 $0..14$ 的强整数：
+According to the problem description, we list the strong integers for numbers $0..14$:
 
 | $\textit{nums}$ | 8($2^3$)                              | 4($2^2$)                              | 2($2^1$)                              | ($2^0$)                               |
 | --------------- | ------------------------------------- | ------------------------------------- | ------------------------------------- | ------------------------------------- |
@@ -140,13 +135,13 @@ tags:
 | 13              | <span style="color: yellow;">1</span> | <span style="color: yellow;">1</span> | <span style="color: yellow;">0</span> | <span style="color: yellow;">1</span> |
 | 14              | <span style="color: yellow;">1</span> | <span style="color: yellow;">1</span> | <span style="color: yellow;">1</span> | <span style="color: yellow;">0</span> |
 
-将数字按照 $[2^i, 2^{i+1}-1]$ 的区间划分为不同的颜色，可以发现，区间 $[2^i, 2^{i+1}-1]$ 的数字，相当于在区间 $[0, 2^i-1]$ 的数字基础上，每个数字加上 $2^i$。我们可以根据这个规律，计算出 $\textit{bignums}$ 的前 $i$ 组的所有数字的强数组个数之和 $\textit{cnt}[i]$ 和幂次之和 $\textit{s}[i]$。
+By dividing the numbers into different colors according to the interval $[2^i, 2^{i+1}-1]$, we can see that the numbers in the interval $[2^i, 2^{i+1}-1]$ are equivalent to adding $2^i$ to each number in the interval $[0, 2^i-1]$. Based on this pattern, we can calculate the total number of strong arrays $\textit{cnt}[i]$ and the sum of powers $\textit{s}[i]$ for the first $i$ groups of numbers in $\textit{bignums}$.
 
-接下来，对于任何数字，我们考虑如何计算其强数组的个数和幂次之和。我们可以通过二进制的方式，从最高位开始，诸位计算。例如，对于数字 $13 = 2^3 + 2^2 + 2^0$，前 $2^3$ 个数字的结果可以由 $textit{cnt}[3]$ 和 $\textit{s}[3]$ 计算得到，而剩下的 $[2^3, 13]$ 的结果，相当于给 $[0, 13-2^3]$ 的所有数字，即 $[0, 5]$ 的所有数字的强数组增加 $3$，问题转换为计算 $[0, 5]$ 的所有数字的强数组的个数和幂次之和。这样，我们可以计算出任意数字的强数组的个数和幂次之和。
+Next, for any number, we consider how to calculate the number of strong arrays and the sum of powers. We can use the binary method, calculating from the highest bit. For example, for the number $13 = 2^3 + 2^2 + 2^0$, the result of the first $2^3$ numbers can be obtained from $\textit{cnt}[3]$ and $\textit{s}[3]$, and the result of the remaining $[2^3, 13]$ is equivalent to adding $3$ to all numbers in $[0, 13-2^3]$, i.e., $[0, 5]$. The problem is transformed into calculating the number of strong arrays and the sum of powers for $[0, 5]$. In this way, we can calculate the number of strong arrays and the sum of powers for any number.
 
-最后，我们可以根据 $\textit{power}$ 的值，利用快速幂的方法，计算出 $2^{\textit{power}} \bmod \textit{mod}$ 的结果。
+Finally, based on the value of $\textit{power}$, we use the fast exponentiation method to calculate the result of $2^{\textit{power}} \bmod \textit{mod}$.
 
-时间复杂度 $O(q \times \log M)$，空间复杂度 $(\log M)$。其中 $q$ 为查询的个数，而 $M$ 为数字的上界，本题中 $M \le 10^{15}$。
+The time complexity is $O(q \times \log M)$, and the space complexity is $O(\log M)$. Here, $q$ is the number of queries, and $M$ is the upper bound of the number, with $M \le 10^{15}$ in this problem.
 
 <!-- tabs:start -->
 

@@ -1,61 +1,57 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1365.How%20Many%20Numbers%20Are%20Smaller%20Than%20the%20Current%20Number/README.md
+difficulty: Easy
 rating: 1152
-source: 第 178 场周赛 Q1
+source: Weekly Contest 178 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 计数排序
-    - 排序
+    - Array
+    - Hash Table
+    - Counting Sort
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1365. 有多少小于当前数字的数字](https://leetcode.cn/problems/how-many-numbers-are-smaller-than-the-current-number)
+# [1365. How Many Numbers Are Smaller Than the Current Number](https://leetcode.com/problems/how-many-numbers-are-smaller-than-the-current-number)
 
-[English Version](/solution/1300-1399/1365.How%20Many%20Numbers%20Are%20Smaller%20Than%20the%20Current%20Number/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组&nbsp;<code>nums</code>，对于其中每个元素&nbsp;<code>nums[i]</code>，请你统计数组中比它小的所有数字的数目。</p>
+<p>Given the array <code>nums</code>, for each <code>nums[i]</code> find out how many numbers in the array are smaller than it. That is, for each <code>nums[i]</code> you have to count the number of valid <code>j&#39;s</code>&nbsp;such that&nbsp;<code>j != i</code> <strong>and</strong> <code>nums[j] &lt; nums[i]</code>.</p>
 
-<p>换而言之，对于每个&nbsp;<code>nums[i]</code>&nbsp;你必须计算出有效的&nbsp;<code>j</code>&nbsp;的数量，其中 <code>j</code> 满足&nbsp;<code>j != i</code> <strong>且</strong> <code>nums[j] &lt; nums[i]</code>&nbsp;。</p>
-
-<p>以数组形式返回答案。</p>
+<p>Return the answer in an array.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>nums = [8,1,2,2,3]
-<strong>输出：</strong>[4,0,1,1,3]
-<strong>解释：</strong> 
-对于 nums[0]=8 存在四个比它小的数字：（1，2，2 和 3）。 
-对于 nums[1]=1 不存在比它小的数字。
-对于 nums[2]=2 存在一个比它小的数字：（1）。 
-对于 nums[3]=2 存在一个比它小的数字：（1）。 
-对于 nums[4]=3 存在三个比它小的数字：（1，2 和 2）。
+<pre>
+<strong>Input:</strong> nums = [8,1,2,2,3]
+<strong>Output:</strong> [4,0,1,1,3]
+<strong>Explanation:</strong> 
+For nums[0]=8 there exist four smaller numbers than it (1, 2, 2 and 3). 
+For nums[1]=1 does not exist any smaller number than it.
+For nums[2]=2 there exist one smaller number than it (1). 
+For nums[3]=2 there exist one smaller number than it (1). 
+For nums[4]=3 there exist three smaller numbers than it (1, 2 and 2).
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>nums = [6,5,4,8]
-<strong>输出：</strong>[2,1,0,3]
+<pre>
+<strong>Input:</strong> nums = [6,5,4,8]
+<strong>Output:</strong> [2,1,0,3]
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>nums = [7,7,7,7]
-<strong>输出：</strong>[0,0,0,0]
+<pre>
+<strong>Input:</strong> nums = [7,7,7,7]
+<strong>Output:</strong> [0,0,0,0]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 500</code></li>
@@ -64,17 +60,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 二分查找
+### Solution 1: Sorting + Binary Search
 
-我们可以将数组 $nums$ 复制一份，记为 $arr$，然后对 $arr$ 进行升序排序。
+We can make a copy of the array $nums$, denoted as $arr$, and then sort $arr$ in ascending order.
 
-接下来，对于 $nums$ 中的每个元素 $x$，我们可以通过二分查找的方法找到第一个大于等于 $x$ 的元素的下标 $j$，那么 $j$ 就是比 $x$ 小的元素的个数，我们将 $j$ 存入答案数组中即可。
+Next, for each element $x$ in $nums$, we can use binary search to find the index $j$ of the first element that is greater than or equal to $x$. Then $j$ is the number of elements that are smaller than $x$. We can store $j$ in the answer array.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 
@@ -176,11 +172,11 @@ function smallerNumbersThanCurrent(nums: number[]): number[] {
 
 <!-- solution:start -->
 
-### 方法二：计数排序 + 前缀和
+### Solution 2: Counting Sort + Prefix Sum
 
-我们注意到数组 $nums$ 中的元素的范围是 $[0, 100]$，因此我们可以使用计数排序的方法，先统计数组 $nums$ 中每个元素的个数。然后对计数数组进行前缀和计算，最后遍历数组 $nums$，对于每个元素 $x$，我们直接将计数数组中下标为 $x$ 的元素的值加入答案数组即可。
+We notice that the range of elements in the array $nums$ is $[0, 100]$. Therefore, we can use the counting sort method to first count the number of each element in the array $nums$. Then we calculate the prefix sum of the counting array. Finally, we traverse the array $nums$. For each element $x$, we directly add the value of the element at index $x$ in the counting array to the answer array.
 
-时间复杂度 $O(n + M)$，空间复杂度 $O(M)$，其中 $n$ 和 $M$ 分别是数组 $nums$ 的长度和最大值。
+The time complexity is $O(n + M)$, and the space complexity is $O(M)$. Where $n$ and $M$ are the length and the maximum value of the array $nums$, respectively.
 
 <!-- tabs:start -->
 

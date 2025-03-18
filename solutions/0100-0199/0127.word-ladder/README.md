@@ -1,100 +1,97 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0127.Word%20Ladder/README.md
+difficulty: Hard
 tags:
-    - 广度优先搜索
-    - 哈希表
-    - 字符串
+    - Breadth-First Search
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [127. 单词接龙](https://leetcode.cn/problems/word-ladder)
+# [127. Word Ladder](https://leetcode.com/problems/word-ladder)
 
-[English Version](/solution/0100-0199/0127.Word%20Ladder/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>字典&nbsp;<code>wordList</code> 中从单词 <code>beginWord</code><em>&nbsp;</em>到&nbsp;<code>endWord</code> 的 <strong>转换序列 </strong>是一个按下述规格形成的序列<meta charset="UTF-8" />&nbsp;<code>beginWord -&gt; s<sub>1</sub>&nbsp;-&gt; s<sub>2</sub>&nbsp;-&gt; ... -&gt; s<sub>k</sub></code>：</p>
+<p>A <strong>transformation sequence</strong> from word <code>beginWord</code> to word <code>endWord</code> using a dictionary <code>wordList</code> is a sequence of words <code>beginWord -&gt; s<sub>1</sub> -&gt; s<sub>2</sub> -&gt; ... -&gt; s<sub>k</sub></code> such that:</p>
 
 <ul>
-	<li>每一对相邻的单词只差一个字母。</li>
-	<li><meta charset="UTF-8" />&nbsp;对于&nbsp;<code>1 &lt;= i &lt;= k</code>&nbsp;时，每个<meta charset="UTF-8" />&nbsp;<code>s<sub>i</sub></code>&nbsp;都在<meta charset="UTF-8" />&nbsp;<code>wordList</code>&nbsp;中。注意， <code>beginWord</code><em>&nbsp;</em>不需要在<meta charset="UTF-8" />&nbsp;<code>wordList</code>&nbsp;中。<meta charset="UTF-8" /></li>
-	<li><code>s<sub>k</sub>&nbsp;== endWord</code></li>
+	<li>Every adjacent pair of words differs by a single letter.</li>
+	<li>Every <code>s<sub>i</sub></code> for <code>1 &lt;= i &lt;= k</code> is in <code>wordList</code>. Note that <code>beginWord</code> does not need to be in <code>wordList</code>.</li>
+	<li><code>s<sub>k</sub> == endWord</code></li>
 </ul>
 
-<p>给你两个单词<em> </em><code>beginWord</code><em>&nbsp;</em>和 <code>endWord</code> 和一个字典 <code>wordList</code> ，返回 <em>从&nbsp;<code>beginWord</code> 到&nbsp;<code>endWord</code> 的 <strong>最短转换序列</strong> 中的 <strong>单词数目</strong></em> 。如果不存在这样的转换序列，返回 <code>0</code> 。</p>
-&nbsp;
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]
-<strong>输出：</strong>5
-<strong>解释：</strong>一个最短转换序列是 "hit" -&gt; "hot" -&gt; "dot" -&gt; "dog" -&gt; "cog", 返回它的长度 5。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log"]
-<strong>输出：</strong>0
-<strong>解释：</strong>endWord "cog" 不在字典中，所以无法进行转换。</pre>
+<p>Given two words, <code>beginWord</code> and <code>endWord</code>, and a dictionary <code>wordList</code>, return <em>the <strong>number of words</strong> in the <strong>shortest transformation sequence</strong> from</em> <code>beginWord</code> <em>to</em> <code>endWord</code><em>, or </em><code>0</code><em> if no such sequence exists.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> beginWord = &quot;hit&quot;, endWord = &quot;cog&quot;, wordList = [&quot;hot&quot;,&quot;dot&quot;,&quot;dog&quot;,&quot;lot&quot;,&quot;log&quot;,&quot;cog&quot;]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> One shortest transformation sequence is &quot;hit&quot; -&gt; &quot;hot&quot; -&gt; &quot;dot&quot; -&gt; &quot;dog&quot; -&gt; cog&quot;, which is 5 words long.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> beginWord = &quot;hit&quot;, endWord = &quot;cog&quot;, wordList = [&quot;hot&quot;,&quot;dot&quot;,&quot;dog&quot;,&quot;lot&quot;,&quot;log&quot;]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The endWord &quot;cog&quot; is not in wordList, therefore there is no valid transformation sequence.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= beginWord.length &lt;= 10</code></li>
 	<li><code>endWord.length == beginWord.length</code></li>
 	<li><code>1 &lt;= wordList.length &lt;= 5000</code></li>
 	<li><code>wordList[i].length == beginWord.length</code></li>
-	<li><code>beginWord</code>、<code>endWord</code> 和 <code>wordList[i]</code> 由小写英文字母组成</li>
+	<li><code>beginWord</code>, <code>endWord</code>, and <code>wordList[i]</code> consist of lowercase English letters.</li>
 	<li><code>beginWord != endWord</code></li>
-	<li><code>wordList</code> 中的所有字符串 <strong>互不相同</strong></li>
+	<li>All the words in <code>wordList</code> are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
+### Solution 1: BFS
 
-BFS 最小步数模型。本题可以用朴素 BFS，也可以用双向 BFS 优化搜索空间，从而提升效率。
+BFS minimum step model. This problem can be solved with naive BFS, or it can be optimized with bidirectional BFS to reduce the search space and improve efficiency.
 
-双向 BFS 是 BFS 常见的一个优化方法，主要实现思路如下：
+Bidirectional BFS is a common optimization method for BFS, with the main implementation ideas as follows:
 
-1. 创建两个队列 q1, q2 分别用于“起点 -> 终点”、“终点 -> 起点”两个方向的搜索；
-2. 创建两个哈希表 m1, m2 分别记录访问过的节点以及对应的扩展次数（步数）；
-3. 每次搜索时，优先选择元素数量较少的队列进行搜索扩展，如果在扩展过程中，搜索到另一个方向已经访问过的节点，说明找到了最短路径；
-4. 只要其中一个队列为空，说明当前方向的搜索已经进行不下去了，说明起点到终点不连通，无需继续搜索。
+1. Create two queues, q1 and q2, for "start -> end" and "end -> start" search directions, respectively.
+2. Create two hash maps, m1 and m2, to record the visited nodes and their corresponding expansion times (steps).
+3. During each search, prioritize the queue with fewer elements for search expansion. If a node visited from the other direction is found during the expansion, it means the shortest path has been found.
+4. If one of the queues is empty, it means that the search in the current direction cannot continue, indicating that the start and end points are not connected, and there is no need to continue the search.
 
 ```python
 while q1 and q2:
     if len(q1) <= len(q2):
-        # 优先选择较少元素的队列进行扩展
+        # Prioritize the queue with fewer elements for expansion
         extend(m1, m2, q1)
     else:
         extend(m2, m1, q2)
 
 
 def extend(m1, m2, q):
-    # 新一轮扩展
+    # New round of expansion
     for _ in range(len(q)):
         p = q.popleft()
         step = m1[p]
         for t in next(p):
             if t in m1:
-                # 此前已经访问过
+                # Already visited before
                 continue
             if t in m2:
-                # 另一个方向已经搜索过，说明找到了一条最短的连通路径
+                # The other direction has been searched, indicating that a shortest path has been found
                 return step + 1 + m2[t]
             q.append(t)
             m1[t] = step + 1
@@ -367,7 +364,7 @@ function ladderLength(beginWord: string, endWord: string, wordList: string[]): n
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

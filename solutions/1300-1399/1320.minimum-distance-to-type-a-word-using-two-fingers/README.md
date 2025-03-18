@@ -1,104 +1,96 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1320.Minimum%20Distance%20to%20Type%20a%20Word%20Using%20Two%20Fingers/README.md
+difficulty: Hard
 rating: 2027
-source: 第 171 场周赛 Q4
+source: Weekly Contest 171 Q4
 tags:
-    - 字符串
-    - 动态规划
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1320. 二指输入的的最小距离](https://leetcode.cn/problems/minimum-distance-to-type-a-word-using-two-fingers)
+# [1320. Minimum Distance to Type a Word Using Two Fingers](https://leetcode.com/problems/minimum-distance-to-type-a-word-using-two-fingers)
 
-[English Version](/solution/1300-1399/1320.Minimum%20Distance%20to%20Type%20a%20Word%20Using%20Two%20Fingers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1320.Minimum%20Distance%20to%20Type%20a%20Word%20Using%20Two%20Fingers/images/leetcode_keyboard.png" /></p>
-
-<p>二指输入法定制键盘在 <strong>X-Y</strong> 平面上的布局如上图所示，其中每个大写英文字母都位于某个坐标处。</p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1320.Minimum%20Distance%20to%20Type%20a%20Word%20Using%20Two%20Fingers/images/leetcode_keyboard.png" style="width: 349px; height: 209px;" />
+<p>You have a keyboard layout as shown above in the <strong>X-Y</strong> plane, where each English uppercase letter is located at some coordinate.</p>
 
 <ul>
-	<li>例如字母&nbsp;<strong>A</strong>&nbsp;位于坐标&nbsp;<strong>(0,0)</strong>，字母&nbsp;<strong>B</strong>&nbsp;位于坐标&nbsp;<strong>(0,1)</strong>，字母&nbsp;<strong>P</strong>&nbsp;位于坐标&nbsp;<strong>(2,3)</strong>&nbsp;且字母 <strong>Z</strong>&nbsp;位于坐标&nbsp;<strong>(4,1)</strong>。</li>
+	<li>For example, the letter <code>&#39;A&#39;</code> is located at coordinate <code>(0, 0)</code>, the letter <code>&#39;B&#39;</code> is located at coordinate <code>(0, 1)</code>, the letter <code>&#39;P&#39;</code> is located at coordinate <code>(2, 3)</code> and the letter <code>&#39;Z&#39;</code> is located at coordinate <code>(4, 1)</code>.</li>
 </ul>
 
-<p>给你一个待输入字符串&nbsp;<code>word</code>，请你计算并返回在仅使用两根手指的情况下，键入该字符串需要的最小移动总距离。</p>
+<p>Given the string <code>word</code>, return <em>the minimum total <strong>distance</strong> to type such string using only two fingers</em>.</p>
 
-<p>坐标<code>&nbsp;<strong>(x<sub>1</sub>,y<sub>1</sub>)</strong> </code>和 <code><strong>(x<sub>2</sub>,y<sub>2</sub>)</strong></code> 之间的 <strong>距离</strong> 是&nbsp;<code><strong>|x<sub>1</sub> - x<sub>2</sub>| + |y<sub>1</sub> - y<sub>2</sub>|</strong></code>。&nbsp;</p>
+<p>The <strong>distance</strong> between coordinates <code>(x<sub>1</sub>, y<sub>1</sub>)</code> and <code>(x<sub>2</sub>, y<sub>2</sub>)</code> is <code>|x<sub>1</sub> - x<sub>2</sub>| + |y<sub>1</sub> - y<sub>2</sub>|</code>.</p>
 
-<p><strong>注意</strong>，两根手指的起始位置是零代价的，不计入移动总距离。你的两根手指的起始位置也不必从首字母或者前两个字母开始。</p>
+<p><strong>Note</strong> that the initial positions of your two fingers are considered free so do not count towards your total distance, also your two fingers do not have to start at the first letter or the first two letters.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>word = "CAKE"
-<strong>输出：</strong>3
-<strong>解释： 
-</strong>使用两根手指输入 "CAKE" 的最佳方案之一是： 
-手指 1 在字母 'C' 上 -&gt; 移动距离 = 0 
-手指 1 在字母 'A' 上 -&gt; 移动距离 = 从字母 'C' 到字母 'A' 的距离 = 2 
-手指 2 在字母 'K' 上 -&gt; 移动距离 = 0 
-手指 2 在字母 'E' 上 -&gt; 移动距离 = 从字母 'K' 到字母 'E' 的距离  = 1 
-总距离 = 3
+<strong>Input:</strong> word = &quot;CAKE&quot;
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> Using two fingers, one optimal way to type &quot;CAKE&quot; is: 
+Finger 1 on letter &#39;C&#39; -&gt; cost = 0 
+Finger 1 on letter &#39;A&#39; -&gt; cost = Distance from letter &#39;C&#39; to letter &#39;A&#39; = 2 
+Finger 2 on letter &#39;K&#39; -&gt; cost = 0 
+Finger 2 on letter &#39;E&#39; -&gt; cost = Distance from letter &#39;K&#39; to letter &#39;E&#39; = 1 
+Total distance = 3
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>word = "HAPPY"
-<strong>输出：</strong>6
-<strong>解释： </strong>
-使用两根手指输入 "HAPPY" 的最佳方案之一是：
-手指 1 在字母 'H' 上 -&gt; 移动距离 = 0
-手指 1 在字母 'A' 上 -&gt; 移动距离 = 从字母 'H' 到字母 'A' 的距离 = 2
-手指 2 在字母 'P' 上 -&gt; 移动距离 = 0
-手指 2 在字母 'P' 上 -&gt; 移动距离 = 从字母 'P' 到字母 'P' 的距离 = 0
-手指 1 在字母 'Y' 上 -&gt; 移动距离 = 从字母 'A' 到字母 'Y' 的距离 = 4
-总距离 = 6
+<strong>Input:</strong> word = &quot;HAPPY&quot;
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> Using two fingers, one optimal way to type &quot;HAPPY&quot; is:
+Finger 1 on letter &#39;H&#39; -&gt; cost = 0
+Finger 1 on letter &#39;A&#39; -&gt; cost = Distance from letter &#39;H&#39; to letter &#39;A&#39; = 2
+Finger 2 on letter &#39;P&#39; -&gt; cost = 0
+Finger 2 on letter &#39;P&#39; -&gt; cost = Distance from letter &#39;P&#39; to letter &#39;P&#39; = 0
+Finger 1 on letter &#39;Y&#39; -&gt; cost = Distance from letter &#39;A&#39; to letter &#39;Y&#39; = 4
+Total distance = 6
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= word.length &lt;= 300</code></li>
-	<li>每个 <code>word[i]</code>&nbsp;都是一个大写英文字母。</li>
+	<li><code>word</code> consists of uppercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i][j][k]$ 表示输入完 $\textit{word}[i]$，且手指 $1$ 位于位置 $j$，手指 $2$ 位于位置 $k$ 时，最小的移动距离。这里的位置 $j$ 和 $k$ 表示的是字母对应的数字，取值范围为 $[0,..25]$。初始时 $f[i][j][k]=\infty$。
+We define $f[i][j][k]$ to represent the minimum distance after typing $\textit{word}[i]$, with finger 1 at position $j$ and finger 2 at position $k$. Here, positions $j$ and $k$ represent the numbers corresponding to the letters, ranging from $[0,..25]$. Initially, $f[i][j][k] = \infty$.
 
-我们实现一个函数 $\textit{dist}(a, b)$，表示位置 $a$ 和位置 $b$ 之间的距离，即 $\textit{dist}(a, b) = |\frac{a}{6} - \frac{b}{6}| + |a \bmod 6 - b \bmod 6|$。
+We implement a function $\textit{dist}(a, b)$ to represent the distance between positions $a$ and $b$, i.e., $\textit{dist}(a, b) = |\frac{a}{6} - \frac{b}{6}| + |a \bmod 6 - b \bmod 6|$.
 
-接下来，我们考虑输入 $\textit{word}[0]$，即只有一个字母的的情况，此时有两种选择：
+Next, we consider typing $\textit{word}[0]$, i.e., the case with only one letter. There are two choices:
 
--   手指 $1$ 位于 $\textit{word}[0]$ 所在的位置，手指 $2$ 位于任意位置，此时 $f[0][\textit{word}[0]][k] = 0$，其中 $k \in [0,..25]$。
--   手指 $2$ 位于 $\textit{word}[0]$ 所在的位置，手指 $1$ 位于任意位置，此时 $f[0][k][\textit{word}[0]] = 0$，其中 $k \in [0,..25]$。
+-   Finger 1 is at the position of $\textit{word}[0]$, and finger 2 is at any position. In this case, $f[0][\textit{word}[0]][k] = 0$, where $k \in [0,..25]$.
+-   Finger 2 is at the position of $\textit{word}[0]$, and finger 1 is at any position. In this case, $f[0][k][\textit{word}[0]] = 0$, where $k \in [0,..25]$.
 
-然后我们考虑输入 $\textit{word}[1,..n-1]$，我们记上一个字母和当前字母所在的位置分别为 $a$ 和 $b$，接下来我们进行分情况讨论：
+Then we consider typing $\textit{word}[1,..n-1]$. Let the positions of the previous letter and the current letter be $a$ and $b$, respectively. Next, we discuss the following cases:
 
-如果当前手指 $1$ 位于位置 $b$，我们枚举手指 $2$ 的位置 $j$，假如上一个位置 $a$ 也是手指 $1$ 的位置，那么此时有 $f[i][b][j]=\min(f[i][b][j], f[i-1][a][j]+\textit{dist}(a, b))$。如果手指 $2$ 的位置与上一个位置 $a$ 相同，即 $j=a$，那么我们枚举上一个位置的手指 $1$ 所在的位置 $k$，此时有 $f[i][j][j]=\min(f[i][b][j], f[i-1][k][a]+\textit{dist}(k, b))$。
+If the current finger 1 is at position $b$, we enumerate the position $j$ of finger 2. If the previous position $a$ was also the position of finger 1, then $f[i][b][j] = \min(f[i][b][j], f[i-1][a][j] + \textit{dist}(a, b))$. If the position of finger 2 is the same as the previous position $a$, i.e., $j = a$, then we enumerate the position $k$ of finger 1 in the previous position. In this case, $f[i][b][j] = \min(f[i][b][j], f[i-1][k][a] + \textit{dist}(k, b))$.
 
-同理，如果当前手指 $2$ 位于位置 $b$，我们枚举手指 $1$ 的位置 $j$，假如上一个位置 $a$ 也是手指 $2$ 的位置，那么此时有 $f[i][j][b]=\min(f[i][j][b], f[i-1][j][a]+\textit{dist}(a, b))$。如果手指 $1$ 的位置与上一个位置 $a$ 相同，即 $j=a$，那么我们枚举上一个位置的手指 $2$ 所在的位置 $k$，此时有 $f[i][j][b]=\min(f[i][j][b], f[i-1][a][k]+\textit{dist}(k, b))$。
+Similarly, if the current finger 2 is at position $b$, we enumerate the position $j$ of finger 1. If the previous position $a$ was also the position of finger 2, then $f[i][j][b] = \min(f[i][j][b], f[i-1][j][a] + \textit{dist}(a, b))$. If the position of finger 1 is the same as the previous position $a$, i.e., $j = a$, then we enumerate the position $k$ of finger 2 in the previous position. In this case, $f[i][j][b] = \min(f[i][j][b], f[i-1][a][k] + \textit{dist}(k, b))$.
 
-最后，我们枚举最后一个位置的手指 $1$ 和手指 $2$ 所在的位置，取最小值即为答案。
+Finally, we enumerate the positions of finger 1 and finger 2 at the last position and take the minimum value as the answer.
 
-时间复杂度 $O(n \times |\Sigma|^2)$，空间复杂度 $O(n \times |\Sigma|^2)$。其中 $n$ 为字符串 $\textit{word}$ 的长度，而 $|\Sigma|$ 为字母表的大小，本题中 $|\Sigma|=26$。
+The time complexity is $O(n \times |\Sigma|^2)$, and the space complexity is $O(n \times |\Sigma|^2)$. Here, $n$ is the length of the string $\textit{word}$, and $|\Sigma|$ is the size of the alphabet, which is $26$ in this problem.
 
 <!-- tabs:start -->
 

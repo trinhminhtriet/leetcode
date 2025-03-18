@@ -1,80 +1,71 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0547.Number%20of%20Provinces/README.md
+difficulty: Medium
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 并查集
-    - 图
+    - Depth-First Search
+    - Breadth-First Search
+    - Union Find
+    - Graph
 ---
 
 <!-- problem:start -->
 
-# [547. 省份数量](https://leetcode.cn/problems/number-of-provinces)
+# [547. Number of Provinces](https://leetcode.com/problems/number-of-provinces)
 
-[English Version](/solution/0500-0599/0547.Number%20of%20Provinces/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<div class="original__bRMd">
-<div>
-<p>有 <code>n</code> 个城市，其中一些彼此相连，另一些没有相连。如果城市 <code>a</code> 与城市 <code>b</code> 直接相连，且城市 <code>b</code> 与城市 <code>c</code> 直接相连，那么城市 <code>a</code> 与城市 <code>c</code> 间接相连。</p>
+<p>There are <code>n</code> cities. Some of them are connected, while some are not. If city <code>a</code> is connected directly with city <code>b</code>, and city <code>b</code> is connected directly with city <code>c</code>, then city <code>a</code> is connected indirectly with city <code>c</code>.</p>
 
-<p><strong>省份</strong> 是一组直接或间接相连的城市，组内不含其他没有相连的城市。</p>
+<p>A <strong>province</strong> is a group of directly or indirectly connected cities and no other cities outside of the group.</p>
 
-<p>给你一个 <code>n x n</code> 的矩阵 <code>isConnected</code> ，其中 <code>isConnected[i][j] = 1</code> 表示第 <code>i</code> 个城市和第 <code>j</code> 个城市直接相连，而 <code>isConnected[i][j] = 0</code> 表示二者不直接相连。</p>
+<p>You are given an <code>n x n</code> matrix <code>isConnected</code> where <code>isConnected[i][j] = 1</code> if the <code>i<sup>th</sup></code> city and the <code>j<sup>th</sup></code> city are directly connected, and <code>isConnected[i][j] = 0</code> otherwise.</p>
 
-<p>返回矩阵中 <strong>省份</strong> 的数量。</p>
+<p>Return <em>the total number of <strong>provinces</strong></em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0547.Number%20of%20Provinces/images/graph1.jpg" style="width: 222px; height: 142px;" />
 <pre>
-<strong>输入：</strong>isConnected = [[1,1,0],[1,1,0],[0,0,1]]
-<strong>输出：</strong>2
+<strong>Input:</strong> isConnected = [[1,1,0],[1,1,0],[0,0,1]]
+<strong>Output:</strong> 2
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0547.Number%20of%20Provinces/images/graph2.jpg" style="width: 222px; height: 142px;" />
 <pre>
-<strong>输入：</strong>isConnected = [[1,0,0],[0,1,0],[0,0,1]]
-<strong>输出：</strong>3
+<strong>Input:</strong> isConnected = [[1,0,0],[0,1,0],[0,0,1]]
+<strong>Output:</strong> 3
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= n <= 200</code></li>
+	<li><code>1 &lt;= n &lt;= 200</code></li>
 	<li><code>n == isConnected.length</code></li>
 	<li><code>n == isConnected[i].length</code></li>
-	<li><code>isConnected[i][j]</code> 为 <code>1</code> 或 <code>0</code></li>
+	<li><code>isConnected[i][j]</code> is <code>1</code> or <code>0</code>.</li>
 	<li><code>isConnected[i][i] == 1</code></li>
 	<li><code>isConnected[i][j] == isConnected[j][i]</code></li>
 </ul>
-</div>
-</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
+### Solution 1: DFS
 
-我们创建一个数组 $\textit{vis}$，用于记录每个城市是否被访问过。
+We create an array $\textit{vis}$ to record whether each city has been visited.
 
-接下来，遍历每个城市 $i$，如果该城市未被访问过，则从该城市开始深度优先搜索，通过矩阵 $\textit{isConnected}$ 得到与该城市直接相连的城市有哪些，这些城市和该城市属于同一个省，然后对这些城市继续深度优先搜索，直到同一个省的所有城市都被访问到，即可得到一个省，将答案 $\textit{ans}$ 加 $1$，然后遍历下一个未被访问过的城市，直到遍历完所有的城市。
+Next, we traverse each city $i$. If the city has not been visited, we start a depth-first search from that city. Using the matrix $\textit{isConnected}$, we find the cities directly connected to this city. These cities and the current city belong to the same province. We continue the depth-first search for these cities until all cities in the same province have been visited. This counts as one province, so we increment the answer $\textit{ans}$ by $1$. Then, we move to the next unvisited city and repeat the process until all cities have been traversed.
 
-最后返回答案即可。
+Finally, return the answer.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是城市的数量。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the number of cities.
 
 <!-- tabs:start -->
 
@@ -246,15 +237,15 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：并查集
+### Solution 2: Union-Find
 
-我们也可以用并查集维护每个连通分量，初始时，每个城市都属于不同的连通分量，所以省份数量为 $n$。
+We can also use the union-find data structure to maintain each connected component. Initially, each city belongs to a different connected component, so the number of provinces is $n$.
 
-接下来，遍历矩阵 $\textit{isConnected}$，如果两个城市 $(i, j)$ 之间有相连关系，并且处于两个不同的连通分量，则它们将被合并成为一个连通分量，然后将省份数量减去 $1$。
+Next, we traverse the matrix $\textit{isConnected}$. If there is a connection between two cities $(i, j)$ and they belong to two different connected components, they will be merged into one connected component, and the number of provinces is decremented by $1$.
 
-最后返回省份数量即可。
+Finally, return the number of provinces.
 
-时间复杂度 $O(n^2 \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是城市的数量，而 $\log n$ 是并查集的路径压缩的时间复杂度。
+The time complexity is $O(n^2 \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of cities, and $\log n$ is the time complexity of path compression in the union-find data structure.
 
 <!-- tabs:start -->
 

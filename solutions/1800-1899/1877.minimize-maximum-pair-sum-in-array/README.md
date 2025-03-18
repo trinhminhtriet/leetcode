@@ -1,83 +1,102 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1877.Minimize%20Maximum%20Pair%20Sum%20in%20Array/README.md
+difficulty: Medium
 rating: 1301
-source: 第 53 场双周赛 Q2
+source: Biweekly Contest 53 Q2
 tags:
-    - 贪心
-    - 数组
-    - 双指针
-    - 排序
+    - Greedy
+    - Array
+    - Two Pointers
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1877. 数组中最大数对和的最小值](https://leetcode.cn/problems/minimize-maximum-pair-sum-in-array)
+# [1877. Minimize Maximum Pair Sum in Array](https://leetcode.com/problems/minimize-maximum-pair-sum-in-array)
 
-[English Version](/solution/1800-1899/1877.Minimize%20Maximum%20Pair%20Sum%20in%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个数对 <code>(a,b)</code> 的 <strong>数对和</strong> 等于 <code>a + b</code> 。<strong>最大数对和</strong> 是一个数对数组中最大的 <strong>数对和</strong> 。</p>
+<p>The <strong>pair sum</strong> of a pair <code>(a,b)</code> is equal to <code>a + b</code>. The <strong>maximum pair sum</strong> is the largest <strong>pair sum</strong> in a list of pairs.</p>
 
 <ul>
-	<li>比方说，如果我们有数对 <code>(1,5)</code> ，<code>(2,3)</code> 和 <code>(4,4)</code>，<strong>最大数对和</strong> 为 <code>max(1+5, 2+3, 4+4) = max(6, 5, 8) = 8</code> 。</li>
+
+    <li>For example, if we have pairs <code>(1,5)</code>, <code>(2,3)</code>, and <code>(4,4)</code>, the <strong>maximum pair sum</strong> would be <code>max(1+5, 2+3, 4+4) = max(6, 5, 8) = 8</code>.</li>
+
 </ul>
 
-<p>给你一个长度为 <strong>偶数</strong> <code>n</code> 的数组 <code>nums</code> ，请你将 <code>nums</code> 中的元素分成 <code>n / 2</code> 个数对，使得：</p>
+<p>Given an array <code>nums</code> of <strong>even</strong> length <code>n</code>, pair up the elements of <code>nums</code> into <code>n / 2</code> pairs such that:</p>
 
 <ul>
-	<li><code>nums</code> 中每个元素 <strong>恰好</strong> 在 <strong>一个</strong> 数对中，且</li>
-	<li><strong>最大数对和</strong> 的值 <strong>最小</strong> 。</li>
+
+    <li>Each element of <code>nums</code> is in <strong>exactly one</strong> pair, and</li>
+
+    <li>The <strong>maximum pair sum </strong>is <strong>minimized</strong>.</li>
+
 </ul>
 
-<p>请你在最优数对划分的方案下，返回最小的 <strong>最大数对和</strong> 。</p>
+<p>Return <em>the minimized <strong>maximum pair sum</strong> after optimally pairing up the elements</em>.</p>
 
-<p> </p>
+<p>&nbsp;</p>
 
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
-<pre><b>输入：</b>nums = [3,5,2,3]
-<b>输出：</b>7
-<b>解释：</b>数组中的元素可以分为数对 (3,3) 和 (5,2) 。
-最大数对和为 max(3+3, 5+2) = max(6, 7) = 7 。
+<pre>
+
+<strong>Input:</strong> nums = [3,5,2,3]
+
+<strong>Output:</strong> 7
+
+<strong>Explanation:</strong> The elements can be paired up into pairs (3,3) and (5,2).
+
+The maximum pair sum is max(3+3, 5+2) = max(6, 7) = 7.
+
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>nums = [3,5,4,2,4,6]
-<b>输出：</b>8
-<b>解释：</b>数组中的元素可以分为数对 (3,5)，(4,4) 和 (6,2) 。
-最大数对和为 max(3+5, 4+4, 6+2) = max(8, 8, 8) = 8 。
+<pre>
+
+<strong>Input:</strong> nums = [3,5,4,2,4,6]
+
+<strong>Output:</strong> 8
+
+<strong>Explanation:</strong> The elements can be paired up into pairs (3,5), (4,4), and (6,2).
+
+The maximum pair sum is max(3+5, 4+4, 6+2) = max(8, 8, 8) = 8.
+
 </pre>
 
-<p> </p>
+<p>&nbsp;</p>
 
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>n == nums.length</code></li>
-	<li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
-	<li><code>n</code> 是 <strong>偶数</strong> 。</li>
-	<li><code>1 &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
+
+    <li><code>n == nums.length</code></li>
+
+    <li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
+
+    <li><code>n</code> is <strong>even</strong>.</li>
+
+    <li><code>1 &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
+
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy
 
-要使得数组中最大数对和的值最小，那么我们可以将数组中最小的数和最大的数配对，次小的数和次大的数配对，依此类推。
+To minimize the maximum pair sum in the array, we can pair the smallest number with the largest number, the second smallest with the second largest, and so on.
 
-因此，我们可以先对数组进行排序，然后使用两个指针分别指向数组的两端，求出两个指针指向的数的和，更新最大数对和的值，然后将左指针右移一位，右指针左移一位，继续进行操作，直到两个指针相遇为止，即可得到最小的最大数对和。
+Therefore, we can first sort the array, then use two pointers to point to the two ends of the array. Calculate the sum of the numbers pointed to by the two pointers, update the maximum pair sum, then move the left pointer one step to the right and the right pointer one step to the left. Continue this process until the two pointers meet, and we will get the minimum maximum pair sum.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

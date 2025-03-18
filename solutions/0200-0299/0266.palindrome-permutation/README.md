@@ -1,68 +1,63 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0266.Palindrome%20Permutation/README.md
+difficulty: Easy
 tags:
-    - 位运算
-    - 哈希表
-    - 字符串
+    - Bit Manipulation
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [266. 回文排列 🔒](https://leetcode.cn/problems/palindrome-permutation)
+# [266. Palindrome Permutation 🔒](https://leetcode.com/problems/palindrome-permutation)
 
-[English Version](/solution/0200-0299/0266.Palindrome%20Permutation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> ，如果该字符串的某个排列是 <span data-keyword="palindrome-string">回文串</span> ，则返回 <code>true</code> ；否则，返回<em> </em><code>false</code><em> </em>。</p>
+<p>Given a string <code>s</code>, return <code>true</code> <em>if a permutation of the string could form a </em><span data-keyword="palindrome-string"><em><strong>palindrome</strong></em></span><em> and </em><code>false</code><em> otherwise</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "code"
-<strong>输出：</strong>false
+<strong>Input:</strong> s = &quot;code&quot;
+<strong>Output:</strong> false
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "aab"
-<strong>输出：</strong>true
+<strong>Input:</strong> s = &quot;aab&quot;
+<strong>Output:</strong> true
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "carerac"
-<strong>输出：</strong>true
+<strong>Input:</strong> s = &quot;carerac&quot;
+<strong>Output:</strong> true
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 5000</code></li>
-	<li><code>s</code> 仅由小写英文字母组成</li>
+	<li><code>s</code> consists of only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-如果一个字符串是回文串，那么至多只有一个字符出现奇数次数，其余字符都出现偶数次数。因此我们只需要统计每个字符出现的次数，然后判断是否满足这个条件即可。
+If a string is a palindrome, at most one character can appear an odd number of times, while all other characters must appear an even number of times. Therefore, we only need to count the occurrences of each character and then check if this condition is satisfied.
 
-时间复杂度 $O(n)$，空间复杂度 $O(|\Sigma|)$。其中 $n$ 是字符串的长度，而 $|\Sigma|$ 是字符集的大小，本题中字符集为小写字母，因此 $|\Sigma|=26$。
+Time complexity is $O(n)$, and space complexity is $O(|\Sigma|)$. Here, $n$ is the length of the string, and $|\Sigma|$ is the size of the character set. In this problem, the character set consists of lowercase letters, so $|\Sigma|=26$.
 
 <!-- tabs:start -->
 

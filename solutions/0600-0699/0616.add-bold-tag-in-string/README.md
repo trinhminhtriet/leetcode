@@ -1,90 +1,77 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0616.Add%20Bold%20Tag%20in%20String/README.md
+difficulty: Medium
 tags:
-    - 字典树
-    - 数组
-    - 哈希表
-    - 字符串
-    - 字符串匹配
+    - Trie
+    - Array
+    - Hash Table
+    - String
+    - String Matching
 ---
 
 <!-- problem:start -->
 
-# [616. 给字符串添加加粗标签 🔒](https://leetcode.cn/problems/add-bold-tag-in-string)
+# [616. Add Bold Tag in String 🔒](https://leetcode.com/problems/add-bold-tag-in-string)
 
-[English Version](/solution/0600-0699/0616.Add%20Bold%20Tag%20in%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定字符串 <code>s</code> 和字符串数组 <code>words</code>。</p>
+<p>You are given a string <code>s</code> and an array of strings <code>words</code>.</p>
 
-<p>对于 <code>s</code> 内部的子字符串，若其存在于 <code>words</code> 数组中， 则通过添加闭合的粗体标签<meta charset="UTF-8" />&nbsp;<code>&lt;b&gt;</code>&nbsp;和&nbsp;<code>&lt;/b&gt;</code>&nbsp;进行加粗标记。</p>
+<p>You should add a closed pair of bold tag <code>&lt;b&gt;</code> and <code>&lt;/b&gt;</code> to wrap the substrings in <code>s</code> that exist in <code>words</code>.</p>
 
 <ul>
-	<li>如果两个这样的子字符串重叠，你应该仅使用一对闭合的粗体标签将它们包围起来。</li>
-	<li>如果被粗体标签包围的两个子字符串是连续的，你应该将它们合并。</li>
+	<li>If two such substrings overlap, you should wrap them together with only one pair of closed bold-tag.</li>
+	<li>If two substrings wrapped by bold tags are consecutive, you should combine them.</li>
 </ul>
 
-<p>返回添加加粗标签后的字符串 <code>s</code> 。</p>
+<p>Return <code>s</code> <em>after adding the bold tags</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong> s = "abcxyz123", words = ["abc","123"]
-<strong>输出：</strong>"&lt;b&gt;abc&lt;/b&gt;xyz&lt;b&gt;123&lt;/b&gt;"
-<strong>解释：</strong>两个单词字符串是 s 的子字符串，如下所示: "abcxyz123"。
-我们在每个子字符串之前添加&lt;b&gt;，在每个子字符串之后添加&lt;/b&gt;。
+<strong>Input:</strong> s = &quot;abcxyz123&quot;, words = [&quot;abc&quot;,&quot;123&quot;]
+<strong>Output:</strong> &quot;&lt;b&gt;abc&lt;/b&gt;xyz&lt;b&gt;123&lt;/b&gt;&quot;
+<strong>Explanation:</strong> The two strings of words are substrings of s as following: &quot;<u>abc</u>xyz<u>123</u>&quot;.
+We add &lt;b&gt; before each substring and &lt;/b&gt; after each substring.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "aaabbb", words = ["aa","b"]
-<strong>输出：</strong>"&lt;b&gt;aaabbb&lt;/b&gt;"
-<strong>解释：</strong>
-"aa"作为子字符串出现了两次: "<u>aa</u>abbb" 和 "a<u>aa</u>bbb"。
-"b"作为子字符串出现了三次: "aaa<u>b</u>bb"、"aaab<u>b</u>b" 和 "aaabb<u>b</u>"。
-我们在每个子字符串之前添加&lt;b&gt;，在每个子字符串之后添加&lt;/b&gt;: "&lt;b&gt;a&lt;b&gt;a&lt;/b&gt;a&lt;/b&gt;&lt;b&gt;b&lt;/b&gt;&lt;b&gt;b&lt;/b&gt;&lt;b&gt;b&lt;/b&gt;"。
-由于前两个&lt;b&gt;重叠，把它们合并得到: "&lt;b&gt;aaa&lt;/b&gt;&lt;b&gt;b&lt;/b&gt;&lt;b&gt;b&lt;/b&gt;&lt;b&gt;b&lt;/b&gt;"。
-由于现在这四个&lt;b&gt;是连续的，把它们合并得到: "&lt;b&gt;aaabbb&lt;/b&gt;"。
+<strong>Input:</strong> s = &quot;aaabbb&quot;, words = [&quot;aa&quot;,&quot;b&quot;]
+<strong>Output:</strong> &quot;&lt;b&gt;aaabbb&lt;/b&gt;&quot;
+<strong>Explanation:</strong> 
+&quot;aa&quot; appears as a substring two times: &quot;<u>aa</u>abbb&quot; and &quot;a<u>aa</u>bbb&quot;.
+&quot;b&quot; appears as a substring three times: &quot;aaa<u>b</u>bb&quot;, &quot;aaab<u>b</u>b&quot;, and &quot;aaabb<u>b</u>&quot;.
+We add &lt;b&gt; before each substring and &lt;/b&gt; after each substring: &quot;&lt;b&gt;a&lt;b&gt;a&lt;/b&gt;a&lt;/b&gt;&lt;b&gt;b&lt;/b&gt;&lt;b&gt;b&lt;/b&gt;&lt;b&gt;b&lt;/b&gt;&quot;.
+Since the first two &lt;b&gt;&#39;s overlap, we merge them: &quot;&lt;b&gt;aaa&lt;/b&gt;&lt;b&gt;b&lt;/b&gt;&lt;b&gt;b&lt;/b&gt;&lt;b&gt;b&lt;/b&gt;&quot;.
+Since now the four &lt;b&gt;&#39;s are consecutive, we merge them: &quot;&lt;b&gt;aaabbb&lt;/b&gt;&quot;.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
 	<li><code>0 &lt;= words.length &lt;= 100</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 1000</code></li>
-	<li><code>s</code> 和 <code>words[i]</code> 由英文字母和数字组成</li>
-	<li><code>words</code> 中的所有值 <strong>互不相同</strong></li>
+	<li><code>s</code> and <code>words[i]</code> consist of English letters and digits.</li>
+	<li>All the values of <code>words</code> are <strong>unique</strong>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>注：</strong>此题与「758 - 字符串中的加粗单词」相同 - <a href="https://leetcode.cn/problems/bold-words-in-string">https://leetcode.cn/problems/bold-words-in-string</a></p>
-
-<p>&nbsp;</p>
+<p><strong>Note:</strong> This question is the same as <a href="https://leetcode.com/problems/bold-words-in-string/description/" target="_blank">758. Bold Words in String</a>.</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀树 + 区间合并
-
-相似题目：
-
--   [1065. 字符串的索引对](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1065.Index%20Pairs%20of%20a%20String/README.md)
--   [758. 字符串中的加粗单词](https://github.com/doocs/leetcode/blob/main/solution/0700-0799/0758.Bold%20Words%20in%20String/README.md)
+### Solution 1
 
 <!-- tabs:start -->
 

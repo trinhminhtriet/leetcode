@@ -1,177 +1,63 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0483.Smallest%20Good%20Base/README.md
+difficulty: Hard
 tags:
-    - 数学
-    - 二分查找
+    - Math
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [483. 最小好进制](https://leetcode.cn/problems/smallest-good-base)
+# [483. Smallest Good Base](https://leetcode.com/problems/smallest-good-base)
 
-[English Version](/solution/0400-0499/0483.Smallest%20Good%20Base/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>以字符串的形式给出 <code>n</code>&nbsp;, 以字符串的形式返回<em> <code>n</code> 的最小 <strong>好进制</strong> </em>&nbsp;。</p>
+<p>Given an integer <code>n</code> represented as a string, return <em>the smallest <strong>good base</strong> of</em> <code>n</code>.</p>
 
-<p>如果 <code>n</code> 的 &nbsp;<code>k(k&gt;=2)</code>&nbsp;进制数的所有数位全为1，则称&nbsp;<code>k(k&gt;=2)</code>&nbsp;是 <code>n</code> 的一个&nbsp;<strong>好进制&nbsp;</strong>。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = "13"
-<strong>输出：</strong>"3"
-<strong>解释：</strong>13 的 3 进制是 111。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = "4681"
-<strong>输出：</strong>"8"
-<strong>解释：</strong>4681 的 8 进制是 11111。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = "1000000000000000000"
-<strong>输出：</strong>"999999999999999999"
-<strong>解释：</strong>1000000000000000000 的 999999999999999999 进制是 11。
-</pre>
+<p>We call <code>k &gt;= 2</code> a <strong>good base</strong> of <code>n</code>, if all digits of <code>n</code> base <code>k</code> are <code>1</code>&#39;s.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = &quot;13&quot;
+<strong>Output:</strong> &quot;3&quot;
+<strong>Explanation:</strong> 13 base 3 is 111.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = &quot;4681&quot;
+<strong>Output:</strong> &quot;8&quot;
+<strong>Explanation:</strong> 4681 base 8 is 11111.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = &quot;1000000000000000000&quot;
+<strong>Output:</strong> &quot;999999999999999999&quot;
+<strong>Explanation:</strong> 1000000000000000000 base 999999999999999999 is 11.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>n</code> 的取值范围是&nbsp;<code>[3, 10<sup>18</sup>]</code></li>
-	<li><code>n</code> 没有前导 0</li>
+	<li><code>n</code> is an integer in the range <code>[3, 10<sup>18</sup>]</code>.</li>
+	<li><code>n</code> does not contain any leading zeros.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
-
-假设 $n$ 在 $k$ 进制下的所有位数均为 $1$，且位数为 $m+1$，那么有式子 ①：
-
-$$
-n=k^0+k^1+k^2+...+k^m
-$$
-
-当 $m=0$ 时，上式 $n=1$，而题目 $n$ 取值范围为 $[3, 10^{18}]$，因此 $m>0$。
-
-当 $m=1$ 时，上式 $n=k^0+k^1=1+k$，即 $k=n-1>=2$。
-
-我们来证明一般情况下的两个结论，以帮助解决本题。
-
-**结论一：** $m<\log _{k} n$
-
-注意到式子 ① 是个首项为 $1$，且公比为 $k$ 的等比数列。利用等比数列求和公式，我们可以得出：
-
-$$
-n=\frac{1-k^{m+1}}{1-k}
-$$
-
-变形得：
-
-$$
-k^{m+1}=k \times n-n+1 < k \times n
-$$
-
-移项得：
-
-$$
-m<\log _{k} n
-$$
-
-题目 $n$ 取值范围为 $[3, 10^{18}]$，又因为 $k>=2$，因此 $m<\log _{k} n<\log _{2} 10^{18}<60$。
-
-**结论二：** $k=\left \lfloor \sqrt[m]{n} \right \rfloor $
-
-$$
-n=k^0+k^1+k^2+...+k^m>k^m
-$$
-
-根据二项式定理：
-
-$$
-(a+b)^{n}=\sum_{k=0}^{n}\left(\begin{array}{l}
-n \\
-k
-\end{array}\right) a^{n-k} b^{k}
-$$
-
-整合，可得：
-
-$$
-(k+1)^{m}=\left(\begin{array}{c}
-m \\
-0
-\end{array}\right) k^{0}+\left(\begin{array}{c}
-m \\
-1
-\end{array}\right) k^{1}+\left(\begin{array}{c}
-m \\
-2
-\end{array}\right) k^{2}+\cdots+\left(\begin{array}{c}
-m \\
-m
-\end{array}\right) k^{m}
-$$
-
-当 $m>1$ 时，满足：
-
-$$
-\forall i \in[1, m-1],\left(\begin{array}{c}
-m \\
-i
-\end{array}\right)>1
-$$
-
-所以有：
-
-$$
-\begin{aligned}
-(k+1)^{m} &=\left(\begin{array}{c}
-m \\
-0
-\end{array}\right) k^{0}+\left(\begin{array}{c}
-m \\
-1
-\end{array}\right) k^{1}+\left(\begin{array}{c}
-m \\
-2
-\end{array}\right) k^{2}+\cdots+\left(\begin{array}{c}
-m \\
-m
-\end{array}\right) k^{m} \\
-&>k^{0}+k^{1}+k^{2}+\cdots+k^{m}=n
-\end{aligned}
-$$
-
-即：
-
-$$
-k < \sqrt[m]{n} < k+1
-$$
-
-由于 $k$ 是整数，因此 $k=\left \lfloor \sqrt[m]{n} \right \rfloor $。
-
-综上，依据结论一，我们知道 $m$ 的取值范围为 $[1,log_{k}n)$，且 $m=1$ 时必然有解。随着 $m$ 的增大，进制 $k$ 不断减小。所以我们只需要从大到小检查每一个 $m$ 可能的取值，利用结论二快速算出对应的 $k$ 值，然后校验计算出的 $k$ 值是否有效即可。如果 $k$ 值有效，我们即可返回结果。
-
-时间复杂度 $O(log^{2}n)$。
+### Solution 1
 
 <!-- tabs:start -->
 

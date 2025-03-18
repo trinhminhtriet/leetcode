@@ -1,76 +1,74 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1300.Sum%20of%20Mutated%20Array%20Closest%20to%20Target/README.md
+difficulty: Medium
 rating: 1606
-source: 第 16 场双周赛 Q2
+source: Biweekly Contest 16 Q2
 tags:
-    - 数组
-    - 二分查找
-    - 排序
+    - Array
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1300. 转变数组后最接近目标值的数组和](https://leetcode.cn/problems/sum-of-mutated-array-closest-to-target)
+# [1300. Sum of Mutated Array Closest to Target](https://leetcode.com/problems/sum-of-mutated-array-closest-to-target)
 
-[English Version](/solution/1300-1399/1300.Sum%20of%20Mutated%20Array%20Closest%20to%20Target/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>arr</code> 和一个目标值&nbsp;<code>target</code> ，请你返回一个整数&nbsp;<code>value</code>&nbsp;，使得将数组中所有大于&nbsp;<code>value</code> 的值变成&nbsp;<code>value</code> 后，数组的和最接近&nbsp; <code>target</code>&nbsp;（最接近表示两者之差的绝对值最小）。</p>
+<p>Given an integer array <code>arr</code> and a target value <code>target</code>, return the integer <code>value</code> such that when we change all the integers larger than <code>value</code> in the given array to be equal to <code>value</code>, the sum of the array gets as close as possible (in absolute difference) to <code>target</code>.</p>
 
-<p>如果有多种使得和最接近&nbsp;<code>target</code>&nbsp;的方案，请你返回这些整数中的最小值。</p>
+<p>In case of a tie, return the minimum such integer.</p>
 
-<p>请注意，答案不一定是&nbsp;<code>arr</code> 中的数字。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>arr = [4,9,3], target = 10
-<strong>输出：</strong>3
-<strong>解释：</strong>当选择 value 为 3 时，数组会变成 [3, 3, 3]，和为 9 ，这是最接近 target 的方案。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>arr = [2,3,5], target = 10
-<strong>输出：</strong>5
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>arr = [60864,25176,27249,21296,20204], target = 56803
-<strong>输出：</strong>11361
-</pre>
+<p>Notice that the answer is not neccesarilly a number from <code>arr</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> arr = [4,9,3], target = 10
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> When using 3 arr converts to [3, 3, 3] which sums 9 and that&#39;s the optimal answer.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [2,3,5], target = 10
+<strong>Output:</strong> 5
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [60864,25176,27249,21296,20204], target = 56803
+<strong>Output:</strong> 11361
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= arr.length &lt;= 10^4</code></li>
-	<li><code>1 &lt;= arr[i], target &lt;= 10^5</code></li>
+	<li><code>1 &lt;= arr.length &lt;= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= arr[i], target &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 前缀和 + 二分查找 + 枚举
+### Solution 1: Sorting + Prefix Sum + Binary Search + Enumeration
 
-我们注意到，题目中要把所有大于 `value` 的值变成 `value`，并且求和，因此我们可以考虑先对数组 `arr` 进行排序，然后求出前缀和数组 $s$，其中 $s[i]$ 表示数组前 $i$ 个元素之和。
+We notice that the problem requires changing all values greater than `value` to `value` and then summing them up. Therefore, we can consider sorting the array `arr` first, and then calculating the prefix sum array $s$, where $s[i]$ represents the sum of the first $i$ elements of the array.
 
-接下来，我们可以从小到大枚举所有 `value` 值，对于每个 `value`，我们可以通过二分查找找到数组中第一个大于 `value` 的元素的下标 $i$，此时数组中大于 `value` 的元素个数为 $n - i$，因此数组中小于等于 `value` 的元素个数为 $i$，此时数组中小于等于 `value` 的元素之和为 $s[i]$，数组中大于 `value` 的元素之和为 $(n - i) \times \textit{value}$，因此数组中所有元素之和为 $s[i] + (n - i) \times \textit{value}$。如果 $s[i] + (n - i) \times \textit{value}$ 与 `target` 的差的绝对值小于当前的最小差值 `diff`，则更新 `diff` 和 `ans`。
+Next, we can enumerate all `value` values from smallest to largest. For each `value`, we can use binary search to find the index $i$ of the first element in the array that is greater than `value`. At this point, the number of elements in the array greater than `value` is $n - i$, so the number of elements in the array less than or equal to `value` is $i$. The sum of the elements in the array less than or equal to `value` is $s[i]$, and the sum of the elements in the array greater than `value` is $(n - i) \times value$. Therefore, the sum of all elements in the array is $s[i] + (n - i) \times \textit{value}$. If the absolute difference between $s[i] + (n - i) \times \textit{value}$ and `target` is less than the current minimum difference `diff`, update `diff` and `ans`.
 
-枚举完所有 `value` 后，即可得到最终答案 `ans`。
+After enumerating all `value` values, we can get the final answer `ans`.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `arr` 的长度。
+Time complexity $O(n \times \log n)$, space complexity $O(n)$. Where $n$ is the length of the array `arr`.
 
 <!-- tabs:start -->
 

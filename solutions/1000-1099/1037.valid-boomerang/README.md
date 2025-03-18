@@ -1,73 +1,50 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1037.Valid%20Boomerang/README.md
+difficulty: Easy
 rating: 1255
-source: 第 135 场周赛 Q1
+source: Weekly Contest 135 Q1
 tags:
-    - 几何
-    - 数组
-    - 数学
+    - Geometry
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [1037. 有效的回旋镖](https://leetcode.cn/problems/valid-boomerang)
+# [1037. Valid Boomerang](https://leetcode.com/problems/valid-boomerang)
 
-[English Version](/solution/1000-1099/1037.Valid%20Boomerang/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个数组<meta charset="UTF-8" />&nbsp;<code>points</code>&nbsp;，其中<meta charset="UTF-8" />&nbsp;<code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code>&nbsp;表示 <strong>X-Y</strong> 平面上的一个点，<em>如果这些点构成一个&nbsp;</em><strong>回旋镖</strong>&nbsp;则返回&nbsp;<code>true</code>&nbsp;。</p>
+<p>Given an array <code>points</code> where <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> represents a point on the <strong>X-Y</strong> plane, return <code>true</code> <em>if these points are a <strong>boomerang</strong></em>.</p>
 
-<p><strong>回旋镖</strong>&nbsp;定义为一组三个点，这些点&nbsp;<strong>各不相同</strong>&nbsp;且&nbsp;<strong>不在一条直线上</strong>&nbsp;。</p>
+<p>A <strong>boomerang</strong> is a set of three points that are <strong>all distinct</strong> and <strong>not in a straight line</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>points = [[1,1],[2,3],[3,2]]
-<strong>输出：</strong>true
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> points = [[1,1],[2,3],[3,2]]
+<strong>Output:</strong> true
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> points = [[1,1],[2,2],[3,3]]
+<strong>Output:</strong> false
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>points = [[1,1],[2,2],[3,3]]
-<strong>输出：</strong>false</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
-<meta charset="UTF-8" />
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>points.length == 3</code></li>
 	<li><code>points[i].length == 2</code></li>
-	<li><code>0 &lt;= x<sub>i</sub>, y<sub>i</sub>&nbsp;&lt;= 100</code></li>
+	<li><code>0 &lt;= x<sub>i</sub>, y<sub>i</sub> &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：斜率比较
-
-设三点分别为 $(x_1,y_1)$, $(x_2,y_2)$, $(x_3,y_3)$。两点之间斜率计算公式为 $\frac{y_2-y_1}{x_2-x_1}$。
-
-要使得三点不共线，需要满足 $\frac{y_2-y_1}{x_2-x_1}\neq\frac{y_3-y_2}{x_3-x_2}$，我们将式子变形得到 $(y_2-y_1)*(x_3-x_2) \neq (y_3-y_2)*(x_2-x_1)$。
-
-注意：
-
-1. 当两点之间斜率不存在，即 $x_1=x_2$，上述变式仍然成立；
-2. 若斜率除法运算比较存在精度问题，同样可以变换为乘法。
-
-时间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 

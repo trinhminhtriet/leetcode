@@ -1,79 +1,76 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2581.Count%20Number%20of%20Possible%20Root%20Nodes/README.md
+difficulty: Hard
 rating: 2228
-source: 第 99 场双周赛 Q4
+source: Biweekly Contest 99 Q4
 tags:
-    - 树
-    - 深度优先搜索
-    - 数组
-    - 哈希表
-    - 动态规划
+    - Tree
+    - Depth-First Search
+    - Array
+    - Hash Table
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2581. 统计可能的树根数目](https://leetcode.cn/problems/count-number-of-possible-root-nodes)
+# [2581. Count Number of Possible Root Nodes](https://leetcode.com/problems/count-number-of-possible-root-nodes)
 
-[English Version](/solution/2500-2599/2581.Count%20Number%20of%20Possible%20Root%20Nodes/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>Alice 有一棵 <code>n</code> 个节点的树，节点编号为 <code>0</code> 到 <code>n - 1</code> 。树用一个长度为 <code>n - 1</code> 的二维整数数组 <code>edges</code> 表示，其中 <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> ，表示树中节点 <code>a<sub>i</sub></code> 和 <code>b<sub>i</sub></code> 之间有一条边。</p>
+<p>Alice has an undirected tree with <code>n</code> nodes labeled from <code>0</code> to <code>n - 1</code>. The tree is represented as a 2D integer array <code>edges</code> of length <code>n - 1</code> where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> indicates that there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> in the tree.</p>
 
-<p>Alice 想要 Bob 找到这棵树的根。她允许 Bob 对这棵树进行若干次 <strong>猜测</strong> 。每一次猜测，Bob 做如下事情：</p>
+<p>Alice wants Bob to find the root of the tree. She allows Bob to make several <strong>guesses</strong> about her tree. In one guess, he does the following:</p>
 
 <ul>
-	<li>选择两个 <strong>不相等</strong>&nbsp;的整数&nbsp;<code>u</code> 和&nbsp;<code>v</code>&nbsp;，且树中必须存在边&nbsp;<code>[u, v]</code>&nbsp;。</li>
-	<li>Bob 猜测树中&nbsp;<code>u</code>&nbsp;是&nbsp;<code>v</code>&nbsp;的 <strong>父节点</strong>&nbsp;。</li>
+	<li>Chooses two <strong>distinct</strong> integers <code>u</code> and <code>v</code> such that there exists an edge <code>[u, v]</code> in the tree.</li>
+	<li>He tells Alice that <code>u</code> is the <strong>parent</strong> of <code>v</code> in the tree.</li>
 </ul>
 
-<p>Bob 的猜测用二维整数数组&nbsp;<code>guesses</code> 表示，其中&nbsp;<code>guesses[j] = [u<sub>j</sub>, v<sub>j</sub>]</code>&nbsp;表示 Bob 猜&nbsp;<code>u<sub>j</sub></code> 是&nbsp;<code>v<sub>j</sub></code>&nbsp;的父节点。</p>
+<p>Bob&#39;s guesses are represented by a 2D integer array <code>guesses</code> where <code>guesses[j] = [u<sub>j</sub>, v<sub>j</sub>]</code> indicates Bob guessed <code>u<sub>j</sub></code> to be the parent of <code>v<sub>j</sub></code>.</p>
 
-<p>Alice 非常懒，她不想逐个回答&nbsp;Bob 的猜测，只告诉 Bob 这些猜测里面 <strong>至少</strong>&nbsp;有&nbsp;<code>k</code>&nbsp;个猜测的结果为&nbsp;<code>true</code>&nbsp;。</p>
+<p>Alice being lazy, does not reply to each of Bob&#39;s guesses, but just says that <strong>at least</strong> <code>k</code> of his guesses are <code>true</code>.</p>
 
-<p>给你二维整数数组 <code>edges</code>&nbsp;，Bob 的所有猜测和整数&nbsp;<code>k</code>&nbsp;，请你返回可能成为树根的&nbsp;<strong>节点数目</strong>&nbsp;。如果没有这样的树，则返回 <code>0</code>。</p>
+<p>Given the 2D integer arrays <code>edges</code>, <code>guesses</code> and the integer <code>k</code>, return <em>the <strong>number of possible nodes</strong> that can be the root of Alice&#39;s tree</em>. If there is no such tree, return <code>0</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2581.Count%20Number%20of%20Possible%20Root%20Nodes/images/ex-1.png" style="width: 727px; height: 250px;" /></p>
 
 <pre>
-<b>输入：</b>edges = [[0,1],[1,2],[1,3],[4,2]], guesses = [[1,3],[0,1],[1,0],[2,4]], k = 3
-<b>输出：</b>3
-<b>解释：</b>
-根为节点 0 ，正确的猜测为 [1,3], [0,1], [2,4]
-根为节点 1 ，正确的猜测为 [1,3], [1,0], [2,4]
-根为节点 2 ，正确的猜测为 [1,3], [1,0], [2,4]
-根为节点 3 ，正确的猜测为 [1,0], [2,4]
-根为节点 4 ，正确的猜测为 [1,3], [1,0]
-节点 0 ，1 或 2 为根时，可以得到 3 个正确的猜测。
+<strong>Input:</strong> edges = [[0,1],[1,2],[1,3],[4,2]], guesses = [[1,3],[0,1],[1,0],[2,4]], k = 3
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 
+Root = 0, correct guesses = [1,3], [0,1], [2,4]
+Root = 1, correct guesses = [1,3], [1,0], [2,4]
+Root = 2, correct guesses = [1,3], [1,0], [2,4]
+Root = 3, correct guesses = [1,0], [2,4]
+Root = 4, correct guesses = [1,3], [1,0]
+Considering 0, 1, or 2 as root node leads to 3 correct guesses.
+
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2581.Count%20Number%20of%20Possible%20Root%20Nodes/images/ex-2.png" style="width: 600px; height: 303px;" /></p>
 
 <pre>
-<b>输入：</b>edges = [[0,1],[1,2],[2,3],[3,4]], guesses = [[1,0],[3,4],[2,1],[3,2]], k = 1
-<b>输出：</b>5
-<b>解释：</b>
-根为节点 0 ，正确的猜测为 [3,4]
-根为节点 1 ，正确的猜测为 [1,0], [3,4]
-根为节点 2 ，正确的猜测为 [1,0], [2,1], [3,4]
-根为节点 3 ，正确的猜测为 [1,0], [2,1], [3,2], [3,4]
-根为节点 4 ，正确的猜测为 [1,0], [2,1], [3,2]
-任何节点为根，都至少有 1 个正确的猜测。
+<strong>Input:</strong> edges = [[0,1],[1,2],[2,3],[3,4]], guesses = [[1,0],[3,4],[2,1],[3,2]], k = 1
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> 
+Root = 0, correct guesses = [3,4]
+Root = 1, correct guesses = [1,0], [3,4]
+Root = 2, correct guesses = [1,0], [2,1], [3,4]
+Root = 3, correct guesses = [1,0], [2,1], [3,2], [3,4]
+Root = 4, correct guesses = [1,0], [2,1], [3,2]
+Considering any node as root will give at least 1 correct guess. 
+
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>edges.length == n - 1</code></li>
@@ -82,35 +79,31 @@ tags:
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub>, u<sub>j</sub>, v<sub>j</sub> &lt;= n - 1</code></li>
 	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
 	<li><code>u<sub>j</sub> != v<sub>j</sub></code></li>
-	<li><code>edges</code>&nbsp;表示一棵有效的树。</li>
-	<li><code>guesses[j]</code>&nbsp;是树中的一条边。</li>
-	<li><code>guesses</code>&nbsp;是唯一的。</li>
+	<li><code>edges</code> represents a valid tree.</li>
+	<li><code>guesses[j]</code> is an edge of the tree.</li>
+	<li><code>guesses</code> is unique.</li>
 	<li><code>0 &lt;= k &lt;= guesses.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：树形 DP（换根）
+### Solution 1: Tree DP (change root)
 
-我们先遍历题目给定的边集合 $edges$，将其转换为邻接表 $g$，其中 $g[i]$ 表示节点 $i$ 的所有邻接节点。用哈希表 $gs$ 记录题目给定的猜测集合 $guesses$。
+First, we traverse the given edge set $edges$ and convert it to an adjacency list $g$ where $g[i]$ represents the adjacent nodes of node $i$. Use a hash map $gs$ to record the given guess set $guesses$.
 
-接下来，我们先从节点 $0$ 开始，进行一次 DFS，统计从节点 $0$ 出发，能够到达的所有节点中，有多少条边在 $guesses$ 中。我们用变量 $cnt$ 记录这个数量。
+Then, we start from node $0$ and perform a DFS to count the number of edges in $guesses$ among all the nodes that can be reached from node $0$. We use the variable $cnt$ to record this number.
 
-然后，我们再从节点 $0$ 开始，进行一次 DFS，统计以每个点为根的树中，有多少条边在 $guesses$ 中。如果这个数量大于等于 $k$，则说明该节点是一个可能的根节点，我们将答案加 $1$。
+Next, we start from node $0$ and perform a DFS to count the number of edges in $guesses$ in each tree with $0$ as the root. If the number is greater than or equal to $k$, it means that this node is a possible root node, and we add $1$ to the answer.
 
-因此，问题就转化为了求以每个点为根的树中，有多少条边在 $guesses$ 中。我们已经知道了从节点 $0$ 出发，能够到达的所有节点中，有多少条边在 $guesses$ 中，即 $cnt$。我们可以通过在 DFS 中，将 $cnt$ 的值加上或减去当前边是否在 $guesses$ 中，来维护这个值。
+Therefore, the problem becomes to count the number of edges in $guesses$ in each tree with each node as the root. We already know that there are $cnt$ edges in $guesses$ among all the nodes that can be reached from node $0$. We can maintain this value by adding or subtracting the current edge in $guesses$ in DFS.
 
-假设我们当前遍历到节点 $i$，此时 $cnt$ 表示以 $i$ 为根节点，有多少条边在 $guesses$ 中。那么对于 $i$ 的每个邻接节点 $j$，我们要计算以 $j$ 为根节点，有多少条边在 $guesses$ 中。如果 $(i, j)$ 在 $guesses$ 中，那么以 $j$ 为根节点的，就不存在 $(i, j)$ 这条边，因此 $cnt$ 的值要减去 $1$。如果 $(j, i)$ 在 $guesses$ 中，那么以 $j$ 为根节点的，要多出一条 $(i, j)$ 这条边，因此 $cnt$ 的值要加上 $1$。即 $f[j] = f[i] + (j, i) \in guesses - (i, j) \in guesses$。其中 $f[i]$ 表示以 $i$ 为根节点，有多少条边在 $guesses$ 中。
+Assume that we are currently traversing node $i$ and $cnt$ represents the number of edges in $guesses$ with $i$ as the root node. Then, for each adjacent node $j$ of $i$, we need to calculate the number of edges in $guesses$ with $j$ as the root node. If $(i, j)$ is in $guesses$, then there is no edge $(i, j)$ in the tree with $j$ as the root node, so $cnt$ should decrease by $1$. If $(j, i)$ is in $guesses$, then there is an extra edge $(i, j)$ in the tree with $j$ as the root node, so $cnt$ should increase by $1$. That is, $f[j] = f[i] + (j, i) \in guesses - (i, j) \in guesses$. Where $f[i]$ represents the number of edges in $guesses$ with $i$ as the root node.
 
-时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别为 $edges$ 和 $guesses$ 的长度。
-
-相似题目：
-
--   [834. 树中距离之和](https://github.com/doocs/leetcode/blob/main/solution/0800-0899/0834.Sum%20of%20Distances%20in%20Tree/README.md)
+The time complexity is $O(n + m)$ and the space complexity is $O(n + m)$, where $n$ and $m$ are the lengths of $edges$ and $guesses$ respectively.
 
 <!-- tabs:start -->
 

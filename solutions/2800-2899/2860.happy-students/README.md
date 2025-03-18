@@ -1,65 +1,60 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2860.Happy%20Students/README.md
+difficulty: Medium
 rating: 1625
-source: 第 363 场周赛 Q2
+source: Weekly Contest 363 Q2
 tags:
-    - 数组
-    - 枚举
-    - 排序
+    - Array
+    - Enumeration
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2860. 让所有学生保持开心的分组方法数](https://leetcode.cn/problems/happy-students)
+# [2860. Happy Students](https://leetcode.com/problems/happy-students)
 
-[English Version](/solution/2800-2899/2860.Happy%20Students/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始、长度为 <code>n</code> 的整数数组 <code>nums</code> ，其中 <code>n</code> 是班级中学生的总数。班主任希望能够在让所有学生保持开心的情况下选出一组学生：</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of length <code>n</code> where <code>n</code> is the total number of students in the class. The class teacher tries to select a group of students so that all the students remain happy.</p>
 
-<p>如果能够满足下述两个条件之一，则认为第 <code>i</code> 位学生将会保持开心：</p>
+<p>The <code>i<sup>th</sup></code> student will become happy if one of these two conditions is met:</p>
 
 <ul>
-	<li>这位学生被选中，并且被选中的学生人数 <strong>严格大于</strong> <code>nums[i]</code> 。</li>
-	<li>这位学生没有被选中，并且被选中的学生人数 <strong>严格小于</strong> <code>nums[i]</code> 。</li>
+	<li>The student is selected and the total number of selected students is<strong> strictly greater than</strong> <code>nums[i]</code>.</li>
+	<li>The student is not selected and the total number of selected students is <strong>strictly</strong> <strong>less than</strong> <code>nums[i]</code>.</li>
 </ul>
 
-<p>返回能够满足让所有学生保持开心的分组方法的数目。</p>
+<p>Return <em>the number of ways to select a group of students so that everyone remains happy.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,1]
-<strong>输出：</strong>2
-<strong>解释：</strong>
-有两种可行的方法：
-班主任没有选中学生。
-班主任选中所有学生形成一组。 
-如果班主任仅选中一个学生来完成分组，那么两个学生都无法保持开心。因此，仅存在两种可行的方法。
+<strong>Input:</strong> nums = [1,1]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 
+The two possible ways are:
+The class teacher selects no student.
+The class teacher selects both students to form the group. 
+If the class teacher selects just one student to form a group then the both students will not be happy. Therefore, there are only two possible ways.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [6,0,3,3,6,7,2,7]
-<strong>输出：</strong>3
-<strong>解释：</strong>
-存在三种可行的方法：
-班主任选中下标为 1 的学生形成一组。
-班主任选中下标为 1、2、3、6 的学生形成一组。
-班主任选中所有学生形成一组。 
+<strong>Input:</strong> nums = [6,0,3,3,6,7,2,7]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 
+The three possible ways are:
+The class teacher selects the student with index = 1 to form the group.
+The class teacher selects the students with index = 1, 2, 3, 6 to form the group.
+The class teacher selects all the students to form the group.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -68,25 +63,25 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 枚举
+### Solution 1: Sorting + Enumeration
 
-假设选出了 $k$ 个学生，那么以下情况成立：
+Assume that $k$ students are selected, then the following conditions hold:
 
--   如果 $nums[i] = k$，那么不存在分组方法；
--   如果 $nums[i] \gt k$，那么学生 $i$ 不被选中；
--   如果 $nums[i] \lt k$，那么学生 $i$ 被选中。
+-   If $nums[i] = k$, then there is no grouping method;
+-   If $nums[i] > k$, then student $i$ is not selected;
+-   If $nums[i] < k$, then student $i$ is selected.
 
-因此，被选中的学生一定是排序后的 $nums$ 数组中的前 $k$ 个元素。
+Therefore, the selected students must be the first $k$ elements in the sorted $nums$ array.
 
-我们在 $[0,..n]$ 范围内枚举 $k$，对于当前选出的学生人数 $i$，我们可以得到组内最大的学生编号 $i-1$，数字为 $nums[i-1]$。如果 $i \gt 0$ 并且 $nums[i-1] \ge i$，那么不存在分组方法；如果 $i \lt n$ 并且 $nums[i] \le i$，那么不存在分组方法。否则，存在分组方法，答案加一。
+We enumerate $k$ in the range $[0,..n]$. For the current number of selected students $i$, we can get the maximum student number in the group $i-1$, which is $nums[i-1]$. If $i > 0$ and $nums[i-1] \ge i$, then there is no grouping method; if $i < n$ and $nums[i] \le i$, then there is no grouping method. Otherwise, there is a grouping method, and the answer is increased by one.
 
-枚举结束后，返回答案即可。
+After the enumeration ends, return the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

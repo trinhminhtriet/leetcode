@@ -1,76 +1,71 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0303.Range%20Sum%20Query%20-%20Immutable/README.md
+difficulty: Easy
 tags:
-    - 设计
-    - 数组
-    - 前缀和
+    - Design
+    - Array
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [303. 区域和检索 - 数组不可变](https://leetcode.cn/problems/range-sum-query-immutable)
+# [303. Range Sum Query - Immutable](https://leetcode.com/problems/range-sum-query-immutable)
 
-[English Version](/solution/0300-0399/0303.Range%20Sum%20Query%20-%20Immutable/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数数组 &nbsp;<code>nums</code>，处理以下类型的多个查询:</p>
+<p>Given an integer array <code>nums</code>, handle multiple queries of the following type:</p>
 
 <ol>
-	<li>计算索引&nbsp;<code>left</code>&nbsp;和&nbsp;<code>right</code>&nbsp;（包含 <code>left</code> 和 <code>right</code>）之间的 <code>nums</code> 元素的 <strong>和</strong> ，其中&nbsp;<code>left &lt;= right</code></li>
+	<li>Calculate the <strong>sum</strong> of the elements of <code>nums</code> between indices <code>left</code> and <code>right</code> <strong>inclusive</strong> where <code>left &lt;= right</code>.</li>
 </ol>
 
-<p>实现 <code>NumArray</code> 类：</p>
+<p>Implement the <code>NumArray</code> class:</p>
 
 <ul>
-	<li><code>NumArray(int[] nums)</code> 使用数组 <code>nums</code> 初始化对象</li>
-	<li><code>int sumRange(int i, int j)</code> 返回数组 <code>nums</code>&nbsp;中索引&nbsp;<code>left</code>&nbsp;和&nbsp;<code>right</code>&nbsp;之间的元素的 <strong>总和</strong> ，包含&nbsp;<code>left</code>&nbsp;和&nbsp;<code>right</code>&nbsp;两点（也就是&nbsp;<code>nums[left] + nums[left + 1] + ... + nums[right]</code>&nbsp;)</li>
+	<li><code>NumArray(int[] nums)</code> Initializes the object with the integer array <code>nums</code>.</li>
+	<li><code>int sumRange(int left, int right)</code> Returns the <strong>sum</strong> of the elements of <code>nums</code> between indices <code>left</code> and <code>right</code> <strong>inclusive</strong> (i.e. <code>nums[left] + nums[left + 1] + ... + nums[right]</code>).</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["NumArray", "sumRange", "sumRange", "sumRange"]
+<strong>Input</strong>
+[&quot;NumArray&quot;, &quot;sumRange&quot;, &quot;sumRange&quot;, &quot;sumRange&quot;]
 [[[-2, 0, 3, -5, 2, -1]], [0, 2], [2, 5], [0, 5]]
-<strong>输出：
-</strong>[null, 1, -1, -3]
+<strong>Output</strong>
+[null, 1, -1, -3]
 
-<strong>解释：</strong>
+<strong>Explanation</strong>
 NumArray numArray = new NumArray([-2, 0, 3, -5, 2, -1]);
-numArray.sumRange(0, 2); // return 1 ((-2) + 0 + 3)
-numArray.sumRange(2, 5); // return -1 (3 + (-5) + 2 + (-1)) 
-numArray.sumRange(0, 5); // return -3 ((-2) + 0 + 3 + (-5) + 2 + (-1))
+numArray.sumRange(0, 2); // return (-2) + 0 + 3 = 1
+numArray.sumRange(2, 5); // return 3 + (-5) + 2 + (-1) = -1
+numArray.sumRange(0, 5); // return (-2) + 0 + 3 + (-5) + 2 + (-1) = -3
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>-10<sup>5</sup>&nbsp;&lt;= nums[i] &lt;=&nbsp;10<sup>5</sup></code></li>
-	<li><code>0 &lt;= i &lt;= j &lt; nums.length</code></li>
-	<li>最多调用 <code>10<sup>4</sup></code> 次 <code>sumRange</code><strong> </strong>方法</li>
+	<li><code>-10<sup>5</sup> &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
+	<li><code>0 &lt;= left &lt;= right &lt; nums.length</code></li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>sumRange</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和
+### Solution 1: Prefix Sum
 
-我们创建一个长度为 $n + 1$ 的前缀和数组 $s$，其中 $s[i]$ 表示前 $i$ 个元素的前缀和，即 $s[i] = \sum_{j=0}^{i-1} nums[j]$，那么索引 $[left, right]$ 之间的元素的和就可以表示为 $s[right + 1] - s[left]$。
+We create a prefix sum array $s$ of length $n + 1$, where $s[i]$ represents the prefix sum of the first $i$ elements, that is, $s[i] = \sum_{j=0}^{i-1} nums[j]$. Therefore, the sum of the elements between the indices $[left, right]$ can be expressed as $s[right + 1] - s[left]$.
 
-初始化前缀和数组 $s$ 的时间复杂度为 $O(n)$，查询的时间复杂度为 $O(1)$。空间复杂度 $O(n)$。
+The time complexity for initializing the prefix sum array $s$ is $O(n)$, and the time complexity for querying is $O(1)$. The space complexity is $O(n)$.
 
 <!-- tabs:start -->
 

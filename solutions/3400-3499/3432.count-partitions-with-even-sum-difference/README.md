@@ -1,82 +1,77 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3432.Count%20Partitions%20with%20Even%20Sum%20Difference/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 数学
-    - 前缀和
+    - Array
+    - Math
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [3432. 统计元素和差值为偶数的分区方案](https://leetcode.cn/problems/count-partitions-with-even-sum-difference)
+# [3432. Count Partitions with Even Sum Difference](https://leetcode.com/problems/count-partitions-with-even-sum-difference)
 
-[English Version](/solution/3400-3499/3432.Count%20Partitions%20with%20Even%20Sum%20Difference/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;。</p>
+<p>You are given an integer array <code>nums</code> of length <code>n</code>.</p>
 
-<p><strong>分区</strong>&nbsp;是指将数组按照下标&nbsp;<code>i</code>&nbsp;（<code>0 &lt;= i &lt; n - 1</code>）划分成两个 <strong>非空</strong> 子数组，其中：</p>
-
-<ul>
-	<li>左子数组包含区间&nbsp;<code>[0, i]</code>&nbsp;内的所有下标。</li>
-	<li>右子数组包含区间&nbsp;<code>[i + 1, n - 1]</code>&nbsp;内的所有下标。</li>
-</ul>
-
-<p>对左子数组和右子数组先求元素 <strong>和</strong> 再做 <strong>差</strong> ，统计并返回差值为 <strong>偶数</strong> 的 <strong>分区</strong> 方案数。</p>
-
-<p>&nbsp;</p>
-
-<p><b>示例 1：</b></p>
-
-<div class="example-block">
-<p><b>输入：</b><span class="example-io">nums = [10,10,3,7,6]</span></p>
-
-<p><span class="example-io"><b>输出：</b>4</span></p>
-
-<p><b>解释：</b></p>
-
-<p>共有 4 个满足题意的分区方案：</p>
+<p>A <strong>partition</strong> is defined as an index <code>i</code> where <code>0 &lt;= i &lt; n - 1</code>, splitting the array into two <strong>non-empty</strong> subarrays such that:</p>
 
 <ul>
-	<li><code>[10]</code>、<code>[10, 3, 7, 6]</code>&nbsp;元素和的差值为&nbsp;<code>10 - 26 = -16</code>&nbsp;，是偶数。</li>
-	<li><code>[10, 10]</code>、<code>[3, 7, 6]</code> 元素和的差值为&nbsp;<code>20 - 16 = 4</code>，是偶数。</li>
-	<li><code>[10, 10, 3]</code>、<code>[7, 6]</code> 元素和的差值为&nbsp;<code>23 - 13 = 10</code>，是偶数。</li>
-	<li><code>[10, 10, 3, 7]</code>、<code>[6]</code> 元素和的差值为&nbsp;<code>30 - 6 = 24</code>，是偶数。</li>
+	<li>Left subarray contains indices <code>[0, i]</code>.</li>
+	<li>Right subarray contains indices <code>[i + 1, n - 1]</code>.</li>
+</ul>
+
+<p>Return the number of <strong>partitions</strong> where the <strong>difference</strong> between the <strong>sum</strong> of the left and right subarrays is <strong>even</strong>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [10,10,3,7,6]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">4</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The 4 partitions are:</p>
+
+<ul>
+	<li><code>[10]</code>, <code>[10, 3, 7, 6]</code> with a sum difference of <code>10 - 26 = -16</code>, which is even.</li>
+	<li><code>[10, 10]</code>, <code>[3, 7, 6]</code> with a sum difference of <code>20 - 16 = 4</code>, which is even.</li>
+	<li><code>[10, 10, 3]</code>, <code>[7, 6]</code> with a sum difference of <code>23 - 13 = 10</code>, which is even.</li>
+	<li><code>[10, 10, 3, 7]</code>, <code>[6]</code> with a sum difference of <code>30 - 6 = 24</code>, which is even.</li>
 </ul>
 </div>
 
-<p><b>示例 2：</b></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,2,2]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,2]</span></p>
 
-<p><span class="example-io"><b>输出：</b>0</span></p>
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>不存在元素和的差值为偶数的分区方案。</p>
+<p>No partition results in an even sum difference.</p>
 </div>
 
-<p><b>示例 3：</b></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [2,4,6,8]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [2,4,6,8]</span></p>
 
-<p><span class="example-io"><b>输出：</b>3</span></p>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
-<p>所有分区方案都满足元素和的差值为偶数。</p>
+<p>All partitions result in an even sum difference.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n == nums.length &lt;= 100</code></li>
@@ -85,19 +80,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和
+### Solution 1: Prefix Sum
 
-我们用两个变量 $l$ 和 $r$ 分别表示左子数组和右子数组的和，初始时 $l = 0$，而 $r = \sum_{i=0}^{n-1} \textit{nums}[i]$。
+We use two variables $l$ and $r$ to represent the sum of the left subarray and the right subarray, respectively. Initially, $l = 0$ and $r = \sum_{i=0}^{n-1} \textit{nums}[i]$.
 
-接下来，我们遍历前 $n - 1$ 个元素，每次将当前元素加到左子数组中，同时从右子数组中减去当前元素，然后判断 $l - r$ 是否为偶数，如果是则答案加一。
+Next, we traverse the first $n - 1$ elements. Each time, we add the current element to the left subarray and subtract it from the right subarray. Then, we check if $l - r$ is even. If it is, we increment the answer by one.
 
-最后返回答案即可。
+Finally, we return the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

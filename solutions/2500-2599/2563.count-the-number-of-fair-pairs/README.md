@@ -1,75 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2563.Count%20the%20Number%20of%20Fair%20Pairs/README.md
+difficulty: Medium
 rating: 1720
-source: 第 332 场周赛 Q2
+source: Weekly Contest 332 Q2
 tags:
-    - 数组
-    - 双指针
-    - 二分查找
-    - 排序
+    - Array
+    - Two Pointers
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2563. 统计公平数对的数目](https://leetcode.cn/problems/count-the-number-of-fair-pairs)
+# [2563. Count the Number of Fair Pairs](https://leetcode.com/problems/count-the-number-of-fair-pairs)
 
-[English Version](/solution/2500-2599/2563.Count%20the%20Number%20of%20Fair%20Pairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始、长度为 <code>n</code> 的整数数组&nbsp;<code>nums</code>&nbsp;，和两个整数&nbsp;<code>lower</code> 和&nbsp;<code>upper</code> ，返回 <strong>公平数对的数目</strong> 。</p>
+<p>Given a <strong>0-indexed</strong> integer array <code>nums</code> of size <code>n</code> and two integers <code>lower</code> and <code>upper</code>, return <em>the number of fair pairs</em>.</p>
 
-<p>如果&nbsp;<code>(i, j)</code>&nbsp;数对满足以下情况，则认为它是一个 <strong>公平数对</strong>&nbsp;：</p>
+<p>A pair <code>(i, j)</code> is <b>fair </b>if:</p>
 
 <ul>
-	<li><code>0 &lt;= i &lt; j &lt; n</code>，且</li>
+	<li><code>0 &lt;= i &lt; j &lt; n</code>, and</li>
 	<li><code>lower &lt;= nums[i] + nums[j] &lt;= upper</code></li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1：</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [0,1,7,4,4,5], lower = 3, upper = 6
-<b>输出：</b>6
-<b>解释：</b>共计 6 个公平数对：(0,3)、(0,4)、(0,5)、(1,3)、(1,4) 和 (1,5) 。
+<strong>Input:</strong> nums = [0,1,7,4,4,5], lower = 3, upper = 6
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> There are 6 fair pairs: (0,3), (0,4), (0,5), (1,3), (1,4), and (1,5).
 </pre>
 
-<p><b>示例 2：</b></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,7,9,2,5], lower = 11, upper = 11
-<b>输出：</b>1
-<b>解释：</b>只有单个公平数对：(2,3) 。
+<strong>Input:</strong> nums = [1,7,9,2,5], lower = 11, upper = 11
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> There is a single fair pair: (2,3).
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>nums.length == n</code></li>
-	<li><code>-10<sup>9</sup>&nbsp;&lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
-	<li><code>-10<sup>9</sup>&nbsp;&lt;= lower &lt;= upper &lt;= 10<sup>9</sup></code></li>
+	<li><code><font face="monospace">-10<sup>9</sup></font>&nbsp;&lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
+	<li><code><font face="monospace">-10<sup>9</sup>&nbsp;&lt;= lower &lt;= upper &lt;= 10<sup>9</sup></font></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 二分查找
+### Solution 1: Sorting + Binary Search
 
-我们先对数组 `nums` 按照升序排序，然后枚举 `nums[i]`，对于每个 `nums[i]`，我们通过二分查找找到 `nums[j]` 的下界 `j`，即第一个满足 `nums[j] >= lower - nums[i]` 的下标，然后再通过二分查找找到 `nums[k]` 的下界 `k`，即第一个满足 `nums[k] >= upper - nums[i] + 1` 的下标，那么 `[j, k)` 即为 `nums[j]` 满足 `lower <= nums[i] + nums[j] <= upper` 的下标范围，这些下标对应的 `nums[j]` 的个数即为 `k - j`，将其累加到答案中即可。注意 $j \gt i$。
+First, we sort the array `nums` in ascending order. Then, for each `nums[i]`, we use binary search to find the lower bound `j` of `nums[j]`, i.e., the first index that satisfies `nums[j] >= lower - nums[i]`. Then, we use binary search again to find the lower bound `k` of `nums[k]`, i.e., the first index that satisfies `nums[k] >= upper - nums[i] + 1`. Therefore, `[j, k)` is the index range for `nums[j]` that satisfies `lower <= nums[i] + nums[j] <= upper`. The count of these indices corresponding to `nums[j]` is `k - j`, and we can add this to the answer. Note that $j > i$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 `nums` 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Where $n$ is the length of the array `nums`.
 
 <!-- tabs:start -->
 

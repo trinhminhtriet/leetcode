@@ -1,65 +1,56 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0958.Check%20Completeness%20of%20a%20Binary%20Tree/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 广度优先搜索
-    - 二叉树
+    - Tree
+    - Breadth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [958. 二叉树的完全性检验](https://leetcode.cn/problems/check-completeness-of-a-binary-tree)
+# [958. Check Completeness of a Binary Tree](https://leetcode.com/problems/check-completeness-of-a-binary-tree)
 
-[English Version](/solution/0900-0999/0958.Check%20Completeness%20of%20a%20Binary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一棵二叉树的根节点<meta charset="UTF-8" />&nbsp;<code>root</code> ，请你判断这棵树是否是一棵 <strong>完全二叉树</strong>&nbsp;。</p>
+<p>Given the <code>root</code> of a binary tree, determine if it is a <em>complete binary tree</em>.</p>
 
-<p>在一棵 <strong><a href="https://baike.baidu.com/item/完全二叉树/7773232?fr=aladdin" target="_blank">完全二叉树</a></strong> 中，除了最后一层外，所有层都被完全填满，并且最后一层中的所有节点都尽可能靠左。最后一层（第 <code>h</code> 层）中可以包含<meta charset="UTF-8" />&nbsp;<code>1</code>&nbsp;到<meta charset="UTF-8" />&nbsp;<code>2<sup>h</sup></code> 个节点。</p>
+<p>In a <strong><a href="http://en.wikipedia.org/wiki/Binary_tree#Types_of_binary_trees" target="_blank">complete binary tree</a></strong>, every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between <code>1</code> and <code>2<sup>h</sup></code> nodes inclusive at the last level <code>h</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0958.Check%20Completeness%20of%20a%20Binary%20Tree/images/complete-binary-tree-1.png" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0958.Check%20Completeness%20of%20a%20Binary%20Tree/images/complete-binary-tree-1.png" style="width: 180px; height: 145px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,3,4,5,6]
-<strong>输出：</strong>true
-<strong>解释：</strong>最后一层前的每一层都是满的（即，节点值为 {1} 和 {2,3} 的两层），且最后一层中的所有节点（{4,5,6}）尽可能靠左。
+<strong>Input:</strong> root = [1,2,3,4,5,6]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Every level before the last is full (ie. levels with node-values {1} and {2, 3}), and all nodes in the last level ({4, 5, 6}) are as far left as possible.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0958.Check%20Completeness%20of%20a%20Binary%20Tree/images/complete-binary-tree-2.png" /></strong></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0958.Check%20Completeness%20of%20a%20Binary%20Tree/images/complete-binary-tree-2.png" style="width: 200px; height: 145px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,3,4,5,null,7]
-<strong>输出：</strong>false
-<strong>解释：</strong>值为 7 的节点不满足条件「节点尽可能靠左」。
+<strong>Input:</strong> root = [1,2,3,4,5,null,7]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The node with value 7 isn&#39;t as far left as possible.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点数目在范围 <code>[1, 100]</code> 内</li>
+	<li>The number of nodes in the tree is in the range <code>[1, 100]</code>.</li>
 	<li><code>1 &lt;= Node.val &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

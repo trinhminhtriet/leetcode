@@ -1,74 +1,72 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2136.Earliest%20Possible%20Day%20of%20Full%20Bloom/README.md
+difficulty: Hard
 rating: 2033
-source: 第 275 场周赛 Q4
+source: Weekly Contest 275 Q4
 tags:
-    - 贪心
-    - 数组
-    - 排序
+    - Greedy
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2136. 全部开花的最早一天](https://leetcode.cn/problems/earliest-possible-day-of-full-bloom)
+# [2136. Earliest Possible Day of Full Bloom](https://leetcode.com/problems/earliest-possible-day-of-full-bloom)
 
-[English Version](/solution/2100-2199/2136.Earliest%20Possible%20Day%20of%20Full%20Bloom/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有 <code>n</code> 枚花的种子。每枚种子必须先种下，才能开始生长、开花。播种需要时间，种子的生长也是如此。给你两个下标从 <strong>0</strong> 开始的整数数组 <code>plantTime</code> 和 <code>growTime</code> ，每个数组的长度都是 <code>n</code> ：</p>
+<p>You have <code>n</code> flower seeds. Every seed must be planted first before it can begin to grow, then bloom. Planting a seed takes time and so does the growth of a seed. You are given two <strong>0-indexed</strong> integer arrays <code>plantTime</code> and <code>growTime</code>, of length <code>n</code> each:</p>
 
 <ul>
-	<li><code>plantTime[i]</code> 是 <strong>播种</strong> 第 <code>i</code> 枚种子所需的 <strong>完整天数</strong> 。每天，你只能为播种某一枚种子而劳作。<strong>无须</strong> 连续几天都在种同一枚种子，但是种子播种必须在你工作的天数达到 <code>plantTime[i]</code> 之后才算完成。</li>
-	<li><code>growTime[i]</code> 是第 <code>i</code> 枚种子完全种下后生长所需的 <strong>完整天数 </strong>。在它生长的最后一天 <strong>之后</strong> ，将会开花并且永远 <strong>绽放</strong> 。</li>
+	<li><code>plantTime[i]</code> is the number of <strong>full days</strong> it takes you to <strong>plant</strong> the <code>i<sup>th</sup></code> seed. Every day, you can work on planting exactly one seed. You <strong>do not</strong> have to work on planting the same seed on consecutive days, but the planting of a seed is not complete <strong>until</strong> you have worked <code>plantTime[i]</code> days on planting it in total.</li>
+	<li><code>growTime[i]</code> is the number of <strong>full days</strong> it takes the <code>i<sup>th</sup></code> seed to grow after being completely planted. <strong>After</strong> the last day of its growth, the flower <strong>blooms</strong> and stays bloomed forever.</li>
 </ul>
 
-<p>从第 <code>0</code> 开始，你可以按 <strong>任意</strong> 顺序播种种子。</p>
+<p>From the beginning of day <code>0</code>, you can plant the seeds in <strong>any</strong> order.</p>
 
-<p>返回所有种子都开花的 <strong>最早</strong> 一天是第几天。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2136.Earliest%20Possible%20Day%20of%20Full%20Bloom/images/1.png" style="width: 453px; height: 149px;">
-<pre><strong>输入：</strong>plantTime = [1,4,3], growTime = [2,3,1]
-<strong>输出：</strong>9
-<strong>解释：</strong>灰色的花盆表示播种的日子，彩色的花盆表示生长的日子，花朵表示开花的日子。
-一种最优方案是：
-第 0 天，播种第 0 枚种子，种子生长 2 整天。并在第 3 天开花。
-第 1、2、3、4 天，播种第 1 枚种子。种子生长 3 整天，并在第 8 天开花。
-第 5、6、7 天，播种第 2 枚种子。种子生长 1 整天，并在第 9 天开花。
-因此，在第 9 天，所有种子都开花。 
-</pre>
-
-<p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2136.Earliest%20Possible%20Day%20of%20Full%20Bloom/images/2.png" style="width: 454px; height: 184px;">
-<pre><strong>输入：</strong>plantTime = [1,2,3,2], growTime = [2,1,2,1]
-<strong>输出：</strong>9
-<strong>解释：</strong>灰色的花盆表示播种的日子，彩色的花盆表示生长的日子，花朵表示开花的日子。 
-一种最优方案是：
-第 1 天，播种第 0 枚种子，种子生长 2 整天。并在第 4 天开花。
-第 0、3 天，播种第 1 枚种子。种子生长 1 整天，并在第 5 天开花。
-第 2、4、5 天，播种第 2 枚种子。种子生长 2 整天，并在第 8 天开花。
-第 6、7 天，播种第 3 枚种子。种子生长 1 整天，并在第 9 天开花。
-因此，在第 9 天，所有种子都开花。 
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>plantTime = [1], growTime = [1]
-<strong>输出：</strong>2
-<strong>解释：</strong>第 0 天，播种第 0 枚种子。种子需要生长 1 整天，然后在第 2 天开花。
-因此，在第 2 天，所有种子都开花。
-</pre>
+<p>Return <em>the <strong>earliest</strong> possible day where <strong>all</strong> seeds are blooming</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2136.Earliest%20Possible%20Day%20of%20Full%20Bloom/images/1.png" style="width: 453px; height: 149px;" />
+<pre>
+<strong>Input:</strong> plantTime = [1,4,3], growTime = [2,3,1]
+<strong>Output:</strong> 9
+<strong>Explanation:</strong> The grayed out pots represent planting days, colored pots represent growing days, and the flower represents the day it blooms.
+One optimal way is:
+On day 0, plant the 0<sup>th</sup> seed. The seed grows for 2 full days and blooms on day 3.
+On days 1, 2, 3, and 4, plant the 1<sup>st</sup> seed. The seed grows for 3 full days and blooms on day 8.
+On days 5, 6, and 7, plant the 2<sup>nd</sup> seed. The seed grows for 1 full day and blooms on day 9.
+Thus, on day 9, all the seeds are blooming.
+</pre>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2100-2199/2136.Earliest%20Possible%20Day%20of%20Full%20Bloom/images/2.png" style="width: 454px; height: 184px;" />
+<pre>
+<strong>Input:</strong> plantTime = [1,2,3,2], growTime = [2,1,2,1]
+<strong>Output:</strong> 9
+<strong>Explanation:</strong> The grayed out pots represent planting days, colored pots represent growing days, and the flower represents the day it blooms.
+One optimal way is:
+On day 1, plant the 0<sup>th</sup> seed. The seed grows for 2 full days and blooms on day 4.
+On days 0 and 3, plant the 1<sup>st</sup> seed. The seed grows for 1 full day and blooms on day 5.
+On days 2, 4, and 5, plant the 2<sup>nd</sup> seed. The seed grows for 2 full days and blooms on day 8.
+On days 6 and 7, plant the 3<sup>rd</sup> seed. The seed grows for 1 full day and blooms on day 9.
+Thus, on day 9, all the seeds are blooming.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> plantTime = [1], growTime = [1]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> On day 0, plant the 0<sup>th</sup> seed. The seed grows for 1 full day and blooms on day 2.
+Thus, on day 2, all the seeds are blooming.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == plantTime.length == growTime.length</code></li>
@@ -78,15 +76,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 排序
+### Solution 1: Greedy + Sorting
 
-根据题目描述，我们知道，每一天只能为一枚种子进行播种，因此不管什么播种顺序，所有种子的播种时间之和总是等于 $\sum_{i=0}^{n-1} plantTime[i]$。那么，为了让尽快让所有种子开花，我们应该尽快播种生长时间最长的种子。因此，我们可以对所有种子按照生长时间从大到小进行排序，然后依次进行播种。
+According to the problem description, we know that only one seed can be planted per day. Therefore, regardless of the planting order, the sum of the planting times for all seeds is always equal to $\sum_{i=0}^{n-1} plantTime[i]$. To make all seeds bloom as soon as possible, we should prioritize planting the seeds with the longest growth time. Hence, we can sort all seeds by their growth time in descending order and then plant them in sequence.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是种子的数量。
+The time complexity is $O(n \log n)$, and the space complexity is $O(n)$, where $n$ is the number of seeds.
 
 <!-- tabs:start -->
 

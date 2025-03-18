@@ -1,67 +1,64 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2201.Count%20Artifacts%20That%20Can%20Be%20Extracted/README.md
+difficulty: Medium
 rating: 1525
-source: 第 284 场周赛 Q2
+source: Weekly Contest 284 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 模拟
+    - Array
+    - Hash Table
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2201. 统计可以提取的工件](https://leetcode.cn/problems/count-artifacts-that-can-be-extracted)
+# [2201. Count Artifacts That Can Be Extracted](https://leetcode.com/problems/count-artifacts-that-can-be-extracted)
 
-[English Version](/solution/2200-2299/2201.Count%20Artifacts%20That%20Can%20Be%20Extracted/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>存在一个 <code>n x n</code> 大小、下标从 <strong>0</strong> 开始的网格，网格中埋着一些工件。给你一个整数 <code>n</code> 和一个下标从 <strong>0</strong> 开始的二维整数数组 <code>artifacts</code> ，<code>artifacts</code> 描述了矩形工件的位置，其中 <code>artifacts[i] = [r1<sub>i</sub>, c1<sub>i</sub>, r2<sub>i</sub>, c2<sub>i</sub>]</code> 表示第 <code>i</code> 个工件在子网格中的填埋情况：</p>
+<p>There is an <code>n x n</code> <strong>0-indexed</strong> grid with some artifacts buried in it. You are given the integer <code>n</code> and a <strong>0-indexed </strong>2D integer array <code>artifacts</code> describing the positions of the rectangular artifacts where <code>artifacts[i] = [r1<sub>i</sub>, c1<sub>i</sub>, r2<sub>i</sub>, c2<sub>i</sub>]</code> denotes that the <code>i<sup>th</sup></code> artifact is buried in the subgrid where:</p>
 
 <ul>
-	<li><code>(r1<sub>i</sub>, c1<sub>i</sub>)</code> 是第 <code>i</code> 个工件 <strong>左上</strong> 单元格的坐标，且</li>
-	<li><code>(r2<sub>i</sub>, c2<sub>i</sub>)</code> 是第 <code>i</code> 个工件 <strong>右下</strong> 单元格的坐标。</li>
+	<li><code>(r1<sub>i</sub>, c1<sub>i</sub>)</code> is the coordinate of the <strong>top-left</strong> cell of the <code>i<sup>th</sup></code> artifact and</li>
+	<li><code>(r2<sub>i</sub>, c2<sub>i</sub>)</code> is the coordinate of the <strong>bottom-right</strong> cell of the <code>i<sup>th</sup></code> artifact.</li>
 </ul>
 
-<p>你将会挖掘网格中的一些单元格，并清除其中的填埋物。如果单元格中埋着工件的一部分，那么该工件这一部分将会裸露出来。如果一个工件的所有部分都都裸露出来，你就可以提取该工件。</p>
+<p>You will excavate some cells of the grid and remove all the mud from them. If the cell has a part of an artifact buried underneath, it will be uncovered. If all the parts of an artifact are uncovered, you can extract it.</p>
 
-<p>给你一个下标从 <strong>0</strong> 开始的二维整数数组 <code>dig</code> ，其中 <code>dig[i] = [r<sub>i</sub>, c<sub>i</sub>]</code> 表示你将会挖掘单元格 <code>(r<sub>i</sub>, c<sub>i</sub>)</code> ，返回你可以提取的工件数目。</p>
+<p>Given a <strong>0-indexed</strong> 2D integer array <code>dig</code> where <code>dig[i] = [r<sub>i</sub>, c<sub>i</sub>]</code> indicates that you will excavate the cell <code>(r<sub>i</sub>, c<sub>i</sub>)</code>, return <em>the number of artifacts that you can extract</em>.</p>
 
-<p>生成的测试用例满足：</p>
+<p>The test cases are generated such that:</p>
 
 <ul>
-	<li>不存在重叠的两个工件。</li>
-	<li>每个工件最多只覆盖 <code>4</code> 个单元格。</li>
-	<li><code>dig</code> 中的元素互不相同。</li>
+	<li>No two artifacts overlap.</li>
+	<li>Each artifact only covers at most <code>4</code> cells.</li>
+	<li>The entries of <code>dig</code> are unique.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2201.Count%20Artifacts%20That%20Can%20Be%20Extracted/images/untitled-diagram.jpg" style="width: 216px; height: 216px;">
-<pre><strong>输入：</strong>n = 2, artifacts = [[0,0,0,0],[0,1,1,1]], dig = [[0,0],[0,1]]
-<strong>输出：</strong>1
-<strong>解释：</strong> 
-不同颜色表示不同的工件。挖掘的单元格用 'D' 在网格中进行标记。
-有 1 个工件可以提取，即红色工件。
-蓝色工件在单元格 (1,1) 的部分尚未裸露出来，所以无法提取该工件。
-因此，返回 1 。
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2201.Count%20Artifacts%20That%20Can%20Be%20Extracted/images/untitled-diagram.jpg" style="width: 216px; height: 216px;" />
+<pre>
+<strong>Input:</strong> n = 2, artifacts = [[0,0,0,0],[0,1,1,1]], dig = [[0,0],[0,1]]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> 
+The different colors represent different artifacts. Excavated cells are labeled with a &#39;D&#39; in the grid.
+There is 1 artifact that can be extracted, namely the red artifact.
+The blue artifact has one part in cell (1,1) which remains uncovered, so we cannot extract it.
+Thus, we return 1.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2201.Count%20Artifacts%20That%20Can%20Be%20Extracted/images/untitled-diagram-1.jpg" style="width: 216px; height: 216px;">
-<pre><strong>输入：</strong>n = 2, artifacts = [[0,0,0,0],[0,1,1,1]], dig = [[0,0],[0,1],[1,1]]
-<strong>输出：</strong>2
-<strong>解释：</strong>红色工件和蓝色工件的所有部分都裸露出来（用 'D' 标记），都可以提取。因此，返回 2 。 
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2201.Count%20Artifacts%20That%20Can%20Be%20Extracted/images/untitled-diagram-1.jpg" style="width: 216px; height: 216px;" />
+<pre>
+<strong>Input:</strong> n = 2, artifacts = [[0,0,0,0],[0,1,1,1]], dig = [[0,0],[0,1],[1,1]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> Both the red and blue artifacts have all parts uncovered (labeled with a &#39;D&#39;) and can be extracted, so we return 2. 
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
@@ -71,22 +68,22 @@ tags:
 	<li><code>0 &lt;= r1<sub>i</sub>, c1<sub>i</sub>, r2<sub>i</sub>, c2<sub>i</sub>, r<sub>i</sub>, c<sub>i</sub> &lt;= n - 1</code></li>
 	<li><code>r1<sub>i</sub> &lt;= r2<sub>i</sub></code></li>
 	<li><code>c1<sub>i</sub> &lt;= c2<sub>i</sub></code></li>
-	<li>不存在重叠的两个工件</li>
-	<li>每个工件 <strong>最多</strong> 只覆盖 <code>4</code> 个单元格</li>
-	<li><code>dig</code> 中的元素互不相同</li>
+	<li>No two artifacts will overlap.</li>
+	<li>The number of cells covered by an artifact is <strong>at most</strong> <code>4</code>.</li>
+	<li>The entries of <code>dig</code> are unique.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们可以用哈希表 $s$ 记录所有挖掘的单元格，然后遍历所有工件，判断工件的所有部分是否都在哈希表中，若是则可以提取该工件，答案加一。
+We can use a hash table $s$ to record all the excavated cells, then traverse all the workpieces, and check whether all parts of the workpiece are in the hash table. If so, we can extract the workpiece, and the answer is increased by one.
 
-时间复杂度 $O(m + k)$，空间复杂度 $O(k)$，其中 $m$ 是工件的数量，而 $k$ 是挖掘的单元格的数量。
+The time complexity is $O(m + k)$, and the space complexity is $O(k)$. Here, $m$ is the number of workpieces, and $k$ is the number of excavated cells.
 
 <!-- tabs:start -->
 

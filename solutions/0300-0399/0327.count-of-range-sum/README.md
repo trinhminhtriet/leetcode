@@ -1,73 +1,61 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0327.Count%20of%20Range%20Sum/README.md
+difficulty: Hard
 tags:
-    - 树状数组
-    - 线段树
-    - 数组
-    - 二分查找
-    - 分治
-    - 有序集合
-    - 归并排序
+    - Binary Indexed Tree
+    - Segment Tree
+    - Array
+    - Binary Search
+    - Divide and Conquer
+    - Ordered Set
+    - Merge Sort
 ---
 
 <!-- problem:start -->
 
-# [327. 区间和的个数](https://leetcode.cn/problems/count-of-range-sum)
+# [327. Count of Range Sum](https://leetcode.com/problems/count-of-range-sum)
 
-[English Version](/solution/0300-0399/0327.Count%20of%20Range%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 以及两个整数 <code>lower</code> 和 <code>upper</code> 。求数组中，值位于范围 <code>[lower, upper]</code> （包含 <code>lower</code> 和 <code>upper</code>）之内的 <strong>区间和的个数</strong> 。</p>
+<p>Given an integer array <code>nums</code> and two integers <code>lower</code> and <code>upper</code>, return <em>the number of range sums that lie in</em> <code>[lower, upper]</code> <em>inclusive</em>.</p>
 
-<p><strong>区间和</strong> <code>S(i, j)</code> 表示在 <code>nums</code> 中，位置从 <code>i</code> 到 <code>j</code> 的元素之和，包含 <code>i</code> 和 <code>j</code> (<code>i</code> ≤ <code>j</code>)。</p>
+<p>Range sum <code>S(i, j)</code> is defined as the sum of the elements in <code>nums</code> between indices <code>i</code> and <code>j</code> inclusive, where <code>i &lt;= j</code>.</p>
 
-<p> </p>
-<strong>示例 1：</strong>
-
-<pre>
-<strong>输入：</strong>nums = [-2,5,-1], lower = -2, upper = 2
-<strong>输出：</strong>3
-<strong>解释：</strong>存在三个区间：[0,0]、[2,2] 和 [0,2] ，对应的区间和分别是：-2 、-1 、2 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [0], lower = 0, upper = 0
-<strong>输出：</strong>1
+<strong>Input:</strong> nums = [-2,5,-1], lower = -2, upper = 2
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The three ranges are: [0,0], [2,2], and [0,2] and their respective sums are: -2, -1, 2.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [0], lower = 0, upper = 0
+<strong>Output:</strong> 1
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= nums.length <= 10<sup>5</sup></code></li>
-	<li><code>-2<sup>31</sup> <= nums[i] <= 2<sup>31</sup> - 1</code></li>
-	<li><code>-10<sup>5</sup> <= lower <= upper <= 10<sup>5</sup></code></li>
-	<li>题目数据保证答案是一个 <strong>32 位</strong> 的整数</li>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>-2<sup>31</sup> &lt;= nums[i] &lt;= 2<sup>31</sup> - 1</code></li>
+	<li><code>-10<sup>5</sup> &lt;= lower &lt;= upper &lt;= 10<sup>5</sup></code></li>
+	<li>The answer is <strong>guaranteed</strong> to fit in a <strong>32-bit</strong> integer.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和 + 树状数组
-
-题目要求区间和，因此我们可以先求出前缀和数组 $s$，其中 $s[i]$ 表示 $nums$ 中前 $i$ 个元素的和。那么对于任意的 $i \lt j$，$s[j+1] - s[i]$ 就是 $nums$ 中下标在 $[i, j]$ 的元素之和。
-
-而 $lower \leq s[j+1] - s[i] \leq upper$，可以转换为 $s[j+1] - upper \leq s[i] \leq s[j+1] - lower$，也就是说，对于当前前缀和 $s[j+1]$，我们需要统计 $s$ 中有多少个下标 $i$ 满足 $s[j+1] - upper \leq s[i] \leq s[j+1] - lower$。
-
-我们可以用树状数组来维护每个前缀和出现的次数，这样对于每个前缀和 $s[j+1]$，我们只需要查询树状数组中有多少个前缀和 $s[i]$ 满足 $s[j+1] - upper \leq s[i] \leq s[j+1] - lower$ 即可。
-
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
+### Solution 1
 
 <!-- tabs:start -->
 

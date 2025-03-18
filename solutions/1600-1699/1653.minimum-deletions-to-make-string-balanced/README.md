@@ -1,76 +1,71 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1653.Minimum%20Deletions%20to%20Make%20String%20Balanced/README.md
+difficulty: Medium
 rating: 1793
-source: 第 39 场双周赛 Q2
+source: Biweekly Contest 39 Q2
 tags:
-    - 栈
-    - 字符串
-    - 动态规划
+    - Stack
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1653. 使字符串平衡的最少删除次数](https://leetcode.cn/problems/minimum-deletions-to-make-string-balanced)
+# [1653. Minimum Deletions to Make String Balanced](https://leetcode.com/problems/minimum-deletions-to-make-string-balanced)
 
-[English Version](/solution/1600-1699/1653.Minimum%20Deletions%20to%20Make%20String%20Balanced/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串&nbsp;<code>s</code>&nbsp;，它仅包含字符&nbsp;<code>'a'</code> 和&nbsp;<code>'b'</code>​​​​ 。</p>
+<p>You are given a string <code>s</code> consisting only of characters <code>&#39;a&#39;</code> and <code>&#39;b&#39;</code>​​​​.</p>
 
-<p>你可以删除&nbsp;<code>s</code>&nbsp;中任意数目的字符，使得&nbsp;<code>s</code> <strong>平衡</strong>&nbsp;。当不存在下标对&nbsp;<code>(i,j)</code>&nbsp;满足&nbsp;<code>i &lt; j</code> ，且&nbsp;<code>s[i] = 'b'</code> 的同时&nbsp;<code>s[j]= 'a'</code> ，此时认为 <code>s</code> 是 <strong>平衡 </strong>的。</p>
+<p>You can delete any number of characters in <code>s</code> to make <code>s</code> <strong>balanced</strong>. <code>s</code> is <strong>balanced</strong> if there is no pair of indices <code>(i,j)</code> such that <code>i &lt; j</code> and <code>s[i] = &#39;b&#39;</code> and <code>s[j]= &#39;a&#39;</code>.</p>
 
-<p>请你返回使 <code>s</code>&nbsp;<strong>平衡</strong>&nbsp;的 <strong>最少</strong>&nbsp;删除次数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>s = "aababbab"
-<b>输出：</b>2
-<b>解释：</b>你可以选择以下任意一种方案：
-下标从 0 开始，删除第 2 和第 6 个字符（"aa<strong>b</strong>abb<strong>a</strong>b" -&gt; "aaabbb"），
-下标从 0 开始，删除第 3 和第 6 个字符（"aab<strong>a</strong>bb<strong>a</strong>b" -&gt; "aabbbb"）。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>s = "bbaaaaabb"
-<b>输出：</b>2
-<b>解释：</b>唯一的最优解是删除最前面两个字符。
-</pre>
+<p>Return <em>the <strong>minimum</strong> number of deletions needed to make </em><code>s</code><em> <strong>balanced</strong></em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;aababbab&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> You can either:
+Delete the characters at 0-indexed positions 2 and 6 (&quot;aa<u>b</u>abb<u>a</u>b&quot; -&gt; &quot;aaabbb&quot;), or
+Delete the characters at 0-indexed positions 3 and 6 (&quot;aab<u>a</u>bb<u>a</u>b&quot; -&gt; &quot;aabbbb&quot;).
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;bbaaaaabb&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The only solution is to delete the first two characters.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code>&nbsp;要么是&nbsp;<code>'a'</code> 要么是&nbsp;<code>'b'</code>​<strong>&nbsp;</strong>。​</li>
+	<li><code>s[i]</code> is&nbsp;<code>&#39;a&#39;</code> or <code>&#39;b&#39;</code>​​.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i]$ 表示前 $i$ 个字符中，删除最少的字符数，使得字符串平衡。初始时 $f[0]=0$。答案为 $f[n]$。
+We define $f[i]$ as the minimum number of characters to be deleted in the first $i$ characters to make the string balanced. Initially, $f[0]=0$. The answer is $f[n]$.
 
-我们遍历字符串 $s$，维护变量 $b$，表示当前遍历到的位置之前的字符中，字符 $b$ 的个数。
+We traverse the string $s$, maintaining a variable $b$, which represents the number of character 'b' in the characters before the current position.
 
--   如果当前字符为 `'b'`，此时不影响前 $i$ 个字符的平衡性，因此 $f[i]=f[i-1]$，然后我们更新 $b \leftarrow b+1$。
--   如果当前字符为 `'a'`，此时我们可以选择删除当前字符，那么有 $f[i]=f[i-1]+1$；也可以选择删除之前的字符 $b$，那么有 $f[i]=b$。因此我们取两者的最小值，即 $f[i]=\min(f[i-1]+1,b)$。
+-   If the current character is 'b', it does not affect the balance of the first $i$ characters, so $f[i]=f[i-1]$, then we update $b \leftarrow b+1$.
+-   If the current character is 'a', we can choose to delete the current character, so $f[i]=f[i-1]+1$; or we can choose to delete the previous character 'b', so $f[i]=b$. Therefore, we take the minimum of the two, that is, $f[i]=\min(f[i-1]+1,b)$.
 
-综上，我们可以得到状态转移方程：
+In summary, we can get the state transition equation:
 
 $$
 f[i]=\begin{cases}
@@ -79,11 +74,11 @@ f[i-1], & s[i-1]='b'\\
 \end{cases}
 $$
 
-最终答案为 $f[n]$。
+The final answer is $f[n]$.
 
-我们注意到，状态转移方程中只与前一个状态以及变量 $b$ 有关，因此我们可以仅用一个答案变量 $ans$ 维护当前的 $f[i]$，并不需要开辟数组 $f$。
+We notice that the state transition equation is only related to the previous state and the variable $b$, so we can just use an answer variable $ans$ to maintain the current $f[i]$, and there is no need to allocate an array $f$.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -216,13 +211,13 @@ var minimumDeletions = function (s) {
 
 <!-- solution:start -->
 
-### 方法二：枚举 + 前缀和
+### Solution 2: Enumeration + Prefix Sum
 
-我们可以枚举字符串 $s$ 中的每一个位置 $i$，将字符串 $s$ 分成两部分，分别为 $s[0,..,i-1]$ 和 $s[i+1,..n-1]$，要使得字符串平衡，我们在当前位置 $i$ 需要删除的字符数为 $s[0,..,i-1]$ 中字符 $b$ 的个数加上 $s[i+1,..n-1]$ 中字符 $a$ 的个数。
+We can enumerate each position $i$ in the string $s$, dividing the string $s$ into two parts, namely $s[0,..,i-1]$ and $s[i+1,..n-1]$. To make the string balanced, the number of characters we need to delete at the current position $i$ is the number of character 'b' in $s[0,..,i-1]$ plus the number of character 'a' in $s[i+1,..n-1]$.
 
-因此，我们维护两个变量 $lb$ 和 $ra$ 分别表示 $s[0,..,i-1]$ 中字符 $b$ 的个数以及 $s[i+1,..n-1]$ 中字符 $a$ 的个数，那么我们需要删除的字符数为 $lb+ra$。枚举过程中，更新变量 $lb$ 和 $ra$。
+Therefore, we maintain two variables $lb$ and $ra$ to represent the number of character 'b' in $s[0,..,i-1]$ and the number of character 'a' in $s[i+1,..n-1]$ respectively. The number of characters we need to delete is $lb+ra$. During the enumeration process, we update the variables $lb$ and $ra$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 
@@ -338,7 +333,7 @@ var minimumDeletions = function (s) {
 
 <!-- solution:start -->
 
-### 方法三
+### Solution 3: Two-Variable Method
 
 <!-- tabs:start -->
 

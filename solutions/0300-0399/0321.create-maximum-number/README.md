@@ -1,57 +1,52 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0321.Create%20Maximum%20Number/README.md
+difficulty: Hard
 tags:
-    - 栈
-    - 贪心
-    - 数组
-    - 双指针
-    - 单调栈
+    - Stack
+    - Greedy
+    - Array
+    - Two Pointers
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [321. 拼接最大数](https://leetcode.cn/problems/create-maximum-number)
+# [321. Create Maximum Number](https://leetcode.com/problems/create-maximum-number)
 
-[English Version](/solution/0300-0399/0321.Create%20Maximum%20Number/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数数组 <code>nums1</code> 和 <code>nums2</code>，它们的长度分别为 <code>m</code> 和 <code>n</code>。数组 <code>nums1</code> 和 <code>nums2</code> 分别代表两个数各位上的数字。同时你也会得到一个整数 <code>k</code>。</p>
+<p>You are given two integer arrays <code>nums1</code> and <code>nums2</code> of lengths <code>m</code> and <code>n</code> respectively. <code>nums1</code> and <code>nums2</code> represent the digits of two numbers. You are also given an integer <code>k</code>.</p>
 
-<p>请你利用这两个数组中的数字创建一个长度为 <code>k &lt;= m + n</code> 的最大数。同一数组中数字的相对顺序必须保持不变。</p>
+<p>Create the maximum number of length <code>k &lt;= m + n</code> from digits of the two numbers. The relative order of the digits from the same array must be preserved.</p>
 
-<p>返回代表答案的长度为 <code>k</code> 的数组。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums1 = [3,4,6,5], nums2 = [9,1,2,5,8,3], k = 5
-<strong>输出：</strong>[9,8,6,5,3]
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums1 = [6,7], nums2 = [6,0,4], k = 5
-<strong>输出：</strong>[6,7,6,0,4]
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums1 = [3,9], nums2 = [8,9], k = 3
-<strong>输出：</strong>[9,8,9]
-</pre>
+<p>Return an array of the <code>k</code> digits representing the answer.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums1 = [3,4,6,5], nums2 = [9,1,2,5,8,3], k = 5
+<strong>Output:</strong> [9,8,6,5,3]
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [6,7], nums2 = [6,0,4], k = 5
+<strong>Output:</strong> [6,7,6,0,4]
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums1 = [3,9], nums2 = [8,9], k = 3
+<strong>Output:</strong> [9,8,9]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == nums1.length</code></li>
@@ -59,24 +54,16 @@ tags:
 	<li><code>1 &lt;= m, n &lt;= 500</code></li>
 	<li><code>0 &lt;= nums1[i], nums2[i] &lt;= 9</code></li>
 	<li><code>1 &lt;= k &lt;= m + n</code></li>
-	<li><code>nums1</code>&nbsp;和&nbsp;<code>nums2</code> 没有前导 0。</li>
+	<li><code>nums1</code> and <code>nums2</code> do not have leading zeros.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举 + 单调栈
-
-我们可以枚举从数组 $nums1$ 中取出 $x$ 个数，那么从数组 $nums2$ 中就需要取出 $k-x$ 个数。其中 $x \in [max(0, k-n), min(k, m)]$。
-
-对于每一个 $x$，我们可以使用单调栈求出数组 $nums1$ 中长度为 $x$ 的最大子序列，以及数组 $nums2$ 中长度为 $k-x$ 的最大子序列。然后将这两个子序列合并得到长度为 $k$ 的最大子序列。
-
-最后，我们比较所有的长度为 $k$ 的最大子序列，找出最大的序列即可。
-
-时间复杂度 $O(k \times (m + n + k^2))$，空间复杂度 $O(k)$。其中 $m$ 和 $n$ 分别是数组 $nums1$ 和 $nums2$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

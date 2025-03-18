@@ -1,78 +1,71 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2807.Insert%20Greatest%20Common%20Divisors%20in%20Linked%20List/README.md
+difficulty: Medium
 rating: 1279
-source: 第 110 场双周赛 Q2
+source: Biweekly Contest 110 Q2
 tags:
-    - 链表
-    - 数学
-    - 数论
+    - Linked List
+    - Math
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [2807. 在链表中插入最大公约数](https://leetcode.cn/problems/insert-greatest-common-divisors-in-linked-list)
+# [2807. Insert Greatest Common Divisors in Linked List](https://leetcode.com/problems/insert-greatest-common-divisors-in-linked-list)
 
-[English Version](/solution/2800-2899/2807.Insert%20Greatest%20Common%20Divisors%20in%20Linked%20List/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个链表的头&nbsp;<code>head</code>&nbsp;，每个结点包含一个整数值。</p>
+<p>Given the head of a linked list <code>head</code>, in which each node contains an integer value.</p>
 
-<p>在相邻结点之间，请你插入一个新的结点，结点值为这两个相邻结点值的 <strong>最大公约数</strong>&nbsp;。</p>
+<p>Between every pair of adjacent nodes, insert a new node with a value equal to the <strong>greatest common divisor</strong> of them.</p>
 
-<p>请你返回插入之后的链表。</p>
+<p>Return <em>the linked list after insertion</em>.</p>
 
-<p>两个数的 <strong>最大公约数</strong>&nbsp;是可以被两个数字整除的最大正整数。</p>
+<p>The <strong>greatest common divisor</strong> of two numbers is the largest positive integer that evenly divides both numbers.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2807.Insert%20Greatest%20Common%20Divisors%20in%20Linked%20List/images/ex1_copy.png" style="width: 641px; height: 181px;"></p>
-
-<pre><b>输入：</b>head = [18,6,10,3]
-<b>输出：</b>[18,6,6,2,10,1,3]
-<b>解释：</b>第一幅图是一开始的链表，第二幅图是插入新结点后的图（蓝色结点为新插入结点）。
-- 18 和 6 的最大公约数为 6 ，插入第一和第二个结点之间。
-- 6 和 10 的最大公约数为 2 ，插入第二和第三个结点之间。
-- 10 和 3 的最大公约数为 1 ，插入第三和第四个结点之间。
-所有相邻结点之间都插入完毕，返回链表。
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2807.Insert%20Greatest%20Common%20Divisors%20in%20Linked%20List/images/ex1_copy.png" style="width: 641px; height: 181px;" />
+<pre>
+<strong>Input:</strong> head = [18,6,10,3]
+<strong>Output:</strong> [18,6,6,2,10,1,3]
+<strong>Explanation:</strong> The 1<sup>st</sup> diagram denotes the initial linked list and the 2<sup>nd</sup> diagram denotes the linked list after inserting the new nodes (nodes in blue are the inserted nodes).
+- We insert the greatest common divisor of 18 and 6 = 6 between the 1<sup>st</sup> and the 2<sup>nd</sup> nodes.
+- We insert the greatest common divisor of 6 and 10 = 2 between the 2<sup>nd</sup> and the 3<sup>rd</sup> nodes.
+- We insert the greatest common divisor of 10 and 3 = 1 between the 3<sup>rd</sup> and the 4<sup>th</sup> nodes.
+There are no more adjacent nodes, so we return the linked list.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2807.Insert%20Greatest%20Common%20Divisors%20in%20Linked%20List/images/ex2_copy1.png" style="width: 51px; height: 191px;"></p>
-
-<pre><b>输入：</b>head = [7]
-<strong>输出：</strong>[7]
-<b>解释：</b>第一幅图是一开始的链表，第二幅图是插入新结点后的图（蓝色结点为新插入结点）。
-没有相邻结点，所以返回初始链表。
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2807.Insert%20Greatest%20Common%20Divisors%20in%20Linked%20List/images/ex2_copy1.png" style="width: 51px; height: 191px;" />
+<pre>
+<strong>Input:</strong> head = [7]
+<strong>Output:</strong> [7]
+<strong>Explanation:</strong> The 1<sup>st</sup> diagram denotes the initial linked list and the 2<sup>nd</sup> diagram denotes the linked list after inserting the new nodes.
+There are no pairs of adjacent nodes, so we return the initial linked list.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>链表中结点数目在&nbsp;<code>[1, 5000]</code> 之间。</li>
+	<li>The number of nodes in the list is in the range <code>[1, 5000]</code>.</li>
 	<li><code>1 &lt;= Node.val &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们用两个指针 $pre$ 和 $cur$ 分别指向当前遍历到的结点和下一个结点，那么我们只需要在 $pre$ 和 $cur$ 之间插入一个新的结点即可。因此，每次计算出 $pre$ 和 $cur$ 的最大公约数 $x$，然后在 $pre$ 和 $cur$ 之间插入一个值为 $x$ 的新结点，然后更新 $pre = cur$，并且 $cur = cur.next$，继续遍历链表，直到 $cur$ 为空。
+We use two pointers $pre$ and $cur$ to point to the current node and the next node respectively. We only need to insert a new node between $pre$ and $cur$. Therefore, each time we calculate the greatest common divisor $x$ of $pre$ and $cur$, we insert a new node with value $x$ between $pre$ and $cur$. Then we update $pre = cur$ and $cur = cur.next$, and continue to traverse the linked list until $cur$ is null.
 
-时间复杂度 $O(n \times \log M)$，其中 $n$ 是链表的长度，而 $M$ 是链表中结点的最大值。忽略结果链表的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n \times \log M)$, where $n$ is the length of the linked list, and $M$ is the maximum value of the nodes in the linked list. Ignoring the space consumption of the result linked list, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

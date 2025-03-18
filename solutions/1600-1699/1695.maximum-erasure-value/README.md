@@ -1,71 +1,66 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1695.Maximum%20Erasure%20Value/README.md
+difficulty: Medium
 rating: 1528
-source: 第 220 场周赛 Q2
+source: Weekly Contest 220 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 滑动窗口
+    - Array
+    - Hash Table
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [1695. 删除子数组的最大得分](https://leetcode.cn/problems/maximum-erasure-value)
+# [1695. Maximum Erasure Value](https://leetcode.com/problems/maximum-erasure-value)
 
-[English Version](/solution/1600-1699/1695.Maximum%20Erasure%20Value/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数数组 <code>nums</code> ，请你从中删除一个含有 <strong>若干不同元素</strong> 的子数组<strong>。</strong>删除子数组的 <strong>得分</strong> 就是子数组各元素之 <strong>和</strong> 。</p>
+<p>You are given an array of positive integers <code>nums</code> and want to erase a subarray containing&nbsp;<strong>unique elements</strong>. The <strong>score</strong> you get by erasing the subarray is equal to the <strong>sum</strong> of its elements.</p>
 
-<p>返回 <strong>只删除一个</strong> 子数组可获得的 <strong>最大得分</strong><em> 。</em></p>
+<p>Return <em>the <strong>maximum score</strong> you can get by erasing <strong>exactly one</strong> subarray.</em></p>
 
-<p>如果数组 <code>b</code> 是数组 <code>a</code> 的一个连续子序列，即如果它等于 <code>a[l],a[l+1],...,a[r]</code> ，那么它就是 <code>a</code> 的一个子数组。</p>
+<p>An array <code>b</code> is called to be a <span class="tex-font-style-it">subarray</span> of <code>a</code> if it forms a contiguous subsequence of <code>a</code>, that is, if it is equal to <code>a[l],a[l+1],...,a[r]</code> for some <code>(l,r)</code>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [4,2,4,5,6]
-<strong>输出：</strong>17
-<strong>解释：</strong>最优子数组是 [2,4,5,6]
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [5,2,1,2,5,2,1,2,5]
-<strong>输出：</strong>8
-<strong>解释：</strong>最优子数组是 [5,2,1] 或 [1,2,5]
+<strong>Input:</strong> nums = [4,2,4,5,6]
+<strong>Output:</strong> 17
+<strong>Explanation:</strong> The optimal subarray here is [2,4,5,6].
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [5,2,1,2,5,2,1,2,5]
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> The optimal subarray here is [5,2,1] or [1,2,5].
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= nums.length <= 10<sup>5</sup></code></li>
-	<li><code>1 <= nums[i] <= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数组或哈希表 + 前缀和
+### Solution 1: Array or Hash Table + Prefix Sum
 
-我们用数组或哈希表 $d$ 记录每个数字最后一次出现的位置，用 $s$ 记录前缀和，用 $j$ 记录当前不重复子数组的左端点。
+We use an array or hash table $d$ to record the last occurrence of each number, use $s$ to record the prefix sum, and use $j$ to record the left endpoint of the current non-repeating subarray.
 
-遍历数组，对于每个数字 $v$，如果 $d[v]$ 存在，那么我们更新 $j$ 为 $max(j, d[v])$，这样就保证了当前不重复子数组不包含 $v$，然后更新答案为 $max(ans, s[i] - s[j])$，最后更新 $d[v]$ 为 $i$。
+We traverse the array, for each number $v$, if $d[v]$ exists, then we update $j$ to $max(j, d[v])$, which ensures that the current non-repeating subarray does not contain $v$. Then we update the answer to $max(ans, s[i] - s[j])$, and finally update $d[v]$ to $i$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 
@@ -179,15 +174,15 @@ function maximumUniqueSubarray(nums: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二：双指针
+### Solution 2: Two Pointers
 
-题目实际上是让我们找出一个最长的子数组，该子数组中所有元素都不相同。我们可以用两个指针 $i$ 和 $j$ 分别指向子数组的左右边界，初始时 $i = 0$, $j = 0$。另外，我们用一个哈希表 $vis$ 记录子数组中的元素。
+The problem is actually asking us to find the longest subarray in which all elements are distinct. We can use two pointers $i$ and $j$ to point to the left and right boundaries of the subarray, initially $i = 0$, $j = 0$. In addition, we use a hash table $vis$ to record the elements in the subarray.
 
-遍历数组，对于每个数字 $x$，如果 $x$ 在 $vis$ 中，那么我们不断地将 $nums[i]$ 从 $vis$ 中移除，直到 $x$ 不在 $vis$ 中为止。这样我们就找到了一个不包含重复元素的子数组。我们将 $x$ 加入 $vis$，并更新子数组的和 $s$，然后更新答案 $ans = \max(ans, s)$。
+We traverse the array, for each number $x$, if $x$ is in $vis$, then we continuously remove $nums[i]$ from $vis$, until $x$ is not in $vis$. In this way, we find a subarray without duplicate elements. We add $x$ to $vis$, update the sum of the subarray $s$, and then update the answer $ans = \max(ans, s)$.
 
-遍历结束后，我们就可以得到最大的子数组和。
+After the traversal, we can get the maximum sum of the subarray.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

@@ -1,82 +1,74 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0702.Search%20in%20a%20Sorted%20Array%20of%20Unknown%20Size/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 二分查找
-    - 交互
+    - Array
+    - Binary Search
+    - Interactive
 ---
 
 <!-- problem:start -->
 
-# [702. 搜索长度未知的有序数组 🔒](https://leetcode.cn/problems/search-in-a-sorted-array-of-unknown-size)
+# [702. Search in a Sorted Array of Unknown Size 🔒](https://leetcode.com/problems/search-in-a-sorted-array-of-unknown-size)
 
-[English Version](/solution/0700-0799/0702.Search%20in%20a%20Sorted%20Array%20of%20Unknown%20Size/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>这是一个<strong>交互问题</strong>。</p>
+<p>This is an <strong><em>interactive problem</em></strong>.</p>
 
-<p>您有一个<strong>升序</strong>整数数组，其<strong>长度未知</strong>。您没有访问数组的权限，但是可以使用&nbsp;<code>ArrayReader</code>&nbsp;接口访问它。你可以调用&nbsp;<code>ArrayReader.get(i)</code>:</p>
+<p>You have a sorted array of <strong>unique</strong> elements and an <strong>unknown size</strong>. You do not have an access to the array but you can use the <code>ArrayReader</code> interface to access it. You can call <code>ArrayReader.get(i)</code> that:</p>
 
 <ul>
-	<li>
-	<p>返回数组第<code>i<sup>th</sup></code>个索引(<strong>0-indexed</strong>)处的值(即&nbsp;<code>secret[i]</code>)，或者</p>
-	</li>
-	<li>
-	<p>如果&nbsp;<code>i</code>&nbsp; 超出了数组的边界，则返回&nbsp;<code>2<sup>31</sup>&nbsp;- 1</code></p>
-	</li>
+	<li>returns the value at the <code>i<sup>th</sup></code> index (<strong>0-indexed</strong>) of the secret array (i.e., <code>secret[i]</code>), or</li>
+	<li>returns <code>2<sup>31</sup> - 1</code> if the <code>i</code> is out of the boundary of the array.</li>
 </ul>
 
-<p>你也会得到一个整数 <code>target</code>。</p>
+<p>You are also given an integer <code>target</code>.</p>
 
-<p>如果存在<code>secret[k] == target</code>，请返回索引&nbsp;<code>k</code>&nbsp;的值；否则返回&nbsp;<code>-1</code></p>
+<p>Return the index <code>k</code> of the hidden array where <code>secret[k] == target</code> or return <code>-1</code> otherwise.</p>
 
-<p>你必须写一个时间复杂度为&nbsp;<code>O(log n)</code>&nbsp;的算法。</p>
+<p>You must write an algorithm with <code>O(log n)</code> runtime complexity.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> <code>secret</code> = [-1,0,3,5,9,12], <code>target</code> = 9
-<strong>输出:</strong> 4
-<strong>解释:</strong> 9 存在在 nums 中，下标为 4
+<strong>Input:</strong> secret = [-1,0,3,5,9,12], target = 9
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> 9 exists in secret and its index is 4.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> <code>secret</code> = [-1,0,3,5,9,12], <code>target</code> = 2
-<strong>输出:</strong> -1
-<strong>解释:</strong> 2 不在数组中所以返回 -1</pre>
+<strong>Input:</strong> secret = [-1,0,3,5,9,12], target = 2
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> 2 does not exist in secret so return -1.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= secret.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>-10<sup>4</sup>&nbsp;&lt;= secret[i], target &lt;= 10<sup>4</sup></code></li>
-	<li><code>secret</code>&nbsp;严格递增</li>
+	<li><code>-10<sup>4</sup> &lt;= secret[i], target &lt;= 10<sup>4</sup></code></li>
+	<li><code>secret</code> is sorted in a strictly increasing order.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-我们先定义一个指针 $r = 1$，每一次判断 $r$ 处的值是否小于目标值，如果小于目标值，我们将 $r$ 乘以 $2$，即左移一位，直到 $r$ 处的值大于等于目标值。此时，我们可以确定目标值在 $[r / 2, r]$ 的区间内。
+First, we define a pointer $r = 1$. Each time, we check if the value at position $r$ is less than the target value. If it is, we multiply $r$ by $2$, i.e., shift it left by one bit, until the value at position $r$ is greater than or equal to the target value. At this point, we can determine that the target value is within the interval $[r / 2, r]$.
 
-接下来，我们定义一个指针 $l = r / 2$，然后我们可以使用二分查找的方法在 $[l, r]$ 的区间内查找目标值的位置。
+Next, we define a pointer $l = r / 2$, and then we can use the binary search method to find the position of the target value within the interval $[l, r]$.
 
-时间复杂度 $O(\log M)$，其中 $M$ 为目标值的位置。空间复杂度 $O(1)$。
+The time complexity is $O(\log M)$, where $M$ is the position of the target value. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

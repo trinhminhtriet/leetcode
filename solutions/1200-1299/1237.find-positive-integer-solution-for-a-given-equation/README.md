@@ -1,100 +1,97 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1237.Find%20Positive%20Integer%20Solution%20for%20a%20Given%20Equation/README.md
+difficulty: Medium
 rating: 1404
-source: 第 160 场周赛 Q1
+source: Weekly Contest 160 Q1
 tags:
-    - 数学
-    - 双指针
-    - 二分查找
-    - 交互
+    - Math
+    - Two Pointers
+    - Binary Search
+    - Interactive
 ---
 
 <!-- problem:start -->
 
-# [1237. 找出给定方程的正整数解](https://leetcode.cn/problems/find-positive-integer-solution-for-a-given-equation)
+# [1237. Find Positive Integer Solution for a Given Equation](https://leetcode.com/problems/find-positive-integer-solution-for-a-given-equation)
 
-[English Version](/solution/1200-1299/1237.Find%20Positive%20Integer%20Solution%20for%20a%20Given%20Equation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个函数  <code>f(x, y)</code> 和一个目标结果 <code>z</code>，函数公式未知，请你计算方程 <code>f(x,y) == z</code> 所有可能的正整数 <strong>数对</strong> <code>x</code> 和 <code>y</code>。满足条件的结果数对可以按任意顺序返回。</p>
+<p>Given a callable function <code>f(x, y)</code> <strong>with a hidden formula</strong> and a value <code>z</code>, reverse engineer the formula and return <em>all positive integer pairs </em><code>x</code><em> and </em><code>y</code><em> where </em><code>f(x,y) == z</code>. You may return the pairs in any order.</p>
 
-<p>尽管函数的具体式子未知，但它是单调递增函数，也就是说：</p>
+<p>While the exact formula is hidden, the function is monotonically increasing, i.e.:</p>
 
 <ul>
-	<li><code>f(x, y) < f(x + 1, y)</code></li>
-	<li><code>f(x, y) < f(x, y + 1)</code></li>
+	<li><code>f(x, y) &lt; f(x + 1, y)</code></li>
+	<li><code>f(x, y) &lt; f(x, y + 1)</code></li>
 </ul>
 
-<p>函数接口定义如下：</p>
+<p>The function interface is defined like this:</p>
 
 <pre>
 interface CustomFunction {
 public:
   // Returns some positive integer f(x, y) for two positive integers x and y based on a formula.
   int f(int x, int y);
-};</pre>
-
-<p>你的解决方案将按如下规则进行评判：</p>
-
-<ul>
-	<li>判题程序有一个由 <code>CustomFunction</code> 的 <code>9</code> 种实现组成的列表，以及一种为特定的 <code>z</code> 生成所有有效数对的答案的方法。</li>
-	<li>判题程序接受两个输入：<code>function_id</code>（决定使用哪种实现测试你的代码）以及目标结果 <code>z</code> 。</li>
-	<li>判题程序将会调用你实现的 <code>findSolution</code> 并将你的结果与答案进行比较。</li>
-	<li>如果你的结果与答案相符，那么解决方案将被视作正确答案，即 <code>Accepted</code> 。</li>
-</ul>
-
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>function_id = 1, z = 5
-<strong>输出：</strong>[[1,4],[2,3],[3,2],[4,1]]
-<strong>解释：</strong>function_id = 1 暗含的函数式子为 f(x, y) = x + y
-以下 x 和 y 满足 f(x, y) 等于 5：
-x=1, y=4 -> f(1, 4) = 1 + 4 = 5
-x=2, y=3 -> f(2, 3) = 2 + 3 = 5
-x=3, y=2 -> f(3, 2) = 3 + 2 = 5
-x=4, y=1 -> f(4, 1) = 4 + 1 = 5
+};
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>function_id = 2, z = 5
-<strong>输出：</strong>[[1,5],[5,1]]
-<strong>解释：</strong>function_id = 2 暗含的函数式子为 f(x, y) = x * y
-以下 x 和 y 满足 f(x, y) 等于 5：
-x=1, y=5 -> f(1, 5) = 1 * 5 = 5
-x=5, y=1 -> f(5, 1) = 5 * 1 = 5</pre>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>We will judge your solution as follows:</p>
 
 <ul>
-	<li><code>1 <= function_id <= 9</code></li>
-	<li><code>1 <= z <= 100</code></li>
-	<li>题目保证 <code>f(x, y) == z</code> 的解处于 <code>1 <= x, y <= 1000</code> 的范围内。</li>
-	<li>在 <code>1 <= x, y <= 1000</code> 的前提下，题目保证 <code>f(x, y)</code> 是一个 32 位有符号整数。</li>
+	<li>The judge has a list of <code>9</code> hidden implementations of <code>CustomFunction</code>, along with a way to generate an <strong>answer key</strong> of all valid pairs for a specific <code>z</code>.</li>
+	<li>The judge will receive two inputs: a <code>function_id</code> (to determine which implementation to test your code with), and the target <code>z</code>.</li>
+	<li>The judge will call your <code>findSolution</code> and compare your results with the <strong>answer key</strong>.</li>
+	<li>If your results match the <strong>answer key</strong>, your solution will be <code>Accepted</code>.</li>
+</ul>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> function_id = 1, z = 5
+<strong>Output:</strong> [[1,4],[2,3],[3,2],[4,1]]
+<strong>Explanation:</strong> The hidden formula for function_id = 1 is f(x, y) = x + y.
+The following positive integer values of x and y make f(x, y) equal to 5:
+x=1, y=4 -&gt; f(1, 4) = 1 + 4 = 5.
+x=2, y=3 -&gt; f(2, 3) = 2 + 3 = 5.
+x=3, y=2 -&gt; f(3, 2) = 3 + 2 = 5.
+x=4, y=1 -&gt; f(4, 1) = 4 + 1 = 5.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> function_id = 2, z = 5
+<strong>Output:</strong> [[1,5],[5,1]]
+<strong>Explanation:</strong> The hidden formula for function_id = 2 is f(x, y) = x * y.
+The following positive integer values of x and y make f(x, y) equal to 5:
+x=1, y=5 -&gt; f(1, 5) = 1 * 5 = 5.
+x=5, y=1 -&gt; f(5, 1) = 5 * 1 = 5.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>1 &lt;= function_id &lt;= 9</code></li>
+	<li><code>1 &lt;= z &lt;= 100</code></li>
+	<li>It is guaranteed that the solutions of <code>f(x, y) == z</code> will be in the range <code>1 &lt;= x, y &lt;= 1000</code>.</li>
+	<li>It is also guaranteed that <code>f(x, y)</code> will fit in 32 bit signed integer if <code>1 &lt;= x, y &lt;= 1000</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举 + 二分查找
+### Solution 1: Enumeration + Binary Search
 
-根据题目我们可以知道，函数 $f(x, y)$ 是单调递增函数，因此，我们可以枚举 $x$，然后在 $[1,...z]$ 中二分查找 $y$，使得 $f(x, y) = z$。如果找到了，就将 $(x, y)$ 加入答案中。
+According to the problem, we know that the function $f(x, y)$ is a monotonically increasing function. Therefore, we can enumerate $x$, and then binary search $y$ in $[1,...z]$ to make $f(x, y) = z$. If found, add $(x, y)$ to the answer.
 
-时间复杂度 $(n \log n)$，其中 $n$ 是 $z$ 的值，空间复杂度 $O(1)$。
+The time complexity is $O(n \log n)$, where $n$ is the value of $z$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -260,17 +257,17 @@ function findSolution(customfunction: CustomFunction, z: number): number[][] {
 
 <!-- solution:start -->
 
-### 方法二：双指针
+### Solution 2: Two Pointers
 
-我们可以定义两个指针 $x$ 和 $y$，初始时 $x = 1$, $y = z$。
+We can define two pointers $x$ and $y$, initially $x = 1$, $y = z$.
 
--   如果 $f(x, y) = z$，我们将 $(x, y)$ 加入答案中，然后 $x \leftarrow x + 1$, $y \leftarrow y - 1$；
--   如果 $f(x, y) \lt z$，此时对任意的 $y' \lt y$，都有 $f(x, y') \lt f(x, y) \lt z$，因此我们不能将 $y$ 减小，只能将 $x$ 增大，所以 $x \leftarrow x + 1$；
--   如果 $f(x, y) \gt z$，此时对任意的 $x' \gt x$，都有 $f(x', y) \gt f(x, y) \gt z$，因此我们不能将 $x$ 增大，只能将 $y$ 减小，所以 $y \leftarrow y - 1$。
+-   If $f(x, y) = z$, we add $(x, y)$ to the answer, then $x \leftarrow x + 1$, $y \leftarrow y - 1$;
+-   If $f(x, y) \lt z$, at this time for any $y' \lt y$, we have $f(x, y') \lt f(x, y) \lt z$, so we cannot decrease $y$, we can only increase $x$, so $x \leftarrow x + 1$;
+-   If $f(x, y) \gt z$, at this time for any $x' \gt x$, we have $f(x', y) \gt f(x, y) \gt z$, so we cannot increase $x$, we can only decrease $y$, so $y \leftarrow y - 1$.
 
-循环结束后，返回答案。
+After the loop ends, return the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 是 $z$ 的值，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the value of $z$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

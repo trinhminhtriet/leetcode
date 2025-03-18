@@ -1,52 +1,47 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0738.Monotone%20Increasing%20Digits/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数学
+    - Greedy
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [738. 单调递增的数字](https://leetcode.cn/problems/monotone-increasing-digits)
+# [738. Monotone Increasing Digits](https://leetcode.com/problems/monotone-increasing-digits)
 
-[English Version](/solution/0700-0799/0738.Monotone%20Increasing%20Digits/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>当且仅当每个相邻位数上的数字&nbsp;<code>x</code>&nbsp;和&nbsp;<code>y</code>&nbsp;满足&nbsp;<code>x &lt;= y</code>&nbsp;时，我们称这个整数是<strong>单调递增</strong>的。</p>
+<p>An integer has <strong>monotone increasing digits</strong> if and only if each pair of adjacent digits <code>x</code> and <code>y</code> satisfy <code>x &lt;= y</code>.</p>
 
-<p>给定一个整数 <code>n</code> ，返回 <em>小于或等于 <code>n</code> 的最大数字，且数字呈 <strong>单调递增</strong></em> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入:</strong> n = 10
-<strong>输出:</strong> 9
-</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<strong>输入:</strong> n = 1234
-<strong>输出:</strong> 1234
-</pre>
-
-<p><strong>示例 3:</strong></p>
-
-<pre>
-<strong>输入:</strong> n = 332
-<strong>输出:</strong> 299
-</pre>
+<p>Given an integer <code>n</code>, return <em>the largest number that is less than or equal to </em><code>n</code><em> with <strong>monotone increasing digits</strong></em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示:</strong></p>
+<pre>
+<strong>Input:</strong> n = 10
+<strong>Output:</strong> 9
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 1234
+<strong>Output:</strong> 1234
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 332
+<strong>Output:</strong> 299
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= n &lt;= 10<sup>9</sup></code></li>
@@ -54,19 +49,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
-
-从数字 `n` 的高位开始，找到第一个不满足 $n_{i-1} \le n_i$ 的位置 $i$。
-
-然后，从后往前，只要发现 $n_{i-1} \gt n_i$，就将 $n_{i-1}$ 减 1。
-
-最后将位置 $i$ 之后的所有数字都置为 9 即可。
-
-时间复杂度 $O(\log n)$，空间复杂度 $O(\log n)$。
+### Solution 1
 
 <!-- tabs:start -->
 

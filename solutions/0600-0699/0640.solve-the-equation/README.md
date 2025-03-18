@@ -1,80 +1,63 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0640.Solve%20the%20Equation/README.md
+difficulty: Medium
 tags:
-    - 数学
-    - 字符串
-    - 模拟
+    - Math
+    - String
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [640. 求解方程](https://leetcode.cn/problems/solve-the-equation)
+# [640. Solve the Equation](https://leetcode.com/problems/solve-the-equation)
 
-[English Version](/solution/0600-0699/0640.Solve%20the%20Equation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>求解一个给定的方程，将<code>x</code>以字符串 <code>"x=#value"</code>&nbsp;的形式返回。该方程仅包含 <code>'+'</code> ， <code>'-'</code> 操作，变量&nbsp;<code>x</code>&nbsp;和其对应系数。</p>
+<p>Solve a given equation and return the value of <code>&#39;x&#39;</code> in the form of a string <code>&quot;x=#value&quot;</code>. The equation contains only <code>&#39;+&#39;</code>, <code>&#39;-&#39;</code> operation, the variable <code>&#39;x&#39;</code> and its coefficient. You should return <code>&quot;No solution&quot;</code> if there is no solution for the equation, or <code>&quot;Infinite solutions&quot;</code> if there are infinite solutions for the equation.</p>
 
-<p>如果方程没有解或存在的解不为整数，请返回&nbsp;<code>"No solution"</code>&nbsp;。如果方程有无限解，则返回 <code>“Infinite solutions”</code> 。</p>
-
-<p>题目保证，如果方程中只有一个解，则 <font color="#c7254e"><font face="Menlo, Monaco, Consolas, Courier New, monospace"><span style="font-size:12.6px"><span style="background-color:#f9f2f4">'x'</span></span></font></font> 的值是一个整数。</p>
+<p>If there is exactly one solution for the equation, we ensure that the value of <code>&#39;x&#39;</code> is an integer.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> equation = "x+5-3+x=6+x-2"
-<strong>输出:</strong> "x=2"
+<strong>Input:</strong> equation = &quot;x+5-3+x=6+x-2&quot;
+<strong>Output:</strong> &quot;x=2&quot;
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> equation = "x=x"
-<strong>输出:</strong> "Infinite solutions"
+<strong>Input:</strong> equation = &quot;x=x&quot;
+<strong>Output:</strong> &quot;Infinite solutions&quot;
 </pre>
 
-<p><strong>示例 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入:</strong> equation = "2x=x"
-<strong>输出:</strong> "x=0"
+<strong>Input:</strong> equation = &quot;2x=x&quot;
+<strong>Output:</strong> &quot;x=0&quot;
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= equation.length &lt;= 1000</code></li>
-	<li><code>equation</code>&nbsp;只有一个&nbsp;<code>'='</code>.&nbsp;</li>
-	<li>方程由绝对值在&nbsp;<code>[0, 100]</code>&nbsp; 范围内且无任何前导零的整数和变量 <code>'x'</code>&nbsp;组成。<span style="display:block"><span style="height:0px"><span style="position:absolute">​​​</span></span></span></li>
+	<li><code>equation</code> has exactly one <code>&#39;=&#39;</code>.</li>
+	<li><code>equation</code> consists of integers with an absolute value in the range <code>[0, 100]</code> without any leading zeros, and the variable <code>&#39;x&#39;</code>.</li>
+	<li>The input is generated that if there is a single solution, it will be an integer.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数学
-
-将方程 $equation$ 按照等号 “=” 切分为左右两个式子，分别算出左右两个式子中 "x" 的系数 $x_i$，以及常数的值 $y_i$。
-
-那么方程转换为等式 $x_1 \times x + y_1 = x_2 \times x + y_2$。
-
--   当 $x_1 = x_2$：若 $y_1 \neq y_2$，方程无解；若 $y_1=y_2$，方程有无限解。
--   当 $x_1 \neq x_2$：方程有唯一解 $x=\frac{y_2-y_1}{x_1-x_2}$。
-
-相似题目：
-
--   [592. 分数加减运算](https://github.com/doocs/leetcode/blob/main/solution/0500-0599/0592.Fraction%20Addition%20and%20Subtraction/README.md)
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,72 +1,68 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0519.Random%20Flip%20Matrix/README.md
+difficulty: Medium
 tags:
-    - 水塘抽样
-    - 哈希表
-    - 数学
-    - 随机化
+    - Reservoir Sampling
+    - Hash Table
+    - Math
+    - Randomized
 ---
 
 <!-- problem:start -->
 
-# [519. 随机翻转矩阵](https://leetcode.cn/problems/random-flip-matrix)
+# [519. Random Flip Matrix](https://leetcode.com/problems/random-flip-matrix)
 
-[English Version](/solution/0500-0599/0519.Random%20Flip%20Matrix/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>m x n</code> 的二元矩阵 <code>matrix</code> ，且所有值被初始化为 <code>0</code> 。请你设计一个算法，随机选取一个满足&nbsp;<code>matrix[i][j] == 0</code> 的下标&nbsp;<code>(i, j)</code> ，并将它的值变为 <code>1</code> 。所有满足 <code>matrix[i][j] == 0</code> 的下标 <code>(i, j)</code> 被选取的概率应当均等。</p>
+<p>There is an <code>m x n</code> binary grid <code>matrix</code> with all the values set <code>0</code> initially. Design an algorithm to randomly pick an index <code>(i, j)</code> where <code>matrix[i][j] == 0</code> and flips it to <code>1</code>. All the indices <code>(i, j)</code> where <code>matrix[i][j] == 0</code> should be equally likely to be returned.</p>
 
-<p>尽量最少调用内置的随机函数，并且优化时间和空间复杂度。</p>
+<p>Optimize your algorithm to minimize the number of calls made to the <strong>built-in</strong> random function of your language and optimize the time and space complexity.</p>
 
-<p>实现 <code>Solution</code> 类：</p>
+<p>Implement the <code>Solution</code> class:</p>
 
 <ul>
-	<li><code>Solution(int m, int n)</code> 使用二元矩阵的大小 <code>m</code> 和 <code>n</code> 初始化该对象</li>
-	<li><code>int[] flip()</code> 返回一个满足&nbsp;<code>matrix[i][j] == 0</code> 的随机下标 <code>[i, j]</code> ，并将其对应格子中的值变为 <code>1</code></li>
-	<li><code>void reset()</code> 将矩阵中所有的值重置为 <code>0</code></li>
+	<li><code>Solution(int m, int n)</code> Initializes the object with the size of the binary matrix <code>m</code> and <code>n</code>.</li>
+	<li><code>int[] flip()</code> Returns a random index <code>[i, j]</code> of the matrix where <code>matrix[i][j] == 0</code> and flips it to <code>1</code>.</li>
+	<li><code>void reset()</code> Resets all the values of the matrix to be <code>0</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["Solution", "flip", "flip", "flip", "reset", "flip"]
+<strong>Input</strong>
+[&quot;Solution&quot;, &quot;flip&quot;, &quot;flip&quot;, &quot;flip&quot;, &quot;reset&quot;, &quot;flip&quot;]
 [[3, 1], [], [], [], [], []]
-<strong>输出</strong>
+<strong>Output</strong>
 [null, [1, 0], [2, 0], [0, 0], null, [2, 0]]
 
-<strong>解释</strong>
+<strong>Explanation</strong>
 Solution solution = new Solution(3, 1);
-solution.flip();  // 返回 [1, 0]，此时返回 [0,0]、[1,0] 和 [2,0] 的概率应当相同
-solution.flip();  // 返回 [2, 0]，因为 [1,0] 已经返回过了，此时返回 [2,0] 和 [0,0] 的概率应当相同
-solution.flip();  // 返回 [0, 0]，根据前面已经返回过的下标，此时只能返回 [0,0]
-solution.reset(); // 所有值都重置为 0 ，并可以再次选择下标返回
-solution.flip();  // 返回 [2, 0]，此时返回 [0,0]、[1,0] 和 [2,0] 的概率应当相同</pre>
+solution.flip();  // return [1, 0], [0,0], [1,0], and [2,0] should be equally likely to be returned.
+solution.flip();  // return [2, 0], Since [1,0] was returned, [2,0] and [0,0]
+solution.flip();  // return [0, 0], Based on the previously returned indices, only [0,0] can be returned.
+solution.reset(); // All the values are reset to 0 and can be returned.
+solution.flip();  // return [2, 0], [0,0], [1,0], and [2,0] should be equally likely to be returned.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= m, n &lt;= 10<sup>4</sup></code></li>
-	<li>每次调用<code>flip</code> 时，矩阵中至少存在一个值为 0 的格子。</li>
-	<li>最多调用 <code>1000</code> 次 <code>flip</code> 和 <code>reset</code> 方法。</li>
+	<li>There will be at least one free cell for each call to <code>flip</code>.</li>
+	<li>At most <code>1000</code> calls will be made to <code>flip</code> and <code>reset</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

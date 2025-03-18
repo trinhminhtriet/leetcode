@@ -1,104 +1,99 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2699.Modify%20Graph%20Edge%20Weights/README.md
+difficulty: Hard
 rating: 2873
-source: 第 346 场周赛 Q4
+source: Weekly Contest 346 Q4
 tags:
-    - 图
-    - 最短路
-    - 堆（优先队列）
+    - Graph
+    - Shortest Path
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2699. 修改图中的边权](https://leetcode.cn/problems/modify-graph-edge-weights)
+# [2699. Modify Graph Edge Weights](https://leetcode.com/problems/modify-graph-edge-weights)
 
-[English Version](/solution/2600-2699/2699.Modify%20Graph%20Edge%20Weights/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>n</code>&nbsp;个节点的 <strong>无向带权连通</strong>&nbsp;图，节点编号为&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n - 1</code>&nbsp;，再给你一个整数数组&nbsp;<code>edges</code>&nbsp;，其中&nbsp;<code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>, w<sub>i</sub>]</code>&nbsp;表示节点&nbsp;<code>a<sub>i</sub></code> 和&nbsp;<code>b<sub>i</sub></code>&nbsp;之间有一条边权为&nbsp;<code>w<sub>i</sub></code>&nbsp;的边。</p>
+<p>You are given an <strong>undirected weighted</strong> <strong>connected</strong> graph containing <code>n</code> nodes labeled from <code>0</code> to <code>n - 1</code>, and an integer array <code>edges</code> where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>, w<sub>i</sub>]</code> indicates that there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> with weight <code>w<sub>i</sub></code>.</p>
 
-<p>部分边的边权为&nbsp;<code>-1</code>（<code>w<sub>i</sub> = -1</code>），其他边的边权都为 <strong>正</strong>&nbsp;数（<code>w<sub>i</sub> &gt; 0</code>）。</p>
+<p>Some edges have a weight of <code>-1</code> (<code>w<sub>i</sub> = -1</code>), while others have a <strong>positive</strong> weight (<code>w<sub>i</sub> &gt; 0</code>).</p>
 
-<p>你需要将所有边权为 <code>-1</code>&nbsp;的边都修改为范围&nbsp;<code>[1, 2 * 10<sup>9</sup>]</code>&nbsp;中的 <strong>正整数</strong>&nbsp;，使得从节点&nbsp;<code>source</code>&nbsp;到节点&nbsp;<code>destination</code>&nbsp;的 <strong>最短距离</strong>&nbsp;为整数&nbsp;<code>target</code>&nbsp;。如果有 <strong>多种</strong>&nbsp;修改方案可以使&nbsp;<code>source</code> 和&nbsp;<code>destination</code>&nbsp;之间的最短距离等于&nbsp;<code>target</code>&nbsp;，你可以返回任意一种方案。</p>
+<p>Your task is to modify <strong>all edges</strong> with a weight of <code>-1</code> by assigning them <strong>positive integer values </strong>in the range <code>[1, 2 * 10<sup>9</sup>]</code> so that the <strong>shortest distance</strong> between the nodes <code>source</code> and <code>destination</code> becomes equal to an integer <code>target</code>. If there are <strong>multiple</strong> <strong>modifications</strong> that make the shortest distance between <code>source</code> and <code>destination</code> equal to <code>target</code>, any of them will be considered correct.</p>
 
-<p>如果存在使 <code>source</code>&nbsp;到 <code>destination</code>&nbsp;最短距离为 <code>target</code>&nbsp;的方案，请你按任意顺序返回包含所有边的数组（包括未修改边权的边）。如果不存在这样的方案，请你返回一个 <strong>空数组</strong>&nbsp;。</p>
+<p>Return <em>an array containing all edges (even unmodified ones) in any order if it is possible to make the shortest distance from </em><code>source</code><em> to </em><code>destination</code><em> equal to </em><code>target</code><em>, or an <strong>empty array</strong> if it&#39;s impossible.</em></p>
 
-<p><strong>注意：</strong>你不能修改一开始边权为正数的边。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2699.Modify%20Graph%20Edge%20Weights/images/graph.png" style="width: 300px; height: 300px;" /></strong></p>
-
-<pre>
-<b>输入：</b>n = 5, edges = [[4,1,-1],[2,0,-1],[0,3,-1],[4,3,-1]], source = 0, destination = 1, target = 5
-<b>输出：</b>[[4,1,1],[2,0,1],[0,3,3],[4,3,1]]
-<b>解释：</b>上图展示了一个满足题意的修改方案，从 0 到 1 的最短距离为 5 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2699.Modify%20Graph%20Edge%20Weights/images/graph-2.png" style="width: 300px; height: 300px;" /></strong></p>
-
-<pre>
-<b>输入：</b>n = 3, edges = [[0,1,-1],[0,2,5]], source = 0, destination = 2, target = 6
-<b>输出：</b>[]
-<b>解释：</b>上图是一开始的图。没有办法通过修改边权为 -1 的边，使得 0 到 2 的最短距离等于 6 ，所以返回一个空数组。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2699.Modify%20Graph%20Edge%20Weights/images/graph-3.png" style="width: 300px; height: 300px;" /></strong></p>
-
-<pre>
-<b>输入：</b>n = 4, edges = [[1,0,4],[1,2,3],[2,3,5],[0,3,-1]], source = 0, destination = 2, target = 6
-<b>输出：</b>[[1,0,4],[1,2,3],[2,3,5],[0,3,1]]
-<b>解释：</b>上图展示了一个满足题意的修改方案，从 0 到 2 的最短距离为 6 。
-</pre>
+<p><strong>Note:</strong> You are not allowed to modify the weights of edges with initial positive weights.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example"><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2699.Modify%20Graph%20Edge%20Weights/images/graph.png" style="width: 300px; height: 300px;" /></strong></p>
+
+<pre>
+<strong>Input:</strong> n = 5, edges = [[4,1,-1],[2,0,-1],[0,3,-1],[4,3,-1]], source = 0, destination = 1, target = 5
+<strong>Output:</strong> [[4,1,1],[2,0,1],[0,3,3],[4,3,1]]
+<strong>Explanation:</strong> The graph above shows a possible modification to the edges, making the distance from 0 to 1 equal to 5.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<p><strong class="example"><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2699.Modify%20Graph%20Edge%20Weights/images/graph-2.png" style="width: 300px; height: 300px;" /></strong></p>
+
+<pre>
+<strong>Input:</strong> n = 3, edges = [[0,1,-1],[0,2,5]], source = 0, destination = 2, target = 6
+<strong>Output:</strong> []
+<strong>Explanation:</strong> The graph above contains the initial edges. It is not possible to make the distance from 0 to 2 equal to 6 by modifying the edge with weight -1. So, an empty array is returned.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<p><strong class="example"><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2699.Modify%20Graph%20Edge%20Weights/images/graph-3.png" style="width: 300px; height: 300px;" /></strong></p>
+
+<pre>
+<strong>Input:</strong> n = 4, edges = [[1,0,4],[1,2,3],[2,3,5],[0,3,-1]], source = 0, destination = 2, target = 6
+<strong>Output:</strong> [[1,0,4],[1,2,3],[2,3,5],[0,3,1]]
+<strong>Explanation:</strong> The graph above shows a modified graph having the shortest distance from 0 to 2 as 6.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
-	<li><code>1 &lt;= edges.length &lt;= n * (n - 1) / 2</code></li>
+	<li><code><font face="monospace">1 &lt;= edges.length &lt;= n * (n - 1) / 2</font></code></li>
 	<li><code>edges[i].length == 3</code></li>
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i&nbsp;</sub>&lt;&nbsp;n</code></li>
-	<li><code>w<sub>i</sub>&nbsp;= -1</code> 或者 <code>1 &lt;= w<sub>i&nbsp;</sub>&lt;= 10<sup><span style="">7</span></sup></code></li>
+	<li><code><font face="monospace">w<sub>i</sub>&nbsp;= -1&nbsp;</font></code>or <code><font face="monospace">1 &lt;= w<sub>i&nbsp;</sub>&lt;= 10<sup><span style="font-size: 10.8333px;">7</span></sup></font></code></li>
 	<li><code>a<sub>i&nbsp;</sub>!=&nbsp;b<sub>i</sub></code></li>
 	<li><code>0 &lt;= source, destination &lt; n</code></li>
 	<li><code>source != destination</code></li>
-	<li><code>1 &lt;= target &lt;= 10<sup>9</sup></code></li>
-	<li>输入的图是连通图，且没有自环和重边。</li>
+	<li><code><font face="monospace">1 &lt;= target &lt;= 10<sup>9</sup></font></code></li>
+	<li>The graph is connected, and there are no self-loops or repeated edges</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：最短路（Dijkstra 算法）
+### Solution 1: Shortest Path (Dijkstra's Algorithm)
 
-我们先不考虑边权为 $-1$ 的边，使用 Dijkstra 算法求出从 $source$ 到 $destination$ 的最短距离 $d$。
+First, we ignore the edges with a weight of $-1$ and use Dijkstra's algorithm to find the shortest distance $d$ from $source$ to $destination$.
 
-如果 $d \lt target$，说明存在一条完全由正权边组成的最短路径，此时无论我们如何修改边权为 $-1$ 的边，都无法使得 $source$ 到 $destination$ 的最短距离等于 $target$，因此不存在满足题意的修改方案，返回一个空数组即可。
+-   If $d < target$, it means there is a shortest path composed entirely of positive weight edges. No matter how we modify the edges with a weight of $-1$, we cannot make the shortest distance from $source$ to $destination$ equal to $target$. Therefore, there is no modification scheme that satisfies the problem, and we can return an empty array.
 
-如果 $d = target$，说明存在一条完全由正权边组成的、长度为 $target$ 的最短路径，此时我们可以将所有边权为 $-1$ 的边修改为最大值 $2 \times 10^9$ 即可。
+-   If $d = target$, it means there is a shortest path composed entirely of positive weight edges, and its length is $target$. In this case, we can modify all edges with a weight of $-1$ to the maximum value $2 \times 10^9$.
 
-如果 $d \gt target$，我们可以尝试往图中加入一条边权为 $-1$ 的边，将边权设置为 $1$，然后再次使用 Dijkstra 算法求出从 $source$ 到 $destination$ 的最短距离 $d$。
+-   If $d > target$, we can try to add an edge with a weight of $-1$ to the graph, set the weight of the edge to $1$, and then use Dijkstra's algorithm again to find the shortest distance $d$ from $source$ to $destination$.
 
--   如果最短距离 $d \leq target$，说明加入这条边后，可以使得最短路变短，而且最短路也一定经过这条边，那么我们只需要将这条边的边权改为 $target-d+1$，就可以使得最短路等于 $target$。然后我们将其余的边权为 $-1$ 的边修改为最大值 $2 \times 10^9$ 即可。
--   如果最短距离 $d \gt target$，说明加入这条边后，最短路不会变短，那么我们贪心地将这条边的边权保持为 $-1$，然后继续尝试加入其余的边权为 $-1$ 的边。
+    -   If the shortest distance $d \leq target$, it means that after adding this edge, the shortest path can be shortened, and the shortest path must pass through this edge. Then we only need to change the weight of this edge to $target-d+1$ to make the shortest path equal to $target$. Then we can modify the remaining edges with a weight of $-1$ to the maximum value $2 \times 10^9$.
+    -   If the shortest distance $d > target$, it means that after adding this edge, the shortest path will not be shortened. Then we greedily keep the weight of this edge as $-1$ and continue to try to add the remaining edges with a weight of $-1$.
 
-时间复杂度 $O(n^3)$，空间复杂度 $O(n^2)$。其中 $n$ 是图中的点数。
+The time complexity is $O(n^3)$, and the space complexity is $O(n^2)$, where $n$ is the number of points in the graph.
 
 <!-- tabs:start -->
 

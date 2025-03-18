@@ -1,88 +1,83 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1696.Jump%20Game%20VI/README.md
+difficulty: Medium
 rating: 1954
-source: 第 220 场周赛 Q3
+source: Weekly Contest 220 Q3
 tags:
-    - 队列
-    - 数组
-    - 动态规划
-    - 单调队列
-    - 堆（优先队列）
+    - Queue
+    - Array
+    - Dynamic Programming
+    - Monotonic Queue
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1696. 跳跃游戏 VI](https://leetcode.cn/problems/jump-game-vi)
+# [1696. Jump Game VI](https://leetcode.com/problems/jump-game-vi)
 
-[English Version](/solution/1600-1699/1696.Jump%20Game%20VI/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 和一个整数 <code>k</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> and an integer <code>k</code>.</p>
 
-<p>一开始你在下标 <code>0</code> 处。每一步，你最多可以往前跳 <code>k</code> 步，但你不能跳出数组的边界。也就是说，你可以从下标 <code>i</code> 跳到 <code>[i + 1， min(n - 1, i + k)]</code> <strong>包含</strong> 两个端点的任意位置。</p>
+<p>You are initially standing at index <code>0</code>. In one move, you can jump at most <code>k</code> steps forward without going outside the boundaries of the array. That is, you can jump from index <code>i</code> to any index in the range <code>[i + 1, min(n - 1, i + k)]</code> <strong>inclusive</strong>.</p>
 
-<p>你的目标是到达数组最后一个位置（下标为 <code>n - 1</code> ），你的 <strong>得分</strong> 为经过的所有数字之和。</p>
+<p>You want to reach the last index of the array (index <code>n - 1</code>). Your <strong>score</strong> is the <strong>sum</strong> of all <code>nums[j]</code> for each index <code>j</code> you visited in the array.</p>
 
-<p>请你返回你能得到的 <strong>最大得分</strong> 。</p>
+<p>Return <em>the <strong>maximum score</strong> you can get</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [<strong>1</strong>,<strong>-1</strong>,-2,<strong>4</strong>,-7,<strong>3</strong>], k = 2
-<b>输出：</b>7
-<b>解释：</b>你可以选择子序列 [1,-1,4,3] （上面加粗的数字），和为 7 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [<strong>10</strong>,-5,-2,<strong>4</strong>,0,<strong>3</strong>], k = 3
-<b>输出：</b>17
-<b>解释：</b>你可以选择子序列 [10,4,3] （上面加粗数字），和为 17 。
+<strong>Input:</strong> nums = [<u>1</u>,<u>-1</u>,-2,<u>4</u>,-7,<u>3</u>], k = 2
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> You can choose your jumps forming the subsequence [1,-1,4,3] (underlined above). The sum is 7.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,-5,-20,4,-1,3,-6,-3], k = 2
-<b>输出：</b>0
+<strong>Input:</strong> nums = [<u>10</u>,-5,-2,<u>4</u>,0,<u>3</u>], k = 3
+<strong>Output:</strong> 17
+<strong>Explanation:</strong> You can choose your jumps forming the subsequence [10,4,3] (underlined above). The sum is 17.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,-5,-20,4,-1,3,-6,-3], k = 2
+<strong>Output:</strong> 0
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li> <code>1 <= nums.length, k <= 10<sup>5</sup></code></li>
-	<li><code>-10<sup>4</sup> <= nums[i] <= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= nums.length, k &lt;= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划 + 单调队列优化
+### Solution 1: Dynamic Programming + Monotonic Queue Optimization
 
-我们定义 $f[i]$ 表示到达下标 $i$ 的最大得分，那么 $f[i]$ 的值可以从 $f[j]$ 转移而来，其中 $j$ 满足 $i - k \leq j \leq i - 1$。因此我们可以使用动态规划求解。
+We define $f[i]$ as the maximum score when reaching index $i$. The value of $f[i]$ can be transferred from $f[j]$, where $j$ satisfies $i - k \leq j \leq i - 1$. Therefore, we can use dynamic programming to solve this problem.
 
-状态转移方程为：
+The state transition equation is:
 
 $$
 f[i] = \max_{j \in [i - k, i - 1]} f[j] + nums[i]
 $$
 
-我们可以使用单调队列优化状态转移方程，具体做法是维护一个单调递减的队列，队列中存储的是下标 $j$，并且队列中的下标对应的 $f[j]$ 值是单调递减的。在进行状态转移时，我们只需要取出队首的下标 $j$，即可得到 $f[j]$ 的最大值，然后将 $f[i]$ 的值更新为 $f[j] + nums[i]$ 即可。
+We can use a monotonic queue to optimize the state transition equation. Specifically, we maintain a monotonically decreasing queue, which stores the index $j$, and the $f[j]$ values corresponding to the indices in the queue are monotonically decreasing. When performing state transition, we only need to take out the index $j$ at the front of the queue to get the maximum value of $f[j]$, and then update the value of $f[i]$ to $f[j] + nums[i]$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

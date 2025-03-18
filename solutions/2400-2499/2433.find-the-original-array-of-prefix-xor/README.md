@@ -1,58 +1,55 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2433.Find%20The%20Original%20Array%20of%20Prefix%20Xor/README.md
+difficulty: Medium
 rating: 1366
-source: 第 314 场周赛 Q2
+source: Weekly Contest 314 Q2
 tags:
-    - 位运算
-    - 数组
+    - Bit Manipulation
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2433. 找出前缀异或的原始数组](https://leetcode.cn/problems/find-the-original-array-of-prefix-xor)
+# [2433. Find The Original Array of Prefix Xor](https://leetcode.com/problems/find-the-original-array-of-prefix-xor)
 
-[English Version](/solution/2400-2499/2433.Find%20The%20Original%20Array%20of%20Prefix%20Xor/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <code>n</code> 的 <strong>整数</strong> 数组 <code>pref</code> 。找出并返回满足下述条件且长度为 <code>n</code> 的数组<em> </em><code>arr</code> ：</p>
+<p>You are given an <strong>integer</strong> array <code>pref</code> of size <code>n</code>. Find and return <em>the array </em><code>arr</code><em> of size </em><code>n</code><em> that satisfies</em>:</p>
 
 <ul>
 	<li><code>pref[i] = arr[0] ^ arr[1] ^ ... ^ arr[i]</code>.</li>
 </ul>
 
-<p>注意 <code>^</code> 表示 <strong>按位异或</strong>（bitwise-xor）运算。</p>
+<p>Note that <code>^</code> denotes the <strong>bitwise-xor</strong> operation.</p>
 
-<p>可以证明答案是 <strong>唯一</strong> 的。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>pref = [5,2,0,3,1]
-<strong>输出：</strong>[5,7,2,3,2]
-<strong>解释：</strong>从数组 [5,7,2,3,2] 可以得到如下结果：
-- pref[0] = 5
-- pref[1] = 5 ^ 7 = 2
-- pref[2] = 5 ^ 7 ^ 2 = 0
-- pref[3] = 5 ^ 7 ^ 2 ^ 3 = 3
-- pref[4] = 5 ^ 7 ^ 2 ^ 3 ^ 2 = 1
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>pref = [13]
-<strong>输出：</strong>[13]
-<strong>解释：</strong>pref[0] = arr[0] = 13
-</pre>
+<p>It can be proven that the answer is <strong>unique</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> pref = [5,2,0,3,1]
+<strong>Output:</strong> [5,7,2,3,2]
+<strong>Explanation:</strong> From the array [5,7,2,3,2] we have the following:
+- pref[0] = 5.
+- pref[1] = 5 ^ 7 = 2.
+- pref[2] = 5 ^ 7 ^ 2 = 0.
+- pref[3] = 5 ^ 7 ^ 2 ^ 3 = 3.
+- pref[4] = 5 ^ 7 ^ 2 ^ 3 ^ 2 = 1.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> pref = [13]
+<strong>Output:</strong> [13]
+<strong>Explanation:</strong> We have pref[0] = arr[0] = 13.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= pref.length &lt;= 10<sup>5</sup></code></li>
@@ -61,33 +58,33 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算
+### Solution 1: Bit Manipulation
 
-根据题意，我们有式子一：
+According to the problem statement, we have equation one:
 
 $$
 pref[i]=arr[0] \oplus arr[1] \oplus \cdots \oplus arr[i]
 $$
 
-所以，也就有式子二：
+So, we also have equation two:
 
 $$
 pref[i-1]=arr[0] \oplus arr[1] \oplus \cdots \oplus arr[i-1]
 $$
 
-我们将式子一二进行异或运算，得到：
+We perform a bitwise XOR operation on equations one and two, and get:
 
 $$
 pref[i] \oplus pref[i-1]=arr[i]
 $$
 
-即答案数组的每一项都是前缀异或数组的相邻两项进行异或运算得到的。
+That is, each item in the answer array is obtained by performing a bitwise XOR operation on the adjacent two items in the prefix XOR array.
 
-时间复杂度 $O(n)$，其中 $n$ 为前缀异或数组的长度。忽略答案的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the prefix XOR array. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

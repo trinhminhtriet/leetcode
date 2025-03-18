@@ -1,93 +1,82 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2063.Vowels%20of%20All%20Substrings/README.md
+difficulty: Medium
 rating: 1663
-source: 第 266 场周赛 Q2
+source: Weekly Contest 266 Q2
 tags:
-    - 数学
-    - 字符串
-    - 动态规划
-    - 组合数学
+    - Math
+    - String
+    - Dynamic Programming
+    - Combinatorics
 ---
 
 <!-- problem:start -->
 
-# [2063. 所有子字符串中的元音](https://leetcode.cn/problems/vowels-of-all-substrings)
+# [2063. Vowels of All Substrings](https://leetcode.com/problems/vowels-of-all-substrings)
 
-[English Version](/solution/2000-2099/2063.Vowels%20of%20All%20Substrings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>word</code> ，返回 <code>word</code> 的所有子字符串中 <strong>元音的总数</strong> ，元音是指 <code>'a'</code>、<code>'e'</code><em>、</em><code>'i'</code><em>、</em><code>'o'</code><em> </em>和 <code>'u'</code><em> 。</em></p>
+<p>Given a string <code>word</code>, return <em>the <strong>sum of the number of vowels</strong> (</em><code>&#39;a&#39;</code>, <code>&#39;e&#39;</code><em>,</em> <code>&#39;i&#39;</code><em>,</em> <code>&#39;o&#39;</code><em>, and</em> <code>&#39;u&#39;</code><em>)</em> <em>in every substring of </em><code>word</code>.</p>
 
-<p><strong>子字符串</strong> 是字符串中一个连续（非空）的字符序列。</p>
+<p>A <strong>substring</strong> is a contiguous (non-empty) sequence of characters within a string.</p>
 
-<p><strong>注意：</strong>由于对 <code>word</code> 长度的限制比较宽松，答案可能超过有符号 32 位整数的范围。计算时需当心。</p>
+<p><strong>Note:</strong> Due to the large constraints, the answer may not fit in a signed 32-bit integer. Please be careful during the calculations.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>word = "aba"
-<strong>输出：</strong>6
-<strong>解释：</strong>
-所有子字符串是："a"、"ab"、"aba"、"b"、"ba" 和 "a" 。
-- "b" 中有 0 个元音
-- "a"、"ab"、"ba" 和 "a" 每个都有 1 个元音
-- "aba" 中有 2 个元音
-因此，元音总数 = 0 + 1 + 1 + 1 + 1 + 2 = 6 。
+<strong>Input:</strong> word = &quot;aba&quot;
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> 
+All possible substrings are: &quot;a&quot;, &quot;ab&quot;, &quot;aba&quot;, &quot;b&quot;, &quot;ba&quot;, and &quot;a&quot;.
+- &quot;b&quot; has 0 vowels in it
+- &quot;a&quot;, &quot;ab&quot;, &quot;ba&quot;, and &quot;a&quot; have 1 vowel each
+- &quot;aba&quot; has 2 vowels in it
+Hence, the total sum of vowels = 0 + 1 + 1 + 1 + 1 + 2 = 6. 
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>word = "abc"
-<strong>输出：</strong>3
-<strong>解释：</strong>
-所有子字符串是："a"、"ab"、"abc"、"b"、"bc" 和 "c" 。
-- "a"、"ab" 和 "abc" 每个都有 1 个元音
-- "b"、"bc" 和 "c" 每个都有 0 个元音
-因此，元音总数 = 1 + 1 + 1 + 0 + 0 + 0 = 3 。</pre>
+<strong>Input:</strong> word = &quot;abc&quot;
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 
+All possible substrings are: &quot;a&quot;, &quot;ab&quot;, &quot;abc&quot;, &quot;b&quot;, &quot;bc&quot;, and &quot;c&quot;.
+- &quot;a&quot;, &quot;ab&quot;, and &quot;abc&quot; have 1 vowel each
+- &quot;b&quot;, &quot;bc&quot;, and &quot;c&quot; have 0 vowels each
+Hence, the total sum of vowels = 1 + 1 + 1 + 0 + 0 + 0 = 3.
+</pre>
 
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>word = "ltcd"
-<strong>输出：</strong>0
-<strong>解释：</strong>"ltcd" 的子字符串均不含元音。</pre>
-
-<p><strong>示例 4：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>word = "noosabasboosa"
-<strong>输出：</strong>237
-<strong>解释：</strong>所有子字符串中共有 237 个元音。
+<strong>Input:</strong> word = &quot;ltcd&quot;
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There are no vowels in any substring of &quot;ltcd&quot;.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= word.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>word</code> 由小写英文字母组成</li>
+	<li><code>word</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举贡献
+### Solution 1: Enumerate Contribution
 
-我们可以枚举字符串的每个字符 $\textit{word}[i]$，如果 $\textit{word}[i]$ 是元音字母，那么 $\textit{word}[i]$ 一共在 $(i + 1) \times (n - i)$ 个子字符串中出现，将这些子字符串的个数累加即可。
+We can enumerate each character $\textit{word}[i]$ in the string. If $\textit{word}[i]$ is a vowel, then $\textit{word}[i]$ appears in $(i + 1) \times (n - i)$ substrings. We sum up the counts of these substrings.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $\textit{word}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $\textit{word}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

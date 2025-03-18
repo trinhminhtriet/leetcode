@@ -1,60 +1,55 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1187.Make%20Array%20Strictly%20Increasing/README.md
+difficulty: Hard
 rating: 2315
-source: 第 153 场周赛 Q4
+source: Weekly Contest 153 Q4
 tags:
-    - 数组
-    - 二分查找
-    - 动态规划
-    - 排序
+    - Array
+    - Binary Search
+    - Dynamic Programming
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1187. 使数组严格递增](https://leetcode.cn/problems/make-array-strictly-increasing)
+# [1187. Make Array Strictly Increasing](https://leetcode.com/problems/make-array-strictly-increasing)
 
-[English Version](/solution/1100-1199/1187.Make%20Array%20Strictly%20Increasing/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个整数数组&nbsp;<code>arr1</code> 和 <code>arr2</code>，返回使&nbsp;<code>arr1</code>&nbsp;严格递增所需要的最小「操作」数（可能为 0）。</p>
+<p>Given two integer arrays&nbsp;<code>arr1</code> and <code>arr2</code>, return the minimum number of operations (possibly zero) needed&nbsp;to make <code>arr1</code> strictly increasing.</p>
 
-<p>每一步「操作」中，你可以分别从 <code>arr1</code> 和 <code>arr2</code> 中各选出一个索引，分别为&nbsp;<code>i</code> 和&nbsp;<code>j</code>，<code>0 &lt;=&nbsp;i &lt; arr1.length</code>&nbsp;和&nbsp;<code>0 &lt;= j &lt; arr2.length</code>，然后进行赋值运算&nbsp;<code>arr1[i] = arr2[j]</code>。</p>
+<p>In one operation, you can choose two indices&nbsp;<code>0 &lt;=&nbsp;i &lt; arr1.length</code>&nbsp;and&nbsp;<code>0 &lt;= j &lt; arr2.length</code>&nbsp;and do the assignment&nbsp;<code>arr1[i] = arr2[j]</code>.</p>
 
-<p>如果无法让&nbsp;<code>arr1</code>&nbsp;严格递增，请返回&nbsp;<code>-1</code>。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr1 = [1,5,3,6,7], arr2 = [1,3,2,4]
-<strong>输出：</strong>1
-<strong>解释：</strong>用 2 来替换 <code>5，之后</code> <code>arr1 = [1, 2, 3, 6, 7]</code>。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr1 = [1,5,3,6,7], arr2 = [4,3,1]
-<strong>输出：</strong>2
-<strong>解释：</strong>用 3 来替换 <code>5，然后</code>用 4 来替换 3<code>，得到</code> <code>arr1 = [1, 3, 4, 6, 7]</code>。
-</pre>
-
-<p><strong class="example">示例&nbsp;3：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr1 = [1,5,3,6,7], arr2 = [1,6,3,3]
-<strong>输出：</strong>-1
-<strong>解释：</strong>无法使 <code>arr1 严格递增</code>。</pre>
+<p>If there is no way to make&nbsp;<code>arr1</code>&nbsp;strictly increasing,&nbsp;return&nbsp;<code>-1</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> arr1 = [1,5,3,6,7], arr2 = [1,3,2,4]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> Replace <code>5</code> with <code>2</code>, then <code>arr1 = [1, 2, 3, 6, 7]</code>.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr1 = [1,5,3,6,7], arr2 = [4,3,1]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> Replace <code>5</code> with <code>3</code> and then replace <code>3</code> with <code>4</code>. <code>arr1 = [1, 3, 4, 6, 7]</code>.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr1 = [1,5,3,6,7], arr2 = [1,6,3,3]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> You can&#39;t make <code>arr1</code> strictly increasing.</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr1.length, arr2.length &lt;= 2000</code></li>
@@ -65,21 +60,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义 $f[i]$ 表示将 $arr1[0,..,i]$ 转换为严格递增数组，且 $arr1[i]$ 不替换的最小操作数。因此，我们在 $arr1$ 设置首尾两个哨兵 $-\infty$ 和 $\infty$。最后一个数一定是不替换，因此 $f[n-1]$ 即为答案。我们初始化 $f[0]=0$，其余 $f[i]=\infty$。
+We define $f[i]$ as the minimum number of operations to convert $arr1[0,..,i]$ into a strictly increasing array, and $arr1[i]$ is not replaced. Therefore, we set two sentinels $-\infty$ and $\infty$ at the beginning and end of $arr1$. The last number is definitely not replaced, so $f[n-1]$ is the answer. We initialize $f[0]=0$, and the rest $f[i]=\infty$.
 
-接下来我们对数组 $arr2$ 进行排序并去重，方便进行二分查找。
+Next, we sort the array $arr2$ and remove duplicates for easy binary search.
 
-对于 $i=1,..,n-1$，我们考虑 $arr1[i-1]$ 是否替换。如果 $arr1[i-1] \lt arr1[i]$，那么 $f[i]$ 可以从 $f[i-1]$ 转移而来，即 $f[i] = f[i-1]$。然后，我们考虑 $arr[i-1]$ 替换的情况，显然 $arr[i-1]$ 应该替换成一个尽可能大的、且比 $arr[i]$ 小的数字，我们在数组 $arr2$ 中进行二分查找，找到第一个大于等于 $arr[i]$ 的下标 $j$。然后我们在 $k \in [1, \min(i-1, j)]$ 的范围内枚举替换的个数，如果满足 $arr[i-k-1] \lt arr2[j-k]$，那么 $f[i]$ 可以从 $f[i-k-1]$ 转移而来，即 $f[i] = \min(f[i], f[i-k-1] + k)$。
+For $i=1,..,n-1$, we consider whether $arr1[i-1]$ is replaced. If $arr1[i-1] \lt arr1[i]$, then $f[i]$ can be transferred from $f[i-1]$, that is, $f[i] = f[i-1]$. Then, we consider the case where $arr[i-1]$ is replaced. Obviously, $arr[i-1]$ should be replaced with a number as large as possible and less than $arr[i]$. We perform a binary search in the array $arr2$ and find the first index $j$ that is greater than or equal to $arr[i]$. Then we enumerate the number of replacements in the range $k \in [1, min(i-1, j)]$. If $arr[i-k-1] \lt arr2[j-k]$, then $f[i]$ can be transferred from $f[i-k-1]$, that is, $f[i] = \min(f[i], f[i-k-1] + k)$.
 
-最后，如果 $f[n-1] \geq \infty$，说明无法转换为严格递增数组，返回 $-1$，否则返回 $f[n-1]$。
+Finally, if $f[n-1] \geq \infty$, it means that it cannot be converted into a strictly increasing array, return $-1$, otherwise return $f[n-1]$.
 
-时间复杂度 $(n \times (\log m + \min(m, n)))$，空间复杂度 $O(n)$。其中 $n$ 为 $arr1$ 的长度。
+The time complexity is $(n \times (\log m + \min(m, n)))$, and the space complexity is $O(n)$. Here, $n$ is the length of $arr1$.
 
 <!-- tabs:start -->
 

@@ -1,80 +1,73 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1110.Delete%20Nodes%20And%20Return%20Forest/README.md
+difficulty: Medium
 rating: 1511
-source: 第 144 场周赛 Q3
+source: Weekly Contest 144 Q3
 tags:
-    - 树
-    - 深度优先搜索
-    - 数组
-    - 哈希表
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Array
+    - Hash Table
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [1110. 删点成林](https://leetcode.cn/problems/delete-nodes-and-return-forest)
+# [1110. Delete Nodes And Return Forest](https://leetcode.com/problems/delete-nodes-and-return-forest)
 
-[English Version](/solution/1100-1199/1110.Delete%20Nodes%20And%20Return%20Forest/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给出二叉树的根节点&nbsp;<code>root</code>，树上每个节点都有一个不同的值。</p>
+<p>Given the <code>root</code> of a binary tree, each node in the tree has a distinct value.</p>
 
-<p>如果节点值在&nbsp;<code>to_delete</code>&nbsp;中出现，我们就把该节点从树上删去，最后得到一个森林（一些不相交的树构成的集合）。</p>
+<p>After deleting all nodes with a value in <code>to_delete</code>, we are left with a forest (a disjoint union of trees).</p>
 
-<p>返回森林中的每棵树。你可以按任意顺序组织答案。</p>
+<p>Return the roots of the trees in the remaining forest. You may return the result in any order.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1110.Delete%20Nodes%20And%20Return%20Forest/images/screen-shot-2019-07-01-at-53836-pm.png" style="height: 150px; width: 237px;" /></strong></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1110.Delete%20Nodes%20And%20Return%20Forest/images/screen-shot-2019-07-01-at-53836-pm.png" style="width: 237px; height: 150px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,3,4,5,6,7], to_delete = [3,5]
-<strong>输出：</strong>[[1,2,null,4],[6],[7]]
+<strong>Input:</strong> root = [1,2,3,4,5,6,7], to_delete = [3,5]
+<strong>Output:</strong> [[1,2,null,4],[6],[7]]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>root = [1,2,4,null,3], to_delete = [3]
-<strong>输出：</strong>[[1,2,4]]
+<strong>Input:</strong> root = [1,2,4,null,3], to_delete = [3]
+<strong>Output:</strong> [[1,2,4]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中的节点数最大为&nbsp;<code>1000</code>。</li>
-	<li>每个节点都有一个介于&nbsp;<code>1</code> 到&nbsp;<code>1000</code>&nbsp;之间的值，且各不相同。</li>
+	<li>The number of nodes in the given tree is at most <code>1000</code>.</li>
+	<li>Each node has a distinct value between <code>1</code> and <code>1000</code>.</li>
 	<li><code>to_delete.length &lt;= 1000</code></li>
-	<li><code>to_delete</code> 包含一些从&nbsp;<code>1</code> 到&nbsp;<code>1000</code>、各不相同的值。</li>
+	<li><code>to_delete</code> contains distinct values between <code>1</code> and <code>1000</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
+### Solution 1: DFS
 
-我们先用哈希表或者一个长度为 $1001$ 的数组 $s$ 记录所有需要删除的节点。
+First, we use a hash table or an array of length 1001, `s`, to record all nodes that need to be deleted.
 
-接下来，设计一个函数 $dfs(root)$，它会返回以 $root$ 为根的子树中，删除所有需要删除的节点后的树的根节点。函数 $dfs(root)$ 的执行逻辑如下：
+Next, we design a function `dfs(root)` that returns the root of the subtree with `root` as the root after deleting all nodes that need to be deleted. The execution logic of the function `dfs(root)` is as follows:
 
--   如果 $root$ 为空，那么我们返回空；
--   否则，我们递归执行 $dfs(root.left)$ 和 $dfs(root.right)$，并将返回值分别赋给 $root.left$ 和 $root.right$。如果 $root$ 不需要被删除，那么我们返回 $root$；如果 $root$ 需要被删除，那么我们分别判断 $root.left$ 和 $root.right$ 是否为空，如果它们不为空，那么我们将它们加入答案数组中；最后返回空。
+-   If `root` is null, we return null;
+-   Otherwise, we recursively execute `dfs(root.left)` and `dfs(root.right)`, and assign the return values to `root.left` and `root.right` respectively. If `root` does not need to be deleted, we return `root`; if `root` needs to be deleted, we check whether `root.left` and `root.right` are null. If they are not null, we add them to the answer array; finally, we return null.
 
-在主函数中，我们调用 $dfs(root)$，如果结果不为空，说明根节点不需要被删除，我们再将根节点加入答案数组中。最后返回答案数组即可。
+In the main function, we call `dfs(root)`. If the result is not null, it means that the root node does not need to be deleted, and we add the root node to the answer array. Finally, we return the answer array.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是树的节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the tree.
 
 <!-- tabs:start -->
 
@@ -350,7 +343,7 @@ var delNodes = function (root, to_delete) {
 
 <!-- solution:start -->
 
-### 方法二：BFS
+### Solution 2: BFS
 
 <!-- tabs:start -->
 

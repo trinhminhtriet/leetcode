@@ -1,104 +1,81 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0150.Evaluate%20Reverse%20Polish%20Notation/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 数组
-    - 数学
+    - Stack
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [150. 逆波兰表达式求值](https://leetcode.cn/problems/evaluate-reverse-polish-notation)
+# [150. Evaluate Reverse Polish Notation](https://leetcode.com/problems/evaluate-reverse-polish-notation)
 
-[English Version](/solution/0100-0199/0150.Evaluate%20Reverse%20Polish%20Notation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串数组 <code>tokens</code> ，表示一个根据&nbsp;<a href="https://baike.baidu.com/item/%E9%80%86%E6%B3%A2%E5%85%B0%E5%BC%8F/128437" target="_blank">逆波兰表示法</a> 表示的算术表达式。</p>
+<p>You are given an array of strings <code>tokens</code> that represents an arithmetic expression in a <a href="http://en.wikipedia.org/wiki/Reverse_Polish_notation" target="_blank">Reverse Polish Notation</a>.</p>
 
-<p>请你计算该表达式。返回一个表示表达式值的整数。</p>
+<p>Evaluate the expression. Return <em>an integer that represents the value of the expression</em>.</p>
 
-<p><strong>注意：</strong></p>
+<p><strong>Note</strong> that:</p>
 
 <ul>
-	<li>有效的算符为 <code>'+'</code>、<code>'-'</code>、<code>'*'</code> 和 <code>'/'</code> 。</li>
-	<li>每个操作数（运算对象）都可以是一个整数或者另一个表达式。</li>
-	<li>两个整数之间的除法总是 <strong>向零截断</strong> 。</li>
-	<li>表达式中不含除零运算。</li>
-	<li>输入是一个根据逆波兰表示法表示的算术表达式。</li>
-	<li>答案及所有中间计算结果可以用 <strong>32 位</strong> 整数表示。</li>
+	<li>The valid operators are <code>&#39;+&#39;</code>, <code>&#39;-&#39;</code>, <code>&#39;*&#39;</code>, and <code>&#39;/&#39;</code>.</li>
+	<li>Each operand may be an integer or another expression.</li>
+	<li>The division between two integers always <strong>truncates toward zero</strong>.</li>
+	<li>There will not be any division by zero.</li>
+	<li>The input represents a valid arithmetic expression in a reverse polish notation.</li>
+	<li>The answer and all the intermediate calculations can be represented in a <strong>32-bit</strong> integer.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>tokens = ["2","1","+","3","*"]
-<strong>输出：</strong>9
-<strong>解释：</strong>该算式转化为常见的中缀算术表达式为：((2 + 1) * 3) = 9
+<strong>Input:</strong> tokens = [&quot;2&quot;,&quot;1&quot;,&quot;+&quot;,&quot;3&quot;,&quot;*&quot;]
+<strong>Output:</strong> 9
+<strong>Explanation:</strong> ((2 + 1) * 3) = 9
 </pre>
 
-<p><strong>示例&nbsp;2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>tokens = ["4","13","5","/","+"]
-<strong>输出：</strong>6
-<strong>解释：</strong>该算式转化为常见的中缀算术表达式为：(4 + (13 / 5)) = 6
+<strong>Input:</strong> tokens = [&quot;4&quot;,&quot;13&quot;,&quot;5&quot;,&quot;/&quot;,&quot;+&quot;]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> (4 + (13 / 5)) = 6
 </pre>
 
-<p><strong>示例&nbsp;3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>tokens = ["10","6","9","3","+","-11","*","/","*","17","+","5","+"]
-<strong>输出：</strong>22
-<strong>解释：</strong>该算式转化为常见的中缀算术表达式为：
-  ((10 * (6 / ((9 + 3) * -11))) + 17) + 5
+<strong>Input:</strong> tokens = [&quot;10&quot;,&quot;6&quot;,&quot;9&quot;,&quot;3&quot;,&quot;+&quot;,&quot;-11&quot;,&quot;*&quot;,&quot;/&quot;,&quot;*&quot;,&quot;17&quot;,&quot;+&quot;,&quot;5&quot;,&quot;+&quot;]
+<strong>Output:</strong> 22
+<strong>Explanation:</strong> ((10 * (6 / ((9 + 3) * -11))) + 17) + 5
 = ((10 * (6 / (12 * -11))) + 17) + 5
 = ((10 * (6 / -132)) + 17) + 5
 = ((10 * 0) + 17) + 5
 = (0 + 17) + 5
 = 17 + 5
-= 22</pre>
+= 22
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= tokens.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>tokens[i]</code>&nbsp;是一个算符（<code>"+"</code>、<code>"-"</code>、<code>"*"</code> 或 <code>"/"</code>），或是在范围 <code>[-200, 200]</code> 内的一个整数</li>
-</ul>
-
-<p>&nbsp;</p>
-
-<p><strong>逆波兰表达式：</strong></p>
-
-<p>逆波兰表达式是一种后缀表达式，所谓后缀就是指算符写在后面。</p>
-
-<ul>
-	<li>平常使用的算式则是一种中缀表达式，如 <code>( 1 + 2 ) * ( 3 + 4 )</code> 。</li>
-	<li>该算式的逆波兰表达式写法为 <code>( ( 1 2 + ) ( 3 4 + ) * )</code> 。</li>
-</ul>
-
-<p>逆波兰表达式主要有以下两个优点：</p>
-
-<ul>
-	<li>去掉括号后表达式无歧义，上式即便写成 <code>1 2 + 3 4 + * </code>也可以依据次序计算出正确结果。</li>
-	<li>适合用栈操作运算：遇到数字则入栈；遇到算符则取出栈顶两个数字进行计算，并将结果压入栈中</li>
+	<li><code>tokens[i]</code> is either an operator: <code>&quot;+&quot;</code>, <code>&quot;-&quot;</code>, <code>&quot;*&quot;</code>, or <code>&quot;/&quot;</code>, or an integer in the range <code>[-200, 200]</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -321,7 +298,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

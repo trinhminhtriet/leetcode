@@ -1,191 +1,192 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2408.Design%20SQL/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 数组
-    - 哈希表
-    - 字符串
+    - Design
+    - Array
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2408. 设计 SQL 🔒](https://leetcode.cn/problems/design-sql)
+# [2408. Design SQL 🔒](https://leetcode.com/problems/design-sql)
 
-[English Version](/solution/2400-2499/2408.Design%20SQL/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个字符串数组&nbsp;<code>names</code> 和 <code>columns</code>，大小都为&nbsp;<code>n</code>。其中 <code>names[i]</code> 是第 <code>i</code> 个表的名称，<code>columns[i]</code> 是第 <code>i</code> 个表的列数。</p>
+<p>You are given two string arrays, <code>names</code> and <code>columns</code>, both of size <code>n</code>. The <code>i<sup>th</sup></code> table is represented by the name <code>names[i]</code> and contains <code>columns[i]</code> number of columns.</p>
 
-<p>您需要实现一个支持以下&nbsp;<strong>操作&nbsp;</strong>的类：</p>
+<p>You need to implement a class that supports the following <strong>operations</strong>:</p>
 
 <ul>
-	<li>在特定的表中&nbsp;<strong>插入&nbsp;</strong>一行。插入的每一行都有一个 id。id 是使用自动递增方法分配的，其中第一个插入行的 id 为 1，同一个表中的后续其他行的 id 为上一个插入行的 id (即使它已被删除) 加 1。</li>
-	<li>从指定表中&nbsp;<strong>删除&nbsp;</strong>一行。<strong>注意</strong>，删除一行 <strong>不会</strong> 影响下一个插入行的 id。</li>
-	<li>从任何表中&nbsp;<strong>查询&nbsp;</strong>一个特定的单元格并返回其值。</li>
-	<li>从任何表以 csv 格式 <strong>导出</strong> 所有行。</li>
+	<li><strong>Insert</strong> a row in a specific table with an id assigned using an <em>auto-increment</em> method, where the id of the first inserted row is 1, and the id of each <em>new </em>row inserted into the same table is <strong>one greater</strong> than the id of the <strong>last inserted</strong> row, even if the last row was <em>removed</em>.</li>
+	<li><strong>Remove</strong> a row from a specific table. Removing a row <strong>does not</strong> affect the id of the next inserted row.</li>
+	<li><strong>Select</strong> a specific cell from any table and return its value.</li>
+	<li><strong>Export</strong> all rows from any table in csv format.</li>
 </ul>
 
-<p>实现&nbsp;<code>SQL</code> 类:</p>
+<p>Implement the <code>SQL</code> class:</p>
 
 <ul>
 	<li><code>SQL(String[] names, int[] columns)</code>
 
     <ul>
-    	<li>创建&nbsp;<code>n</code> 个表。</li>
+    	<li>Creates the <code>n</code> tables.</li>
     </ul>
     </li>
     <li><code>bool ins(String name, String[] row)</code>
     <ul>
-    	<li>将 <code>row</code> 插入表 <code>name</code> 中并返回 <code>true</code>。</li>
-    	<li>如果&nbsp;<code>row.length</code>&nbsp;<strong>不</strong> 匹配列的预期数量，或者 <code>name</code> <strong>不是</strong> 一个合法的表，不进行任何插入并返回 <code>false</code>。</li>
+    	<li>Inserts <code>row</code> into the table <code>name</code> and returns <code>true</code>.</li>
+    	<li>If <code>row.length</code> <strong>does not</strong> match the expected number of columns, or <code>name</code> is <strong>not</strong> a valid table, returns <code>false</code> without any insertion.</li>
     </ul>
     </li>
-    <li><code>void rmv(String name, int rowId, int columnId)</code>
+    <li><code>void rmv(String name, int rowId)</code>
     <ul>
-    	<li>从表 <code>name</code>&nbsp;中移除行 <code>rowId</code>。</li>
-    	<li>如果 <code>name</code> <strong>不是</strong> 一个合法的表或者没有 id 为 <code>rowId</code> 的行，不进行删除。</li>
+    	<li>Removes the row <code>rowId</code> from the table <code>name</code>.</li>
+    	<li>If <code>name</code> is <strong>not</strong> a valid table or there is no row with id <code>rowId</code>, no removal is performed.</li>
     </ul>
     </li>
     <li><code>String sel(String name, int rowId, int columnId)</code>
     <ul>
-    	<li>返回表 <code>name</code> 中位于特定的 <code>rowId</code> 和 <code>columnId</code> 的单元格的值。</li>
-    	<li>如果 name&nbsp;<strong>不是&nbsp;</strong>一个合法的表，或者单元格 <code>(rowId, columnId)</code> <strong>不合法</strong>，返回 <code>"&lt;null&gt;"</code>。</li>
+    	<li>Returns the value of the cell at the specified <code>rowId</code> and <code>columnId</code> in the table <code>name</code>.</li>
+    	<li>If <code>name</code> is <strong>not</strong> a valid table, or the cell <code>(rowId, columnId)</code> is <strong>invalid</strong>, returns <code>&quot;&lt;null&gt;&quot;</code>.</li>
     </ul>
     </li>
-    <li><code>String[]&nbsp;exp(String name)</code>
+    <li><code>String[] exp(String name)</code>
     <ul>
-    	<li>返回表 <code>name</code> 中出现的行。</li>
-    	<li>如果 <code>name</code> <strong>不是</strong> 一个合法的表，返回一个空数组。每一行以字符串表示，每个单元格的值（<strong>包括</strong> 行的 id）以 <code>","</code> 分隔。</li>
+    	<li>Returns the rows present in the table <code>name</code>.</li>
+    	<li>If name is <strong>not</strong> a valid table, returns an empty array. Each row is represented as a string, with each cell value (<strong>including</strong> the row&#39;s id) separated by a <code>&quot;,&quot;</code>.</li>
     </ul>
     </li>
 
 </ul>
 
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
 <pre class="example-io">
-["SQL","ins","sel","ins","exp","rmv","sel","exp"]
-[[["one","two","three"],[2,3,1]],["two",["first","second","third"]],["two",1,3],["two",["fourth","fifth","sixth"]],["two"],["two",1],["two",2,2],["two"]]
+[&quot;SQL&quot;,&quot;ins&quot;,&quot;sel&quot;,&quot;ins&quot;,&quot;exp&quot;,&quot;rmv&quot;,&quot;sel&quot;,&quot;exp&quot;]
+[[[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;],[2,3,1]],[&quot;two&quot;,[&quot;first&quot;,&quot;second&quot;,&quot;third&quot;]],[&quot;two&quot;,1,3],[&quot;two&quot;,[&quot;fourth&quot;,&quot;fifth&quot;,&quot;sixth&quot;]],[&quot;two&quot;],[&quot;two&quot;,1],[&quot;two&quot;,2,2],[&quot;two&quot;]]
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
-[null,true,"third",true,["1,first,second,third","2,fourth,fifth,sixth"],null,"fifth",["2,fourth,fifth,sixth"]]</pre>
+[null,true,&quot;third&quot;,true,[&quot;1,first,second,third&quot;,&quot;2,fourth,fifth,sixth&quot;],null,&quot;fifth&quot;,[&quot;2,fourth,fifth,sixth&quot;]]</pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <pre class="example-io">
-// 创建 3 张表。
-SQL sql = new SQL(["one", "two", "three"], [2, 3, 1]);
+// Creates three tables.
+SQL sql = new SQL([&quot;one&quot;, &quot;two&quot;, &quot;three&quot;], [2, 3, 1]);
 
-// 将 id 为 1 的行添加到表 "two"。返回 True。
-sql.ins("two", ["first", "second", "third"]);
+// Adds a row to the table &quot;two&quot; with id 1. Returns True.
+sql.ins(&quot;two&quot;, [&quot;first&quot;, &quot;second&quot;, &quot;third&quot;]);
 
-// 从表 "two" 中 id 为 1 的行 
-// 其中第 3 列返回值 "third"。
-sql.sel("two", 1, 3);
+// Returns the value &quot;third&quot; from the third column
+// in the row with id 1 of the table &quot;two&quot;.
+sql.sel(&quot;two&quot;, 1, 3);
 
-// 将另外一个 id 为 2 的行添加到表 "two"。返回 True。
-sql.ins("two", ["fourth", "fifth", "sixth"]);
+// Adds another row to the table &quot;two&quot; with id 2. Returns True.
+sql.ins(&quot;two&quot;, [&quot;fourth&quot;, &quot;fifth&quot;, &quot;sixth&quot;]);
 
-// 导出表 "two" 的行。
-// 目前表中有两行 id 为 1 和 2 。
-sql.exp("two");
+// Exports the rows of the table &quot;two&quot;.
+// Currently, the table has 2 rows with ids 1 and 2.
+sql.exp(&quot;two&quot;);
 
-// 删除表 "two" 当中的第一行。注意第二行的 id
-// 依然为 2。
-sql.rmv("two", 1);
+// Removes the first row of the table &quot;two&quot;. Note that the second row
+// will still have the id 2.
+sql.rmv(&quot;two&quot;, 1);
 
-// 从表 "two" 中 id 为 2 的行
-// 其中第 2 列返回值 "fifth"。
-sql.sel("two", 2, 2);
+// Returns the value &quot;fifth&quot; from the second column
+// in the row with id 2 of the table &quot;two&quot;.
+sql.sel(&quot;two&quot;, 2, 2);
 
-// 导出表 "two" 的行。
-// 目前表中有一行 id 为 2。
-sql.exp("two");
+// Exports the rows of the table &quot;two&quot;.
+// Currently, the table has 1 row with id 2.
+sql.exp(&quot;two&quot;);
 </pre>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
-<strong>输入：</strong>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre>
-["SQL","ins","sel","ins","exp","rmv","sel","exp"]
-[[["one","two","three"],[2,3,1]],["two",["first","second","third"]],["two",1,3],["two",["fourth","fifth","sixth"]],["two"],["two",1],["two",2,2],["two"]]
+<div class="example-block">
+<p><strong>Input:</strong></p>
+
+<pre class="example-io">
+[&quot;SQL&quot;,&quot;ins&quot;,&quot;sel&quot;,&quot;rmv&quot;,&quot;sel&quot;,&quot;ins&quot;,&quot;ins&quot;]
+[[[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;],[2,3,1]],[&quot;two&quot;,[&quot;first&quot;,&quot;second&quot;,&quot;third&quot;]],[&quot;two&quot;,1,3],[&quot;two&quot;,1],[&quot;two&quot;,1,2],[&quot;two&quot;,[&quot;fourth&quot;,&quot;fifth&quot;]],[&quot;two&quot;,[&quot;fourth&quot;,&quot;fifth&quot;,&quot;sixth&quot;]]]
 </pre>
 
-<strong>输出：</strong>
+<p><strong>Output:</strong></p>
 
-<pre>
-[null,true,"third",true,["1,first,second,third","2,fourth,fifth,sixth"],null,"fifth",["2,fourth,fifth,sixth"]]
+<pre class="example-io">
+[null,true,&quot;third&quot;,null,&quot;&lt;null&gt;&quot;,false,true]
 </pre>
 
-<strong>解释：</strong>
+<p><strong>Explanation:</strong></p>
 
-<pre>
-// 创建 3 张表
-SQL sQL = new SQL(["one", "two", "three"], [2, 3, 1]); 
+<pre class="example-io">
+// Creates three tables.
+SQL sQL = new SQL([&quot;one&quot;, &quot;two&quot;, &quot;three&quot;], [2, 3, 1]); 
 
-// 将 id 为 1 的行添加到表 "two"。返回 True。
-sQL.ins("two", ["first", "second", "third"]); 
+// Adds a row to the table &quot;two&quot; with id 1. Returns True. 
+sQL.ins(&quot;two&quot;, [&quot;first&quot;, &quot;second&quot;, &quot;third&quot;]); 
 
-// 从表 "two" 中 id 为 1 的行
-// 其中第 3 列返回值 "third"。
-sQL.sel("two", 1, 3); 
+// Returns the value &quot;third&quot; from the third column 
+// in the row with id 1 of the table &quot;two&quot;.
+sQL.sel(&quot;two&quot;, 1, 3); 
 
-// 删除表 "two" 的第一行。
-sQL.rmv("two", 1); 
+// Removes the first row of the table &quot;two&quot;.
+sQL.rmv(&quot;two&quot;, 1); 
 
-// 返回 "&lt;null&gt;" 因为 id 为 1 的单元格
-// 已经从表 "two" 中删除。
-sQL.sel("two", 1, 2); 
+// Returns &quot;&lt;null&gt;&quot; as the cell with id 1 
+// has been removed from table &quot;two&quot;.
+sQL.sel(&quot;two&quot;, 1, 2); 
 
-// 返回 False 因为列的数量不正确。
-sQL.ins("two", ["fourth", "fifth"]); 
+// Returns False as number of columns are not correct.
+sQL.ins(&quot;two&quot;, [&quot;fourth&quot;, &quot;fifth&quot;]); 
 
-// 将 id 为 2 的行添加到表 "two"。返回 True。
-sQL.ins("two", ["fourth", "fifth", "sixth"]); 
+// Adds a row to the table &quot;two&quot; with id 2. Returns True.
+sQL.ins(&quot;two&quot;, [&quot;fourth&quot;, &quot;fifth&quot;, &quot;sixth&quot;]); 
 </pre>
+</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == names.length == columns.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= names[i].length, row[i].length, name.length &lt;= 10</code></li>
-	<li><code>names[i]</code>, <code>row[i]</code>, <code>name</code> 由小写英文字母组成。</li>
+	<li><code>names[i]</code>, <code>row[i]</code>, and <code>name</code> consist only of lowercase English letters.</li>
 	<li><code>1 &lt;= columns[i] &lt;= 10</code></li>
 	<li><code>1 &lt;= row.length &lt;= 10</code></li>
-	<li>所有的 <code>names[i]</code>&nbsp;都是&nbsp;<strong>不同&nbsp;</strong>的。</li>
-	<li>最多调用 <code>ins</code> 和 <code>rmv</code> <code>2000</code> 次。</li>
-	<li>最多调用 <code>sel</code> <code>10<sup>4</sup></code>&nbsp;次。</li>
-	<li>最多调用 <code>exp</code> <code>500</code> 次。</li>
+	<li>All <code>names[i]</code> are <strong>distinct</strong>.</li>
+	<li>At most <code>2000</code> calls will be made to <code>ins</code> and <code>rmv</code>.</li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>sel</code>.</li>
+	<li>At most <code>500</code> calls will be made to <code>exp</code>.</li>
 </ul>
 
-<p><strong>进阶：</strong>如果表因多次删除而变得稀疏，您会选择哪种方法？为什么？考虑对内存使用和性能的影响。</p>
+<p>&nbsp;</p>
+<strong>Follow-up:</strong> Which approach would you choose if the table might become sparse due to many deletions, and why? Consider the impact on memory usage and performance.
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-创建哈希表 `tables` 用于存储表名和表数据行的映射。直接模拟题目中的操作即可。
+Create a hash table `tables` to store the mapping of table names to table data rows. Directly simulate the operations in the problem.
 
-每个操作的时间复杂度均为 $O(1)$，空间复杂度 $O(n)$。
+The time complexity of each operation is $O(1)$, and the space complexity is $O(n)$.
 
 <!-- tabs:start -->
 

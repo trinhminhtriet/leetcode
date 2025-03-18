@@ -1,72 +1,69 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0938.Range%20Sum%20of%20BST/README.md
+difficulty: Easy
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉搜索树
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Binary Search Tree
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [938. 二叉搜索树的范围和](https://leetcode.cn/problems/range-sum-of-bst)
+# [938. Range Sum of BST](https://leetcode.com/problems/range-sum-of-bst)
 
-[English Version](/solution/0900-0999/0938.Range%20Sum%20of%20BST/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定二叉搜索树的根结点 <code>root</code>，返回值位于范围 <em><code>[low, high]</code></em> 之间的所有结点的值的和。</p>
+<p>Given the <code>root</code> node of a binary search tree and two integers <code>low</code> and <code>high</code>, return <em>the sum of values of all nodes with a value in the <strong>inclusive</strong> range </em><code>[low, high]</code>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0938.Range%20Sum%20of%20BST/images/bst1.jpg" style="width: 400px; height: 222px;" />
 <pre>
-<strong>输入：</strong>root = [10,5,15,3,7,null,18], low = 7, high = 15
-<strong>输出：</strong>32
+<strong>Input:</strong> root = [10,5,15,3,7,null,18], low = 7, high = 15
+<strong>Output:</strong> 32
+<strong>Explanation:</strong> Nodes 7, 10, and 15 are in the range [7, 15]. 7 + 10 + 15 = 32.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0938.Range%20Sum%20of%20BST/images/bst2.jpg" style="width: 400px; height: 335px;" />
 <pre>
-<strong>输入：</strong>root = [10,5,15,3,7,13,18,1,null,6], low = 6, high = 10
-<strong>输出：</strong>23
+<strong>Input:</strong> root = [10,5,15,3,7,13,18,1,null,6], low = 6, high = 10
+<strong>Output:</strong> 23
+<strong>Explanation:</strong> Nodes 6, 7, and 10 are in the range [6, 10]. 6 + 7 + 10 = 23.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点数目在范围 <code>[1, 2 * 10<sup>4</sup>]</code> 内</li>
-	<li><code>1 <= Node.val <= 10<sup>5</sup></code></li>
-	<li><code>1 <= low <= high <= 10<sup>5</sup></code></li>
-	<li>所有 <code>Node.val</code> <strong>互不相同</strong></li>
+	<li>The number of nodes in the tree is in the range <code>[1, 2 * 10<sup>4</sup>]</code>.</li>
+	<li><code>1 &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= low &lt;= high &lt;= 10<sup>5</sup></code></li>
+	<li>All <code>Node.val</code> are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
+### Solution 1: DFS
 
-我们设计一个函数 $dfs(root)$，表示求以 $root$ 为根的子树中，值位于范围 $[low, high]$ 之间的所有结点的值的和。那么答案就是 $dfs(root)$。
+We design a function $dfs(root)$, which represents the sum of the values of all nodes in the subtree with $root$ as the root, and the values are within the range $[low, high]$. The answer is $dfs(root)$.
 
-函数 $dfs(root)$ 的执行逻辑如下：
+The execution logic of the function $dfs(root)$ is as follows:
 
--   如果 $root$ 为空，返回 $0$。
--   如果 $root$ 的值 $x$ 在范围 $[low, high]$ 之间，那么函数 $dfs(root)$ 的初始答案就是 $x$，否则为 $0$。
--   如果 $x > low$，说明 $root$ 的左子树中可能有值在范围 $[low, high]$ 之间的结点，所以我们需要递归调用 $dfs(root.left)$，并将结果加到答案上。
--   如果 $x < high$，说明 $root$ 的右子树中可能有值在范围 $[low, high]$ 之间的结点，所以我们需要递归调用 $dfs(root.right)$，并将结果加到答案上。
--   最后返回答案。
+-   If $root$ is null, return $0$.
+-   If the value $x$ of $root$ is within the range $[low, high]$, then the initial answer of the function $dfs(root)$ is $x$, otherwise it is $0$.
+-   If $x > low$, it means that there may be nodes in the left subtree of $root$ with values within the range $[low, high]$, so we need to recursively call $dfs(root.left)$ and add the result to the answer.
+-   If $x < high$, it means that there may be nodes in the right subtree of $root$ with values within the range $[low, high]$, so we need to recursively call $dfs(root.right)$ and add the result to the answer.
+-   Finally, return the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉搜索树的结点个数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the number of nodes in the binary search tree.
 
 <!-- tabs:start -->
 

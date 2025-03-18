@@ -1,46 +1,46 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2627.Debounce/README.md
+difficulty: Medium
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2627. 函数防抖](https://leetcode.cn/problems/debounce)
+# [2627. Debounce](https://leetcode.com/problems/debounce)
 
-[English Version](/solution/2600-2699/2627.Debounce/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你编写一个函数，接收参数为另一个函数和一个以毫秒为单位的时间 <code>t</code> ，并返回该函数的&nbsp;<b>函数防抖&nbsp;</b>后的结果。</p>
+<p>Given a function&nbsp;<code>fn</code> and a time in milliseconds&nbsp;<code>t</code>, return&nbsp;a&nbsp;<strong>debounced</strong>&nbsp;version of that function.</p>
 
-<p><b>函数防抖 </b>方法是一个函数，它的执行被延迟了 <code>t</code> 毫秒，如果在这个时间窗口内再次调用它，它的执行将被取消。你编写的防抖函数也应该接收传递的参数。</p>
+<p>A&nbsp;<strong>debounced</strong>&nbsp;function is a function whose execution is delayed by&nbsp;<code>t</code>&nbsp;milliseconds and whose&nbsp;execution is cancelled if it is called again within that window of time. The debounced function should also receive the passed parameters.</p>
 
-<p>例如，假设 <code>t = 50ms</code> ，函数分别在 <code>30ms</code> 、 <code>60ms</code> 和 <code>100ms</code> 时调用。前两个函数调用将被取消，第三个函数调用将在 <code>150ms</code> 执行。如果改为 <code>t = 35ms</code> ，则第一个调用将被取消，第二个调用将在 <code>95ms</code> 执行，第三个调用将在 <code>135ms</code> 执行。</p>
+<p>For example, let&#39;s say&nbsp;<code>t = 50ms</code>, and the function was called at&nbsp;<code>30ms</code>,&nbsp;<code>60ms</code>, and <code>100ms</code>.</p>
+
+<p>The first 2 function calls would be cancelled, and the 3rd function call would be executed at&nbsp;<code>150ms</code>.</p>
+
+<p>If instead&nbsp;<code>t = 35ms</code>, The 1st call would be cancelled, the 2nd would be executed at&nbsp;<code>95ms</code>, and the 3rd would be executed at&nbsp;<code>135ms</code>.</p>
 
 <p><img alt="Debounce Schematic" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2627.Debounce/images/screen-shot-2023-04-08-at-11048-pm.png" style="width: 800px; height: 242px;" /></p>
 
-<p>上图展示了了防抖函数是如何转换事件的。其中，每个矩形表示 100ms，反弹时间为 400ms。每种颜色代表一组不同的输入。</p>
+<p>The above diagram&nbsp;shows how debounce will transform&nbsp;events. Each rectangle represents 100ms and the debounce time is 400ms. Each color represents a different set of inputs.</p>
 
-<p>请在不使用 lodash 的 <code>_.debounce()</code> 函数的前提下解决该问题。</p>
+<p>Please solve it without using lodash&#39;s&nbsp;<code>_.debounce()</code> function.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>
+<strong>Input:</strong> 
 t = 50
 calls = [
-&nbsp; {"t": 50, inputs: [1]},
-&nbsp; {"t": 75, inputs: [2]}
+&nbsp; {&quot;t&quot;: 50, inputs: [1]},
+&nbsp; {&quot;t&quot;: 75, inputs: [2]}
 ]
-<b>输出：</b>[{"t": 125, inputs: [2]}]
-<strong>解释：</strong>
+<strong>Output:</strong> [{&quot;t&quot;: 125, inputs: [2]}]
+<strong>Explanation:</strong>
 let start = Date.now();
 function log(...inputs) { 
 &nbsp; console.log([Date.now() - start, inputs ])
@@ -49,45 +49,44 @@ const dlog = debounce(log, 50);
 setTimeout(() =&gt; dlog(1), 50);
 setTimeout(() =&gt; dlog(2), 75);
 
-第一次调用被第二次调用取消，因为第二次调用发生在 100ms 之前
-第二次调用延迟 50ms，在 125ms 执行。输入为 (2)。
+The 1st call is cancelled by the 2nd call because the 2nd call occurred before 100ms
+The 2nd call is delayed by 50ms and executed at 125ms. The inputs were (2).
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>
+<strong>Input:</strong> 
 t = 20
 calls = [
-&nbsp; {"t": 50, inputs: [1]},
-&nbsp; {"t": 100, inputs: [2]}
+&nbsp; {&quot;t&quot;: 50, inputs: [1]},
+&nbsp; {&quot;t&quot;: 100, inputs: [2]}
 ]
-<b>输出：</b>[{"t": 70, inputs: [1]}, {"t": 120, inputs: [2]}]
-<strong>解释：</strong>
-第一次调用延迟到 70ms。输入为 (1)。
-第二次调用延迟到 120ms。输入为 (2)。
+<strong>Output:</strong> [{&quot;t&quot;: 70, inputs: [1]}, {&quot;t&quot;: 120, inputs: [2]}]
+<strong>Explanation:</strong>
+The 1st call is delayed until 70ms. The inputs were (1).
+The 2nd call is delayed until 120ms. The inputs were (2).
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>
+<strong>Input:</strong> 
 t = 150
 calls = [
-&nbsp; {"t": 50, inputs: [1, 2]},
-&nbsp; {"t": 300, inputs: [3, 4]},
-&nbsp; {"t": 300, inputs: [5, 6]}
+&nbsp; {&quot;t&quot;: 50, inputs: [1, 2]},
+&nbsp; {&quot;t&quot;: 300, inputs: [3, 4]},
+&nbsp; {&quot;t&quot;: 300, inputs: [5, 6]}
 ]
-<b>输出：</b>[{"t": 200, inputs: [1,2]}, {"t": 450, inputs: [5, 6]}]
-<strong>解释：</strong>
-第一次调用延迟了 150ms，运行时间为 200ms。输入为 (1, 2)。
-第二次调用被第三次调用取消
-第三次调用延迟了 150ms，运行时间为 450ms。输入为 (5, 6)。
+<strong>Output:</strong> [{&quot;t&quot;: 200, inputs: [1,2]}, {&quot;t&quot;: 450, inputs: [5, 6]}]
+<strong>Explanation:</strong>
+The 1st call is delayed by 150ms and ran at 200ms. The inputs were (1, 2).
+The 2nd call is cancelled by the 3rd call
+The 3rd call is delayed by 150ms and ran at 450ms. The inputs were (5, 6).
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= t &lt;= 1000</code></li>
@@ -98,11 +97,11 @@ calls = [
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

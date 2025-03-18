@@ -1,59 +1,48 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1518.Water%20Bottles/README.md
+difficulty: Easy
 rating: 1245
-source: 第 198 场周赛 Q1
+source: Weekly Contest 198 Q1
 tags:
-    - 数学
-    - 模拟
+    - Math
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [1518. 换水问题](https://leetcode.cn/problems/water-bottles)
+# [1518. Water Bottles](https://leetcode.com/problems/water-bottles)
 
-[English Version](/solution/1500-1599/1518.Water%20Bottles/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>超市正在促销，你可以用 <code>numExchange</code> 个空水瓶从超市兑换一瓶水。最开始，你一共购入了 <code>numBottles</code> 瓶水。</p>
+<p>There are <code>numBottles</code> water bottles that are initially full of water. You can exchange <code>numExchange</code> empty water bottles from the market with one full water bottle.</p>
 
-<p>如果喝掉了水瓶中的水，那么水瓶就会变成空的。</p>
+<p>The operation of drinking a full water bottle turns it into an empty bottle.</p>
 
-<p>给你两个整数 <code>numBottles</code> 和 <code>numExchange</code> ，返回你 <strong>最多</strong> 可以喝到多少瓶水。</p>
+<p>Given the two integers <code>numBottles</code> and <code>numExchange</code>, return <em>the <strong>maximum</strong> number of water bottles you can drink</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1518.Water%20Bottles/images/sample_1_1875.png" style="height: 240px; width: 480px;" /></strong></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1518.Water%20Bottles/images/sample_1_1875.png" style="width: 500px; height: 245px;" />
 <pre>
-<strong>输入：</strong>numBottles = 9, numExchange = 3
-<strong>输出：</strong>13
-<strong>解释：</strong>你可以用 <code>3</code> 个空瓶兑换 1 瓶水。
-所以最多能喝到 9 + 3 + 1 = 13 瓶水。
+<strong>Input:</strong> numBottles = 9, numExchange = 3
+<strong>Output:</strong> 13
+<strong>Explanation:</strong> You can exchange 3 empty bottles to get 1 full water bottle.
+Number of water bottles you can drink: 9 + 3 + 1 = 13.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1518.Water%20Bottles/images/sample_2_1875.png" style="height: 240px; width: 790px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1518.Water%20Bottles/images/sample_2_1875.png" style="width: 500px; height: 183px;" />
 <pre>
-<strong>输入：</strong>numBottles = 15, numExchange = 4
-<strong>输出：</strong>19
-<strong>解释：</strong>你可以用 <code>4</code> 个空瓶兑换 1 瓶水。
-所以最多能喝到 15 + 3 + 1 = 19 瓶水。
+<strong>Input:</strong> numBottles = 15, numExchange = 4
+<strong>Output:</strong> 19
+<strong>Explanation:</strong> You can exchange 4 empty bottles to get 1 full water bottle. 
+Number of water bottles you can drink: 15 + 3 + 1 = 19.
 </pre>
 
 <p>&nbsp;</p>
-
-<p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= numBottles &lt;= 100</code></li>
@@ -62,21 +51,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
-
-我们可以直接模拟整个过程。
-
-初始时，我们有 `numBottles` 瓶水，因此可以喝到 `ans = numBottles` 瓶水，然后得到 `numBottles` 个空瓶子。
-
-接下来，如果我们有 `numExchange` 个空瓶子，那么我们可以用它们兑换一瓶水并喝掉，此时我们剩余的空瓶子数量为 `numBottles - numExchange + 1`，然后我们累加喝到的水的数量，即 $ans = ans + 1$。
-
-最后，返回 `ans` 即可。
-
-时间复杂度 $(\frac{numBottles}{numExchange})$，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 

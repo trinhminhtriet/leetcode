@@ -1,94 +1,87 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1901.Find%20a%20Peak%20Element%20II/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 二分查找
-    - 矩阵
+    - Array
+    - Binary Search
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [1901. 寻找峰值 II](https://leetcode.cn/problems/find-a-peak-element-ii)
+# [1901. Find a Peak Element II](https://leetcode.com/problems/find-a-peak-element-ii)
 
-[English Version](/solution/1900-1999/1901.Find%20a%20Peak%20Element%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个 2D 网格中的 <strong>峰值</strong><strong> </strong>是指那些 <strong>严格大于 </strong>其相邻格子(上、下、左、右)的元素。</p>
+<p>A <strong>peak</strong> element in a 2D grid is an element that is <strong>strictly greater</strong> than all of its <strong>adjacent </strong>neighbors to the left, right, top, and bottom.</p>
 
-<p>给你一个<strong> 从 0 开始编号 </strong>的 <code>m x n</code> 矩阵 <code>mat</code> ，其中任意两个相邻格子的值都<strong> 不相同</strong> 。找出 <strong>任意一个 峰值</strong> <code>mat[i][j]</code> 并 <strong>返回其位置 </strong><code>[i,j]</code> 。</p>
+<p>Given a <strong>0-indexed</strong> <code>m x n</code> matrix <code>mat</code> where <strong>no two adjacent cells are equal</strong>, find <strong>any</strong> peak element <code>mat[i][j]</code> and return <em>the length 2 array </em><code>[i,j]</code>.</p>
 
-<p>你可以假设整个矩阵周边环绕着一圈值为 <code>-1</code> 的格子。</p>
+<p>You may assume that the entire matrix is surrounded by an <strong>outer perimeter</strong> with the value <code>-1</code> in each cell.</p>
 
-<p>要求必须写出时间复杂度为 <code>O(m log(n))</code> 或 <code>O(n log(m))</code> 的算法</p>
-
-<p>&nbsp;</p>
+<p>You must write an algorithm that runs in <code>O(m log(n))</code> or <code>O(n log(m))</code> time.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1901.Find%20a%20Peak%20Element%20II/images/1.png" style="width: 206px; height: 209px;" /></p>
 
 <pre>
-<strong>输入:</strong> mat = [[1,4],[3,2]]
-<strong>输出:</strong> [0,1]
-<strong>解释:</strong>&nbsp;3 和 4 都是峰值，所以[1,0]和[0,1]都是可接受的答案。
+<strong>Input:</strong> mat = [[1,4],[3,2]]
+<strong>Output:</strong> [0,1]
+<strong>Explanation:</strong>&nbsp;Both 3 and 4 are peak elements so [1,0] and [0,1] are both acceptable answers.
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1900-1999/1901.Find%20a%20Peak%20Element%20II/images/3.png" style="width: 254px; height: 257px;" /></strong></p>
 
 <pre>
-<strong>输入:</strong> mat = [[10,20,15],[21,30,14],[7,16,32]]
-<strong>输出:</strong> [1,1]
-<strong>解释:</strong>&nbsp;30 和 32 都是峰值，所以[1,1]和[2,2]都是可接受的答案。
+<strong>Input:</strong> mat = [[10,20,15],[21,30,14],[7,16,32]]
+<strong>Output:</strong> [1,1]
+<strong>Explanation:</strong>&nbsp;Both 30 and 32 are peak elements so [1,1] and [2,2] are both acceptable answers.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == mat.length</code></li>
 	<li><code>n == mat[i].length</code></li>
 	<li><code>1 &lt;= m, n &lt;= 500</code></li>
 	<li><code>1 &lt;= mat[i][j] &lt;= 10<sup>5</sup></code></li>
-	<li>任意两个相邻元素均不相等.</li>
+	<li>No two adjacent cells are equal.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-记 $m$ 和 $n$ 分别为矩阵的行数和列数。
+Let $m$ and $n$ be the number of rows and columns of the matrix, respectively.
 
-题目要求我们寻找峰值，并且时间复杂度为 $O(m \times \log n)$ 或 $O(n \times \log m)$，那么我们可以考虑使用二分查找。
+The problem asks us to find a peak, and the time complexity should be $O(m \times \log n)$ or $O(n \times \log m)$. Therefore, we can consider using binary search.
 
-我们考虑第 $i$ 行的最大值，不妨将其下标记为 $j$。
+We consider the maximum value of the $i$-th row, and denote its index as $j$.
 
-如果 $mat[i][j] \gt mat[i + 1][j]$，那么第 $[0,..i]$ 行中必然存在一个峰值，我们只需要在第 $[0,..i]$ 行中找到最大值即可。同理，如果 $mat[i][j] \lt mat[i + 1][j]$，那么第 $[i + 1,..m - 1]$ 行中必然存在一个峰值，我们只需要在第 $[i + 1,..m - 1]$ 行中找到最大值即可。
+If $mat[i][j] > mat[i + 1][j]$, then there must be a peak in the rows $[0,..i]$. We only need to find the maximum value in these rows. Similarly, if $mat[i][j] < mat[i + 1][j]$, then there must be a peak in the rows $[i + 1,..m - 1]$. We only need to find the maximum value in these rows.
 
-为什么上述做法是对的？我们不妨用反证法来证明。
+Why is the above method correct? We can prove it by contradiction.
 
-如果 $mat[i][j] \gt mat[i + 1][j]$，假设第 $[0,..i]$ 行中不存在峰值，那么 $mat[i][j]$ 不是峰值，而由于 $mat[i][j]$ 是第 $i$ 行的最大值，并且 $mat[i][j] \gt mat[i + 1][j]$，那么 $mat[i][j] \lt mat[i - 1][j]$。我们继续从第 $i - 1$ 行往上考虑，每一行的最大值都小于上一行的最大值。那么当遍历到 $i = 0$ 时，由于矩阵中的元素都是正整数，并且矩阵周边一圈的格子的值都为 $-1$。因此，在第 $0$ 行时，其最大值大于其所有相邻元素，那么第 $0$ 行的最大值就是峰值，与假设矛盾。因此，第 $[0,..i]$ 行中必然存在一个峰值。
+If $mat[i][j] > mat[i + 1][j]$, suppose there is no peak in the rows $[0,..i]$. Then $mat[i][j]$ is not a peak. Since $mat[i][j]$ is the maximum value of the $i$-th row, and $mat[i][j] > mat[i + 1][j]$, then $mat[i][j] < mat[i - 1][j]$. We continue to consider from the $(i - 1)$-th row upwards, and the maximum value of each row is less than the maximum value of the previous row. When we traverse to $i = 0$, since all elements in the matrix are positive integers, and the values of the cells around the matrix are $-1$. Therefore, at the 0-th row, its maximum value is greater than all its adjacent elements, so the maximum value of the 0-th row is a peak, which contradicts the assumption. Therefore, there must be a peak in the rows $[0,..i]$.
 
-对于 $mat[i][j] \lt mat[i + 1][j]$ 的情况，我们可以用类似的方法证明第 $[i + 1,..m - 1]$ 行中必然存在一个峰值。
+For the case where $mat[i][j] < mat[i + 1][j]$, we can prove in a similar way that there must be a peak in the rows $[i + 1,..m - 1]$.
 
-因此，我们可以使用二分查找来寻找峰值。
+Therefore, we can use binary search to find the peak.
 
-我们二分查找矩阵的行，初始时查找的边界为 $l = 0$, $r = m - 1$。每一次，我们找到当前的中间行 $mid$，并找到该行的最大值下标 $j$。如果 $mat[mid][j] \gt mat[mid + 1][j]$，那么我们就在第 $[0,..mid]$ 行中寻找峰值，即更新 $r = mid$。否则，我们就在第 $[mid + 1,..m - 1]$ 行中寻找峰值，即更新 $l = mid + 1$。当 $l = r$ 时，我们就找到了峰值所在的位置 $[l, j_l]$。其中 $j_l$ 是第 $l$ 行的最大值下标。
+We perform binary search on the rows of the matrix, initially with the search boundaries $l = 0$, $r = m - 1$. Each time, we find the middle row $mid$ and find the index $j$ of the maximum value of this row. If $mat[mid][j] > mat[mid + 1][j]$, then we search for the peak in the rows $[0,..mid]$, i.e., update $r = mid$. Otherwise, we search for the peak in the rows $[mid + 1,..m - 1]$, i.e., update $l = mid + 1$. When $l = r$, we find the position $[l, j_l]$ of the peak, where $j_l$ is the index of the maximum value of the $l$-th row.
 
-时间复杂度 $O(n \times \log m)$，其中 $m$ 和 $n$ 分别为矩阵的行数和列数。二分查找的时间复杂度为 $O(\log m)$，每次二分查找时，我们需要遍历第 $mid$ 行的所有元素，时间复杂度为 $O(n)$。空间复杂度 $O(1)$。
+The time complexity is $O(n \times \log m)$, where $m$ and $n$ are the number of rows and columns of the matrix, respectively. The time complexity of binary search is $O(\log m)$, and each time we perform binary search, we need to traverse all elements of the $mid$-th row, with a time complexity of $O(n)$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

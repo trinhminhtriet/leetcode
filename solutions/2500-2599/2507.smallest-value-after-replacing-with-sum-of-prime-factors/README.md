@@ -1,58 +1,56 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2507.Smallest%20Value%20After%20Replacing%20With%20Sum%20of%20Prime%20Factors/README.md
+difficulty: Medium
 rating: 1499
-source: 第 324 场周赛 Q2
+source: Weekly Contest 324 Q2
 tags:
-    - 数学
-    - 数论
-    - 模拟
+    - Math
+    - Number Theory
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2507. 使用质因数之和替换后可以取到的最小值](https://leetcode.cn/problems/smallest-value-after-replacing-with-sum-of-prime-factors)
+# [2507. Smallest Value After Replacing With Sum of Prime Factors](https://leetcode.com/problems/smallest-value-after-replacing-with-sum-of-prime-factors)
 
-[English Version](/solution/2500-2599/2507.Smallest%20Value%20After%20Replacing%20With%20Sum%20of%20Prime%20Factors/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数 <code>n</code> 。</p>
+<p>You are given a positive integer <code>n</code>.</p>
 
-<p>请你将 <code>n</code> 的值替换为 <code>n</code> 的 <strong>质因数</strong> 之和，重复这一过程。</p>
+<p>Continuously replace <code>n</code> with the sum of its <strong>prime factors</strong>.</p>
 
 <ul>
-	<li>注意，如果 <code>n</code> 能够被某个质因数多次整除，则在求和时，应当包含这个质因数同样次数。</li>
+	<li>Note that if a prime factor divides <code>n</code> multiple times, it should be included in the sum as many times as it divides <code>n</code>.</li>
 </ul>
 
-<p>返回<em> </em><code>n</code><em> </em>可以取到的最小值。</p>
+<p>Return <em>the smallest value </em><code>n</code><em> will take on.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>n = 15
-<strong>输出：</strong>5
-<strong>解释：</strong>最开始，n = 15 。
-15 = 3 * 5 ，所以 n 替换为 3 + 5 = 8 。
-8 = 2 * 2 * 2 ，所以 n 替换为 2 + 2 + 2 = 6 。
-6 = 2 * 3 ，所以 n 替换为 2 + 3 = 5 。
-5 是 n 可以取到的最小值。
+<pre>
+<strong>Input:</strong> n = 15
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> Initially, n = 15.
+15 = 3 * 5, so replace n with 3 + 5 = 8.
+8 = 2 * 2 * 2, so replace n with 2 + 2 + 2 = 6.
+6 = 2 * 3, so replace n with 2 + 3 = 5.
+5 is the smallest value n will take on.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>n = 3
-<strong>输出：</strong>3
-<strong>解释：</strong>最开始，n = 3 。
-3 是 n 可以取到的最小值。</pre>
+<pre>
+<strong>Input:</strong> n = 3
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> Initially, n = 3.
+3 is the smallest value n will take on.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
@@ -60,15 +58,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：暴力模拟
-
-根据题意，我们可以得到一个质因数分解的过程，即将一个数不断地分解为质因数，分解不能分解。过程中将每次分解的质因数相加，递归或者迭代地进行即可。
-
-时间复杂度 $O(\sqrt{n})$。
+### Solution 1
 
 <!-- tabs:start -->
 

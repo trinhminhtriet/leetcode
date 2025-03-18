@@ -1,55 +1,52 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0040.Combination%20Sum%20II/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 回溯
+    - Array
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [40. 组合总和 II](https://leetcode.cn/problems/combination-sum-ii)
+# [40. Combination Sum II](https://leetcode.com/problems/combination-sum-ii)
 
-[English Version](/solution/0000-0099/0040.Combination%20Sum%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个候选人编号的集合&nbsp;<code>candidates</code>&nbsp;和一个目标数&nbsp;<code>target</code>&nbsp;，找出&nbsp;<code>candidates</code>&nbsp;中所有可以使数字和为&nbsp;<code>target</code>&nbsp;的组合。</p>
+<p>Given a collection of candidate numbers (<code>candidates</code>) and a target number (<code>target</code>), find all unique combinations in <code>candidates</code>&nbsp;where the candidate numbers sum to <code>target</code>.</p>
 
-<p><code>candidates</code>&nbsp;中的每个数字在每个组合中只能使用&nbsp;<strong>一次</strong>&nbsp;。</p>
+<p>Each number in <code>candidates</code>&nbsp;may only be used <strong>once</strong> in the combination.</p>
 
-<p><strong>注意：</strong>解集不能包含重复的组合。&nbsp;</p>
+<p><strong>Note:</strong>&nbsp;The solution set must not contain duplicate combinations.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> candidates =&nbsp;<code>[10,1,2,7,6,1,5]</code>, target =&nbsp;<code>8</code>,
-<strong>输出:</strong>
+<strong>Input:</strong> candidates = [10,1,2,7,6,1,5], target = 8
+<strong>Output:</strong> 
 [
 [1,1,6],
 [1,2,5],
 [1,7],
 [2,6]
-]</pre>
+]
+</pre>
 
-<p><strong>示例&nbsp;2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> candidates =&nbsp;[2,5,2,1,2], target =&nbsp;5,
-<strong>输出:</strong>
+<strong>Input:</strong> candidates = [2,5,2,1,2], target = 5
+<strong>Output:</strong> 
 [
 [1,2,2],
 [5]
-]</pre>
+]
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;=&nbsp;candidates.length &lt;= 100</code></li>
@@ -59,27 +56,29 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 剪枝 + 回溯
+### Solution 1: Sorting + Pruning + Backtracking
 
-我们可以先对数组进行排序，方便剪枝以及跳过重复的数字。
+We can first sort the array to facilitate pruning and skipping duplicate numbers.
 
-接下来，我们设计一个函数 $dfs(i, s)$，表示从下标 $i$ 开始搜索，且剩余目标值为 $s$，其中 $i$ 和 $s$ 都是非负整数，当前搜索路径为 $t$，答案为 $ans$。
+Next, we design a function $dfs(i, s)$, which means starting the search from index $i$ with a remaining target value of $s$. Here, $i$ and $s$ are both non-negative integers, the current search path is $t$, and the answer is $ans$.
 
-在函数 $dfs(i, s)$ 中，我们先判断 $s$ 是否为 $0$，如果是，则将当前搜索路径 $t$ 加入答案 $ans$ 中，然后返回。如果 $i \geq n$，或者 $s \lt candidates[i]$，说明当前路径不合法，直接返回。否则，我们从下标 $i$ 开始搜索，搜索的下标范围是 $j \in [i, n)$，其中 $n$ 为数组 $candidates$ 的长度。在搜索的过程中，如果 $j \gt i$ 并且 $candidates[j] = candidates[j - 1]$，说明当前数字与上一个数字相同，我们可以跳过当前数字，因为上一个数字已经搜索过了。否则，我们将当前数字加入搜索路径 $t$ 中，然后递归调用函数 $dfs(j + 1, s - candidates[j])$，然后将当前数字从搜索路径 $t$ 中移除。
+In the function $dfs(i, s)$, we first check whether $s$ is $0$. If it is, we add the current search path $t$ to the answer $ans$, and then return. If $i \geq n$ or $s \lt candidates[i]$, the path is invalid, so we return directly. Otherwise, we start the search from index $i$, and the search index range is $j \in [i, n)$, where $n$ is the length of the array $candidates$. During the search, if $j \gt i$ and $candidates[j] = candidates[j - 1]$, it means that the current number is the same as the previous number, we can skip the current number because the previous number has been searched. Otherwise, we add the current number to the search path $t$, recursively call the function $dfs(j + 1, s - candidates[j])$, and after the recursion ends, we remove the current number from the search path $t$.
 
-在主函数中，我们只要调用函数 $dfs(0, target)$，即可得到答案。
+We can also change the implementation logic of the function $dfs(i, s)$ to another form. If we choose the current number, we add the current number to the search path $t$, then recursively call the function $dfs(i + 1, s - candidates[i])$, and after the recursion ends, we remove the current number from the search path $t$. If we do not choose the current number, we can skip all numbers that are the same as the current number, then recursively call the function $dfs(j, s)$, where $j$ is the index of the first number that is different from the current number.
 
-时间复杂度 $O(2^n \times n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $candidates$ 的长度。由于剪枝，实际的时间复杂度要远小于 $O(2^n \times n)$。
+In the main function, we just need to call the function $dfs(0, target)$ to get the answer.
 
-相似题目：
+The time complexity is $O(2^n \times n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $candidates$. Due to pruning, the actual time complexity is much less than $O(2^n \times n)$.
 
--   [39. 组合总和](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0039.Combination%20Sum/README.md)
--   [77. 组合](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0077.Combinations/README.md)
--   [216. 组合总和 III](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0216.Combination%20Sum%20III/README.md)
+Similar problems:
+
+-   [39. Combination Sum](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0039.Combination%20Sum/README_EN.md)
+-   [77. Combinations](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0077.Combinations/README_EN.md)
+-   [216. Combination Sum III](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0216.Combination%20Sum%20III/README_EN.md)
 
 <!-- tabs:start -->
 
@@ -339,11 +338,11 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二：排序 + 剪枝 + 回溯（写法二）
+### Solution 2: Sorting + Pruning + Backtracking(Another Form)
 
-我们也可以将函数 $dfs(i, s)$ 的实现逻辑改为另一种写法。如果我们选择当前数字，那么我们将当前数字加入搜索路径 $t$ 中，然后递归调用函数 $dfs(i + 1, s - candidates[i])$，然后将当前数字从搜索路径 $t$ 中移除。如果我们不选择当前数字，那么我们可以跳过与当前数字相同的所有数字，然后递归调用函数 $dfs(j, s)$，其中 $j$ 为第一个与当前数字不同的数字的下标。
+We can also change the implementation logic of the function $dfs(i, s)$ to another form. If we choose the current number, we add the current number to the search path $t$, then recursively call the function $dfs(i + 1, s - candidates[i])$, and after the recursion ends, we remove the current number from the search path $t$. If we do not choose the current number, we can skip all numbers that are the same as the current number, then recursively call the function $dfs(j, s)$, where $j$ is the index of the first number that is different from the current number.
 
-时间复杂度 $O(2^n \times n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $candidates$ 的长度。由于剪枝，实际的时间复杂度要远小于 $O(2^n \times n)$。
+The time complexity is $O(2^n \times n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $candidates$. Due to pruning, the actual time complexity is much less than $O(2^n \times n)$.
 
 <!-- tabs:start -->
 

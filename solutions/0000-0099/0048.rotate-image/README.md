@@ -1,46 +1,41 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0048.Rotate%20Image/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 数学
-    - 矩阵
+    - Array
+    - Math
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [48. 旋转图像](https://leetcode.cn/problems/rotate-image)
+# [48. Rotate Image](https://leetcode.com/problems/rotate-image)
 
-[English Version](/solution/0000-0099/0048.Rotate%20Image/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个 <em>n&nbsp;</em>×&nbsp;<em>n</em> 的二维矩阵&nbsp;<code>matrix</code> 表示一个图像。请你将图像顺时针旋转 90 度。</p>
+<p>You are given an <code>n x n</code> 2D <code>matrix</code> representing an image, rotate the image by <strong>90</strong> degrees (clockwise).</p>
 
-<p>你必须在<strong><a href="https://baike.baidu.com/item/%E5%8E%9F%E5%9C%B0%E7%AE%97%E6%B3%95" target="_blank"> 原地</a></strong> 旋转图像，这意味着你需要直接修改输入的二维矩阵。<strong>请不要 </strong>使用另一个矩阵来旋转图像。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0048.Rotate%20Image/images/mat1.jpg" style="height: 188px; width: 500px;" />
-<pre>
-<strong>输入：</strong>matrix = [[1,2,3],[4,5,6],[7,8,9]]
-<strong>输出：</strong>[[7,4,1],[8,5,2],[9,6,3]]
-</pre>
-
-<p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0048.Rotate%20Image/images/mat2.jpg" style="height: 201px; width: 500px;" />
-<pre>
-<strong>输入：</strong>matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
-<strong>输出：</strong>[[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
-</pre>
+<p>You have to rotate the image <a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank"><strong>in-place</strong></a>, which means you have to modify the input 2D matrix directly. <strong>DO NOT</strong> allocate another 2D matrix and do the rotation.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0048.Rotate%20Image/images/mat1.jpg" style="width: 500px; height: 188px;" />
+<pre>
+<strong>Input:</strong> matrix = [[1,2,3],[4,5,6],[7,8,9]]
+<strong>Output:</strong> [[7,4,1],[8,5,2],[9,6,3]]
+</pre>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0048.Rotate%20Image/images/mat2.jpg" style="width: 500px; height: 201px;" />
+<pre>
+<strong>Input:</strong> matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
+<strong>Output:</strong> [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == matrix.length == matrix[i].length</code></li>
@@ -48,21 +43,19 @@ tags:
 	<li><code>-1000 &lt;= matrix[i][j] &lt;= 1000</code></li>
 </ul>
 
-<p>&nbsp;</p>
-
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：原地翻转
+### Solution 1: In-place Rotation
 
-根据题目要求，我们实际上需要将 $\text{matrix}[i][j]$ 旋转至 $\text{matrix}[j][n - i - 1]$。
+According to the problem requirements, we need to rotate $\text{matrix}[i][j]$ to $\text{matrix}[j][n - i - 1]$.
 
-我们可以先对矩阵进行上下翻转，即 $\text{matrix}[i][j]$ 和 $\text{matrix}[n - i - 1][j]$ 进行交换，然后再对矩阵进行主对角线翻转，即 $\text{matrix}[i][j]$ 和 $\text{matrix}[j][i]$ 进行交换。这样就能将 $\text{matrix}[i][j]$ 旋转至 $\text{matrix}[j][n - i - 1]$ 了。
+We can first flip the matrix upside down, i.e., swap $\text{matrix}[i][j]$ with $\text{matrix}[n - i - 1][j]$, and then flip the matrix along the main diagonal, i.e., swap $\text{matrix}[i][j]$ with $\text{matrix}[j][i]$. This way, we can rotate $\text{matrix}[i][j]$ to $\text{matrix}[j][n - i - 1]$.
 
-时间复杂度 $O(n^2)$，其中 $n$ 是矩阵的边长。空间复杂度 $O(1)$。
+The time complexity is $O(n^2)$, where $n$ is the side length of the matrix. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

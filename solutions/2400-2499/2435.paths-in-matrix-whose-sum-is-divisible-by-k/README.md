@@ -1,59 +1,55 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2435.Paths%20in%20Matrix%20Whose%20Sum%20Is%20Divisible%20by%20K/README.md
+difficulty: Hard
 rating: 1951
-source: 第 314 场周赛 Q4
+source: Weekly Contest 314 Q4
 tags:
-    - 数组
-    - 动态规划
-    - 矩阵
+    - Array
+    - Dynamic Programming
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [2435. 矩阵中和能被 K 整除的路径](https://leetcode.cn/problems/paths-in-matrix-whose-sum-is-divisible-by-k)
+# [2435. Paths in Matrix Whose Sum Is Divisible by K](https://leetcode.com/problems/paths-in-matrix-whose-sum-is-divisible-by-k)
 
-[English Version](/solution/2400-2499/2435.Paths%20in%20Matrix%20Whose%20Sum%20Is%20Divisible%20by%20K/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的&nbsp;<code>m x n</code>&nbsp;整数矩阵&nbsp;<code>grid</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;。你从起点&nbsp;<code>(0, 0)</code>&nbsp;出发，每一步只能往 <strong>下</strong>&nbsp;或者往 <strong>右</strong>&nbsp;，你想要到达终点&nbsp;<code>(m - 1, n - 1)</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> <code>m x n</code> integer matrix <code>grid</code> and an integer <code>k</code>. You are currently at position <code>(0, 0)</code> and you want to reach position <code>(m - 1, n - 1)</code> moving only <strong>down</strong> or <strong>right</strong>.</p>
 
-<p>请你返回路径和能被 <code>k</code>&nbsp;整除的路径数目，由于答案可能很大，返回答案对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;的结果。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2435.Paths%20in%20Matrix%20Whose%20Sum%20Is%20Divisible%20by%20K/images/image-20220813183124-1.png" style="width: 437px; height: 200px;"></p>
-
-<pre><b>输入：</b>grid = [[5,2,4],[3,0,5],[0,7,2]], k = 3
-<b>输出：</b>2
-<b>解释：</b>有两条路径满足路径上元素的和能被 k 整除。
-第一条路径为上图中用红色标注的路径，和为 5 + 2 + 4 + 5 + 2 = 18 ，能被 3 整除。
-第二条路径为上图中用蓝色标注的路径，和为 5 + 3 + 0 + 5 + 2 = 15 ，能被 3 整除。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2435.Paths%20in%20Matrix%20Whose%20Sum%20Is%20Divisible%20by%20K/images/image-20220817112930-3.png" style="height: 85px; width: 132px;">
-<pre><b>输入：</b>grid = [[0,0]], k = 5
-<b>输出：</b>1
-<b>解释：</b>红色标注的路径和为 0 + 0 = 0 ，能被 5 整除。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2435.Paths%20in%20Matrix%20Whose%20Sum%20Is%20Divisible%20by%20K/images/image-20220812224605-3.png" style="width: 257px; height: 200px;">
-<pre><b>输入：</b>grid = [[7,3,4,9],[2,3,6,2],[2,3,7,0]], k = 1
-<b>输出：</b>10
-<b>解释：</b>每个数字都能被 1 整除，所以每一条路径的和都能被 k 整除。
-</pre>
+<p>Return<em> the number of paths where the sum of the elements on the path is divisible by </em><code>k</code>. Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2435.Paths%20in%20Matrix%20Whose%20Sum%20Is%20Divisible%20by%20K/images/image-20220813183124-1.png" style="width: 437px; height: 200px;" />
+<pre>
+<strong>Input:</strong> grid = [[5,2,4],[3,0,5],[0,7,2]], k = 3
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> There are two paths where the sum of the elements on the path is divisible by k.
+The first path highlighted in red has a sum of 5 + 2 + 4 + 5 + 2 = 18 which is divisible by 3.
+The second path highlighted in blue has a sum of 5 + 3 + 0 + 5 + 2 = 15 which is divisible by 3.
+</pre>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2435.Paths%20in%20Matrix%20Whose%20Sum%20Is%20Divisible%20by%20K/images/image-20220817112930-3.png" style="height: 85px; width: 132px;" />
+<pre>
+<strong>Input:</strong> grid = [[0,0]], k = 5
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The path highlighted in red has a sum of 0 + 0 = 0 which is divisible by 5.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2435.Paths%20in%20Matrix%20Whose%20Sum%20Is%20Divisible%20by%20K/images/image-20220812224605-3.png" style="width: 257px; height: 200px;" />
+<pre>
+<strong>Input:</strong> grid = [[7,3,4,9],[2,3,6,2],[2,3,7,0]], k = 1
+<strong>Output:</strong> 10
+<strong>Explanation:</strong> Every integer is divisible by 1 so the sum of the elements on every possible path is divisible by k.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
@@ -66,23 +62,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-设计函数 `dfs(i, j, s)` 表示从 `(i, j)` 出发，初始路径和模 $k$ 的结果为 $s$ 的路径数目。
+We design a function `dfs(i, j, s)` to represent the number of paths starting from `(i, j)` with an initial path sum modulo $k$ equal to $s$.
 
-对于每个位置 $(i, j)$，我们可以选择向右或向下移动，因此有：
+For each position $(i, j)$, we can choose to move right or down, so we have:
 
 $$
 dfs(i, j, s) = dfs(i + 1, j, (s + grid[i][j]) \bmod k) + dfs(i, j + 1, (s + grid[i][j]) \bmod k)
 $$
 
-答案为 `dfs(0, 0, 0)`。记忆化搜索即可。
+The answer is `dfs(0, 0, 0)`. We can use memoization search.
 
-时间复杂度 $O(m \times n \times k)$，空间复杂度 $O(m \times n \times k)$。其中 $m$ 和 $n$ 分别为矩阵的行数和列数，而 $k$ 为给定的整数。
+The time complexity is $O(m \times n \times k)$, and the space complexity is $O(m \times n \times k)$. Here, $m$ and $n$ are the number of rows and columns of the matrix, and $k$ is the given integer.
 
 <!-- tabs:start -->
 
@@ -247,21 +243,21 @@ function numberOfPaths(grid: number[][], k: number): number {
 
 <!-- solution:start -->
 
-### 方法二：动态规划
+### Solution 2: Dynamic Programming
 
-我们也可以使用动态规划求解。
+We can also use dynamic programming to solve this problem.
 
-定义状态 $dp[i][j][s]$ 表示从起点 $(0, 0)$ 出发，到达位置 $(i, j)$，路径和模 $k$ 等于 $s$ 的路径数目。
+Define the state $dp[i][j][s]$ to represent the number of paths from the starting point $(0, 0)$ to the position $(i, j)$, where the path sum modulo $k$ equals $s$.
 
-初始值 $dp[0][0][grid[0][0] \bmod k] = 1$，答案为 $dp[m - 1][n - 1][0]$。
+The initial value is $dp[0][0][grid[0][0] \bmod k] = 1$, and the answer is $dp[m - 1][n - 1][0]$.
 
-我们可以得到状态转移方程：
+We can get the state transition equation:
 
 $$
 dp[i][j][s] = dp[i - 1][j][(s - grid[i][j])\bmod k] + dp[i][j - 1][(s - grid[i][j])\bmod k]
 $$
 
-时间复杂度 $O(m \times n \times k)$，空间复杂度 $O(m \times n \times k)$。其中 $m$ 和 $n$ 分别为矩阵的行数和列数，而 $k$ 为给定的整数。
+The time complexity is $O(m \times n \times k)$, and the space complexity is $O(m \times n \times k)$. Here, $m$ and $n$ are the number of rows and columns of the matrix, and $k$ is the given integer.
 
 <!-- tabs:start -->
 

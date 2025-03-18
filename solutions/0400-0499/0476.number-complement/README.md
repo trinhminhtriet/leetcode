@@ -1,79 +1,70 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0476.Number%20Complement/README.md
+difficulty: Easy
 tags:
-    - 位运算
+    - Bit Manipulation
 ---
 
 <!-- problem:start -->
 
-# [476. 数字的补数](https://leetcode.cn/problems/number-complement)
+# [476. Number Complement](https://leetcode.com/problems/number-complement)
 
-[English Version](/solution/0400-0499/0476.Number%20Complement/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>对整数的二进制表示取反（<code>0</code> 变 <code>1</code> ，<code>1</code> 变 <code>0</code>）后，再转换为十进制表示，可以得到这个整数的补数。</p>
+<p>The <strong>complement</strong> of an integer is the integer you get when you flip all the <code>0</code>&#39;s to <code>1</code>&#39;s and all the <code>1</code>&#39;s to <code>0</code>&#39;s in its binary representation.</p>
 
 <ul>
-	<li>例如，整数 <code>5</code> 的二进制表示是 <code>"101"</code> ，取反后得到 <code>"010"</code> ，再转回十进制表示得到补数 <code>2</code> 。</li>
+	<li>For example, The integer <code>5</code> is <code>&quot;101&quot;</code> in binary and its <strong>complement</strong> is <code>&quot;010&quot;</code> which is the integer <code>2</code>.</li>
 </ul>
 
-<p>给你一个整数 <code>num</code> ，输出它的补数。</p>
+<p>Given an integer <code>num</code>, return <em>its complement</em>.</p>
 
 <p>&nbsp;</p>
-
-<ol>
-</ol>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>num = 5
-<strong>输出：</strong>2
-<strong>解释：</strong>5 的二进制表示为 101（没有前导零位），其补数为 010。所以你需要输出 2 。
+<strong>Input:</strong> num = 5
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The binary representation of 5 is 101 (no leading zero bits), and its complement is 010. So you need to output 2.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>num = 1
-<strong>输出：</strong>0
-<strong>解释：</strong>1 的二进制表示为 1（没有前导零位），其补数为 0。所以你需要输出 0 。
+<strong>Input:</strong> num = 1
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The binary representation of 1 is 1 (no leading zero bits), and its complement is 0. So you need to output 0.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= num &lt; 2<sup>31</sup></code></li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>注意：</strong>本题与 1009 <a href="https://leetcode.cn/problems/complement-of-base-10-integer/">https://leetcode.cn/problems/complement-of-base-10-integer/</a> 相同</p>
+<p><strong>Note:</strong> This question is the same as 1009: <a href="https://leetcode.com/problems/complement-of-base-10-integer/" target="_blank">https://leetcode.com/problems/complement-of-base-10-integer/</a></p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算
+### Solution 1: Bit Manipulation
 
-根据题目描述，我们可以通过异或运算来实现取反的操作，步骤如下：
+According to the problem description, we can use XOR operation to implement the flipping operation, the steps are as follows:
 
-我们首先找到 $\textit{num}$ 的二进制表示中最高位的 $1$，位置记为 $k$。
+First, we find the highest bit of $1$ in the binary representation of $\textit{num}$, and the position is denoted as $k$.
 
-然后，构造一个二进制数，第 $k$ 位为 $0$，其余低位为 $1$，即 $2^k - 1$；
+Then, we construct a binary number, where the $k$-th bit is $0$ and the rest of the lower bits are $1$, which is $2^k - 1$;
 
-最后，将 $\textit{num}$ 与上述构造的二进制数进行异或运算，即可得到答案。
+Finally, we perform XOR operation on $\textit{num}$ and the constructed binary number to get the answer.
 
-时间复杂度 $O(\log \textit{num})$，其中 $\textit{num}$ 为输入的整数。空间复杂度 $O(1)$。
+The time complexity is $O(\log \textit{num})$, where $\textit{num}$ is the input integer. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -140,7 +131,7 @@ var findComplement = function (num) {
 
 <!-- solution:start -->
 
-### 方法二：位运算（取反+按位与）
+### Solution 2: Bit Manipulation. Inversion + AND
 
 <!-- tabs:start -->
 

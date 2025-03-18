@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3246.Premier%20League%20Table%20Ranking/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3246. 英超积分榜排名 🔒](https://leetcode.cn/problems/premier-league-table-ranking)
+# [3246. Premier League Table Ranking 🔒](https://leetcode.com/problems/premier-league-table-ranking)
 
-[English Version](/solution/3200-3299/3246.Premier%20League%20Table%20Ranking/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>TeamStats</code></p>
+<p>Table: <code>TeamStats</code></p>
 
 <pre>
 +------------------+---------+
@@ -29,32 +26,31 @@ tags:
 | draws            | int     |
 | losses           | int     |
 +------------------+---------+
-team_id 是这张表的唯一主键。
-这张表包含队伍 id，队伍名，场次，赢局，平局和输局。
+team_id is the unique key for this table.
+This table contains team id, team name, matches_played, wins, draws, and losses.
 </pre>
 
-<p>编写一个解决方案来计算联盟中每支球队的 <strong>得分</strong> 和 <strong>排名</strong>。积分计算方式如下：</p>
+<p>Write a solution to calculate the <strong>points</strong> and <strong>rank</strong> for each team in the league. Points are calculated as follows:</p>
 
 <ul>
-	<li><strong>赢局</strong> 有&nbsp;<code>3</code>&nbsp;点得分</li>
-	<li><strong>平局</strong> 有&nbsp;<code>1</code>&nbsp;点得分</li>
-	<li><strong>输局</strong> 有&nbsp;<code>0</code>&nbsp;点得分</li>
+	<li><code>3</code> points for a <strong>win</strong></li>
+	<li><code>1</code> point for a <strong>draw</strong></li>
+	<li><code>0</code> points for a <strong>loss</strong></li>
 </ul>
 
-<p><b>注意：</b>积分相同的球队必须分配相同的排名。</p>
+<p><strong>Note:</strong>&nbsp;Teams with the same points must be assigned the same rank.</p>
 
-<p>返回结果表以&nbsp;<code>points</code>&nbsp;<strong>降序</strong>&nbsp;排序，然后以&nbsp;<code>team_name</code> <strong>升序</strong>&nbsp;排序。</p>
+<p>Return <em>the result table ordered by</em> <code>points</code>&nbsp;<em>in&nbsp;<strong>descending</strong>,<strong>&nbsp;</strong>and then by</em> <code>team_name</code> <em>in <strong>ascending </strong>order.</em></p>
 
-<p>结果格式如下所示。</p>
+<p>The query result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p><code>TeamStats</code> 表：</p>
+<p><code>TeamStats</code> table:</p>
 
 <pre class="example-io">
 +---------+-----------------+----------------+------+-------+--------+
@@ -68,7 +64,7 @@ team_id 是这张表的唯一主键。
 +---------+-----------------+----------------+------+-------+--------+
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +---------+-----------------+--------+----------+
@@ -82,27 +78,27 @@ team_id 是这张表的唯一主键。
 +---------+-----------------+--------+----------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>曼城和利物浦均拿下 20 分（6 赢 * 3 分 + 2 平 * 1 分），所以他们并列第一。</li>
-	<li>切尔西拿下&nbsp;18 分（5 赢 * 3 分 + 3 平 * 1 分）所以位列第三。</li>
-	<li>阿森纳拿下 16 分（4 赢 * 3 分 + 4 平 * 1 分）位列第四。</li>
-	<li>托特纳姆热刺队拿下 14 分（3 赢 * 3 分 + 5 平 * 1 分）位列第五。</li>
+	<li>Manchester City and Liverpool both have 20 points (6 wins * 3 points + 2 draws * 1 point), so they share position 1.</li>
+	<li>Chelsea has 18 points (5 wins * 3 points + 3 draws * 1 point) and is position 3rd.</li>
+	<li>Arsenal has 16 points (4 wins * 3 points + 4 draws * 1 point) and is position 4th.</li>
+	<li>Tottenham has 14 points (3 wins * 3 points + 5 draws * 1 point) and is position 5th.</li>
 </ul>
 
-<p>输出表以得分降序排序，然后以&nbsp;team_name 升序排序。</p>
+<p>The output table is ordered by points in descending order, then by team_name in ascending order.</p>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：窗口函数
+### Solution 1: Window Function
 
-我们可以使用 `RANK()` 窗口函数来计算球队的排名，然后按照得分和球队名进行排序。
+We can use the `RANK()` window function to calculate the ranking of the teams, and then sort by score and team name.
 
 <!-- tabs:start -->
 

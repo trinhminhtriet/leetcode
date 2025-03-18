@@ -1,53 +1,49 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0128.Longest%20Consecutive%20Sequence/README.md
+difficulty: Medium
 tags:
-    - 并查集
-    - 数组
-    - 哈希表
+    - Union Find
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [128. 最长连续序列](https://leetcode.cn/problems/longest-consecutive-sequence)
+# [128. Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence)
 
-[English Version](/solution/0100-0199/0128.Longest%20Consecutive%20Sequence/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个未排序的整数数组 <code>nums</code> ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。</p>
+<p>Given an unsorted array of integers <code>nums</code>, return <em>the length of the longest consecutive elements sequence.</em></p>
 
-<p>请你设计并实现时间复杂度为&nbsp;<code>O(n)</code><em> </em>的算法解决此问题。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [100,4,200,1,3,2]
-<strong>输出：</strong>4
-<strong>解释：</strong>最长数字连续序列是 [1, 2, 3, 4]。它的长度为 4。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [0,3,7,2,5,8,4,6,0,1]
-<strong>输出：</strong>9
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,0,1,2]
-<b>输出：</b>3
-</pre>
+<p>You must write an algorithm that runs in&nbsp;<code>O(n)</code>&nbsp;time.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [100,4,200,1,3,2]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The longest consecutive elements sequence is <code>[1, 2, 3, 4]</code>. Therefore its length is 4.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [0,3,7,2,5,8,4,6,0,1]
+<strong>Output:</strong> 9
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,0,1,2]
+<strong>Output:</strong> 3
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -56,19 +52,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们可以用一个哈希表 $\textit{s}$ 存储数组中所有的元素，用一个变量 $\textit{ans}$ 记录最长连续序列的长度，用一个哈希表 $\textit{d}$ 记录每个元素 $x$ 所在的连续序列的长度。
+We can use a hash table $\textit{s}$ to store all the elements in the array, a variable $\textit{ans}$ to record the length of the longest consecutive sequence, and a hash table $\textit{d}$ to record the length of the consecutive sequence each element $x$ belongs to.
 
-接下来，我们遍历数组中每个元素 $x$，用一个临时变量 $y$ 记录当前连续序列的最大值，初始时 $y = x$。然后，我们不断尝试匹配 $y+1, y+2, y+3, \dots$，直到匹配不到为止，过程中将匹配到的元素从哈希表 $\textit{s}$ 中移除。那么，当前元素 $x$ 所在的连续序列的长度即为 $d[x] = d[y] + y - x$，然后更新答案 $\textit{ans} = \max(\textit{ans}, d[x])$。
+Next, we iterate through each element $x$ in the array, using a temporary variable $y$ to record the maximum value of the current consecutive sequence, initially $y = x$. Then, we continuously try to match $y+1, y+2, y+3, \dots$ until we can no longer match. During this process, we remove the matched elements from the hash table $\textit{s}$. The length of the consecutive sequence that the current element $x$ belongs to is $d[x] = d[y] + y - x$, and then we update the answer $\textit{ans} = \max(\textit{ans}, d[x])$.
 
-遍历结束后，返回答案 $\textit{ans}$ 即可。
+After the iteration, we return the answer $\textit{ans}$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 
@@ -231,11 +227,11 @@ var longestConsecutive = function (nums) {
 
 <!-- solution:start -->
 
-### 方法二：哈希表（优化）
+### Solution 2: Hash Table (Optimization)
 
-与方法一类似，我们用一个哈希表 $\textit{s}$ 存储数组中所有的元素，用一个变量 $\textit{ans}$ 记录最长连续序列的长度。但是，我们不再使用哈希表 $\textit{d}$ 记录每个元素 $x$ 所在的连续序列的长度，在遍历的过程中，跳过那些 $x-1$ 也在哈希表 $\textit{s}$ 中的元素，如果 $x-1$ 在哈希表 $\textit{s}$ 中，那么 $x$ 一定不是连续序列的起点，因此我们可以直接跳过 $x$。
+Similar to Solution 1, we use a hash table $\textit{s}$ to store all the elements in the array and a variable $\textit{ans}$ to record the length of the longest consecutive sequence. However, we no longer use a hash table $\textit{d}$ to record the length of the consecutive sequence each element $x$ belongs to. During the iteration, we skip elements where $x-1$ is also in the hash table $\textit{s}$. If $x-1$ is in the hash table $\textit{s}$, then $x$ is definitely not the start of a consecutive sequence, so we can directly skip $x$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

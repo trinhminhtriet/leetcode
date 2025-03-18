@@ -1,74 +1,65 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3123.Find%20Edges%20in%20Shortest%20Paths/README.md
+difficulty: Hard
 rating: 2093
-source: 第 394 场周赛 Q4
+source: Weekly Contest 394 Q4
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 图
-    - 最短路
-    - 堆（优先队列）
+    - Depth-First Search
+    - Breadth-First Search
+    - Graph
+    - Shortest Path
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [3123. 最短路径中的边](https://leetcode.cn/problems/find-edges-in-shortest-paths)
+# [3123. Find Edges in Shortest Paths](https://leetcode.com/problems/find-edges-in-shortest-paths)
 
-[English Version](/solution/3100-3199/3123.Find%20Edges%20in%20Shortest%20Paths/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>n</code>&nbsp;个节点的无向带权图，节点编号为 <code>0</code>&nbsp;到 <code>n - 1</code>&nbsp;。图中总共有 <code>m</code>&nbsp;条边，用二维数组&nbsp;<code>edges</code>&nbsp;表示，其中&nbsp;<code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>, w<sub>i</sub>]</code>&nbsp;表示节点 <code>a<sub>i</sub></code> 和&nbsp;<code>b<sub>i</sub></code>&nbsp;之间有一条边权为&nbsp;<code>w<sub>i</sub></code>&nbsp;的边。</p>
+<p>You are given an undirected weighted graph of <code>n</code> nodes numbered from 0 to <code>n - 1</code>. The graph consists of <code>m</code> edges represented by a 2D array <code>edges</code>, where <code>edges[i] = [a<sub>i</sub>, b<sub>i</sub>, w<sub>i</sub>]</code> indicates that there is an edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> with weight <code>w<sub>i</sub></code>.</p>
 
-<p>对于节点 <code>0</code>&nbsp;为出发点，节点 <code>n - 1</code>&nbsp;为结束点的所有最短路，你需要返回一个长度为 <code>m</code>&nbsp;的 <strong>boolean</strong>&nbsp;数组&nbsp;<code>answer</code>&nbsp;，如果&nbsp;<code>edges[i]</code>&nbsp;<strong>至少</strong>&nbsp;在其中一条最短路上，那么&nbsp;<code>answer[i]</code>&nbsp;为&nbsp;<code>true</code>&nbsp;，否则&nbsp;<code>answer[i]</code>&nbsp;为&nbsp;<code>false</code>&nbsp;。</p>
+<p>Consider all the shortest paths from node 0 to node <code>n - 1</code> in the graph. You need to find a <strong>boolean</strong> array <code>answer</code> where <code>answer[i]</code> is <code>true</code> if the edge <code>edges[i]</code> is part of <strong>at least</strong> one shortest path. Otherwise, <code>answer[i]</code> is <code>false</code>.</p>
 
-<p>请你返回数组&nbsp;<code>answer</code>&nbsp;。</p>
+<p>Return the array <code>answer</code>.</p>
 
-<p><b>注意</b>，图可能不连通。</p>
+<p><strong>Note</strong> that the graph may not be connected.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3123.Find%20Edges%20in%20Shortest%20Paths/images/graph35drawio-1.png" style="height: 129px; width: 250px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3123.Find%20Edges%20in%20Shortest%20Paths/images/graph35drawio-1.png" style="height: 129px; width: 250px;" />
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>n = 6, edges = [[0,1,4],[0,2,1],[1,3,2],[1,4,3],[1,5,1],[2,3,1],[3,5,3],[4,5,2]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 6, edges = [[0,1,4],[0,2,1],[1,3,2],[1,4,3],[1,5,1],[2,3,1],[3,5,3],[4,5,2]]</span></p>
 
-<p><span class="example-io"><b>输出：</b>[true,true,true,false,true,true,true,false]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[true,true,true,false,true,true,true,false]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>以下为节点 0 出发到达节点 5 的 <strong>所有</strong>&nbsp;最短路：</p>
+<p>The following are <strong>all</strong> the shortest paths between nodes 0 and 5:</p>
 
 <ul>
-	<li>路径&nbsp;<code>0 -&gt; 1 -&gt; 5</code>&nbsp;：边权和为&nbsp;<code>4 + 1 = 5</code>&nbsp;。</li>
-	<li>路径&nbsp;<code>0 -&gt; 2 -&gt; 3 -&gt; 5</code>&nbsp;：边权和为&nbsp;<code>1 + 1 + 3 = 5</code>&nbsp;。</li>
-	<li>路径&nbsp;<code>0 -&gt; 2 -&gt; 3 -&gt; 1 -&gt; 5</code>&nbsp;：边权和为&nbsp;<code>1 + 1 + 2 + 1 = 5</code>&nbsp;。</li>
+	<li>The path <code>0 -&gt; 1 -&gt; 5</code>: The sum of weights is <code>4 + 1 = 5</code>.</li>
+	<li>The path <code>0 -&gt; 2 -&gt; 3 -&gt; 5</code>: The sum of weights is <code>1 + 1 + 3 = 5</code>.</li>
+	<li>The path <code>0 -&gt; 2 -&gt; 3 -&gt; 1 -&gt; 5</code>: The sum of weights is <code>1 + 1 + 2 + 1 = 5</code>.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3123.Find%20Edges%20in%20Shortest%20Paths/images/graphhhh.png" style="width: 185px; height: 136px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3123.Find%20Edges%20in%20Shortest%20Paths/images/graphhhh.png" style="width: 185px; height: 136px;" />
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>n = 4, edges = [[2,0,1],[0,1,1],[0,3,4],[3,2,2]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 4, edges = [[2,0,1],[0,1,1],[0,3,4],[3,2,2]]</span></p>
 
-<p><span class="example-io"><b>输出：</b>[true,false,false,true]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[true,false,false,true]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>只有一条从节点 0 出发到达节点 3 的最短路&nbsp;<code>0 -&gt; 2 -&gt; 3</code>&nbsp;，边权和为&nbsp;<code>1 + 2 = 3</code>&nbsp;。</p>
+<p>There is one shortest path between nodes 0 and 3, which is the path <code>0 -&gt; 2 -&gt; 3</code> with the sum of weights <code>1 + 2 = 3</code>.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 5 * 10<sup>4</sup></code></li>
@@ -77,31 +68,31 @@ tags:
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt; n</code></li>
 	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
 	<li><code>1 &lt;= w<sub>i</sub> &lt;= 10<sup>5</sup></code></li>
-	<li>图中没有重边。</li>
+	<li>There are no repeated edges.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：堆优化的 Dijkstra
+### Solution 1: Heap Optimized Dijkstra
 
-我们先创建一个邻接表 $g$，用于存储图的边。然后创建一个数组 $dist$，用于存储从节点 $0$ 到其他节点的最短距离。初始化 $dist[0] = 0$，其余节点的距离初始化为无穷大。
+First, we create an adjacency list $g$ to store the edges of the graph. Then we create an array $dist$ to store the shortest distance from node $0$ to other nodes. We initialize $dist[0] = 0$, and the distance of other nodes is initialized to infinity.
 
-然后，我们使用 Dijkstra 算法计算从节点 $0$ 到其他节点的最短距离。具体步骤如下：
+Then, we use the Dijkstra algorithm to calculate the shortest distance from node $0$ to other nodes. The specific steps are as follows:
 
-1. 创建一个优先队列 $q$，用于存储节点的距离和节点编号，初始时将节点 $0$ 加入队列，距离为 $0$。
-2. 从队列中取出一个节点 $a$，如果 $a$ 的距离 $da$ 大于 $dist[a]$，说明 $a$ 已经被更新过了，直接跳过。
-3. 遍历节点 $a$ 的所有邻居节点 $b$，如果 $dist[b] > dist[a] + w$，则更新 $dist[b] = dist[a] + w$，并将节点 $b$ 加入队列。
-4. 重复步骤 2 和步骤 3，直到队列为空。
+1. Create a priority queue $q$ to store the distance and node number of the nodes. Initially, add node $0$ to the queue with a distance of $0$.
+2. Take a node $a$ from the queue. If the distance $da$ of $a$ is greater than $dist[a]$, it means that $a$ has been updated, so skip it directly.
+3. Traverse all neighbor nodes $b$ of node $a$. If $dist[b] > dist[a] + w$, update $dist[b] = dist[a] + w$, and add node $b$ to the queue.
+4. Repeat steps 2 and 3 until the queue is empty.
 
-接着，我们创建一个长度为 $m$ 的答案数组 $ans$，初始时所有元素都为 $false$。如果 $dist[n - 1]$ 为无穷大，说明节点 $0$ 无法到达节点 $n - 1$，直接返回 $ans$。否则，我们从节点 $n - 1$ 开始，遍历所有的边，如果边 $(a, b, i)$ 满足 $dist[a] = dist[b] + w$，则将 $ans[i]$ 置为 $true$，并将节点 $b$ 加入队列。
+Next, we create an answer array $ans$ of length $m$, initially all elements are $false$. If $dist[n - 1]$ is infinity, it means that node $0$ cannot reach node $n - 1$, return $ans$ directly. Otherwise, we start from node $n - 1$, traverse all edges, if the edge $(a, b, i)$ satisfies $dist[a] = dist[b] + w$, set $ans[i]$ to $true$, and add node $b$ to the queue.
 
-最后，返回答案即可。
+Finally, return the answer.
 
-时间复杂度 $O(m \times \log m)$，空间复杂度 $O(n + m)$，其中 $n$ 和 $m$ 分别为节点数和边数。
+The time complexity is $O(m \times \log m)$, and the space complexity is $O(n + m)$, where $n$ and $m$ are the number of nodes and edges respectively.
 
 <!-- tabs:start -->
 

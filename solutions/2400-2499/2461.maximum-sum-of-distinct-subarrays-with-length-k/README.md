@@ -1,63 +1,60 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2461.Maximum%20Sum%20of%20Distinct%20Subarrays%20With%20Length%20K/README.md
+difficulty: Medium
 rating: 1552
-source: 第 318 场周赛 Q2
+source: Weekly Contest 318 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 滑动窗口
+    - Array
+    - Hash Table
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [2461. 长度为 K 子数组中的最大和](https://leetcode.cn/problems/maximum-sum-of-distinct-subarrays-with-length-k)
+# [2461. Maximum Sum of Distinct Subarrays With Length K](https://leetcode.com/problems/maximum-sum-of-distinct-subarrays-with-length-k)
 
-[English Version](/solution/2400-2499/2461.Maximum%20Sum%20of%20Distinct%20Subarrays%20With%20Length%20K/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> 。请你从 <code>nums</code> 中满足下述条件的全部子数组中找出最大子数组和：</p>
+<p>You are given an integer array <code>nums</code> and an integer <code>k</code>. Find the maximum subarray sum of all the subarrays of <code>nums</code> that meet the following conditions:</p>
 
 <ul>
-	<li>子数组的长度是 <code>k</code>，且</li>
-	<li>子数组中的所有元素 <strong>各不相同 。</strong></li>
+	<li>The length of the subarray is <code>k</code>, and</li>
+	<li>All the elements of the subarray are <strong>distinct</strong>.</li>
 </ul>
 
-<p>返回满足题面要求的最大子数组和。如果不存在子数组满足这些条件，返回 <code>0</code> 。</p>
+<p>Return <em>the maximum subarray sum of all the subarrays that meet the conditions</em><em>.</em> If no subarray meets the conditions, return <code>0</code>.</p>
 
-<p><strong>子数组</strong> 是数组中一段连续非空的元素序列。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>nums = [1,5,4,2,9,9,9], k = 3
-<strong>输出：</strong>15
-<strong>解释：</strong>nums 中长度为 3 的子数组是：
-- [1,5,4] 满足全部条件，和为 10 。
-- [5,4,2] 满足全部条件，和为 11 。
-- [4,2,9] 满足全部条件，和为 15 。
-- [2,9,9] 不满足全部条件，因为元素 9 出现重复。
-- [9,9,9] 不满足全部条件，因为元素 9 出现重复。
-因为 15 是满足全部条件的所有子数组中的最大子数组和，所以返回 15 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>nums = [4,4,4], k = 3
-<strong>输出：</strong>0
-<strong>解释：</strong>nums 中长度为 3 的子数组是：
-- [4,4,4] 不满足全部条件，因为元素 4 出现重复。
-因为不存在满足全部条件的子数组，所以返回 0 。
-</pre>
+<p><em>A <strong>subarray</strong> is a contiguous non-empty sequence of elements within an array.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,5,4,2,9,9,9], k = 3
+<strong>Output:</strong> 15
+<strong>Explanation:</strong> The subarrays of nums with length 3 are:
+- [1,5,4] which meets the requirements and has a sum of 10.
+- [5,4,2] which meets the requirements and has a sum of 11.
+- [4,2,9] which meets the requirements and has a sum of 15.
+- [2,9,9] which does not meet the requirements because the element 9 is repeated.
+- [9,9,9] which does not meet the requirements because the element 9 is repeated.
+We return 15 because it is the maximum subarray sum of all the subarrays that meet the conditions
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [4,4,4], k = 3
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The subarrays of nums with length 3 are:
+- [4,4,4] which does not meet the requirements because the element 4 is repeated.
+We return 0 because no subarrays meet the conditions.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -66,15 +63,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：滑动窗口 + 哈希表
+### Solution 1: Sliding Window + Hash Table
 
-我们维护一个长度为 $k$ 的滑动窗口，用哈希表 $cnt$ 记录窗口中每个数字出现的次数，用变量 $s$ 记录窗口中所有数字的和。每次滑动窗口，如果窗口中的数字都不重复，那么更新答案。
+We maintain a sliding window of length $k$, use a hash table $cnt$ to record the count of each number in the window, and use a variable $s$ to record the sum of all numbers in the window. Each time we slide the window, if all numbers in the window are unique, we update the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

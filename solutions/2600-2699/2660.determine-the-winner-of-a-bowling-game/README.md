@@ -1,106 +1,101 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2660.Determine%20the%20Winner%20of%20a%20Bowling%20Game/README.md
+difficulty: Easy
 rating: 1324
-source: 第 343 场周赛 Q1
+source: Weekly Contest 343 Q1
 tags:
-    - 数组
-    - 模拟
+    - Array
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2660. 保龄球游戏的获胜者](https://leetcode.cn/problems/determine-the-winner-of-a-bowling-game)
+# [2660. Determine the Winner of a Bowling Game](https://leetcode.com/problems/determine-the-winner-of-a-bowling-game)
 
-[English Version](/solution/2600-2699/2660.Determine%20the%20Winner%20of%20a%20Bowling%20Game/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个下标从 <strong>0</strong> 开始的整数数组 <code>player1</code> 和 <code>player2</code> ，分别表示玩家 1 和玩家 2 击中的瓶数。</p>
+<p>You are given two <strong>0-indexed</strong> integer arrays <code><font face="monospace">player1</font></code> and <code>player2</code>, representing the number of pins that player 1 and player 2 hit in a bowling game, respectively.</p>
 
-<p>保龄球比赛由 <code>n</code> 轮组成，每轮的瓶数恰好为 <code>10</code> 。</p>
+<p>The bowling game consists of <code>n</code> turns, and the number of pins in each turn is exactly 10.</p>
 
-<p>假设玩家在第 <code>i</code> 轮中击中&nbsp;<code>x<sub>i</sub></code> 个瓶子。玩家第 <code>i</code> 轮的价值为：</p>
+<p>Assume a player hits <code>x<sub>i</sub></code> pins in the i<sup>th</sup> turn. The value of the i<sup>th</sup> turn for the player is:</p>
 
 <ul>
-	<li>如果玩家在该轮的前两轮的任何一轮中击中了 <code>10</code> 个瓶子，则为 <code>2x<sub>i</sub></code> 。</li>
-	<li>否则，为&nbsp;<code>x<sub>i</sub></code> 。</li>
+	<li><code>2x<sub>i</sub></code> if the player hits 10 pins <b>in either (i - 1)<sup>th</sup> or (i - 2)<sup>th</sup> turn</b>.</li>
+	<li>Otherwise, it is <code>x<sub>i</sub></code>.</li>
 </ul>
 
-<p>玩家的得分是其 <code>n</code> 轮价值的总和。</p>
+<p>The <strong>score</strong> of the player is the sum of the values of their <code>n</code> turns.</p>
 
-<p>返回</p>
+<p>Return</p>
 
 <ul>
-	<li>如果玩家 1 的得分高于玩家 2 的得分，则为 <code>1</code> ；</li>
-	<li>如果玩家 2 的得分高于玩家 1 的得分，则为 <code>2</code> ；</li>
-	<li>如果平局，则为 <code>0</code> 。</li>
+	<li>1 if the score of player 1 is more than the score of player 2,</li>
+	<li>2 if the score of player 2 is more than the score of player 1, and</li>
+	<li>0 in case of a draw.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">player1 = [5,10,3,2], player2 = [6,5,7,3]</span></p>
+<p><strong>Input:</strong> <span class="example-io">player1 = [5,10,3,2], player2 = [6,5,7,3]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">1</span></p>
+<p><strong>Output:</strong> <span class="example-io">1</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>玩家 1 的分数为 5 + 10 + 2*3 + 2*2 = 25。</p>
+<p>The score of player 1 is 5 + 10 + 2*3 + 2*2 = 25.</p>
 
-<p>玩家 2&nbsp;的分数为 6 + 5 + 7 + 3 = 21。</p>
+<p>The score of player 2 is 6 + 5 + 7 + 3 = 21.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">player1 = [3,5,7,6], player2 = [8,10,10,2]</span></p>
+<p><strong>Input:</strong> <span class="example-io">player1 = [3,5,7,6], player2 = [8,10,10,2]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>玩家 1 的分数为 3 + 5 + 7 + 6 = 21。</p>
+<p>The score of player 1 is 3 + 5 + 7 + 6 = 21.</p>
 
-<p>玩家 2&nbsp;的分数为 8 + 10 + 2*10 + 2*2 = 42。</p>
+<p>The score of player 2 is 8 + 10 + 2*10 + 2*2 = 42.</p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">player1 = [2,3], player2 = [4,1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">player1 = [2,3], player2 = [4,1]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">0</span></p>
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>玩家 1 的分数为&nbsp;2 + 3 = 5。</p>
+<p>The score of player1 is 2 + 3 = 5.</p>
 
-<p>玩家 2 的分数为&nbsp;4 + 1 = 5。</p>
+<p>The score of player2 is 4 + 1 = 5.</p>
 </div>
 
-<p><strong class="example">示例 4：</strong></p>
+<p><strong class="example">Example 4:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">player1 = [1,1,1,10,10,10,10], player2 = [10,10,10,10,1,1,1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">player1 = [1,1,1,10,10,10,10], player2 = [10,10,10,10,1,1,1]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>玩家 1 的分数为 1 + 1 + 1 + 10 + 2*10 + 2*10 + 2*10 = 73。</p>
+<p>The score of player1 is 1 + 1 + 1 + 10 + 2*10 + 2*10 + 2*10 = 73.</p>
 
-<p>玩家 2 的分数为 is 10 + 2*10 + 2*10 + 2*10 + 2*1 + 2*1 + 1 = 75。</p>
+<p>The score of player2 is 10 + 2*10 + 2*10 + 2*10 + 2*1 + 2*1 + 1 = 75.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == player1.length == player2.length</code></li>
@@ -110,15 +105,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以用一个函数 $f(arr)$ 计算出两个玩家的得分，分别记为 $a$ 和 $b$，然后根据 $a$ 和 $b$ 的大小关系返回答案即可。
+We can define a function $f(arr)$ to calculate the scores of the two players, denoted as $a$ and $b$, respectively, and then return the answer based on the relationship between $a$ and $b$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

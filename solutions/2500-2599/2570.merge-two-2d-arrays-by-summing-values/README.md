@@ -1,90 +1,85 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2570.Merge%20Two%202D%20Arrays%20by%20Summing%20Values/README.md
+difficulty: Easy
 rating: 1281
-source: 第 333 场周赛 Q1
+source: Weekly Contest 333 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 双指针
+    - Array
+    - Hash Table
+    - Two Pointers
 ---
 
 <!-- problem:start -->
 
-# [2570. 合并两个二维数组 - 求和法](https://leetcode.cn/problems/merge-two-2d-arrays-by-summing-values)
+# [2570. Merge Two 2D Arrays by Summing Values](https://leetcode.com/problems/merge-two-2d-arrays-by-summing-values)
 
-[English Version](/solution/2500-2599/2570.Merge%20Two%202D%20Arrays%20by%20Summing%20Values/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个 <strong>二维</strong> 整数数组 <code>nums1</code> 和 <code>nums2.</code></p>
+<p>You are given two <strong>2D</strong> integer arrays <code>nums1</code> and <code>nums2.</code></p>
 
 <ul>
-	<li><code>nums1[i] = [id<sub>i</sub>, val<sub>i</sub>]</code> 表示编号为 <code>id<sub>i</sub></code> 的数字对应的值等于 <code>val<sub>i</sub></code> 。</li>
-	<li><code>nums2[i] = [id<sub>i</sub>, val<sub>i</sub>]</code>&nbsp;表示编号为 <code>id<sub>i</sub></code> 的数字对应的值等于 <code>val<sub>i</sub></code> 。</li>
+	<li><code>nums1[i] = [id<sub>i</sub>, val<sub>i</sub>]</code>&nbsp;indicate that the number with the id <code>id<sub>i</sub></code> has a value equal to <code>val<sub>i</sub></code>.</li>
+	<li><code>nums2[i] = [id<sub>i</sub>, val<sub>i</sub>]</code>&nbsp;indicate that the number with the id <code>id<sub>i</sub></code> has a value equal to <code>val<sub>i</sub></code>.</li>
 </ul>
 
-<p>每个数组都包含 <strong>互不相同</strong> 的 id ，并按 id 以 <strong>递增</strong> 顺序排列。</p>
+<p>Each array contains <strong>unique</strong> ids and is sorted in <strong>ascending</strong> order by id.</p>
 
-<p>请你将两个数组合并为一个按 id 以递增顺序排列的数组，并符合下述条件：</p>
+<p>Merge the two arrays into one array that is sorted in ascending order by id, respecting the following conditions:</p>
 
 <ul>
-	<li>只有在两个数组中至少出现过一次的 id 才能包含在结果数组内。</li>
-	<li>每个 id 在结果数组中 <strong>只能出现一次</strong> ，并且其对应的值等于两个数组中该 id 所对应的值求和。如果某个数组中不存在该 id ，则假定其对应的值等于 <code>0</code> 。</li>
+	<li>Only ids that appear in at least one of the two arrays should be included in the resulting array.</li>
+	<li>Each id should be included <strong>only once</strong> and its value should be the sum of the values of this id in the two arrays. If the id does not exist in one of the two arrays, then assume its value in that array to be <code>0</code>.</li>
 </ul>
 
-<p>返回结果数组。返回的数组需要按 id 以递增顺序排列。</p>
+<p>Return <em>the resulting array</em>. The returned array must be sorted in ascending order by id.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums1 = [[1,2],[2,3],[4,5]], nums2 = [[1,4],[3,2],[4,1]]
-<strong>输出：</strong>[[1,6],[2,3],[3,2],[4,6]]
-<strong>解释：</strong>结果数组中包含以下元素：
-- id = 1 ，对应的值等于 2 + 4 = 6 。
-- id = 2 ，对应的值等于 3 。
-- id = 3 ，对应的值等于 2 。
-- id = 4 ，对应的值等于5 + 1 = 6 。
+<strong>Input:</strong> nums1 = [[1,2],[2,3],[4,5]], nums2 = [[1,4],[3,2],[4,1]]
+<strong>Output:</strong> [[1,6],[2,3],[3,2],[4,6]]
+<strong>Explanation:</strong> The resulting array contains the following:
+- id = 1, the value of this id is 2 + 4 = 6.
+- id = 2, the value of this id is 3.
+- id = 3, the value of this id is 2.
+- id = 4, the value of this id is 5 + 1 = 6.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums1 = [[2,4],[3,6],[5,5]], nums2 = [[1,3],[4,3]]
-<strong>输出：</strong>[[1,3],[2,4],[3,6],[4,3],[5,5]]
-<strong>解释：</strong>不存在共同 id ，在结果数组中只需要包含每个 id 和其对应的值。
+<strong>Input:</strong> nums1 = [[2,4],[3,6],[5,5]], nums2 = [[1,3],[4,3]]
+<strong>Output:</strong> [[1,3],[2,4],[3,6],[4,3],[5,5]]
+<strong>Explanation:</strong> There are no common ids, so we just include each id with its value in the resulting list.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums1.length, nums2.length &lt;= 200</code></li>
 	<li><code>nums1[i].length == nums2[j].length == 2</code></li>
 	<li><code>1 &lt;= id<sub>i</sub>, val<sub>i</sub> &lt;= 1000</code></li>
-	<li>数组中的 id 互不相同</li>
-	<li>数据均按 id 以严格递增顺序排列</li>
+	<li>Both arrays contain unique ids.</li>
+	<li>Both arrays are in&nbsp;strictly ascending order by id.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数 + 枚举
+### Solution 1: Counting + Enumeration
 
-我们可以用一个哈希表或数组 `cnt` 统计两个数组中每个数字出现的次数。
+We can use a hash table or an array `cnt` to count the frequency of each number in the two arrays.
 
-然后我们从小到大枚举 `cnt` 中的每个数字，如果该数字出现的次数大于 $0$，则将其加入答案数组中。
+Then we enumerate each number in `cnt` from small to large. If the frequency of a number is greater than $0$, we add it to the answer array.
 
-时间复杂度 $O(n + m)$，空间复杂度 $O(M)$。其中 $n$ 和 $m$ 分别是两个数组的长度；而 $M$ 是两个数组中数字的最大值，本题中 $M = 1000$。
+The time complexity is $O(n + m)$, and the space complexity is $O(M)$. Where $n$ and $m$ are the lengths of the two arrays respectively; and $M$ is the maximum value in the two arrays, in this problem, $M = 1000$.
 
 <!-- tabs:start -->
 

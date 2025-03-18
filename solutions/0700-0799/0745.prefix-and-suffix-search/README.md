@@ -1,70 +1,63 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0745.Prefix%20and%20Suffix%20Search/README.md
+difficulty: Hard
 tags:
-    - 设计
-    - 字典树
-    - 数组
-    - 哈希表
-    - 字符串
+    - Design
+    - Trie
+    - Array
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [745. 前缀和后缀搜索](https://leetcode.cn/problems/prefix-and-suffix-search)
+# [745. Prefix and Suffix Search](https://leetcode.com/problems/prefix-and-suffix-search)
 
-[English Version](/solution/0700-0799/0745.Prefix%20and%20Suffix%20Search/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>设计一个包含一些单词的特殊词典，并能够通过前缀和后缀来检索单词。</p>
+<p>Design a special dictionary that searches the words in it by a prefix and a suffix.</p>
 
-<p>实现 <code>WordFilter</code> 类：</p>
+<p>Implement the <code>WordFilter</code> class:</p>
 
 <ul>
-	<li><code>WordFilter(string[] words)</code> 使用词典中的单词 <code>words</code> 初始化对象。</li>
-	<li><code>f(string pref, string suff)</code> 返回词典中具有前缀&nbsp;<code>pref</code>&nbsp;和后缀 <code>suff</code>&nbsp;的单词的下标。如果存在不止一个满足要求的下标，返回其中 <strong>最大的下标</strong> 。如果不存在这样的单词，返回 <code>-1</code> 。</li>
+	<li><code>WordFilter(string[] words)</code> Initializes the object with the <code>words</code> in the dictionary.</li>
+	<li><code>f(string pref, string suff)</code> Returns <em>the index of the word in the dictionary,</em> which has the prefix <code>pref</code> and the suffix <code>suff</code>. If there is more than one valid index, return <strong>the largest</strong> of them. If there is no such word in the dictionary, return <code>-1</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["WordFilter", "f"]
-[[["apple"]], ["a", "e"]]
-<strong>输出</strong>
+<strong>Input</strong>
+[&quot;WordFilter&quot;, &quot;f&quot;]
+[[[&quot;apple&quot;]], [&quot;a&quot;, &quot;e&quot;]]
+<strong>Output</strong>
 [null, 0]
-<strong>解释</strong>
-WordFilter wordFilter = new WordFilter(["apple"]);
-wordFilter.f("a", "e"); // 返回 0 ，因为下标为 0 的单词：前缀 prefix = "a" 且 后缀 suffix = "e" 。
+<strong>Explanation</strong>
+WordFilter wordFilter = new WordFilter([&quot;apple&quot;]);
+wordFilter.f(&quot;a&quot;, &quot;e&quot;); // return 0, because the word at index 0 has prefix = &quot;a&quot; and suffix = &quot;e&quot;.
 </pre>
 
-&nbsp;
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 7</code></li>
 	<li><code>1 &lt;= pref.length, suff.length &lt;= 7</code></li>
-	<li><code>words[i]</code>、<code>pref</code> 和 <code>suff</code> 仅由小写英文字母组成</li>
-	<li>最多对函数 <code>f</code> 执行 <code>10<sup>4</sup></code> 次调用</li>
+	<li><code>words[i]</code>, <code>pref</code> and <code>suff</code> consist of lowercase English letters only.</li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to the function <code>f</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：暴力哈希
-
-遍历 $words$ 的每个单词 $w$，将 $w$ 的所有前缀、后缀对存放到哈希表中。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -200,7 +193,7 @@ func (this *WordFilter) F(pref string, suff string) int {
 
 <!-- solution:start -->
 
-### 方法二：双前缀树
+### Solution 2
 
 <!-- tabs:start -->
 

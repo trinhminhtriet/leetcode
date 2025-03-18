@@ -1,77 +1,53 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1317.Convert%20Integer%20to%20the%20Sum%20of%20Two%20No-Zero%20Integers/README.md
+difficulty: Easy
 rating: 1277
-source: 第 171 场周赛 Q1
+source: Weekly Contest 171 Q1
 tags:
-    - 数学
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [1317. 将整数转换为两个无零整数的和](https://leetcode.cn/problems/convert-integer-to-the-sum-of-two-no-zero-integers)
+# [1317. Convert Integer to the Sum of Two No-Zero Integers](https://leetcode.com/problems/convert-integer-to-the-sum-of-two-no-zero-integers)
 
-[English Version](/solution/1300-1399/1317.Convert%20Integer%20to%20the%20Sum%20of%20Two%20No-Zero%20Integers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>「无零整数」是十进制表示中 <strong>不含任何 0</strong>&nbsp;的正整数。</p>
+<p><strong>No-Zero integer</strong> is a positive integer that <strong>does not contain any <code>0</code></strong> in its decimal representation.</p>
 
-<p>给你一个整数&nbsp;<code>n</code>，请你返回一个 <strong>由两个整数组成的列表</strong> <code>[a, b]</code>，满足：</p>
+<p>Given an integer <code>n</code>, return <em>a list of two integers</em> <code>[a, b]</code> <em>where</em>:</p>
 
 <ul>
-	<li><code>a</code> 和 <code>b</code>&nbsp;都是无零整数</li>
+	<li><code>a</code> and <code>b</code> are <strong>No-Zero integers</strong>.</li>
 	<li><code>a + b = n</code></li>
 </ul>
 
-<p>题目数据保证至少有一个有效的解决方案。</p>
-
-<p>如果存在多个有效解决方案，你可以返回其中任意一个。</p>
+<p>The test cases are generated so that there is at least one valid solution. If there are many valid solutions, you can return any of them.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 2
-<strong>输出：</strong>[1,1]
-<strong>解释：</strong>a = 1, b = 1。a + b = n 并且 a 和 b 的十进制表示形式都不包含任何 0。
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> [1,1]
+<strong>Explanation:</strong> Let a = 1 and b = 1.
+Both a and b are no-zero integers, and a + b = 2 = n.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 11
-<strong>输出：</strong>[2,9]
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 10000
-<strong>输出：</strong>[1,9999]
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 69
-<strong>输出：</strong>[1,68]
-</pre>
-
-<p><strong>示例 5：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 1010
-<strong>输出：</strong>[11,999]
+<strong>Input:</strong> n = 11
+<strong>Output:</strong> [2,9]
+<strong>Explanation:</strong> Let a = 2 and b = 9.
+Both a and b are no-zero integers, and a + b = 11 = n.
+Note that there are other valid answers as [8, 3] that can be accepted.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 10<sup>4</sup></code></li>
@@ -79,15 +55,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：直接枚举
+### Solution 1: Direct Enumeration
 
-从 $1$ 开始枚举 $a$，那么 $b = n - a$。对于每个 $a$ 和 $b$，我们将它们转换为字符串并且连接起来，然后判断是否包含字符 `'0'`，如果不包含，那么就找到了答案，返回 $[a, b]$。
+Starting from $1$, we enumerate $a$, then $b = n - a$. For each $a$ and $b$, we convert them to strings and concatenate them, then check if they contain the character '0'. If they do not contain '0', we have found the answer and return $[a, b]$.
 
-时间复杂度 $O(n \times \log n)$，其中 $n$ 为题目给定的整数。空间复杂度 $O(\log n)$。
+The time complexity is $O(n \times \log n)$, where $n$ is the integer given in the problem. The space complexity is $O(\log n)$.
 
 <!-- tabs:start -->
 
@@ -165,11 +141,11 @@ function getNoZeroIntegers(n: number): number[] {
 
 <!-- solution:start -->
 
-### 方法二：直接枚举（另一种写法）
+### Solution 2: Direct Enumeration (Alternative Approach)
 
-在方法一中，我们将 $a$ 和 $b$ 转换为字符串并且连接起来，然后判断是否包含字符 `'0'`。这里我们可以通过一个函数 $f(x)$ 来判断 $x$ 是否包含字符 `'0'`，然后直接枚举 $a$，判断 $a$ 和 $b = n - a$ 是否都不包含字符 `'0'`，如果是，则找到了答案，返回 $[a, b]$。
+In Solution 1, we converted $a$ and $b$ into strings and concatenated them, then checked if they contained the character '0'. Here, we can use a function $f(x)$ to check whether $x$ contains the character '0', and then directly enumerate $a$, checking whether both $a$ and $b = n - a$ do not contain the character '0'. If they do not, we have found the answer and return $[a, b]$.
 
-时间复杂度 $O(n \times \log n)$，其中 $n$ 为题目给定的整数。空间复杂度 $O(1)$。
+The time complexity is $O(n \times \log n)$, where $n$ is the integer given in the problem. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

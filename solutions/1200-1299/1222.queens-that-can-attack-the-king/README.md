@@ -1,78 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1222.Queens%20That%20Can%20Attack%20the%20King/README.md
+difficulty: Medium
 rating: 1391
-source: 第 158 场周赛 Q2
+source: Weekly Contest 158 Q2
 tags:
-    - 数组
-    - 矩阵
-    - 模拟
+    - Array
+    - Matrix
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [1222. 可以攻击国王的皇后](https://leetcode.cn/problems/queens-that-can-attack-the-king)
+# [1222. Queens That Can Attack the King](https://leetcode.com/problems/queens-that-can-attack-the-king)
 
-[English Version](/solution/1200-1299/1222.Queens%20That%20Can%20Attack%20the%20King/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在一个 <strong>下标从 0 开始</strong> 的 <code>8 x 8</code> 棋盘上，可能有多个黑皇后和一个白国王。</p>
+<p>On a <strong>0-indexed</strong> <code>8 x 8</code> chessboard, there can be multiple black queens and one white king.</p>
 
-<p>给你一个二维整数数组 <code>queens</code>，其中 <code>queens[i] = [xQueeni, yQueeni]</code> 表示第 <code>i</code> 个黑皇后在棋盘上的位置。还给你一个长度为 <code>2</code> 的整数数组 <code>king</code>，其中 <code>king = [xKing, yKing]</code> 表示白国王的位置。</p>
+<p>You are given a 2D integer array <code>queens</code> where <code>queens[i] = [xQueen<sub>i</sub>, yQueen<sub>i</sub>]</code> represents the position of the <code>i<sup>th</sup></code> black queen on the chessboard. You are also given an integer array <code>king</code> of length <code>2</code> where <code>king = [xKing, yKing]</code> represents the position of the white king.</p>
 
-<p>返回 <em>能够直接攻击国王的黑皇后的坐标</em>。你可以以 <strong>任何顺序</strong> 返回答案。</p>
+<p>Return <em>the coordinates of the black queens that can directly attack the king</em>. You may return the answer in <strong>any order</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1222.Queens%20That%20Can%20Attack%20the%20King/images/1703052515-HqjAJq-chess1.jpg" style="width: 400px; height: 400px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1222.Queens%20That%20Can%20Attack%20the%20King/images/chess1.jpg" style="width: 400px; height: 400px;" />
 <pre>
-<strong>输入：</strong>queens = [[0,1],[1,0],[4,0],[0,4],[3,3],[2,4]], king = [0,0]
-<strong>输出：</strong>[[0,1],[1,0],[3,3]]
-<strong>解释：</strong>上面的图示显示了三个可以直接攻击国王的皇后和三个不能攻击国王的皇后（用红色虚线标记）。
+<strong>Input:</strong> queens = [[0,1],[1,0],[4,0],[0,4],[3,3],[2,4]], king = [0,0]
+<strong>Output:</strong> [[0,1],[1,0],[3,3]]
+<strong>Explanation:</strong> The diagram above shows the three queens that can directly attack the king and the three queens that cannot attack the king (i.e., marked with red dashes).
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1222.Queens%20That%20Can%20Attack%20the%20King/images/1703052660-bPPflt-chess2.jpg" style="width: 400px; height: 400px;" /></strong></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1222.Queens%20That%20Can%20Attack%20the%20King/images/chess2.jpg" style="width: 400px; height: 400px;" />
 <pre>
-<strong>输入：</strong>queens = [[0,0],[1,1],[2,2],[3,4],[3,5],[4,4],[4,5]], king = [3,3]
-<strong>输出：</strong>[[2,2],[3,4],[4,4]]
-<strong>解释：</strong>上面的图示显示了三个能够直接攻击国王的黑皇后和三个不能攻击国王的黑皇后（用红色虚线标记）。</pre>
+<strong>Input:</strong> queens = [[0,0],[1,1],[2,2],[3,4],[3,5],[4,4],[4,5]], king = [3,3]
+<strong>Output:</strong> [[2,2],[3,4],[4,4]]
+<strong>Explanation:</strong> The diagram above shows the three queens that can directly attack the king and the three queens that cannot attack the king (i.e., marked with red dashes).
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><meta charset="UTF-8" /><code>1 &lt;= queens.length &lt; 64</code></li>
+	<li><code>1 &lt;= queens.length &lt; 64</code></li>
 	<li><code>queens[i].length == king.length == 2</code></li>
 	<li><code>0 &lt;= xQueen<sub>i</sub>, yQueen<sub>i</sub>, xKing, yKing &lt; 8</code></li>
-	<li>所有给定的位置都是 <strong>唯一</strong> 的。</li>
+	<li>All the given positions are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：直接搜索
+### Solution 1: Direct Search
 
-我们先将所有皇后的位置存入哈希表或者二维数组 $s$ 中。
+First, we store all the positions of the queens in a hash table or a two-dimensional array $s$.
 
-接下来，我们从国王的位置开始，依次向上、下、左、右、左上、右上、左下、右下八个方向搜索，如果某个方向上存在皇后，那么就将其位置加入答案中，并且停止继续搜索该方向。
+Next, starting from the position of the king, we search in the eight directions: up, down, left, right, upper left, upper right, lower left, and lower right. If there is a queen in a certain direction, we add its position to the answer and stop continuing to search in that direction.
 
-搜索结束后，返回答案即可。
+After the search is over, we return the answer.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。本题中 $n = 8$。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. In this problem, $n = 8$.
 
 <!-- tabs:start -->
 

@@ -1,46 +1,40 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1426.Counting%20Elements/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 哈希表
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [1426. 数元素 🔒](https://leetcode.cn/problems/counting-elements)
+# [1426. Counting Elements 🔒](https://leetcode.com/problems/counting-elements)
 
-[English Version](/solution/1400-1499/1426.Counting%20Elements/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>arr</code>， 对于元素 <code>x</code> ，只有当 <code>x + 1</code> 也在数组&nbsp;<code>arr</code> 里时，才能记为 <code>1</code> 个数。</p>
-
-<p>如果数组&nbsp;<code>arr</code> 里有重复的数，每个重复的数单独计算。</p>
+<p>Given an integer array <code>arr</code>, count how many elements <code>x</code> there are, such that <code>x + 1</code> is also in <code>arr</code>. If there are duplicates in <code>arr</code>, count them separately.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [1,2,3]
-<strong>输出：</strong>2
-<strong>解释：</strong>1 和 2 被计算次数因为 2 和 3 在数组 arr 里。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>arr = [1,1,3,3,5,5,7,7]
-<strong>输出：</strong>0
-<strong>解释：</strong>所有的数都不算, 因为数组里没有 2、4、6、8。
+<strong>Input:</strong> arr = [1,2,3]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 1 and 2 are counted cause 2 and 3 are in arr.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [1,1,3,3,5,5,7,7]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> No numbers are counted, cause there is no 2, 4, 6, or 8 in arr.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 1000</code></li>
@@ -49,15 +43,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们可以用一个哈希表或数组 $cnt$ 记录数组 $arr$ 中的每个数出现的次数，然后遍历 $cnt$ 中的每个数 $x$，如果 $x+1$ 也在 $cnt$ 中，那么就将 $cnt[x]$ 加到答案中。
+We can use a hash table or array $cnt$ to record the frequency of each number in the array $arr$. Then, we traverse each number $x$ in $cnt$. If $x+1$ also exists in $cnt$, we add $cnt[x]$ to the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $arr$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $arr$.
 
 <!-- tabs:start -->
 

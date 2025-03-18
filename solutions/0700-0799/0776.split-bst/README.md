@@ -1,72 +1,57 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0776.Split%20BST/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 二叉搜索树
-    - 递归
-    - 二叉树
+    - Tree
+    - Binary Search Tree
+    - Recursion
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [776. 拆分二叉搜索树 🔒](https://leetcode.cn/problems/split-bst)
+# [776. Split BST 🔒](https://leetcode.com/problems/split-bst)
 
-[English Version](/solution/0700-0799/0776.Split%20BST/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一棵二叉搜索树（BST）的根结点 <code>root</code>&nbsp;和一个整数 <code>target</code> 。请将该树按要求拆分为两个子树：其中第一个子树结点的值都必须小于等于给定的目标值；另一个子树结点的值都必须大于目标值；树中并非一定要存在值为&nbsp;<code>target</code>&nbsp;的结点。</p>
+<p>Given the <code>root</code> of a binary search tree (BST) and an integer <code>target</code>, split the tree into two subtrees where the first subtree has nodes that are all smaller or equal to the target value, while the second subtree has all nodes that are greater than the target value. It is not necessarily the case that the tree contains a node with the value <code>target</code>.</p>
 
-<p>除此之外，树中大部分结构都需要保留，也就是说原始树中父节点 <code>p</code> 的任意子节点 <code>c</code> ，假如拆分后它们仍在同一个子树中，那么结点 <code>p</code>&nbsp;应仍为 <code>c</code>&nbsp;的父结点。</p>
+<p>Additionally, most of the structure of the original tree should remain. Formally, for any child <code>c</code> with parent <code>p</code> in the original tree, if they are both in the same subtree after the split, then node <code>c</code> should still have the parent <code>p</code>.</p>
 
-<p>按顺序返回 <em>两个子树的根结点的数组</em> 。</p>
+<p>Return <em>an array of the two roots of the two subtrees in order</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0776.Split%20BST/images/split-tree.jpg" style="height: 193px; width: 600px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0776.Split%20BST/images/split-tree.jpg" style="width: 600px; height: 193px;" />
 <pre>
-<strong>输入：</strong>root = [4,2,6,1,3,5,7], target = 2
-<strong>输出：</strong>[[2,1],[4,3,6,null,null,5,7]]
+<strong>Input:</strong> root = [4,2,6,1,3,5,7], target = 2
+<strong>Output:</strong> [[2,1],[4,3,6,null,null,5,7]]
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> root = [1], target = 1
-<strong>输出:</strong> [[1],[]]
+<strong>Input:</strong> root = [1], target = 1
+<strong>Output:</strong> [[1],[]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>二叉搜索树节点个数在&nbsp;<code>[1, 50]</code>&nbsp;范围内</li>
+	<li>The number of nodes in the tree is in the range <code>[1, 50]</code>.</li>
 	<li><code>0 &lt;= Node.val, target &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
-
-判断 `root` 节点的情况：
-
--   若 `root` 为空，直接返回 `[null, null]`；
--   若 `root.val <= target`，说明 `root` 及其左孩子所有节点的值均小于等于 `target`，那么我们递归 `root.right`，得到 `ans`。然后将 `root.right` 指向 `ans[0]`，最后返回 `[root, ans[1]]`；
--   若 `root.val > target`，说明 `root` 及其右孩子所有节点的值均大于 `target`，那么我们递归 `root.left`，得到 `ans`。然后将 `root.left` 指向 `ans[1]`，最后返回 `[ans[0], root]`。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉搜索树的节点个数。
+### Solution 1
 
 <!-- tabs:start -->
 

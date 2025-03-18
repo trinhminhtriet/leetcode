@@ -1,81 +1,69 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0824.Goat%20Latin/README.md
+difficulty: Easy
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [824. 山羊拉丁文](https://leetcode.cn/problems/goat-latin)
+# [824. Goat Latin](https://leetcode.com/problems/goat-latin)
 
-[English Version](/solution/0800-0899/0824.Goat%20Latin/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个由若干单词组成的句子&nbsp;<code>sentence</code> ，单词间由空格分隔。每个单词仅由大写和小写英文字母组成。</p>
+<p>You are given a string <code>sentence</code> that consist of words separated by spaces. Each word consists of lowercase and uppercase letters only.</p>
 
-<p>请你将句子转换为 <em>“</em>山羊拉丁文（<em>Goat Latin</em>）<em>”</em>（一种类似于 猪拉丁文&nbsp;- Pig Latin 的虚构语言）。山羊拉丁文的规则如下：</p>
+<p>We would like to convert the sentence to &quot;Goat Latin&quot; (a made-up language similar to Pig Latin.) The rules of Goat Latin are as follows:</p>
 
 <ul>
-	<li>如果单词以元音开头（<code>'a'</code>, <code>'e'</code>, <code>'i'</code>, <code>'o'</code>, <code>'u'</code>），在单词后添加<code>"ma"</code>。
+	<li>If a word begins with a vowel (<code>&#39;a&#39;</code>, <code>&#39;e&#39;</code>, <code>&#39;i&#39;</code>, <code>&#39;o&#39;</code>, or <code>&#39;u&#39;</code>), append <code>&quot;ma&quot;</code> to the end of the word.
 
     <ul>
-    	<li>例如，单词 <code>"apple"</code> 变为 <code>"applema"</code> 。</li>
+    	<li>For example, the word <code>&quot;apple&quot;</code> becomes <code>&quot;applema&quot;</code>.</li>
     </ul>
     </li>
-    <li>如果单词以辅音字母开头（即，非元音字母），移除第一个字符并将它放到末尾，之后再添加<code>"ma"</code>。
+    <li>If a word begins with a consonant (i.e., not a vowel), remove the first letter and append it to the end, then add <code>&quot;ma&quot;</code>.
     <ul>
-    	<li>例如，单词 <code>"goat"</code> 变为 <code>"oatgma"</code> 。</li>
+    	<li>For example, the word <code>&quot;goat&quot;</code> becomes <code>&quot;oatgma&quot;</code>.</li>
     </ul>
     </li>
-    <li>根据单词在句子中的索引，在单词最后添加与索引相同数量的字母<code>'a'</code>，索引从 <code>1</code> 开始。
+    <li>Add one letter <code>&#39;a&#39;</code> to the end of each word per its word index in the sentence, starting with <code>1</code>.
     <ul>
-    	<li>例如，在第一个单词后添加 <code>"a"</code> ，在第二个单词后添加 <code>"aa"</code> ，以此类推。</li>
+    	<li>For example, the first word gets <code>&quot;a&quot;</code> added to the end, the second word gets <code>&quot;aa&quot;</code> added to the end, and so on.</li>
     </ul>
     </li>
 
 </ul>
 
-<p>返回将 <code>sentence</code> 转换为山羊拉丁文后的句子。</p>
+<p>Return<em> the final sentence representing the conversion from sentence to Goat Latin</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>sentence = "I speak Goat Latin"
-<strong>输出：</strong>"Imaa peaksmaaa oatGmaaaa atinLmaaaaa"
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> sentence = "I speak Goat Latin"
+<strong>Output:</strong> "Imaa peaksmaaa oatGmaaaa atinLmaaaaa"
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> sentence = "The quick brown fox jumped over the lazy dog"
+<strong>Output:</strong> "heTmaa uickqmaaa rownbmaaaa oxfmaaaaa umpedjmaaaaaa overmaaaaaaa hetmaaaaaaaa azylmaaaaaaaaa ogdmaaaaaaaaaa"
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>sentence = "The quick brown fox jumped over the lazy dog"
-<strong>输出：</strong>"heTmaa uickqmaaa rownbmaaaa oxfmaaaaa umpedjmaaaaaa overmaaaaaaa hetmaaaaaaaa azylmaaaaaaaaa ogdmaaaaaaaaaa"
-</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= sentence.length &lt;= 150</code></li>
-	<li><code>sentence</code> 由英文字母和空格组成</li>
-	<li><code>sentence</code> 不含前导或尾随空格</li>
-	<li><code>sentence</code> 中的所有单词由单个空格分隔</li>
+	<li><code>sentence</code> consists of English letters and spaces.</li>
+	<li><code>sentence</code> has no leading or trailing spaces.</li>
+	<li>All the words in <code>sentence</code> are separated by a single space.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

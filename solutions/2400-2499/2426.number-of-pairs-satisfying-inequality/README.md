@@ -1,63 +1,60 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2426.Number%20of%20Pairs%20Satisfying%20Inequality/README.md
+difficulty: Hard
 rating: 2030
-source: 第 88 场双周赛 Q4
+source: Biweekly Contest 88 Q4
 tags:
-    - 树状数组
-    - 线段树
-    - 数组
-    - 二分查找
-    - 分治
-    - 有序集合
-    - 归并排序
+    - Binary Indexed Tree
+    - Segment Tree
+    - Array
+    - Binary Search
+    - Divide and Conquer
+    - Ordered Set
+    - Merge Sort
 ---
 
 <!-- problem:start -->
 
-# [2426. 满足不等式的数对数目](https://leetcode.cn/problems/number-of-pairs-satisfying-inequality)
+# [2426. Number of Pairs Satisfying Inequality](https://leetcode.com/problems/number-of-pairs-satisfying-inequality)
 
-[English Version](/solution/2400-2499/2426.Number%20of%20Pairs%20Satisfying%20Inequality/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums1</code> 和&nbsp;<code>nums2</code>&nbsp;，两个数组的大小都为&nbsp;<code>n</code>&nbsp;，同时给你一个整数&nbsp;<code>diff</code>&nbsp;，统计满足以下条件的&nbsp;<strong>数对&nbsp;</strong><code>(i, j)</code>&nbsp;：</p>
+<p>You are given two <strong>0-indexed</strong> integer arrays <code>nums1</code> and <code>nums2</code>, each of size <code>n</code>, and an integer <code>diff</code>. Find the number of <strong>pairs</strong> <code>(i, j)</code> such that:</p>
 
 <ul>
-	<li><code>0 &lt;= i &lt; j &lt;= n - 1</code>&nbsp;<b>且</b></li>
+	<li><code>0 &lt;= i &lt; j &lt;= n - 1</code> <strong>and</strong></li>
 	<li><code>nums1[i] - nums1[j] &lt;= nums2[i] - nums2[j] + diff</code>.</li>
 </ul>
 
-<p>请你返回满足条件的 <strong>数对数目</strong>&nbsp;。</p>
+<p>Return<em> the <strong>number of pairs</strong> that satisfy the conditions.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums1 = [3,2,5], nums2 = [2,2,1], diff = 1
-<b>输出：</b>3
-<strong>解释：</strong>
-总共有 3 个满足条件的数对：
-1. i = 0, j = 1：3 - 2 &lt;= 2 - 2 + 1 。因为 i &lt; j 且 1 &lt;= 1 ，这个数对满足条件。
-2. i = 0, j = 2：3 - 5 &lt;= 2 - 1 + 1 。因为 i &lt; j 且 -2 &lt;= 2 ，这个数对满足条件。
-3. i = 1, j = 2：2 - 5 &lt;= 2 - 1 + 1 。因为 i &lt; j 且 -3 &lt;= 2 ，这个数对满足条件。
-所以，我们返回 3 。
+<pre>
+<strong>Input:</strong> nums1 = [3,2,5], nums2 = [2,2,1], diff = 1
+<strong>Output:</strong> 3
+<strong>Explanation:</strong>
+There are 3 pairs that satisfy the conditions:
+1. i = 0, j = 1: 3 - 2 &lt;= 2 - 2 + 1. Since i &lt; j and 1 &lt;= 1, this pair satisfies the conditions.
+2. i = 0, j = 2: 3 - 5 &lt;= 2 - 1 + 1. Since i &lt; j and -2 &lt;= 2, this pair satisfies the conditions.
+3. i = 1, j = 2: 2 - 5 &lt;= 2 - 1 + 1. Since i &lt; j and -3 &lt;= 2, this pair satisfies the conditions.
+Therefore, we return 3.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>nums1 = [3,-1], nums2 = [-2,2], diff = -1
-<b>输出：</b>0
-<strong>解释：</strong>
-没有满足条件的任何数对，所以我们返回 0 。
+<pre>
+<strong>Input:</strong> nums1 = [3,-1], nums2 = [-2,2], diff = -1
+<strong>Output:</strong> 0
+<strong>Explanation:</strong>
+Since there does not exist any pair that satisfies the conditions, we return 0.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums1.length == nums2.length</code></li>
@@ -68,17 +65,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：树状数组
+### Solution 1: Binary Indexed Tree
 
-我们将题目的不等式转换一下，得到 $nums1[i] - nums2[i] \leq nums1[j] - nums2[j] + diff$，因此，如果我们对两个数组对应位置的元素求差值，得到另一个数组 $nums$，那么题目就转换为求 $nums$ 中满足 $nums[i] \leq nums[j] + diff$ 的数对数目。
+We can transform the inequality in the problem to $nums1[i] - nums2[i] \leq nums1[j] - nums2[j] + diff$. Therefore, if we calculate the difference between the corresponding elements of the two arrays and get another array $nums$, the problem is transformed into finding the number of pairs in $nums$ that satisfy $nums[i] \leq nums[j] + diff$.
 
-我们可以从小到大枚举 $j$，找出前面有多少个数满足 $nums[i] \leq nums[j] + diff$，这样就可以求出数对数目。我们可以使用树状数组来维护前缀和，这样就可以在 $O(\log n)$ 的时间内求出前面有多少个数满足 $nums[i] \leq nums[j] + diff$。
+We can enumerate $j$ from small to large, find out how many numbers before it satisfy $nums[i] \leq nums[j] + diff$, and thus calculate the number of pairs. We can use a binary indexed tree to maintain the prefix sum, so we can find out how many numbers before it satisfy $nums[i] \leq nums[j] + diff$ in $O(\log n)$ time.
 
-时间复杂度 $O(n \times \log n)$。
+The time complexity is $O(n \times \log n)$.
 
 <!-- tabs:start -->
 

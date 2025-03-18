@@ -1,78 +1,73 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3243.Shortest%20Distance%20After%20Road%20Addition%20Queries%20I/README.md
+difficulty: Medium
 rating: 1567
-source: 第 409 场周赛 Q2
+source: Weekly Contest 409 Q2
 tags:
-    - 广度优先搜索
-    - 图
-    - 数组
+    - Breadth-First Search
+    - Graph
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [3243. 新增道路查询后的最短距离 I](https://leetcode.cn/problems/shortest-distance-after-road-addition-queries-i)
+# [3243. Shortest Distance After Road Addition Queries I](https://leetcode.com/problems/shortest-distance-after-road-addition-queries-i)
 
-[English Version](/solution/3200-3299/3243.Shortest%20Distance%20After%20Road%20Addition%20Queries%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>n</code> 和一个二维整数数组 <code>queries</code>。</p>
+<p>You are given an integer <code>n</code> and a 2D integer array <code>queries</code>.</p>
 
-<p>有 <code>n</code> 个城市，编号从 <code>0</code> 到 <code>n - 1</code>。初始时，每个城市 <code>i</code> 都有一条<strong>单向</strong>道路通往城市 <code>i + 1</code>（ <code>0 &lt;= i &lt; n - 1</code>）。</p>
+<p>There are <code>n</code> cities numbered from <code>0</code> to <code>n - 1</code>. Initially, there is a <strong>unidirectional</strong> road from city <code>i</code> to city <code>i + 1</code> for all <code>0 &lt;= i &lt; n - 1</code>.</p>
 
-<p><code>queries[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> 表示新建一条从城市 <code>u<sub>i</sub></code> 到城市 <code>v<sub>i</sub></code> 的<strong>单向</strong>道路。每次查询后，你需要找到从城市 <code>0</code> 到城市 <code>n - 1</code> 的<strong>最短路径</strong>的<strong>长度</strong>。</p>
+<p><code>queries[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> represents the addition of a new <strong>unidirectional</strong> road from city <code>u<sub>i</sub></code> to city <code>v<sub>i</sub></code>. After each query, you need to find the <strong>length</strong> of the <strong>shortest path</strong> from city <code>0</code> to city <code>n - 1</code>.</p>
 
-<p>返回一个数组 <code>answer</code>，对于范围 <code>[0, queries.length - 1]</code> 中的每个 <code>i</code>，<code>answer[i]</code> 是处理完<strong>前</strong> <code>i + 1</code> 个查询后，从城市 <code>0</code> 到城市 <code>n - 1</code> 的最短路径的<em>长度</em>。</p>
+<p>Return an array <code>answer</code> where for each <code>i</code> in the range <code>[0, queries.length - 1]</code>, <code>answer[i]</code> is the <em>length of the shortest path</em> from city <code>0</code> to city <code>n - 1</code> after processing the <strong>first </strong><code>i + 1</code> queries.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">n = 5, queries = [[2, 4], [0, 2], [0, 4]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 5, queries = [[2,4],[0,2],[0,4]]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">[3, 2, 1]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[3,2,1]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation: </strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3243.Shortest%20Distance%20After%20Road%20Addition%20Queries%20I/images/image8.jpg" style="width: 350px; height: 60px;" /></p>
 
-<p>新增一条从 2 到 4 的道路后，从 0 到 4 的最短路径长度为 3。</p>
+<p>After the addition of the road from 2 to 4, the length of the shortest path from 0 to 4 is 3.</p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3243.Shortest%20Distance%20After%20Road%20Addition%20Queries%20I/images/image9.jpg" style="width: 350px; height: 60px;" /></p>
 
-<p>新增一条从 0 到 2 的道路后，从 0 到 4 的最短路径长度为 2。</p>
+<p>After the addition of the road from 0 to 2, the length of the shortest path from 0 to 4 is 2.</p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3243.Shortest%20Distance%20After%20Road%20Addition%20Queries%20I/images/image10.jpg" style="width: 350px; height: 96px;" /></p>
 
-<p>新增一条从 0 到 4 的道路后，从 0 到 4 的最短路径长度为 1。</p>
+<p>After the addition of the road from 0 to 4, the length of the shortest path from 0 to 4 is 1.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">n = 4, queries = [[0, 3], [0, 2]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 4, queries = [[0,3],[0,2]]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">[1, 1]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[1,1]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3243.Shortest%20Distance%20After%20Road%20Addition%20Queries%20I/images/image11.jpg" style="width: 300px; height: 70px;" /></p>
 
-<p>新增一条从 0 到 3 的道路后，从 0 到 3 的最短路径长度为 1。</p>
+<p>After the addition of the road from 0 to 3, the length of the shortest path from 0 to 3 is 1.</p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3243.Shortest%20Distance%20After%20Road%20Addition%20Queries%20I/images/image12.jpg" style="width: 300px; height: 70px;" /></p>
 
-<p>新增一条从 0 到 2 的道路后，从 0 到 3 的最短路径长度仍为 1。</p>
+<p>After the addition of the road from 0 to 2, the length of the shortest path remains 1.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= n &lt;= 500</code></li>
@@ -80,24 +75,24 @@ tags:
 	<li><code>queries[i].length == 2</code></li>
 	<li><code>0 &lt;= queries[i][0] &lt; queries[i][1] &lt; n</code></li>
 	<li><code>1 &lt; queries[i][1] - queries[i][0]</code></li>
-	<li>查询中没有重复的道路。</li>
+	<li>There are no repeated roads among the queries.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
+### Solution 1: BFS
 
-我们先建立一个有向图 $\textit{g}$，其中 $\textit{g}[i]$ 表示从城市 $i$ 出发可以到达的城市列表，初始时，每个城市 $i$ 都有一条单向道路通往城市 $i + 1$。
+We first build a directed graph $\textit{g}$, where $\textit{g}[i]$ represents the list of cities that can be reached from city $i$. Initially, each city $i$ has a one-way road to city $i + 1$.
 
-然后，我们对每个查询 $[u, v]$，将 $v$ 添加到 $u$ 的可达城市列表中，然后使用 BFS 求出从城市 $0$ 到城市 $n - 1$ 的最短路径长度，将结果添加到答案数组中。
+Then, for each query $[u, v]$, we add $v$ to the list of reachable cities from $u$, and then use BFS to find the shortest path length from city $0$ to city $n - 1$, adding the result to the answer array.
 
-最后返回答案数组即可。
+Finally, we return the answer array.
 
-时间复杂度 $O(q \times (n + q))$，空间复杂度 $O(n + q)$。其中 $n$ 和 $q$ 分别为城市数量和查询数量。
+The time complexity is $O(q \times (n + q))$, and the space complexity is $O(n + q)$. Here, $n$ and $q$ are the number of cities and the number of queries, respectively.
 
 <!-- tabs:start -->
 

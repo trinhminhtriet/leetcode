@@ -1,54 +1,51 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2233.Maximum%20Product%20After%20K%20Increments/README.md
+difficulty: Medium
 rating: 1685
-source: 第 288 场周赛 Q3
+source: Weekly Contest 288 Q3
 tags:
-    - 贪心
-    - 数组
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2233. K 次增加后的最大乘积](https://leetcode.cn/problems/maximum-product-after-k-increments)
+# [2233. Maximum Product After K Increments](https://leetcode.com/problems/maximum-product-after-k-increments)
 
-[English Version](/solution/2200-2299/2233.Maximum%20Product%20After%20K%20Increments/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个非负整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;。每次操作，你可以选择&nbsp;<code>nums</code>&nbsp;中 <strong>任一</strong>&nbsp;元素并将它 <strong>增加</strong>&nbsp;<code>1</code>&nbsp;。</p>
+<p>You are given an array of non-negative integers <code>nums</code> and an integer <code>k</code>. In one operation, you may choose <strong>any</strong> element from <code>nums</code> and <strong>increment</strong> it by <code>1</code>.</p>
 
-<p>请你返回 <strong>至多</strong>&nbsp;<code>k</code>&nbsp;次操作后，能得到的<em>&nbsp;</em><code>nums</code>的&nbsp;<strong>最大乘积</strong>&nbsp;。由于答案可能很大，请你将答案对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;取余后返回。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [0,4], k = 5
-<b>输出：</b>20
-<b>解释：</b>将第一个数增加 5 次。
-得到 nums = [5, 4] ，乘积为 5 * 4 = 20 。
-可以证明 20 是能得到的最大乘积，所以我们返回 20 。
-存在其他增加 nums 的方法，也能得到最大乘积。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>nums = [6,3,3,2], k = 2
-<b>输出：</b>216
-<b>解释：</b>将第二个数增加 1 次，将第四个数增加 1 次。
-得到 nums = [6, 4, 3, 3] ，乘积为 6 * 4 * 3 * 3 = 216 。
-可以证明 216 是能得到的最大乘积，所以我们返回 216 。
-存在其他增加 nums 的方法，也能得到最大乘积。
-</pre>
+<p>Return<em> the <strong>maximum</strong> <strong>product</strong> of </em><code>nums</code><em> after <strong>at most</strong> </em><code>k</code><em> operations. </em>Since the answer may be very large, return it <b>modulo</b> <code>10<sup>9</sup> + 7</code>. Note that you should maximize the product before taking the modulo.&nbsp;</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [0,4], k = 5
+<strong>Output:</strong> 20
+<strong>Explanation:</strong> Increment the first number 5 times.
+Now nums = [5, 4], with a product of 5 * 4 = 20.
+It can be shown that 20 is maximum product possible, so we return 20.
+Note that there may be other ways to increment nums to have the maximum product.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [6,3,3,2], k = 2
+<strong>Output:</strong> 216
+<strong>Explanation:</strong> Increment the second number 1 time and increment the fourth number 1 time.
+Now nums = [6, 4, 3, 3], with a product of 6 * 4 * 3 * 3 = 216.
+It can be shown that 216 is maximum product possible, so we return 216.
+Note that there may be other ways to increment nums to have the maximum product.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length, k &lt;= 10<sup>5</sup></code></li>
@@ -57,15 +54,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 优先队列（小根堆）
+### Solution 1: Greedy + Priority Queue (Min-Heap)
 
-根据题目描述，要使得乘积最大，我们需要尽量增大较小的数，因此我们可以使用小根堆来维护数组 $\textit{nums}$。每次从小根堆中取出最小的数，将其增加 $1$，然后重新放回小根堆中。重复这个过程 $k$ 次后，我们将当前小根堆中的所有数相乘，即可得到答案。
+According to the problem description, to maximize the product, we need to increase the smaller numbers as much as possible. Therefore, we can use a min-heap to maintain the array $\textit{nums}$. Each time, we take the smallest number from the min-heap, increase it by $1$, and then put it back into the min-heap. After repeating this process $k$ times, we multiply all the numbers currently in the min-heap to get the answer.
 
-时间复杂度 $O(k \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{nums}$ 的长度。
+The time complexity is $O(k \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

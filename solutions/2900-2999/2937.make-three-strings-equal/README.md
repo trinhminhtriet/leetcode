@@ -1,66 +1,64 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2937.Make%20Three%20Strings%20Equal/README.md
+difficulty: Easy
 rating: 1347
-source: 第 372 场周赛 Q1
+source: Weekly Contest 372 Q1
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2937. 使三个字符串相等](https://leetcode.cn/problems/make-three-strings-equal)
+# [2937. Make Three Strings Equal](https://leetcode.com/problems/make-three-strings-equal)
 
-[English Version](/solution/2900-2999/2937.Make%20Three%20Strings%20Equal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你三个字符串 <code>s1</code>、<code>s2</code> 和 <code>s3</code>。 你可以根据需要对这三个字符串执行以下操作 <strong>任意次数</strong> <!-- notionvc: b5178de7-3318-4129-b7d9-726b47e90621 -->。</p>
+<p>You are given three strings: <code>s1</code>, <code>s2</code>, and <code>s3</code>. In one operation you can choose one of these strings and delete its <strong>rightmost</strong> character. Note that you <strong>cannot</strong> completely empty a string.</p>
 
-<p>在每次操作中，你可以选择其中一个长度至少为 <code>2</code> 的字符串 <!-- notionvc: 3342ac46-33c8-4010-aacd-e58678ce31ef --> 并删除其 <strong>最右位置上</strong> 的字符。</p>
-
-<p>如果存在某种方法能够使这三个字符串相等，请返回使它们相等所需的 <strong>最小</strong> 操作次数；否则，返回 <code>-1</code>。</p>
+<p>Return the <em>minimum number of operations</em> required to make the strings equal<em>. </em>If it is impossible to make them equal, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong class="example">示例 1：</strong></p>
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input: </strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">s1 = &quot;abc&quot;, s2 = &quot;abb&quot;, s3 = &quot;ab&quot;</span></p>
 
-<pre>
-<strong>输入：</strong>s1 = "abc"，s2 = "abb"，s3 = "ab"
-<strong>输出：</strong>2
-<strong>解释：</strong>对 s1 和 s2 进行一次操作后，可以得到三个相等的字符串。
-可以证明，不可能用少于两次操作使它们相等。</pre>
+<p><strong>Output: </strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">2</span></p>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong>Explanation:&nbsp;</strong>Deleting the rightmost character from both <code>s1</code> and <code>s2</code> will result in three equal strings.</p>
+</div>
 
-<pre>
-<strong>输入：</strong>s1 = "dac"，s2 = "bac"，s3 = "cac"
-<strong>输出：</strong>-1
-<strong>解释：</strong>因为 s1 和 s2 的最左位置上的字母<!-- notionvc: 47239f7c-eec1-49f8-af79-c206ec88cb07 -->不相等，所以无论进行多少次操作，它们都不可能相等。因此答案是 -1 。</pre>
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block" style="border-color: var(--border-tertiary); border-left-width: 2px; color: var(--text-secondary); font-size: .875rem; margin-bottom: 1rem; margin-top: 1rem; overflow: visible; padding-left: 1rem;">
+<p><strong>Input: </strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">s1 = &quot;dac&quot;, s2 = &quot;bac&quot;, s3 = &quot;cac&quot;</span></p>
+
+<p><strong>Output: </strong><span class="example-io" style="font-family: Menlo,sans-serif; font-size: 0.85rem;">-1</span></p>
+
+<p><strong>Explanation:</strong> Since the first letters of <code>s1</code> and <code>s2</code> differ, they cannot be made equal.</p>
+</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s1.length, s2.length, s3.length &lt;= 100</code></li>
-	<li><code>s1</code>、<code>s2</code> 和 <code>s3</code> 仅由小写英文字母组成。</li>
+	<li><font face="monospace"><code>s1</code>,</font> <code><font face="monospace">s2</font></code><font face="monospace"> and</font> <code><font face="monospace">s3</font></code> consist only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-根据题目描述，我们知道，如果删除字符后的三个字符串相等，那么它们存在一个长度大于 $1$ 的公共前缀。因此，我们可以枚举公共前缀的位置 $i$，如果当前下标 $i$ 对应的三个字符不完全相等，那么公共前缀长度为 $i$，此时，我们判断 $i$ 是否为 $0$，若是，返回 $-1$，否则返回 $s - 3 \times i$，其中 $s$ 为三个字符串的长度和。
+According to the problem description, we know that if the three strings are equal after deleting characters, then they have a common prefix of length greater than $1$. Therefore, we can enumerate the position $i$ of the common prefix. If the three characters at the current index $i$ are not all equal, then the length of the common prefix is $i$. At this point, we check if $i$ is $0$. If it is, return $-1$. Otherwise, return $s - 3 \times i$, where $s$ is the sum of the lengths of the three strings.
 
-时间复杂度 $O(n)$，其中 $n$ 为三个字符串的最小长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the minimum length of the three strings. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

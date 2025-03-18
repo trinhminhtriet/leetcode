@@ -1,68 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0524.Longest%20Word%20in%20Dictionary%20through%20Deleting/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 双指针
-    - 字符串
-    - 排序
+    - Array
+    - Two Pointers
+    - String
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [524. 通过删除字母匹配到字典里最长单词](https://leetcode.cn/problems/longest-word-in-dictionary-through-deleting)
+# [524. Longest Word in Dictionary through Deleting](https://leetcode.com/problems/longest-word-in-dictionary-through-deleting)
 
-[English Version](/solution/0500-0599/0524.Longest%20Word%20in%20Dictionary%20through%20Deleting/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> 和一个字符串数组 <code>dictionary</code> ，找出并返回&nbsp;<code>dictionary</code> 中最长的字符串，该字符串可以通过删除 <code>s</code> 中的某些字符得到。</p>
-
-<p>如果答案不止一个，返回长度最长且字母序最小的字符串。如果答案不存在，则返回空字符串。</p>
+<p>Given a string <code>s</code> and a string array <code>dictionary</code>, return <em>the longest string in the dictionary that can be formed by deleting some of the given string characters</em>. If there is more than one possible result, return the longest word with the smallest lexicographical order. If there is no possible result, return the empty string.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "abpcplea", dictionary = ["ale","apple","monkey","plea"]
-<strong>输出：</strong>"apple"
+<strong>Input:</strong> s = &quot;abpcplea&quot;, dictionary = [&quot;ale&quot;,&quot;apple&quot;,&quot;monkey&quot;,&quot;plea&quot;]
+<strong>Output:</strong> &quot;apple&quot;
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "abpcplea", dictionary = ["a","b","c"]
-<strong>输出：</strong>"a"
+<strong>Input:</strong> s = &quot;abpcplea&quot;, dictionary = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]
+<strong>Output:</strong> &quot;a&quot;
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= dictionary.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= dictionary[i].length &lt;= 1000</code></li>
-	<li><code>s</code> 和 <code>dictionary[i]</code> 仅由小写英文字母组成</li>
+	<li><code>s</code> and <code>dictionary[i]</code> consist of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：判断子序列
+### Solution 1: Subsequence Judgment
 
-我们定义一个函数 $check(s, t)$，用于判断字符串 $s$ 是否是字符串 $t$ 的子序列。我们可以使用双指针的方法，初始化两个指针 $i$ 和 $j$ 分别指向字符串 $s$ 和字符串 $t$ 的开头，然后不断移动指针 $j$，如果 $s[i]$ 和 $t[j]$ 相等，则移动指针 $i$，最后判断 $i$ 是否等于 $s$ 的长度即可。若 $i$ 等于 $s$ 的长度，则说明 $s$ 是 $t$ 的子序列。
+We define a function $check(s, t)$ to determine whether string $s$ is a subsequence of string $t$. We can use a two-pointer approach, initializing two pointers $i$ and $j$ to point to the beginning of strings $s$ and $t$ respectively, then continuously move pointer $j$. If $s[i]$ equals $t[j]$, then move pointer $i$. Finally, check if $i$ equals the length of $s$. If $i$ equals the length of $s$, it means $s$ is a subsequence of $t$.
 
-我们初始化答案字符串 $ans$ 为空字符串，然后遍历数组 $dictionary$ 中的每个字符串 $t$，如果 $t$ 是 $s$ 的子序列，并且 $t$ 的长度大于 $ans$ 的长度，或者 $t$ 的长度等于 $ans$ 的长度且 $t$ 字典序小于 $ans$，则更新 $ans$ 为 $t$。
+We initialize the answer string $ans$ as an empty string. Then, we iterate through each string $t$ in the array $dictionary$. If $t$ is a subsequence of $s$, and the length of $t$ is greater than the length of $ans$, or the length of $t$ is equal to the length of $ans$ but $t$ is lexicographically smaller than $ans$, then we update $ans$ to $t$.
 
-时间复杂度 $O(d \times (m + n))$，其中 $d$ 是字符串列表的长度，而 $m$ 和 $n$ 分别是字符串 $s$ 的长度和字符串列表中字符串的平均长度。空间复杂度 $O(1)$。
+The time complexity is $O(d \times (m + n))$, where $d$ is the length of the string list, and $m$ and $n$ are the lengths of string $s$ and the average length of strings in the list, respectively. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

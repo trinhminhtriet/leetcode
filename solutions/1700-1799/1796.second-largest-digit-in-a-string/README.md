@@ -1,70 +1,65 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1796.Second%20Largest%20Digit%20in%20a%20String/README.md
+difficulty: Easy
 rating: 1341
-source: 第 48 场双周赛 Q1
+source: Biweekly Contest 48 Q1
 tags:
-    - 哈希表
-    - 字符串
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1796. 字符串中第二大的数字](https://leetcode.cn/problems/second-largest-digit-in-a-string)
+# [1796. Second Largest Digit in a String](https://leetcode.com/problems/second-largest-digit-in-a-string)
 
-[English Version](/solution/1700-1799/1796.Second%20Largest%20Digit%20in%20a%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个混合字符串 <code>s</code> ，请你返回 <code>s</code> 中 <strong>第二大 </strong>的数字，如果不存在第二大的数字，请你返回 <code>-1</code> 。</p>
+<p>Given an alphanumeric string <code>s</code>, return <em>the <strong>second largest</strong> numerical digit that appears in </em><code>s</code><em>, or </em><code>-1</code><em> if it does not exist</em>.</p>
 
-<p><strong>混合字符串 </strong>由小写英文字母和数字组成。</p>
+<p>An <strong>alphanumeric</strong><strong> </strong>string is a string consisting of lowercase English letters and digits.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>s = "dfa12321afd"
-<b>输出：</b>2
-<b>解释：</b>出现在 s 中的数字包括 [1, 2, 3] 。第二大的数字是 2 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>s = "abc1111"
-<b>输出：</b>-1
-<b>解释：</b>出现在 s 中的数字只包含 [1] 。没有第二大的数字。
+<strong>Input:</strong> s = &quot;dfa12321afd&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The digits that appear in s are [1, 2, 3]. The second largest digit is 2.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;abc1111&quot;
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> The digits that appear in s are [1]. There is no second largest digit. 
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= s.length <= 500</code></li>
-	<li><code>s</code> 只包含小写英文字母和（或）数字。</li>
+	<li><code>1 &lt;= s.length &lt;= 500</code></li>
+	<li><code>s</code> consists of only lowercase English letters and digits.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：一次遍历
+### Solution 1: One Pass
 
-我们定义 $a$ 和 $b$ 分别表示字符串中出现的最大数字和第二大数字，初始时 $a = b = -1$。
+We define $a$ and $b$ to represent the largest and second largest numbers in the string, initially $a = b = -1$.
 
-遍历字符串 $s$，如果当前字符是数字，我们将其转换为数字 $v$，如果 $v \gt a$，说明 $v$ 是当前出现的最大数字，我们将 $b$ 更新为 $a$，并将 $a$ 更新为 $v$；如果 $v \lt a$，说明 $v$ 是当前出现的第二大数字，我们将 $b$ 更新为 $v$。
+We traverse the string $s$. If the current character is a digit, we convert it to a number $v$. If $v > a$, it means that $v$ is the largest number currently appearing, we update $b$ to $a$, and update $a$ to $v$; if $v < a$, it means that $v$ is the second largest number currently appearing, we update $b$ to $v$.
 
-遍历结束，返回 $b$ 即可。
+After the traversal, we return $b$.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -218,15 +213,15 @@ int secondHighest(char* s) {
 
 <!-- solution:start -->
 
-### 方法二：位运算
+### Solution 2: Bit Manipulation
 
-我们可以用一个整数 $mask$ 来标识字符串中出现的数字，其中 $mask$ 的第 $i$ 位表示数字 $i$ 是否出现过。
+We can use an integer $mask$ to mark the numbers that appear in the string, where the $i$-th bit of $mask$ indicates whether the number $i$ has appeared.
 
-遍历字符串 $s$，如果当前字符是数字，我们将其转换为数字 $v$，将 $mask$ 的第 $v$ 个二进制位的值置为 $1$。
+We traverse the string $s$. If the current character is a digit, we convert it to a number $v$, and set the $v$-th bit of $mask$ to $1$.
 
-最后，我们从高位向低位遍历 $mask$，找到第二个为 $1$ 的二进制位，其对应的数字即为第二大数字。如果不存在第二大数字，返回 $-1$。
+Finally, we traverse $mask$ from high to low, find the second bit that is $1$, and the corresponding number is the second largest number. If there is no second largest number, return $-1$.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

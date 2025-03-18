@@ -1,123 +1,119 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1172.Dinner%20Plate%20Stacks/README.md
+difficulty: Hard
 rating: 2109
-source: 第 151 场周赛 Q4
+source: Weekly Contest 151 Q4
 tags:
-    - 栈
-    - 设计
-    - 哈希表
-    - 堆（优先队列）
+    - Stack
+    - Design
+    - Hash Table
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1172. 餐盘栈](https://leetcode.cn/problems/dinner-plate-stacks)
+# [1172. Dinner Plate Stacks](https://leetcode.com/problems/dinner-plate-stacks)
 
-[English Version](/solution/1100-1199/1172.Dinner%20Plate%20Stacks/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>我们把无限数量 &infin; 的栈排成一行，按从左到右的次序从 0 开始编号。每个栈的的最大容量&nbsp;<code>capacity</code> 都相同。</p>
+<p>You have an infinite number of stacks arranged in a row and numbered (left to right) from <code>0</code>, each of the stacks has the same maximum capacity.</p>
 
-<p>实现一个叫「餐盘」的类&nbsp;<code>DinnerPlates</code>：</p>
+<p>Implement the <code>DinnerPlates</code> class:</p>
 
 <ul>
-	<li><code>DinnerPlates(int capacity)</code>&nbsp;- 给出栈的最大容量&nbsp;<code>capacity</code>。</li>
-	<li><code>void push(int val)</code>&nbsp;- 将给出的正整数&nbsp;<code>val</code>&nbsp;推入&nbsp;<strong>从左往右第一个&nbsp;</strong>没有满的栈。</li>
-	<li><code>int pop()</code>&nbsp;- 返回&nbsp;<strong>从右往左第一个&nbsp;</strong>非空栈顶部的值，并将其从栈中删除；如果所有的栈都是空的，请返回&nbsp;<code>-1</code>。</li>
-	<li><code>int popAtStack(int index)</code>&nbsp;- 返回编号&nbsp;<code>index</code>&nbsp;的栈顶部的值，并将其从栈中删除；如果编号&nbsp;<code>index</code>&nbsp;的栈是空的，请返回 <code>-1</code>。</li>
+	<li><code>DinnerPlates(int capacity)</code> Initializes the object with the maximum capacity of the stacks <code>capacity</code>.</li>
+	<li><code>void push(int val)</code> Pushes the given integer <code>val</code> into the leftmost stack with a size less than <code>capacity</code>.</li>
+	<li><code>int pop()</code> Returns the value at the top of the rightmost non-empty stack and removes it from that stack, and returns <code>-1</code> if all the stacks are empty.</li>
+	<li><code>int popAtStack(int index)</code> Returns the value at the top of the stack with the given index <code>index</code> and removes it from that stack or returns <code>-1</code> if the stack with that given index is empty.</li>
 </ul>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例：</strong></p>
+<pre>
+<strong>Input</strong>
+[&quot;DinnerPlates&quot;, &quot;push&quot;, &quot;push&quot;, &quot;push&quot;, &quot;push&quot;, &quot;push&quot;, &quot;popAtStack&quot;, &quot;push&quot;, &quot;push&quot;, &quot;popAtStack&quot;, &quot;popAtStack&quot;, &quot;pop&quot;, &quot;pop&quot;, &quot;pop&quot;, &quot;pop&quot;, &quot;pop&quot;]
+[[2], [1], [2], [3], [4], [5], [0], [20], [21], [0], [2], [], [], [], [], []]
+<strong>Output</strong>
+[null, null, null, null, null, null, 2, null, null, 20, 21, 5, 4, 3, 1, -1]
 
-<pre><strong>输入： </strong>
-[&quot;DinnerPlates&quot;,&quot;push&quot;,&quot;push&quot;,&quot;push&quot;,&quot;push&quot;,&quot;push&quot;,&quot;popAtStack&quot;,&quot;push&quot;,&quot;push&quot;,&quot;popAtStack&quot;,&quot;popAtStack&quot;,&quot;pop&quot;,&quot;pop&quot;,&quot;pop&quot;,&quot;pop&quot;,&quot;pop&quot;]
-[[2],[1],[2],[3],[4],[5],[0],[20],[21],[0],[2],[],[],[],[],[]]
-<strong>输出：</strong>
-[null,null,null,null,null,null,2,null,null,20,21,5,4,3,1,-1]
-
-<strong>解释：</strong>
-DinnerPlates D = DinnerPlates(2);  // 初始化，栈最大容量 capacity = 2
+<strong>Explanation:</strong> 
+DinnerPlates D = DinnerPlates(2);  // Initialize with capacity = 2
 D.push(1);
 D.push(2);
 D.push(3);
 D.push(4);
-D.push(5);         // 栈的现状为：    2 &nbsp;4
-&nbsp;                                   1 &nbsp;3 &nbsp;5
-                                    ﹈ ﹈ ﹈
-D.popAtStack(0);   // 返回 2。栈的现状为：     &nbsp;4
-            &nbsp;                             1 &nbsp;3 &nbsp;5
-                                          ﹈ ﹈ ﹈
-D.push(20);        // 栈的现状为：  20  4
-&nbsp;                                  1 &nbsp;3 &nbsp;5
-                                   ﹈ ﹈ ﹈
-D.push(21);        // 栈的现状为：  20  4 21
-&nbsp;                                  1 &nbsp;3 &nbsp;5
-                                   ﹈ ﹈ ﹈
-D.popAtStack(0);   // 返回 20。栈的现状为：       4 21
-             &nbsp;                              1 &nbsp;3 &nbsp;5
-                                            ﹈ ﹈ ﹈
-D.popAtStack(2);   // 返回 21。栈的现状为：       4
-             &nbsp;                              1 &nbsp;3 &nbsp;5
-                                            ﹈ ﹈ ﹈ 
-D.pop()            // 返回 5。栈的现状为：        4
-             &nbsp;                              1 &nbsp;3 
-                                            ﹈ ﹈  
-D.pop()            // 返回 4。栈的现状为：    1  3 
-                                           ﹈ ﹈   
-D.pop()            // 返回 3。栈的现状为：    1 
-                                           ﹈   
-D.pop()            // 返回 1。现在没有栈。
-D.pop()            // 返回 -1。仍然没有栈。
+D.push(5);         // The stacks are now:  2  4
+                                           1  3  5
+                                           ﹈ ﹈ ﹈
+D.popAtStack(0);   // Returns 2.  The stacks are now:     4
+                                                       1  3  5
+                                                       ﹈ ﹈ ﹈
+D.push(20);        // The stacks are now: 20  4
+                                           1  3  5
+                                           ﹈ ﹈ ﹈
+D.push(21);        // The stacks are now: 20  4 21
+                                           1  3  5
+                                           ﹈ ﹈ ﹈
+D.popAtStack(0);   // Returns 20.  The stacks are now:     4 21
+                                                        1  3  5
+                                                        ﹈ ﹈ ﹈
+D.popAtStack(2);   // Returns 21.  The stacks are now:     4
+                                                        1  3  5
+                                                        ﹈ ﹈ ﹈ 
+D.pop()            // Returns 5.  The stacks are now:      4
+                                                        1  3 
+                                                        ﹈ ﹈  
+D.pop()            // Returns 4.  The stacks are now:   1  3 
+                                                        ﹈ ﹈   
+D.pop()            // Returns 3.  The stacks are now:   1 
+                                                        ﹈   
+D.pop()            // Returns 1.  There are no stacks.
+D.pop()            // Returns -1.  There are still no stacks.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= capacity&nbsp;&lt;= 20000</code></li>
-	<li><code>1 &lt;= val&nbsp;&lt;= 20000</code></li>
-	<li><code>0 &lt;= index&nbsp;&lt;= 100000</code></li>
-	<li>最多会对&nbsp;<code>push</code>，<code>pop</code>，和&nbsp;<code>popAtStack</code>&nbsp;进行 <code>200000</code> 次调用。</li>
+	<li><code>1 &lt;= capacity &lt;= 2 * 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= val &lt;= 2 * 10<sup>4</sup></code></li>
+	<li><code>0 &lt;= index &lt;= 10<sup>5</sup></code></li>
+	<li>At most <code>2 * 10<sup>5</sup></code> calls will be made to <code>push</code>, <code>pop</code>, and <code>popAtStack</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：栈数组 + 有序集合
+### Solution 1: Stack Array + Ordered Set
 
-我们定义以下数据结构或变量：
+We define the following data structures or variables:
 
--   `capacity`：每个栈的容量；
--   `stacks`：栈数组，用于存储所有的栈，其中每个栈的最大容量都是 `capacity`；
--   `not_full`：有序集合，用于存储所有未满的栈在栈数组中的下标。
+-   `capacity`: The capacity of each stack;
+-   `stacks`: Stack array, used to store all stacks, each with a maximum capacity of `capacity`;
+-   `not_full`: Ordered set, used to store the indices of all non-full stacks in the stack array.
 
-对于 `push(val)` 操作：
+For the `push(val)` operation:
 
--   我们首先判断 `not_full` 是否为空，如果为空，则说明没有未满的栈，需要新建一个栈，然后将 `val` 压入该栈中，此时判断容量 `capacity` 是否大于 $1$，如果大于 $1$，则将该栈的下标加入 `not_full` 中。
--   如果 `not_full` 不为空，则说明有未满的栈，我们取出 `not_full` 中最小的下标 `index`，将 `val` 压入 `stacks[index]` 中，此时如果 `stacks[index]` 的容量等于 `capacity`，则将 `index` 从 `not_full` 中删除。
+-   We first check if `not_full` is empty. If it is, it means there are no non-full stacks, so we need to create a new stack and push `val` into it. At this point, we check if the capacity `capacity` is greater than $1$. If it is, we add the index of this stack to `not_full`.
+-   If `not_full` is not empty, it means there are non-full stacks. We take out the smallest index `index` from `not_full`, and push `val` into `stacks[index]`. At this point, if the capacity of `stacks[index]` equals `capacity`, we remove `index` from `not_full`.
 
-对于 `popAtStack(index)` 操作：
+For the `popAtStack(index)` operation:
 
--   我们首先判断 `index` 是否在 `stacks` 的下标范围内，如果不在，则直接返回 $-1$。如果 `stacks[index]` 为空，同样直接返回 $-1$。
--   如果 `stacks[index]` 不为空，则弹出 `stacks[index]` 的栈顶元素 `val`。如果 `index` 等于 `stacks` 的长度减 $1$，则说明 `stacks[index]` 是最后一个栈，如果为空，我们循环将最后一个栈的下标从 `not_full` 中移出，并且在栈数组 `stacks` 中移除最后一个栈，直到最后一个栈不为空、或者栈数组 `stacks` 为空为止。否则，如果 `stacks[index]` 不是最后一个栈，我们将 `index` 加入 `not_full` 中。
--   最后返回 `val`。
+-   We first check if `index` is within the index range of `stacks`. If it is not, we directly return $-1$. If `stacks[index]` is empty, we also directly return $-1$.
+-   If `stacks[index]` is not empty, we pop the top element `val` from `stacks[index]`. If `index` equals the length of `stacks` minus $1$, it means `stacks[index]` is the last stack. If it is empty, we loop to remove the index of the last stack from `not_full`, and remove the last stack from the stack array `stacks`, until the last stack is not empty, or the stack array `stacks` is empty. Otherwise, if `stacks[index]` is not the last stack, we add `index` to `not_full`.
+-   Finally, return `val`.
 
-对于 `pop()` 操作：
+For the `pop()` operation:
 
--   我们直接调用 `popAtStack(stacks.length - 1)` 即可。
+-   We directly call `popAtStack(stacks.length - 1)`.
 
-时间复杂度 $(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为操作次数。
+The time complexity is $(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of operations.
 
 <!-- tabs:start -->
 

@@ -1,96 +1,91 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1787.Make%20the%20XOR%20of%20All%20Segments%20Equal%20to%20Zero/README.md
+difficulty: Hard
 rating: 2640
-source: 第 231 场周赛 Q4
+source: Weekly Contest 231 Q4
 tags:
-    - 位运算
-    - 数组
-    - 动态规划
+    - Bit Manipulation
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1787. 使所有区间的异或结果为零](https://leetcode.cn/problems/make-the-xor-of-all-segments-equal-to-zero)
+# [1787. Make the XOR of All Segments Equal to Zero](https://leetcode.com/problems/make-the-xor-of-all-segments-equal-to-zero)
 
-[English Version](/solution/1700-1799/1787.Make%20the%20XOR%20of%20All%20Segments%20Equal%20to%20Zero/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code>​​​ 和一个整数 <code>k</code>​​​​​ 。区间 <code>[left, right]</code>（<code>left <= right</code>）的 <strong>异或结果</strong> 是对下标位于 <code>left</code> 和 <code>right</code>（包括 <code>left</code> 和 <code>right</code> ）之间所有元素进行 <code>XOR</code> 运算的结果：<code>nums[left] XOR nums[left+1] XOR ... XOR nums[right]</code> 。</p>
+<p>You are given an array <code>nums</code>​​​ and an integer <code>k</code>​​​​​. The <font face="monospace">XOR</font> of a segment <code>[left, right]</code> where <code>left &lt;= right</code> is the <code>XOR</code> of all the elements with indices between <code>left</code> and <code>right</code>, inclusive: <code>nums[left] XOR nums[left+1] XOR ... XOR nums[right]</code>.</p>
 
-<p>返回数组中 <strong>要更改的最小元素数</strong> ，以使所有长度为 <code>k</code> 的区间异或结果等于零。</p>
+<p>Return <em>the minimum number of elements to change in the array </em>such that the <code>XOR</code> of all segments of size <code>k</code>​​​​​​ is equal to zero.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,0,3,0], k = 1
-<strong>输出：</strong>3
-<strong>解释：</strong>将数组 [<strong>1</strong>,<strong>2</strong>,0,<strong>3</strong>,0] 修改为 [<strong>0</strong>,<strong>0</strong>,0,<strong>0</strong>,0]
+<strong>Input:</strong> nums = [1,2,0,3,0], k = 1
+<strong>Output:</strong> 3
+<strong>Explanation: </strong>Modify the array from [<u><strong>1</strong></u>,<u><strong>2</strong></u>,0,<u><strong>3</strong></u>,0] to from [<u><strong>0</strong></u>,<u><strong>0</strong></u>,0,<u><strong>0</strong></u>,0].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,4,5,2,1,7,3,4,7], k = 3
-<strong>输出：</strong>3
-<strong>解释：</strong>将数组 [3,4,<strong>5</strong>,<strong>2</strong>,<strong>1</strong>,7,3,4,7] 修改为 [3,4,<strong>7</strong>,<strong>3</strong>,<strong>4</strong>,7,3,4,7]
+<strong>Input:</strong> nums = [3,4,5,2,1,7,3,4,7], k = 3
+<strong>Output:</strong> 3
+<strong>Explanation: </strong>Modify the array from [3,4,<strong><u>5</u></strong>,<strong><u>2</u></strong>,<strong><u>1</u></strong>,7,3,4,7] to [3,4,<strong><u>7</u></strong>,<strong><u>3</u></strong>,<strong><u>4</u></strong>,7,3,4,7].
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,4,1,2,5,1,2,6], k = 3
-<strong>输出：</strong>3
-<strong>解释：</strong>将数组[1,2,<strong>4,</strong>1,2,<strong>5</strong>,1,2,<strong>6</strong>] 修改为 [1,2,<strong>3</strong>,1,2,<strong>3</strong>,1,2,<strong>3</strong>]</pre>
+<strong>Input:</strong> nums = [1,2,4,1,2,5,1,2,6], k = 3
+<strong>Output:</strong> 3
+<strong>Explanation: </strong>Modify the array from [1,2,<strong><u>4,</u></strong>1,2,<strong><u>5</u></strong>,1,2,<strong><u>6</u></strong>] to [1,2,<strong><u>3</u></strong>,1,2,<strong><u>3</u></strong>,1,2,<strong><u>3</u></strong>].</pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= k <= nums.length <= 2000</code></li>
-	<li><code>​​​​​​0 <= nums[i] < 2<sup>10</sup></code></li>
+	<li><code>1 &lt;= k &lt;= nums.length &lt;= 2000</code></li>
+	<li><code>​​​​​​0 &lt;= nums[i] &lt; 2<sup>10</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-注意到数组 `nums` 在修改之后，任意长度为 $k$ 的区间异或结果都等于 $0$，那么对于任意的 $i$，都有：
+Notice that after modifying the array `nums`, the XOR result of any interval of length $k$ is equal to $0$. Therefore, for any $i$, we have:
 
 $$
 nums[i] \oplus nums[i+1] \oplus ... \oplus nums[i+k-1] = 0
 $$
 
-以及
+and
 
 $$
 nums[i+1] \oplus nums[i+2] \oplus ... \oplus nums[i+k] = 0
 $$
 
-结合上面两个等式以及异或运算的性质，可以得到 $nums[i] \oplus nums[i+k] = 0$，即 $nums[i]=nums[i+k]$，我们发现，修改后的数组 `nums` 中的元素是以周期为 $k$ 的循环，对模 $k$ 同余的一组数必然只能取固定值，同时需要满足前 $k$ 个数异或结果为 $0$。
+Combining the two equations and the properties of XOR operation, we can get $nums[i] \oplus nums[i+k] = 0$, which means $nums[i]=nums[i+k]$. We find that the elements in the modified array `nums` are cyclic with a period of $k$. The numbers congruent modulo $k$ can only take a fixed value, and the XOR result of the first $k$ numbers must be $0$.
 
-我们先对每一组 $i$ 进行计数，每一组的元素个数为 $size[i]$，每一组值为 $v$ 的元素个数为 $cnt[i][v]$。
+First, we count each group $i$, the number of elements in each group is $size[i]$, and the number of elements with value $v$ in each group is $cnt[i][v]$.
 
-接下来，我们可以用动态规划来求解。设 $f[i][j]$ 表示前 $i+1$ 组异或和为 $j$ 的最小修改次数。由于每一组的值只与前一组的值有关，因此我们可以用滚动数组优化空间复杂度。
+Next, we can use dynamic programming to solve it. Let $f[i][j]$ represent the minimum number of modifications with the XOR sum of the first $i+1$ groups being $j$. Since the value of each group is only related to the value of the previous group, we can use a rolling array to optimize the space complexity.
 
-重新定义 $f[j]$ 表示处理到当前组，且异或和为 $j$ 的最小修改次数。
+Redefine $f[j]$ to represent the minimum number of modifications with the XOR sum being $j$ when processing to the current group.
 
-状态转移时，有两种选择：一是将当前组的数全部都修改为同一个值，那么我们可以选择上一个代价最小的那个，加上这一组的元素个数 $size[i]$，此时的代价为 $\min{f[0..n]} + size[i]$；二是将当前组的数全部修改为当前组的某个值 $j$，枚举 $j$ 以及当前组的元素 $v$，那么前面的代价为 $f[j \oplus v]$，此时的代价为 $f[j \oplus v] + size[i] - cnt[i][v]$。取最小值即可。
+When transitioning states, there are two choices: one is to modify all the numbers in the current group to the same value, then we can choose the one with the smallest previous cost, plus the number of elements $size[i]$ in this group, the cost is $\min{f[0..n]} + size[i]$; the second is to modify all the numbers in the current group to some value $j$ of the current group, enumerate $j$ and the element $v$ of the current group, then the previous cost is $f[j \oplus v]$, the cost is $f[j \oplus v] + size[i] - cnt[i][v]$. Take the minimum value.
 
-最终答案为 $f[0]$。
+The final answer is $f[0]$.
 
-时间复杂度 $O(2^{C}\times k + n)$。其中 $n$ 是数组 `nums` 的长度，而 $C$ 为 `nums` 中元素二进制表示的最大位数，本题中 $C=10$。
+The time complexity is $O(2^{C}\times k + n)$. Where $n$ is the length of the array `nums`, and $C$ is the maximum number of bits in the binary representation of the elements in `nums`, in this problem $C=10$.
 
 <!-- tabs:start -->
 

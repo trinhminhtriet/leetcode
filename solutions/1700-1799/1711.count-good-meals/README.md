@@ -1,84 +1,79 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1711.Count%20Good%20Meals/README.md
+difficulty: Medium
 rating: 1797
-source: 第 222 场周赛 Q2
+source: Weekly Contest 222 Q2
 tags:
-    - 数组
-    - 哈希表
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [1711. 大餐计数](https://leetcode.cn/problems/count-good-meals)
+# [1711. Count Good Meals](https://leetcode.com/problems/count-good-meals)
 
-[English Version](/solution/1700-1799/1711.Count%20Good%20Meals/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong>大餐</strong> 是指 <strong>恰好包含两道不同餐品</strong> 的一餐，其美味程度之和等于 2 的幂。</p>
+<p>A <strong>good meal</strong> is a meal that contains <strong>exactly two different food items</strong> with a sum of deliciousness equal to a power of two.</p>
 
-<p>你可以搭配 <strong>任意</strong> 两道餐品做一顿大餐。</p>
+<p>You can pick <strong>any</strong> two different foods to make a good meal.</p>
 
-<p>给你一个整数数组 <code>deliciousness</code> ，其中 <code>deliciousness[i]</code> 是第 <code>i<sup>​​​​​​</sup>​​​​</code>​​​​ 道餐品的美味程度，返回你可以用数组中的餐品做出的不同 <strong>大餐</strong> 的数量。结果需要对 <code>10<sup>9</sup> + 7</code> 取余。</p>
+<p>Given an array of integers <code>deliciousness</code> where <code>deliciousness[i]</code> is the deliciousness of the <code>i<sup>​​​​​​th</sup>​​​​</code>​​​​ item of food, return <em>the number of different <strong>good meals</strong> you can make from this list modulo</em> <code>10<sup>9</sup> + 7</code>.</p>
 
-<p>注意，只要餐品下标不同，就可以认为是不同的餐品，即便它们的美味程度相同。</p>
+<p>Note that items with different indices are considered different even if they have the same deliciousness value.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>deliciousness = [1,3,5,7,9]
-<strong>输出：</strong>4
-<strong>解释：</strong>大餐的美味程度组合为 (1,3) 、(1,7) 、(3,5) 和 (7,9) 。
-它们各自的美味程度之和分别为 4 、8 、8 和 16 ，都是 2 的幂。
+<strong>Input:</strong> deliciousness = [1,3,5,7,9]
+<strong>Output:</strong> 4
+<strong>Explanation: </strong>The good meals are (1,3), (1,7), (3,5) and, (7,9).
+Their respective sums are 4, 8, 8, and 16, all of which are powers of 2.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>deliciousness = [1,1,1,3,3,3,7]
-<strong>输出：</strong>15
-<strong>解释：</strong>大餐的美味程度组合为 3 种 (1,1) ，9 种 (1,3) ，和 3 种 (1,7) 。</pre>
+<strong>Input:</strong> deliciousness = [1,1,1,3,3,3,7]
+<strong>Output:</strong> 15
+<strong>Explanation: </strong>The good meals are (1,1) with 3 ways, (1,3) with 9 ways, and (1,7) with 3 ways.</pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= deliciousness.length <= 10<sup>5</sup></code></li>
-	<li><code>0 <= deliciousness[i] <= 2<sup>20</sup></code></li>
+	<li><code>1 &lt;= deliciousness.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>0 &lt;= deliciousness[i] &lt;= 2<sup>20</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 枚举二的幂
+### Solution 1: Hash Table + Enumeration of Powers of Two
 
-根据题意，我们需要统计数组中两个数的和为 $2$ 的幂的组合数。直接暴力枚举所有的组合数，时间复杂度为 $O(n^2)$ ，肯定会超时。
+According to the problem, we need to count the number of combinations in the array where the sum of two numbers is a power of $2$. Directly enumerating all combinations has a time complexity of $O(n^2)$, which will definitely time out.
 
-我们可以遍历数组，用哈希表 $cnt$ 维护数组中每个元素 $d$ 出现的次数。
+We can traverse the array and use a hash table $cnt$ to maintain the number of occurrences of each element $d$ in the array.
 
-对于每个元素，我们从小到大枚举二的幂次方 $s$ 作为两数之和，将哈希表中 $s - d$ 出现的次数累加到答案中。然后将当前元素 $d$ 出现的次数加一。
+For each element, we enumerate the powers of two $s$ as the sum of two numbers from small to large, and add the number of occurrences of $s - d$ in the hash table to the answer. Then increase the number of occurrences of the current element $d$ by one.
 
-遍历结束后，返回答案即可。
+After the traversal ends, return the answer.
 
-时间复杂度 $O(n\times \log M)$，其中 $n$ 是数组 `deliciousness` 的长度，而 $M$ 是元素的上限，对于本题，上限 $M=2^{20}$。
+The time complexity is $O(n \times \log M)$, where $n$ is the length of the array `deliciousness`, and $M$ is the upper limit of the elements. For this problem, the upper limit $M=2^{20}$.
 
-我们也可以先用哈希表 $cnt$ 统计数组中每个元素出现的次数。
+We can also use a hash table $cnt$ to count the number of occurrences of each element in the array first.
 
-然后从小到大枚举二的幂次方 $s$ 作为两数之和，对于每个 $s$，遍历哈希表每个键值对 $(a, m)$，如果 $s - a$ 也在哈希表中，且 $s - a \neq a$，则答案加上 $m \times cnt[s - a]$；如果 $s - a = a$，则答案加上 $m \times (m - 1)$。
+Then enumerate the powers of two $s$ as the sum of two numbers from small to large. For each $s$, traverse each key-value pair $(a, m)$ in the hash table. If $s - a$ is also in the hash table, and $s - a \neq a$, then add $m \times cnt[s - a]$ to the answer; if $s - a = a$, then add $m \times (m - 1)$ to the answer.
 
-最后，将答案除以 $2$ 之后，模 $10^9 + 7$，返回即可。
+Finally, divide the answer by $2$, modulo $10^9 + 7$, and return.
 
-时间复杂度与上面的方法相同。
+The time complexity is the same as the method above.
 
 <!-- tabs:start -->
 
@@ -166,7 +161,7 @@ func countPairs(deliciousness []int) (ans int) {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

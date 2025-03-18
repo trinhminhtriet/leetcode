@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1336.Number%20of%20Transactions%20per%20Visit/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1336. 每次访问的交易次数 🔒](https://leetcode.cn/problems/number-of-transactions-per-visit)
+# [1336. Number of Transactions per Visit 🔒](https://leetcode.com/problems/number-of-transactions-per-visit)
 
-[English Version](/solution/1300-1399/1336.Number%20of%20Transactions%20per%20Visit/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Visits</code></p>
+<p>Table: <code>Visits</code></p>
 
 <pre>
 +---------------+---------+
@@ -25,13 +22,13 @@ tags:
 | user_id       | int     |
 | visit_date    | date    |
 +---------------+---------+
-(user_id, visit_date) 是该表的主键(具有唯一值的列的组合)
-该表的每行表示 user_id 在 visit_date 访问了银行
+(user_id, visit_date) is the primary key (combination of columns with unique values) for this table.
+Each row of this table indicates that user_id has visited the bank in visit_date.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>表: <code>Transactions</code></p>
+<p>Table: <code>Transactions</code></p>
 
 <pre>
 +------------------+---------+
@@ -41,39 +38,36 @@ tags:
 | transaction_date | date    |
 | amount           | int     |
 +------------------+---------+
-该表可能有重复行
-该表的每一行表示 user_id 在 transaction_date 完成了一笔 amount 数额的交易
-可以保证用户 (user) 在 transaction_date 访问了银行 (也就是说 Visits 表包含 (user_id, transaction_date) 行)
+This table may contain duplicates rows.
+Each row of this table indicates that user_id has done a transaction of amount in transaction_date.
+It is guaranteed that the user has visited the bank in the transaction_date.(i.e The Visits table contains (user_id, transaction_date) in one row)
 </pre>
 
 <p>&nbsp;</p>
 
-<p>银行想要得到银行客户在一次访问时的交易次数和相应的在一次访问时该交易次数的客户数量的图表</p>
+<p>A bank wants to draw a chart of the number of transactions bank visitors did in one visit to the bank and the corresponding number of visitors who have done this number of transaction in one visit.</p>
 
-<p>编写解决方案找出多少客户访问了银行但没有进行任何交易，多少客户访问了银行进行了一次交易等等</p>
+<p>Write a solution&nbsp;to find how many users visited the bank and didn&#39;t do any transactions, how many visited the bank and did one transaction, and so on.</p>
 
-<p>结果包含两列：</p>
+<p>The result table will contain two columns:</p>
 
 <ul>
-	<li><code>transactions_count：</code>&nbsp;客户在一次访问中的交易次数</li>
-	<li><code>visits_count：</code> 在&nbsp;<code>transactions_count</code>&nbsp;交易次数下相应的一次访问时的客户数量</li>
+	<li><code>transactions_count</code> which is the number of transactions done in one visit.</li>
+	<li><code>visits_count</code> which is the corresponding number of users who did <code>transactions_count</code> in one visit to the bank.</li>
 </ul>
 
-<p><code>transactions_count</code> 的值从&nbsp;<code>0</code>&nbsp;到所有用户一次访问中的&nbsp;<code>max(transactions_count)</code>&nbsp;</p>
+<p><code>transactions_count</code> should take all values from <code>0</code> to <code>max(transactions_count)</code> done by one or more users.</p>
 
-<p>结果按&nbsp;<code>transactions_count</code>&nbsp;排序</p>
+<p>Return the result table ordered by <code>transactions_count</code>.</p>
 
-<p>下面是返回结果格式的例子：</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1336.Number%20of%20Transactions%20per%20Visit/images/chart.png" style="height:359px; width:600px" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1336.Number%20of%20Transactions%20per%20Visit/images/chart.png" style="width: 500px; height: 299px;" />
 <pre>
-<code><strong>输入：</strong>
-Visits</code> 表:
+<strong>Input:</strong> 
+Visits table:
 +---------+------------+
 | user_id | visit_date |
 +---------+------------+
@@ -88,7 +82,7 @@ Visits</code> 表:
 | 9       | 2020-01-25 |
 | 8       | 2020-01-28 |
 +---------+------------+
-<code>Transactions</code> 表:
+Transactions table:
 +---------+------------------+--------+
 | user_id | transaction_date | amount |
 +---------+------------------+--------+
@@ -101,30 +95,30 @@ Visits</code> 表:
 | 8       | 2020-01-28       | 1      |
 | 9       | 2020-01-25       | 99     |
 +---------+------------------+--------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +--------------------+--------------+
-| <code>transactions_count</code> | visits_count |
+| transactions_count | visits_count |
 +--------------------+--------------+
 | 0                  | 4            |
 | 1                  | 5            |
 | 2                  | 0            |
 | 3                  | 1            |
 +--------------------+--------------+
-<strong>解释：</strong>为这个例子绘制的图表如上所示
-* 对于 transactions_count = 0, visits 中 (1, "2020-01-01"), (2, "2020-01-02"), (12, "2020-01-01") 和 (19, "2020-01-03") 没有进行交易，所以 visits_count = 4 。
-* 对于 transactions_count = 1, visits 中 (2, "2020-01-03"), (7, "2020-01-11"), (8, "2020-01-28"),&nbsp;(1, "2020-01-02") 和 (1, "2020-01-04") 进行了一次交易，所以 visits_count = 5 。
-* 对于 transactions_count = 2, 没有客户访问银行进行了两次交易，所以 visits_count = 0 。
-* 对于 transactions_count = 3, visits 中&nbsp;(9, "2020-01-25") 进行了三次交易，所以 visits_count = 1 。
-* 对于 transactions_count &gt;= 4, 没有客户访问银行进行了超过3次交易，所以我们停止在 transactions_count = 3 。
+<strong>Explanation:</strong> The chart drawn for this example is shown above.
+* For transactions_count = 0, The visits (1, &quot;2020-01-01&quot;), (2, &quot;2020-01-02&quot;), (12, &quot;2020-01-01&quot;) and (19, &quot;2020-01-03&quot;) did no transactions so visits_count = 4.
+* For transactions_count = 1, The visits (2, &quot;2020-01-03&quot;), (7, &quot;2020-01-11&quot;), (8, &quot;2020-01-28&quot;), (1, &quot;2020-01-02&quot;) and (1, &quot;2020-01-04&quot;) did one transaction so visits_count = 5.
+* For transactions_count = 2, No customers visited the bank and did two transactions so visits_count = 0.
+* For transactions_count = 3, The visit (9, &quot;2020-01-25&quot;) did three transactions so visits_count = 1.
+* For transactions_count &gt;= 4, No customers visited the bank and did more than three transactions so we will stop at transactions_count = 3
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,76 +1,70 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1036.Escape%20a%20Large%20Maze/README.md
+difficulty: Hard
 rating: 2164
-source: 第 134 场周赛 Q4
+source: Weekly Contest 134 Q4
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 数组
-    - 哈希表
+    - Depth-First Search
+    - Breadth-First Search
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [1036. 逃离大迷宫](https://leetcode.cn/problems/escape-a-large-maze)
+# [1036. Escape a Large Maze](https://leetcode.com/problems/escape-a-large-maze)
 
-[English Version](/solution/1000-1099/1036.Escape%20a%20Large%20Maze/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在一个 10<sup>6</sup> x 10<sup>6</sup> 的网格中，每个网格上方格的坐标为 <code>(x, y)</code> 。</p>
+<p>There is a 1 million by 1 million grid on an XY-plane, and the coordinates of each grid square are <code>(x, y)</code>.</p>
 
-<p>现在从源方格 <code>source = [s<sub>x</sub>, s<sub>y</sub>]</code> 开始出发，意图赶往目标方格 <code>target = [t<sub>x</sub>, t<sub>y</sub>]</code> 。数组 <code>blocked</code> 是封锁的方格列表，其中每个 <code>blocked[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> 表示坐标为 <code>(x<sub>i</sub>, y<sub>i</sub>)</code> 的方格是禁止通行的。</p>
+<p>We start at the <code>source = [s<sub>x</sub>, s<sub>y</sub>]</code> square and want to reach the <code>target = [t<sub>x</sub>, t<sub>y</sub>]</code> square. There is also an array of <code>blocked</code> squares, where each <code>blocked[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> represents a blocked square with coordinates <code>(x<sub>i</sub>, y<sub>i</sub>)</code>.</p>
 
-<p>每次移动，都可以走到网格中在四个方向上相邻的方格，只要该方格 <strong>不</strong> 在给出的封锁列表 <code>blocked</code> 上。同时，不允许走出网格。</p>
+<p>Each move, we can walk one square north, east, south, or west if the square is <strong>not</strong> in the array of <code>blocked</code> squares. We are also not allowed to walk outside of the grid.</p>
 
-<p>只有在可以通过一系列的移动从源方格 <code>source</code> 到达目标方格 <code>target</code> 时才返回 <code>true</code>。否则，返回 <code>false</code>。</p>
+<p>Return <code>true</code><em> if and only if it is possible to reach the </em><code>target</code><em> square from the </em><code>source</code><em> square through a sequence of valid moves</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>blocked = [[0,1],[1,0]], source = [0,0], target = [0,2]
-<strong>输出：</strong>false
-<strong>解释：</strong>
-从源方格无法到达目标方格，因为我们无法在网格中移动。
-无法向北或者向东移动是因为方格禁止通行。
-无法向南或者向西移动是因为不能走出网格。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>blocked = [], source = [0,0], target = [999999,999999]
-<strong>输出：</strong>true
-<strong>解释：</strong>
-因为没有方格被封锁，所以一定可以到达目标方格。
+<strong>Input:</strong> blocked = [[0,1],[1,0]], source = [0,0], target = [0,2]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The target square is inaccessible starting from the source square because we cannot move.
+We cannot move north or east because those squares are blocked.
+We cannot move south or west because we cannot go outside of the grid.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> blocked = [], source = [0,0], target = [999999,999999]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Because there are no blocked cells, it is possible to reach the target square.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>0 <= blocked.length <= 200</code></li>
+	<li><code>0 &lt;= blocked.length &lt;= 200</code></li>
 	<li><code>blocked[i].length == 2</code></li>
-	<li><code>0 <= x<sub>i</sub>, y<sub>i</sub> < 10<sup>6</sup></code></li>
+	<li><code>0 &lt;= x<sub>i</sub>, y<sub>i</sub> &lt; 10<sup>6</sup></code></li>
 	<li><code>source.length == target.length == 2</code></li>
-	<li><code>0 <= s<sub>x</sub>, s<sub>y</sub>, t<sub>x</sub>, t<sub>y</sub> < 10<sup>6</sup></code></li>
+	<li><code>0 &lt;= s<sub>x</sub>, s<sub>y</sub>, t<sub>x</sub>, t<sub>y</sub> &lt; 10<sup>6</sup></code></li>
 	<li><code>source != target</code></li>
-	<li>题目数据保证 <code>source</code> 和 <code>target</code> 不在封锁列表内</li>
+	<li>It is guaranteed that <code>source</code> and <code>target</code> are not blocked.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

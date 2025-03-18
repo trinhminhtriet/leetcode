@@ -1,57 +1,48 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1136.Parallel%20Courses/README.md
+difficulty: Medium
 rating: 1710
-source: 第 5 场双周赛 Q4
+source: Biweekly Contest 5 Q4
 tags:
-    - 图
-    - 拓扑排序
+    - Graph
+    - Topological Sort
 ---
 
 <!-- problem:start -->
 
-# [1136. 并行课程 🔒](https://leetcode.cn/problems/parallel-courses)
+# [1136. Parallel Courses 🔒](https://leetcode.com/problems/parallel-courses)
 
-[English Version](/solution/1100-1199/1136.Parallel%20Courses/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>n</code> ，表示编号从 <code>1</code> 到 <code>n</code> 的 <code>n</code> 门课程。另给你一个数组 <code>relations</code> ，其中 <code>relations[i] = [prevCourse<sub>i</sub>, nextCourse<sub>i</sub>]</code> ，表示课程 <code>prevCourse<sub>i</sub></code> 和课程 <code>nextCourse<sub>i</sub></code> 之间存在先修关系：课程 <code>prevCourse<sub>i</sub></code> 必须在 <code>nextCourse<sub>i</sub></code> 之前修读完成。</p>
+<p>You are given an integer <code>n</code>, which indicates that there are <code>n</code> courses labeled from <code>1</code> to <code>n</code>. You are also given an array <code>relations</code> where <code>relations[i] = [prevCourse<sub>i</sub>, nextCourse<sub>i</sub>]</code>, representing a prerequisite relationship between course <code>prevCourse<sub>i</sub></code> and course <code>nextCourse<sub>i</sub></code>: course <code>prevCourse<sub>i</sub></code> has to be taken before course <code>nextCourse<sub>i</sub></code>.</p>
 
-<p>在一个学期内，你可以学习 <strong>任意数量</strong> 的课程，但前提是你已经在 <strong>上</strong> 一学期修读完待学习课程的所有先修课程。</p>
+<p>In one semester, you can take <strong>any number</strong> of courses as long as you have taken all the prerequisites in the <strong>previous</strong> semester for the courses you are taking.</p>
 
-<div class="original__bRMd">
-<div>
-<p>请你返回学完全部课程所需的 <strong>最少</strong> 学期数。如果没有办法做到学完全部这些课程的话，就返回&nbsp;<code>-1</code>。</p>
+<p>Return <em>the <strong>minimum</strong> number of semesters needed to take all courses</em>. If there is no way to take all the courses, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1136.Parallel%20Courses/images/course1graph.jpg" style="width: 222px; height: 222px;" />
 <pre>
-<strong>输入：</strong>n = 3, relations = [[1,3],[2,3]]
-<strong>输出：</strong>2
-<strong>解释：</strong>上图表示课程之间的关系图：
-在第一学期，可以修读课程 1 和 2 。
-在第二学期，可以修读课程 3 。
+<strong>Input:</strong> n = 3, relations = [[1,3],[2,3]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The figure above represents the given graph.
+In the first semester, you can take courses 1 and 2.
+In the second semester, you can take course 3.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1136.Parallel%20Courses/images/course2graph.jpg" style="width: 222px; height: 222px;" />
 <pre>
-<strong>输入：</strong>n = 3, relations = [[1,2],[2,3],[3,1]]
-<strong>输出：</strong>-1
-<strong>解释：</strong>没有课程可以学习，因为它们互为先修课程。
+<strong>Input:</strong> n = 3, relations = [[1,2],[2,3],[3,1]]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> No course can be studied because they are prerequisites of each other.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 5000</code></li>
@@ -59,24 +50,22 @@ tags:
 	<li><code>relations[i].length == 2</code></li>
 	<li><code>1 &lt;= prevCourse<sub>i</sub>, nextCourse<sub>i</sub> &lt;= n</code></li>
 	<li><code>prevCourse<sub>i</sub> != nextCourse<sub>i</sub></code></li>
-	<li>所有 <code>[prevCourse<sub>i</sub>, nextCourse<sub>i</sub>]</code> <strong>互不相同</strong></li>
+	<li>All the pairs <code>[prevCourse<sub>i</sub>, nextCourse<sub>i</sub>]</code> are <strong>unique</strong>.</li>
 </ul>
-</div>
-</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：拓扑排序
+### Solution 1: Topological Sorting
 
-我们可以先将课程之间的先修关系建立图 $g$，并统计每个课程的入度 $indeg$。
+We can first build a graph $g$ to represent the prerequisite relationships between courses, and count the in-degree $indeg$ of each course.
 
-然后我们将入度为 $0$ 的课程入队，然后开始进行拓扑排序。每次从队列中取出一个课程，将其出队，并将其出度的课程的入度减 $1$，如果减 $1$ 后入度为 $0$，则将该课程入队。当队列为空时，如果还有课程没有修完，则说明无法修完所有课程，返回 $-1$。否则返回修完所有课程所需的学期数。
+Then we enqueue the courses with an in-degree of $0$ and start topological sorting. Each time, we dequeue a course from the queue, reduce the in-degree of the courses that it points to by $1$, and if the in-degree becomes $0$ after reduction, we enqueue that course. When the queue is empty, if there are still courses that have not been completed, it means that it is impossible to complete all courses, so we return $-1$. Otherwise, we return the number of semesters required to complete all courses.
 
-时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别为课程数和先修关系数。
+The time complexity is $O(n + m)$, and the space complexity is $O(n + m)$. Here, $n$ and $m$ are the number of courses and the number of prerequisite relationships, respectively.
 
 <!-- tabs:start -->
 

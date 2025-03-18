@@ -1,72 +1,66 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0101.Symmetric%20Tree/README.md
+difficulty: Easy
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [101. 对称二叉树](https://leetcode.cn/problems/symmetric-tree)
+# [101. Symmetric Tree](https://leetcode.com/problems/symmetric-tree)
 
-[English Version](/solution/0100-0199/0101.Symmetric%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二叉树的根节点 <code>root</code> ， 检查它是否轴对称。</p>
+<p>Given the <code>root</code> of a binary tree, <em>check whether it is a mirror of itself</em> (i.e., symmetric around its center).</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0101.Symmetric%20Tree/images/1698026966-JDYPDU-image.png" style="width: 354px; height: 291px;" />
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0101.Symmetric%20Tree/images/symtree1.jpg" style="width: 354px; height: 291px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,2,3,4,4,3]
-<strong>输出：</strong>true
+<strong>Input:</strong> root = [1,2,2,3,4,4,3]
+<strong>Output:</strong> true
 </pre>
 
-<p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0101.Symmetric%20Tree/images/1698027008-nPFLbM-image.png" style="width: 308px; height: 258px;" />
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0101.Symmetric%20Tree/images/symtree2.jpg" style="width: 308px; height: 258px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,2,null,3,null,3]
-<strong>输出：</strong>false
+<strong>Input:</strong> root = [1,2,2,null,3,null,3]
+<strong>Output:</strong> false
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点数目在范围 <code>[1, 1000]</code> 内</li>
+	<li>The number of nodes in the tree is in the range <code>[1, 1000]</code>.</li>
 	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>你可以运用递归和迭代两种方法解决这个问题吗？</p>
+<strong>Follow up:</strong> Could you solve it both recursively and iteratively?
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
+### Solution 1: Recursion
 
-我们设计一个函数 $\textit{dfs}(\textit{root1}, \textit{root2})$，用于判断两个二叉树是否对称。答案即为 $\textit{dfs}(\textit{root.left}, \textit{root.right})$。
+We design a function $\textit{dfs}(\textit{root1}, \textit{root2})$ to determine whether two binary trees are symmetric. The answer is $\textit{dfs}(\textit{root.left}, \textit{root.right})$.
 
-函数 $\textit{dfs}(\textit{root1}, \textit{root2})$ 的逻辑如下：
+The logic of the function $\textit{dfs}(\textit{root1}, \textit{root2})$ is as follows:
 
--   如果 $\textit{root1}$ 和 $\textit{root2}$ 都为空，则两个二叉树对称，返回 `true`；
--   如果 $\textit{root1}$ 和 $\textit{root2}$ 中只有一个为空，或者 $\textit{root1.val} \neq \textit{root2.val}$
--   否则，判断 $\textit{root1}$ 的左子树和 $\textit{root2}$ 的右子树是否对称，以及 $\textit{root1}$ 的右子树和 $\textit{root2}$ 的左子树是否对称，这里使用了递归。
+-   If both $\textit{root1}$ and $\textit{root2}$ are null, the two binary trees are symmetric, and we return `true`;
+-   If only one of $\textit{root1}$ and $\textit{root2}$ is null, or $\textit{root1.val} \neq \textit{root2.val}$, we return `false`;
+-   Otherwise, we check whether the left subtree of $\textit{root1}$ is symmetric with the right subtree of $\textit{root2}$, and whether the right subtree of $\textit{root1}$ is symmetric with the left subtree of $\textit{root2}$, using recursion.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 

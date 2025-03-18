@@ -1,73 +1,68 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1685.Sum%20of%20Absolute%20Differences%20in%20a%20Sorted%20Array/README.md
+difficulty: Medium
 rating: 1495
-source: 第 41 场双周赛 Q2
+source: Biweekly Contest 41 Q2
 tags:
-    - 数组
-    - 数学
-    - 前缀和
+    - Array
+    - Math
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [1685. 有序数组中差绝对值之和](https://leetcode.cn/problems/sum-of-absolute-differences-in-a-sorted-array)
+# [1685. Sum of Absolute Differences in a Sorted Array](https://leetcode.com/problems/sum-of-absolute-differences-in-a-sorted-array)
 
-[English Version](/solution/1600-1699/1685.Sum%20of%20Absolute%20Differences%20in%20a%20Sorted%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <strong>非递减 </strong>有序整数数组 <code>nums</code> 。</p>
+<p>You are given an integer array <code>nums</code> sorted in <strong>non-decreasing</strong> order.</p>
 
-<p>请你建立并返回一个整数数组<em> </em><code>result</code>，它跟<em> </em><code>nums</code> 长度相同，且<code>result[i]</code> 等于<em> </em><code>nums[i]</code> 与数组中所有其他元素差的绝对值之和。</p>
+<p>Build and return <em>an integer array </em><code>result</code><em> with the same length as </em><code>nums</code><em> such that </em><code>result[i]</code><em> is equal to the <strong>summation of absolute differences</strong> between </em><code>nums[i]</code><em> and all the other elements in the array.</em></p>
 
-<p>换句话说， <code>result[i]</code> 等于 <code>sum(|nums[i]-nums[j]|)</code> ，其中 <code>0 <= j < nums.length</code> 且 <code>j != i</code> （下标从 0 开始）。</p>
+<p>In other words, <code>result[i]</code> is equal to <code>sum(|nums[i]-nums[j]|)</code> where <code>0 &lt;= j &lt; nums.length</code> and <code>j != i</code> (<strong>0-indexed</strong>).</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [2,3,5]
-<b>输出：</b>[4,3,5]
-<b>解释：</b>假设数组下标从 0 开始，那么
-result[0] = |2-2| + |2-3| + |2-5| = 0 + 1 + 3 = 4，
-result[1] = |3-2| + |3-3| + |3-5| = 1 + 0 + 2 = 3，
-result[2] = |5-2| + |5-3| + |5-5| = 3 + 2 + 0 = 5。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,4,6,8,10]
-<b>输出：</b>[24,15,13,15,21]
+<strong>Input:</strong> nums = [2,3,5]
+<strong>Output:</strong> [4,3,5]
+<strong>Explanation:</strong> Assuming the arrays are 0-indexed, then
+result[0] = |2-2| + |2-3| + |2-5| = 0 + 1 + 3 = 4,
+result[1] = |3-2| + |3-3| + |3-5| = 1 + 0 + 2 = 3,
+result[2] = |5-2| + |5-3| + |5-5| = 3 + 2 + 0 = 5.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,4,6,8,10]
+<strong>Output:</strong> [24,15,13,15,21]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>2 <= nums.length <= 10<sup>5</sup></code></li>
-	<li><code>1 <= nums[i] <= nums[i + 1] <= 10<sup>4</sup></code></li>
+	<li><code>2 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= nums[i] &lt;= nums[i + 1] &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：求和 + 枚举
+### Solution 1: Summation + Enumeration
 
-我们先求出数组 $nums$ 所有元素的和，记为 $s$，用变量 $t$ 记录当前已经枚举过的元素之和。
+First, we calculate the sum of all elements in the array $nums$, denoted as $s$. We use a variable $t$ to record the sum of the elements that have been enumerated so far.
 
-接下来枚举 $nums[i]$，那么 $ans[i] = nums[i] \times i - t + s - t - nums[i] \times (n - i)$，然后我们更新 $t$，即 $t = t + nums[i]$。继续枚举下一个元素，直到枚举完所有元素。
+Next, we enumerate $nums[i]$. Then $ans[i] = nums[i] \times i - t + s - t - nums[i] \times (n - i)$. After that, we update $t$, i.e., $t = t + nums[i]$. We continue to enumerate the next element until all elements are enumerated.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,59 +1,66 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3102.Minimize%20Manhattan%20Distances/README.md
+difficulty: Hard
 rating: 2215
-source: 第 391 场周赛 Q4
+source: Weekly Contest 391 Q4
 tags:
-    - 几何
-    - 数组
-    - 数学
-    - 有序集合
-    - 排序
+    - Geometry
+    - Array
+    - Math
+    - Ordered Set
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [3102. 最小化曼哈顿距离](https://leetcode.cn/problems/minimize-manhattan-distances)
+# [3102. Minimize Manhattan Distances](https://leetcode.com/problems/minimize-manhattan-distances)
 
-[English Version](/solution/3100-3199/3102.Minimize%20Manhattan%20Distances/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的数组 <code>points</code> ，它表示二维平面上一些点的整数坐标，其中 <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> 。</p>
+<p>You are given an array <code>points</code> representing integer coordinates of some points on a 2D plane, where <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code>.</p>
 
-<p>两点之间的距离定义为它们的<span data-keyword="manhattan-distance">曼哈顿距离</span>。</p>
+<p>The distance between two points is defined as their <span data-keyword="manhattan-distance">Manhattan distance</span>.</p>
 
-<p>请你恰好移除一个点，返回移除后任意两点之间的 <strong>最大 </strong>距离可能的 <strong>最小 </strong>值。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>points = [[3,10],[5,15],[10,2],[4,4]]
-<strong>输出：</strong>12
-<strong>解释：</strong>移除每个点后的最大距离如下所示：
-- 移除第 0 个点后，最大距离在点 (5, 15) 和 (10, 2) 之间，为 |5 - 10| + |15 - 2| = 18 。
-- 移除第 1 个点后，最大距离在点 (3, 10) 和 (10, 2) 之间，为 |3 - 10| + |10 - 2| = 15 。
-- 移除第 2 个点后，最大距离在点 (5, 15) 和 (4, 4) 之间，为 |5 - 4| + |15 - 4| = 12 。
-- 移除第 3 个点后，最大距离在点 (5, 15) 和 (10, 2) 之间的，为 |5 - 10| + |15 - 2| = 18 。
-在恰好移除一个点后，任意两点之间的最大距离可能的最小值是 12 。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>points = [[1,1],[1,1],[1,1]]
-<strong>输出：</strong>0
-<strong>解释：</strong>移除任一点后，任意两点之间的最大距离都是 0 。
-</pre>
+<p>Return <em>the <strong>minimum</strong> possible value for <strong>maximum</strong> distance between any two points by removing exactly one point</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">points = [[3,10],[5,15],[10,2],[4,4]]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">12</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The maximum distance after removing each point is the following:</p>
+
+<ul>
+	<li>After removing the 0<sup>th</sup> point the maximum distance is between points (5, 15) and (10, 2), which is <code>|5 - 10| + |15 - 2| = 18</code>.</li>
+	<li>After removing the 1<sup>st</sup> point the maximum distance is between points (3, 10) and (10, 2), which is <code>|3 - 10| + |10 - 2| = 15</code>.</li>
+	<li>After removing the 2<sup>nd</sup> point the maximum distance is between points (5, 15) and (4, 4), which is <code>|5 - 4| + |15 - 4| = 12</code>.</li>
+	<li>After removing the 3<sup>rd</sup> point the maximum distance is between points (5, 15) and (10, 2), which is <code>|5 - 10| + |15 - 2| = 18</code>.</li>
+</ul>
+
+<p>12 is the minimum possible maximum distance between any two points after removing exactly one point.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">points = [[1,1],[1,1],[1,1]]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>Removing any of the points results in the maximum distance between any two points of 0.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= points.length &lt;= 10<sup>5</sup></code></li>
@@ -63,13 +70,13 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：有序集合
+### Solution 1: Ordered Set
 
-对于两个点 $(x_1, y_1)$ 和 $(x_2, y_2)$，它们的曼哈顿距离为 $|x_1 - x_2| + |y_1 - y_2|$。我们可以将其转化为 $\max(x_1 - x_2, x_2 - x_1) + \max(y_1 - y_2, y_2 - y_1)$，即：
+For two points $(x_1, y_1)$ and $(x_2, y_2)$, their Manhattan distance is $|x_1 - x_2| + |y_1 - y_2|$. We can transform it into $\max(x_1 - x_2, x_2 - x_1) + \max(y_1 - y_2, y_2 - y_1)$, which is:
 
 $$
 |x_1 - x_2| + |y_1 - y_2| = \max \begin{cases}
@@ -80,7 +87,7 @@ x_2 - x_1 + y_1 - y_2
 \end{cases}
 $$
 
-整理可得：
+This can be simplified to:
 
 $$
 |x_1 - x_2| + |y_1 - y_2| = \max \begin{cases}
@@ -91,11 +98,11 @@ $$
 \end{cases}
 $$
 
-其中，前两项可以表示为 $\max(\max(x_1 + y_1, x_2 + y_2) - \min(x_1 + y_1, x_2 + y_2))$，后两项可以表示为 $\max(\max(x_1 - y_1, x_2 - y_2) - \min(x_1 - y_1, x_2 - y_2))$。
+Here, the first two cases can be represented as $\max(\max(x_1 + y_1, x_2 + y_2) - \min(x_1 + y_1, x_2 + y_2))$, and the last two cases can be represented as $\max(\max(x_1 - y_1, x_2 - y_2) - \min(x_1 - y_1, x_2 - y_2))$.
 
-因此，我们可以将所有点按照 $x + y$ 和 $x - y$ 的值分别存入两个有序集合中，然后枚举每个点，移除该点后，更新有序集合中的值，计算最大值和最小值的差值，取最小值即可。
+Therefore, we can store all points according to the values of $x + y$ and $x - y$ in two ordered sets, respectively. Then, for each point, we remove it, update the values in the ordered sets, calculate the difference between the maximum and minimum values, and take the minimum value.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为点的个数。
+The time complexity is $O(n \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of points.
 
 <!-- tabs:start -->
 

@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1113.Reported%20Posts/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1113. 报告的记录 🔒](https://leetcode.cn/problems/reported-posts)
+# [1113. Reported Posts 🔒](https://leetcode.com/problems/reported-posts)
 
-[English Version](/solution/1100-1199/1113.Reported%20Posts/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>动作表：<code>Actions</code></p>
+<p>Table: <code>Actions</code></p>
 
 <pre>
 +---------------+---------+
@@ -28,26 +25,25 @@ tags:
 | action        | enum    |
 | extra         | varchar |
 +---------------+---------+
-此表可能会有重复的行。
-action 字段是 ENUM 类型的，包含:('view', 'like', 'reaction', 'comment', <em><strong>'</strong></em>report<em><strong>'</strong></em>, 'share')
-extra 包含关于 action 的可选信息，例如举报的原因或反馈的类型。
-当 action 为 'report' 时 extra 不会为 NULL。
+This table may have duplicate rows.
+The action column is an ENUM (category) type of (&#39;view&#39;, &#39;like&#39;, &#39;reaction&#39;, &#39;comment&#39;, &#39;report&#39;, &#39;share&#39;).
+The extra column has optional information about the action, such as a reason for the report or a type of reaction.
+extra is never NULL.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案，针对每个举报原因统计昨天的举报帖子数量。假设今天是&nbsp;<code>2019-07-05</code>&nbsp;。</p>
+<p>Write a solution to report&nbsp;the number of posts reported yesterday for each report reason. Assume today is <code>2019-07-05</code>.</p>
 
-<p>返回结果表 <strong>无顺序要求 </strong>。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果格式如下示例所示。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 Actions table:
 +---------+---------+-------------+--------+--------+
 | user_id | post_id | action_date | action | extra  |
@@ -66,23 +62,23 @@ Actions table:
 | 5       | 5       | 2019-07-04  | view   | null   |
 | 5       | 5       | 2019-07-04  | report | racism |
 +---------+---------+-------------+--------+--------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +---------------+--------------+
 | report_reason | report_count |
 +---------------+--------------+
 | spam          | 1            |
 | racism        | 2            |
-+---------------+--------------+ 
-<strong>解释：</strong>注意，我们只关心举报帖数量非零的举报原因。
++---------------+--------------+
+<strong>Explanation:</strong> Note that we only care about report reasons with non-zero number of reports.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

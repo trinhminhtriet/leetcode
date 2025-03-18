@@ -1,68 +1,63 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2578.Split%20With%20Minimum%20Sum/README.md
+difficulty: Easy
 rating: 1350
-source: 第 99 场双周赛 Q1
+source: Biweekly Contest 99 Q1
 tags:
-    - 贪心
-    - 数学
-    - 排序
+    - Greedy
+    - Math
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2578. 最小和分割](https://leetcode.cn/problems/split-with-minimum-sum)
+# [2578. Split With Minimum Sum](https://leetcode.com/problems/split-with-minimum-sum)
 
-[English Version](/solution/2500-2599/2578.Split%20With%20Minimum%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数&nbsp;<code>num</code>&nbsp;，请你将它分割成两个非负整数&nbsp;<code>num1</code> 和&nbsp;<code>num2</code>&nbsp;，满足：</p>
+<p>Given a positive integer <code>num</code>, split it into two non-negative integers <code>num1</code> and <code>num2</code> such that:</p>
 
 <ul>
-	<li><code>num1</code> 和&nbsp;<code>num2</code>&nbsp;直接连起来，得到&nbsp;<code>num</code>&nbsp;各数位的一个排列。
+	<li>The concatenation of <code>num1</code> and <code>num2</code> is a permutation of <code>num</code>.
 
     <ul>
-    	<li>换句话说，<code>num1</code> 和&nbsp;<code>num2</code>&nbsp;中所有数字出现的次数之和等于&nbsp;<code>num</code>&nbsp;中所有数字出现的次数。</li>
+    	<li>In other words, the sum of the number of occurrences of each digit in <code>num1</code> and <code>num2</code> is equal to the number of occurrences of that digit in <code>num</code>.</li>
     </ul>
     </li>
-    <li><code>num1</code> 和&nbsp;<code>num2</code>&nbsp;可以包含前导 0 。</li>
+    <li><code>num1</code> and <code>num2</code> can contain leading zeros.</li>
 
 </ul>
 
-<p>请你返回&nbsp;<code>num1</code> 和 <code>num2</code>&nbsp;可以得到的和的 <strong>最小</strong> 值。</p>
+<p>Return <em>the <strong>minimum</strong> possible sum of</em> <code>num1</code> <em>and</em> <code>num2</code>.</p>
 
-<p><strong>注意：</strong></p>
+<p><strong>Notes:</strong></p>
 
 <ul>
-	<li><code>num</code>&nbsp;保证没有前导 0 。</li>
-	<li><code>num1</code> 和&nbsp;<code>num2</code>&nbsp;中数位顺序可以与&nbsp;<code>num</code>&nbsp;中数位顺序不同。</li>
+	<li>It is guaranteed that <code>num</code> does not contain any leading zeros.</li>
+	<li>The order of occurrence of the digits in <code>num1</code> and <code>num2</code> may differ from the order of occurrence of <code>num</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>num = 4325
-<b>输出：</b>59
-<b>解释：</b>我们可以将 4325 分割成 <code>num1 </code>= 24 和 <code>num2 </code>= 35 ，和为 59 ，59 是最小和。
+<strong>Input:</strong> num = 4325
+<strong>Output:</strong> 59
+<strong>Explanation:</strong> We can split 4325 so that <code>num1</code> is 24 and <code>num2</code> is 35, giving a sum of 59. We can prove that 59 is indeed the minimal possible sum.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>num = 687
-<b>输出：</b>75
-<b>解释：</b>我们可以将 687 分割成 <code>num1</code> = 68 和 <code>num2 </code>= 7 ，和为最优值 75 。
+<strong>Input:</strong> num = 687
+<strong>Output:</strong> 75
+<strong>Explanation:</strong> We can split 687 so that <code>num1</code> is 68 and <code>num2</code> is 7, which would give an optimal sum of 75.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>10 &lt;= num &lt;= 10<sup>9</sup></code></li>
@@ -70,17 +65,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数 + 贪心
+### Solution 1: Counting + Greedy
 
-我们先用哈希表或数组 $cnt$ 统计 $num$ 中各个数字出现的次数，用变量 $n$ 记录 $num$ 的位数。
+First, we use a hash table or array $cnt$ to count the occurrences of each digit in $num$, and use a variable $n$ to record the number of digits in $num$.
 
-接下来，枚举 $nums$ 所有位数 $i$，将 $cnt$ 中的数字按照从小到大的顺序交替地分配给 $num1$ 和 $num2$，记录在一个长度为 $2$ 的数组 $ans$ 中。最后，返回 $ans$ 中的两个数之和即可。
+Next, we enumerate all the digits $i$ in $nums$, and alternately allocate the digits in $cnt$ to $num1$ and $num2$ in ascending order, recording them in an array $ans$ of length $2$. Finally, we return the sum of the two numbers in $ans$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 为 $num$ 的位数；而 $C$ 为 $num$ 中不同数字的个数，本题中 $C \leq 10$。
+The time complexity is $O(n)$, and the space complexity is $O(C)$. Where $n$ is the number of digits in $num$; and $C$ is the number of different digits in $num$, in this problem, $C \leq 10$.
 
 <!-- tabs:start -->
 
@@ -234,11 +229,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：排序 + 贪心
+### Solution 2: Sorting + Greedy
 
-我们可以将 $num$ 转换成字符串或者字符数组，然后对其进行排序，接下来将排序后的数组中的数字按照从小到大的顺序交替地分配给 $num1$ 和 $num2$，最后返回 $num1$ 和 $num2$ 的和即可。
+We can convert $num$ to a string or character array, then sort it, and then alternately allocate the digits in the sorted array to $num1$ and $num2$ in ascending order. Finally, we return the sum of $num1$ and $num2$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为 $num$ 的位数。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the number of digits in $num$.
 
 <!-- tabs:start -->
 

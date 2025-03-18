@@ -1,79 +1,69 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1640.Check%20Array%20Formation%20Through%20Concatenation/README.md
+difficulty: Easy
 rating: 1524
-source: 第 213 场周赛 Q1
+source: Weekly Contest 213 Q1
 tags:
-    - 数组
-    - 哈希表
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [1640. 能否连接形成数组](https://leetcode.cn/problems/check-array-formation-through-concatenation)
+# [1640. Check Array Formation Through Concatenation](https://leetcode.com/problems/check-array-formation-through-concatenation)
 
-[English Version](/solution/1600-1699/1640.Check%20Array%20Formation%20Through%20Concatenation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>arr</code> ，数组中的每个整数 <strong>互不相同</strong> 。另有一个由整数数组构成的数组 <code>pieces</code>，其中的整数也 <strong>互不相同</strong> 。请你以 <strong>任意顺序</strong> 连接 <code>pieces</code> 中的数组以形成 <code>arr</code> 。但是，<strong>不允许</strong> 对每个数组 <code>pieces[i]</code> 中的整数重新排序。</p>
+<p>You are given an array of <strong>distinct</strong> integers <code>arr</code> and an array of integer arrays <code>pieces</code>, where the integers in <code>pieces</code> are <strong>distinct</strong>. Your goal is to form <code>arr</code> by concatenating the arrays in <code>pieces</code> <strong>in any order</strong>. However, you are <strong>not</strong> allowed to reorder the integers in each array <code>pieces[i]</code>.</p>
 
-<p>如果可以连接<em> </em><code>pieces</code> 中的数组形成 <code>arr</code> ，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [15,88], pieces = [[88],[15]]
-<strong>输出：</strong>true
-<strong>解释：</strong>依次连接 <code>[15]</code> 和 <code>[88]</code>
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [49,18,16], pieces = [[16,18,49]]
-<strong>输出：</strong>false
-<strong>解释：</strong>即便数字相符，也不能重新排列 pieces[0]
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = [91,4,64,78], pieces = [[78],[4,64],[91]]
-<strong>输出：</strong>true
-<strong>解释：</strong>依次连接 <code>[91]</code>、<code>[4,64]</code> 和 <code>[78]</code></pre>
+<p>Return <code>true</code> <em>if it is possible </em><em>to form the array </em><code>arr</code><em> from </em><code>pieces</code>. Otherwise, return <code>false</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> arr = [15,88], pieces = [[88],[15]]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Concatenate [15] then [88]
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [49,18,16], pieces = [[16,18,49]]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> Even though the numbers match, we cannot reorder pieces[0].
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [91,4,64,78], pieces = [[78],[4,64],[91]]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> Concatenate [91] then [4,64] then [78]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= pieces.length &lt;= arr.length &lt;= 100</code></li>
 	<li><code>sum(pieces[i].length) == arr.length</code></li>
 	<li><code>1 &lt;= pieces[i].length &lt;= arr.length</code></li>
 	<li><code>1 &lt;= arr[i], pieces[i][j] &lt;= 100</code></li>
-	<li><code>arr</code> 中的整数 <strong>互不相同</strong></li>
-	<li><code>pieces</code> 中的整数 <strong>互不相同</strong>（也就是说，如果将 <code>pieces</code> 扁平化成一维数组，数组中的所有整数互不相同）</li>
+	<li>The integers in <code>arr</code> are <strong>distinct</strong>.</li>
+	<li>The integers in <code>pieces</code> are <strong>distinct</strong> (i.e., If we flatten pieces in a 1D array, all the integers in this array are distinct).</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：暴力枚举
-
-遍历 `arr`，在 `pieces` 中找到首元素等于当前 `arr[i]` 的数组项，如果找不到，直接返回 `false`。
-
-如果找到了，我们记数组项为 `pieces[k]`，然后继续往后遍历 `arr[i]` 和 `pieces[k]`，直至 `pieces[k]` 遍历完或者元素不等。
-
-遍历结束，返回 `true`。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -254,15 +244,7 @@ var canFormArray = function (arr, pieces) {
 
 <!-- solution:start -->
 
-### 方法二：哈希表
-
-创建一个哈希表，键为 `pieces` 中每个数组项的首元素，值为数组项。
-
-遍历 `arr`，如果当前元素在哈希表中不存在，直接返回 `false`；否则，取出哈希表中对应的数组项，判断其与 `arr` 中的元素是否相等，如果不相等，直接返回 `false`。
-
-否则，遍历结束，返回 `true`。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为 `arr` 的长度。
+### Solution 2
 
 <!-- tabs:start -->
 

@@ -1,86 +1,81 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0224.Basic%20Calculator/README.md
+difficulty: Hard
 tags:
-    - 栈
-    - 递归
-    - 数学
-    - 字符串
+    - Stack
+    - Recursion
+    - Math
+    - String
 ---
 
 <!-- problem:start -->
 
-# [224. 基本计算器](https://leetcode.cn/problems/basic-calculator)
+# [224. Basic Calculator](https://leetcode.com/problems/basic-calculator)
 
-[English Version](/solution/0200-0299/0224.Basic%20Calculator/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串表达式 <code>s</code> ，请你实现一个基本计算器来计算并返回它的值。</p>
+<p>Given a string <code>s</code> representing a valid expression, implement a basic calculator to evaluate it, and return <em>the result of the evaluation</em>.</p>
 
-<p>注意:不允许使用任何将字符串作为数学表达式计算的内置函数，比如 <code>eval()</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "1 + 1"
-<strong>输出：</strong>2
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = " 2-1 + 2 "
-<strong>输出：</strong>3
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "(1+(4+5+2)-3)+(6+8)"
-<strong>输出：</strong>23
-</pre>
+<p><strong>Note:</strong> You are <strong>not</strong> allowed to use any built-in function which evaluates strings as mathematical expressions, such as <code>eval()</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;1 + 1&quot;
+<strong>Output:</strong> 2
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot; 2-1 + 2 &quot;
+<strong>Output:</strong> 3
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;(1+(4+5+2)-3)+(6+8)&quot;
+<strong>Output:</strong> 23
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;= 3&nbsp;* 10<sup>5</sup></code></li>
-	<li><code>s</code> 由数字、<code>'+'</code>、<code>'-'</code>、<code>'('</code>、<code>')'</code>、和 <code>' '</code> 组成</li>
-	<li><code>s</code> 表示一个有效的表达式</li>
-	<li><font color="#c7254e"><font face="Menlo, Monaco, Consolas, Courier New, monospace"><span style="font-size:12.6px"><span style="background-color:#f9f2f4">'+'</span></span></font></font> 不能用作一元运算(例如， <font color="#c7254e"><font face="Menlo, Monaco, Consolas, Courier New, monospace"><span style="font-size:12.6px"><span style="background-color:#f9f2f4">"+1"</span></span></font></font>&nbsp;和 <code>"+(2 + 3)"</code>&nbsp;无效)</li>
-	<li><font color="#c7254e"><font face="Menlo, Monaco, Consolas, Courier New, monospace"><span style="font-size:12.6px"><span style="background-color:#f9f2f4">'-'</span></span></font></font> 可以用作一元运算(即 <font color="#c7254e"><font face="Menlo, Monaco, Consolas, Courier New, monospace"><span style="font-size:12.6px"><span style="background-color:#f9f2f4">"-1"</span></span></font></font>&nbsp;和 <code>"-(2 + 3)"</code>&nbsp;是有效的)</li>
-	<li>输入中不存在两个连续的操作符</li>
-	<li>每个数字和运行的计算将适合于一个有符号的 32位 整数</li>
+	<li><code>1 &lt;= s.length &lt;= 3 * 10<sup>5</sup></code></li>
+	<li><code>s</code> consists of digits, <code>&#39;+&#39;</code>, <code>&#39;-&#39;</code>, <code>&#39;(&#39;</code>, <code>&#39;)&#39;</code>, and <code>&#39; &#39;</code>.</li>
+	<li><code>s</code> represents a valid expression.</li>
+	<li><code>&#39;+&#39;</code> is <strong>not</strong> used as a unary operation (i.e., <code>&quot;+1&quot;</code> and <code>&quot;+(2 + 3)&quot;</code> is invalid).</li>
+	<li><code>&#39;-&#39;</code> could be used as a unary operation (i.e., <code>&quot;-1&quot;</code> and <code>&quot;-(2 + 3)&quot;</code> is valid).</li>
+	<li>There will be no two consecutive operators in the input.</li>
+	<li>Every number and running calculation will fit in a signed 32-bit integer.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：栈
+### Solution 1: Stack
 
-我们用一个栈 $stk$ 来保存当前的计算结果和操作符，用一个变量 $sign$ 保存当前的符号，变量 $ans$ 保存最终的计算结果。
+We use a stack $stk$ to save the current calculation result and operator, a variable $sign$ to save the current sign, and a variable $ans$ to save the final calculation result.
 
-接下来，我们遍历字符串 $s$ 的每一个字符：
+Next, we traverse each character of the string $s$:
 
--   如果当前字符是数字，那么我们用一个循环将后面的连续数字都读进来，然后用当前的符号将其加或者减到 $ans$ 中。
--   如果当前字符是 `'+'`，我们修改变量 $sign$ 为正号。
--   如果当前字符是 `'-'`，我们修改变量 $sign$ 为负号。
--   如果当前字符是 `'('`，我们把当前的 $ans$ 和 $sign$ 入栈，并分别置空置 1，重新开始计算新的 $ans$ 和 $sign$。
--   如果当前字符是 `')'`，我们弹出栈顶的两个元素，一个是操作符，一个是括号前计算好的数字，我们将当前的数字乘上操作符，再加上之前的数字，作为新的 $ans$。
+-   If the current character is a number, we use a loop to read the following consecutive numbers, and then add or subtract it to $ans$ according to the current sign.
+-   If the current character is `'+'`, we change the variable $sign$ to positive.
+-   If the current character is `'-'`, we change the variable $sign$ to negative.
+-   If the current character is `'('`, we push the current $ans$ and $sign$ into the stack, and reset them to empty and 1, and start to calculate the new $ans$ and $sign$.
+-   If the current character is `')'`, we pop the top two elements of the stack, one is the operator, and the other is the number calculated before the bracket. We multiply the current number by the operator, and add the previous number to get the new $ans$.
 
-遍历完字符串 $s$ 之后，我们返回 $ans$。
+After traversing the string $s$, we return $ans$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

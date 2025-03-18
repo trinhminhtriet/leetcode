@@ -1,69 +1,64 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0679.24%20Game/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 数学
-    - 回溯
+    - Array
+    - Math
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [679. 24 点游戏](https://leetcode.cn/problems/24-game)
+# [679. 24 Game](https://leetcode.com/problems/24-game)
 
-[English Version](/solution/0600-0699/0679.24%20Game/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个长度为4的整数数组&nbsp;<code>cards</code>&nbsp;。你有 <code>4</code> 张卡片，每张卡片上都包含一个范围在 <code>[1,9]</code> 的数字。您应该使用运算符&nbsp;<code>['+', '-', '*', '/']</code>&nbsp;和括号&nbsp;<code>'('</code>&nbsp;和&nbsp;<code>')'</code>&nbsp;将这些卡片上的数字排列成数学表达式，以获得值24。</p>
+<p>You are given an integer array <code>cards</code> of length <code>4</code>. You have four cards, each containing a number in the range <code>[1, 9]</code>. You should arrange the numbers on these cards in a mathematical expression using the operators <code>[&#39;+&#39;, &#39;-&#39;, &#39;*&#39;, &#39;/&#39;]</code> and the parentheses <code>&#39;(&#39;</code> and <code>&#39;)&#39;</code> to get the value 24.</p>
 
-<p>你须遵守以下规则:</p>
+<p>You are restricted with the following rules:</p>
 
 <ul>
-	<li>除法运算符 <code>'/'</code> 表示实数除法，而不是整数除法。
+	<li>The division operator <code>&#39;/&#39;</code> represents real division, not integer division.
 
     <ul>
-    	<li>例如，&nbsp;<code>4 /(1 - 2 / 3)= 4 /(1 / 3)= 12</code>&nbsp;。</li>
+    	<li>For example, <code>4 / (1 - 2 / 3) = 4 / (1 / 3) = 12</code>.</li>
     </ul>
     </li>
-    <li>每个运算都在两个数字之间。特别是，不能使用 <code>“-”</code> 作为一元运算符。
+    <li>Every operation done is between two numbers. In particular, we cannot use <code>&#39;-&#39;</code> as a unary operator.
     <ul>
-    	<li>例如，如果 <code>cards =[1,1,1,1]</code> ，则表达式 <code>“-1 -1 -1 -1”</code> 是 <strong>不允许</strong> 的。</li>
+    	<li>For example, if <code>cards = [1, 1, 1, 1]</code>, the expression <code>&quot;-1 - 1 - 1 - 1&quot;</code> is <strong>not allowed</strong>.</li>
     </ul>
     </li>
-    <li>你不能把数字串在一起
+    <li>You cannot concatenate numbers together
     <ul>
-    	<li>例如，如果 <code>cards =[1,2,1,2]</code> ，则表达式 <code>“12 + 12”</code> 无效。</li>
+    	<li>For example, if <code>cards = [1, 2, 1, 2]</code>, the expression <code>&quot;12 + 12&quot;</code> is not valid.</li>
     </ul>
     </li>
 
 </ul>
 
-<p>如果可以得到这样的表达式，其计算结果为 <code>24</code> ，则返回 <code>true </code>，否则返回 <code>false</code>&nbsp;。</p>
+<p>Return <code>true</code> if you can get such expression that evaluates to <code>24</code>, and <code>false</code> otherwise.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> cards = [4, 1, 8, 7]
-<strong>输出:</strong> true
-<strong>解释:</strong> (8-4) * (7-1) = 24
+<strong>Input:</strong> cards = [4,1,8,7]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> (8-4) * (7-1) = 24
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> cards = [1, 2, 1, 2]
-<strong>输出:</strong> false
+<strong>Input:</strong> cards = [1,2,1,2]
+<strong>Output:</strong> false
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>cards.length == 4</code></li>
@@ -72,19 +67,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
+### Solution 1: DFS
 
-我们设计一个函数 $dfs(nums)$，其中 $nums$ 表示当前的数字序列，函数返回一个布尔值，表示是否存在一种排列方式，使得这个数字序列可以得到 $24$。
+We design a function $dfs(nums)$, where $nums$ represents the current number sequence. The function returns a boolean value indicating whether there exists a permutation that makes this number sequence equal to $24$.
 
-如果 $nums$ 的长度为 $1$，那么只有当这个数字等于 $24$ 时，我们才返回 $true$，否则返回 $false$。
+If the length of $nums$ is $1$, we return $true$ only when this number is $24$, otherwise we return $false$.
 
-否则，我们可以枚举 $nums$ 中的任意两个数 $a$ 和 $b$ 作为左右两个操作数，枚举 $a$ 和 $b$ 之间的运算符 $op$，那么 $a\ op\ b$ 的结果就可以作为新的数字序列的一个元素，我们将其加入到新的数字序列中，并从 $nums$ 中移除 $a$ 和 $b$，然后递归地调用 $dfs$ 函数，如果返回 $true$，那么我们就找到了一种排列方式，使得这个数字序列可以得到 $24$，我们就返回 $true$。
+Otherwise, we can enumerate any two numbers $a$ and $b$ in $nums$ as the left and right operands, and enumerate the operator $op$ between $a$ and $b$. The result of $a\ op\ b$ can be used as an element of the new number sequence. We add it to the new number sequence and remove $a$ and $b$ from $nums$, then recursively call the $dfs$ function. If it returns $true$, it means we have found a permutation that makes this number sequence equal to $24$, and we return $true$.
 
-如果枚举完所有的情况都没有返回 $true$，那么我们就返回 $false$。
+If none of the enumerated cases return $true$, we return $false$.
 
 <!-- tabs:start -->
 

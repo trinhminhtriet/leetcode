@@ -1,99 +1,93 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2812.Find%20the%20Safest%20Path%20in%20a%20Grid/README.md
+difficulty: Medium
 rating: 2153
-source: 第 357 场周赛 Q3
+source: Weekly Contest 357 Q3
 tags:
-    - 广度优先搜索
-    - 并查集
-    - 数组
-    - 二分查找
-    - 矩阵
-    - 堆（优先队列）
+    - Breadth-First Search
+    - Union Find
+    - Array
+    - Binary Search
+    - Matrix
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2812. 找出最安全路径](https://leetcode.cn/problems/find-the-safest-path-in-a-grid)
+# [2812. Find the Safest Path in a Grid](https://leetcode.com/problems/find-the-safest-path-in-a-grid)
 
-[English Version](/solution/2800-2899/2812.Find%20the%20Safest%20Path%20in%20a%20Grid/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始、大小为 <code>n x n</code> 的二维矩阵 <code>grid</code> ，其中 <code>(r, c)</code> 表示：</p>
+<p>You are given a <strong>0-indexed</strong> 2D matrix <code>grid</code> of size <code>n x n</code>, where <code>(r, c)</code> represents:</p>
 
 <ul>
-	<li>如果 <code>grid[r][c] = 1</code> ，则表示一个存在小偷的单元格</li>
-	<li>如果 <code>grid[r][c] = 0</code> ，则表示一个空单元格</li>
+	<li>A cell containing a thief if <code>grid[r][c] = 1</code></li>
+	<li>An empty cell if <code>grid[r][c] = 0</code></li>
 </ul>
 
-<p>你最开始位于单元格 <code>(0, 0)</code> 。在一步移动中，你可以移动到矩阵中的任一相邻单元格，包括存在小偷的单元格。</p>
+<p>You are initially positioned at cell <code>(0, 0)</code>. In one move, you can move to any adjacent cell in the grid, including cells containing thieves.</p>
 
-<p>矩阵中路径的 <strong>安全系数</strong> 定义为：从路径中任一单元格到矩阵中任一小偷所在单元格的 <strong>最小</strong> 曼哈顿距离。</p>
+<p>The <strong>safeness factor</strong> of a path on the grid is defined as the <strong>minimum</strong> manhattan distance from any cell in the path to any thief in the grid.</p>
 
-<p>返回所有通向单元格<em> </em><code>(n - 1, n - 1)</code> 的路径中的 <strong>最大安全系数</strong> 。</p>
+<p>Return <em>the <strong>maximum safeness factor</strong> of all paths leading to cell </em><code>(n - 1, n - 1)</code><em>.</em></p>
 
-<p>单元格 <code>(r, c)</code> 的某个 <strong>相邻</strong> 单元格，是指在矩阵中存在的 <code>(r, c + 1)</code>、<code>(r, c - 1)</code>、<code>(r + 1, c)</code> 和 <code>(r - 1, c)</code> 之一。</p>
+<p>An <strong>adjacent</strong> cell of cell <code>(r, c)</code>, is one of the cells <code>(r, c + 1)</code>, <code>(r, c - 1)</code>, <code>(r + 1, c)</code> and <code>(r - 1, c)</code> if it exists.</p>
 
-<p>两个单元格 <code>(a, b)</code> 和 <code>(x, y)</code> 之间的 <strong>曼哈顿距离</strong> 等于 <code>| a - x | + | b - y |</code> ，其中 <code>|val|</code> 表示 <code>val</code> 的绝对值。</p>
+<p>The <strong>Manhattan distance</strong> between two cells <code>(a, b)</code> and <code>(x, y)</code> is equal to <code>|a - x| + |b - y|</code>, where <code>|val|</code> denotes the absolute value of val.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2812.Find%20the%20Safest%20Path%20in%20a%20Grid/images/example1.png" style="width: 362px; height: 242px;" />
 <pre>
-<strong>输入：</strong>grid = [[1,0,0],[0,0,0],[0,0,1]]
-<strong>输出：</strong>0
-<strong>解释：</strong>从 (0, 0) 到 (n - 1, n - 1) 的每条路径都经过存在小偷的单元格 (0, 0) 和 (n - 1, n - 1) 。
+<strong>Input:</strong> grid = [[1,0,0],[0,0,0],[0,0,1]]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> All paths from (0, 0) to (n - 1, n - 1) go through the thieves in cells (0, 0) and (n - 1, n - 1).
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2812.Find%20the%20Safest%20Path%20in%20a%20Grid/images/example2.png" style="width: 362px; height: 242px;" />
 <pre>
-<strong>输入：</strong>grid = [[0,0,1],[0,0,0],[0,0,0]]
-<strong>输出：</strong>2
-<strong>解释：</strong>
-上图所示路径的安全系数为 2：
-- 该路径上距离小偷所在单元格（0，2）最近的单元格是（0，0）。它们之间的曼哈顿距离为 | 0 - 0 | + | 0 - 2 | = 2 。
-可以证明，不存在安全系数更高的其他路径。
+<strong>Input:</strong> grid = [[0,0,1],[0,0,0],[0,0,0]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The path depicted in the picture above has a safeness factor of 2 since:
+- The closest cell of the path to the thief at cell (0, 2) is cell (0, 0). The distance between them is | 0 - 0 | + | 0 - 2 | = 2.
+It can be shown that there are no other paths with a higher safeness factor.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2812.Find%20the%20Safest%20Path%20in%20a%20Grid/images/example3.png" style="width: 362px; height: 242px;" />
 <pre>
-<strong>输入：</strong>grid = [[0,0,0,1],[0,0,0,0],[0,0,0,0],[1,0,0,0]]
-<strong>输出：</strong>2
-<strong>解释：</strong>
-上图所示路径的安全系数为 2：
-- 该路径上距离小偷所在单元格（0，3）最近的单元格是（1，2）。它们之间的曼哈顿距离为 | 0 - 1 | + | 3 - 2 | = 2 。
-- 该路径上距离小偷所在单元格（3，0）最近的单元格是（3，2）。它们之间的曼哈顿距离为 | 3 - 3 | + | 0 - 2 | = 2 。
-可以证明，不存在安全系数更高的其他路径。</pre>
+<strong>Input:</strong> grid = [[0,0,0,1],[0,0,0,0],[0,0,0,0],[1,0,0,0]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The path depicted in the picture above has a safeness factor of 2 since:
+- The closest cell of the path to the thief at cell (0, 3) is cell (1, 2). The distance between them is | 0 - 1 | + | 3 - 2 | = 2.
+- The closest cell of the path to the thief at cell (3, 0) is cell (3, 2). The distance between them is | 3 - 3 | + | 0 - 2 | = 2.
+It can be shown that there are no other paths with a higher safeness factor.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= grid.length == n &lt;= 400</code></li>
 	<li><code>grid[i].length == n</code></li>
-	<li><code>grid[i][j]</code> 为 <code>0</code> 或 <code>1</code></li>
-	<li><code>grid</code> 至少存在一个小偷</li>
+	<li><code>grid[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
+	<li>There is at least one thief in the <code>grid</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：多源 BFS + 排序 + 并查集
+### Solution 1: BFS + Sorting + Union-Find
 
-我们可以先找出所有小偷的位置，然后从这些位置开始进行多源 BFS，得到每个位置到小偷的最短距离，然后按照距离从大到小排序，将每个位置逐个加入并查集，如果最终起点和终点在同一个连通分量中，那么当前距离就是答案。
+We can first find out the positions of all thieves, and then start multi-source BFS from these positions to get the shortest distance from each position to the thieves. Then sort in descending order according to the distance, and add each position to the union-find set one by one. If the start and end points are in the same connected component, the current distance is the answer.
 
-时间复杂度 $O(n^2 \times \log n)$，空间复杂度 $O(n^2)$。
+The time complexity is $O(n^2 \times \log n)$, and the space complexity $O(n^2)$. Where $n$ is the size of the grid.
 
 <!-- tabs:start -->
 
@@ -583,7 +577,7 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

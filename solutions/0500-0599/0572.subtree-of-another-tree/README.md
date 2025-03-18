@@ -1,73 +1,64 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0572.Subtree%20of%20Another%20Tree/README.md
+difficulty: Easy
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉树
-    - 字符串匹配
-    - 哈希函数
+    - Tree
+    - Depth-First Search
+    - Binary Tree
+    - String Matching
+    - Hash Function
 ---
 
 <!-- problem:start -->
 
-# [572. 另一棵树的子树](https://leetcode.cn/problems/subtree-of-another-tree)
+# [572. Subtree of Another Tree](https://leetcode.com/problems/subtree-of-another-tree)
 
-[English Version](/solution/0500-0599/0572.Subtree%20of%20Another%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<div class="original__bRMd">
-<div>
-<p>给你两棵二叉树 <code>root</code> 和 <code>subRoot</code> 。检验 <code>root</code> 中是否包含和 <code>subRoot</code> 具有相同结构和节点值的子树。如果存在，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
+<p>Given the roots of two binary trees <code>root</code> and <code>subRoot</code>, return <code>true</code> if there is a subtree of <code>root</code> with the same structure and node values of<code> subRoot</code> and <code>false</code> otherwise.</p>
 
-<p>二叉树 <code>tree</code> 的一棵子树包括 <code>tree</code> 的某个节点和这个节点的所有后代节点。<code>tree</code> 也可以看做它自身的一棵子树。</p>
+<p>A subtree of a binary tree <code>tree</code> is a tree that consists of a node in <code>tree</code> and all of this node&#39;s descendants. The tree <code>tree</code> could also be considered as a subtree of itself.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0572.Subtree%20of%20Another%20Tree/images/1724998676-cATjhe-image.png" style="width: 532px; height: 400px;" />
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0572.Subtree%20of%20Another%20Tree/images/subtree1-tree.jpg" style="width: 532px; height: 400px;" />
 <pre>
-<strong>输入：</strong>root = [3,4,5,1,2], subRoot = [4,1,2]
-<strong>输出：</strong>true
+<strong>Input:</strong> root = [3,4,5,1,2], subRoot = [4,1,2]
+<strong>Output:</strong> true
 </pre>
 
-<p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0572.Subtree%20of%20Another%20Tree/images/1724998698-sEJWnq-image.png" style="width: 502px; height: 458px;" />
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0572.Subtree%20of%20Another%20Tree/images/subtree2-tree.jpg" style="width: 502px; height: 458px;" />
 <pre>
-<strong>输入：</strong>root = [3,4,5,1,2,null,null,null,null,0], subRoot = [4,1,2]
-<strong>输出：</strong>false
+<strong>Input:</strong> root = [3,4,5,1,2,null,null,null,null,0], subRoot = [4,1,2]
+<strong>Output:</strong> false
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>root</code> 树上的节点数量范围是 <code>[1, 2000]</code></li>
-	<li><code>subRoot</code> 树上的节点数量范围是 <code>[1, 1000]</code></li>
+	<li>The number of nodes in the <code>root</code> tree is in the range <code>[1, 2000]</code>.</li>
+	<li>The number of nodes in the <code>subRoot</code> tree is in the range <code>[1, 1000]</code>.</li>
 	<li><code>-10<sup>4</sup> &lt;= root.val &lt;= 10<sup>4</sup></code></li>
 	<li><code>-10<sup>4</sup> &lt;= subRoot.val &lt;= 10<sup>4</sup></code></li>
 </ul>
-</div>
-</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
+### Solution 1: DFS
 
-我们定义一个辅助函数 $\textit{same}(p, q)$，用于判断以 $p$ 为根节点的树和以 $q$ 为根节点的树是否相等。如果两棵树的根节点的值相等，并且它们的左子树和右子树也分别相等，那么这两棵树是相等的。
+We define a helper function $\textit{same}(p, q)$ to determine whether the tree rooted at $p$ and the tree rooted at $q$ are identical. If the root values of the two trees are equal, and their left and right subtrees are also respectively equal, then the two trees are identical.
 
-在 $\textit{isSubtree}(\textit{root}, \textit{subRoot})$ 函数中，我们首先判断 $\textit{root}$ 是否为空，如果为空，则返回 $\text{false}$。否则，我们判断 $\textit{root}$ 和 $\textit{subRoot}$ 是否相等，如果相等，则返回 $\text{true}$。否则，我们递归地判断 $\textit{root}$ 的左子树和右子树是否包含 $\textit{subRoot}$。
+In the $\textit{isSubtree}(\textit{root}, \textit{subRoot})$ function, we first check if $\textit{root}$ is null. If it is, we return $\text{false}$. Otherwise, we check if $\textit{root}$ and $\textit{subRoot}$ are identical. If they are, we return $\text{true}$. Otherwise, we recursively check if the left or right subtree of $\textit{root}$ contains $\textit{subRoot}$.
 
-时间复杂度 $O(n \times m)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别是树 $root$ 和树 $subRoot$ 的节点个数。
+The time complexity is $O(n \times m)$, and the space complexity is $O(n)$. Here, $n$ and $m$ are the number of nodes in the trees $root$ and $subRoot$, respectively.
 
 <!-- tabs:start -->
 

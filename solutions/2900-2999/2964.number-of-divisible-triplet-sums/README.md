@@ -1,53 +1,49 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2964.Number%20of%20Divisible%20Triplet%20Sums/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [2964. 可被整除的三元组数量 🔒](https://leetcode.cn/problems/number-of-divisible-triplet-sums)
+# [2964. Number of Divisible Triplet Sums 🔒](https://leetcode.com/problems/number-of-divisible-triplet-sums)
 
-[English Version](/solution/2900-2999/2964.Number%20of%20Divisible%20Triplet%20Sums/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-给定一个 <b>下标从 0 开始</b>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>d</code>，请返回满足 <code>i &lt; j &lt; k</code> 且 <code>(nums[i] + nums[j] + nums[k]) % d == 0</code> 的三元组 <code>(i, j, k)</code> 的数量。
+Given a <strong>0-indexed</strong> integer array <code>nums</code> and an integer <code>d</code>, return <em>the number of triplets</em> <code>(i, j, k)</code> <em>such that</em> <code>i &lt; j &lt; k</code> <em>and</em> <code>(nums[i] + nums[j] + nums[k]) % d == 0</code>.
 
 <p>&nbsp;</p>
-
-<p><b>示例 1:</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,3,4,7,8], d = 5
-<strong>输出：</strong>3
-<strong>解释：</strong>可以被5整除的三元组有：(0, 1, 2),(0, 2, 4),(1, 2, 4)。其他没有其他能被5整除的三元组。因此，答案是3。
+<strong>Input:</strong> nums = [3,3,4,7,8], d = 5
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> The triplets which are divisible by 5 are: (0, 1, 2), (0, 2, 4), (1, 2, 4).
+It can be shown that no other triplet is divisible by 5. Hence, the answer is 3.
 </pre>
 
-<p><b>示例 2：</b></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,3,3,3], d = 3
-<strong>输出：</strong>4
-<strong>解释：</strong>这里选择的任何三元组的和都是9，可以被3整除。因此，答案是所有三元组的总数，即4。
+<strong>Input:</strong> nums = [3,3,3,3], d = 3
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Any triplet chosen here has a sum of 9, which is divisible by 3. Hence, the answer is the total number of triplets which is 4.
 </pre>
 
-<p><b>示例 3:</b></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [3,3,3,3], d = 6
-<strong>输出：</strong>0
-<strong>解释：</strong>这里选择的任何三元组的和都是9，不能被6整除。因此，答案是0。
+<strong>Input:</strong> nums = [3,3,3,3], d = 6
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> Any triplet chosen here has a sum of 9, which is not divisible by 6. Hence, the answer is 0.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -57,15 +53,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 枚举
+### Solution 1: Hash Table + Enumeration
 
-我们可以用哈希表 $cnt$ 记录 $nums[i] \bmod d$ 出现的次数，然后枚举 $j$ 和 $k$，计算使得等式 $(nums[i] + nums[j] + nums[k]) \bmod d = 0$ 成立的 $nums[i] \bmod d$ 的值，即 $(d - (nums[j] + nums[k]) \bmod d) \bmod d$，并将其出现次数累加到答案中。然后我们将 $nums[j] \bmod d$ 的出现次数加一。继续枚举 $j$ 和 $k$，直到 $j$ 到达数组末尾。
+We can use a hash table $cnt$ to record the occurrence times of $nums[i] \bmod d$, then enumerate $j$ and $k$, calculate the value of $nums[i] \bmod d$ that makes the equation $(nums[i] + nums[j] + nums[k]) \bmod d = 0$ hold, which is $(d - (nums[j] + nums[k]) \bmod d) \bmod d$, and accumulate its occurrence times to the answer. Then we increase the occurrence times of $nums[j] \bmod d$ by one. Continue to enumerate $j$ and $k$ until $j$ reaches the end of the array.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

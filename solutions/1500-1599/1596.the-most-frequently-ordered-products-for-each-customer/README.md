@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1596.The%20Most%20Frequently%20Ordered%20Products%20for%20Each%20Customer/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1596. 每位顾客最经常订购的商品 🔒](https://leetcode.cn/problems/the-most-frequently-ordered-products-for-each-customer)
+# [1596. The Most Frequently Ordered Products for Each Customer 🔒](https://leetcode.com/problems/the-most-frequently-ordered-products-for-each-customer)
 
-[English Version](/solution/1500-1599/1596.The%20Most%20Frequently%20Ordered%20Products%20for%20Each%20Customer/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Customers</code></p>
+<p>Table: <code>Customers</code></p>
 
 <pre>
 +---------------+---------+
@@ -25,13 +22,13 @@ tags:
 | customer_id   | int     |
 | name          | varchar |
 +---------------+---------+
-customer_id 是该表具有唯一值的列
-该表包含所有顾客的信息
+customer_id is the column with unique values for this table.
+This table contains information about the customers.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>表：<code>Orders</code></p>
+<p>Table: <code>Orders</code></p>
 
 <pre>
 +---------------+---------+
@@ -42,13 +39,13 @@ customer_id 是该表具有唯一值的列
 | customer_id   | int     |
 | product_id    | int     |
 +---------------+---------+
-order_id 是该表具有唯一值的列
-该表包含顾客 customer_id 的订单信息
-没有顾客会在一天内订购相同的商品<strong> 多于一次</strong></pre>
+order_id is the column with unique values for this table.
+This table contains information about the orders made by customer_id.
+No customer will order the same product <strong>more than once</strong> in a single day.</pre>
 
 <p>&nbsp;</p>
 
-<p>表：<code>Products</code></p>
+<p>Table: <code>Products</code></p>
 
 <pre>
 +---------------+---------+
@@ -58,27 +55,26 @@ order_id 是该表具有唯一值的列
 | product_name  | varchar |
 | price         | int     |
 +---------------+---------+
-product_id 是该表具有唯一值的列
-该表包含了所有商品的信息
+product_id is the column with unique values for this table.
+This table contains information about the products.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>写一个解决方案，找到每一个顾客最经常订购的商品。</p>
+<p>Write a solution to find the most frequently ordered product(s) for each customer.</p>
 
-<p>结果表单应该有每一位至少下过一次单的顾客 <code>customer_id</code>&nbsp;,&nbsp;他最经常订购的商品的&nbsp;<code>product_id</code>&nbsp;和&nbsp;<code>product_name</code>。</p>
+<p>The result table should have the <code>product_id</code> and <code>product_name</code> for each <code>customer_id</code> who ordered at least one order.</p>
 
-<p>返回结果<strong> 没有顺序要求</strong>。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>查询结果格式如下例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<code><strong>输入：</strong>
-Customers表：</code>
+<strong>Input:</strong> 
+Customers table:
 +-------------+-------+
 | customer_id | name  |
 +-------------+-------+
@@ -88,7 +84,7 @@ Customers表：</code>
 | 4           | Jerry |
 | 5           | John  |
 +-------------+-------+
-<code>Orders表：</code>
+Orders table:
 +----------+------------+-------------+------------+
 | order_id | order_date | customer_id | product_id |
 +----------+------------+-------------+------------+
@@ -103,7 +99,7 @@ Customers表：</code>
 | 9        | 2020-08-07 | 2           | 3          |
 | 10       | 2020-07-15 | 1           | 2          |
 +----------+------------+-------------+------------+
-<code>Products表：</code>
+Products table:
 +------------+--------------+-------+
 | product_id | product_name | price |
 +------------+--------------+-------+
@@ -112,7 +108,7 @@ Customers表：</code>
 | 3          | screen       | 600   |
 | 4          | hard disk    | 450   |
 +------------+--------------+-------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-------------+------------+--------------+
 | customer_id | product_id | product_name |
 +-------------+------------+--------------+
@@ -123,22 +119,23 @@ Customers表：</code>
 | 3           | 3          | screen       |
 | 4           | 1          | keyboard     |
 +-------------+------------+--------------+
-<strong>解释：</strong>
-Alice (customer 1) 三次订购鼠标, 一次订购键盘, 所以鼠标是 Alice 最经常订购的商品.
-Bob (customer 2) 一次订购键盘, 一次订购鼠标, 一次订购显示器, 所以这些都是 Bob 最经常订购的商品.
-Tom (customer 3) 只两次订购显示器, 所以显示器是 Tom 最经常订购的商品.
-Jerry (customer 4) 只一次订购键盘, 所以键盘是 Jerry 最经常订购的商品.
-John (customer 5) 没有订购过商品, 所以我们并没有把 John 包含在结果表中.</pre>
+<strong>Explanation:</strong> 
+Alice (customer 1) ordered the mouse three times and the keyboard one time, so the mouse is the most frequently ordered product for them.
+Bob (customer 2) ordered the keyboard, the mouse, and the screen one time, so those are the most frequently ordered products for them.
+Tom (customer 3) only ordered the screen (two times), so that is the most frequently ordered product for them.
+Jerry (customer 4) only ordered the keyboard (one time), so that is the most frequently ordered product for them.
+John (customer 5) did not order anything, so we do not include them in the result table.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组 + 窗口函数
+### Solution 1: Group By + Window Function
 
-我们将 `Orders` 表按照 `customer_id` 和 `product_id` 进行分组，然后利用窗口函数 `rank()`，按照 `customer_id` 分区，并且按照 `count(1)` 降序排列，得到每个 `customer_id` 下对应的 `product_id` 的排名，排名为 $1$ 的就是该 `customer_id` 下最经常订购的商品。
+We group the `Orders` table by `customer_id` and `product_id`, and then use the window function `rank()`, which assigns a rank to each `product_id` in each `customer_id` group based on its frequency in descending order. Finally, we select the `product_id` with a rank of $1$ for each `customer_id`, which is the most frequently ordered product for that `customer_id`.
 
 <!-- tabs:start -->
 

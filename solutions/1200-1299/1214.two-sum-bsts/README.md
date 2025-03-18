@@ -1,77 +1,67 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1214.Two%20Sum%20BSTs/README.md
+difficulty: Medium
 rating: 1389
-source: 第 10 场双周赛 Q2
+source: Biweekly Contest 10 Q2
 tags:
-    - 栈
-    - 树
-    - 深度优先搜索
-    - 二叉搜索树
-    - 双指针
-    - 二分查找
-    - 二叉树
+    - Stack
+    - Tree
+    - Depth-First Search
+    - Binary Search Tree
+    - Two Pointers
+    - Binary Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [1214. 查找两棵二叉搜索树之和 🔒](https://leetcode.cn/problems/two-sum-bsts)
+# [1214. Two Sum BSTs 🔒](https://leetcode.com/problems/two-sum-bsts)
 
-[English Version](/solution/1200-1299/1214.Two%20Sum%20BSTs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给出两棵二叉搜索树的根节点&nbsp;<meta charset="UTF-8" /><code>root1</code>&nbsp;和<meta charset="UTF-8" />&nbsp;<code>root2</code>&nbsp;，请你从两棵树中各找出一个节点，使得这两个节点的值之和等于目标值&nbsp;<code>Target</code>。</p>
-
-<p>如果可以找到返回&nbsp;<code>True</code>，否则返回&nbsp;<code>False</code>。</p>
+<p>Given the roots of two binary search trees, <code>root1</code> and <code>root2</code>, return <code>true</code> if and only if there is a node in the first tree and a node in the second tree whose values sum up to a given integer <code>target</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1214.Two%20Sum%20BSTs/images/ex1.png" style="height: 169px; width: 369px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1214.Two%20Sum%20BSTs/images/ex1.png" style="width: 369px; height: 169px;" />
 <pre>
-<strong>输入：</strong>root1 = [2,1,4], root2 = [1,0,3], target = 5
-<strong>输出：</strong>true
-<strong>解释：</strong>2 加 3 和为 5 。
+<strong>Input:</strong> root1 = [2,1,4], root2 = [1,0,3], target = 5
+<strong>Output:</strong> true
+<strong>Explanation: </strong>2 and 3 sum up to 5.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1214.Two%20Sum%20BSTs/images/ex2.png" style="height: 290px; width: 453px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1214.Two%20Sum%20BSTs/images/ex2.png" style="width: 453px; height: 290px;" />
 <pre>
-<strong>输入：</strong>root1 = [0,-10,10], root2 = [5,1,7,0,2], target = 18
-<strong>输出：</strong>false</pre>
+<strong>Input:</strong> root1 = [0,-10,10], root2 = [5,1,7,0,2], target = 18
+<strong>Output:</strong> false
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>每棵树上节点数在<meta charset="UTF-8" />&nbsp;<code>[1, 5000]</code>&nbsp;范围内。<meta charset="UTF-8" /></li>
-	<li><code>-10<sup>9</sup>&nbsp;&lt;= Node.val, target &lt;= 10<sup>9</sup></code></li>
+	<li>The number of nodes in each tree is in the range <code>[1, 5000]</code>.</li>
+	<li><code>-10<sup>9</sup> &lt;= Node.val, target &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：中序遍历 + 双指针
+### Solution 1: In-order Traversal + Two Pointers
 
-我们分别对两棵树进行中序遍历，得到两个有序数组 $nums[0]$ 和 $nums[1]$，然后使用双指针的方法判断是否存在两个数的和为目标值。双指针判断方法如下：
+We perform in-order traversals on the two trees separately, obtaining two sorted arrays $nums[0]$ and $nums[1]$. Then we use a two-pointer method to determine whether there exist two numbers whose sum equals the target value. The two-pointer method is as follows:
 
-初始化两个指针 $i$ 和 $j$，分别指向数组 $nums[0]$ 的左边界和数组 $nums[1]$ 的右边界；
+Initialize two pointers $i$ and $j$, pointing to the left boundary of array $nums[0]$ and the right boundary of array $nums[1]$ respectively;
 
-每次比较 $x = nums[0][i] + nums[1][j]$ 与目标值的大小。如果 $x = target$，则返回 `true`；否则，如果 $x \lt target$，则 $i$ 右移一位；否则，如果 $x \gt target$，则 $j$ 左移一位。
+Each time, compare the sum $x = nums[0][i] + nums[1][j]$ with the target value. If $x = target$, return `true`; otherwise, if $x \lt target$, move $i$ one step to the right; otherwise, if $x \gt target$, move $j$ one step to the left.
 
-时间复杂度 $O(m + n)$，空间复杂度 $O(m + n)$。其中 $m$ 和 $n$ 分别为两棵树的节点数。
+The time complexity is $O(m + n)$, and the space complexity is $O(m + n)$. Here, $m$ and $n$ are the number of nodes in the two trees respectively.
 
 <!-- tabs:start -->
 

@@ -1,73 +1,68 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3483.Unique%203-Digit%20Even%20Numbers/README.md
+difficulty: Easy
 tags:
-    - 递归
-    - 数组
-    - 哈希表
-    - 枚举
+    - Recursion
+    - Array
+    - Hash Table
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [3483. 不同三位偶数的数目](https://leetcode.cn/problems/unique-3-digit-even-numbers)
+# [3483. Unique 3-Digit Even Numbers](https://leetcode.com/problems/unique-3-digit-even-numbers)
 
-[English Version](/solution/3400-3499/3483.Unique%203-Digit%20Even%20Numbers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数字数组 <code>digits</code>，你需要从中选择三个数字组成一个三位偶数，你的任务是求出&nbsp;<strong>不同&nbsp;</strong>三位偶数的数量。</p>
+<p>You are given an array of digits called <code>digits</code>. Your task is to determine the number of <strong>distinct</strong> three-digit even numbers that can be formed using these digits.</p>
 
-<p><strong>注意</strong>：每个数字在三位偶数中都只能使用&nbsp;<strong>一次&nbsp;</strong>，并且&nbsp;<strong>不能&nbsp;</strong>有前导零。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">digits = [1,2,3,4]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">12</span></p>
-
-<p><strong>解释：</strong> 可以形成的 12 个不同的三位偶数是 124，132，134，142，214，234，312，314，324，342，412 和 432。注意，不能形成 222，因为数字 2 只有一个。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">digits = [0,2,2]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">2</span></p>
-
-<p><strong>解释：</strong> 可以形成的三位偶数是 202 和 220。注意，数字 2 可以使用两次，因为数组中有两个 2 。</p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">digits = [6,6,6]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">1</span></p>
-
-<p><strong>解释：</strong> 只能形成 666。</p>
-</div>
-
-<p><strong class="example">示例 4：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">digits = [1,3,5]</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">0</span></p>
-
-<p><strong>解释：</strong> 无法形成三位偶数。</p>
-</div>
+<p><strong>Note</strong>: Each <em>copy</em> of a digit can only be used <strong>once per number</strong>, and there may <strong>not</strong> be leading zeros.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">digits = [1,2,3,4]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">12</span></p>
+
+<p><strong>Explanation:</strong> The 12 distinct 3-digit even numbers that can be formed are 124, 132, 134, 142, 214, 234, 312, 314, 324, 342, 412, and 432. Note that 222 cannot be formed because there is only 1 copy of the digit 2.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">digits = [0,2,2]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
+
+<p><strong>Explanation:</strong> The only 3-digit even numbers that can be formed are 202 and 220. Note that the digit 2 can be used twice because it appears twice in the array.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">digits = [6,6,6]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">1</span></p>
+
+<p><strong>Explanation:</strong> Only 666 can be formed.</p>
+</div>
+
+<p><strong class="example">Example 4:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">digits = [1,3,5]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
+
+<p><strong>Explanation:</strong> No even 3-digit numbers can be formed.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= digits.length &lt;= 10</code></li>
@@ -76,17 +71,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 枚举
+### Solution 1: Hash Set + Enumeration
 
-我们用一个哈希表 $\textit{s}$ 记录所有不同的三位偶数，然后枚举所有可能的三位偶数，将其加入哈希表中。
+We use a hash set $\textit{s}$ to record all distinct three-digit even numbers, and then enumerate all possible three-digit even numbers to add them to the hash set.
 
-最后返回哈希表的大小即可。
+Finally, we return the size of the hash set.
 
-时间复杂度 $O(n^3)$，空间复杂度 $O(n^3)$。其中 $n$ 为数组 $\textit{digits}$ 的长度。
+The time complexity is $O(n^3)$, and the space complexity is $O(n^3)$. Where $n$ is the length of the array $\textit{digits}$.
 
 <!-- tabs:start -->
 

@@ -1,62 +1,57 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2518.Number%20of%20Great%20Partitions/README.md
+difficulty: Hard
 rating: 2414
-source: 第 325 场周赛 Q4
+source: Weekly Contest 325 Q4
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2518. 好分区的数目](https://leetcode.cn/problems/number-of-great-partitions)
+# [2518. Number of Great Partitions](https://leetcode.com/problems/number-of-great-partitions)
 
-[English Version](/solution/2500-2599/2518.Number%20of%20Great%20Partitions/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数数组 <code>nums</code> 和一个整数 <code>k</code> 。</p>
+<p>You are given an array <code>nums</code> consisting of <strong>positive</strong> integers and an integer <code>k</code>.</p>
 
-<p><strong>分区</strong> 的定义是：将数组划分成两个有序的 <strong>组</strong> ，并满足每个元素 <strong>恰好</strong> 存在于 <strong>某一个</strong> 组中。如果分区中每个组的元素和都大于等于 <code>k</code> ，则认为分区是一个好分区。</p>
+<p><strong>Partition</strong> the array into two ordered <strong>groups</strong> such that each element is in exactly <strong>one</strong> group. A partition is called great if the <strong>sum</strong> of elements of each group is greater than or equal to <code>k</code>.</p>
 
-<p>返回 <strong>不同</strong> 的好分区的数目。由于答案可能很大，请返回对 <code>10<sup>9</sup> + 7</code> <strong>取余</strong> 后的结果。</p>
+<p>Return <em>the number of <strong>distinct</strong> great partitions</em>. Since the answer may be too large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
-<p>如果在两个分区中，存在某个元素 <code>nums[i]</code> 被分在不同的组中，则认为这两个分区不同。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,3,4], k = 4
-<strong>输出：</strong>6
-<strong>解释：</strong>好分区的情况是 ([1,2,3], [4]), ([1,3], [2,4]), ([1,4], [2,3]), ([2,3], [1,4]), ([2,4], [1,3]) 和 ([4], [1,2,3]) 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [3,3,3], k = 4
-<strong>输出：</strong>0
-<strong>解释：</strong>数组中不存在好分区。
-</pre>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [6,6], k = 2
-<strong>输出：</strong>2
-<strong>解释：</strong>可以将 nums[0] 放入第一个分区或第二个分区中。
-好分区的情况是 ([6], [6]) 和 ([6], [6]) 。
-</pre>
+<p>Two partitions are considered distinct if some element <code>nums[i]</code> is in different groups in the two partitions.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,2,3,4], k = 4
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The great partitions are: ([1,2,3], [4]), ([1,3], [2,4]), ([1,4], [2,3]), ([2,3], [1,4]), ([2,4], [1,3]) and ([4], [1,2,3]).
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [3,3,3], k = 4
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There are no great partitions for this array.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [6,6], k = 2
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> We can either put nums[0] in the first partition or in the second partition.
+The great partitions will be ([6], [6]) and ([6], [6]).
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length, k &lt;= 1000</code></li>
@@ -65,30 +60,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：逆向思维 + 动态规划
-
-对于一个长度为 $n$ 的数组 `nums`，每个元素都可以选择放入第一个分区或第二个分区，因此一共有 $2^n$ 种分区方式。每一种分区方式，得到的结果可以是“好分区”或者“坏分区”，题目要我们求“好分区”的个数，我们可以转换为求“坏分区”的个数。那么“好分区”的个数就是 $2^n$ 减去“坏分区”的个数。
-
-“坏分区”实际上就是从数组 `nums` 中选出若干个元素，使得这若干个元素之和不超过 $k$。这可以通过动态规划（0-1 背包问题）来求解。
-
-我们用 $f[i][j]$ 表示从数组 `nums` 的前 $i$ 个元素中选出若干个元素，使得这若干个元素之和为 $j$ 的方案数。那么 $f[i][j]$ 的状态转移方程为：
-
-$$
-f[i][j] = \left\{
-\begin{aligned}
-&f[i - 1][j] & \textit{如果不选第 } i \textit{ 个元素} \\
-&f[i - 1][j - nums[i - 1]] & \textit{如果选第 } i \textit{ 个元素}
-\end{aligned}
-\right.
-$$
-
-那么“坏分区”的个数就是 $\sum_{j=0}^{k-1} f[n][j] \times 2$，其中 $n$ 为数组 `nums` 的长度。最后，我们用 $2^n$ 减去“坏分区”的个数，即可得到“好分区”的个数。
-
-时间复杂度 $O(n \times k)$，空间复杂度 $O(n \times k)$。其中 $n$ 为数组 `nums` 的长度，而 $k$ 为整数 $k$。
+### Solution 1
 
 <!-- tabs:start -->
 

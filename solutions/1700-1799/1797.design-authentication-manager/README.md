@@ -1,93 +1,88 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1797.Design%20Authentication%20Manager/README.md
+difficulty: Medium
 rating: 1534
-source: 第 48 场双周赛 Q2
+source: Biweekly Contest 48 Q2
 tags:
-    - 设计
-    - 哈希表
-    - 链表
-    - 双向链表
+    - Design
+    - Hash Table
+    - Linked List
+    - Doubly-Linked List
 ---
 
 <!-- problem:start -->
 
-# [1797. 设计一个验证系统](https://leetcode.cn/problems/design-authentication-manager)
+# [1797. Design Authentication Manager](https://leetcode.com/problems/design-authentication-manager)
 
-[English Version](/solution/1700-1799/1797.Design%20Authentication%20Manager/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你需要设计一个包含验证码的验证系统。每一次验证中，用户会收到一个新的验证码，这个验证码在 <code>currentTime</code> 时刻之后 <code>timeToLive</code> 秒过期。如果验证码被更新了，那么它会在 <code>currentTime</code> （可能与之前的 <code>currentTime</code> 不同）时刻延长 <code>timeToLive</code> 秒。</p>
+<p>There is an authentication system that works with authentication tokens. For each session, the user will receive a new authentication token that will expire <code>timeToLive</code> seconds after the <code>currentTime</code>. If the token is renewed, the expiry time will be <b>extended</b> to expire <code>timeToLive</code> seconds after the (potentially different) <code>currentTime</code>.</p>
 
-<p>请你实现 <code>AuthenticationManager</code> 类：</p>
+<p>Implement the <code>AuthenticationManager</code> class:</p>
 
 <ul>
-	<li><code>AuthenticationManager(int timeToLive)</code> 构造 <code>AuthenticationManager</code> 并设置 <code>timeToLive</code> 参数。</li>
-	<li><code>generate(string tokenId, int currentTime)</code> 给定 <code>tokenId</code> ，在当前时间 <code>currentTime</code> 生成一个新的验证码。</li>
-	<li><code>renew(string tokenId, int currentTime)</code> 将给定 <code>tokenId</code> 且 <strong>未过期</strong> 的验证码在 <code>currentTime</code> 时刻更新。如果给定 <code>tokenId</code> 对应的验证码不存在或已过期，请你忽略该操作，不会有任何更新操作发生。</li>
-	<li><code>countUnexpiredTokens(int currentTime)</code> 请返回在给定 <code>currentTime</code> 时刻，<strong>未过期</strong> 的验证码数目。</li>
+	<li><code>AuthenticationManager(int timeToLive)</code> constructs the <code>AuthenticationManager</code> and sets the <code>timeToLive</code>.</li>
+	<li><code>generate(string tokenId, int currentTime)</code> generates a new token with the given <code>tokenId</code> at the given <code>currentTime</code> in seconds.</li>
+	<li><code>renew(string tokenId, int currentTime)</code> renews the <strong>unexpired</strong> token with the given <code>tokenId</code> at the given <code>currentTime</code> in seconds. If there are no unexpired tokens with the given <code>tokenId</code>, the request is ignored, and nothing happens.</li>
+	<li><code>countUnexpiredTokens(int currentTime)</code> returns the number of <strong>unexpired</strong> tokens at the given currentTime.</li>
 </ul>
 
-<p>如果一个验证码在时刻 <code>t</code> 过期，且另一个操作恰好在时刻 <code>t</code> 发生（<code>renew</code> 或者 <code>countUnexpiredTokens</code> 操作），过期事件 <strong>优先于</strong> 其他操作。</p>
+<p>Note that if a token expires at time <code>t</code>, and another action happens on time <code>t</code> (<code>renew</code> or <code>countUnexpiredTokens</code>), the expiration takes place <strong>before</strong> the other actions.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1797.Design%20Authentication%20Manager/images/copy-of-pc68_q2.png" style="width: 500px; height: 287px;" />
 <pre>
-<strong>输入：</strong>
-["AuthenticationManager", "<code>renew</code>", "generate", "<code>countUnexpiredTokens</code>", "generate", "<code>renew</code>", "<code>renew</code>", "<code>countUnexpiredTokens</code>"]
-[[5], ["aaa", 1], ["aaa", 2], [6], ["bbb", 7], ["aaa", 8], ["bbb", 10], [15]]
-<strong>输出：</strong>
+<strong>Input</strong>
+[&quot;AuthenticationManager&quot;, &quot;<code>renew</code>&quot;, &quot;generate&quot;, &quot;<code>countUnexpiredTokens</code>&quot;, &quot;generate&quot;, &quot;<code>renew</code>&quot;, &quot;<code>renew</code>&quot;, &quot;<code>countUnexpiredTokens</code>&quot;]
+[[5], [&quot;aaa&quot;, 1], [&quot;aaa&quot;, 2], [6], [&quot;bbb&quot;, 7], [&quot;aaa&quot;, 8], [&quot;bbb&quot;, 10], [15]]
+<strong>Output</strong>
 [null, null, null, 1, null, null, null, 0]
 
-<strong>解释：</strong>
-AuthenticationManager authenticationManager = new AuthenticationManager(5); // 构造 AuthenticationManager ，设置 <code>timeToLive</code> = 5 秒。
-authenticationManager.<code>renew</code>("aaa", 1); // 时刻 1 时，没有验证码的 tokenId 为 "aaa" ，没有验证码被更新。
-authenticationManager.generate("aaa", 2); // 时刻 2 时，生成一个 tokenId 为 "aaa" 的新验证码。
-authenticationManager.<code>countUnexpiredTokens</code>(6); // 时刻 6 时，只有 tokenId 为 "aaa" 的验证码未过期，所以返回 1 。
-authenticationManager.generate("bbb", 7); // 时刻 7 时，生成一个 tokenId 为 "bbb" 的新验证码。
-authenticationManager.<code>renew</code>("aaa", 8); // tokenId 为 "aaa" 的验证码在时刻 7 过期，且 8 >= 7 ，所以时刻 8 的renew 操作被忽略，没有验证码被更新。
-authenticationManager.<code>renew</code>("bbb", 10); // tokenId 为 "bbb" 的验证码在时刻 10 没有过期，所以 renew 操作会执行，该 token 将在时刻 15 过期。
-authenticationManager.<code>countUnexpiredTokens</code>(15); // tokenId 为 "bbb" 的验证码在时刻 15 过期，tokenId 为 "aaa" 的验证码在时刻 7 过期，所有验证码均已过期，所以返回 0 。
+<strong>Explanation</strong>
+AuthenticationManager authenticationManager = new AuthenticationManager(5); // Constructs the AuthenticationManager with <code>timeToLive</code> = 5 seconds.
+authenticationManager.<code>renew</code>(&quot;aaa&quot;, 1); // No token exists with tokenId &quot;aaa&quot; at time 1, so nothing happens.
+authenticationManager.generate(&quot;aaa&quot;, 2); // Generates a new token with tokenId &quot;aaa&quot; at time 2.
+authenticationManager.<code>countUnexpiredTokens</code>(6); // The token with tokenId &quot;aaa&quot; is the only unexpired one at time 6, so return 1.
+authenticationManager.generate(&quot;bbb&quot;, 7); // Generates a new token with tokenId &quot;bbb&quot; at time 7.
+authenticationManager.<code>renew</code>(&quot;aaa&quot;, 8); // The token with tokenId &quot;aaa&quot; expired at time 7, and 8 &gt;= 7, so at time 8 the <code>renew</code> request is ignored, and nothing happens.
+authenticationManager.<code>renew</code>(&quot;bbb&quot;, 10); // The token with tokenId &quot;bbb&quot; is unexpired at time 10, so the <code>renew</code> request is fulfilled and now the token will expire at time 15.
+authenticationManager.<code>countUnexpiredTokens</code>(15); // The token with tokenId &quot;bbb&quot; expires at time 15, and the token with tokenId &quot;aaa&quot; expired at time 7, so currently no token is unexpired, so return 0.
 
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= timeToLive <= 10<sup>8</sup></code></li>
-	<li><code>1 <= currentTime <= 10<sup>8</sup></code></li>
-	<li><code>1 <= tokenId.length <= 5</code></li>
-	<li><code>tokenId</code> 只包含小写英文字母。</li>
-	<li>所有 <code>generate</code> 函数的调用都会包含独一无二的 <code>tokenId</code> 值。</li>
-	<li>所有函数调用中，<code>currentTime</code> 的值 <strong>严格递增</strong> 。</li>
-	<li>所有函数的调用次数总共不超过 <code>2000</code> 次。</li>
+	<li><code>1 &lt;= timeToLive &lt;= 10<sup>8</sup></code></li>
+	<li><code>1 &lt;= currentTime &lt;= 10<sup>8</sup></code></li>
+	<li><code>1 &lt;= tokenId.length &lt;= 5</code></li>
+	<li><code>tokenId</code> consists only of lowercase letters.</li>
+	<li>All calls to <code>generate</code> will contain unique values of <code>tokenId</code>.</li>
+	<li>The values of <code>currentTime</code> across all the function calls will be <strong>strictly increasing</strong>.</li>
+	<li>At most <code>2000</code> calls will be made to all functions combined.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们可以简单维护一个哈希表 $d$，键为 `tokenId`，值为过期时间。
+We can simply maintain a hash table $d$, where the key is `tokenId` and the value is the expiration time.
 
--   `generate` 操作时，将 `tokenId` 作为键，`currentTime + timeToLive` 作为值存入哈希表 $d$ 中。
--   `renew` 操作时，如果 `tokenId` 不在哈希表 $d$ 中，或者 `currentTime >= d[tokenId]`，则忽略该操作；否则，更新 `d[tokenId]` 为 `currentTime + timeToLive`。
--   `countUnexpiredTokens` 操作时，遍历哈希表 $d$，统计未过期的 `tokenId` 个数。
+-   During the `generate` operation, we store `tokenId` as the key and `currentTime + timeToLive` as the value in the hash table $d$.
+-   During the `renew` operation, if `tokenId` is not in the hash table $d$, or `currentTime >= d[tokenId]`, we ignore this operation; otherwise, we update `d[tokenId]` to `currentTime + timeToLive`.
+-   During the `countUnexpiredTokens` operation, we traverse the hash table $d$ and count the number of unexpired `tokenId`.
 
-时间复杂度方面，`generate` 和 `renew` 操作的时间复杂度均为 $O(1)$，`countUnexpiredTokens` 操作的时间复杂度为 $O(n)$，其中 $n$ 为哈希表 $d$ 的键值对个数。
+In terms of time complexity, both `generate` and `renew` operations have a time complexity of $O(1)$, and the `countUnexpiredTokens` operation has a time complexity of $O(n)$, where $n$ is the number of key-value pairs in the hash table $d$.
 
-空间复杂度为 $O(n)$，其中 $n$ 为哈希表 $d$ 的键值对个数。
+The space complexity is $O(n)$, where $n$ is the number of key-value pairs in the hash table $d$.
 
 <!-- tabs:start -->
 

@@ -1,95 +1,90 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3261.Count%20Substrings%20That%20Satisfy%20K-Constraint%20II/README.md
+difficulty: Hard
 rating: 2658
-source: 第 411 场周赛 Q4
+source: Weekly Contest 411 Q4
 tags:
-    - 数组
-    - 字符串
-    - 二分查找
-    - 前缀和
-    - 滑动窗口
+    - Array
+    - String
+    - Binary Search
+    - Prefix Sum
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [3261. 统计满足 K 约束的子字符串数量 II](https://leetcode.cn/problems/count-substrings-that-satisfy-k-constraint-ii)
+# [3261. Count Substrings That Satisfy K-Constraint II](https://leetcode.com/problems/count-substrings-that-satisfy-k-constraint-ii)
 
-[English Version](/solution/3200-3299/3261.Count%20Substrings%20That%20Satisfy%20K-Constraint%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <strong>二进制</strong> 字符串 <code>s</code> 和一个整数 <code>k</code>。</p>
+<p>You are given a <strong>binary</strong> string <code>s</code> and an integer <code>k</code>.</p>
 
-<p>另给你一个二维整数数组 <code>queries</code> ，其中 <code>queries[i] = [l<sub>i</sub>, r<sub>i</sub>]</code> 。</p>
+<p>You are also given a 2D integer array <code>queries</code>, where <code>queries[i] = [l<sub>i</sub>, r<sub>i</sub>]</code>.</p>
 
-<p>如果一个 <strong>二进制字符串</strong> 满足以下任一条件，则认为该字符串满足 <strong>k 约束</strong>：</p>
+<p>A <strong>binary string</strong> satisfies the <strong>k-constraint</strong> if <strong>either</strong> of the following conditions holds:</p>
 
 <ul>
-	<li>字符串中 <code>0</code> 的数量最多为 <code>k</code>。</li>
-	<li>字符串中 <code>1</code> 的数量最多为 <code>k</code>。</li>
+	<li>The number of <code>0</code>&#39;s in the string is at most <code>k</code>.</li>
+	<li>The number of <code>1</code>&#39;s in the string is at most <code>k</code>.</li>
 </ul>
 
-<p>返回一个整数数组 <code>answer</code> ，其中 <code>answer[i]</code> 表示 <code>s[l<sub>i</sub>..r<sub>i</sub>]</code> 中满足 <strong>k 约束</strong> 的 <span data-keyword="substring-nonempty">子字符串</span> 的数量。</p>
+<p>Return an integer array <code>answer</code>, where <code>answer[i]</code> is the number of <span data-keyword="substring-nonempty">substrings</span> of <code>s[l<sub>i</sub>..r<sub>i</sub>]</code> that satisfy the <strong>k-constraint</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">s = "0001111", k = 2, queries = [[0,6]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;0001111&quot;, k = 2, queries = [[0,6]]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">[26]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[26]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>对于查询 <code>[0, 6]</code>， <code>s[0..6] = "0001111"</code> 的所有子字符串中，除 <code>s[0..5] = "000111"</code> 和 <code>s[0..6] = "0001111"</code> 外，其余子字符串都满足 k 约束。</p>
+<p>For the query <code>[0, 6]</code>, all substrings of <code>s[0..6] = &quot;0001111&quot;</code> satisfy the k-constraint except for the substrings <code>s[0..5] = &quot;000111&quot;</code> and <code>s[0..6] = &quot;0001111&quot;</code>.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">s = "010101", k = 1, queries = [[0,5],[1,4],[2,3]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;010101&quot;, k = 1, queries = [[0,5],[1,4],[2,3]]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">[15,9,3]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[15,9,3]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p><code>s</code> 的所有子字符串中，长度大于 3 的子字符串都不满足 k 约束。</p>
+<p>The substrings of <code>s</code> with a length greater than 3 do not satisfy the k-constraint.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code> 是 <code>'0'</code> 或 <code>'1'</code></li>
+	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
 	<li><code>1 &lt;= k &lt;= s.length</code></li>
 	<li><code>1 &lt;= queries.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>queries[i] == [l<sub>i</sub>, r<sub>i</sub>]</code></li>
 	<li><code>0 &lt;= l<sub>i</sub> &lt;= r<sub>i</sub> &lt; s.length</code></li>
-	<li>所有查询互不相同</li>
+	<li>All queries are distinct.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：滑动窗口 + 前缀和
+### Solution 1: Sliding Window + Prefix Sum
 
-我们用两个变量 $\textit{cnt0}$ 和 $\textit{cnt1}$ 分别记录当前窗口内的 $0$ 和 $1$ 的个数，指针 $i$ 和 $j$ 分别标识窗口的左右边界。用一个数组 $d$ 记录每个位置 $i$ 右边第一个不满足 $k$ 约束的位置，初始时 $d[i] = n$。另外，用一个长度为 $n + 1$ 的前缀和数组 $\textit{pre}[i]$ 记录以前 $i$ 个位置作为右边界的满足 $k$ 约束的子字符串的个数。
+We use two variables $\textit{cnt0}$ and $\textit{cnt1}$ to record the number of $0$s and $1$s in the current window, respectively. Pointers $i$ and $j$ mark the left and right boundaries of the window. We use an array $d$ to record the first position to the right of each position $i$ that does not satisfy the $k$ constraint, initially setting $d[i] = n$. Additionally, we use a prefix sum array $\textit{pre}[i]$ of length $n + 1$ to record the number of substrings that satisfy the $k$ constraint with the right boundary at position $i$.
 
-当我们右移窗口时，如果窗口内的 $0$ 和 $1$ 的个数都大于 $k$，我们将 $d[i]$ 更新为 $j$，表示位置 $i$ 右边第一个不满足 $k$ 约束的位置。然后我们将 $i$ 右移一位，直到窗口内的 $0$ 和 $1$ 的个数都不大于 $k$。此时，我们可以计算出以 $j$ 为右边界的满足 $k$ 约束的子字符串的个数，即 $j - i + 1$，我们更新到前缀和数组中。
+When we move the window to the right, if the number of $0$s and $1$s in the window both exceed $k$, we update $d[i]$ to $j$, indicating that the first position to the right of $i$ that does not satisfy the $k$ constraint is $j$. Then we move $i$ one position to the right until the number of $0$s and $1$s in the window are both less than or equal to $k$. At this point, we can calculate the number of substrings that satisfy the $k$ constraint with the right boundary at $j$, which is $j - i + 1$, and update this in the prefix sum array.
 
-最后，对于每个查询 $[l, r]$，我们首先找出 $l$ 右边第一个不满足 $k$ 约束的位置 $p$，那么 $p = \min(r + 1, d[l])$，那么 $[l, p - 1]$ 的所有子字符串都满足 $k$ 约束，个数为 $(1 + p - l) \times (p - l) / 2$，然后，我们计算以 $[p, r]$ 为右边界的满足 $k$ 约束的子字符串的个数，即 $\textit{pre}[r + 1] - \textit{pre}[p]$，最后将两者相加即可。
+Finally, for each query $[l, r]$, we first find the first position $p$ to the right of $l$ that does not satisfy the $k$ constraint, which is $p = \min(r + 1, d[l])$. All substrings in the range $[l, p - 1]$ satisfy the $k$ constraint, and the number of such substrings is $(1 + p - l) \times (p - l) / 2$. Then, we calculate the number of substrings that satisfy the $k$ constraint with the right boundary in the range $[p, r]$, which is $\textit{pre}[r + 1] - \textit{pre}[p]$. Finally, we add the two results together.
 
-时间复杂度 $O(n + m)$，空间复杂度 $O(n)$。其中 $n$ 和 $m$ 分别为字符串 $s$ 的长度和查询数组 $\textit{queries}$ 的长度。
+The time complexity is $O(n + m)$, and the space complexity is $O(n)$. Here, $n$ and $m$ are the lengths of the string $s$ and the query array $\textit{queries}$, respectively.
 
 <!-- tabs:start -->
 

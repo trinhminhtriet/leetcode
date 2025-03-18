@@ -1,65 +1,60 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1962.Remove%20Stones%20to%20Minimize%20the%20Total/README.md
+difficulty: Medium
 rating: 1418
-source: 第 253 场周赛 Q2
+source: Weekly Contest 253 Q2
 tags:
-    - 贪心
-    - 数组
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1962. 移除石子使总数最小](https://leetcode.cn/problems/remove-stones-to-minimize-the-total)
+# [1962. Remove Stones to Minimize the Total](https://leetcode.com/problems/remove-stones-to-minimize-the-total)
 
-[English Version](/solution/1900-1999/1962.Remove%20Stones%20to%20Minimize%20the%20Total/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>piles</code> ，数组 <strong>下标从 0 开始</strong> ，其中 <code>piles[i]</code> 表示第 <code>i</code> 堆石子中的石子数量。另给你一个整数 <code>k</code> ，请你执行下述操作 <strong>恰好</strong> <code>k</code> 次：</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>piles</code>, where <code>piles[i]</code> represents the number of stones in the <code>i<sup>th</sup></code> pile, and an integer <code>k</code>. You should apply the following operation <strong>exactly</strong> <code>k</code> times:</p>
 
 <ul>
-	<li>选出任一石子堆 <code>piles[i]</code> ，并从中 <strong>移除</strong> <code>floor(piles[i] / 2)</code> 颗石子。</li>
+	<li>Choose any <code>piles[i]</code> and <strong>remove</strong> <code>floor(piles[i] / 2)</code> stones from it.</li>
 </ul>
 
-<p><strong>注意：</strong>你可以对 <strong>同一堆</strong> 石子多次执行此操作。</p>
+<p><strong>Notice</strong> that you can apply the operation on the <strong>same</strong> pile more than once.</p>
 
-<p>返回执行 <code>k</code> 次操作后，剩下石子的 <strong>最小</strong> 总数。</p>
+<p>Return <em>the <strong>minimum</strong> possible total number of stones remaining after applying the </em><code>k</code><em> operations</em>.</p>
 
-<p><code>floor(x)</code> 为 <strong>小于</strong> 或 <strong>等于</strong> <code>x</code> 的 <strong>最大</strong> 整数。（即，对 <code>x</code> 向下取整）。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>piles = [5,4,9], k = 2
-<strong>输出：</strong>12
-<strong>解释：</strong>可能的执行情景如下：
-- 对第 2 堆石子执行移除操作，石子分布情况变成 [5,4,<strong><em>5</em></strong>] 。
-- 对第 0 堆石子执行移除操作，石子分布情况变成 [<strong><em>3</em></strong>,4,5] 。
-剩下石子的总数为 12 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>piles = [4,3,6,7], k = 3
-<strong>输出：</strong>12
-<strong>解释：</strong>可能的执行情景如下：
-- 对第 2 堆石子执行移除操作，石子分布情况变成 [4,3,<strong><em>3</em></strong>,7] 。
-- 对第 3 堆石子执行移除操作，石子分布情况变成 [4,3,3,<strong><em>4</em></strong>] 。
-- 对第 0 堆石子执行移除操作，石子分布情况变成 [<strong><em>2</em></strong>,3,3,4] 。
-剩下石子的总数为 12 。
-</pre>
+<p><code>floor(x)</code> is the <b>greatest</b> integer that is <strong>smaller</strong> than or <strong>equal</strong> to <code>x</code> (i.e., rounds <code>x</code> down).</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> piles = [5,4,9], k = 2
+<strong>Output:</strong> 12
+<strong>Explanation:</strong>&nbsp;Steps of a possible scenario are:
+- Apply the operation on pile 2. The resulting piles are [5,4,<u>5</u>].
+- Apply the operation on pile 0. The resulting piles are [<u>3</u>,4,5].
+The total number of stones in [3,4,5] is 12.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> piles = [4,3,6,7], k = 3
+<strong>Output:</strong> 12
+<strong>Explanation:</strong>&nbsp;Steps of a possible scenario are:
+- Apply the operation on pile 2. The resulting piles are [4,3,<u>3</u>,7].
+- Apply the operation on pile 3. The resulting piles are [4,3,3,<u>4</u>].
+- Apply the operation on pile 0. The resulting piles are [<u>2</u>,3,3,4].
+The total number of stones in [2,3,3,4] is 12.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= piles.length &lt;= 10<sup>5</sup></code></li>
@@ -69,21 +64,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 优先队列（大根堆）
+### Solution 1: Greedy + Priority Queue (Max Heap)
 
-根据题目描述，为了使得剩下的石子总数最小，我们需要尽可能多地移除石子堆中的石子。因此，每次应该选择数量最多的石子堆进行移除。
+According to the problem description, in order to minimize the total number of remaining stones, we need to remove as many stones as possible from the stone piles. Therefore, we should always choose the pile with the most stones for removal.
 
-我们创建一个优先队列（大根堆） $pq$，用于存储石子堆的数量。初始时，将所有石子堆的数量加入优先队列。
+We create a priority queue (max heap) $pq$ to store the number of stones in each pile. Initially, we add the number of stones in all piles to the priority queue.
 
-接下来，我们进行 $k$ 次操作。在每一次操作中，我们取出优先队列的堆顶元素 $x$，将 $x$ 减半后重新加入优先队列。
+Next, we perform $k$ operations. In each operation, we take out the top element $x$ of the priority queue, halve $x$, and then add it back to the priority queue.
 
-在进行了 $k$ 次操作后，优先队列中所有元素的和即为答案。
+After performing $k$ operations, the sum of all elements in the priority queue is the answer.
 
-时间复杂度 $O(n + k \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 `piles` 的长度。
+The time complexity is $O(n + k \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array `piles`.
 
 <!-- tabs:start -->
 

@@ -1,99 +1,94 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1846.Maximum%20Element%20After%20Decreasing%20and%20Rearranging/README.md
+difficulty: Medium
 rating: 1454
-source: 第 51 场双周赛 Q3
+source: Biweekly Contest 51 Q3
 tags:
-    - 贪心
-    - 数组
-    - 排序
+    - Greedy
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1846. 减小和重新排列数组后的最大元素](https://leetcode.cn/problems/maximum-element-after-decreasing-and-rearranging)
+# [1846. Maximum Element After Decreasing and Rearranging](https://leetcode.com/problems/maximum-element-after-decreasing-and-rearranging)
 
-[English Version](/solution/1800-1899/1846.Maximum%20Element%20After%20Decreasing%20and%20Rearranging/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数数组 <code>arr</code> 。请你对 <code>arr</code> 执行一些操作（也可以不进行任何操作），使得数组满足以下条件：</p>
+<p>You are given an array of positive integers <code>arr</code>. Perform some operations (possibly none) on <code>arr</code> so that it satisfies these conditions:</p>
 
 <ul>
-	<li><code>arr</code> 中 <strong>第一个</strong> 元素必须为 <code>1</code> 。</li>
-	<li>任意相邻两个元素的差的绝对值 <strong>小于等于</strong> <code>1</code> ，也就是说，对于任意的 <code>1 <= i < arr.length</code> （<strong>数组下标从 0 开始</strong>），都满足 <code>abs(arr[i] - arr[i - 1]) <= 1</code> 。<code>abs(x)</code> 为 <code>x</code> 的绝对值。</li>
+	<li>The value of the <strong>first</strong> element in <code>arr</code> must be <code>1</code>.</li>
+	<li>The absolute difference between any 2 adjacent elements must be <strong>less than or equal to </strong><code>1</code>. In other words, <code>abs(arr[i] - arr[i - 1]) &lt;= 1</code> for each <code>i</code> where <code>1 &lt;= i &lt; arr.length</code> (<strong>0-indexed</strong>). <code>abs(x)</code> is the absolute value of <code>x</code>.</li>
 </ul>
 
-<p>你可以执行以下 2 种操作任意次：</p>
+<p>There are 2 types of operations that you can perform any number of times:</p>
 
 <ul>
-	<li><strong>减小</strong> <code>arr</code> 中任意元素的值，使其变为一个 <strong>更小的正整数</strong> 。</li>
-	<li><strong>重新排列</strong> <code>arr</code> 中的元素，你可以以任意顺序重新排列。</li>
+	<li><strong>Decrease</strong> the value of any element of <code>arr</code> to a <strong>smaller positive integer</strong>.</li>
+	<li><strong>Rearrange</strong> the elements of <code>arr</code> to be in any order.</li>
 </ul>
 
-<p>请你返回执行以上操作后，在满足前文所述的条件下，<code>arr</code> 中可能的 <strong>最大值</strong> 。</p>
+<p>Return <em>the <strong>maximum</strong> possible value of an element in </em><code>arr</code><em> after performing the operations to satisfy the conditions</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>arr = [2,2,1,2,1]
-<b>输出：</b>2
-<b>解释：</b>
-我们可以重新排列 arr 得到 <code>[1,2,2,2,1] ，该数组满足所有条件。</code>
-arr 中最大元素为 2 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>arr = [100,1,1000]
-<b>输出：</b>3
-<b>解释：</b>
-一个可行的方案如下：
-1. 重新排列 <code>arr</code> 得到 <code>[1,100,1000] 。</code>
-2. 将第二个元素减小为 2 。
-3. 将第三个元素减小为 3 。
-现在 <code>arr = [1,2,3] ，满足所有条件。</code>
-arr 中最大元素为 3 。
+<strong>Input:</strong> arr = [2,2,1,2,1]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 
+We can satisfy the conditions by rearranging <code>arr</code> so it becomes <code>[1,2,2,2,1]</code>.
+The largest element in <code>arr</code> is 2.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>arr = [1,2,3,4,5]
-<b>输出：</b>5
-<b>解释：</b>数组已经满足所有条件，最大元素为 5 。
+<strong>Input:</strong> arr = [100,1,1000]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 
+One possible way to satisfy the conditions is by doing the following:
+1. Rearrange <code>arr</code> so it becomes <code>[1,100,1000]</code>.
+2. Decrease the value of the second element to 2.
+3. Decrease the value of the third element to 3.
+Now <code>arr = [1,2,3]</code>, which<code> </code>satisfies the conditions.
+The largest element in <code>arr is 3.</code>
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> arr = [1,2,3,4,5]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The array already satisfies the conditions, and the largest element is 5.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= arr.length <= 10<sup>5</sup></code></li>
-	<li><code>1 <= arr[i] <= 10<sup>9</sup></code></li>
+	<li><code>1 &lt;= arr.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= arr[i] &lt;= 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 贪心
+### Solution 1: Sorting + Greedy Algorithm
 
-我们先对数组进行排序，然后将数组的第一个元素设置为 $1$。
+First, we sort the array and then set the first element of the array to $1$.
 
-接下来，我们从第二个元素开始遍历数组，如果当前元素与前一个元素的差值大于 $1$，我们就贪心地将当前元素减小为前一个元素加 $1$。
+Next, we start traversing the array from the second element. If the difference between the current element and the previous one is more than $1$, we greedily reduce the current element to the previous element plus $1$.
 
-最后，我们返回数组中的最大元素。
+Finally, we return the maximum element in the array.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

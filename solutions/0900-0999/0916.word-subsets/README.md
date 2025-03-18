@@ -1,88 +1,80 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0916.Word%20Subsets/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
+    - Array
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [916. 单词子集](https://leetcode.cn/problems/word-subsets)
+# [916. Word Subsets](https://leetcode.com/problems/word-subsets)
 
-[English Version](/solution/0900-0999/0916.Word%20Subsets/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串数组 <code>words1</code>&nbsp;和&nbsp;<code>words2</code>。</p>
+<p>You are given two string arrays <code>words1</code> and <code>words2</code>.</p>
 
-<p>现在，如果&nbsp;<code>b</code> 中的每个字母都出现在 <code>a</code> 中，<strong>包括重复出现的字母</strong>，那么称字符串 <code>b</code> 是字符串 <code>a</code> 的 <strong>子集</strong> 。</p>
+<p>A string <code>b</code> is a <strong>subset</strong> of string <code>a</code> if every letter in <code>b</code> occurs in <code>a</code> including multiplicity.</p>
 
 <ul>
-	<li>例如，<code>"wrr"</code> 是 <code>"warrior"</code> 的子集，但不是 <code>"world"</code> 的子集。</li>
+	<li>For example, <code>&quot;wrr&quot;</code> is a subset of <code>&quot;warrior&quot;</code> but is not a subset of <code>&quot;world&quot;</code>.</li>
 </ul>
 
-<p>如果对 <code>words2</code> 中的每一个单词&nbsp;<code>b</code>，<code>b</code> 都是 <code>a</code> 的子集，那么我们称&nbsp;<code>words1</code> 中的单词 <code>a</code> 是<em> </em><strong>通用单词</strong><em> </em>。</p>
+<p>A string <code>a</code> from <code>words1</code> is <strong>universal</strong> if for every string <code>b</code> in <code>words2</code>, <code>b</code> is a subset of <code>a</code>.</p>
 
-<p>以数组形式返回&nbsp;<code>words1</code> 中所有的 <strong>通用</strong> 单词。你可以按 <strong>任意顺序</strong> 返回答案。</p>
+<p>Return an array of all the <strong>universal</strong> strings in <code>words1</code>. You may return the answer in <strong>any order</strong>.</p>
 
 <p>&nbsp;</p>
-
-<ol>
-</ol>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>words1 = ["amazon","apple","facebook","google","leetcode"], words2 = ["e","o"]</span></p>
+<p><strong>Input:</strong> <span class="example-io">words1 = [&quot;amazon&quot;,&quot;apple&quot;,&quot;facebook&quot;,&quot;google&quot;,&quot;leetcode&quot;], words2 = [&quot;e&quot;,&quot;o&quot;]</span></p>
 
-<p><span class="example-io"><b>输出：</b>["facebook","google","leetcode"]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[&quot;facebook&quot;,&quot;google&quot;,&quot;leetcode&quot;]</span></p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b></span><span class="example-io">words1 = ["amazon","apple","facebook","google","leetcode"], words2 = ["lc","eo"]</span></p>
+<p><strong>Input:</strong> <span class="example-io">words1 = [&quot;amazon&quot;,&quot;apple&quot;,&quot;facebook&quot;,&quot;google&quot;,&quot;leetcode&quot;], words2 = [&quot;lc&quot;,&quot;eo&quot;]</span></p>
 
-<p><span class="example-io"><b>输出：</b></span><span class="example-io">["leetcode"]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[&quot;leetcode&quot;]</span></p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b></span><span class="example-io">words1 = ["acaac","cccbb","aacbb","caacc","bcbbb"], words2 = ["c","cc","b"]</span></p>
+<p><strong>Input:</strong> <span class="example-io">words1 = [&quot;acaac&quot;,&quot;cccbb&quot;,&quot;aacbb&quot;,&quot;caacc&quot;,&quot;bcbbb&quot;], words2 = [&quot;c&quot;,&quot;cc&quot;,&quot;b&quot;]</span></p>
 
-<p><span class="example-io"><b>输出：</b></span><span class="example-io">["cccbb"]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[&quot;cccbb&quot;]</span></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words1.length, words2.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= words1[i].length, words2[i].length &lt;= 10</code></li>
-	<li><code>words1[i]</code> 和 <code>words2[i]</code> 仅由小写英文字母组成</li>
-	<li><code>words1</code> 中的所有字符串 <strong>互不相同</strong></li>
+	<li><code>words1[i]</code> and <code>words2[i]</code> consist only of lowercase English letters.</li>
+	<li>All the strings of <code>words1</code> are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-遍历 `words2` 中的每个单词 `b`，统计每个字母出现的最大次数，记为 `cnt`。
+Traverse each word `b` in `words2`, count the maximum occurrence of each letter, and record it as `cnt`.
 
-然后遍历 `words1` 中的每个单词 `a`，统计每个字母出现的次数，记为 `t`。如果 `cnt` 中的每个字母的出现次数都不大于 `t` 中的出现次数，则 `a` 是通用单词，将其加入答案。
+Then traverse each word `a` in `words1`, count the occurrence of each letter, and record it as `t`. If the occurrence of each letter in `cnt` is not greater than the occurrence in `t`, then `a` is a universal word, and add it to the answer.
 
-时间复杂度 $O(L)$，其中 $L$ 为 `words1` 和 `words2` 中所有单词的长度之和。
+The time complexity is $O(L)$, where $L$ is the sum of the lengths of all words in `words1` and `words2`.
 
 <!-- tabs:start -->
 

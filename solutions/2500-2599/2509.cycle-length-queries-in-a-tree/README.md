@@ -1,79 +1,70 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2509.Cycle%20Length%20Queries%20in%20a%20Tree/README.md
+difficulty: Hard
 rating: 1948
-source: 第 324 场周赛 Q4
+source: Weekly Contest 324 Q4
 tags:
-    - 树
-    - 数组
-    - 二叉树
+    - Tree
+    - Array
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [2509. 查询树中环的长度](https://leetcode.cn/problems/cycle-length-queries-in-a-tree)
+# [2509. Cycle Length Queries in a Tree](https://leetcode.com/problems/cycle-length-queries-in-a-tree)
 
-[English Version](/solution/2500-2599/2509.Cycle%20Length%20Queries%20in%20a%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>n</code>&nbsp;，表示你有一棵含有&nbsp;<code>2<sup>n</sup> - 1</code>&nbsp;个节点的 <strong>完全二叉树</strong>&nbsp;。根节点的编号是&nbsp;<code>1</code>&nbsp;，树中编号在<code>[1, 2<sup>n - 1</sup> - 1]</code>&nbsp;之间，编号为&nbsp;<code>val</code>&nbsp;的节点都有两个子节点，满足：</p>
+<p>You are given an integer <code>n</code>. There is a <strong>complete binary tree</strong> with <code>2<sup>n</sup> - 1</code> nodes. The root of that tree is the node with the value <code>1</code>, and every node with a value <code>val</code> in the range <code>[1, 2<sup>n - 1</sup> - 1]</code> has two children where:</p>
 
 <ul>
-	<li>左子节点的编号为&nbsp;<code>2 * val</code></li>
-	<li>右子节点的编号为&nbsp;<code>2 * val + 1</code></li>
+	<li>The left node has the value <code>2 * val</code>, and</li>
+	<li>The right node has the value <code>2 * val + 1</code>.</li>
 </ul>
 
-<p>给你一个长度为 <code>m</code>&nbsp;的查询数组 <code>queries</code>&nbsp;，它是一个二维整数数组，其中&nbsp;<code>queries[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>&nbsp;。对于每个查询，求出以下问题的解：</p>
+<p>You are also given a 2D integer array <code>queries</code> of length <code>m</code>, where <code>queries[i] = [a<sub>i</sub>, b<sub>i</sub>]</code>. For each query, solve the following problem:</p>
 
 <ol>
-	<li>在节点编号为&nbsp;<code>a<sub>i</sub></code> 和&nbsp;<code>b<sub>i</sub></code>&nbsp;之间添加一条边。</li>
-	<li>求出图中环的长度。</li>
-	<li>删除节点编号为&nbsp;<code>a<sub>i</sub></code> 和&nbsp;<code>b<sub>i</sub></code>&nbsp;之间新添加的边。</li>
+	<li>Add an edge between the nodes with values <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code>.</li>
+	<li>Find the length of the cycle in the graph.</li>
+	<li>Remove the added edge between nodes with values <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code>.</li>
 </ol>
 
-<p><strong>注意：</strong></p>
+<p><strong>Note</strong> that:</p>
 
 <ul>
-	<li><strong>环</strong> 是开始和结束于同一节点的一条路径，路径中每条边都只会被访问一次。</li>
-	<li>环的长度是环中边的数目。</li>
-	<li>在树中添加额外的边后，两个点之间可能会有多条边。</li>
+	<li>A <strong>cycle</strong> is a path that starts and ends at the same node, and each edge in the path is visited only once.</li>
+	<li>The length of a cycle is the number of edges visited in the cycle.</li>
+	<li>There could be multiple edges between two nodes in the tree after adding the edge of the query.</li>
 </ul>
 
-<p>请你返回一个长度为 <code>m</code>&nbsp;的数组<em>&nbsp;</em><code>answer</code>&nbsp;，其中&nbsp;<code>answer[i]</code>&nbsp;是第&nbsp;<code>i</code>&nbsp;个查询的结果<i>。</i></p>
+<p>Return <em>an array </em><code>answer</code><em> of length </em><code>m</code><em> where</em> <code>answer[i]</code> <em>is the answer to the</em> <code>i<sup>th</sup></code> <em>query.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2509.Cycle%20Length%20Queries%20in%20a%20Tree/images/bexample1.png" style="width: 647px; height: 128px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2509.Cycle%20Length%20Queries%20in%20a%20Tree/images/bexample1.png" style="width: 647px; height: 128px;" />
 <pre>
-<b>输入：</b>n = 3, queries = [[5,3],[4,7],[2,3]]
-<b>输出：</b>[4,5,3]
-<b>解释：</b>上图是一棵有 2<sup>3</sup> - 1 个节点的树。红色节点表示添加额外边后形成环的节点。
-- 在节点 3 和节点 5 之间添加边后，环为 [5,2,1,3] ，所以第一个查询的结果是 4 。删掉添加的边后处理下一个查询。
-- 在节点 4 和节点 7 之间添加边后，环为 [4,2,1,3,7] ，所以第二个查询的结果是 5 。删掉添加的边后处理下一个查询。
-- 在节点 2 和节点 3 之间添加边后，环为 [2,1,3] ，所以第三个查询的结果是 3 。删掉添加的边。
+<strong>Input:</strong> n = 3, queries = [[5,3],[4,7],[2,3]]
+<strong>Output:</strong> [4,5,3]
+<strong>Explanation:</strong> The diagrams above show the tree of 2<sup>3</sup> - 1 nodes. Nodes colored in red describe the nodes in the cycle after adding the edge.
+- After adding the edge between nodes 3 and 5, the graph contains a cycle of nodes [5,2,1,3]. Thus answer to the first query is 4. We delete the added edge and process the next query.
+- After adding the edge between nodes 4 and 7, the graph contains a cycle of nodes [4,2,1,3,7]. Thus answer to the second query is 5. We delete the added edge and process the next query.
+- After adding the edge between nodes 2 and 3, the graph contains a cycle of nodes [2,1,3]. Thus answer to the third query is 3. We delete the added edge.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2509.Cycle%20Length%20Queries%20in%20a%20Tree/images/aexample2.png" style="width: 146px; height: 71px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2500-2599/2509.Cycle%20Length%20Queries%20in%20a%20Tree/images/aexample2.png" style="width: 146px; height: 71px;" />
 <pre>
-<b>输入：</b>n = 2, queries = [[1,2]]
-<b>输出：</b>[2]
-<b>解释：</b>上图是一棵有 2<sup>2</sup> - 1 个节点的树。红色节点表示添加额外边后形成环的节点。
-- 在节点 1 和节点 2 之间添加边后，环为 [2,1] ，所以第一个查询的结果是 2 。删掉添加的边。
+<strong>Input:</strong> n = 2, queries = [[1,2]]
+<strong>Output:</strong> [2]
+<strong>Explanation:</strong> The diagram above shows the tree of 2<sup>2</sup> - 1 nodes. Nodes colored in red describe the nodes in the cycle after adding the edge.
+- After adding the edge between nodes 1 and 2, the graph contains a cycle of nodes [2,1]. Thus answer for the first query is 2. We delete the added edge.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 30</code></li>
@@ -86,17 +77,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：求最近公共祖先
-
-对于每次查询，我们找出 $a$, $b$ 两个节点的最近公共祖先，并且记录向上走的步数，那么此次查询的答案就是步数加一。
-
-求最近公共祖先时，如果 $a \gt b$，那么我们将 $a$ 往父节点移动；如果 $a \lt b$，我们将 $b$ 往其父节点移动。过程中累计步数，直至 $a = b$。
-
-时间复杂度 $O(n \times m)$。其中 $m$ 为数组 `queries` 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,66 +1,61 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1655.Distribute%20Repeating%20Integers/README.md
+difficulty: Hard
 rating: 2307
-source: 第 39 场双周赛 Q4
+source: Biweekly Contest 39 Q4
 tags:
-    - 位运算
-    - 数组
-    - 动态规划
-    - 回溯
-    - 状态压缩
+    - Bit Manipulation
+    - Array
+    - Dynamic Programming
+    - Backtracking
+    - Bitmask
 ---
 
 <!-- problem:start -->
 
-# [1655. 分配重复整数](https://leetcode.cn/problems/distribute-repeating-integers)
+# [1655. Distribute Repeating Integers](https://leetcode.com/problems/distribute-repeating-integers)
 
-[English Version](/solution/1600-1699/1655.Distribute%20Repeating%20Integers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为&nbsp;<code>n</code>&nbsp;的整数数组&nbsp;<code>nums</code>&nbsp;，这个数组中至多有&nbsp;<code>50</code>&nbsp;个不同的值。同时你有 <code>m</code>&nbsp;个顾客的订单 <code>quantity</code>&nbsp;，其中，整数&nbsp;<code>quantity[i]</code>&nbsp;是第&nbsp;<code>i</code>&nbsp;位顾客订单的数目。请你判断是否能将 <code>nums</code>&nbsp;中的整数分配给这些顾客，且满足：</p>
+<p>You are given an array of <code>n</code> integers, <code>nums</code>, where there are at most <code>50</code> unique values in the array. You are also given an array of <code>m</code> customer order quantities, <code>quantity</code>, where <code>quantity[i]</code> is the amount of integers the <code>i<sup>th</sup></code> customer ordered. Determine if it is possible to distribute <code>nums</code> such that:</p>
 
 <ul>
-	<li>第&nbsp;<code>i</code>&nbsp;位顾客 <strong>恰好&nbsp;</strong>有&nbsp;<code>quantity[i]</code>&nbsp;个整数。</li>
-	<li>第&nbsp;<code>i</code>&nbsp;位顾客拿到的整数都是 <strong>相同的</strong>&nbsp;。</li>
-	<li>每位顾客都满足上述两个要求。</li>
+	<li>The <code>i<sup>th</sup></code> customer gets <strong>exactly</strong> <code>quantity[i]</code> integers,</li>
+	<li>The integers the <code>i<sup>th</sup></code> customer gets are <strong>all equal</strong>, and</li>
+	<li>Every customer is satisfied.</li>
 </ul>
 
-<p>如果你可以分配 <code>nums</code>&nbsp;中的整数满足上面的要求，那么请返回&nbsp;<code>true</code>&nbsp;，否则返回 <code>false</code>&nbsp;。</p>
+<p>Return <code>true</code><em> if it is possible to distribute </em><code>nums</code><em> according to the above conditions</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,2,3,4], quantity = [2]
-<b>输出：</b>false
-<strong>解释：</strong>第 0 位顾客没办法得到两个相同的整数。
+<strong>Input:</strong> nums = [1,2,3,4], quantity = [2]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The 0<sup>th</sup> customer cannot be given two different integers.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,2,3,3], quantity = [2]
-<b>输出：</b>true
-<b>解释：</b>第 0 位顾客得到 [3,3] 。整数 [1,2] 都没有被使用。
+<strong>Input:</strong> nums = [1,2,3,3], quantity = [2]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The 0<sup>th</sup> customer is given [3,3]. The integers [1,2] are not used.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,1,2,2], quantity = [2,2]
-<b>输出：</b>true
-<b>解释：</b>第 0 位顾客得到 [1,1] ，第 1 位顾客得到 [2,2] 。
+<strong>Input:</strong> nums = [1,1,2,2], quantity = [2,2]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The 0<sup>th</sup> customer is given [1,1], and the 1st customer is given [2,2].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -69,30 +64,30 @@ tags:
 	<li><code>m == quantity.length</code></li>
 	<li><code>1 &lt;= m &lt;= 10</code></li>
 	<li><code>1 &lt;= quantity[i] &lt;= 10<sup>5</sup></code></li>
-	<li><code>nums</code>&nbsp;中至多有&nbsp;<code>50</code>&nbsp;个不同的数字。</li>
+	<li>There are at most <code>50</code> unique values in <code>nums</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：状态压缩动态规划 + 子集枚举
+### Solution 1: State Compression Dynamic Programming + Subset Enumeration
 
-我们先统计数组 $nums$ 中每个数字出现的次数，记录在哈希表 $cnt$ 中，然后将哈希表中的值存入数组 $arr$ 中，我们记数组 $arr$ 的长度为 $n$。
+First, we count the occurrence of each number in the array `nums`, and record it in the hash table `cnt`. Then we store the values in the hash table into the array `arr`. We denote the length of the array `arr` as `n`.
 
-注意到数组 $quantity$ 的长度不超过 $10$，因此，我们可以用一个二进制数表示 $quantity$ 中的一个子集，即数字 $j$ 表示 $quantity$ 中的一个子集，其中 $j$ 的二进制表示中的第 $i$ 位为 $1$ 表示 $quantity$ 中的第 $i$ 个数字被选中，为 $0$ 表示第 $i$ 个数字未被选中。
+Note that the length of the array `quantity` does not exceed 10, so we can use a binary number to represent a subset of `quantity`. That is, the number `j` represents a subset of `quantity`, where the `i`-th bit of the binary representation of `j` is `1` means the `i`-th number in `quantity` is selected, and `0` means the `i`-th number is not selected.
 
-我们可以预处理出数组 $s$，其中 $s[j]$ 表示 $quantity$ 中子集 $j$ 中所有数字的和。
+We can preprocess an array `s`, where `s[j]` represents the sum of all numbers in the subset `j` of `quantity`.
 
-接下来，我们定义 $f[i][j]$ 表示数组 $arr[0,..i-1]$ 中的数字能否成功分配给 $quantity$ 中的子集 $j$，其中 $i$ 的取值范围为 $[0,..n-1]$，而 $j$ 的取值范围为 $[0,2^m-1]$，其中 $m$ 为 $quantity$ 的长度。
+Next, we define `f[i][j]` to represent whether the numbers in `arr[0,..i-1]` can be successfully allocated to the subset `j` of `quantity`, where `i` ranges from `[0,..n-1]`, and `j` ranges from `[0,2^m-1]`, where `m` is the length of `quantity`.
 
-考虑 $f[i][j]$，如果子集 $j$ 中存在一个子集 $k$，使得 $s[k] \leq arr[i]$，并且 $f[i-1][j \oplus k]$ 为真，那么 $f[i][j]$ 为真，否则 $f[i][j]$ 为假。
+Considering `f[i][j]`, if there exists a subset `k` in `j` such that `s[k] <= arr[i]`, and `f[i-1][j XOR k]` is true, then `f[i][j]` is true, otherwise `f[i][j]` is false.
 
-答案为 $f[n-1][2^m-1]$。
+The answer is `f[n-1][2^m-1]`.
 
-时间复杂度 $O(n \times 3^m)$，空间复杂度 $O(n \times 2^m)$。其中 $n$ 是数组 $nums$ 中不同整数的个数；而 $m$ 是数组 $quantity$ 的长度。
+The time complexity is `O(n * 3^m)`, and the space complexity is `O(n * 2^m)`. Here, `n` is the number of different integers in the array `nums`, and `m` is the length of the array `quantity`.
 
 <!-- tabs:start -->
 

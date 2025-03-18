@@ -1,80 +1,52 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0254.Factor%20Combinations/README.md
+difficulty: Medium
 tags:
-    - 回溯
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [254. 因子的组合 🔒](https://leetcode.cn/problems/factor-combinations)
+# [254. Factor Combinations 🔒](https://leetcode.com/problems/factor-combinations)
 
-[English Version](/solution/0200-0299/0254.Factor%20Combinations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>整数可以被看作是其因子的乘积。</p>
+<p>Numbers can be regarded as the product of their factors.</p>
 
-<p>例如：</p>
+<ul>
+	<li>For example, <code>8 = 2 x 2 x 2 = 2 x 4</code>.</li>
+</ul>
 
-<pre>
-8 = 2 x 2 x 2;
-  = 2 x 4.</pre>
+<p>Given an integer <code>n</code>, return <em>all possible combinations of its factors</em>. You may return the answer in <strong>any order</strong>.</p>
 
-<p>请实现一个函数，该函数接收一个整数 <em>n</em>&nbsp;并返回该整数所有的因子组合。</p>
+<p><strong>Note</strong> that the factors should be in the range <code>[2, n - 1]</code>.</p>
 
-<p><strong>注意：</strong></p>
-
-<ol>
-	<li>你可以假定 <em>n</em> 为永远为正数。</li>
-	<li>因子必须大于 1 并且小于 <em>n</em>。</li>
-</ol>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入: </strong><code>1</code>
-<strong>输出: </strong>[]
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> []
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入: </strong><code>37</code>
-<strong>输出: </strong>[]</pre>
+<strong>Input:</strong> n = 12
+<strong>Output:</strong> [[2,6],[3,4],[2,2,3]]
+</pre>
 
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入: </strong><code>12</code>
-<strong>输出:</strong>
-[
-  [2, 6],
-  [2, 2, 3],
-  [3, 4]
-]</pre>
-
-<p><strong>示例 4: </strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入: </strong><code>32</code>
-<strong>输出:</strong>
-[
-  [2, 16],
-  [2, 2, 8],
-  [2, 2, 2, 4],
-  [2, 2, 2, 2, 2],
-  [2, 4, 4],
-  [4, 8]
-]
+<strong>Input:</strong> n = 37
+<strong>Output:</strong> []
 </pre>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>7</sup></code></li>
@@ -82,17 +54,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：回溯
-
-我们设计函数 $dfs(n, i)$，其中 $n$ 表示当前待分解的数，$i$ 表示当前分解的数的最大因子，函数的作用是将 $n$ 分解为若干个因子，其中每个因子都不小于 $i$，并将所有分解结果保存到 $ans$ 中。
-
-在函数 $dfs(n, i)$ 中，我们从 $i$ 开始枚举 $n$ 的因子 $j$，如果 $j$ 是 $n$ 的因子，那么我们将 $j$ 加入当前分解结果，然后继续分解 $n / j$，即调用函数 $dfs(n / j, j)$。
-
-时间复杂度 $O(\sqrt{n})$。
+### Solution 1
 
 <!-- tabs:start -->
 

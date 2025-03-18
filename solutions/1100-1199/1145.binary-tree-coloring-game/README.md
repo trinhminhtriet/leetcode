@@ -1,84 +1,72 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1145.Binary%20Tree%20Coloring%20Game/README.md
+difficulty: Medium
 rating: 1741
-source: 第 148 场周赛 Q2
+source: Weekly Contest 148 Q2
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [1145. 二叉树着色游戏](https://leetcode.cn/problems/binary-tree-coloring-game)
+# [1145. Binary Tree Coloring Game](https://leetcode.com/problems/binary-tree-coloring-game)
 
-[English Version](/solution/1100-1199/1145.Binary%20Tree%20Coloring%20Game/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有两位极客玩家参与了一场「二叉树着色」的游戏。游戏中，给出二叉树的根节点&nbsp;<code>root</code>，树上总共有 <code>n</code> 个节点，且 <code>n</code> 为奇数，其中每个节点上的值从&nbsp;<code>1</code> 到&nbsp;<code>n</code>&nbsp;各不相同。</p>
+<p>Two players play a turn based game on a binary tree. We are given the <code>root</code> of this binary tree, and the number of nodes <code>n</code> in the tree. <code>n</code> is odd, and each node has a distinct value from <code>1</code> to <code>n</code>.</p>
 
-<p>最开始时：</p>
+<p>Initially, the first player names a value <code>x</code> with <code>1 &lt;= x &lt;= n</code>, and the second player names a value <code>y</code> with <code>1 &lt;= y &lt;= n</code> and <code>y != x</code>. The first player colors the node with value <code>x</code> red, and the second player colors the node with value <code>y</code> blue.</p>
 
-<ul>
-	<li>「一号」玩家从 <code>[1, n]</code>&nbsp;中取一个值&nbsp;<code>x</code>（<code>1 &lt;= x &lt;= n</code>）；</li>
-	<li>「二号」玩家也从&nbsp;<code>[1, n]</code>&nbsp;中取一个值&nbsp;<code>y</code>（<code>1 &lt;= y &lt;= n</code>）且&nbsp;<code>y != x</code>。</li>
-</ul>
+<p>Then, the players take turns starting with the first player. In each turn, that player chooses a node of their color (red if player 1, blue if player 2) and colors an <strong>uncolored</strong> neighbor of the chosen node (either the left child, right child, or parent of the chosen node.)</p>
 
-<p>「一号」玩家给值为&nbsp;<code>x</code>&nbsp;的节点染上红色，而「二号」玩家给值为&nbsp;<code>y</code>&nbsp;的节点染上蓝色。</p>
+<p>If (and only if) a player cannot choose such a node in this way, they must pass their turn. If both players pass their turn, the game ends, and the winner is the player that colored more nodes.</p>
 
-<p>之后两位玩家轮流进行操作，「一号」玩家先手。每一回合，玩家选择一个被他染过色的节点，将所选节点一个 <strong>未着色 </strong>的邻节点（即左右子节点、或父节点）进行染色（「一号」玩家染红色，「二号」玩家染蓝色）。</p>
+<p>You are the second player. If it is possible to choose such a <code>y</code> to ensure you win the game, return <code>true</code>. If it is not possible, return <code>false</code>.</p>
 
-<p>如果（且仅在此种情况下）当前玩家无法找到这样的节点来染色时，其回合就会被跳过。</p>
-
-<p>若两个玩家都没有可以染色的节点时，游戏结束。着色节点最多的那位玩家获得胜利 ✌️。</p>
-
-<p>现在，假设你是「二号」玩家，根据所给出的输入，假如存在一个&nbsp;<code>y</code>&nbsp;值可以确保你赢得这场游戏，则返回&nbsp;<code>true</code> ；若无法获胜，就请返回 <code>false</code> 。</p>
-&nbsp;
-
-<p><strong class="example">示例 1 ：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1145.Binary%20Tree%20Coloring%20Game/images/1480-binary-tree-coloring-game.png" style="width: 500px; height: 310px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,3,4,5,6,7,8,9,10,11], n = 11, x = 3
-<strong>输出：</strong>true
-<strong>解释：</strong>第二个玩家可以选择值为 2 的节点。</pre>
+<strong>Input:</strong> root = [1,2,3,4,5,6,7,8,9,10,11], n = 11, x = 3
+<strong>Output:</strong> true
+<strong>Explanation: </strong>The second player can choose the node with value 2.
+</pre>
 
-<p><strong class="example">示例 2 ：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>root = [1,2,3], n = 3, x = 1
-<strong>输出：</strong>false
+<strong>Input:</strong> root = [1,2,3], n = 3, x = 1
+<strong>Output:</strong> false
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点数目为 <code>n</code></li>
+	<li>The number of nodes in the tree is <code>n</code>.</li>
 	<li><code>1 &lt;= x &lt;= n &lt;= 100</code></li>
-	<li><code>n</code> 是奇数</li>
-	<li><code>1 &lt;= Node.val &lt;= n</code></li>
-	<li>树中所有值 <strong>互不相同</strong></li>
+	<li><code>n</code> is odd.</li>
+	<li>1 &lt;= Node.val &lt;= n</li>
+	<li>All the values of the tree are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
+### Solution 1: DFS
 
-我们先通过 $DFS$，找到「一号」玩家着色点 $x$ 所在的节点，记为 $node$。
+First, we use DFS to find the node where player 1's colored point $x$ is located, denoted as $node$.
 
-接下来，我们统计 $node$ 的左子树、右子树的节点个数，分别记为 $l$ 和 $r$，而 $node$ 父节点方向上的个数为 $n - l - r - 1$。只要满足 $\max(l, r, n - l - r - 1) > \frac{n}{2}$，则「二号」玩家存在一个必胜策略。
+Next, we count the number of nodes in the left and right subtrees of $node$, denoted as $l$ and $r$ respectively, and the number of nodes in the direction of $node$'s parent node is $n - l - r - 1$. As long as $\max(l, r, n - l - r - 1) > \frac{n}{2}$, player 2 has a winning strategy.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是节点总数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the total number of nodes.
 
 <!-- tabs:start -->
 

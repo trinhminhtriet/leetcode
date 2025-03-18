@@ -1,110 +1,85 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1609.Even%20Odd%20Tree/README.md
+difficulty: Medium
 rating: 1438
-source: 第 209 场周赛 Q2
+source: Weekly Contest 209 Q2
 tags:
-    - 树
-    - 广度优先搜索
-    - 二叉树
+    - Tree
+    - Breadth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [1609. 奇偶树](https://leetcode.cn/problems/even-odd-tree)
+# [1609. Even Odd Tree](https://leetcode.com/problems/even-odd-tree)
 
-[English Version](/solution/1600-1699/1609.Even%20Odd%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>如果一棵二叉树满足下述几个条件，则可以称为 <strong>奇偶树</strong> ：</p>
+<p>A binary tree is named <strong>Even-Odd</strong> if it meets the following conditions:</p>
 
 <ul>
-	<li>二叉树根节点所在层下标为 <code>0</code> ，根的子节点所在层下标为 <code>1</code> ，根的孙节点所在层下标为 <code>2</code> ，依此类推。</li>
-	<li><strong>偶数下标</strong> 层上的所有节点的值都是 <strong>奇</strong> 整数，从左到右按顺序 <strong>严格递增</strong></li>
-	<li><strong>奇数下标</strong> 层上的所有节点的值都是 <strong>偶</strong> 整数，从左到右按顺序 <strong>严格递减</strong></li>
+	<li>The root of the binary tree is at level index <code>0</code>, its children are at level index <code>1</code>, their children are at level index <code>2</code>, etc.</li>
+	<li>For every <strong>even-indexed</strong> level, all nodes at the level have <strong>odd</strong> integer values in <strong>strictly increasing</strong> order (from left to right).</li>
+	<li>For every <b>odd-indexed</b> level, all nodes at the level have <b>even</b> integer values in <strong>strictly decreasing</strong> order (from left to right).</li>
 </ul>
 
-<p>给你二叉树的根节点，如果二叉树为 <strong>奇偶树 </strong>，则返回 <code>true</code> ，否则返回 <code>false</code> 。</p>
+<p>Given the <code>root</code> of a binary tree, <em>return </em><code>true</code><em> if the binary tree is <strong>Even-Odd</strong>, otherwise return </em><code>false</code><em>.</em></p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1609.Even%20Odd%20Tree/images/sample_1_1966.png" style="height: 229px; width: 362px;" /></strong></p>
-
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1609.Even%20Odd%20Tree/images/sample_1_1966.png" style="width: 362px; height: 229px;" />
 <pre>
-<strong>输入：</strong>root = [1,10,4,3,null,7,9,12,8,6,null,null,2]
-<strong>输出：</strong>true
-<strong>解释：</strong>每一层的节点值分别是：
-0 层：[1]
-1 层：[10,4]
-2 层：[3,7,9]
-3 层：[12,8,6,2]
-由于 0 层和 2 层上的节点值都是奇数且严格递增，而 1 层和 3 层上的节点值都是偶数且严格递减，因此这是一棵奇偶树。
+<strong>Input:</strong> root = [1,10,4,3,null,7,9,12,8,6,null,null,2]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The node values on each level are:
+Level 0: [1]
+Level 1: [10,4]
+Level 2: [3,7,9]
+Level 3: [12,8,6,2]
+Since levels 0 and 2 are all odd and increasing and levels 1 and 3 are all even and decreasing, the tree is Even-Odd.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1609.Even%20Odd%20Tree/images/sample_2_1966.png" style="height: 167px; width: 363px;" /></strong></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1609.Even%20Odd%20Tree/images/sample_2_1966.png" style="width: 363px; height: 167px;" />
 <pre>
-<strong>输入：</strong>root = [5,4,2,3,3,7]
-<strong>输出：</strong>false
-<strong>解释：</strong>每一层的节点值分别是：
-0 层：[5]
-1 层：[4,2]
-2 层：[3,3,7]
-2 层上的节点值不满足严格递增的条件，所以这不是一棵奇偶树。
+<strong>Input:</strong> root = [5,4,2,3,3,7]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The node values on each level are:
+Level 0: [5]
+Level 1: [4,2]
+Level 2: [3,3,7]
+Node values in level 2 must be in strictly increasing order, so the tree is not Even-Odd.
 </pre>
 
-<p><strong>示例 3：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1609.Even%20Odd%20Tree/images/sample_1_333_1966.png" style="height: 167px; width: 363px;" /></p>
-
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1609.Even%20Odd%20Tree/images/sample_1_333_1966.png" style="width: 363px; height: 167px;" />
 <pre>
-<strong>输入：</strong>root = [5,9,1,3,5,7]
-<strong>输出：</strong>false
-<strong>解释：</strong>1 层上的节点值应为偶数。
+<strong>Input:</strong> root = [5,9,1,3,5,7]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> Node values in the level 1 should be even integers.
 </pre>
 
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>root = [1]
-<strong>输出：</strong>true
-</pre>
-
-<p><strong>示例 5：</strong></p>
-
-<pre>
-<strong>输入：</strong>root = [11,8,6,1,3,9,11,30,20,18,16,12,10,4,2,17]
-<strong>输出：</strong>true
-</pre>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点数在范围 <code>[1, 10<sup>5</sup>]</code> 内</li>
-	<li><code>1 <= Node.val <= 10<sup>6</sup></code></li>
+	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>5</sup>]</code>.</li>
+	<li><code>1 &lt;= Node.val &lt;= 10<sup>6</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS
+### Solution 1: BFS
 
-BFS 逐层遍历，每层按照奇偶性判断，每层的节点值都是偶数或奇数，且严格递增或递减。
+BFS traverses level by level. Each level is judged by its parity. The node values at each level are either all even or all odd, and they are strictly increasing or decreasing.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 
@@ -279,11 +254,11 @@ func isEvenOddTree(root *TreeNode) bool {
 
 <!-- solution:start -->
 
-### 方法二：DFS
+### Solution 2: DFS
 
-DFS 先序遍历二叉树，同样根据节点所在层的奇偶性判断是否满足条件，遍历过程中用哈希表记录每一层最近访问到的节点值。
+DFS performs a pre-order traversal of the binary tree, and similarly judges whether it meets the conditions based on the parity of the layer where the node is located. During the traversal, a hash table is used to record the node value that was most recently visited at each layer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 

@@ -1,93 +1,96 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1813.Sentence%20Similarity%20III/README.md
+difficulty: Medium
 rating: 1588
-source: 第 49 场双周赛 Q2
+source: Biweekly Contest 49 Q2
 tags:
-    - 数组
-    - 双指针
-    - 字符串
+    - Array
+    - Two Pointers
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1813. 句子相似性 III](https://leetcode.cn/problems/sentence-similarity-iii)
+# [1813. Sentence Similarity III](https://leetcode.com/problems/sentence-similarity-iii)
 
-[English Version](/solution/1800-1899/1813.Sentence%20Similarity%20III/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个字符串&nbsp;<code>sentence1</code>&nbsp;和&nbsp;<code>sentence2</code>，每个表示由一些单词组成的一个句子。句子是一系列由&nbsp;<strong>单个 </strong>空格分隔的&nbsp;<strong>单词</strong>，且开头和结尾没有多余空格。每个单词都只包含大写和小写英文字母。</p>
+<p>You are given two strings <code>sentence1</code> and <code>sentence2</code>, each representing a <strong>sentence</strong> composed of words. A sentence is a list of <strong>words</strong> that are separated by a <strong>single</strong> space with no leading or trailing spaces. Each word consists of only uppercase and lowercase English characters.</p>
 
-<p>如果两个句子&nbsp;<code>s1</code>&nbsp;和&nbsp;<code>s2</code>&nbsp;，可以通过往其中一个句子插入一个任意的句子（可以是空句子）而得到另一个句子，那么我们称这两个句子是 <strong>相似的</strong>&nbsp;。<strong>注意</strong>，插入的句子必须与现有单词用空白隔开。&nbsp;</p>
+<p>Two sentences <code>s1</code> and <code>s2</code> are considered <strong>similar</strong> if it is possible to insert an arbitrary sentence (<em>possibly empty</em>) inside one of these sentences such that the two sentences become equal. <strong>Note</strong> that the inserted sentence must be separated from existing words by spaces.</p>
 
-<p>比方说，</p>
+<p>For example,</p>
 
 <ul>
-	<li><code>s1 = "Hello Jane"</code> 与&nbsp;<code>s2 = "Hello my name is Jane"</code>，我们可以往 <code>s1</code>&nbsp;中&nbsp;<code>"Hello"</code> 和&nbsp;<code>"Jane"</code>&nbsp;之间插入&nbsp;<code>"my name is"</code>&nbsp;得到 <code>s2</code>&nbsp;。</li>
-	<li><code>s1 = "Frog cool"</code>&nbsp;与 <code>s2 = "Frogs are cool"</code>&nbsp;不是相似的，因为尽管往&nbsp;<code>s1</code>&nbsp;中插入&nbsp;<code>"s are"</code>，它没有与&nbsp;<code>"Frog"</code>&nbsp;用空格隔开。</li>
+	<li><code>s1 = &quot;Hello Jane&quot;</code> and <code>s2 = &quot;Hello my name is Jane&quot;</code> can be made equal by inserting <code>&quot;my name is&quot;</code> between <code>&quot;Hello&quot;</code><font face="monospace"> </font>and <code>&quot;Jane&quot;</code><font face="monospace"> in s1.</font></li>
+	<li><font face="monospace"><code>s1 = &quot;Frog cool&quot;</code> </font>and<font face="monospace"> <code>s2 = &quot;Frogs are cool&quot;</code> </font>are <strong>not</strong> similar, since although there is a sentence <code>&quot;s are&quot;</code> inserted into <code>s1</code>, it is not separated from <code>&quot;Frog&quot;</code> by a space.</li>
 </ul>
 
-<p>给你两个句子&nbsp;<code>sentence1</code> 和&nbsp;<code>sentence2</code>&nbsp;，如果<em>&nbsp;</em><code>sentence1</code> 和<em>&nbsp;</em><code>sentence2</code> 是 <strong>相似</strong> 的，请你返回&nbsp;<code>true</code>&nbsp;，否则返回&nbsp;<code>false</code>&nbsp;。</p>
+<p>Given two sentences <code>sentence1</code> and <code>sentence2</code>, return <strong>true</strong> if <code>sentence1</code> and <code>sentence2</code> are <strong>similar</strong>. Otherwise, return <strong>false</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">sentence1 = &quot;My name is Haley&quot;, sentence2 = &quot;My Haley&quot;</span></p>
 
-<div class="example-block"><b>输入：</b>sentence1 = "My name is Haley", sentence2 = "My Haley"</div>
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
 
-<div class="example-block"><b>输出：</b>true</div>
+<p><strong>Explanation:</strong></p>
 
-<div class="example-block"><b>解释：</b>可以往 <code>sentence2</code> 中 "My" 和 "Haley" 之间插入 "name is" ，得到 <code>sentence1</code> 。</div>
+<p><code>sentence2</code> can be turned to <code>sentence1</code> by inserting &quot;name is&quot; between &quot;My&quot; and &quot;Haley&quot;.</p>
+</div>
 
-<div class="example-block">&nbsp;</div>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>示例 2：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">sentence1 = &quot;of&quot;, sentence2 = &quot;A lot of words&quot;</span></p>
 
-<div class="example-block"><b>输入：</b>sentence1 = "of", sentence2 = "A lot of words"</div>
+<p><strong>Output:</strong> <span class="example-io">false</span></p>
 
-<div class="example-block"><b>输出：</b>false</div>
+<p><strong>Explanation:</strong></p>
 
-<div class="example-block"><strong>解释：</strong>没法往这两个句子中的一个句子只插入一个句子就得到另一个句子。</div>
+<p>No single sentence can be inserted inside one of the sentences to make it equal to the other.</p>
+</div>
 
-<div class="example-block">&nbsp;</div>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>示例 3：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">sentence1 = &quot;Eating right now&quot;, sentence2 = &quot;Eating&quot;</span></p>
 
-<div class="example-block"><b>输入：</b>sentence1 = "Eating right now", sentence2 = "Eating"</div>
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
 
-<div class="example-block"><b>输出：</b>true</div>
+<p><strong>Explanation:</strong></p>
 
-<div class="example-block"><b>解释：</b>可以往 <code>sentence2</code> 的结尾插入 "right now" 得到 <code>sentence1</code> 。</div>
+<p><code>sentence2</code> can be turned to <code>sentence1</code> by inserting &quot;right now&quot; at the end of the sentence.</p>
+</div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= sentence1.length, sentence2.length &lt;= 100</code></li>
-	<li><code>sentence1</code>&nbsp;和&nbsp;<code>sentence2</code>&nbsp;都只包含大小写英文字母和空格。</li>
-	<li><code>sentence1</code>&nbsp;和&nbsp;<code>sentence2</code>&nbsp;中的单词都只由单个空格隔开。</li>
+	<li><code>sentence1</code> and <code>sentence2</code> consist of lowercase and uppercase English letters and spaces.</li>
+	<li>The words in <code>sentence1</code> and <code>sentence2</code> are separated by a single space.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1: Two Pointers
 
-我们将两个句子按照空格分割成两个单词数组 `words1` 和 `words2`，假设 `words1` 和 `words2` 的长度分别为 $m$ 和 $n$，不妨设 $m \geq n$。
+We split the two sentences into two word arrays `words1` and `words2` by spaces. Let the lengths of `words1` and `words2` be $m$ and $n$, respectively, and assume that $m \ge nn.
 
-我们使用双指针 $i$ 和 $j$，初始时 $i = j = 0$。接下来，我们循环判断 `words1[i]` 是否等于 `words2[i]`，是则指针 $i$ 继续右移；然后我们循环判断 `words1[m - 1 - j]` 是否等于 `words2[n - 1 - j]`，是则指针 $j$ 继续右移。
+We use two pointers $i$ and $j$, initially $i = j = 0$. Next, we loop to check whether `words1[i]` is equal to `words2[i]`, and if so, pointer $i$ continues to move right; then we loop to check whether `words1[m - 1 - j]` is equal to `words2[n - 1 - j]`, and if so, pointer $j$ continues to move right.
 
-循环结束后，如果 $i + j \geq n$，说明两个句子相似，返回 `true`，否则返回 `false`。
+After the loop, if $i + j \ge n$, it means that the two sentences are similar, and we return `true`; otherwise, we return `false`.
 
-时间复杂度 $O(L)$，空间复杂度 $O(L)$。其中 $L$ 为两个句子的长度之和。
+The time complexity is $O(L)$, and the space complexity is $O(L)$, where $L$ is the sum of the lengths of the two sentences.
 
 <!-- tabs:start -->
 

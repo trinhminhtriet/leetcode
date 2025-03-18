@@ -1,24 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0182.Duplicate%20Emails/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [182. 查找重复的电子邮箱](https://leetcode.cn/problems/duplicate-emails)
+# [182. Duplicate Emails](https://leetcode.com/problems/duplicate-emails)
 
-[English Version](/solution/0100-0199/0182.Duplicate%20Emails/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><meta charset="UTF-8" /></p>
-
-<p>表:&nbsp;<code>Person</code></p>
+<p>Table: <code>Person</code></p>
 
 <pre>
 +-------------+---------+
@@ -27,25 +22,24 @@ tags:
 | id          | int     |
 | email       | varchar |
 +-------------+---------+
-id 是该表的主键（具有唯一值的列）。
-此表的每一行都包含一封电子邮件。电子邮件不包含大写字母。
+id is the primary key (column with unique values) for this table.
+Each row of this table contains an email. The emails will not contain uppercase letters.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案来报告所有重复的电子邮件。 请注意，可以保证电子邮件字段不为 NULL。</p>
+<p>Write a solution to report all the duplicate emails. Note that it&#39;s guaranteed that the email&nbsp;field is not NULL.</p>
 
-<p>以&nbsp;<strong>任意顺序&nbsp;</strong>返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果格式如下例。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
-Person 表:
+<strong>Input:</strong> 
+Person table:
 +----+---------+
 | id | email   |
 +----+---------+
@@ -53,23 +47,24 @@ Person 表:
 | 2  | c@d.com |
 | 3  | a@b.com |
 +----+---------+
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +---------+
 | Email   |
 +---------+
 | a@b.com |
 +---------+
-<strong>解释:</strong> a@b.com 出现了两次。</pre>
+<strong>Explanation:</strong> a@b.com is repeated two times.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组统计
+### Solution 1: Group By + Having
 
-我们可以使用 `GROUP BY` 语句，按照 `email` 字段进行分组，然后使用 `HAVING` 语句，筛选出现次数大于 $1$ 的 `email`。
+We can use the `GROUP BY` statement to group the data by the `email` field, and then use the `HAVING` statement to filter out the `email` addresses that appear more than once.
 
 <!-- tabs:start -->
 
@@ -103,9 +98,9 @@ HAVING COUNT(1) > 1;
 
 <!-- solution:start -->
 
-### 方法二：自连接
+### Solution 2: Self-Join
 
-我们可以使用自连接的方法，将 `Person` 表自身连接一次，然后筛选出 `id` 不同，但 `email` 相同的记录。
+We can use a self-join to join the `Person` table with itself, and then filter out the records where the `id` is different but the `email` is the same.
 
 <!-- tabs:start -->
 

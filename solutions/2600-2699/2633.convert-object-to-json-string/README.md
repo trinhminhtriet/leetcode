@@ -1,80 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2633.Convert%20Object%20to%20JSON%20String/README.md
+difficulty: Medium
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2633. 将对象转换为 JSON 字符串 🔒](https://leetcode.cn/problems/convert-object-to-json-string)
+# [2633. Convert Object to JSON String 🔒](https://leetcode.com/problems/convert-object-to-json-string)
 
-[English Version](/solution/2600-2699/2633.Convert%20Object%20to%20JSON%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>现给定一个值，返回该值的有效 JSON 字符串。你可以假设这个值只包括字符串、整数、数组、对象、布尔值和 null。返回的字符串不能包含额外的空格。键的返回顺序应该与 <code>Object.keys()</code> 的顺序相同。</p>
+<p>Given a value, return a valid JSON string of that value. The value can be a string, number, array, object, boolean, or null.&nbsp;The returned string should not include extra spaces. The order of keys should be the same as the order returned by&nbsp;<code>Object.keys()</code>.</p>
 
-<p>请你在不使用内置方法 <code>JSON.stringify</code> 的前提下解决这个问题。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>object = {"y":1,"x":2}
-<strong>输出：</strong>{"y":1,"x":2}
-<strong>解释：</strong>
-返回该对象的 JSON 表示形式。
-注意，键的返回顺序应该与 Object.keys() 的顺序相同。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>object = {"a":"str","b":-12,"c":true,"d":null}
-<strong>输出：</strong>{"a":"str","b":-12,"c":true,"d":null}
-<strong>解释：</strong>
-JSON 的基本类型是字符串、数字型、布尔值和 null。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>object = {"key":{"a":1,"b":[{},null,"Hello"]}}
-<strong>输出：</strong>{"key":{"a":1,"b":[{},null,"Hello"]}}
-<strong>解释：</strong>
-对象和数组可以包括其他对象和数组。
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>object = true
-<strong>输出：</strong>true
-<strong>解释：</strong>
-基本类型是有效的输入</pre>
+<p>Please solve it without using the built-in <code>JSON.stringify</code> method.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> object = {&quot;y&quot;:1,&quot;x&quot;:2}
+<strong>Output:</strong> {&quot;y&quot;:1,&quot;x&quot;:2}
+<strong>Explanation:</strong> 
+Return the JSON representation.
+Note that the order of keys should be the same as the order returned by Object.keys().</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> object = {&quot;a&quot;:&quot;str&quot;,&quot;b&quot;:-12,&quot;c&quot;:true,&quot;d&quot;:null}
+<strong>Output:</strong> {&quot;a&quot;:&quot;str&quot;,&quot;b&quot;:-12,&quot;c&quot;:true,&quot;d&quot;:null}
+<strong>Explanation:</strong>
+The primitives of JSON are strings, numbers, booleans, and null.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> object = {&quot;key&quot;:{&quot;a&quot;:1,&quot;b&quot;:[{},null,&quot;Hello&quot;]}}
+<strong>Output:</strong> {&quot;key&quot;:{&quot;a&quot;:1,&quot;b&quot;:[{},null,&quot;Hello&quot;]}}
+<strong>Explanation:</strong>
+Objects and arrays can include other objects and arrays.
+</pre>
+
+<p><strong class="example">Example 4:</strong></p>
+
+<pre>
+<strong>Input:</strong> object = true
+<strong>Output:</strong> true
+<strong>Explanation:</strong>
+Primitive types are valid inputs.</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>value</code>&nbsp;是一个有效的 JSON 值</li>
+	<li><code>value</code> is a valid JSON value</li>
 	<li><code>1 &lt;= JSON.stringify(object).length &lt;= 10<sup>5</sup></code></li>
 	<li><code>maxNestingLevel &lt;= 1000</code></li>
-	<li>所有字符串只包含字母数字字符</li>
+	<li>all strings contain only alphanumeric characters</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

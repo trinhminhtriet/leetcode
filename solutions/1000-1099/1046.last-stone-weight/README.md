@@ -1,70 +1,69 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1046.Last%20Stone%20Weight/README.md
+difficulty: Easy
 rating: 1172
-source: 第 137 场周赛 Q1
+source: Weekly Contest 137 Q1
 tags:
-    - 数组
-    - 堆（优先队列）
+    - Array
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1046. 最后一块石头的重量](https://leetcode.cn/problems/last-stone-weight)
+# [1046. Last Stone Weight](https://leetcode.com/problems/last-stone-weight)
 
-[English Version](/solution/1000-1099/1046.Last%20Stone%20Weight/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有一堆石头，每块石头的重量都是正整数。</p>
+<p>You are given an array of integers <code>stones</code> where <code>stones[i]</code> is the weight of the <code>i<sup>th</sup></code> stone.</p>
 
-<p>每一回合，从中选出两块<strong> 最重的</strong> 石头，然后将它们一起粉碎。假设石头的重量分别为 <code>x</code> 和 <code>y</code>，且 <code>x <= y</code>。那么粉碎的可能结果如下：</p>
+<p>We are playing a game with the stones. On each turn, we choose the <strong>heaviest two stones</strong> and smash them together. Suppose the heaviest two stones have weights <code>x</code> and <code>y</code> with <code>x &lt;= y</code>. The result of this smash is:</p>
 
 <ul>
-	<li>如果 <code>x == y</code>，那么两块石头都会被完全粉碎；</li>
-	<li>如果 <code>x != y</code>，那么重量为 <code>x</code> 的石头将会完全粉碎，而重量为 <code>y</code> 的石头新重量为 <code>y-x</code>。</li>
+	<li>If <code>x == y</code>, both stones are destroyed, and</li>
+	<li>If <code>x != y</code>, the stone of weight <code>x</code> is destroyed, and the stone of weight <code>y</code> has new weight <code>y - x</code>.</li>
 </ul>
 
-<p>最后，最多只会剩下一块石头。返回此石头的重量。如果没有石头剩下，就返回 <code>0</code>。</p>
+<p>At the end of the game, there is <strong>at most one</strong> stone left.</p>
 
-<p> </p>
+<p>Return <em>the weight of the last remaining stone</em>. If there are no stones left, return <code>0</code>.</p>
 
-<p><strong>示例：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>[2,7,4,1,8,1]
-<strong>输出：</strong>1
-<strong>解释：</strong>
-先选出 7 和 8，得到 1，所以数组转换为 [2,4,1,1,1]，
-再选出 2 和 4，得到 2，所以数组转换为 [2,1,1,1]，
-接着是 2 和 1，得到 1，所以数组转换为 [1,1,1]，
-最后选出 1 和 1，得到 0，最终数组转换为 [1]，这就是最后剩下那块石头的重量。</pre>
+<strong>Input:</strong> stones = [2,7,4,1,8,1]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> 
+We combine 7 and 8 to get 1 so the array converts to [2,4,1,1,1] then,
+we combine 2 and 4 to get 2 so the array converts to [2,1,1,1] then,
+we combine 2 and 1 to get 1 so the array converts to [1,1,1] then,
+we combine 1 and 1 to get 0 so the array converts to [1] then that&#39;s the value of the last stone.
+</pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> stones = [1]
+<strong>Output:</strong> 1
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= stones.length <= 30</code></li>
-	<li><code>1 <= stones[i] <= 1000</code></li>
+	<li><code>1 &lt;= stones.length &lt;= 30</code></li>
+	<li><code>1 &lt;= stones[i] &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：优先队列（大根堆）
-
-我们将数组 `stones` 所有元素放入大根堆，然后执行循环操作，每次弹出两个元素 $y$ 和 $x$，如果 $x \neq y$，将 $y - x$ 放入大根堆。当堆元素个数小于 $2$ 时，退出循环。
-
-最后如果存在堆顶元素，则将其返回，否则返回 $0$。
-
-时间复杂度 $O(n\log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 `stones` 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

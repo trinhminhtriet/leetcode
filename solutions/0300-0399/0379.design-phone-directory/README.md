@@ -1,85 +1,80 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0379.Design%20Phone%20Directory/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 队列
-    - 数组
-    - 哈希表
-    - 链表
+    - Design
+    - Queue
+    - Array
+    - Hash Table
+    - Linked List
 ---
 
 <!-- problem:start -->
 
-# [379. 电话目录管理系统 🔒](https://leetcode.cn/problems/design-phone-directory)
+# [379. Design Phone Directory 🔒](https://leetcode.com/problems/design-phone-directory)
 
-[English Version](/solution/0300-0399/0379.Design%20Phone%20Directory/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>设计一个电话目录管理系统，一开始有&nbsp;<code>maxNumbers</code>&nbsp;个位置能够储存号码。系统应该存储号码，检查某个位置是否为空，并清空给定的位置。</p>
+<p>Design a phone directory that initially has <code>maxNumbers</code> empty slots that can store numbers. The directory should store numbers, check if a certain slot is empty or not, and empty a given slot.</p>
 
-<p>实现&nbsp;<code>PhoneDirectory</code>&nbsp;类：</p>
+<p>Implement the <code>PhoneDirectory</code> class:</p>
 
 <ul>
-	<li><code>PhoneDirectory(int maxNumbers)</code>&nbsp;电话目录初始有 <code>maxNumbers</code> 个可用位置。</li>
-	<li><code>int get()</code> 提供一个未分配给任何人的号码。如果没有可用号码则返回&nbsp;<code>-1</code>。</li>
-	<li><code>bool check(int number)</code>&nbsp;如果位置&nbsp;<code>number</code>&nbsp;可用返回 <code>true</code>&nbsp;否则返回&nbsp;<code>false</code>。</li>
-	<li><code>void release(int number)</code> 回收或释放位置&nbsp;<code>number</code>。</li>
+	<li><code>PhoneDirectory(int maxNumbers)</code> Initializes the phone directory with the number of available slots <code>maxNumbers</code>.</li>
+	<li><code>int get()</code> Provides a number that is not assigned to anyone. Returns <code>-1</code> if no number is available.</li>
+	<li><code>bool check(int number)</code> Returns <code>true</code> if the slot <code>number</code> is available and <code>false</code> otherwise.</li>
+	<li><code>void release(int number)</code> Recycles or releases the slot <code>number</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["PhoneDirectory", "get", "get", "check", "get", "check", "release", "check"]
+<strong>Input</strong>
+[&quot;PhoneDirectory&quot;, &quot;get&quot;, &quot;get&quot;, &quot;check&quot;, &quot;get&quot;, &quot;check&quot;, &quot;release&quot;, &quot;check&quot;]
 [[3], [], [], [2], [], [2], [2], [2]]
-<strong>输出：</strong>
+<strong>Output</strong>
 [null, 0, 1, true, 2, false, null, true]
 
-<strong>解释：</strong>
+<strong>Explanation</strong>
 PhoneDirectory phoneDirectory = new PhoneDirectory(3);
-phoneDirectory.get();      // 它可以返回任意可用的数字。这里我们假设它返回 0。
-phoneDirectory.get();      // 假设它返回 1。
-phoneDirectory.check(2);   // 数字 2 可用，所以返回 true。
-phoneDirectory.get();      // 返回剩下的唯一一个数字 2。
-phoneDirectory.check(2);   // 数字 2 不再可用，所以返回 false。
-phoneDirectory.release(2); // 将数字 2 释放回号码池。
-phoneDirectory.check(2);   // 数字 2 重新可用，返回 true。
+phoneDirectory.get();      // It can return any available phone number. Here we assume it returns 0.
+phoneDirectory.get();      // Assume it returns 1.
+phoneDirectory.check(2);   // The number 2 is available, so return true.
+phoneDirectory.get();      // It returns 2, the only number that is left.
+phoneDirectory.check(2);   // The number 2 is no longer available, so return false.
+phoneDirectory.release(2); // Release number 2 back to the pool.
+phoneDirectory.check(2);   // Number 2 is available again, return true.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= maxNumbers &lt;= 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= number &lt; maxNumbers</code></li>
-	<li><code>get</code>，<code>check</code>&nbsp;和&nbsp;<code>release</code>&nbsp;最多被调用&nbsp;<code>2 * 10<sup>4</sup></code>&nbsp;次。</li>
+	<li>At most <code>2 * 10<sup>4</sup></code> calls will be made to <code>get</code>, <code>check</code>, and <code>release</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们可以使用一个哈希集合 `available` 来存储未被分配的电话号码，初始时，哈希表中存储的是 `[0, 1, 2, ..., maxNumbers - 1]`。
+We can use a hash set `available` to store unallocated phone numbers. Initially, the hash set contains `[0, 1, 2, ..., maxNumbers - 1]`.
 
-调用 `get` 方法时，我们从 `available` 中取出一个未被分配的电话号码，如果 `available` 为空，则返回 `-1`。时间复杂度 $O(1)$。
+When the `get` method is called, we take an unallocated phone number from `available`. If `available` is empty, we return `-1`. The time complexity is $O(1)$.
 
-调用 `check` 方法时，我们只需要判断 `number` 是否在 `available` 中即可。时间复杂度 $O(1)$。
+When the `check` method is called, we just need to check whether `number` is in `available`. The time complexity is $O(1)$.
 
-调用 `release` 方法时，我们将 `number` 添加到 `available` 中。时间复杂度 $O(1)$。
+When the `release` method is called, we add `number` to `available`. The time complexity is $O(1)$.
 
-空间复杂度 $O(n)$，其中 $n$ 是 `maxNumbers` 的值。
+The space complexity is $O(n)$, where $n$ is the value of `maxNumbers`.
 
 <!-- tabs:start -->
 

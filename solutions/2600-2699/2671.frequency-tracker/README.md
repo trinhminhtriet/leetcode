@@ -1,112 +1,110 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2671.Frequency%20Tracker/README.md
+difficulty: Medium
 rating: 1509
-source: 第 344 场周赛 Q2
+source: Weekly Contest 344 Q2
 tags:
-    - 设计
-    - 哈希表
+    - Design
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [2671. 频率跟踪器](https://leetcode.cn/problems/frequency-tracker)
+# [2671. Frequency Tracker](https://leetcode.com/problems/frequency-tracker)
 
-[English Version](/solution/2600-2699/2671.Frequency%20Tracker/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你设计并实现一个能够对其中的值进行跟踪的数据结构，并支持对频率相关查询进行应答。</p>
+<p>Design a data structure that keeps track of the values in it and answers some queries regarding their frequencies.</p>
 
-<p>实现 <code>FrequencyTracker</code> 类：</p>
+<p>Implement the <code>FrequencyTracker</code> class.</p>
 
 <ul>
-	<li><code>FrequencyTracker()</code>：使用一个空数组初始化 <code>FrequencyTracker</code> 对象。</li>
-	<li><code>void add(int number)</code>：添加一个 <code>number</code> 到数据结构中。</li>
-	<li><code>void deleteOne(int number)</code>：从数据结构中删除一个 <code>number</code> 。数据结构 <strong>可能不包含</strong> <code>number</code> ，在这种情况下不删除任何内容。</li>
-	<li><code>bool hasFrequency(int frequency)</code>: 如果数据结构中存在出现 <code>frequency</code> 次的数字，则返回 <code>true</code>，否则返回 <code>false</code>。</li>
+	<li><code>FrequencyTracker()</code>: Initializes the <code>FrequencyTracker</code> object with an empty array initially.</li>
+	<li><code>void add(int number)</code>: Adds <code>number</code> to the data structure.</li>
+	<li><code>void deleteOne(int number)</code>: Deletes <strong>one</strong> occurrence of <code>number</code> from the data structure. The data structure <strong>may not contain</strong> <code>number</code>, and in this case nothing is deleted.</li>
+	<li><code>bool hasFrequency(int frequency)</code>: Returns <code>true</code> if there is a number in the data structure that occurs <code>frequency</code> number of times, otherwise, it returns <code>false</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["FrequencyTracker", "add", "add", "hasFrequency"]
+<strong>Input</strong>
+[&quot;FrequencyTracker&quot;, &quot;add&quot;, &quot;add&quot;, &quot;hasFrequency&quot;]
 [[], [3], [3], [2]]
-<strong>输出</strong>
+<strong>Output</strong>
 [null, null, null, true]
 
-<strong>解释</strong>
+<strong>Explanation</strong>
 FrequencyTracker frequencyTracker = new FrequencyTracker();
-frequencyTracker.add(3); // 数据结构现在包含 [3]
-frequencyTracker.add(3); // 数据结构现在包含 [3, 3]
-frequencyTracker.hasFrequency(2); // 返回 true ，因为 3 出现 2 次
+frequencyTracker.add(3); // The data structure now contains [3]
+frequencyTracker.add(3); // The data structure now contains [3, 3]
+frequencyTracker.hasFrequency(2); // Returns true, because 3 occurs twice
+
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["FrequencyTracker", "add", "deleteOne", "hasFrequency"]
+<strong>Input</strong>
+[&quot;FrequencyTracker&quot;, &quot;add&quot;, &quot;deleteOne&quot;, &quot;hasFrequency&quot;]
 [[], [1], [1], [1]]
-<strong>输出</strong>
+<strong>Output</strong>
 [null, null, null, false]
 
-<strong>解释</strong>
+<strong>Explanation</strong>
 FrequencyTracker frequencyTracker = new FrequencyTracker();
-frequencyTracker.add(1); // 数据结构现在包含 [1]
-frequencyTracker.deleteOne(1); // 数据结构现在为空 []
-frequencyTracker.hasFrequency(1); // 返回 false ，因为数据结构为空
+frequencyTracker.add(1); // The data structure now contains [1]
+frequencyTracker.deleteOne(1); // The data structure becomes empty []
+frequencyTracker.hasFrequency(1); // Returns false, because the data structure is empty
+
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["FrequencyTracker", "hasFrequency", "add", "hasFrequency"]
+<strong>Input</strong>
+[&quot;FrequencyTracker&quot;, &quot;hasFrequency&quot;, &quot;add&quot;, &quot;hasFrequency&quot;]
 [[], [2], [3], [1]]
-<strong>输出</strong>
+<strong>Output</strong>
 [null, false, null, true]
 
-<strong>解释</strong>
+<strong>Explanation</strong>
 FrequencyTracker frequencyTracker = new FrequencyTracker();
-frequencyTracker.hasFrequency(2); // 返回 false ，因为数据结构为空
-frequencyTracker.add(3); // 数据结构现在包含 [3]
-frequencyTracker.hasFrequency(1); // 返回 true ，因为 3 出现 1 次
+frequencyTracker.hasFrequency(2); // Returns false, because the data structure is empty
+frequencyTracker.add(3); // The data structure now contains [3]
+frequencyTracker.hasFrequency(1); // Returns true, because 3 occurs once
+
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= number &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= frequency &lt;= 10<sup>5</sup></code></li>
-	<li>最多调用 <code>add</code>、<code>deleteOne</code> 和 <code>hasFrequency</code> <strong>共计</strong> <code>2 *&nbsp;10<sup>5</sup></code> 次</li>
+	<li>At most, <code>2 *&nbsp;10<sup>5</sup></code>&nbsp;calls will be made to <code>add</code>, <code>deleteOne</code>, and <code>hasFrequency</code>&nbsp;in <strong>total</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们定义两个哈希表，其中 $cnt$ 用于记录每个数字出现的次数，而 $freq$ 用于记录每个出现次数的数字的个数。
+We define two hash tables, where $cnt$ is used to record the occurrence count of each number, and $freq$ is used to record the count of numbers with each frequency.
 
-对于 `add` 操作，我们直接将哈希表 $freq$ 中 $cnt[number]$ 对应的值减一，然后将 $cnt[number]$ 加一，再将 $freq[cnt[number]]$ 对应的值加一。
+For the `add` operation, we directly decrement the value corresponding to $cnt[number]$ in the hash table $freq$, then increment $cnt[number]$, and finally increment the value corresponding to $cnt[number]$ in $freq$.
 
-对于 `deleteOne` 操作，我们首先判断 $cnt[number]$ 是否大于零，如果大于零，我们将哈希表 $freq$ 中 $cnt[number]$ 对应的值减一，然后将 $cnt[number]$ 减一，再将 $freq[cnt[number]]$ 对应的值加一。
+For the `deleteOne` operation, we first check if $cnt[number]$ is greater than zero. If it is, we decrement the value corresponding to $cnt[number]$ in the hash table $freq$, then decrement $cnt[number]$, and finally increment the value corresponding to $cnt[number]$ in $freq$.
 
-对于 `hasFrequency` 操作，我们直接返回 $freq[frequency]$ 是否大于零。
+For the `hasFrequency` operation, we directly return whether $freq[frequency]$ is greater than zero.
 
-时间复杂度方面，由于我们使用了哈希表，因此每个操作的时间复杂度均为 $O(1)$。空间复杂度 $O(n)$，其中 $n$ 为不同的数字的个数。
+In terms of time complexity, since we use hash tables, the time complexity of each operation is $O(1)$. The space complexity is $O(n)$, where $n$ is the number of distinct numbers.
 
 <!-- tabs:start -->
 

@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3262.Find%20Overlapping%20Shifts/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3262. 查找重叠的班次 🔒](https://leetcode.cn/problems/find-overlapping-shifts)
+# [3262. Find Overlapping Shifts 🔒](https://leetcode.com/problems/find-overlapping-shifts)
 
-[English Version](/solution/3200-3299/3262.Find%20Overlapping%20Shifts/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>EmployeeShifts</code></p>
+<p>Table: <code>EmployeeShifts</code></p>
 
 <pre>
 +------------------+---------+
@@ -26,24 +23,23 @@ tags:
 | start_time       | time    |
 | end_time         | time    |
 +------------------+---------+
-(employee_id, start_time) 是此表的唯一主键。
-这张表包含员工的排班工作，包括特定日期的开始和结束时间。
+(employee_id, start_time) is the unique key for this table.
+This table contains information about the shifts worked by employees, including the start and end times on a specific date.
 </pre>
 
-<p>编写一个解决方案来为每个员工计算&nbsp;<strong>重叠排班</strong>&nbsp;的数量。如果一个排班的&nbsp;<code>end_time</code>&nbsp;比另一个排班的&nbsp;<code>start_time</code>&nbsp;<strong>更晚&nbsp;</strong>则认为两个排班重叠。</p>
+<p>Write a solution to count the number of <strong>overlapping shifts</strong> for each employee. Two shifts are considered overlapping if one shift&rsquo;s <code>end_time</code> is <strong>later than</strong> another shift&rsquo;s <code>start_time</code>.</p>
 
-<p>返回结果表以&nbsp;<code>employee_id</code> <strong>升序&nbsp;</strong>排序。</p>
+<p><em>Return the result table ordered by</em> <code>employee_id</code> <em>in <strong>ascending</strong> order</em>.</p>
 
-<p>查询结果格式如下所示。</p>
+<p>The query result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例：</b></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p><code>EmployeeShifts</code> 表：</p>
+<p><code>EmployeeShifts</code> table:</p>
 
 <pre class="example-io">
 +-------------+------------+----------+
@@ -62,7 +58,7 @@ tags:
 +-------------+------------+----------+
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +-------------+--------------------+
@@ -74,56 +70,56 @@ tags:
 +-------------+--------------------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>员工 1 有 3 个排班：
+	<li>Employee 1 has 3 shifts:
 	<ul>
-		<li>08:00:00 到 12:00:00</li>
-		<li>11:00:00 到 15:00:00</li>
-		<li>14:00:00 到 18:00:00</li>
+		<li>08:00:00 to 12:00:00</li>
+		<li>11:00:00 to 15:00:00</li>
+		<li>14:00:00 to 18:00:00</li>
 	</ul>
-	第一个排班与第二个排班重叠，第二个排班与第三个排班重叠，因此有 2&nbsp;个重叠排班。</li>
-	<li>员工 2&nbsp;有 2 个排班：
+	The first shift overlaps with the second, and the second overlaps with the third, resulting in 2 overlapping shifts.</li>
+	<li>Employee 2 has 2 shifts:
 	<ul>
-		<li>09:00:00 到 17:00:00</li>
-		<li>16:00:00 到 20:00:00</li>
+		<li>09:00:00 to 17:00:00</li>
+		<li>16:00:00 to 20:00:00</li>
 	</ul>
-	这些排班彼此重叠，因此有 1 个重叠排班。</li>
-	<li>员工 3 有 3 个排班：
+	These shifts overlap with each other, resulting in 1 overlapping shift.</li>
+	<li>Employee 3 has 3 shifts:
 	<ul>
-		<li>10:00:00 到 12:00:00</li>
-		<li>13:00:00 到 15:00:00</li>
-		<li>16:00:00 到 18:00:00</li>
+		<li>10:00:00 to 12:00:00</li>
+		<li>13:00:00 to 15:00:00</li>
+		<li>16:00:00 to 18:00:00</li>
 	</ul>
-	这些排班没有重叠，所以员工 3 不包含在输出中。</li>
-	<li>员工 4 有 2 个排班：
+	None of these shifts overlap, so Employee 3 is not included in the output.</li>
+	<li>Employee 4 has 2 shifts:
 	<ul>
-		<li>08:00:00 到 10:00:00</li>
-		<li>09:00:00 到 11:00:00</li>
+		<li>08:00:00 to 10:00:00</li>
+		<li>09:00:00 to 11:00:00</li>
 	</ul>
-	这些排班彼此重叠，因此有 1 个重叠排班。</li>
+	These shifts overlap with each other, resulting in 1 overlapping shift.</li>
 </ul>
 
-<p>输出展示了 employee_id 和至少有一个重叠排班的员工的重叠排班的数量，以 employee_id 升序排序。</p>
+<p>The output shows the employee_id and the count of overlapping shifts for each employee who has at least one overlapping shift, ordered by employee_id in ascending order.</p>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：自连接 + 分组计数
+### Solution 1: Self-Join + Group Counting
 
-我们首先使用自连接，将 `EmployeeShifts` 表连接自身。通过连接条件，确保只比较同一个员工的班次，并且检查班次之间是否存在重叠。
+We first use a self-join to connect the `EmployeeShifts` table to itself. The join condition ensures that we only compare shifts belonging to the same employee and check if there is any overlap between shifts.
 
-1. `t1.start_time < t1.start_time`：确保第一个班次的开始时间早于第二个班次的结束时间。
-1. `t1.end_time > t2.start_time`：确保第一个班次的结束时间晚于第二个班次的开始时间。
+1. `t1.start_time < t2.start_time`: Ensures that the start time of the first shift is earlier than the start time of the second shift.
+2. `t1.end_time > t2.start_time`: Ensures that the end time of the first shift is later than the start time of the second shift.
 
-接下来，我们对数据按照 `employee_id` 进行分组，统计每个员工的重叠班次数量。
+Next, we group the data by `employee_id` and count the number of overlapping shifts for each employee.
 
-最后，我们筛选出重叠班次数量大于 $0$ 的员工，并按照 `employee_id` 进行升序排序。
+Finally, we filter out employees with overlapping shift counts greater than $0$ and sort the results in ascending order by `employee_id`.
 
 <!-- tabs:start -->
 

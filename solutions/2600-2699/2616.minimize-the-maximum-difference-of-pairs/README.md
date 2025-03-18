@@ -1,53 +1,48 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2616.Minimize%20the%20Maximum%20Difference%20of%20Pairs/README.md
+difficulty: Medium
 rating: 2155
-source: 第 340 场周赛 Q3
+source: Weekly Contest 340 Q3
 tags:
-    - 贪心
-    - 数组
-    - 二分查找
+    - Greedy
+    - Array
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [2616. 最小化数对的最大差值](https://leetcode.cn/problems/minimize-the-maximum-difference-of-pairs)
+# [2616. Minimize the Maximum Difference of Pairs](https://leetcode.com/problems/minimize-the-maximum-difference-of-pairs)
 
-[English Version](/solution/2600-2699/2616.Minimize%20the%20Maximum%20Difference%20of%20Pairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>p</code>&nbsp;。请你从&nbsp;<code>nums</code>&nbsp;中找到&nbsp;<code>p</code> 个下标对，每个下标对对应数值取差值，你需要使得这 <code>p</code> 个差值的&nbsp;<strong>最大值</strong>&nbsp;<strong>最小</strong>。同时，你需要确保每个下标在这&nbsp;<code>p</code>&nbsp;个下标对中最多出现一次。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> and an integer <code>p</code>. Find <code>p</code> pairs of indices of <code>nums</code> such that the <strong>maximum</strong> difference amongst all the pairs is <strong>minimized</strong>. Also, ensure no index appears more than once amongst the <code>p</code> pairs.</p>
 
-<p>对于一个下标对&nbsp;<code>i</code>&nbsp;和&nbsp;<code>j</code>&nbsp;，这一对的差值为&nbsp;<code>|nums[i] - nums[j]|</code>&nbsp;，其中&nbsp;<code>|x|</code>&nbsp;表示 <code>x</code>&nbsp;的 <strong>绝对值</strong>&nbsp;。</p>
+<p>Note that for a pair of elements at the index <code>i</code> and <code>j</code>, the difference of this pair is <code>|nums[i] - nums[j]|</code>, where <code>|x|</code> represents the <strong>absolute</strong> <strong>value</strong> of <code>x</code>.</p>
 
-<p>请你返回 <code>p</code>&nbsp;个下标对对应数值 <strong>最大差值</strong>&nbsp;的 <strong>最小值</strong>&nbsp;。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [10,1,2,7,1,3], p = 2
-<b>输出：</b>1
-<b>解释：</b>第一个下标对选择 1 和 4 ，第二个下标对选择 2 和 5 。
-最大差值为 max(|nums[1] - nums[4]|, |nums[2] - nums[5]|) = max(0, 1) = 1 。所以我们返回 1 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [4,2,1,2], p = 1
-<b>输出：</b>0
-<b>解释：</b>选择下标 1 和 3 构成下标对。差值为 |2 - 2| = 0 ，这是最大差值的最小值。
-</pre>
+<p>Return <em>the <strong>minimum</strong> <strong>maximum</strong> difference among all </em><code>p</code> <em>pairs.</em> We define the maximum of an empty set to be zero.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [10,1,2,7,1,3], p = 2
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The first pair is formed from the indices 1 and 4, and the second pair is formed from the indices 2 and 5. 
+The maximum difference is max(|nums[1] - nums[4]|, |nums[2] - nums[5]|) = max(0, 1) = 1. Therefore, we return 1.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [4,2,1,2], p = 1
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> Let the indices 1 and 3 form a pair. The difference of that pair is |2 - 2| = 0, which is the minimum we can attain.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -57,19 +52,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找 + 贪心
+### Solution 1: Binary search + Greedy
 
-我们注意到，最大差值具备单调性，即如果最大差值 $x$ 满足条件，那么 $x-1$ 也一定满足条件。因此我们可以使用二分查找的方法，找到最小的满足条件的最大差值。
+We find that the maximum difference has the monotonicity, that is, if the maximum difference $x$ satisfies the condition, then $x-1$ must also satisfy the condition. Therefore, we can use the binary search method to find the smallest maximum difference that satisfies the condition.
 
-我们可以将数组 `nums` 排序，然后枚举最大差值 $x$，判断是否存在 $p$ 个下标对，每个下标对对应数值取差值的最大值不超过 $x$。如果存在，那么我们就可以将 $x$ 减小，否则我们就将 $x$ 增大。
+We can sort the array `nums`, then enumerate the maximum difference $x$, and determine whether there are $p$ index pairs, where each index pair corresponds to the maximum value of the difference of the corresponding value. If it exists, we can reduce $x$, otherwise we can increase $x$.
 
-判断是否存在 $p$ 个下标对，每个下标对对应数值取差值的最大值不超过 $x$，可以使用贪心的方法。我们从左到右遍历数组 `nums`，对于当前遍历到的下标 $i$，如果 $i+1$ 位置的数与 $i$ 位置的数的差值不超过 $x$，那么我们就可以将 $i$ 和 $i+1$ 位置的数作为一个下标对，更新下标对的数量 $cnt$，然后将 $i$ 的值增加 $2$。否则，我们就将 $i$ 的值增加 $1$。遍历结束，如果 $cnt$ 的值大于等于 $p$，那么就说明存在 $p$ 个下标对，每个下标对对应数值取差值的最大值不超过 $x$，否则就说明不存在。
+Determine whether there are $p$ index pairs, where each index pair corresponds to the maximum value of the difference of the corresponding value, which can be achieved by using the greedy method. We traverse the array `nums` from left to right, and for the current traversed index $i$, if the difference between the number at the $i+1$ position and the number at the $i$ position is no more than $x$, then we can take the number at the $i$ and $i+1$ positions as an index pair, update the number of index pairs $cnt$, and then increase the value of $i$ by $2$. Otherwise, we will increase the value of $i$ by $1$. When the traversal is over, if the value of $cnt$ is greater than or equal to $p$, then it means that there are $p$ index pairs, where each index pair corresponds to the maximum value of the difference of the corresponding value, otherwise it means that it does not exist.
 
-时间复杂度 $O(n \times (\log n + \log m))$，其中 $n$ 是数组 `nums` 的长度，而 $m$ 是数组 `nums` 中的最大值与最小值的差值。空间复杂度 $O(1)$。
+The time complexity is $O(n \times (\log n + \log m))$, where $n$ is the length of the array `nums`, and $m$ is the difference between the maximum value and the minimum value in the array `nums`. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

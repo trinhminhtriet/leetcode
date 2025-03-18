@@ -1,65 +1,60 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0089.Gray%20Code/README.md
+difficulty: Medium
 tags:
-    - 位运算
-    - 数学
-    - 回溯
+    - Bit Manipulation
+    - Math
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [89. 格雷编码](https://leetcode.cn/problems/gray-code)
+# [89. Gray Code](https://leetcode.com/problems/gray-code)
 
-[English Version](/solution/0000-0099/0089.Gray%20Code/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<strong>n 位格雷码序列</strong> 是一个由 <code>2<sup>n</sup></code> 个整数组成的序列，其中：
+<p>An <strong>n-bit gray code sequence</strong> is a sequence of <code>2<sup>n</sup></code> integers where:</p>
 
 <ul>
-	<li>每个整数都在范围 <code>[0, 2<sup>n</sup> - 1]</code> 内（含 <code>0</code> 和 <code>2<sup>n</sup> - 1</code>）</li>
-	<li>第一个整数是 <code>0</code></li>
-	<li>一个整数在序列中出现 <strong>不超过一次</strong></li>
-	<li>每对 <strong>相邻</strong> 整数的二进制表示 <strong>恰好一位不同</strong> ，且</li>
-	<li><strong>第一个</strong> 和 <strong>最后一个</strong> 整数的二进制表示 <strong>恰好一位不同</strong></li>
+	<li>Every integer is in the <strong>inclusive</strong> range <code>[0, 2<sup>n</sup> - 1]</code>,</li>
+	<li>The first integer is <code>0</code>,</li>
+	<li>An integer appears <strong>no more than once</strong> in the sequence,</li>
+	<li>The binary representation of every pair of <strong>adjacent</strong> integers differs by <strong>exactly one bit</strong>, and</li>
+	<li>The binary representation of the <strong>first</strong> and <strong>last</strong> integers differs by <strong>exactly one bit</strong>.</li>
 </ul>
 
-<p>给你一个整数 <code>n</code> ，返回任一有效的 <strong>n 位格雷码序列</strong> 。</p>
+<p>Given an integer <code>n</code>, return <em>any valid <strong>n-bit gray code sequence</strong></em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 2
-<strong>输出：</strong>[0,1,3,2]
-<strong>解释：</strong>
-[0,1,3,2] 的二进制表示是 [00,01,11,10] 。
-- 0<strong><em>0</em></strong> 和 0<em><strong>1</strong></em> 有一位不同
-- <em><strong>0</strong></em>1 和 <em><strong>1</strong></em>1 有一位不同
-- 1<em><strong>1</strong></em> 和 1<em><strong>0</strong></em> 有一位不同
-- <em><strong>1</strong></em>0 和 <em><strong>0</strong></em>0 有一位不同
-[0,2,3,1] 也是一个有效的格雷码序列，其二进制表示是 [00,10,11,01] 。
-- <em><strong>0</strong></em>0 和 <em><strong>1</strong></em>0 有一位不同
-- 1<em><strong>0</strong></em> 和 1<em><strong>1</strong></em> 有一位不同
-- <em><strong>1</strong></em>1 和 <em><strong>0</strong></em>1 有一位不同
-- 0<em><strong>1</strong></em> 和 0<em><strong>0</strong></em> 有一位不同
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> [0,1,3,2]
+<strong>Explanation:</strong>
+The binary representation of [0,1,3,2] is [00,01,11,10].
+- 0<u>0</u> and 0<u>1</u> differ by one bit
+- <u>0</u>1 and <u>1</u>1 differ by one bit
+- 1<u>1</u> and 1<u>0</u> differ by one bit
+- <u>1</u>0 and <u>0</u>0 differ by one bit
+[0,2,3,1] is also a valid gray code sequence, whose binary representation is [00,10,11,01].
+- <u>0</u>0 and <u>1</u>0 differ by one bit
+- 1<u>0</u> and 1<u>1</u> differ by one bit
+- <u>1</u>1 and <u>0</u>1 differ by one bit
+- 0<u>1</u> and 0<u>0</u> differ by one bit
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 1
-<strong>输出：</strong>[0,1]
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> [0,1]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 16</code></li>
@@ -67,19 +62,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二进制码转格雷码
+### Solution 1: Binary to Gray Code Conversion
 
-格雷码是我们在工程中常会遇到的一种编码方式，它的基本的特点就是任意两个相邻的代码只有一位二进制数不同。
+Gray code is a type of encoding method that we often encounter in engineering. Its basic feature is that only one bit of binary number is different between any two adjacent codes.
 
-二进制码转换成二进制格雷码，其法则是保留二进制码的最高位作为格雷码的最高位，而次高位格雷码为二进制码的高位与次高位相异或，而格雷码其余各位与次高位的求法相类似。
+The rule for converting binary code to binary Gray code is to keep the highest bit of the binary code as the highest bit of the Gray code, and the second highest bit of the Gray code is the XOR of the highest bit and the second highest bit of the binary code. The calculation of the remaining bits of the Gray code is similar to the second highest bit.
 
-假设某个二进制数表示为 $B_{n-1}B_{n-2}...B_2B_1B_0$，其格雷码表示为 $G_{n-1}G_{n-2}...G_2G_1G_0$。最高位保留，所以 $G_{n-1} = B_{n-1}$；而其它各位 $G_i = B_{i+1} \oplus B_{i}$，其中 $i=0,1,2..,n-2$。
+Assume that a binary number is represented as $B_{n-1}B_{n-2}...B_2B_1B_0$, and its Gray code is represented as $G_{n-1}G_{n-2}...G_2G_1G_0$. The highest bit is retained, so $G_{n-1} = B_{n-1}$; and the other bits $G_i = B_{i+1} \oplus B_{i}$, where $i=0,1,2..,n-2$.
 
-因此，对于一个整数 $x$，我们可以用函数 $gray(x)$ 得到其格雷码：
+Therefore, for an integer $x$, we can use the function $gray(x)$ to get its Gray code:
 
 ```java
 int gray(x) {
@@ -87,9 +82,9 @@ int gray(x) {
 }
 ```
 
-我们直接将 $[0,..2^n - 1]$ 这些整数映射成对应的格雷码，即可得到答案数组。
+We directly map the integers $[0,..2^n - 1]$ to the corresponding Gray codes to get the answer array.
 
-时间复杂度 $O(2^n)$，其中 $n$ 为题目给定的整数。忽略答案的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(2^n)$, where $n$ is the integer given in the problem. Ignoring the space consumption of the answer, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

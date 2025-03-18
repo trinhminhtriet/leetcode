@@ -1,71 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0930.Binary%20Subarrays%20With%20Sum/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
-    - 前缀和
-    - 滑动窗口
+    - Array
+    - Hash Table
+    - Prefix Sum
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [930. 和相同的二元子数组](https://leetcode.cn/problems/binary-subarrays-with-sum)
+# [930. Binary Subarrays With Sum](https://leetcode.com/problems/binary-subarrays-with-sum)
 
-[English Version](/solution/0900-0999/0930.Binary%20Subarrays%20With%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二元数组 <code>nums</code> ，和一个整数 <code>goal</code> ，请你统计并返回有多少个和为 <code>goal</code> 的<strong> 非空</strong> 子数组。</p>
+<p>Given a binary array <code>nums</code> and an integer <code>goal</code>, return <em>the number of non-empty <strong>subarrays</strong> with a sum</em> <code>goal</code>.</p>
 
-<p><strong>子数组</strong> 是数组的一段连续部分。</p>
+<p>A <strong>subarray</strong> is a contiguous part of the array.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,0,1,0,1], goal = 2
-<strong>输出：</strong>4
-<strong>解释：</strong>
-有 4 个满足题目要求的子数组：[1,0,1]、[1,0,1,0]、[0,1,0,1]、[1,0,1]
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [0,0,0,0,0], goal = 0
-<strong>输出：</strong>15
+<strong>Input:</strong> nums = [1,0,1,0,1], goal = 2
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The 4 subarrays are bolded and underlined below:
+[<u><strong>1,0,1</strong></u>,0,1]
+[<u><strong>1,0,1,0</strong></u>,1]
+[1,<u><strong>0,1,0,1</strong></u>]
+[1,0,<u><strong>1,0,1</strong></u>]
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [0,0,0,0,0], goal = 0
+<strong>Output:</strong> 15
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= nums.length <= 3 * 10<sup>4</sup></code></li>
-	<li><code>nums[i]</code> 不是 <code>0</code> 就是 <code>1</code></li>
-	<li><code>0 <= goal <= nums.length</code></li>
+	<li><code>1 &lt;= nums.length &lt;= 3 * 10<sup>4</sup></code></li>
+	<li><code>nums[i]</code> is either <code>0</code> or <code>1</code>.</li>
+	<li><code>0 &lt;= goal &lt;= nums.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：数组或哈希表 + 前缀和
-
-我们可以用数组或哈希表 $cnt$ 记录每个前缀和出现的次数，其中 $cnt[i]$ 表示前缀和为 $i$ 的子数组个数。初始时 $cnt[0] = 1$。
-
-接下来我们遍历数组 `nums`，用变量 $s$ 维护当前的前缀和，对于每个 $s$，我们可以计算出 $s - goal$ 出现的次数，即为以当前位置结尾的满足条件的子数组个数，累加到答案中。然后我们将 $s$ 的计数值加 $1$。
-
-最终的答案即为满足条件的子数组个数。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `nums` 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -170,7 +160,7 @@ var numSubarraysWithSum = function (nums, goal) {
 
 <!-- solution:start -->
 
-### 方法二：双指针
+### Solution 2
 
 <!-- tabs:start -->
 

@@ -1,93 +1,88 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3149.Find%20the%20Minimum%20Cost%20Array%20Permutation/README.md
+difficulty: Hard
 rating: 2641
-source: 第 397 场周赛 Q4
+source: Weekly Contest 397 Q4
 tags:
-    - 位运算
-    - 数组
-    - 动态规划
-    - 状态压缩
+    - Bit Manipulation
+    - Array
+    - Dynamic Programming
+    - Bitmask
 ---
 
 <!-- problem:start -->
 
-# [3149. 找出分数最低的排列](https://leetcode.cn/problems/find-the-minimum-cost-array-permutation)
+# [3149. Find the Minimum Cost Array Permutation](https://leetcode.com/problems/find-the-minimum-cost-array-permutation)
 
-[English Version](/solution/3100-3199/3149.Find%20the%20Minimum%20Cost%20Array%20Permutation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组 <code>nums</code> ，它是 <code>[0, 1, 2, ..., n - 1]</code> 的一个<span data-keyword="permutation">排列</span> 。对于任意一个 <code>[0, 1, 2, ..., n - 1]</code> 的排列 <code>perm</code> ，其 <strong>分数 </strong>定义为：</p>
+<p>You are given an array <code>nums</code> which is a <span data-keyword="permutation">permutation</span> of <code>[0, 1, 2, ..., n - 1]</code>. The <strong>score</strong> of any permutation of <code>[0, 1, 2, ..., n - 1]</code> named <code>perm</code> is defined as:</p>
 
 <p><code>score(perm) = |perm[0] - nums[perm[1]]| + |perm[1] - nums[perm[2]]| + ... + |perm[n - 1] - nums[perm[0]]|</code></p>
 
-<p>返回具有<strong> 最低</strong> 分数的排列 <code>perm</code> 。如果存在多个满足题意且分数相等的排列，则返回其中<span data-keyword="lexicographically-smaller-array">字典序最小</span>的一个。</p>
+<p>Return the permutation <code>perm</code> which has the <strong>minimum</strong> possible score. If <em>multiple</em> permutations exist with this score, return the one that is <span data-keyword="lexicographically-smaller-array">lexicographically smallest</span> among them.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">nums = [1,0,2]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,0,2]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">[0,1,2]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[0,1,2]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3149.Find%20the%20Minimum%20Cost%20Array%20Permutation/images/example0gif.gif" style="width: 235px; height: 235px;" /></strong></p>
 
-<p>字典序最小且分数最低的排列是 <code>[0,1,2]</code>。这个排列的分数是 <code>|0 - 0| + |1 - 2| + |2 - 1| = 2</code> 。</p>
+<p>The lexicographically smallest permutation with minimum cost is <code>[0,1,2]</code>. The cost of this permutation is <code>|0 - 0| + |1 - 2| + |2 - 1| = 2</code>.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">nums = [0,2,1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [0,2,1]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">[0,2,1]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[0,2,1]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3149.Find%20the%20Minimum%20Cost%20Array%20Permutation/images/example1gif.gif" style="width: 235px; height: 235px;" /></strong></p>
 
-<p>字典序最小且分数最低的排列是 <code>[0,2,1]</code>。这个排列的分数是 <code>|0 - 1| + |2 - 2| + |1 - 0| = 2</code> 。</p>
+<p>The lexicographically smallest permutation with minimum cost is <code>[0,2,1]</code>. The cost of this permutation is <code>|0 - 1| + |2 - 2| + |1 - 0| = 2</code>.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n == nums.length &lt;= 14</code></li>
-	<li><code>nums</code> 是 <code>[0, 1, 2, ..., n - 1]</code> 的一个排列。</li>
+	<li><code>nums</code> is a permutation of <code>[0, 1, 2, ..., n - 1]</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们注意到，对于任意一个排列 $\textit{perm}$，把它循环向左移动任意次，得到的排列分数依然是相同的。由于题目要求返回字典序最小的排列，因此我们可以确定排列的第一个元素一定是 $0$。
+We notice that for any permutation $\textit{perm}$, if we cyclically shift it to the left any number of times, the score of the permutation remains the same. Since the problem requires returning the lexicographically smallest permutation, we can determine that the first element of the permutation must be $0$.
 
-另外，由于题目的数据范围不超过 $14$，我们可以考虑使用状态压缩的方法，来表示当前排列选取的数字集合。我们用一个长度为 $n$ 的二进制数 $\textit{mask}$ 来表示当前排列选取的数字集合，其中 $\textit{mask}$ 的第 $i$ 位为 $1$ 表示数字 $i$ 已经被选取，为 $0$ 表示数字 $i$ 还未被选取。
+Also, since the data range of the problem does not exceed $14$, we can consider using the method of state compression to represent the set of numbers selected in the current permutation. We use a binary number $\textit{mask}$ of length $n$ to represent the set of numbers selected in the current permutation, where the $i$-th bit of $\textit{mask}$ is $1$ indicates that the number $i$ has been selected, and $0$ indicates that the number $i$ has not been selected yet.
 
-我们设计一个函数 $\textit{dfs}(\textit{mask}, \textit{pre})$，表示当前排列选取的数字集合为 $\textit{mask}$，且最后一个选取的数字为 $\textit{pre}$ 时，得到的排列的最小分数。初始时我们将数字 $0$ 加入到排列中。
+We design a function $\textit{dfs}(\textit{mask}, \textit{pre})$, which represents the minimum score of the permutation obtained when the set of numbers selected in the current permutation is $\textit{mask}$ and the last selected number is $\textit{pre}$. Initially, we add the number $0$ to the permutation.
 
-函数 $\textit{dfs}(\textit{mask}, \textit{pre})$ 的计算过程如下：
+The calculation process of the function $\textit{dfs}(\textit{mask}, \textit{pre})$ is as follows:
 
--   如果 $\textit{mask}$ 的二进制表示中 $1$ 的个数为 $n$，即 $\textit{mask} = 2^n - 1$，表示所有数字都已经被选取，此时返回 $|\textit{pre} - \textit{nums}[0]|$；
--   否则，我们枚举下一个选取的数字 $\textit{cur}$，如果数字 $\textit{cur}$ 还未被选取，那么我们可以将数字 $\textit{cur}$ 加入到排列中，此时排列的分数为 $|\textit{pre} - \textit{nums}[\textit{cur}]| + \textit{dfs}(\textit{mask} \, | \, 1 << \textit{cur}, \textit{cur})$，我们需要取所有 $\textit{cur}$ 中分数的最小值。
+-   If the number of $1$s in the binary representation of $\textit{mask}$ is $n$, that is, $\textit{mask} = 2^n - 1$, it means that all numbers have been selected, then return $|\textit{pre} - \textit{nums}[0]|$;
+-   Otherwise, we enumerate the next selected number $\textit{cur}$. If the number $\textit{cur}$ has not been selected yet, then we can add the number $\textit{cur}$ to the permutation. At this time, the score of the permutation is $|\textit{pre} - \textit{nums}[\textit{cur}]| + \textit{dfs}(\textit{mask} \, | \, 1 << \textit{cur}, \textit{cur})$. We need to take the minimum score among all $\textit{cur}$.
 
-最后，我们利用一个函数 $\textit{g}(\textit{mask}, \textit{pre})$ 来构造得到最小分数的排列。我们首先将数字 $\textit{pre}$ 加入到排列中，然后枚举下一个选取的数字 $\textit{cur}$，如果数字 $\textit{cur}$ 还未被选取，且满足 $|\textit{pre} - \textit{nums}[\textit{cur}]| + \textit{dfs}(\textit{mask} \, | \, 1 << \textit{cur}, \textit{cur})$ 的值等于 $\textit{dfs}(\textit{mask}, \textit{pre})$，那么我们就可以将数字 $\textit{cur}$ 加入到排列中。
+Finally, we use a function $\textit{g}(\textit{mask}, \textit{pre})$ to construct the permutation that gets the minimum score. We first add the number $\textit{pre}$ to the permutation, and then enumerate the next selected number $\textit{cur}$. If the number $\textit{cur}$ has not been selected yet, and it satisfies that the value of $|\textit{pre} - \textit{nums}[\textit{cur}]| + \textit{dfs}(\textit{mask} \, | \, 1 << \textit{cur}, \textit{cur})$ is equal to $\textit{dfs}(\textit{mask}, \textit{pre})$, then we can add the number $\textit{cur}$ to the permutation.
 
-时间复杂度 $(n^2 \times 2^n)$，空间复杂度 $O(n \times 2^n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $(n^2 \times 2^n)$, and the space complexity is $O(n \times 2^n)$. Where $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

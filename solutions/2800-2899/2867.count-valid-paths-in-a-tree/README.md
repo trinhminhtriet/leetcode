@@ -1,103 +1,94 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2867.Count%20Valid%20Paths%20in%20a%20Tree/README.md
+difficulty: Hard
 rating: 2428
-source: 第 364 场周赛 Q4
+source: Weekly Contest 364 Q4
 tags:
-    - 树
-    - 深度优先搜索
-    - 数学
-    - 动态规划
-    - 数论
+    - Tree
+    - Depth-First Search
+    - Math
+    - Dynamic Programming
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [2867. 统计树中的合法路径数目](https://leetcode.cn/problems/count-valid-paths-in-a-tree)
+# [2867. Count Valid Paths in a Tree](https://leetcode.com/problems/count-valid-paths-in-a-tree)
 
-[English Version](/solution/2800-2899/2867.Count%20Valid%20Paths%20in%20a%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一棵 <code>n</code>&nbsp;个节点的无向树，节点编号为&nbsp;<code>1</code>&nbsp;到&nbsp;<code>n</code>&nbsp;。给你一个整数&nbsp;<code>n</code>&nbsp;和一个长度为 <code>n - 1</code>&nbsp;的二维整数数组&nbsp;<code>edges</code>&nbsp;，其中&nbsp;<code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code>&nbsp;表示节点&nbsp;<code>u<sub>i</sub></code> 和&nbsp;<code>v<sub>i</sub></code>&nbsp;在树中有一条边。</p>
+<p>There is an undirected tree with <code>n</code> nodes labeled from <code>1</code> to <code>n</code>. You are given the integer <code>n</code> and a 2D integer array <code>edges</code> of length <code>n - 1</code>, where <code>edges[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> indicates that there is an edge between nodes <code>u<sub>i</sub></code> and <code>v<sub>i</sub></code> in the tree.</p>
 
-<p>请你返回树中的 <strong>合法路径数目</strong>&nbsp;。</p>
+<p>Return <em>the <strong>number of valid paths</strong> in the tree</em>.</p>
 
-<p>如果在节点 <code>a</code>&nbsp;到节点 <code>b</code>&nbsp;之间 <strong>恰好有一个</strong>&nbsp;节点的编号是质数，那么我们称路径&nbsp;<code>(a, b)</code>&nbsp;是 <strong>合法的</strong>&nbsp;。</p>
+<p>A path <code>(a, b)</code> is <strong>valid</strong> if there exists <strong>exactly one</strong> prime number among the node labels in the path from <code>a</code> to <code>b</code>.</p>
 
-<p><strong>注意：</strong></p>
+<p><strong>Note</strong> that:</p>
 
 <ul>
-	<li>路径&nbsp;<code>(a, b)</code>&nbsp;指的是一条从节点 <code>a</code>&nbsp;开始到节点 <code>b</code>&nbsp;结束的一个节点序列，序列中的节点 <strong>互不相同</strong>&nbsp;，且相邻节点之间在树上有一条边。</li>
-	<li>路径&nbsp;<code>(a, b)</code>&nbsp;和路径&nbsp;<code>(b, a)</code>&nbsp;视为 <strong>同一条</strong>&nbsp;路径，且只计入答案 <strong>一次</strong>&nbsp;。</li>
+	<li>The path <code>(a, b)</code> is a sequence of <strong>distinct</strong> nodes starting with node <code>a</code> and ending with node <code>b</code> such that every two adjacent nodes in the sequence share an edge in the tree.</li>
+	<li>Path <code>(a, b)</code> and path <code>(b, a)</code> are considered the <strong>same</strong> and counted only <strong>once</strong>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2867.Count%20Valid%20Paths%20in%20a%20Tree/images/example1.png" style="width: 440px; height: 357px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2867.Count%20Valid%20Paths%20in%20a%20Tree/images/example1.png" style="width: 440px; height: 357px;" />
 <pre>
-<b>输入：</b>n = 5, edges = [[1,2],[1,3],[2,4],[2,5]]
-<b>输出：</b>4
-<b>解释：</b>恰好有一个质数编号的节点路径有：
-- (1, 2) 因为路径 1 到 2 只包含一个质数 2 。
-- (1, 3) 因为路径 1 到 3 只包含一个质数 3 。
-- (1, 4) 因为路径 1 到 4 只包含一个质数 2 。
-- (2, 4) 因为路径 2 到 4 只包含一个质数 2 。
-只有 4 条合法路径。
+<strong>Input:</strong> n = 5, edges = [[1,2],[1,3],[2,4],[2,5]]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The pairs with exactly one prime number on the path between them are: 
+- (1, 2) since the path from 1 to 2 contains prime number 2. 
+- (1, 3) since the path from 1 to 3 contains prime number 3.
+- (1, 4) since the path from 1 to 4 contains prime number 2.
+- (2, 4) since the path from 2 to 4 contains prime number 2.
+It can be shown that there are only 4 valid paths.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2867.Count%20Valid%20Paths%20in%20a%20Tree/images/example2.png" style="width: 488px; height: 384px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2800-2899/2867.Count%20Valid%20Paths%20in%20a%20Tree/images/example2.png" style="width: 488px; height: 384px;" />
 <pre>
-<b>输入：</b>n = 6, edges = [[1,2],[1,3],[2,4],[3,5],[3,6]]
-<b>输出：</b>6
-<b>解释：</b>恰好有一个质数编号的节点路径有：
-- (1, 2) 因为路径 1 到 2 只包含一个质数 2 。
-- (1, 3) 因为路径 1 到 3 只包含一个质数 3 。
-- (1, 4) 因为路径 1 到 4 只包含一个质数 2 。
-- (1, 6) 因为路径 1 到 6 只包含一个质数 3 。
-- (2, 4) 因为路径 2 到 4 只包含一个质数 2 。
-- (3, 6) 因为路径 3 到 6 只包含一个质数 3 。
-只有 6 条合法路径。
+<strong>Input:</strong> n = 6, edges = [[1,2],[1,3],[2,4],[3,5],[3,6]]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> The pairs with exactly one prime number on the path between them are: 
+- (1, 2) since the path from 1 to 2 contains prime number 2.
+- (1, 3) since the path from 1 to 3 contains prime number 3.
+- (1, 4) since the path from 1 to 4 contains prime number 2.
+- (1, 6) since the path from 1 to 6 contains prime number 3.
+- (2, 4) since the path from 2 to 4 contains prime number 2.
+- (3, 6) since the path from 3 to 6 contains prime number 3.
+It can be shown that there are only 6 valid paths.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>edges.length == n - 1</code></li>
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>1 &lt;= u<sub>i</sub>, v<sub>i</sub> &lt;= n</code></li>
-	<li>输入保证&nbsp;<code>edges</code>&nbsp;形成一棵合法的树。</li>
+	<li>The input is generated such that <code>edges</code> represent a valid tree.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：预处理 + 并查集 + 枚举
+### Solution 1: Preprocessing + Union-Find + Enumeration
 
-我们可以预处理得到 $[1, n]$ 中的所有质数，其中 $prime[i]$ 表示 $i$ 是否为质数。
+We can preprocess to get all the prime numbers in $[1, n]$, where $prime[i]$ indicates whether $i$ is a prime number.
 
-接下来，我们根据二维整数整数构建图 $g$，其中 $g[i]$ 表示节点 $i$ 的所有邻居节点。如果一条边的两个节点都不是质数，那么我们就将这两个节点合并到同一个连通分量中。
+Next, we build a graph $g$ based on the two-dimensional integer array, where $g[i]$ represents all the neighbor nodes of node $i$. If both nodes of an edge are not prime numbers, we merge these two nodes into the same connected component.
 
-然后，我们在 $[1, n]$ 的范围内枚举所有质数 $i$，考虑包含 $i$ 的所有路径。
+Then, we enumerate all prime numbers $i$ in the range of $[1, n]$, considering all paths that include $i$.
 
-由于 $i$ 已经是质数，如果 $i$ 是路径的一个端点，那么我们只需要累计与节点 $i$ 相邻的所有连通分量的大小即可。如果 $i$ 是路径上的某个中间点，那么我们需要累计相邻的任意两个连通分量的大小之积。
+Since $i$ is already a prime number, if $i$ is an endpoint of the path, we only need to accumulate the sizes of all connected components adjacent to node $i$. If $i$ is a middle point on the path, we need to accumulate the product of the sizes of any two adjacent connected components.
 
-时间复杂度 $O(n \times \alpha(n))$，空间复杂度 $O(n)$。其中 $n$ 为节点数，而 $\alpha$ 为阿克曼函数的反函数。
+The time complexity is $O(n \times \alpha(n))$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes, and $\alpha$ is the inverse function of the Ackermann function.
 
 <!-- tabs:start -->
 
@@ -518,7 +509,7 @@ function countPaths(n: number, edges: number[][]): number {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

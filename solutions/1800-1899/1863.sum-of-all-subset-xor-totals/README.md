@@ -1,80 +1,78 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1863.Sum%20of%20All%20Subset%20XOR%20Totals/README.md
+difficulty: Easy
 rating: 1372
-source: 第 241 场周赛 Q1
+source: Weekly Contest 241 Q1
 tags:
-    - 位运算
-    - 数组
-    - 数学
-    - 回溯
-    - 组合数学
-    - 枚举
+    - Bit Manipulation
+    - Array
+    - Math
+    - Backtracking
+    - Combinatorics
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [1863. 找出所有子集的异或总和再求和](https://leetcode.cn/problems/sum-of-all-subset-xor-totals)
+# [1863. Sum of All Subset XOR Totals](https://leetcode.com/problems/sum-of-all-subset-xor-totals)
 
-[English Version](/solution/1800-1899/1863.Sum%20of%20All%20Subset%20XOR%20Totals/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一个数组的<strong> 异或总和</strong> 定义为数组中所有元素按位 <code>XOR</code> 的结果；如果数组为 <strong>空</strong> ，则异或总和为 <code>0</code> 。</p>
+<p>The <strong>XOR total</strong> of an array is defined as the bitwise <code>XOR</code> of<strong> all its elements</strong>, or <code>0</code> if the array is<strong> empty</strong>.</p>
 
 <ul>
-	<li>例如，数组 <code>[2,5,6]</code> 的 <strong>异或总和</strong> 为 <code>2 XOR 5 XOR 6 = 1</code> 。</li>
+	<li>For example, the <strong>XOR total</strong> of the array <code>[2,5,6]</code> is <code>2 XOR 5 XOR 6 = 1</code>.</li>
 </ul>
 
-<p>给你一个数组 <code>nums</code> ，请你求出 <code>nums</code> 中每个 <strong>子集</strong> 的 <strong>异或总和</strong> ，计算并返回这些值相加之 <strong>和</strong> 。</p>
+<p>Given an array <code>nums</code>, return <em>the <strong>sum</strong> of all <strong>XOR totals</strong> for every <strong>subset</strong> of </em><code>nums</code>.&nbsp;</p>
 
-<p><strong>注意：</strong>在本题中，元素 <strong>相同</strong> 的不同子集应 <strong>多次</strong> 计数。</p>
+<p><strong>Note:</strong> Subsets with the <strong>same</strong> elements should be counted <strong>multiple</strong> times.</p>
 
-<p>数组 <code>a</code> 是数组 <code>b</code> 的一个 <strong>子集</strong> 的前提条件是：从 <code>b</code> 删除几个（也可能不删除）元素能够得到 <code>a</code> 。</p>
+<p>An array <code>a</code> is a <strong>subset</strong> of an array <code>b</code> if <code>a</code> can be obtained from <code>b</code> by deleting some (possibly zero) elements of <code>b</code>.</p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>nums = [1,3]
-<strong>输出：</strong>6
-<strong>解释：</strong>[1,3] 共有 4 个子集：
-- 空子集的异或总和是 0 。
-- [1] 的异或总和为 1 。
-- [3] 的异或总和为 3 。
-- [1,3] 的异或总和为 1 XOR 3 = 2 。
+<pre>
+<strong>Input:</strong> nums = [1,3]
+<strong>Output:</strong> 6
+<strong>Explanation: </strong>The 4 subsets of [1,3] are:
+- The empty subset has an XOR total of 0.
+- [1] has an XOR total of 1.
+- [3] has an XOR total of 3.
+- [1,3] has an XOR total of 1 XOR 3 = 2.
 0 + 1 + 3 + 2 = 6
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>nums = [5,1,6]
-<strong>输出：</strong>28
-<strong>解释：</strong>[5,1,6] 共有 8 个子集：
-- 空子集的异或总和是 0 。
-- [5] 的异或总和为 5 。
-- [1] 的异或总和为 1 。
-- [6] 的异或总和为 6 。
-- [5,1] 的异或总和为 5 XOR 1 = 4 。
-- [5,6] 的异或总和为 5 XOR 6 = 3 。
-- [1,6] 的异或总和为 1 XOR 6 = 7 。
-- [5,1,6] 的异或总和为 5 XOR 1 XOR 6 = 2 。
+<pre>
+<strong>Input:</strong> nums = [5,1,6]
+<strong>Output:</strong> 28
+<strong>Explanation: </strong>The 8 subsets of [5,1,6] are:
+- The empty subset has an XOR total of 0.
+- [5] has an XOR total of 5.
+- [1] has an XOR total of 1.
+- [6] has an XOR total of 6.
+- [5,1] has an XOR total of 5 XOR 1 = 4.
+- [5,6] has an XOR total of 5 XOR 6 = 3.
+- [1,6] has an XOR total of 1 XOR 6 = 7.
+- [5,1,6] has an XOR total of 5 XOR 1 XOR 6 = 2.
 0 + 5 + 1 + 6 + 4 + 3 + 7 + 2 = 28
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>nums = [3,4,5,6,7,8]
-<strong>输出：</strong>480
-<strong>解释：</strong>每个子集的全部异或总和值之和为 480 。
+<pre>
+<strong>Input:</strong> nums = [3,4,5,6,7,8]
+<strong>Output:</strong> 480
+<strong>Explanation:</strong> The sum of all XOR totals for every subset is 480.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 12</code></li>
@@ -83,17 +81,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二进制枚举
+### Solution 1: Binary Enumeration
 
-我们可以用二进制枚举的方法，枚举出所有的子集，然后计算每个子集的异或总和。
+We can use binary enumeration to enumerate all subsets, and then calculate the XOR sum of each subset.
 
-具体地，我们在 $[0, 2^n)$ 的范围内枚举 $i$，其中 $n$ 是数组 $nums$ 的长度。如果 $i$ 的二进制表示的第 $j$ 位为 $1$，那么代表着 $nums$ 的第 $j$ 个元素在当前枚举的子集中；如果第 $j$ 位为 $0$，那么代表着 $nums$ 的第 $j$ 个元素不在当前枚举的子集中。我们可以根据 $i$ 的二进制表示，得到当前子集对应的异或总和，将其加到答案中即可。
+Specifically, we enumerate $i$ in the range $[0, 2^n)$, where $n$ is the length of the array $nums$. If the $j$th bit of the binary representation of $i$ is $1$, it means that the $j$th element of $nums$ is in the current subset; if the $j$th bit is $0$, it means that the $j$th element of $nums$ is not in the current subset. We can get the XOR sum of the current subset according to the binary representation of $i$, and add it to the answer.
 
-时间复杂度 $O(n \times 2^n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n \times 2^n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -221,18 +219,18 @@ var subsetXORSum = function (nums) {
 
 <!-- solution:start -->
 
-### 方法二：DFS
+### Solution 2: DFS (Depth-First Search)
 
-我们也可以使用深度优先搜索的方法，枚举出所有的子集，然后计算每个子集的异或总和。
+We can also use depth-first search to enumerate all subsets, and then calculate the XOR sum of each subset.
 
-我们设计一个函数 $dfs(i, s)$，其中 $i$ 表示当前搜索到数组 $nums$ 的第 $i$ 个元素，$s$ 表示当前子集的异或总和。初始时，$i=0$, $s=0$。在搜索的过程中，每次我们都有两种选择：
+We design a function $dfs(i, s)$, where $i$ represents the current search to the $i$th element of the array $nums$, and $s$ represents the XOR sum of the current subset. Initially, $i=0$, $s=0$. During the search, we have two choices each time:
 
--   将 $nums$ 的第 $i$ 个元素加入当前子集，即 $dfs(i+1, s \oplus nums[i])$；
--   将 $nums$ 的第 $i$ 个元素不加入当前子集，即 $dfs(i+1, s)$。
+-   Add the $i$th element of $nums$ to the current subset, i.e., $dfs(i+1, s \oplus nums[i])$;
+-   Do not add the $i$th element of $nums$ to the current subset, i.e., $dfs(i+1, s)$.
 
-当我们搜索完数组 $nums$ 的所有元素时，即 $i=n$ 时，当前子集的异或总和为 $s$，将其加到答案中即可。
+When we have searched all elements of the array $nums$, i.e., $i=n$, the XOR sum of the current subset is $s$, and we can add it to the answer.
 
-时间复杂度 $O(2^n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(2^n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

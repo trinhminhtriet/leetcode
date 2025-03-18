@@ -1,58 +1,55 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2466.Count%20Ways%20To%20Build%20Good%20Strings/README.md
+difficulty: Medium
 rating: 1694
-source: 第 91 场双周赛 Q2
+source: Biweekly Contest 91 Q2
 tags:
-    - 动态规划
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2466. 统计构造好字符串的方案数](https://leetcode.cn/problems/count-ways-to-build-good-strings)
+# [2466. Count Ways To Build Good Strings](https://leetcode.com/problems/count-ways-to-build-good-strings)
 
-[English Version](/solution/2400-2499/2466.Count%20Ways%20To%20Build%20Good%20Strings/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你整数&nbsp;<code>zero</code>&nbsp;，<code>one</code>&nbsp;，<code>low</code>&nbsp;和&nbsp;<code>high</code>&nbsp;，我们从空字符串开始构造一个字符串，每一步执行下面操作中的一种：</p>
+<p>Given the integers <code>zero</code>, <code>one</code>, <code>low</code>, and <code>high</code>, we can construct a string by starting with an empty string, and then at each step perform either of the following:</p>
 
 <ul>
-	<li>将&nbsp;<code>'0'</code>&nbsp;在字符串末尾添加&nbsp;<code>zero</code>&nbsp; 次。</li>
-	<li>将&nbsp;<code>'1'</code>&nbsp;在字符串末尾添加&nbsp;<code>one</code>&nbsp;次。</li>
+	<li>Append the character <code>&#39;0&#39;</code> <code>zero</code> times.</li>
+	<li>Append the character <code>&#39;1&#39;</code> <code>one</code> times.</li>
 </ul>
 
-<p>以上操作可以执行任意次。</p>
+<p>This can be performed any number of times.</p>
 
-<p>如果通过以上过程得到一个 <strong>长度</strong>&nbsp;在&nbsp;<code>low</code> 和&nbsp;<code>high</code>&nbsp;之间（包含上下边界）的字符串，那么这个字符串我们称为&nbsp;<strong>好</strong>&nbsp;字符串。</p>
+<p>A <strong>good</strong> string is a string constructed by the above process having a <strong>length</strong> between <code>low</code> and <code>high</code> (<strong>inclusive</strong>).</p>
 
-<p>请你返回满足以上要求的 <strong>不同</strong>&nbsp;好字符串数目。由于答案可能很大，请将结果对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;<strong>取余</strong>&nbsp;后返回。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>low = 3, high = 3, zero = 1, one = 1
-<b>输出：</b>8
-<b>解释：</b>
-一个可能的好字符串是 "011" 。
-可以这样构造得到："" -&gt; "0" -&gt; "01" -&gt; "011" 。
-从 "000" 到 "111" 之间所有的二进制字符串都是好字符串。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>low = 2, high = 3, zero = 1, one = 2
-<b>输出：</b>5
-<b>解释：</b>好字符串为 "00" ，"11" ，"000" ，"110" 和 "011" 。
-</pre>
+<p>Return <em>the number of <strong>different</strong> good strings that can be constructed satisfying these properties.</em> Since the answer can be large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> low = 3, high = 3, zero = 1, one = 1
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> 
+One possible valid good string is &quot;011&quot;. 
+It can be constructed as follows: &quot;&quot; -&gt; &quot;0&quot; -&gt; &quot;01&quot; -&gt; &quot;011&quot;. 
+All binary strings from &quot;000&quot; to &quot;111&quot; are good strings in this example.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> low = 2, high = 3, zero = 1, one = 2
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The good strings are &quot;00&quot;, &quot;11&quot;, &quot;000&quot;, &quot;110&quot;, and &quot;011&quot;.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= low&nbsp;&lt;= high&nbsp;&lt;= 10<sup>5</sup></code></li>
@@ -61,22 +58,22 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们设计一个函数 $dfs(i)$ 表示从第 $i$ 位开始构造的好字符串的个数，答案即为 $dfs(0)$。
+We design a function $dfs(i)$ to represent the number of good strings constructed starting from the $i$-th position. The answer is $dfs(0)$.
 
-函数 $dfs(i)$ 的计算过程如下：
+The computation process of the function $dfs(i)$ is as follows:
 
--   如果 $i \gt high$，返回 $0$；
--   如果 $ low \leq i \leq high$，答案累加 $1$，然后 $i$ 之后既可以添加 `zero` 个 $0$，也可以添加 `one` 个 $1$，因此答案累加上 $dfs(i + zero) + dfs(i + one)$。
+-   If $i > high$, return $0$;
+-   If $low \leq i \leq high$, increment the answer by $1$, then after $i$, we can add either `zero` number of $0$s or `one` number of $1$s. Therefore, the answer is incremented by $dfs(i + zero) + dfs(i + one)$.
 
-过程中，我们需要对答案取模，并且可以使用记忆化搜索减少重复计算。
+During the process, we need to take the modulus of the answer, and we can use memoization search to reduce redundant computations.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n = high$。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n = high$.
 
 <!-- tabs:start -->
 
@@ -198,7 +195,7 @@ func countGoodStrings(low int, high int, zero int, one int) int {
 
 <!-- solution:start -->
 
-### 方法二：动态规划
+### Solution 2: Dynamic programming
 
 <!-- tabs:start -->
 

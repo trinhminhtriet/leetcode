@@ -1,73 +1,68 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3276.Select%20Cells%20in%20Grid%20With%20Maximum%20Score/README.md
+difficulty: Hard
 rating: 2402
-source: 第 413 场周赛 Q3
+source: Weekly Contest 413 Q3
 tags:
-    - 位运算
-    - 数组
-    - 动态规划
-    - 状态压缩
-    - 矩阵
+    - Bit Manipulation
+    - Array
+    - Dynamic Programming
+    - Bitmask
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [3276. 选择矩阵中单元格的最大得分](https://leetcode.cn/problems/select-cells-in-grid-with-maximum-score)
+# [3276. Select Cells in Grid With Maximum Score](https://leetcode.com/problems/select-cells-in-grid-with-maximum-score)
 
-[English Version](/solution/3200-3299/3276.Select%20Cells%20in%20Grid%20With%20Maximum%20Score/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个由正整数构成的二维矩阵 <code>grid</code>。</p>
+<p>You are given a 2D matrix <code>grid</code> consisting of positive integers.</p>
 
-<p>你需要从矩阵中选择<strong> 一个或多个 </strong>单元格，选中的单元格应满足以下条件：</p>
+<p>You have to select <em>one or more</em> cells from the matrix such that the following conditions are satisfied:</p>
 
 <ul>
-	<li>所选单元格中的任意两个单元格都不会处于矩阵的 <strong>同一行</strong>。</li>
-	<li>所选单元格的值 <strong>互不相同</strong>。</li>
+	<li>No two selected cells are in the <strong>same</strong> row of the matrix.</li>
+	<li>The values in the set of selected cells are <strong>unique</strong>.</li>
 </ul>
 
-<p>你的得分为所选单元格值的<strong>总和</strong>。</p>
+<p>Your score will be the <strong>sum</strong> of the values of the selected cells.</p>
 
-<p>返回你能获得的<strong> 最大 </strong>得分。</p>
+<p>Return the <strong>maximum</strong> score you can achieve.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">grid = [[1,2,3],[4,3,2],[1,1,1]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">grid = [[1,2,3],[4,3,2],[1,1,1]]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">8</span></p>
+<p><strong>Output:</strong> <span class="example-io">8</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3276.Select%20Cells%20in%20Grid%20With%20Maximum%20Score/images/grid1drawio.png" /></p>
 
-<p>选择上图中用彩色标记的单元格，对应的值分别为 1、3 和 4 。</p>
+<p>We can select the cells with values 1, 3, and 4 that are colored above.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">grid = [[8,7,6],[8,3,2]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">grid = [[8,7,6],[8,3,2]]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">15</span></p>
+<p><strong>Output:</strong> <span class="example-io">15</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3276.Select%20Cells%20in%20Grid%20With%20Maximum%20Score/images/grid8_8drawio.png" style="width: 170px; height: 114px;" /></p>
 
-<p>选择上图中用彩色标记的单元格，对应的值分别为 7 和 8 。</p>
+<p>We can select the cells with values 7 and 8 that are colored above.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= grid.length, grid[i].length &lt;= 10</code></li>
@@ -76,21 +71,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：状态压缩动态规划
+### Solution 1: State Compression Dynamic Programming
 
-我们定义 $f[i][j]$ 表示在 $[1,..i]$ 的数中进行选择，且选择的数对应的行的状态为 $j$ 时的最大得分。初始时 $f[i][j] = 0$，答案为 $f[\textit{mx}][2^m - 1]$。其中 $\textit{mx}$ 表示矩阵中的最大值，而 $m$ 表示矩阵的行数。
+We define $f[i][j]$ to represent the maximum score when selecting numbers from $[1,..i]$ and the state of the rows corresponding to the selected numbers is $j$. Initially, $f[i][j] = 0$, and the answer is $f[\textit{mx}][2^m - 1]$, where $\textit{mx}$ represents the maximum value in the matrix, and $m$ represents the number of rows in the matrix.
 
-我们首先对矩阵进行预处理，使用一个哈希表 $g$ 记录每个数对应的行的集合。然后我们可以使用状态压缩动态规划的方法求解答案。
+First, we preprocess the matrix using a hash table $g$ to record the set of rows corresponding to each number. Then, we can use state compression dynamic programming to solve the problem.
 
-对于状态 $f[i][j]$，我们可以不选择 $i$ 这个数，此时 $f[i][j] = f[i-1][j]$；也可以选择 $i$ 这个数，此时我们需要枚举 $i$ 对应的行的集合 $g[i]$ 中的每一个行 $k$，如果 $j$ 的第 $k$ 位为 $1$，则说明我们可以选择 $i$ 这个数，此时 $f[i][j] = \max(f[i][j], f[i-1][j \oplus 2^k] + i)$。
+For the state $f[i][j]$, we can choose not to select the number $i$, in which case $f[i][j] = f[i-1][j]$. Alternatively, we can choose the number $i$. In this case, we need to enumerate each row $k$ in the set $g[i]$ corresponding to the number $i$. If the $k$-th bit of $j$ is $1$, it means we can select the number $i$. Thus, $f[i][j] = \max(f[i][j], f[i-1][j \oplus 2^k] + i)$.
 
-最后我们返回 $f[\textit{mx}][2^m - 1]$ 即可。
+Finally, we return $f[\textit{mx}][2^m - 1]$.
 
-时间复杂度 $O(m \times 2^m \times \textit{mx})$，空间复杂度 $O(\textit{mx} \times 2^m)$。其中 $m$ 为矩阵的行数，而 $\textit{mx}$ 为矩阵中的最大值。
+The time complexity is $O(m \times 2^m \times \textit{mx})$, and the space complexity is $O(\textit{mx} \times 2^m)$. Here, $m$ is the number of rows in the matrix, and $\textit{mx}$ is the maximum value in the matrix.
 
 <!-- tabs:start -->
 

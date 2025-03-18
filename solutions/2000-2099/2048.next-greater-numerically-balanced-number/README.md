@@ -1,69 +1,65 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2048.Next%20Greater%20Numerically%20Balanced%20Number/README.md
+difficulty: Medium
 rating: 1734
-source: 第 264 场周赛 Q2
+source: Weekly Contest 264 Q2
 tags:
-    - 数学
-    - 回溯
-    - 枚举
+    - Math
+    - Backtracking
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [2048. 下一个更大的数值平衡数](https://leetcode.cn/problems/next-greater-numerically-balanced-number)
+# [2048. Next Greater Numerically Balanced Number](https://leetcode.com/problems/next-greater-numerically-balanced-number)
 
-[English Version](/solution/2000-2099/2048.Next%20Greater%20Numerically%20Balanced%20Number/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>如果整数&nbsp; <code>x</code> 满足：对于每个数位&nbsp;<code>d</code> ，这个数位&nbsp;<strong>恰好</strong> 在 <code>x</code> 中出现 <code>d</code> 次。那么整数 <code>x</code> 就是一个 <strong>数值平衡数</strong> 。</p>
+<p>An integer <code>x</code> is <strong>numerically balanced</strong> if for every digit <code>d</code> in the number <code>x</code>, there are <strong>exactly</strong> <code>d</code> occurrences of that digit in <code>x</code>.</p>
 
-<p>给你一个整数 <code>n</code> ，请你返回 <strong>严格大于</strong> <code>n</code> 的 <strong>最小数值平衡数</strong> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 1
-<strong>输出：</strong>22
-<strong>解释：</strong>
-22 是一个数值平衡数，因为：
-- 数字 2 出现 2 次 
-这也是严格大于 1 的最小数值平衡数。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 1000
-<strong>输出：</strong>1333
-<strong>解释：</strong>
-1333 是一个数值平衡数，因为：
-- 数字 1 出现 1 次。
-- 数字 3 出现 3 次。 
-这也是严格大于 1000 的最小数值平衡数。
-注意，1022 不能作为本输入的答案，因为数字 0 的出现次数超过了 0 。</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 3000
-<strong>输出：</strong>3133
-<strong>解释：</strong>
-3133 是一个数值平衡数，因为：
-- 数字 1 出现 1 次。
-- 数字 3 出现 3 次。 
-这也是严格大于 3000 的最小数值平衡数。
-</pre>
+<p>Given an integer <code>n</code>, return <em>the <strong>smallest numerically balanced</strong> number <strong>strictly greater</strong> than </em><code>n</code><em>.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 1
+<strong>Output:</strong> 22
+<strong>Explanation:</strong> 
+22 is numerically balanced since:
+- The digit 2 occurs 2 times. 
+It is also the smallest numerically balanced number strictly greater than 1.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 1000
+<strong>Output:</strong> 1333
+<strong>Explanation:</strong> 
+1333 is numerically balanced since:
+- The digit 1 occurs 1 time.
+- The digit 3 occurs 3 times. 
+It is also the smallest numerically balanced number strictly greater than 1000.
+Note that 1022 cannot be the answer because 0 appeared more than 0 times.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 3000
+<strong>Output:</strong> 3133
+<strong>Explanation:</strong> 
+3133 is numerically balanced since:
+- The digit 1 occurs 1 time.
+- The digit 3 occurs 3 times.
+It is also the smallest numerically balanced number strictly greater than 3000.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= n &lt;= 10<sup>6</sup></code></li>
@@ -71,15 +67,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们注意到，题目中 $n$ 的范围是 $[0, 10^6]$，而大于 $10^6$ 的其中一个数值平衡数是 $1224444$，因此我们直接枚举 $x \in [n + 1, ..]$，然后判断 $x$ 是否是数值平衡数即可。枚举的 $x$ 一定不会超过 $1224444$。
+We note that the range of $n$ in the problem is $[0, 10^6]$, and one of the balanced numbers greater than $10^6$ is $1224444$. Therefore, we directly enumerate $x \in [n + 1, ..]$ and then judge whether $x$ is a balanced number. The enumerated $x$ will definitely not exceed $1224444$.
 
-时间复杂度 $O(M - n)$，其中 $M = 1224444$。空间复杂度 $O(1)$。
+The time complexity is $O(M - n)$, where $M = 1224444$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

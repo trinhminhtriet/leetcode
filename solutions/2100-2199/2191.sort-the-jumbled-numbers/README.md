@@ -1,86 +1,81 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2191.Sort%20the%20Jumbled%20Numbers/README.md
+difficulty: Medium
 rating: 1496
-source: 第 73 场双周赛 Q2
+source: Biweekly Contest 73 Q2
 tags:
-    - 数组
-    - 排序
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2191. 将杂乱无章的数字排序](https://leetcode.cn/problems/sort-the-jumbled-numbers)
+# [2191. Sort the Jumbled Numbers](https://leetcode.com/problems/sort-the-jumbled-numbers)
 
-[English Version](/solution/2100-2199/2191.Sort%20the%20Jumbled%20Numbers/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>mapping</code>&nbsp;，它表示一个十进制数的映射规则，<code>mapping[i] = j</code>&nbsp;表示这个规则下将数位&nbsp;<code>i</code>&nbsp;映射为数位 <code>j</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>mapping</code> which represents the mapping rule of a shuffled decimal system. <code>mapping[i] = j</code> means digit <code>i</code> should be mapped to digit <code>j</code> in this system.</p>
 
-<p>一个整数 <strong>映射后的值</strong>&nbsp;为将原数字每一个数位 <code>i</code>&nbsp;（<code>0 &lt;= i &lt;= 9</code>）映射为&nbsp;<code>mapping[i]</code>&nbsp;。</p>
+<p>The <strong>mapped value</strong> of an integer is the new integer obtained by replacing each occurrence of digit <code>i</code> in the integer with <code>mapping[i]</code> for all <code>0 &lt;= i &lt;= 9</code>.</p>
 
-<p>另外给你一个整数数组&nbsp;<code>nums</code>&nbsp;，请你将数组<em>&nbsp;</em><code>nums</code>&nbsp;中每个数按照它们映射后对应数字非递减顺序排序后返回。</p>
+<p>You are also given another integer array <code>nums</code>. Return <em>the array </em><code>nums</code><em> sorted in <strong>non-decreasing</strong> order based on the <strong>mapped values</strong> of its elements.</em></p>
 
-<p><strong>注意：</strong></p>
+<p><strong>Notes:</strong></p>
 
 <ul>
-	<li>如果两个数字映射后对应的数字大小相同，则将它们按照输入中的 <strong>相对顺序</strong>&nbsp;排序。</li>
-	<li><code>nums</code>&nbsp;中的元素只有在排序的时候需要按照映射后的值进行比较，返回的值应该是输入的元素本身。</li>
+	<li>Elements with the same mapped values should appear in the <strong>same relative order</strong> as in the input.</li>
+	<li>The elements of <code>nums</code> should only be sorted based on their mapped values and <strong>not be replaced</strong> by them.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>mapping = [8,9,4,0,2,1,3,5,7,6], nums = [991,338,38]
-<b>输出：</b>[338,38,991]
-<b>解释：</b>
-将数字 991 按照如下规则映射：
-1. mapping[9] = 6 ，所有数位 9 都会变成 6 。
-2. mapping[1] = 9 ，所有数位 1 都会变成 9 。
-所以，991 映射的值为 669 。
-338 映射为 007 ，去掉前导 0 后得到 7 。
-38 映射为 07 ，去掉前导 0 后得到 7 。
-由于 338 和 38 映射后的值相同，所以它们的前后顺序保留原数组中的相对位置关系，338 在 38 的前面。
-所以，排序后的数组为 [338,38,991] 。
+<strong>Input:</strong> mapping = [8,9,4,0,2,1,3,5,7,6], nums = [991,338,38]
+<strong>Output:</strong> [338,38,991]
+<strong>Explanation:</strong> 
+Map the number 991 as follows:
+1. mapping[9] = 6, so all occurrences of the digit 9 will become 6.
+2. mapping[1] = 9, so all occurrences of the digit 1 will become 9.
+Therefore, the mapped value of 991 is 669.
+338 maps to 007, or 7 after removing the leading zeros.
+38 maps to 07, which is also 7 after removing leading zeros.
+Since 338 and 38 share the same mapped value, they should remain in the same relative order, so 338 comes before 38.
+Thus, the sorted array is [338,38,991].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>mapping = [0,1,2,3,4,5,6,7,8,9], nums = [789,456,123]
-<b>输出：</b>[123,456,789]
-<b>解释：</b>789 映射为 789 ，456 映射为 456 ，123 映射为 123 。所以排序后数组为 [123,456,789] 。
+<strong>Input:</strong> mapping = [0,1,2,3,4,5,6,7,8,9], nums = [789,456,123]
+<strong>Output:</strong> [123,456,789]
+<strong>Explanation:</strong> 789 maps to 789, 456 maps to 456, and 123 maps to 123. Thus, the sorted array is [123,456,789].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>mapping.length == 10</code></li>
 	<li><code>0 &lt;= mapping[i] &lt;= 9</code></li>
-	<li><code>mapping[i]</code>&nbsp;的值 <strong>互不相同</strong>&nbsp;。</li>
+	<li>All the values of <code>mapping[i]</code> are <strong>unique</strong>.</li>
 	<li><code>1 &lt;= nums.length &lt;= 3 * 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= nums[i] &lt; 10<sup>9</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：自定义排序
+### Solution 1: Custom Sorting
 
-我们遍历数组 $nums$ 中的每个元素 $nums[i]$，将其映射后的值 $y$ 与下标 $i$ 一起存入数组 $arr$ 中，然后对数组 $arr$ 进行排序，最后将排序后的数组 $arr$ 中的下标 $i$ 取出，转换为原数组 $nums$ 中的元素 $nums[i]$ 即可。
+We traverse each element $nums[i]$ in the array $nums$, store its mapped value $y$ and index $i$ into the array $arr$, then sort the array $arr$. Finally, we extract the index $i$ from the sorted array $arr$, convert it to the element $nums[i]$ in the original array $nums$.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

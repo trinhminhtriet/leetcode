@@ -1,65 +1,60 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3205.Maximum%20Array%20Hopping%20Score%20I/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 贪心
-    - 数组
-    - 动态规划
-    - 单调栈
+    - Stack
+    - Greedy
+    - Array
+    - Dynamic Programming
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [3205. 最大数组跳跃得分 I 🔒](https://leetcode.cn/problems/maximum-array-hopping-score-i)
+# [3205. Maximum Array Hopping Score I 🔒](https://leetcode.com/problems/maximum-array-hopping-score-i)
 
-[English Version](/solution/3200-3299/3205.Maximum%20Array%20Hopping%20Score%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个数组&nbsp;<code>nums</code>，你必须从索引 0 开始跳跃，直到到达数组的最后一个元素，使得获取 <strong>最大</strong> 分数。</p>
+<p>Given an array <code>nums</code>, you have to get the <strong>maximum</strong> score starting from index 0 and <strong>hopping</strong> until you reach the last element of the array.</p>
 
-<p>每一次 <strong>跳跃</strong> 中，你可以从下标&nbsp;<code>i</code>&nbsp;跳到一个&nbsp;<code>j &gt; i</code>&nbsp;的下标，并且可以得到&nbsp;<code>(j - i) * nums[j]</code>&nbsp;的分数。</p>
+<p>In each <strong>hop</strong>, you can jump from index <code>i</code> to an index <code>j &gt; i</code>, and you get a <strong>score</strong> of <code>(j - i) * nums[j]</code>.</p>
 
-<p>返回你能够取得的最大分数。</p>
+<p>Return the <em>maximum score</em> you can get.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b></span><span class="example-io">nums = [1,5,8]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,5,8]</span></p>
 
-<p><span class="example-io"><b>输出：</b>16</span></p>
+<p><strong>Output:</strong> <span class="example-io">16</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>有两种可能的方法可以到达最后一个元素：</p>
+<p>There are two possible ways to reach the last element:</p>
 
 <ul>
-	<li><code>0 -&gt; 1 -&gt; 2</code> 得分为&nbsp;<code>(1 - 0) * 5 + (2 - 1) * 8 = 13</code>。</li>
-	<li><code>0 -&gt; 2</code> 得分为&nbsp;<code>(2 - 0) * 8 =&nbsp;16</code>。</li>
+	<li><code>0 -&gt; 1 -&gt; 2</code> with a score of&nbsp;<code>(1 - 0) * 5 + (2 - 1) * 8 = 13</code>.</li>
+	<li><code>0 -&gt; 2</code> with a score of&nbsp;<code>(2 - 0) * 8 =&nbsp;16</code>.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [4,5,2,8,9,1,3]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [4,5,2,8,9,1,3]</span></p>
 
-<p><span class="example-io"><b>输出：</b>42</span></p>
+<p><strong>Output:</strong> <span class="example-io">42</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>我们可以按&nbsp;<code>0 -&gt; 4 -&gt; 6</code>&nbsp;进行跳跃，得分为&nbsp;<code>(4 - 0) * 9 + (6 - 4) * 3 = 42</code>。</p>
+<p>We can do the hopping <code>0 -&gt; 4 -&gt; 6</code> with a score of&nbsp;<code>(4 - 0) * 9 + (6 - 4) * 3 = 42</code>.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 10<sup>3</sup></code></li>
@@ -68,21 +63,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们设计一个函数 $\textit{dfs}(i)$，表示从下标 $i$ 出发，能够获得的最大分数。那么答案就是 $\textit{dfs}(0)$。
+We design a function $\textit{dfs}(i)$, which represents the maximum score that can be obtained starting from index $i$. Therefore, the answer is $\textit{dfs}(0)$.
 
-函数 $\textit{dfs}(i)$ 的执行过程如下：
+The execution process of the function $\textit{dfs}(i)$ is as follows:
 
-我们枚举下一个跳跃的位置 $j$，那么从下标 $i$ 出发，能够获得的分数就是 $(j - i) \times \textit{nums}[j]$，加上从下标 $j$ 出发，能够获得的最大分数，总分数就是 $(j - i) \times \textit{nums}[j] + \textit{dfs}(j)$。我们枚举所有的 $j$，取分数的最大值即可。
+We enumerate the next jump position $j$. Thus, the score that can be obtained starting from index $i$ is $(j - i) \times \textit{nums}[j]$, plus the maximum score that can be obtained starting from index $j$, making the total score $(j - i) \times \textit{nums}[j] + \textit{dfs}(j)$. We enumerate all possible $j$ and take the maximum score.
 
-为了避免重复计算，我们使用记忆化搜索的方法，将已经计算过的 $\textit{dfs}(i)$ 的值保存起来，下次直接返回即可。
+To avoid redundant calculations, we use memoization search. We save the calculated value of $\textit{dfs}(i)$, so it can be directly returned next time.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 
@@ -195,19 +190,19 @@ function maxScore(nums: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二：动态规划
+### Solution 2: Dynamic Programming
 
-我们可以将方法一中的记忆化搜索转换为动态规划。
+We can transform the memoization search from Solution 1 into dynamic programming.
 
-定义 $f[j]$ 表示从下标 $0$ 出发，到下标 $j$ 结束，能够获得的最大分数。那么答案就是 $f[n - 1]$。
+Define $f[j]$ as the maximum score that can be obtained starting from index $0$ and ending at index $j$. Therefore, the answer is $f[n - 1]$.
 
-状态转移方程为：
+The state transition equation is:
 
 $$
 f[j] = \max_{0 \leq i < j} \{ f[i] + (j - i) \times \textit{nums}[j] \}
 $$
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 
@@ -295,17 +290,17 @@ function maxScore(nums: number[]): number {
 
 <!-- solution:start -->
 
-### 方法三：单调栈
+### Solution 3: Monotonic Stack
 
-我们观察发现，对于当前位置 $i$，我们应该跳到下一个值最大的位置 $j$，这样才能获得最大的分数。
+We observe that for the current position $i$, we should jump to the next position $j$ with the maximum value to obtain the maximum score.
 
-因此，我们遍历数组 $\textit{nums}$，维护一个从栈底到栈顶单调递减的栈 $\textit{stk}$。对于当前遍历到的位置 $i$，如果栈顶元素对应的值小于等于 $\textit{nums}[i]$，我们就不断地弹出栈顶元素，直到栈为空或者栈顶元素对应的值大于 $\textit{nums}[i]$，然后将 $i$ 入栈。
+Therefore, we traverse the array $\textit{nums}$, maintaining a stack $\textit{stk}$ that is monotonically decreasing from the bottom to the top of the stack. For the current position $i$ being traversed, if the value corresponding to the top element of the stack is less than or equal to $\textit{nums}[i]$, we continuously pop the top element of the stack until the stack is empty or the value corresponding to the top element of the stack is greater than $\textit{nums}[i]$, and then push $i$ into the stack.
 
-然后，我们初始化答案 $\textit{ans}$ 和当前位置 $i = 0$，遍历栈中的元素，每次取出栈顶元素 $j$，更新答案 $\textit{ans} += \textit{nums}[j] \times (j - i)$，然后更新 $i = j$。
+Next, we initialize the answer $\textit{ans}$ and the current position $i = 0$, traverse the elements in the stack, each time taking out the top element $j$, updating the answer $\textit{ans} += \textit{nums}[j] \times (j - i)$, and then updating $i = j$.
 
-最后返回答案 $\textit{ans}$。
+Finally, return the answer $\textit{ans}$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

@@ -1,84 +1,75 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0132.Palindrome%20Partitioning%20II/README.md
+difficulty: Hard
 tags:
-    - 字符串
-    - 动态规划
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [132. 分割回文串 II](https://leetcode.cn/problems/palindrome-partitioning-ii)
+# [132. Palindrome Partitioning II](https://leetcode.com/problems/palindrome-partitioning-ii)
 
-[English Version](/solution/0100-0199/0132.Palindrome%20Partitioning%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code>，请你将 <code>s</code> 分割成一些子串，使每个子串都是<span data-keyword="palindrome-string">回文串</span>。</p>
+<p>Given a string <code>s</code>, partition <code>s</code> such that every <span data-keyword="substring-nonempty">substring</span> of the partition is a <span data-keyword="palindrome-string">palindrome</span>.</p>
 
-<p>返回符合要求的 <strong>最少分割次数</strong> 。</p>
+<p>Return <em>the <strong>minimum</strong> cuts needed for a palindrome partitioning of</em> <code>s</code>.</p>
 
-<div class="original__bRMd">
-<div>
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "aab"
-<strong>输出：</strong>1
-<strong>解释：</strong>只需一次分割就可将&nbsp;<em>s </em>分割成 ["aa","b"] 这样两个回文子串。
+<strong>Input:</strong> s = &quot;aab&quot;
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The palindrome partitioning [&quot;aa&quot;,&quot;b&quot;] could be produced using 1 cut.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "a"
-<strong>输出：</strong>0
+<strong>Input:</strong> s = &quot;a&quot;
+<strong>Output:</strong> 0
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "ab"
-<strong>输出：</strong>1
+<strong>Input:</strong> s = &quot;ab&quot;
+<strong>Output:</strong> 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 2000</code></li>
-	<li><code>s</code> 仅由小写英文字母组成</li>
+	<li><code>s</code> consists of lowercase English letters only.</li>
 </ul>
-</div>
-</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们先预处理得到字符串 $s$ 的每一个子串 $s[i..j]$ 是否为回文串，记录在二维数组 $g[i][j]$ 中，其中 $g[i][j]$ 表示子串 $s[i..j]$ 是否为回文串。
+First, we preprocess the string $s$ to determine whether each substring $s[i..j]$ is a palindrome, and record this in a 2D array $g[i][j]$, where $g[i][j]$ indicates whether the substring $s[i..j]$ is a palindrome.
 
-接下来，我们定义 $f[i]$ 表示字符串 $s[0..i-1]$ 的最少分割次数，初始时 $f[i]=i$。
+Next, we define $f[i]$ to represent the minimum number of cuts needed for the substring $s[0..i-1]$. Initially, $f[i] = i$.
 
-接下来，我们考虑 $f[i]$ 如何进行状态转移。我们可以枚举上一个分割点 $j$，如果子串 $s[j..i]$ 是一个回文串，那么 $f[i]$ 就可以从 $f[j]$ 转移而来。如果 $j=0$，那么说明 $s[0..i]$ 本身就是一个回文串，此时不需要进行分割，即 $f[i]=0$。因此，状态转移方程如下：
+Next, we consider how to transition the state for $f[i]$. We can enumerate the previous cut point $j$. If the substring $s[j..i]$ is a palindrome, then $f[i]$ can be transitioned from $f[j]$. If $j = 0$, it means that $s[0..i]$ itself is a palindrome, and no cuts are needed, i.e., $f[i] = 0$. Therefore, the state transition equation is as follows:
 
 $$
-f[i]=\min_{0\leq j \leq i}\begin{cases} f[j-1]+1, & \textit{if}\ g[j][i]=\textit{True} \\ 0, & \textit{if}\ g[0][i]=\textit{True} \end{cases}
+f[i] = \min_{0 \leq j \leq i} \begin{cases} f[j-1] + 1, & \textit{if}\ g[j][i] = \textit{True} \\ 0, & \textit{if}\ g[0][i] = \textit{True} \end{cases}
 $$
 
-答案即为 $f[n]$，其中 $n$ 是字符串 $s$ 的长度。
+The answer is $f[n]$, where $n$ is the length of the string $s$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是字符串 $s$ 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

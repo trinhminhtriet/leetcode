@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3368.First%20Letter%20Capitalization/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3368. 首字母大写 🔒](https://leetcode.cn/problems/first-letter-capitalization)
+# [3368. First Letter Capitalization 🔒](https://leetcode.com/problems/first-letter-capitalization)
 
-[English Version](/solution/3300-3399/3368.First%20Letter%20Capitalization/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>user_content</code></p>
+<p>Table: <code>user_content</code></p>
 
 <pre>
 +-------------+---------+
@@ -25,79 +22,78 @@ tags:
 | content_id  | int     |
 | content_text| varchar |
 +-------------+---------+
-content_id 是这张表的唯一主键。
-每一行包含一个不同的 ID 以及对应的文本内容。
+content_id is the unique key for this table.
+Each row contains a unique ID and the corresponding text content.
 </pre>
 
-<p>编写一个解决方案来通过应用以下规则来转换&nbsp;<code>content_text</code>&nbsp;列中的文本：</p>
+<p>Write a solution to transform the text in the <code>content_text</code> column by applying the following rules:</p>
 
 <ul>
-	<li>把每个单词的首字母变成大写</li>
-	<li>其它字母保持小写</li>
-	<li>保留所有现有空格</li>
+	<li>Convert the first letter of each word to uppercase</li>
+	<li>Keep all other letters in lowercase</li>
+	<li>Preserve all existing spaces</li>
 </ul>
 
-<p><b>注意：</b><code>content_text</code>&nbsp;中没有特殊字符。</p>
+<p><strong>Note</strong>: There will be no special character in <code>content_text</code>.</p>
 
-<p>返回结果表，同时包含原来的<em>&nbsp;<code>content_text</code>&nbsp;</em>以及将所有单词首字母变成大写的修改后文本。</p>
+<p>Return <em>the result table that includes both the original <code>content_text</code> and the modified text where each word starts with a capital letter</em>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p>user_content 表：</p>
+<p>user_content table:</p>
 
 <pre class="example-io">
 +------------+-----------------------------------+
 | content_id | content_text                      |
 +------------+-----------------------------------+
-| 1          | hello world of Sql                |
+| 1          | hello world of SQL                |
 | 2          | the QUICK brown fox               |
 | 3          | data science AND machine learning |
 | 4          | TOP rated programming BOOKS       |
 +------------+-----------------------------------+
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +------------+-----------------------------------+-----------------------------------+
 | content_id | original_text                     | converted_text                    |
 +------------+-----------------------------------+-----------------------------------+
-| 1          | hello world of Sql                | Hello World Of Sql                |
+| 1          | hello world of SQL                | Hello World Of Sql                |
 | 2          | the QUICK brown fox               | The Quick Brown Fox               |
 | 3          | data science AND machine learning | Data Science And Machine Learning |
 | 4          | TOP rated programming BOOKS       | Top Rated Programming Books       |
 +------------+-----------------------------------+-----------------------------------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>对于 content_id = 1:
+	<li>For content_id = 1:
 	<ul>
-		<li>每个单词的首字母都已经大写：Hello World Of Sql</li>
+		<li>Each word&#39;s first letter is capitalized: Hello World Of Sql</li>
 	</ul>
 	</li>
-	<li>对于 content_id = 2:
+	<li>For content_id = 2:
 	<ul>
-		<li>原来混合大小写的文本变为首字母大写：The Quick Brown Fox</li>
+		<li>Original mixed-case text is transformed to title case: The Quick Brown Fox</li>
 	</ul>
 	</li>
-	<li>对于 content_id = 3:
+	<li>For content_id = 3:
 	<ul>
-		<li>单词 AND 被转换为 "And"："Data Science And Machine Learning"</li>
+		<li>The word AND&nbsp;is converted to &quot;And&quot;: &quot;Data Science And Machine Learning&quot;</li>
 	</ul>
 	</li>
-	<li>对于 content_id = 4:
+	<li>For content_id = 4:
 	<ul>
-		<li>正确处理单词 TOP rated：Top Rated</li>
-		<li>将 BOOKS 从全大写改为首字母大写：Books</li>
+		<li>Handles&nbsp;word TOP rated&nbsp;correctly: Top Rated</li>
+		<li>Converts BOOKS&nbsp;from all caps to title case: Books</li>
 	</ul>
 	</li>
 </ul>
@@ -105,11 +101,11 @@ content_id 是这张表的唯一主键。
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

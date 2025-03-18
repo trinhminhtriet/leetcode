@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1205.Monthly%20Transactions%20II/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1205. 每月交易 II 🔒](https://leetcode.cn/problems/monthly-transactions-ii)
+# [1205. Monthly Transactions II 🔒](https://leetcode.com/problems/monthly-transactions-ii)
 
-[English Version](/solution/1200-1299/1205.Monthly%20Transactions%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><code>Transactions</code> 记录表</p>
+<p>Table: <code>Transactions</code></p>
 
 <pre>
 +----------------+---------+
@@ -28,11 +25,12 @@ tags:
 | amount         | int     |
 | trans_date     | date    |
 +----------------+---------+
-id 是这个表的主键。
-该表包含有关传入事务的信息。
-状态列是枚举类型，值为 [approved、declined] 其中之一的列。</pre>
+id is the column of unique values of this table.
+The table has information about incoming transactions.
+The state column is an ENUM (category) of type [&quot;approved&quot;, &quot;declined&quot;].
+</pre>
 
-<p><code>Chargebacks</code> 表</p>
+<p>Table: <code>Chargebacks</code></p>
 
 <pre>
 +----------------+---------+
@@ -41,27 +39,26 @@ id 是这个表的主键。
 | trans_id       | int     |
 | trans_date     | date    |
 +----------------+---------+
-退单包含有关放置在事务表中的某些事务的传入退单的基本信息。
-trans_id 是 transactions 表的 id 列的外键（reference 列）。
-每项退单都对应于之前进行的交易，即使未经批准。</pre>
+Chargebacks contains basic information regarding incoming chargebacks from some transactions placed in Transactions table.
+trans_id is a foreign key (reference column) to the id column of Transactions table.
+Each chargeback corresponds to a transaction made previously even if they were not approved.</pre>
 
 <p>&nbsp;</p>
 
-<p>编写一个解决方案，找出每个国家/地区的每月交易信息：已批准交易的数量及其总金额、退单的数量及其总金额。</p>
+<p>Write a solution to find for each month and country: the number of approved transactions and their total amount, the number of chargebacks, and their total amount.</p>
 
-<p><strong>注意：</strong>在你的解决方案中，只需显示给定月份和国家，忽略所有为零的行。</p>
+<p><strong>Note</strong>: In your solution, given the month and country, ignore rows with all zeros.</p>
 
-<p>以 <strong>任意顺序</strong> 返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Transactions 表：
+<strong>Input:</strong> 
+Transactions table:
 +-----+---------+----------+--------+------------+
 | id  | country | state    | amount | trans_date |
 +-----+---------+----------+--------+------------+
@@ -71,7 +68,7 @@ Transactions 表：
 | 104 | US      | declined | 4000   | 2019-06-13 |
 | 105 | US      | approved | 5000   | 2019-06-15 |
 +-----+---------+----------+--------+------------+
-Chargebacks 表：
+Chargebacks table:
 +----------+------------+
 | trans_id | trans_date |
 +----------+------------+
@@ -79,22 +76,23 @@ Chargebacks 表：
 | 101      | 2019-06-30 |
 | 105      | 2019-09-18 |
 +----------+------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +---------+---------+----------------+-----------------+------------------+-------------------+
 | month   | country | approved_count | approved_amount | chargeback_count | chargeback_amount |
 +---------+---------+----------------+-----------------+------------------+-------------------+
 | 2019-05 | US      | 1              | 1000            | 1                | 2000              |
 | 2019-06 | US      | 2              | 8000            | 1                | 1000              |
 | 2019-09 | US      | 0              | 0               | 1                | 5000              |
-+---------+---------+----------------+-----------------+------------------+-------------------+</pre>
++---------+---------+----------------+-----------------+------------------+-------------------+
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

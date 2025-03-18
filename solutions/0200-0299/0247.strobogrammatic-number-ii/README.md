@@ -1,45 +1,34 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0247.Strobogrammatic%20Number%20II/README.md
+difficulty: Medium
 tags:
-    - 递归
-    - 数组
-    - 字符串
+    - Recursion
+    - Array
+    - String
 ---
 
 <!-- problem:start -->
 
-# [247. 中心对称数 II 🔒](https://leetcode.cn/problems/strobogrammatic-number-ii)
+# [247. Strobogrammatic Number II 🔒](https://leetcode.com/problems/strobogrammatic-number-ii)
 
-[English Version](/solution/0200-0299/0247.Strobogrammatic%20Number%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数&nbsp;<code>n</code>&nbsp;，返回所有长度为&nbsp;<code>n</code>&nbsp;的 <strong>中心对称数</strong>&nbsp;。你可以以 <strong>任何顺序</strong> 返回答案。</p>
+<p>Given an integer <code>n</code>, return all the <strong>strobogrammatic numbers</strong> that are of length <code>n</code>. You may return the answer in <strong>any order</strong>.</p>
 
-<p><strong>中心对称数&nbsp;</strong>是一个数字在旋转了&nbsp;<code>180</code> 度之后看起来依旧相同的数字（或者上下颠倒地看）。</p>
+<p>A <strong>strobogrammatic number</strong> is a number that looks the same when rotated <code>180</code> degrees (looked at upside down).</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<b>输入：</b>n = 2
-<b>输出：</b>["11","69","88","96"]
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> n = 2
+<strong>Output:</strong> ["11","69","88","96"]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> n = 1
+<strong>Output:</strong> ["0","1","8"]
 </pre>
-
-<p><strong>示例&nbsp;2:</strong></p>
-
-<pre>
-<b>输入：</b>n = 1
-<b>输出：</b>["0","1","8"]</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 14</code></li>
@@ -47,29 +36,29 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
+### Solution 1: Recursion
 
-若长度为 $1$，则中心对称数只有 $0, 1, 8$；若长度为 $2$，则中心对称数只有 $11, 69, 88, 96$。
+If the length is $1$, then the strobogrammatic numbers are only $0, 1, 8$; if the length is $2$, then the strobogrammatic numbers are only $11, 69, 88, 96$.
 
-我们设计递归函数 $dfs(u)$，其返回长度为 $u$ 的中心对称数。答案为 $dfs(n)$。
+We design a recursive function $dfs(u)$, which returns the strobogrammatic numbers of length $u$. The answer is $dfs(n)$.
 
-若 $u$ 为 $0$，返回包含一个空串的列表，即 `[""]`；若 $u$ 为 $1$，返回列表 `["0", "1", "8"]`。
+If $u$ is $0$, return a list containing an empty string, i.e., `[""]`; if $u$ is $1$, return the list `["0", "1", "8"]`.
 
-若 $u$ 大于 $1$，我们对长度为 $u - 2$ 的所有中心对称数进行遍历，对于每个中心对称数 $v$，在其左右两侧分别添加 $1, 8, 6, 9$，即可得到长度为 `u` 的中心对称数。
+If $u$ is greater than $1$, we traverse all the strobogrammatic numbers of length $u - 2$. For each strobogrammatic number $v$, we add $1, 8, 6, 9$ to both sides of it, and we can get the strobogrammatic numbers of length `u`.
 
-注意，如果 $u\neq n$，我们还可以在中心对称数的左右两侧分别添加 $0$。
+Note that if $u \neq n$, we can also add $0$ to both sides of the strobogrammatic number.
 
-最终，我们将所有长度为 $n$ 的中心对称数返回即可。
+Finally, we return all the strobogrammatic numbers of length $n$.
 
-时间复杂度为 $O(2^{n+2})$。
+The time complexity is $O(2^{n+2})$.
 
-相似题目：
+Similar problems:
 
--   [248. 中心对称数 III 🔒](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0248.Strobogrammatic%20Number%20III/README.md)
+-   [248. Strobogrammatic Number III 🔒](https://github.com/doocs/leetcode/blob/main/solution/0200-0299/0248.Strobogrammatic%20Number%20III/README_EN.md)
 
 <!-- tabs:start -->
 

@@ -1,68 +1,63 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2261.K%20Divisible%20Elements%20Subarrays/README.md
+difficulty: Medium
 rating: 1724
-source: 第 291 场周赛 Q3
+source: Weekly Contest 291 Q3
 tags:
-    - 字典树
-    - 数组
-    - 哈希表
-    - 枚举
-    - 哈希函数
-    - 滚动哈希
+    - Trie
+    - Array
+    - Hash Table
+    - Enumeration
+    - Hash Function
+    - Rolling Hash
 ---
 
 <!-- problem:start -->
 
-# [2261. 含最多 K 个可整除元素的子数组](https://leetcode.cn/problems/k-divisible-elements-subarrays)
+# [2261. K Divisible Elements Subarrays](https://leetcode.com/problems/k-divisible-elements-subarrays)
 
-[English Version](/solution/2200-2299/2261.K%20Divisible%20Elements%20Subarrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 和两个整数 <code>k</code> 和 <code>p</code> ，找出并返回满足要求的不同的子数组数，要求子数组中最多 <code>k</code> 个可被 <code>p</code> 整除的元素。</p>
+<p>Given an integer array <code>nums</code> and two integers <code>k</code> and <code>p</code>, return <em>the number of <strong>distinct subarrays,</strong> which have <strong>at most</strong></em> <code>k</code> <em>elements </em>that are <em>divisible by</em> <code>p</code>.</p>
 
-<p>如果满足下述条件之一，则认为数组 <code>nums1</code> 和 <code>nums2</code> 是 <strong>不同</strong> 数组：</p>
+<p>Two arrays <code>nums1</code> and <code>nums2</code> are said to be <strong>distinct</strong> if:</p>
 
 <ul>
-	<li>两数组长度 <strong>不同</strong> ，或者</li>
-	<li>存在 <strong>至少 </strong>一个下标 <code>i</code> 满足 <code>nums1[i] != nums2[i]</code> 。</li>
+	<li>They are of <strong>different</strong> lengths, or</li>
+	<li>There exists <strong>at least</strong> one index <code>i</code> where <code>nums1[i] != nums2[i]</code>.</li>
 </ul>
 
-<p><strong>子数组</strong> 定义为：数组中的连续元素组成的一个 <strong>非空</strong> 序列。</p>
+<p>A <strong>subarray</strong> is defined as a <strong>non-empty</strong> contiguous sequence of elements in an array.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [<em><strong>2</strong></em>,3,3,<em><strong>2</strong></em>,<em><strong>2</strong></em>], k = 2, p = 2
-<strong>输出：</strong>11
-<strong>解释：</strong>
-位于下标 0、3 和 4 的元素都可以被 p = 2 整除。
-共计 11 个不同子数组都满足最多含 k = 2 个可以被 2 整除的元素：
-[2]、[2,3]、[2,3,3]、[2,3,3,2]、[3]、[3,3]、[3,3,2]、[3,3,2,2]、[3,2]、[3,2,2] 和 [2,2] 。
-注意，尽管子数组 [2] 和 [3] 在 nums 中出现不止一次，但统计时只计数一次。
-子数组 [2,3,3,2,2] 不满足条件，因为其中有 3 个元素可以被 2 整除。
+<strong>Input:</strong> nums = [<u><strong>2</strong></u>,3,3,<u><strong>2</strong></u>,<u><strong>2</strong></u>], k = 2, p = 2
+<strong>Output:</strong> 11
+<strong>Explanation:</strong>
+The elements at indices 0, 3, and 4 are divisible by p = 2.
+The 11 distinct subarrays which have at most k = 2 elements divisible by 2 are:
+[2], [2,3], [2,3,3], [2,3,3,2], [3], [3,3], [3,3,2], [3,3,2,2], [3,2], [3,2,2], and [2,2].
+Note that the subarrays [2] and [3] occur more than once in nums, but they should each be counted only once.
+The subarray [2,3,3,2,2] should not be counted because it has 3 elements that are divisible by 2.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3,4], k = 4, p = 1
-<strong>输出：</strong>10
-<strong>解释：</strong>
-nums 中的所有元素都可以被 p = 1 整除。
-此外，nums 中的每个子数组都满足最多 4 个元素可以被 1 整除。
-因为所有子数组互不相同，因此满足所有限制条件的子数组总数为 10 。
+<strong>Input:</strong> nums = [1,2,3,4], k = 4, p = 1
+<strong>Output:</strong> 10
+<strong>Explanation:</strong>
+All element of nums are divisible by p = 1.
+Also, every subarray of nums will have at most 4 elements that are divisible by 1.
+Since all subarrays are distinct, the total number of subarrays satisfying all the constraints is 10.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 200</code></li>
@@ -71,22 +66,21 @@ nums 中的所有元素都可以被 p = 1 整除。
 </ul>
 
 <p>&nbsp;</p>
+<p><strong>Follow up:</strong></p>
 
-<p><strong>进阶：</strong></p>
-
-<p>你可以设计并实现时间复杂度为 <code>O(n<sup>2</sup>)</code> 的算法解决此问题吗？</p>
+<p>Can you solve this problem in O(n<sup>2</sup>) time complexity?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举 + 字符串哈希
+### Solution 1: Enumeration + String Hashing
 
-我们可以枚举子数组的左端点 $i$，再在 $[i, n)$ 的范围内枚举子数组的右端点 $j$，在枚举右端点的过程中，我们通过双哈希的方式，将子数组的哈希值存入集合中，最后返回集合的大小即可。
+We can enumerate the left endpoint $i$ of the subarray, and then enumerate the right endpoint $j$ in the range $[i, n)$. During the enumeration of the right endpoint, we use double hashing to store the hash value of the subarray into a set. Finally, we return the size of the set.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 为数组的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 
@@ -222,7 +216,7 @@ function countDistinct(nums: number[], k: number, p: number): number {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1369.Get%20the%20Second%20Most%20Recent%20Activity/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1369. 获取最近第二次的活动 🔒](https://leetcode.cn/problems/get-the-second-most-recent-activity)
+# [1369. Get the Second Most Recent Activity 🔒](https://leetcode.com/problems/get-the-second-most-recent-activity)
 
-[English Version](/solution/1300-1399/1369.Get%20the%20Second%20Most%20Recent%20Activity/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>UserActivity</code></p>
+<p>Table: <code>UserActivity</code></p>
 
 <pre>
 +---------------+---------+
@@ -27,28 +24,27 @@ tags:
 | startDate     | Date    |
 | endDate       | Date    |
 +---------------+---------+
-该表可能有重复的行
-该表包含每个用户在一段时间内进行的活动的信息
-名为 username 的用户在 startDate 到 endDate 日内有一次活动
+This table may contain duplicates rows.
+This table contains information about the activity performed by each user in a period of time.
+A person with username performed an activity from startDate to endDate.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案展示每一位用户 <strong>最近第二次</strong> 的活动</p>
+<p>Write a solution to show the <strong>second most recent activity</strong> of each user.</p>
 
-<p>如果用户仅有一次活动，返回该活动</p>
+<p>If the user only has one activity, return that one. A user cannot perform more than one activity at the same time.</p>
 
-<p>一个用户不能同时进行超过一项活动，以<strong> 任意 </strong>顺序返回结果</p>
+<p>Return the result table in <strong>any</strong> order.</p>
 
-<p>下面是返回结果格式的例子。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<code><strong>输入：</strong>
-UserActivity</code> 表:
+<strong>Input:</strong> 
+UserActivity table:
 +------------+--------------+-------------+-------------+
 | username   | activity     | startDate   | endDate     |
 +------------+--------------+-------------+-------------+
@@ -57,24 +53,25 @@ UserActivity</code> 表:
 | Alice      | Travel       | 2020-02-24  | 2020-02-28  |
 | Bob        | Travel       | 2020-02-11  | 2020-02-18  |
 +------------+--------------+-------------+-------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +------------+--------------+-------------+-------------+
 | username   | activity     | startDate   | endDate     |
 +------------+--------------+-------------+-------------+
 | Alice      | Dancing      | 2020-02-21  | 2020-02-23  |
 | Bob        | Travel       | 2020-02-11  | 2020-02-18  |
 +------------+--------------+-------------+-------------+
-<strong>解释：</strong>
-Alice 最近一次的活动是从 2020-02-24 到 2020-02-28 的旅行, 在此之前的 2020-02-21 到 2020-02-23 她进行了舞蹈
-Bob 只有一条记录，我们就取这条记录</pre>
+<strong>Explanation:</strong> 
+The most recent activity of Alice is Travel from 2020-02-24 to 2020-02-28, before that she was dancing from 2020-02-21 to 2020-02-23.
+Bob only has one record, we just take that one.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1000-1099/1050.Actors%20and%20Directors%20Who%20Cooperated%20At%20Least%20Three%20Times/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1050. 合作过至少三次的演员和导演](https://leetcode.cn/problems/actors-and-directors-who-cooperated-at-least-three-times)
+# [1050. Actors and Directors Who Cooperated At Least Three Times](https://leetcode.com/problems/actors-and-directors-who-cooperated-at-least-three-times)
 
-[English Version](/solution/1000-1099/1050.Actors%20and%20Directors%20Who%20Cooperated%20At%20Least%20Three%20Times/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><code>ActorDirector</code>&nbsp;表：</p>
+<p>Table: <code>ActorDirector</code></p>
 
 <pre>
 +-------------+---------+
@@ -26,20 +23,23 @@ tags:
 | director_id | int     |
 | timestamp   | int     |
 +-------------+---------+
-timestamp 是这张表的主键(具有唯一值的列).
+timestamp is the primary key (column with unique values) for this table.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案找出合作过至少三次的演员和导演的 id 对&nbsp;<code>(actor_id, director_id)</code></p>
+<p>Write a solution to find all the pairs <code>(actor_id, director_id)</code> where the actor has cooperated with the director at least three times.</p>
+
+<p>Return the result table in <strong>any order</strong>.</p>
+
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-ActorDirector 表：
+<strong>Input:</strong> 
+ActorDirector table:
 +-------------+-------------+-------------+
 | actor_id    | director_id | timestamp   |
 +-------------+-------------+-------------+
@@ -51,24 +51,24 @@ ActorDirector 表：
 | 2           | 1           | 5           |
 | 2           | 1           | 6           |
 +-------------+-------------+-------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-------------+-------------+
 | actor_id    | director_id |
 +-------------+-------------+
 | 1           | 1           |
 +-------------+-------------+
-<strong>解释：</strong>
-唯一的 id 对是 (1, 1)，他们恰好合作了 3 次。</pre>
+<strong>Explanation:</strong> The only pair is (1, 1) where they cooperated exactly 3 times.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组统计
+### Solution 1: Group By + Having
 
-我们可以使用 `GROUP BY` 语句，按照 `actor_id` 和 `director_id` 字段进行分组，然后使用 `HAVING` 语句，筛选出现次数大于等于 $3$ 的 `actor_id` 和 `director_id`。
+We can use the `GROUP BY` statement to group the data by the `actor_id` and `director_id` fields, and then use the `HAVING` statement to filter out the `actor_id` and `director_id` that appear at least three times.
 
 <!-- tabs:start -->
 

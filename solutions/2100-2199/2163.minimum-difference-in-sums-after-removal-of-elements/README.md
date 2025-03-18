@@ -1,70 +1,67 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2163.Minimum%20Difference%20in%20Sums%20After%20Removal%20of%20Elements/README.md
+difficulty: Hard
 rating: 2225
-source: 第 71 场双周赛 Q4
+source: Biweekly Contest 71 Q4
 tags:
-    - 数组
-    - 动态规划
-    - 堆（优先队列）
+    - Array
+    - Dynamic Programming
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2163. 删除元素后和的最小差值](https://leetcode.cn/problems/minimum-difference-in-sums-after-removal-of-elements)
+# [2163. Minimum Difference in Sums After Removal of Elements](https://leetcode.com/problems/minimum-difference-in-sums-after-removal-of-elements)
 
-[English Version](/solution/2100-2199/2163.Minimum%20Difference%20in%20Sums%20After%20Removal%20of%20Elements/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;，它包含&nbsp;<code>3 * n</code>&nbsp;个元素。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> consisting of <code>3 * n</code> elements.</p>
 
-<p>你可以从 <code>nums</code>&nbsp;中删除 <strong>恰好</strong>&nbsp;<code>n</code>&nbsp;个元素，剩下的 <code>2 * n</code>&nbsp;个元素将会被分成两个 <strong>相同大小</strong>&nbsp;的部分。</p>
-
-<ul>
-	<li>前面&nbsp;<code>n</code>&nbsp;个元素属于第一部分，它们的和记为&nbsp;<code>sum<sub>first</sub></code>&nbsp;。</li>
-	<li>后面&nbsp;<code>n</code>&nbsp;个元素属于第二部分，它们的和记为&nbsp;<code>sum<sub>second</sub></code>&nbsp;。</li>
-</ul>
-
-<p>两部分和的 <strong>差值</strong>&nbsp;记为&nbsp;<code>sum<sub>first</sub> - sum<sub>second</sub></code>&nbsp;。</p>
+<p>You are allowed to remove any <strong>subsequence</strong> of elements of size <strong>exactly</strong> <code>n</code> from <code>nums</code>. The remaining <code>2 * n</code> elements will be divided into two <strong>equal</strong> parts:</p>
 
 <ul>
-	<li>比方说，<code>sum<sub>first</sub> = 3</code> 且&nbsp;<code>sum<sub>second</sub> = 2</code>&nbsp;，它们的差值为&nbsp;<code>1</code>&nbsp;。</li>
-	<li>再比方，<code>sum<sub>first</sub> = 2</code> 且&nbsp;<code>sum<sub>second</sub> = 3</code>&nbsp;，它们的差值为&nbsp;<code>-1</code>&nbsp;。</li>
+	<li>The first <code>n</code> elements belonging to the first part and their sum is <code>sum<sub>first</sub></code>.</li>
+	<li>The next <code>n</code> elements belonging to the second part and their sum is <code>sum<sub>second</sub></code>.</li>
 </ul>
 
-<p>请你返回删除 <code>n</code>&nbsp;个元素之后，剩下两部分和的 <strong>差值的最小值</strong>&nbsp;是多少。</p>
+<p>The <strong>difference in sums</strong> of the two parts is denoted as <code>sum<sub>first</sub> - sum<sub>second</sub></code>.</p>
+
+<ul>
+	<li>For example, if <code>sum<sub>first</sub> = 3</code> and <code>sum<sub>second</sub> = 2</code>, their difference is <code>1</code>.</li>
+	<li>Similarly, if <code>sum<sub>first</sub> = 2</code> and <code>sum<sub>second</sub> = 3</code>, their difference is <code>-1</code>.</li>
+</ul>
+
+<p>Return <em>the <strong>minimum difference</strong> possible between the sums of the two parts after the removal of </em><code>n</code><em> elements</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [3,1,2]
-<b>输出：</b>-1
-<b>解释：</b>nums 有 3 个元素，所以 n = 1 。
-所以我们需要从 nums 中删除 1 个元素，并将剩下的元素分成两部分。
-- 如果我们删除 nums[0] = 3 ，数组变为 [1,2] 。两部分和的差值为 1 - 2 = -1 。
-- 如果我们删除 nums[1] = 1 ，数组变为 [3,2] 。两部分和的差值为 3 - 2 = 1 。
-- 如果我们删除 nums[2] = 2 ，数组变为 [3,1] 。两部分和的差值为 3 - 1 = 2 。
-两部分和的最小差值为 min(-1,1,2) = -1 。
+<pre>
+<strong>Input:</strong> nums = [3,1,2]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> Here, nums has 3 elements, so n = 1. 
+Thus we have to remove 1 element from nums and divide the array into two equal parts.
+- If we remove nums[0] = 3, the array will be [1,2]. The difference in sums of the two parts will be 1 - 2 = -1.
+- If we remove nums[1] = 1, the array will be [3,2]. The difference in sums of the two parts will be 3 - 2 = 1.
+- If we remove nums[2] = 2, the array will be [3,1]. The difference in sums of the two parts will be 3 - 1 = 2.
+The minimum difference between sums of the two parts is min(-1,1,2) = -1. 
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>nums = [7,9,5,8,1,3]
-<b>输出：</b>1
-<b>解释：</b>n = 2 。所以我们需要删除 2 个元素，并将剩下元素分为 2 部分。
-如果我们删除元素 nums[2] = 5 和 nums[3] = 8 ，剩下元素为 [7,9,1,3] 。和的差值为 (7+9) - (1+3) = 12 。
-为了得到最小差值，我们应该删除 nums[1] = 9 和 nums[4] = 1 ，剩下的元素为 [7,5,8,3] 。和的差值为 (7+5) - (8+3) = 1 。
-观察可知，最优答案为 1 。
+<pre>
+<strong>Input:</strong> nums = [7,9,5,8,1,3]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> Here n = 2. So we must remove 2 elements and divide the remaining array into two parts containing two elements each.
+If we remove nums[2] = 5 and nums[3] = 8, the resultant array will be [7,9,1,3]. The difference in sums will be (7+9) - (1+3) = 12.
+To obtain the minimum difference, we should remove nums[1] = 9 and nums[4] = 1. The resultant array becomes [7,5,8,3]. The difference in sums of the two parts is (7+5) - (8+3) = 1.
+It can be shown that it is not possible to obtain a difference smaller than 1.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>nums.length == 3 * n</code></li>
@@ -74,19 +71,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：优先队列（大小根堆）+ 前后缀和 + 枚举分割点
+### Solution 1: Priority Queue (Max and Min Heap) + Prefix and Suffix Sum + Enumeration of Split Points
 
-题目实际上等价于在 $nums$ 中找到一个分割点，将数组分成左右两部分，在前一部分中选取最小的 $n$ 个元素，在后一部分中选取最大的 $n$ 个元素，使得两部分和的差值最小。
+The problem is essentially equivalent to finding a split point in $nums$, dividing the array into two parts. In the first part, select the smallest $n$ elements, and in the second part, select the largest $n$ elements, so that the difference between the sums of the two parts is minimized.
 
-我们可以用一个大根堆维护前缀中最小的 $n$ 个元素，用一个小根堆维护后缀中最大的 $n$ 个元素。我们定义 $pre[i]$ 表示在数组 $nums$ 的前 $i$ 个元素中选择最小的 $n$ 个元素的和，定义 $suf[i]$ 表示从数组第 $i$ 个元素到最后一个元素中选择最大的 $n$ 个元素的和。在维护大小根堆的过程中，更新 $pre[i]$ 和 $suf[i]$ 的值。
+We can use a max heap to maintain the smallest $n$ elements in the prefix, and a min heap to maintain the largest $n$ elements in the suffix. We define $pre[i]$ as the sum of the smallest $n$ elements among the first $i$ elements of the array $nums$, and $suf[i]$ as the sum of the largest $n$ elements from the $i$-th element to the last element of the array. During the process of maintaining the max and min heaps, update the values of $pre[i]$ and $suf[i]$.
 
-最后，我们在 $i \in [n, 2n]$ 的范围内枚举分割点，计算 $pre[i] - suf[i + 1]$ 的值，取最小值即可。
+Finally, we enumerate the split points in the range of $i \in [n, 2n]$, calculate the value of $pre[i] - suf[i + 1]$, and take the minimum value.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

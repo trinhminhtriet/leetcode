@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1511.Customer%20Order%20Frequency/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1511. 消费者下单频率 🔒](https://leetcode.cn/problems/customer-order-frequency)
+# [1511. Customer Order Frequency 🔒](https://leetcode.com/problems/customer-order-frequency)
 
-[English Version](/solution/1500-1599/1511.Customer%20Order%20Frequency/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Customers</code></p>
+<p>Table: <code>Customers</code></p>
 
 <pre>
 +---------------+---------+
@@ -26,13 +23,13 @@ tags:
 | name          | varchar |
 | country       | varchar |
 +---------------+---------+
-customer_id 是该表具有唯一值的列.
-该表包含公司消费者的信息.
+customer_id is the column with unique values for this table.
+This table contains information about the customers in the company.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>表: <code>Product</code></p>
+<p>Table: <code>Product</code></p>
 
 <pre>
 +---------------+---------+
@@ -42,13 +39,14 @@ customer_id 是该表具有唯一值的列.
 | description   | varchar |
 | price         | int     |
 +---------------+---------+
-product_id 是该表具有唯一值的列.
-该表包含公司产品的信息.
-price 是该产品所需的花销.</pre>
+product_id is the column with unique values for this table.
+This table contains information on the products in the company.
+price is the product cost.
+</pre>
 
 <p>&nbsp;</p>
 
-<p>表: <code>Orders</code></p>
+<p>Table: <code>Orders</code></p>
 
 <pre>
 +---------------+---------+
@@ -60,75 +58,76 @@ price 是该产品所需的花销.</pre>
 | order_date    | date    |
 | quantity      | int     |
 +---------------+---------+
-order_id 是该表具有唯一值的列.
-该表包含消费者下单的信息.
-customer_id 是买了数量为 "quantity", id 为 "product_id" 产品的消费者的 id.
-Order_date 是订单发货的日期, 格式为('YYYY-MM-DD').</pre>
+order_id is the column with unique values for this table.
+This table contains information on customer orders.
+customer_id is the id of the customer who bought &quot;quantity&quot; products with id &quot;product_id&quot;.
+Order_date is the date in format (&#39;YYYY-MM-DD&#39;) when the order was shipped.
+</pre>
 
 <p>&nbsp;</p>
 
-<p>写一个解决方案，报告在&nbsp;<strong>2020 年 6 月和 7 月&nbsp;</strong>每个月至少花费 <code>$100</code> 的客户的 <code>customer_id</code> 和 <code>customer_name</code> 。</p>
+<p>Write a solution to report the <code>customer_id</code> and <code>customer_name</code> of customers who have spent at least <code>$100</code> in each month of <strong>June and July 2020</strong>.</p>
 
-<p>以&nbsp;<strong>任意顺序&nbsp;</strong>返回结果表.</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>结果格式如下例所示。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-<code>Customers table:</code>
+<strong>Input:</strong> 
+Customers table:
 +--------------+-----------+-------------+
-| customer_id  | name &nbsp;    | country &nbsp; &nbsp; |
+| customer_id  | name      | country     |
 +--------------+-----------+-------------+
-| 1    &nbsp;       | Winston  &nbsp;| USA        &nbsp;|
-| 2          &nbsp; | Jonathan  | Peru       &nbsp;|
-| 3          &nbsp; | Moustafa &nbsp;| Egypt      &nbsp;|
+| 1            | Winston   | USA         |
+| 2            | Jonathan  | Peru        |
+| 3            | Moustafa  | Egypt       |
 +--------------+-----------+-------------+
-<code>Product table:</code>
+Product table:
 +--------------+-------------+-------------+
-| product_id   | description | price   &nbsp; &nbsp; |
+| product_id   | description | price       |
 +--------------+-------------+-------------+
-| 10   &nbsp;       | LC Phone &nbsp;  | 300        &nbsp;|
-| 20         &nbsp; | LC T-Shirt  | 10         &nbsp;|
-| 30         &nbsp; | LC Book    &nbsp;| 45         &nbsp;|
-| 40           | LC Keychain&nbsp;| 2         &nbsp; |
+| 10           | LC Phone    | 300         |
+| 20           | LC T-Shirt  | 10          |
+| 30           | LC Book     | 45          |
+| 40           | LC Keychain | 2           |
 +--------------+-------------+-------------+
-<code>Orders table:</code>
+Orders table:
 +--------------+-------------+-------------+-------------+-----------+
 | order_id     | customer_id | product_id  | order_date  | quantity  |
 +--------------+-------------+-------------+-------------+-----------+
-| 1    &nbsp;       | 1        &nbsp;  | 10         &nbsp;| 2020-06-10  | 1         |
-| 2          &nbsp; | 1           | 20         &nbsp;| 2020-07-01  | 1         |
-| 3          &nbsp; | 1           | 30         &nbsp;| 2020-07-08  | 2         |
-| 4    &nbsp;       | 2        &nbsp;  | 10         &nbsp;| 2020-06-15  | 2         |
-| 5          &nbsp; | 2           | 40         &nbsp;| 2020-07-01  | 10        |
-| 6          &nbsp; | 3           | 20         &nbsp;| 2020-06-24  | 2         |
-| 7    &nbsp;       | 3        &nbsp;  | 30         &nbsp;| 2020-06-25  | 2         |
-| 9          &nbsp; | 3           | 30         &nbsp;| 2020-05-08  | 3         |
+| 1            | 1           | 10          | 2020-06-10  | 1         |
+| 2            | 1           | 20          | 2020-07-01  | 1         |
+| 3            | 1           | 30          | 2020-07-08  | 2         |
+| 4            | 2           | 10          | 2020-06-15  | 2         |
+| 5            | 2           | 40          | 2020-07-01  | 10        |
+| 6            | 3           | 20          | 2020-06-24  | 2         |
+| 7            | 3           | 30          | 2020-06-25  | 2         |
+| 9            | 3           | 30          | 2020-05-08  | 3         |
 +--------------+-------------+-------------+-------------+-----------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +--------------+------------+
 | customer_id  | name       |  
 +--------------+------------+
 | 1            | Winston    |
-+--------------+------------+ 
-<strong>解释：</strong>
-Winston 在 2020 年 6 月花费了 $300(300 * 1), 在 7 月花费了 $100(10 * 1 + 45 * 2).
-Jonathan 在 2020 年 6 月花费了 $600(300 * 2), 在 7 月花费了 $20(2 * 10).
-Moustafa 在 2020 年 6 月花费了 $110 (10 * 2 + 45 * 2), 在 7 月花费了 $0.</pre>
++--------------+------------+
+<strong>Explanation:</strong> 
+Winston spent $300 (300 * 1) in June and $100 ( 10 * 1 + 45 * 2) in July 2020.
+Jonathan spent $600 (300 * 2) in June and $20 ( 2 * 10) in July 2020.
+Moustafa spent $110 (10 * 2 + 45 * 2) in June and $0 in July 2020.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：等值连接 + 分组求和
+### Solution 1: Join + Group By + Having
 
-我们可以使用 `JOIN` 语句，连接 `Orders` 和 `Product` 表，再连接 `Customers` 表，筛选出 `order_date` 在 $2020$ 年的记录，然后使用 `GROUP BY` 语句，按照 `customer_id` 分组，使用 `HAVING` 语句，筛选出 $6$ 月和 $7$ 月花费大于等于 $100$ 的客户。
+We can use the `JOIN` statement to join the `Orders` table and the `Product` table, and then join the result with the `Customers` table. We can filter out the records where the `order_date` is not in the year $2020$, and then use the `GROUP BY` statement to group the data by `customer_id`. Finally, we can use the `HAVING` statement to filter out the customers whose spending in June and July is greater than or equal to $100$.
 
 <!-- tabs:start -->
 

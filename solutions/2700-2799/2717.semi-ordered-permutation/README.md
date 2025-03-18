@@ -1,92 +1,87 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2717.Semi-Ordered%20Permutation/README.md
+difficulty: Easy
 rating: 1295
-source: 第 348 场周赛 Q2
+source: Weekly Contest 348 Q2
 tags:
-    - 数组
-    - 模拟
+    - Array
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2717. 半有序排列](https://leetcode.cn/problems/semi-ordered-permutation)
+# [2717. Semi-Ordered Permutation](https://leetcode.com/problems/semi-ordered-permutation)
 
-[English Version](/solution/2700-2799/2717.Semi-Ordered%20Permutation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始、长度为 <code>n</code> 的整数排列 <code>nums</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> permutation of <code>n</code> integers <code>nums</code>.</p>
 
-<p>如果排列的第一个数字等于 <code>1</code> 且最后一个数字等于 <code>n</code> ，则称其为 <strong>半有序排列</strong> 。你可以执行多次下述操作，直到将 <code>nums</code> 变成一个 <strong>半有序排列</strong> ：</p>
+<p>A permutation is called <strong>semi-ordered</strong> if the first number equals <code>1</code> and the last number equals <code>n</code>. You can perform the below operation as many times as you want until you make <code>nums</code> a <strong>semi-ordered</strong> permutation:</p>
 
 <ul>
-	<li>选择 <code>nums</code> 中相邻的两个元素，然后交换它们。</li>
+	<li>Pick two adjacent elements in <code>nums</code>, then swap them.</li>
 </ul>
 
-<p>返回使 <code>nums</code> 变成 <strong>半有序排列</strong> 所需的最小操作次数。</p>
+<p>Return <em>the minimum number of operations to make </em><code>nums</code><em> a <strong>semi-ordered permutation</strong></em>.</p>
 
-<p><strong>排列</strong> 是一个长度为 <code>n</code> 的整数序列，其中包含从 <code>1</code> 到 <code>n</code> 的每个数字恰好一次。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [2,1,4,3]
-<strong>输出：</strong>2
-<strong>解释：</strong>可以依次执行下述操作得到半有序排列：
-1 - 交换下标 0 和下标 1 对应元素。排列变为 [1,2,4,3] 。
-2 - 交换下标 2 和下标 3 对应元素。排列变为 [1,2,3,4] 。
-可以证明，要让 nums 成为半有序排列，不存在执行操作少于 2 次的方案。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [2,4,1,3]
-<strong>输出：</strong>3
-<strong>解释：
-</strong>可以依次执行下述操作得到半有序排列：
-1 - 交换下标 1 和下标 2 对应元素。排列变为 [2,1,4,3] 。
-2 - 交换下标 0 和下标 1 对应元素。排列变为 [1,2,4,3] 。
-3 - 交换下标 2 和下标 3 对应元素。排列变为 [1,2,3,4] 。
-可以证明，要让 nums 成为半有序排列，不存在执行操作少于 3 次的方案。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,3,4,2,5]
-<strong>输出：</strong>0
-<strong>解释：</strong>这个排列已经是一个半有序排列，无需执行任何操作。
-</pre>
+<p>A <strong>permutation</strong> is a sequence of integers from <code>1</code> to <code>n</code> of length <code>n</code> containing each number exactly once.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [2,1,4,3]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> We can make the permutation semi-ordered using these sequence of operations: 
+1 - swap i = 0 and j = 1. The permutation becomes [1,2,4,3].
+2 - swap i = 2 and j = 3. The permutation becomes [1,2,3,4].
+It can be proved that there is no sequence of less than two operations that make nums a semi-ordered permutation. 
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,4,1,3]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We can make the permutation semi-ordered using these sequence of operations:
+1 - swap i = 1 and j = 2. The permutation becomes [2,1,4,3].
+2 - swap i = 0 and j = 1. The permutation becomes [1,2,4,3].
+3 - swap i = 2 and j = 3. The permutation becomes [1,2,3,4].
+It can be proved that there is no sequence of less than three operations that make nums a semi-ordered permutation.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,3,4,2,5]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The permutation is already a semi-ordered permutation.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length == n &lt;= 50</code></li>
 	<li><code>1 &lt;= nums[i]&nbsp;&lt;= 50</code></li>
-	<li><code>nums</code> 是一个 <strong>排列</strong></li>
+	<li><code>nums is a permutation.</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：寻找 1 和 n 的位置
+### Solution 1: Find the Positions of 1 and n
 
-我们可以先找到 $1$ 和 $n$ 的下标 $i$ 和 $j$，然后根据 $i$ 和 $j$ 的相对位置，判断需要交换的次数。
+We can first find the indices $i$ and $j$ of $1$ and $n$, respectively. Then, based on the relative positions of $i$ and $j$, we can determine the number of swaps required.
 
-如果 $i \lt j$，那么需要交换的次数为 $i + n - j - 1$；如果 $i \gt j$，那么需要交换的次数为 $i + n - j - 2$。
+If $i < j$, the number of swaps required is $i + n - j - 1$. If $i > j$, the number of swaps required is $i + n - j - 2$.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

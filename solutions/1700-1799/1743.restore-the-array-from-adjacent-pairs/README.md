@@ -1,84 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1743.Restore%20the%20Array%20From%20Adjacent%20Pairs/README.md
+difficulty: Medium
 rating: 1579
-source: 第 226 场周赛 Q2
+source: Weekly Contest 226 Q2
 tags:
-    - 深度优先搜索
-    - 数组
-    - 哈希表
+    - Depth-First Search
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [1743. 从相邻元素对还原数组](https://leetcode.cn/problems/restore-the-array-from-adjacent-pairs)
+# [1743. Restore the Array From Adjacent Pairs](https://leetcode.com/problems/restore-the-array-from-adjacent-pairs)
 
-[English Version](/solution/1700-1799/1743.Restore%20the%20Array%20From%20Adjacent%20Pairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>存在一个由 <code>n</code> 个不同元素组成的整数数组 <code>nums</code> ，但你已经记不清具体内容。好在你还记得 <code>nums</code> 中的每一对相邻元素。</p>
+<p>There is an integer array <code>nums</code> that consists of <code>n</code> <strong>unique </strong>elements, but you have forgotten it. However, you do remember every pair of adjacent elements in <code>nums</code>.</p>
 
-<p>给你一个二维整数数组 <code>adjacentPairs</code> ，大小为 <code>n - 1</code> ，其中每个 <code>adjacentPairs[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> 表示元素 <code>u<sub>i</sub></code> 和 <code>v<sub>i</sub></code> 在 <code>nums</code> 中相邻。</p>
+<p>You are given a 2D integer array <code>adjacentPairs</code> of size <code>n - 1</code> where each <code>adjacentPairs[i] = [u<sub>i</sub>, v<sub>i</sub>]</code> indicates that the elements <code>u<sub>i</sub></code> and <code>v<sub>i</sub></code> are adjacent in <code>nums</code>.</p>
 
-<p>题目数据保证所有由元素 <code>nums[i]</code> 和 <code>nums[i+1]</code> 组成的相邻元素对都存在于 <code>adjacentPairs</code> 中，存在形式可能是 <code>[nums[i], nums[i+1]]</code> ，也可能是 <code>[nums[i+1], nums[i]]</code> 。这些相邻元素对可以 <strong>按任意顺序</strong> 出现。</p>
+<p>It is guaranteed that every adjacent pair of elements <code>nums[i]</code> and <code>nums[i+1]</code> will exist in <code>adjacentPairs</code>, either as <code>[nums[i], nums[i+1]]</code> or <code>[nums[i+1], nums[i]]</code>. The pairs can appear <strong>in any order</strong>.</p>
 
-<p>返回 <strong>原始数组</strong><em> </em><code>nums</code><em> </em>。如果存在多种解答，返回 <strong>其中任意一个</strong> 即可。</p>
+<p>Return <em>the original array </em><code>nums</code><em>. If there are multiple solutions, return <strong>any of them</strong></em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>adjacentPairs = [[2,1],[3,4],[3,2]]
-<strong>输出：</strong>[1,2,3,4]
-<strong>解释：</strong>数组的所有相邻元素对都在 adjacentPairs 中。
-特别要注意的是，adjacentPairs[i] 只表示两个元素相邻，并不保证其 左-右 顺序。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>adjacentPairs = [[4,-2],[1,4],[-3,1]]
-<strong>输出：</strong>[-2,4,1,-3]
-<strong>解释：</strong>数组中可能存在负数。
-另一种解答是 [-3,1,4,-2] ，也会被视作正确答案。
+<strong>Input:</strong> adjacentPairs = [[2,1],[3,4],[3,2]]
+<strong>Output:</strong> [1,2,3,4]
+<strong>Explanation:</strong> This array has all its adjacent pairs in adjacentPairs.
+Notice that adjacentPairs[i] may not be in left-to-right order.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>adjacentPairs = [[100000,-100000]]
-<strong>输出：</strong>[100000,-100000]
+<strong>Input:</strong> adjacentPairs = [[4,-2],[1,4],[-3,1]]
+<strong>Output:</strong> [-2,4,1,-3]
+<strong>Explanation:</strong> There can be negative numbers.
+Another solution is [-3,1,4,-2], which would also be accepted.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> adjacentPairs = [[100000,-100000]]
+<strong>Output:</strong> [100000,-100000]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>nums.length == n</code></li>
 	<li><code>adjacentPairs.length == n - 1</code></li>
 	<li><code>adjacentPairs[i].length == 2</code></li>
-	<li><code>2 <= n <= 10<sup>5</sup></code></li>
-	<li><code>-10<sup>5</sup> <= nums[i], u<sub>i</sub>, v<sub>i</sub> <= 10<sup>5</sup></code></li>
-	<li>题目数据保证存在一些以 <code>adjacentPairs</code> 作为元素对的数组 <code>nums</code></li>
+	<li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
+	<li><code>-10<sup>5</sup> &lt;= nums[i], u<sub>i</sub>, v<sub>i</sub> &lt;= 10<sup>5</sup></code></li>
+	<li>There exists some <code>nums</code> that has <code>adjacentPairs</code> as its pairs.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
-
-从度为一的点开始遍历图，可以用 DFS，也可以直接遍历。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -239,7 +230,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

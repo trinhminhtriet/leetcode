@@ -1,78 +1,72 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1192.Critical%20Connections%20in%20a%20Network/README.md
+difficulty: Hard
 rating: 2084
-source: 第 154 场周赛 Q4
+source: Weekly Contest 154 Q4
 tags:
-    - 深度优先搜索
-    - 图
-    - 双连通分量
+    - Depth-First Search
+    - Graph
+    - Biconnected Component
 ---
 
 <!-- problem:start -->
 
-# [1192. 查找集群内的关键连接](https://leetcode.cn/problems/critical-connections-in-a-network)
+# [1192. Critical Connections in a Network](https://leetcode.com/problems/critical-connections-in-a-network)
 
-[English Version](/solution/1100-1199/1192.Critical%20Connections%20in%20a%20Network/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>力扣数据中心有&nbsp;<code>n</code>&nbsp;台服务器，分别按从&nbsp;<code>0</code>&nbsp;到&nbsp;<code>n-1</code>&nbsp;的方式进行了编号。它们之间以 <strong>服务器到服务器</strong> 的形式相互连接组成了一个内部集群，连接是无向的。用 &nbsp;<code>connections</code> 表示集群网络，<code>connections[i] = [a, b]</code>&nbsp;表示服务器 <code>a</code>&nbsp;和 <code>b</code>&nbsp;之间形成连接。任何服务器都可以直接或者间接地通过网络到达任何其他服务器。</p>
+<p>There are <code>n</code> servers numbered from <code>0</code> to <code>n - 1</code> connected by undirected server-to-server <code>connections</code> forming a network where <code>connections[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> represents a connection between servers <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code>. Any server can reach other servers directly or indirectly through the network.</p>
 
-<p><strong>关键连接</strong><em> </em>是在该集群中的重要连接，假如我们将它移除，便会导致某些服务器无法访问其他服务器。</p>
+<p>A <em>critical connection</em> is a connection that, if removed, will make some servers unable to reach some other server.</p>
 
-<p>请你以任意顺序返回该集群内的所有 <strong>关键连接</strong> 。</p>
+<p>Return all critical connections in the network in any order.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1192.Critical%20Connections%20in%20a%20Network/images/1537_ex1_2.png" style="width: 198px; height: 248px;" />
+<pre>
+<strong>Input:</strong> n = 4, connections = [[0,1],[1,2],[2,0],[1,3]]
+<strong>Output:</strong> [[1,3]]
+<strong>Explanation:</strong> [[3,1]] is also accepted.
+</pre>
 
-<p><strong>示例 1：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1100-1199/1192.Critical%20Connections%20in%20a%20Network/images/critical-connections-in-a-network.png" style="height: 205px; width: 200px;" /></strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 4, connections = [[0,1],[1,2],[2,0],[1,3]]
-<strong>输出：</strong>[[1,3]]
-<strong>解释：</strong>[[3,1]] 也是正确的。</pre>
-
-<p><strong>示例 2:</strong></p>
-
-<pre>
-<b>输入：</b>n = 2, connections = [[0,1]]
-<b>输出：</b>[[0,1]]
+<strong>Input:</strong> n = 2, connections = [[0,1]]
+<strong>Output:</strong> [[0,1]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>n - 1 &lt;= connections.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt;= n - 1</code></li>
 	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
-	<li>不存在重复的连接</li>
+	<li>There are no repeated connections.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：Tarjan 算法
+### Solution 1: Tarjan Algorithm
 
-此题中的「关键连接」即为「桥」。
+The "critical connections" in this problem can be considered as "bridges".
 
-「桥」：在一连通的无向图中，若去除某一边后会使得图不再连通，则这条边可以视作「桥」。
+"Bridges": In a connected undirected graph, if removing a certain edge makes the graph disconnected, then this edge can be considered as a "bridge".
 
-与之相应的概念还有「割点」。
+Correspondingly, there is also the concept of "articulation points".
 
-「割点」：在一连通的无向图中，若去除某一点及所有与其相连的边后会使得图不再连通，则这个点可以视作「割点」。
+"Articulation Points": In a connected undirected graph, if removing a certain point and all edges connected to it makes the graph disconnected, then this point can be considered as an "articulation point".
 
-用于求图中的「桥」与「割点」有一算法：tarjan 算法，这个算法使用先递归的访问相邻节点后访问节点自身的 dfs 方法，通过记录「访问的顺序：DFN」以及在递归结束后访问节点自身时探索其可以回溯到的最早被访问的节点来更新「最早可回溯的节点：low」，可以实现在 $O(n)$ 时间内找到图的「桥」与「割点」。同时，此种算法可以用于查找有向图中的强连通分量。
+There is an algorithm called the Tarjan algorithm for finding "bridges" and "articulation points" in a graph. This algorithm uses a depth-first search (DFS) method that first recursively visits adjacent nodes and then visits the node itself. By recording the "order of visit: DFN" and updating the "earliest backtrackable node: low" when visiting the node itself after recursion ends, it can find the "bridges" and "articulation points" of the graph in $O(n)$ time. Also, this algorithm can be used to find strongly connected components in directed graphs.
 
 <!-- tabs:start -->
 

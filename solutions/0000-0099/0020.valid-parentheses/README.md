@@ -1,92 +1,87 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0020.Valid%20Parentheses/README.md
+difficulty: Easy
 tags:
-    - 栈
-    - 字符串
+    - Stack
+    - String
 ---
 
 <!-- problem:start -->
 
-# [20. 有效的括号](https://leetcode.cn/problems/valid-parentheses)
+# [20. Valid Parentheses](https://leetcode.com/problems/valid-parentheses)
 
-[English Version](/solution/0000-0099/0020.Valid%20Parentheses/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个只包括 <code>'('</code>，<code>')'</code>，<code>'{'</code>，<code>'}'</code>，<code>'['</code>，<code>']'</code>&nbsp;的字符串 <code>s</code> ，判断字符串是否有效。</p>
+<p>Given a string <code>s</code> containing just the characters <code>&#39;(&#39;</code>, <code>&#39;)&#39;</code>, <code>&#39;{&#39;</code>, <code>&#39;}&#39;</code>, <code>&#39;[&#39;</code> and <code>&#39;]&#39;</code>, determine if the input string is valid.</p>
 
-<p>有效字符串需满足：</p>
+<p>An input string is valid if:</p>
 
 <ol>
-	<li>左括号必须用相同类型的右括号闭合。</li>
-	<li>左括号必须以正确的顺序闭合。</li>
-	<li>每个右括号都有一个对应的相同类型的左括号。</li>
+	<li>Open brackets must be closed by the same type of brackets.</li>
+	<li>Open brackets must be closed in the correct order.</li>
+	<li>Every close bracket has a corresponding open bracket of the same type.</li>
 </ol>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "()"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;()&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>true</span></p>
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "()[]{}"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;()[]{}&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>true</span></p>
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "(]"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;(]&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>false</span></p>
+<p><strong>Output:</strong> <span class="example-io">false</span></p>
 </div>
 
-<p><strong class="example">示例 4：</strong></p>
+<p><strong class="example">Example 4:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>s = "([])"</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;([])&quot;</span></p>
 
-<p><span class="example-io"><b>输出：</b>true</span></p>
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>s</code> 仅由括号 <code>'()[]{}'</code> 组成</li>
+	<li><code>s</code> consists of parentheses only <code>&#39;()[]{}&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：栈
+### Solution 1: Stack
 
-遍历括号字符串 $s$，遇到左括号时，压入当前的左括号；遇到右括号时，弹出栈顶元素（若栈为空，直接返回 `false`），判断是否匹配，若不匹配，直接返回 `false`。
+Traverse the bracket string $s$. When encountering a left bracket, push the current left bracket into the stack; when encountering a right bracket, pop the top element of the stack (if the stack is empty, directly return `false`), and judge whether it matches. If it does not match, directly return `false`.
 
-也可以选择遇到左括号时，将右括号压入栈中；遇到右括号时，弹出栈顶元素（若栈为空，直接返回 `false`），判断是否是相等。若不匹配，直接返回 `false`。
+Alternatively, when encountering a left bracket, you can push the corresponding right bracket into the stack; when encountering a right bracket, pop the top element of the stack (if the stack is empty, directly return `false`), and judge whether they are equal. If they do not match, directly return `false`.
 
-> 两者的区别仅限于括号转换时机，一个是在入栈时，一个是在出栈时。
+> The difference between the two methods is only the timing of bracket conversion, one is when pushing into the stack, and the other is when popping out of the stack.
 
-遍历结束，若栈为空，说明括号字符串有效，返回 `true`；否则，返回 `false`。
+At the end of the traversal, if the stack is empty, it means the bracket string is valid, return `true`; otherwise, return `false`.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为括号字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the bracket string $s$.
 
 <!-- tabs:start -->
 

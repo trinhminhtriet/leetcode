@@ -1,61 +1,50 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0344.Reverse%20String/README.md
+difficulty: Easy
 tags:
-    - 双指针
-    - 字符串
+    - Two Pointers
+    - String
 ---
 
 <!-- problem:start -->
 
-# [344. 反转字符串](https://leetcode.cn/problems/reverse-string)
+# [344. Reverse String](https://leetcode.com/problems/reverse-string)
 
-[English Version](/solution/0300-0399/0344.Reverse%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 <code>s</code> 的形式给出。</p>
+<p>Write a function that reverses a string. The input string is given as an array of characters <code>s</code>.</p>
 
-<p>不要给另外的数组分配额外的空间，你必须<strong><a href="https://baike.baidu.com/item/原地算法" target="_blank">原地</a>修改输入数组</strong>、使用 O(1) 的额外空间解决这一问题。</p>
+<p>You must do this by modifying the input array <a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank">in-place</a> with <code>O(1)</code> extra memory.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = ["h","e","l","l","o"]
-<strong>输出：</strong>["o","l","l","e","h"]
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> s = ["h","e","l","l","o"]
+<strong>Output:</strong> ["o","l","l","e","h"]
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> s = ["H","a","n","n","a","h"]
+<strong>Output:</strong> ["h","a","n","n","a","H"]
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = ["H","a","n","n","a","h"]
-<strong>输出：</strong>["h","a","n","n","a","H"]</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s[i]</code> 都是 <a href="https://baike.baidu.com/item/ASCII" target="_blank">ASCII</a> 码表中的可打印字符</li>
+	<li><code>s[i]</code> is a <a href="https://en.wikipedia.org/wiki/ASCII#Printable_characters" target="_blank">printable ascii character</a>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1: Two Pointers
 
-我们用两个指针 $i$ 和 $j$，初始时分别指向数组的首尾，每次将 $i$ 和 $j$ 对应的元素交换，然后 $i$ 向后移动，$j$ 向前移动，直到 $i$ 和 $j$ 相遇。
+We use two pointers $i$ and $j$, initially pointing to the start and end of the array respectively. Each time, we swap the elements at $i$ and $j$, then move $i$ forward and $j$ backward, until $i$ and $j$ meet.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

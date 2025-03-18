@@ -1,67 +1,62 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3040.Maximum%20Number%20of%20Operations%20With%20the%20Same%20Score%20II/README.md
+difficulty: Medium
 rating: 1708
-source: 第 124 场双周赛 Q3
+source: Biweekly Contest 124 Q3
 tags:
-    - 记忆化搜索
-    - 数组
-    - 动态规划
+    - Memoization
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3040. 相同分数的最大操作数目 II](https://leetcode.cn/problems/maximum-number-of-operations-with-the-same-score-ii)
+# [3040. Maximum Number of Operations With the Same Score II](https://leetcode.com/problems/maximum-number-of-operations-with-the-same-score-ii)
 
-[English Version](/solution/3000-3099/3040.Maximum%20Number%20of%20Operations%20With%20the%20Same%20Score%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;，如果&nbsp;<code>nums</code>&nbsp;<strong>至少</strong>&nbsp;包含 <code>2</code>&nbsp;个元素，你可以执行以下操作中的&nbsp;<strong>任意</strong>&nbsp;一个：</p>
+<p>Given an array of integers called <code>nums</code>, you can perform <strong>any</strong> of the following operation while <code>nums</code> contains <strong>at least</strong> <code>2</code> elements:</p>
 
 <ul>
-	<li>选择 <code>nums</code>&nbsp;中最前面两个元素并且删除它们。</li>
-	<li>选择 <code>nums</code>&nbsp;中最后两个元素并且删除它们。</li>
-	<li>选择 <code>nums</code>&nbsp;中第一个和最后一个元素并且删除它们。</li>
+	<li>Choose the first two elements of <code>nums</code> and delete them.</li>
+	<li>Choose the last two elements of <code>nums</code> and delete them.</li>
+	<li>Choose the first and the last elements of <code>nums</code> and delete them.</li>
 </ul>
 
-<p>一次操作的&nbsp;<strong>分数</strong>&nbsp;是被删除元素的和。</p>
+<p>The<strong> score</strong> of the operation is the sum of the deleted elements.</p>
 
-<p>在确保<strong>&nbsp;所有操作分数相同</strong>&nbsp;的前提下，请你求出&nbsp;<strong>最多</strong>&nbsp;能进行多少次操作。</p>
+<p>Your task is to find the <strong>maximum</strong> number of operations that can be performed, such that <strong>all operations have the same score</strong>.</p>
 
-<p>请你返回按照上述要求&nbsp;<strong>最多</strong>&nbsp;可以进行的操作次数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [3,2,1,2,3,4]
-<b>输出：</b>3
-<b>解释：</b>我们执行以下操作：
-- 删除前两个元素，分数为 3 + 2 = 5 ，nums = [1,2,3,4] 。
-- 删除第一个元素和最后一个元素，分数为 1 + 4 = 5 ，nums = [2,3] 。
-- 删除第一个元素和最后一个元素，分数为 2 + 3 = 5 ，nums = [] 。
-由于 nums 为空，我们无法继续进行任何操作。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [3,2,6,1,4]
-<b>输出：</b>2
-<b>解释：</b>我们执行以下操作：
-- 删除前两个元素，分数为 3 + 2 = 5 ，nums = [6,1,4] 。
-- 删除最后两个元素，分数为 1 + 4 = 5 ，nums = [6] 。
-至多进行 2 次操作。
-</pre>
+<p>Return <em>the <strong>maximum</strong> number of operations possible that satisfy the condition mentioned above</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [3,2,1,2,3,4]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We perform the following operations:
+- Delete the first two elements, with score 3 + 2 = 5, nums = [1,2,3,4].
+- Delete the first and the last elements, with score 1 + 4 = 5, nums = [2,3].
+- Delete the first and the last elements, with score 2 + 3 = 5, nums = [].
+We are unable to perform any more operations as nums is empty.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [3,2,6,1,4]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> We perform the following operations:
+- Delete the first two elements, with score 3 + 2 = 5, nums = [6,1,4].
+- Delete the last two elements, with score 1 + 4 = 5, nums = [6].
+It can be proven that we can perform at most 2 operations.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 2000</code></li>
@@ -70,25 +65,25 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memorization Search
 
-分数 $s$ 的取值有三种情况，分别是 $s = nums[0] + nums[1]$, $s = nums[0] + nums[n-1]$, $s = nums[n-1] + nums[n-2]$。我们可以针对这三种情况，分别进行记忆化搜索。
+There are three possible values for the score $s$, which are $s = nums[0] + nums[1]$, $s = nums[0] + nums[n-1]$, and $s = nums[n-1] + nums[n-2]$. We can perform memorization search for these three cases separately.
 
-我们设计一个函数 $dfs(i, j)$，表示在分数为 $s$ 的情况下，从下标 $i$ 到下标 $j$ 的最大操作次数。函数 $dfs(i, j)$ 的执行过程如下：
+We design a function $dfs(i, j)$, which represents the maximum number of operations from index $i$ to index $j$ when the score is $s$. The execution process of function $dfs(i, j)$ is as follows:
 
--   如果 $j - i < 1$，表示区间 $[i, j]$ 的长度小于 $2$，无法进行任何操作，返回 $0$。
--   如果 $nums[i] + nums[i+1] = s$，表示可以删除下标 $i$ 和下标 $i+1$ 的元素，此时最大操作次数为 $1 + dfs(i+2, j)$。
--   如果 $nums[i] + nums[j] = s$，表示可以删除下标 $i$ 和下标 $j$ 的元素，此时最大操作次数为 $1 + dfs(i+1, j-1)$。
--   如果 $nums[j-1] + nums[j] = s$，表示可以删除下标 $j-1$ 和下标 $j$ 的元素，此时最大操作次数为 $1 + dfs(i, j-2)$。
--   返回以上的最大值即可。
+-   If $j - i < 1$, it means that the length of the interval $[i, j]$ is less than $2$, and no operation can be performed, so return $0$.
+-   If $nums[i] + nums[i+1] = s$, it means that the elements at index $i$ and index $i+1$ can be deleted. In this case, the maximum number of operations is $1 + dfs(i+2, j)$.
+-   If $nums[i] + nums[j] = s$, it means that the elements at index $i$ and index $j$ can be deleted. In this case, the maximum number of operations is $1 + dfs(i+1, j-1)$.
+-   If $nums[j-1] + nums[j] = s$, it means that the elements at index $j-1$ and index $j$ can be deleted. In this case, the maximum number of operations is $1 + dfs(i, j-2)$.
+-   Return the maximum of the above values.
 
-最后，我们分别计算三种情况的最大操作次数，取最大值返回即可。
+Finally, we calculate the maximum number of operations for the three cases separately, and return the maximum value.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n^2)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n^2)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

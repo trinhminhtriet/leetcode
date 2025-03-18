@@ -1,76 +1,71 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3216.Lexicographically%20Smallest%20String%20After%20a%20Swap/README.md
+difficulty: Easy
 rating: 1242
-source: 第 406 场周赛 Q1
+source: Weekly Contest 406 Q1
 tags:
-    - 贪心
-    - 字符串
+    - Greedy
+    - String
 ---
 
 <!-- problem:start -->
 
-# [3216. 交换后字典序最小的字符串](https://leetcode.cn/problems/lexicographically-smallest-string-after-a-swap)
+# [3216. Lexicographically Smallest String After a Swap](https://leetcode.com/problems/lexicographically-smallest-string-after-a-swap)
 
-[English Version](/solution/3200-3299/3216.Lexicographically%20Smallest%20String%20After%20a%20Swap/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个仅由数字组成的字符串 <code>s</code>，在最多交换一次 <strong>相邻 </strong>且具有相同 <strong>奇偶性 </strong>的数字后，返回可以得到的<span data-keyword="lexicographically-smaller-string">字典序最小的字符串</span>。</p>
+<p>Given a string <code>s</code> containing only digits, return the <span data-keyword="lexicographically-smaller-string">lexicographically smallest string</span> that can be obtained after swapping <strong>adjacent</strong> digits in <code>s</code> with the same <strong>parity</strong> at most <strong>once</strong>.</p>
 
-<p>如果两个数字都是奇数或都是偶数，则它们具有相同的奇偶性。例如，5 和 9、2 和 4 奇偶性相同，而 6 和 9 奇偶性不同。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">s = "45320"</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">"43520"</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p><code>s[1] == '5'</code> 和 <code>s[2] == '3'</code> 都具有相同的奇偶性，交换它们可以得到字典序最小的字符串。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">s = "001"</span></p>
-
-<p><strong>输出：</strong> <span class="example-io">"001"</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>无需进行交换，因为 <code>s</code> 已经是字典序最小的。</p>
-</div>
+<p>Digits have the same parity if both are odd or both are even. For example, 5 and 9, as well as 2 and 4, have the same parity, while 6 and 9 do not.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;45320&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">&quot;43520&quot;</span></p>
+
+<p><strong>Explanation: </strong></p>
+
+<p><code>s[1] == &#39;5&#39;</code> and <code>s[2] == &#39;3&#39;</code> both have the same parity, and swapping them results in the lexicographically smallest string.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">s = &quot;001&quot;</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">&quot;001&quot;</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>There is no need to perform a swap because <code>s</code> is already the lexicographically smallest.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code> 仅由数字组成。</li>
+	<li><code>s</code> consists only of digits.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 模拟
+### Solution 1: Greedy + Simulation
 
-我们可以从左到右遍历字符串 $\textit{s}$，对于每一对相邻的数字，如果它们具有相同的奇偶性且前一个数字大于后一个数字，那么我们就交换这两个数字，使得字符串 $\textit{s}$ 的字典序变小，然后返回交换后的字符串。
+We can traverse the string $\textit{s}$ from left to right. For each pair of adjacent digits, if they have the same parity and the previous digit is greater than the next digit, then we swap these two digits to make the lexicographical order of the string $\textit{s}$ smaller, and then return the swapped string.
 
-遍历结束后，如果没有找到可以交换的数字对，说明字符串 $\textit{s}$ 已经是字典序最小的，直接返回即可。
+After the traversal, if no swappable pair of digits is found, it means the string $\textit{s}$ is already in its smallest lexicographical order, and we can return it directly.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 $\textit{s}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the string $\textit{s}$.
 
 <!-- tabs:start -->
 

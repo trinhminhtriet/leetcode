@@ -1,85 +1,88 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0038.Count%20and%20Say/README.md
+difficulty: Medium
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [38. 外观数列](https://leetcode.cn/problems/count-and-say)
+# [38. Count and Say](https://leetcode.com/problems/count-and-say)
 
-[English Version](/solution/0000-0099/0038.Count%20and%20Say/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>「外观数列」是一个数位字符串序列，由递归公式定义：</p>
+<p>The <strong>count-and-say</strong> sequence is a sequence of digit strings defined by the recursive formula:</p>
 
 <ul>
-	<li><code>countAndSay(1) = "1"</code></li>
-	<li><code>countAndSay(n)</code> 是&nbsp;<code>countAndSay(n-1)</code> 的行程长度编码。</li>
+	<li><code>countAndSay(1) = &quot;1&quot;</code></li>
+	<li><code>countAndSay(n)</code> is the run-length encoding of <code>countAndSay(n - 1)</code>.</li>
 </ul>
+
+<p><a href="http://en.wikipedia.org/wiki/Run-length_encoding" target="_blank">Run-length encoding</a> (RLE) is a string compression method that works by replacing consecutive identical characters (repeated 2 or more times) with the concatenation of the character and the number marking the count of the characters (length of the run). For example, to compress the string <code>&quot;3322251&quot;</code> we replace <code>&quot;33&quot;</code> with <code>&quot;23&quot;</code>, replace <code>&quot;222&quot;</code> with <code>&quot;32&quot;</code>, replace <code>&quot;5&quot;</code> with <code>&quot;15&quot;</code> and replace <code>&quot;1&quot;</code> with <code>&quot;11&quot;</code>. Thus the compressed string becomes <code>&quot;23321511&quot;</code>.</p>
+
+<p>Given a positive integer <code>n</code>, return <em>the </em><code>n<sup>th</sup></code><em> element of the <strong>count-and-say</strong> sequence</em>.</p>
 
 <p>&nbsp;</p>
-
-<ul>
-</ul>
-
-<p><a href="https://baike.baidu.com/item/%E8%A1%8C%E7%A8%8B%E9%95%BF%E5%BA%A6%E7%BC%96%E7%A0%81/2931940">行程长度编码</a>（RLE）是一种字符串压缩方法，其工作原理是通过将连续相同字符（重复两次或更多次）替换为字符重复次数（运行长度）和字符的串联。例如，要压缩字符串&nbsp;<code>"3322251"</code>&nbsp;，我们将&nbsp;<code>"33"</code>&nbsp;用&nbsp;<code>"23"</code>&nbsp;替换，将&nbsp;<code>"222"</code>&nbsp;用&nbsp;<code>"32"</code>&nbsp;替换，将&nbsp;<code>"5"</code>&nbsp;用&nbsp;<code>"15"</code>&nbsp;替换并将&nbsp;<code>"1"</code>&nbsp;用&nbsp;<code>"11"</code>&nbsp;替换。因此压缩后字符串变为 <code>"23321511"</code>。</p>
-
-<p>给定一个整数&nbsp;<code>n</code>&nbsp;，返回&nbsp;<strong>外观数列</strong>&nbsp;的第&nbsp;<code>n</code>&nbsp;个元素。</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong>n = 4</p>
+<p><strong>Input:</strong> <span class="example-io">n = 4</span></p>
 
-<p><strong>输出：</strong>"1211"</p>
+<p><strong>Output:</strong> <span class="example-io">&quot;1211&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>countAndSay(1) = "1"</p>
-
-<p>countAndSay(2) = "1" 的行程长度编码 = "11"</p>
-
-<p>countAndSay(3) = "11" 的行程长度编码 = "21"</p>
-
-<p>countAndSay(4) = "21" 的行程长度编码 = "1211"</p>
+<pre>
+countAndSay(1) = &quot;1&quot;
+countAndSay(2) = RLE of &quot;1&quot; = &quot;11&quot;
+countAndSay(3) = RLE of &quot;11&quot; = &quot;21&quot;
+countAndSay(4) = RLE of &quot;21&quot; = &quot;1211&quot;
+</pre>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">n = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">n = 1</span></p>
 
-<p><strong>输出：</strong><span class="example-io">"1"</span></p>
+<p><strong>Output:</strong> <span class="example-io">&quot;1&quot;</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>这是基本情况。</p>
+<p>This is the base case.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 30</code></li>
 </ul>
 
 <p>&nbsp;</p>
-<strong>进阶：</strong>你能迭代解决该问题吗？
+<strong>Follow up:</strong> Could you solve it iteratively?
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1: Simulation
+
+The task requires outputting the appearance sequence of the $n$-th item, where the $n$-th item is the description of the $n-1$-th item in the sequence. Therefore, we iterate $n-1$ times. In each iteration, we use fast and slow pointers, denoted as j and i respectively, to record the current character's position and the position of the next character that is not equal to the current character. We then update the sequence of the previous item to be $j-i$ occurrences of the current character.
+
+Time Complexity:
+
+1. The outer loop runs `n - 1` times, iterating to generate the "Count and Say" sequence up to the nth term.
+2. The inner while loop iterates through each character in the current string s and counts the consecutive occurrences of the same character.
+3. The inner while loop runs in $O(m)$ time, where m is the length of the current string s.
+
+Overall, the time complexity is $O(n \times m)$, where n is the input parameter representing the term to generate, and m is the maximum length of the string in the sequence.
+
+Space Complexity: $O(m)$.
 
 <!-- tabs:start -->
 

@@ -1,18 +1,15 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2881.Create%20a%20New%20Column/README.md
+difficulty: Easy
 tags:
     - Pandas
 ---
 
 <!-- problem:start -->
 
-# [2881. 创建新列](https://leetcode.cn/problems/create-a-new-column)
+# [2881. Create a New Column](https://leetcode.com/problems/create-a-new-column)
 
-[English Version](/solution/2800-2899/2881.Create%20a%20New%20Column/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
@@ -26,18 +23,17 @@ DataFrame <code>employees</code>
 +-------------+--------+
 </pre>
 
-<p>一家公司计划为员工提供奖金。</p>
+<p>A&nbsp;company plans to provide its employees with a bonus.</p>
 
-<p>编写一个解决方案，创建一个名为&nbsp;<code>bonus</code>&nbsp;的新列，其中包含&nbsp;<code>salary</code>&nbsp;值的&nbsp;<strong>两倍</strong>。</p>
+<p>Write a solution to create a new column name <code>bonus</code> that contains the <strong>doubled values</strong> of the <code>salary</code> column.</p>
 
-<p>返回结果格式如下示例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1:</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>
+<strong>Input:</strong>
 DataFrame employees
 +---------+--------+
 | name    | salary |
@@ -49,31 +45,31 @@ DataFrame employees
 | Finn    | 74576  |
 | Thomas  | 24433  |
 +---------+--------+
-<b>输出：</b>
+<strong>Output:</strong>
 +---------+--------+--------+
 | name    | salary | bonus  |
 +---------+--------+--------+
 | Piper   | 4548   | 9096   |
 | Grace   | 28150  | 56300  |
 | Georgia | 1103   | 2206   |
-| Willow  |  593   | 13186  |
+| Willow  | 6593   | 13186  |
 | Finn    | 74576  | 149152 |
 | Thomas  | 24433  | 48866  |
 +---------+--------+--------+
-<b>解释：</b>
-通过将 salary 列中的值加倍创建了一个新的 bonus 列。</pre>
+<strong>Explanation:</strong> 
+A new column bonus is created by doubling the value in the column salary.</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：直接计算
+### Solution 1: Direct Calculation
 
-我们可以直接计算 `salary` 的两倍，然后将结果存入 `bonus` 列。
+We can directly calculate the double of `salary` and then store the result in the `bonus` column.
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+The time complexity is $O(1)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

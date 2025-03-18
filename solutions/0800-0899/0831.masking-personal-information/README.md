@@ -1,133 +1,123 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0831.Masking%20Personal%20Information/README.md
+difficulty: Medium
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [831. 隐藏个人信息](https://leetcode.cn/problems/masking-personal-information)
+# [831. Masking Personal Information](https://leetcode.com/problems/masking-personal-information)
 
-[English Version](/solution/0800-0899/0831.Masking%20Personal%20Information/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一条个人信息字符串 <code>s</code> ，可能表示一个 <strong>邮箱地址</strong> ，也可能表示一串 <strong>电话号码</strong> 。返回按如下规则 <strong>隐藏</strong> 个人信息后的结果：</p>
+<p>You are given a personal information string <code>s</code>, representing either an <strong>email address</strong> or a <strong>phone number</strong>. Return <em>the <strong>masked</strong> personal information using the below rules</em>.</p>
 
-<p><em><strong>电子邮件地址：</strong></em></p>
+<p><u><strong>Email address:</strong></u></p>
 
-<p>一个电子邮件地址由以下部分组成：</p>
+<p>An email address is:</p>
 
 <ul>
-	<li>一个 <strong>名字</strong> ，由大小写英文字母组成，后面跟着</li>
-	<li>一个 <code>'@'</code> 字符，后面跟着</li>
-	<li>一个 <strong>域名</strong> ，由大小写英文字母和一个位于中间的 <code>'.'</code> 字符组成。<code>'.'</code> 不会是域名的第一个或者最后一个字符。</li>
+	<li>A <strong>name</strong> consisting of uppercase and lowercase English letters, followed by</li>
+	<li>The <code>&#39;@&#39;</code> symbol, followed by</li>
+	<li>The <strong>domain</strong> consisting of uppercase and lowercase English letters with a dot <code>&#39;.&#39;</code> somewhere in the middle (not the first or last character).</li>
 </ul>
 
-<p>要想隐藏电子邮件地址中的个人信息：</p>
+<p>To mask an email:</p>
 
 <ul>
-	<li><strong>名字</strong> 和 <strong>域名</strong> 部分的大写英文字母应当转换成小写英文字母。</li>
-	<li><strong>名字</strong> 中间的字母（即，除第一个和最后一个字母外）必须用 5 个 <code>"*****"</code> 替换。</li>
+	<li>The uppercase letters in the <strong>name</strong> and <strong>domain</strong> must be converted to lowercase letters.</li>
+	<li>The middle letters of the <strong>name</strong> (i.e., all but the first and last letters) must be replaced by 5 asterisks <code>&quot;*****&quot;</code>.</li>
 </ul>
 
-<p><em><strong>电话号码：</strong></em></p>
+<p><u><strong>Phone number:</strong></u></p>
 
-<p>一个电话号码应当按下述格式组成：</p>
+<p>A phone number is formatted as follows:</p>
 
 <ul>
-	<li>电话号码可以由 10-13 位数字组成</li>
-	<li>后 10 位构成 <strong>本地号码</strong></li>
-	<li>前面剩下的 0-3 位，构成 <strong>国家代码</strong></li>
-	<li>利用 <code>{'+', '-', '(', ')', ' '}</code> 这些 <strong>分隔字符</strong> 按某种形式对上述数字进行分隔</li>
+	<li>The phone number contains 10-13 digits.</li>
+	<li>The last 10 digits make up the <strong>local number</strong>.</li>
+	<li>The remaining 0-3 digits, in the beginning, make up the <strong>country code</strong>.</li>
+	<li><strong>Separation characters</strong> from the set <code>{&#39;+&#39;, &#39;-&#39;, &#39;(&#39;, &#39;)&#39;, &#39; &#39;}</code> separate the above digits in some way.</li>
 </ul>
 
-<p>要想隐藏电话号码中的个人信息：</p>
+<p>To mask a phone number:</p>
 
 <ul>
-	<li>移除所有 <strong>分隔字符</strong></li>
-	<li>隐藏个人信息后的电话号码应该遵从这种格式：
+	<li>Remove all <strong>separation characters</strong>.</li>
+	<li>The masked phone number should have the form:
 	<ul>
-		<li><code>"***-***-XXXX"</code> 如果国家代码为 0 位数字</li>
-		<li><code>"+*-***-***-XXXX"</code> 如果国家代码为 1 位数字</li>
-		<li><code>"+**-***-***-XXXX"</code> 如果国家代码为 2 位数字</li>
-		<li><code>"+***-***-***-XXXX"</code> 如果国家代码为 3 位数字</li>
+		<li><code>&quot;***-***-XXXX&quot;</code> if the country code has 0 digits.</li>
+		<li><code>&quot;+*-***-***-XXXX&quot;</code> if the country code has 1 digit.</li>
+		<li><code>&quot;+**-***-***-XXXX&quot;</code> if the country code has 2 digits.</li>
+		<li><code>&quot;+***-***-***-XXXX&quot;</code> if the country code has 3 digits.</li>
 	</ul>
 	</li>
-	<li><code>"XXXX"</code> 是最后 4 位 <strong>本地号码</strong></li>
+	<li><code>&quot;XXXX&quot;</code> is the last 4 digits of the <strong>local number</strong>.</li>
 </ul>
-&nbsp;
 
-<div class="top-view__1vxA">
-<div class="original__bRMd">
-<div>
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "LeetCode@LeetCode.com"
-<strong>输出：</strong>"l*****e@leetcode.com"
-<strong>解释：</strong>s 是一个电子邮件地址。
-名字和域名都转换为小写，名字的中间用 5 个 * 替换。
+<strong>Input:</strong> s = &quot;LeetCode@LeetCode.com&quot;
+<strong>Output:</strong> &quot;l*****e@leetcode.com&quot;
+<strong>Explanation:</strong> s is an email address.
+The name and domain are converted to lowercase, and the middle of the name is replaced by 5 asterisks.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "AB@qq.com"
-<strong>输出：</strong>"a*****b@qq.com"
-<strong>解释：</strong>s 是一个电子邮件地址。
-名字和域名都转换为小写，名字的中间用 5 个 * 替换。
-注意，尽管 "ab" 只有两个字符，但中间仍然必须有 5 个 * 。
+<strong>Input:</strong> s = &quot;AB@qq.com&quot;
+<strong>Output:</strong> &quot;a*****b@qq.com&quot;
+<strong>Explanation:</strong> s is an email address.
+The name and domain are converted to lowercase, and the middle of the name is replaced by 5 asterisks.
+Note that even though &quot;ab&quot; is 2 characters, it still must have 5 asterisks in the middle.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "1(234)567-890"
-<strong>输出：</strong>"***-***-7890"
-<strong>解释：</strong>s 是一个电话号码。
-共计 10 位数字，所以本地号码为 10 位数字，国家代码为 0 位数字。
-因此，隐藏后的电话号码应该是 "***-***-7890" 。
+<strong>Input:</strong> s = &quot;1(234)567-890&quot;
+<strong>Output:</strong> &quot;***-***-7890&quot;
+<strong>Explanation:</strong> s is a phone number.
+There are 10 digits, so the local number is 10 digits and the country code is 0 digits.
+Thus, the resulting masked number is &quot;***-***-7890&quot;.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>s</code> 是一个 <strong>有效</strong> 的电子邮件或者电话号码</li>
-	<li>如果 <code>s</code> 是一个电子邮件：
+	<li><code>s</code> is either a <strong>valid</strong> email or a phone number.</li>
+	<li>If <code>s</code> is an email:
 	<ul>
 		<li><code>8 &lt;= s.length &lt;= 40</code></li>
-		<li><code>s</code> 是由大小写英文字母，恰好一个 <code>'@'</code> 字符，以及 <code>'.'</code> 字符组成</li>
+		<li><code>s</code> consists of uppercase and lowercase English letters and exactly one <code>&#39;@&#39;</code> symbol and <code>&#39;.&#39;</code> symbol.</li>
 	</ul>
 	</li>
-	<li>如果 <code>s</code> 是一个电话号码：
+	<li>If <code>s</code> is a phone number:
 	<ul>
 		<li><code>10 &lt;= s.length &lt;= 20</code></li>
-		<li><code>s</code> 是由数字、空格、字符 <code>'('</code>、<code>')'</code>、<code>'-'</code> 和 <code>'+'</code> 组成</li>
+		<li><code>s</code> consists of digits, spaces, and the symbols <code>&#39;(&#39;</code>, <code>&#39;)&#39;</code>, <code>&#39;-&#39;</code>, and <code>&#39;+&#39;</code>.</li>
 	</ul>
 	</li>
 </ul>
-</div>
-</div>
-</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-根据题目描述，我们可以先判断字符串 $s$ 是电子邮件还是电话号码，然后分别处理。
+According to the problem description, we can first determine whether the string $s$ is an email or a phone number, and then handle it accordingly.
 
-时间复杂度为 $O(n)$，空间复杂度为 $O(n)$。其中 $n$ 为字符串 $s$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the string $s$.
 
 <!-- tabs:start -->
 

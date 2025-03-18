@@ -1,87 +1,76 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0336.Palindrome%20Pairs/README.md
+difficulty: Hard
 tags:
-    - 字典树
-    - 数组
-    - 哈希表
-    - 字符串
+    - Trie
+    - Array
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [336. 回文对](https://leetcode.cn/problems/palindrome-pairs)
+# [336. Palindrome Pairs](https://leetcode.com/problems/palindrome-pairs)
 
-[English Version](/solution/0300-0399/0336.Palindrome%20Pairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个由唯一字符串构成的 <strong>0 索引&nbsp;</strong>数组 <code>words</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> array of <strong>unique</strong> strings <code>words</code>.</p>
 
-<p><strong>回文对</strong> 是一对整数 <code>(i, j)</code> ，满足以下条件：</p>
+<p>A <strong>palindrome pair</strong> is a pair of integers <code>(i, j)</code> such that:</p>
 
 <ul>
-	<li><code>0 &lt;= i, j &lt; words.length</code>，</li>
-	<li><code>i != j</code> ，并且</li>
-	<li><code>words[i] + words[j]</code>（两个字符串的连接）是一个<span data-keyword="palindrome-string">回文串</span>。</li>
+	<li><code>0 &lt;= i, j &lt; words.length</code>,</li>
+	<li><code>i != j</code>, and</li>
+	<li><code>words[i] + words[j]</code> (the concatenation of the two strings) is a <span data-keyword="palindrome-string">palindrome</span>.</li>
 </ul>
 
-<p>返回一个数组，它包含&nbsp;<code>words</code> 中所有满足 <strong>回文对</strong> 条件的字符串。</p>
+<p>Return <em>an array of all the <strong>palindrome pairs</strong> of </em><code>words</code>.</p>
 
-<p>你必须设计一个时间复杂度为 <code>O(sum of words[i].length)</code> 的算法。</p>
+<p>You must write an algorithm with&nbsp;<code>O(sum of words[i].length)</code>&nbsp;runtime complexity.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>words = ["abcd","dcba","lls","s","sssll"]
-<strong>输出：</strong>[[0,1],[1,0],[3,2],[2,4]] 
-<strong>解释：</strong>可拼接成的回文串为 <code>["dcbaabcd","abcddcba","slls","llssssll"]</code>
+<strong>Input:</strong> words = [&quot;abcd&quot;,&quot;dcba&quot;,&quot;lls&quot;,&quot;s&quot;,&quot;sssll&quot;]
+<strong>Output:</strong> [[0,1],[1,0],[3,2],[2,4]]
+<strong>Explanation:</strong> The palindromes are [&quot;abcddcba&quot;,&quot;dcbaabcd&quot;,&quot;slls&quot;,&quot;llssssll&quot;]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>words = ["bat","tab","cat"]
-<strong>输出：</strong>[[0,1],[1,0]] 
-<strong>解释：</strong>可拼接成的回文串为 <code>["battab","tabbat"]</code></pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>words = ["a",""]
-<strong>输出：</strong>[[0,1],[1,0]]
+<strong>Input:</strong> words = [&quot;bat&quot;,&quot;tab&quot;,&quot;cat&quot;]
+<strong>Output:</strong> [[0,1],[1,0]]
+<strong>Explanation:</strong> The palindromes are [&quot;battab&quot;,&quot;tabbat&quot;]
 </pre>
 
-&nbsp;
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> words = [&quot;a&quot;,&quot;&quot;]
+<strong>Output:</strong> [[0,1],[1,0]]
+<strong>Explanation:</strong> The palindromes are [&quot;a&quot;,&quot;a&quot;]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 5000</code></li>
 	<li><code>0 &lt;= words[i].length &lt;= 300</code></li>
-	<li><code>words[i]</code> 由小写英文字母组成</li>
+	<li><code>words[i]</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：字符串哈希
-
-**字符串哈希**是把一个任意长度的字符串映射成一个非负整数，并且其冲突的概率几乎为 $0$。字符串哈希用于计算字符串哈希值，快速判断两个字符串是否相等。
-
-取一固定值 $BASE$，把字符串看作是 $BASE$ 进制数，并分配一个大于 $0$ 的数值，代表每种字符。一般来说，我们分配的数值都远小于 $BASE$。例如，对于小写字母构成的字符串，可以令 $a=1$, $b=2$, ..., $z=26$。取一固定值 $MOD$，求出该 $BASE$ 进制对 $M$ 的余数，作为该字符串的 $hash$ 值。
-
-一般来说，取 $BASE=131$ 或者 $BASE=13331$，此时 $hash$ 值产生的冲突概率极低。只要两个字符串 $hash$ 值相同，我们就认为两个字符串是相等的。通常 $MOD$ 取 $2^{64}$，C++ 里，可以直接使用 `unsigned long long` 类型存储这个 $hash$ 值，在计算时不处理算术溢出问题，产生溢出时相当于自动对 $2^{64}$ 取模，这样可以避免低效取模运算。
-
-除了在极特殊构造的数据上，上述 $hash$ 算法很难产生冲突，一般情况下上述 $hash$ 算法完全可以出现在题目的标准答案中。我们还可以多取一些恰当的 $BASE$ 和 $MOD$ 的值（例如大质数），多进行几组 $hash$ 运算，当结果都相同时才认为原字符串相等，就更加难以构造出使这个 $hash$ 产生错误的数据。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -256,7 +245,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二：前缀树
+### Solution 2
 
 <!-- tabs:start -->
 

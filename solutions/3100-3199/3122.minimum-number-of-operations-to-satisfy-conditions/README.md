@@ -1,87 +1,82 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3122.Minimum%20Number%20of%20Operations%20to%20Satisfy%20Conditions/README.md
+difficulty: Medium
 rating: 1904
-source: 第 394 场周赛 Q3
+source: Weekly Contest 394 Q3
 tags:
-    - 数组
-    - 动态规划
-    - 矩阵
+    - Array
+    - Dynamic Programming
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [3122. 使矩阵满足条件的最少操作次数](https://leetcode.cn/problems/minimum-number-of-operations-to-satisfy-conditions)
+# [3122. Minimum Number of Operations to Satisfy Conditions](https://leetcode.com/problems/minimum-number-of-operations-to-satisfy-conditions)
 
-[English Version](/solution/3100-3199/3122.Minimum%20Number%20of%20Operations%20to%20Satisfy%20Conditions/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个大小为 <code>m x n</code>&nbsp;的二维矩形&nbsp;<code>grid</code>&nbsp;。每次 <strong>操作</strong>&nbsp;中，你可以将 <strong>任一</strong> 格子的值修改为 <strong>任意</strong>&nbsp;非负整数。完成所有操作后，你需要确保每个格子&nbsp;<code>grid[i][j]</code>&nbsp;的值满足：</p>
+<p>You are given a 2D matrix <code>grid</code> of size <code>m x n</code>. In one <strong>operation</strong>, you can change the value of <strong>any</strong> cell to <strong>any</strong> non-negative number. You need to perform some <strong>operations</strong> such that each cell <code>grid[i][j]</code> is:</p>
 
 <ul>
-	<li>如果下面相邻格子存在的话，它们的值相等，也就是&nbsp;<code>grid[i][j] == grid[i + 1][j]</code>（如果存在）。</li>
-	<li>如果右边相邻格子存在的话，它们的值不相等，也就是&nbsp;<code>grid[i][j] != grid[i][j + 1]</code>（如果存在）。</li>
+	<li>Equal to the cell below it, i.e. <code>grid[i][j] == grid[i + 1][j]</code> (if it exists).</li>
+	<li>Different from the cell to its right, i.e. <code>grid[i][j] != grid[i][j + 1]</code> (if it exists).</li>
 </ul>
 
-<p>请你返回需要的 <strong>最少</strong>&nbsp;操作数目。</p>
+<p>Return the <strong>minimum</strong> number of operations needed.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>grid = [[1,0,2],[1,0,2]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">grid = [[1,0,2],[1,0,2]]</span></p>
 
-<p><b>输出：</b>0</p>
+<p><strong>Output:</strong> 0</p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3122.Minimum%20Number%20of%20Operations%20to%20Satisfy%20Conditions/images/examplechanged.png" style="width: 254px; height: 186px;padding: 10px; background: #fff; border-radius: .5rem;" /></strong></p>
 
-<p>矩阵中所有格子已经满足要求。</p>
+<p>All the cells in the matrix already satisfy the properties.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>grid = [[1,1,1],[0,0,0]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">grid = [[1,1,1],[0,0,0]]</span></p>
 
-<p><b>输出：</b>3</p>
+<p><strong>Output:</strong> 3</p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3122.Minimum%20Number%20of%20Operations%20to%20Satisfy%20Conditions/images/example21.png" style="width: 254px; height: 186px;padding: 10px; background: #fff; border-radius: .5rem;" /></strong></p>
 
-<p>将矩阵变成&nbsp;<code>[[1,0,1],[1,0,1]]</code>&nbsp;，它满足所有要求，需要 3 次操作：</p>
+<p>The matrix becomes <code>[[1,0,1],[1,0,1]]</code> which satisfies the properties, by doing these 3 operations:</p>
 
 <ul>
-	<li>将&nbsp;<code>grid[1][0]</code>&nbsp;变为 1 。</li>
-	<li>将&nbsp;<code>grid[0][1]</code> 变为 0 。</li>
-	<li>将&nbsp;<code>grid[1][2]</code>&nbsp;变为 1 。</li>
+	<li>Change <code>grid[1][0]</code> to 1.</li>
+	<li>Change <code>grid[0][1]</code> to 0.</li>
+	<li>Change <code>grid[1][2]</code> to 1.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>grid = [[1],[2],[3]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">grid = [[1],[2],[3]]</span></p>
 
-<p><b>输出：</b>2</p>
+<p><strong>Output:</strong> 2</p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3100-3199/3122.Minimum%20Number%20of%20Operations%20to%20Satisfy%20Conditions/images/changed.png" style="width: 86px; height: 277px;padding: 10px; background: #fff; border-radius: .5rem;" /></p>
 
-<p>这个矩阵只有一列，我们可以通过 2 次操作将所有格子里的值变为 1 。</p>
+<p>There is a single column. We can change the value to 1 in each cell using 2 operations.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n, m &lt;= 1000</code></li>
@@ -90,25 +85,25 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们注意到，矩阵中格子的值只有 $10$ 种可能，题目需要我们求出每一列数字相同，且相邻列数字不同的最小操作次数。那么我们只需要考虑将数字修改为 $0$ 到 $9$ 的情况即可。
+We notice that the values in the cells of the matrix only have 10 possibilities. The problem requires us to find the minimum number of operations for each column to have the same number, and the numbers in adjacent columns are different. Therefore, we only need to consider the case of modifying the number to 0 to 9.
 
-我们定义状态 $f[i][j]$ 表示前 $[0,..i]$ 列数字，且第 $i$ 列数字为 $j$ 的最小操作次数。那么我们可以得到状态转移方程：
+We define the state $f[i][j]$ to represent the minimum number of operations for the numbers in the first $[0,..i]$ columns, and the number in the $i$-th column is $j$. Then we can get the state transition equation:
 
 $$
-f[i][j] = \min_{k \neq j} f[i-1][k] + m - \textit{cnt}[j]
+f[i][j] = \min_{k \neq j} (f[i-1][k] + m - \textit{cnt}[j])
 $$
 
-其中 $\textit{cnt}[j]$ 表示第 $i$ 列数字为 $j$ 的个数。
+Where $\textit{cnt}[j]$ represents the number of cells in the $i$-th column that are $j$.
 
-最后我们只需要求出 $f[n-1][j]$ 的最小值即可。
+Finally, we only need to find the minimum value of $f[n-1][j]$.
 
-时间复杂度 $O(n \times (m + C^2))$，空间复杂度 $O(n \times C)$。其中 $m$ 和 $n$ 分别表示矩阵的行数和列数；而 $C$ 表示数字的种类数，这里 $C = 10$。
+The time complexity is $O(n \times (m + C^2))$, and the space complexity is $O(n \times C)$. Where $m$ and $n$ represent the number of rows and columns in the matrix respectively; and $C$ represents the number of types of numbers, here $C = 10$.
 
 <!-- tabs:start -->
 

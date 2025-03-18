@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3204.Bitwise%20User%20Permissions%20Analysis/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3204. 按位用户权限分析 🔒](https://leetcode.cn/problems/bitwise-user-permissions-analysis)
+# [3204. Bitwise User Permissions Analysis 🔒](https://leetcode.com/problems/bitwise-user-permissions-analysis)
 
-[English Version](/solution/3200-3299/3204.Bitwise%20User%20Permissions%20Analysis/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>user_permissions</code></p>
+<p>Table: <code>user_permissions</code></p>
 
 <pre>
 +-------------+---------+
@@ -25,31 +22,30 @@ tags:
 | user_id     | int     |
 | permissions | int     |
 +-------------+---------+
-user_id 是主键。
-这张表的每一行包含用户 ID 和他们的权限，编码为一个整数。
+user_id is the primary key.
+Each row of this table contains the user ID and their permissions encoded as an integer.
 </pre>
 
-<p><code>permissions</code>&nbsp;整数中的每一个二进制位代表一个用户拥有的一个不同的访问级别或功能。</p>
+<p>Consider that each bit in the <code>permissions</code> integer represents a different access level or feature that a user has.</p>
 
-<p>编写一个解决方案来计算以下内容：</p>
+<p>Write a solution to calculate the following:</p>
 
 <ul>
-	<li>common_perms：授予 <strong>所有用户</strong> 的访问级别。在&nbsp;<code>permissions</code>&nbsp;列上使用 <strong>按位与&nbsp;</strong>操作来计算。</li>
-	<li>any_perms：授予 <strong>任一用户</strong> 的访问级别。在&nbsp;<code>permissions</code>&nbsp;列上使用 <strong>按位或 </strong>操作来计算。</li>
+	<li>common_perms: The access level granted to <strong>all users</strong>. This is computed using a <strong>bitwise AND</strong> operation on the <code>permissions</code> column.</li>
+	<li>any_perms: The access level granted to <strong>any user</strong>. This is computed using a <strong>bitwise OR</strong> operation on the <code>permissions</code> column.</li>
 </ul>
 
-<p>以&nbsp;<strong>任意&nbsp;</strong>顺序返回结果表。</p>
+<p>Return <em>the result table in <strong>any</strong> order</em>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is shown in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p>user_permissions 表：</p>
+<p>user_permissions table:</p>
 
 <pre class="example-io">
 +---------+-------------+
@@ -62,7 +58,7 @@ user_id 是主键。
 +---------+-------------+
  </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +-------------+--------------+
@@ -72,22 +68,22 @@ user_id 是主键。
 +--------------+-------------+
     </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li><strong>common_perms:</strong> 代表所有权限的按位与结果：
+	<li><strong>common_perms:</strong> Represents the bitwise AND result of all permissions:
 
     <ul>
-    	<li>对于用户 1 (5): 5 (二进制 0101)</li>
-    	<li>对于用户 2 (12): 12 (二进制 1100)</li>
-    	<li>对于用户 3 (7): 7 (二进制 0111)</li>
-    	<li>对于用户 4 (3): 3 (二进制 0011)</li>
-    	<li>按位与：5 &amp; 12 &amp; 7 &amp; 3 = 0 (二进制 0000)</li>
+    	<li>For user 1 (5): 5 (binary 0101)</li>
+    	<li>For user 2 (12): 12 (binary 1100)</li>
+    	<li>For user 3 (7): 7 (binary 0111)</li>
+    	<li>For user 4 (3): 3 (binary 0011)</li>
+    	<li>Bitwise AND: 5 &amp; 12 &amp; 7 &amp; 3 = 0 (binary 0000)</li>
     </ul>
     </li>
-    <li><strong>any_perms:</strong> 代表所有权限的按位或结果：
+    <li><strong>any_perms:</strong> Represents the bitwise OR result of all permissions:
     <ul>
-    	<li>按位或：5 | 12 | 7 | 3 = 15 (二进制 1111)</li>
+    	<li>Bitwise OR: 5 | 12 | 7 | 3 = 15 (binary 1111)</li>
     </ul>
     </li>
 
@@ -96,13 +92,13 @@ user_id 是主键。
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算
+### Solution 1: Bitwise Operations
 
-我们可以使用 `BIT_AND` 和 `BIT_OR` 函数来计算 `common_perms` 和 `any_perms`。
+We can use the `BIT_AND` and `BIT_OR` functions to calculate `common_perms` and `any_perms`.
 
 <!-- tabs:start -->
 

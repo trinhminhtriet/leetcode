@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2020.Number%20of%20Accounts%20That%20Did%20Not%20Stream/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2020. 无流量的帐户数 🔒](https://leetcode.cn/problems/number-of-accounts-that-did-not-stream)
+# [2020. Number of Accounts That Did Not Stream 🔒](https://leetcode.com/problems/number-of-accounts-that-did-not-stream)
 
-[English Version](/solution/2000-2099/2020.Number%20of%20Accounts%20That%20Did%20Not%20Stream/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>Subscriptions</code></p>
+<p>Table: <code>Subscriptions</code></p>
 
 <pre>
 +-------------+------+
@@ -26,13 +23,14 @@ tags:
 | start_date  | date |
 | end_date    | date |
 +-------------+------+
-account_id 是此表的主键列。
-此表的每一行都表示帐户订阅的开始和结束日期。
-请注意，始终开始日期 &lt; 结束日期。</pre>
+account_id is the primary key column for this table.
+Each row of this table indicates the start and end dates of an account&#39;s subscription.
+Note that always start_date &lt; end_date.
+</pre>
 
 <p>&nbsp;</p>
 
-<p>表: <code>Streams</code></p>
+<p>Table: <code>Streams</code></p>
 
 <pre>
 +-------------+------+
@@ -42,21 +40,22 @@ account_id 是此表的主键列。
 | account_id  | int  |
 | stream_date | date |
 +-------------+------+
-session_id是该表的主键列。
-account_id是订阅表中的外键。
-此表的每一行都包含与会话相关联的帐户和日期的信息。</pre>
+session_id is the primary key column for this table.
+account_id is a foreign key from the Subscriptions table.
+Each row of this table contains information about the account and the date associated with a stream session.
+</pre>
 
 <p>&nbsp;</p>
 
-<p>编写SQL查询以报告在 <code>2021</code> 购买订阅但没有任何会话的帐 户数。<br />
-查询结果格式如下例所示。</p>
+<p>Write an SQL query to report the number of accounts that bought a subscription in <code>2021</code> but did not have any stream session.</p>
+
+<p>The query result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
+<strong>Input:</strong> 
 Subscriptions table:
 +------------+------------+------------+
 | account_id | start_date | end_date   |
@@ -79,22 +78,23 @@ Streams table:
 | 19         | 4          | 2020-12-31  |
 | 13         | 5          | 2021-01-05  |
 +------------+------------+-------------+
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +----------------+
 | accounts_count |
 +----------------+
 | 2              |
 +----------------+
-<strong>解释：</strong>用户 4 和 9 在 2021 没有会话。
-用户 11 在 2021 没有订阅。</pre>
+<strong>Explanation:</strong> Users 4 and 9 did not stream in 2021.
+User 11 did not subscribe in 2021.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

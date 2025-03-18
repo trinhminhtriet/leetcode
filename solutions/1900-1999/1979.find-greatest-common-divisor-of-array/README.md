@@ -1,64 +1,62 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1979.Find%20Greatest%20Common%20Divisor%20of%20Array/README.md
+difficulty: Easy
 rating: 1184
-source: 第 255 场周赛 Q1
+source: Weekly Contest 255 Q1
 tags:
-    - 数组
-    - 数学
-    - 数论
+    - Array
+    - Math
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [1979. 找出数组的最大公约数](https://leetcode.cn/problems/find-greatest-common-divisor-of-array)
+# [1979. Find Greatest Common Divisor of Array](https://leetcode.com/problems/find-greatest-common-divisor-of-array)
 
-[English Version](/solution/1900-1999/1979.Find%20Greatest%20Common%20Divisor%20of%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> ，返回数组中最大数和最小数的 <strong>最大公约数</strong> 。</p>
+<p>Given an integer array <code>nums</code>, return<strong> </strong><em>the <strong>greatest common divisor</strong> of the smallest number and largest number in </em><code>nums</code>.</p>
 
-<p>两个数的&nbsp;<strong>最大公约数</strong> 是能够被两个数整除的最大正整数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>nums = [2,5,6,9,10]
-<strong>输出：</strong>2
-<strong>解释：</strong>
-nums 中最小的数是 2
-nums 中最大的数是 10
-2 和 10 的最大公约数是 2
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>nums = [7,5,6,8,3]
-<strong>输出：</strong>1
-<strong>解释：</strong>
-nums 中最小的数是 3
-nums 中最大的数是 8
-3 和 8 的最大公约数是 1
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>nums = [3,3]
-<strong>输出：</strong>3
-<strong>解释：</strong>
-nums 中最小的数是 3
-nums 中最大的数是 3
-3 和 3 的最大公约数是 3
-</pre>
+<p>The <strong>greatest common divisor</strong> of two numbers is the largest positive integer that evenly divides both numbers.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [2,5,6,9,10]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong>
+The smallest number in nums is 2.
+The largest number in nums is 10.
+The greatest common divisor of 2 and 10 is 2.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [7,5,6,8,3]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong>
+The smallest number in nums is 3.
+The largest number in nums is 8.
+The greatest common divisor of 3 and 8 is 1.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [3,3]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong>
+The smallest number in nums is 3.
+The largest number in nums is 3.
+The greatest common divisor of 3 and 3 is 3.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 1000</code></li>
@@ -67,15 +65,15 @@ nums 中最大的数是 3
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们根据题意模拟即可，即先找出数组 $\textit{nums}$ 中的最大值和最小值，然后求最大值和最小值的最大公约数。
+We can simulate according to the problem description. First, find the maximum and minimum values in the array $\textit{nums}$, then find the greatest common divisor of the maximum and minimum values.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

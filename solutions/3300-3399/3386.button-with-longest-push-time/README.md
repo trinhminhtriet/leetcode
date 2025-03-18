@@ -1,98 +1,89 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3300-3399/3386.Button%20with%20Longest%20Push%20Time/README.md
+difficulty: Easy
 rating: 1255
-source: 第 428 场周赛 Q1
+source: Weekly Contest 428 Q1
 tags:
-    - 数组
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [3386. 按下时间最长的按钮](https://leetcode.cn/problems/button-with-longest-push-time)
+# [3386. Button with Longest Push Time](https://leetcode.com/problems/button-with-longest-push-time)
 
-[English Version](/solution/3300-3399/3386.Button%20with%20Longest%20Push%20Time/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二维数组 <code>events</code>，表示孩子在键盘上按下一系列按钮触发的按钮事件。</p>
+<p>You are given a 2D array <code>events</code> which represents a sequence of events where a child pushes a series of buttons on a keyboard.</p>
 
-<p>每个 <code>events[i] = [index<sub>i</sub>, time<sub>i</sub>]</code> 表示在时间 <code>time<sub>i</sub></code> 时，按下了下标为 <code>index<sub>i</sub></code> 的按钮。</p>
+<p>Each <code>events[i] = [index<sub>i</sub>, time<sub>i</sub>]</code> indicates that the button at index <code>index<sub>i</sub></code> was pressed at time <code>time<sub>i</sub></code>.</p>
 
 <ul>
-	<li>数组按照 <code>time</code> 的递增顺序<strong>排序</strong>。</li>
-	<li>按下一个按钮所需的时间是连续两次按钮按下的时间差。按下第一个按钮所需的时间就是其时间戳。</li>
+	<li>The array is <strong>sorted</strong> in increasing order of <code>time</code>.</li>
+	<li>The time taken to press a button is the difference in time between consecutive button presses. The time for the first button is simply the time at which it was pressed.</li>
 </ul>
 
-<p>返回按下时间&nbsp;<strong>最长&nbsp;</strong>的按钮的 <code>index</code>。如果有多个按钮的按下时间相同，则返回 <code>index</code> 最小的按钮。</p>
+<p>Return the <code>index</code> of the button that took the <strong>longest</strong> time to push. If multiple buttons have the same longest time, return the button with the <strong>smallest</strong> <code>index</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">events = [[1,2],[2,5],[3,9],[1,15]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">events = [[1,2],[2,5],[3,9],[1,15]]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">1</span></p>
+<p><strong>Output:</strong> <span class="example-io">1</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>下标为 1 的按钮在时间 2 被按下。</li>
-	<li>下标为 2 的按钮在时间 5 被按下，因此按下时间为 <code>5 - 2 = 3</code>。</li>
-	<li>下标为 3 的按钮在时间 9 被按下，因此按下时间为 <code>9 - 5 = 4</code>。</li>
-	<li>下标为 1 的按钮再次在时间 15 被按下，因此按下时间为 <code>15 - 9 = 6</code>。</li>
+	<li>Button with index 1 is pressed at time 2.</li>
+	<li>Button with index 2 is pressed at time 5, so it took <code>5 - 2 = 3</code> units of time.</li>
+	<li>Button with index 3 is pressed at time 9, so it took <code>9 - 5 = 4</code> units of time.</li>
+	<li>Button with index 1 is pressed again at time 15, so it took <code>15 - 9 = 6</code> units of time.</li>
 </ul>
-
-<p>最终，下标为 1 的按钮按下时间最长，为 6。</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">events = [[10,5],[1,7]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">events = [[10,5],[1,7]]</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">10</span></p>
+<p><strong>Output:</strong> <span class="example-io">10</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li>下标为 10 的按钮在时间 5 被按下。</li>
-	<li>下标为 1 的按钮在时间 7 被按下，因此按下时间为 <code>7 - 5 = 2</code>。</li>
+	<li>Button with index 10 is pressed at time 5.</li>
+	<li>Button with index 1 is pressed at time 7, so it took <code>7 - 5 = 2</code> units of time.</li>
 </ul>
-
-<p>最终，下标为 10 的按钮按下时间最长，为 5。</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= events.length &lt;= 1000</code></li>
 	<li><code>events[i] == [index<sub>i</sub>, time<sub>i</sub>]</code></li>
 	<li><code>1 &lt;= index<sub>i</sub>, time<sub>i</sub> &lt;= 10<sup>5</sup></code></li>
-	<li>输入保证数组 <code>events</code> 按照 <code>time<sub>i</sub></code> 的递增顺序排序。</li>
+	<li>The input is generated such that <code>events</code> is sorted in increasing order of <code>time<sub>i</sub></code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：一次遍历
+### Solution 1: Single Pass
 
-我们定义两个变量 $\textit{ans}$ 和 $t$，分别表示按下时间最长的按钮的索引和按下时间。
+We define two variables $\textit{ans}$ and $t$, representing the index of the button with the longest press time and the press time, respectively.
 
-接下来，我们从下标 $k = 1$ 开始遍历数组 $\textit{events}$，对于每个 $k$，我们计算当前按钮的按下时间 $d = t2 - t1$，其中 $t2$ 是当前按钮的按下时间，而 $t1$ 是前一个按钮的按下时间。如果 $d > t$ 或者 $d = t$ 且当前按钮的索引 $i$ 小于 $\textit{ans}$，我们更新 $\textit{ans} = i$ 和 $t = d$。
+Next, we start traversing the array $\textit{events}$ from index $k = 1$. For each $k$, we calculate the press time of the current button $d = t2 - t1$, where $t2$ is the press time of the current button and $t1$ is the press time of the previous button. If $d > t$ or $d = t$ and the index $i$ of the current button is less than $\textit{ans}$, we update $\textit{ans} = i$ and $t = d$.
 
-最后，我们返回 $\textit{ans}$。
+Finally, we return $\textit{ans}$.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{events}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{events}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

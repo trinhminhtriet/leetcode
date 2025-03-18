@@ -1,77 +1,72 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1675.Minimize%20Deviation%20in%20Array/README.md
+difficulty: Hard
 rating: 2533
-source: 第 217 场周赛 Q4
+source: Weekly Contest 217 Q4
 tags:
-    - 贪心
-    - 数组
-    - 有序集合
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Ordered Set
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1675. 数组的最小偏移量](https://leetcode.cn/problems/minimize-deviation-in-array)
+# [1675. Minimize Deviation in Array](https://leetcode.com/problems/minimize-deviation-in-array)
 
-[English Version](/solution/1600-1699/1675.Minimize%20Deviation%20in%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个由 <code>n</code> 个正整数组成的数组 <code>nums</code> 。</p>
+<p>You are given an array <code>nums</code> of <code>n</code> positive integers.</p>
 
-<p>你可以对数组的任意元素执行任意次数的两类操作：</p>
+<p>You can perform two types of operations on any element of the array any number of times:</p>
 
 <ul>
-	<li>如果元素是<strong> 偶数</strong> ，<strong>除以</strong> <code>2</code>
+	<li>If the element is <strong>even</strong>, <strong>divide</strong> it by <code>2</code>.
 
     <ul>
-    	<li>例如，如果数组是 <code>[1,2,3,4]</code> ，那么你可以对最后一个元素执行此操作，使其变成 <code>[1,2,3,<strong>2</strong>]</code></li>
+    	<li>For example, if the array is <code>[1,2,3,4]</code>, then you can do this operation on the last element, and the array will be <code>[1,2,3,<u>2</u>].</code></li>
     </ul>
     </li>
-    <li>如果元素是 <strong>奇数</strong> ，<strong>乘上</strong> <code>2</code>
+    <li>If the element is <strong>odd</strong>, <strong>multiply</strong> it by <code>2</code>.
     <ul>
-    	<li>例如，如果数组是 <code>[1,2,3,4]</code> ，那么你可以对第一个元素执行此操作，使其变成 <code>[<strong>2</strong>,2,3,4]</code></li>
+    	<li>For example, if the array is <code>[1,2,3,4]</code>, then you can do this operation on the first element, and the array will be <code>[<u>2</u>,2,3,4].</code></li>
     </ul>
     </li>
 
 </ul>
 
-<p>数组的 <strong>偏移量</strong> 是数组中任意两个元素之间的 <strong>最大差值</strong> 。</p>
+<p>The <strong>deviation</strong> of the array is the <strong>maximum difference</strong> between any two elements in the array.</p>
 
-<p>返回数组在执行某些操作之后可以拥有的 <strong>最小偏移量</strong> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,3,4]
-<strong>输出：</strong>1
-<strong>解释：</strong>你可以将数组转换为 [1,2,3,<strong>2</strong>]，然后转换成 [<strong>2</strong>,2,3,2]，偏移量是 3 - 2 = 1
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [4,1,5,20,3]
-<strong>输出：</strong>3
-<strong>解释：</strong>两次操作后，你可以将数组转换为 [4,<strong>2</strong>,5,<strong>5</strong>,3]，偏移量是 5 - 2 = 3
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [2,10,8]
-<strong>输出：</strong>3
-</pre>
+<p>Return <em>the <strong>minimum deviation</strong> the array can have after performing some number of operations.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,2,3,4]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> You can transform the array to [1,2,3,<u>2</u>], then to [<u>2</u>,2,3,2], then the deviation will be 3 - 2 = 1.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [4,1,5,20,3]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> You can transform the array after two operations to [4,<u>2</u>,5,<u>5</u>,3], then the deviation will be 5 - 2 = 3.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,10,8]
+<strong>Output:</strong> 3
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -81,21 +76,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 优先队列
+### Solution 1: Greedy + Priority Queue
 
-直观上，为了得到数组的最小偏移量，我们需要将减小数组的最大值，增大数组的最小值。
+Intuitively, to get the minimum offset of the array, we need to decrease the maximum value of the array and increase the minimum value of the array.
 
-由于每次可以执行乘、除两种操作：将奇数乘以 $2$；将偶数除以 $2$，情况较为复杂，我们可以将奇数统一乘以 $2$，转成偶数，这样就等价于只有一种除法操作。除法操作只能减少某个数，而只有减少最大值，结果才可能更优。
+Since there are two operations that can be performed each time: multiply an odd number by $2$; divide an even number by $2$, the situation is more complex. We can multiply all odd numbers by $2$ to convert them into even numbers, which is equivalent to having only one division operation. The division operation can only reduce a certain number, and only by reducing the maximum value can the result be more optimal.
 
-因此，我们用优先队列（大根堆）维护数组的最大值，每次取出堆顶元素做除法操作，将新值放入堆中，并且更新最小值以及堆顶元素与最小值的差值的最小值。
+Therefore, we use a priority queue (max heap) to maintain the maximum value of the array. Each time we take out the top element of the heap for division operation, put the new value into the heap, and update the minimum value and the minimum value of the difference between the top element of the heap and the minimum value.
 
-当堆顶元素为奇数时，操作停止。
+When the top element of the heap is an odd number, the operation stops.
 
-时间复杂度 $O(n\log n \times \log m)$。其中 $n$, $m$ 分别是数组 `nums` 的长度以及数组的最大元素。由于数组中的最大元素除以 $2$ 的操作最多有 $O(\log m)$ 次，因此全部元素除以 $2$ 的操作最多有 $O(n\log m)$ 次。每次弹出、放入堆的操作，时间复杂度为 $O(\log n)$。因此，总的时间复杂度为 $O(n\log n \times \log m)$。
+The time complexity is $O(n\log n \times \log m)$. Where $n$ and $m$ are the length of the array `nums` and the maximum element of the array, respectively. Since the maximum element in the array is divided by $2$ at most $O(\log m)$ times, all elements are divided by $2$ at most $O(n\log m)$ times. Each time the heap is popped and put into operation, the time complexity is $O(\log n)$. Therefore, the total time complexity is $O(n\log n \times \log m)$.
 
 <!-- tabs:start -->
 

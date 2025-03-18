@@ -1,67 +1,65 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2808.Minimum%20Seconds%20to%20Equalize%20a%20Circular%20Array/README.md
+difficulty: Medium
 rating: 1875
-source: 第 110 场双周赛 Q3
+source: Biweekly Contest 110 Q3
 tags:
-    - 数组
-    - 哈希表
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [2808. 使循环数组所有元素相等的最少秒数](https://leetcode.cn/problems/minimum-seconds-to-equalize-a-circular-array)
+# [2808. Minimum Seconds to Equalize a Circular Array](https://leetcode.com/problems/minimum-seconds-to-equalize-a-circular-array)
 
-[English Version](/solution/2800-2899/2808.Minimum%20Seconds%20to%20Equalize%20a%20Circular%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始长度为 <code>n</code>&nbsp;的数组&nbsp;<code>nums</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> array <code>nums</code> containing <code>n</code> integers.</p>
 
-<p>每一秒，你可以对数组执行以下操作：</p>
+<p>At each second, you perform the following operation on the array:</p>
 
 <ul>
-	<li>对于范围在&nbsp;<code>[0, n - 1]</code>&nbsp;内的每一个下标&nbsp;<code>i</code>&nbsp;，将&nbsp;<code>nums[i]</code> 替换成&nbsp;<code>nums[i]</code>&nbsp;，<code>nums[(i - 1 + n) % n]</code>&nbsp;或者&nbsp;<code>nums[(i + 1) % n]</code>&nbsp;三者之一。</li>
+	<li>For every index <code>i</code> in the range <code>[0, n - 1]</code>, replace <code>nums[i]</code> with either <code>nums[i]</code>, <code>nums[(i - 1 + n) % n]</code>, or <code>nums[(i + 1) % n]</code>.</li>
 </ul>
 
-<p><strong>注意</strong>，所有元素会被同时替换。</p>
+<p><strong>Note</strong> that all the elements get replaced simultaneously.</p>
 
-<p>请你返回将数组 <code>nums</code>&nbsp;中所有元素变成相等元素所需要的 <strong>最少</strong>&nbsp;秒数。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [1,2,1,2]
-<b>输出：</b>1
-<b>解释：</b>我们可以在 1 秒内将数组变成相等元素：
-- 第 1 秒，将每个位置的元素分别变为 [nums[3],nums[1],nums[3],nums[3]] 。变化后，nums = [2,2,2,2] 。
-1 秒是将数组变成相等元素所需要的最少秒数。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>nums = [2,1,3,3,2]
-<b>输出：</b>2
-<b>解释：</b>我们可以在 2 秒内将数组变成相等元素：
-- 第 1 秒，将每个位置的元素分别变为 [nums[0],nums[2],nums[2],nums[2],nums[3]] 。变化后，nums = [2,3,3,3,3] 。
-- 第 2 秒，将每个位置的元素分别变为 [nums[1],nums[1],nums[2],nums[3],nums[4]] 。变化后，nums = [3,3,3,3,3] 。
-2 秒是将数组变成相等元素所需要的最少秒数。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><b>输入：</b>nums = [5,5,5,5]
-<b>输出：</b>0
-<b>解释：</b>不需要执行任何操作，因为一开始数组中的元素已经全部相等。
-</pre>
+<p>Return <em>the <strong>minimum</strong> number of seconds needed to make all elements in the array</em> <code>nums</code> <em>equal</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,2,1,2]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> We can equalize the array in 1 second in the following way:
+- At 1<sup>st</sup> second, replace values at each index with [nums[3],nums[1],nums[3],nums[3]]. After replacement, nums = [2,2,2,2].
+It can be proven that 1 second is the minimum amount of seconds needed for equalizing the array.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,1,3,3,2]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> We can equalize the array in 2 seconds in the following way:
+- At 1<sup>st</sup> second, replace values at each index with [nums[0],nums[2],nums[2],nums[2],nums[3]]. After replacement, nums = [2,3,3,3,3].
+- At 2<sup>nd</sup> second, replace values at each index with [nums[1],nums[1],nums[2],nums[3],nums[4]]. After replacement, nums = [3,3,3,3,3].
+It can be proven that 2 seconds is the minimum amount of seconds needed for equalizing the array.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [5,5,5,5]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> We don&#39;t need to perform any operations as all elements in the initial array are the same.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == nums.length &lt;= 10<sup>5</sup></code></li>
@@ -70,19 +68,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们假设最终所有元素都变成了 $x$，那么 $x$ 一定是数组中的某个元素。
+We assume that all elements eventually become $x$, and $x$ must be an element in the array.
 
-数字 $x$ 每一秒都可以向左右两边扩展一位，如果有多个相同的 $x$，那么扩展完整个数组所需要的时间，就取决于相邻两个 $x$ 之间的最大间距。
+The number $x$ can expand one bit to the left and right every second. If there are multiple identical $x$, then the time required to expand the entire array depends on the maximum distance between two adjacent $x$.
 
-因此，我们枚举每个元素作为最终的 $x$，计算出每个 $x$ 中相邻两个元素之间的最大间距，记为 $t$，那么最终答案就是 $\min\limits_{x \in nums} \left\lfloor \frac{t}{2} \right\rfloor$。
+Therefore, we enumerate each element as the final $x$, calculate the maximum distance $t$ between two adjacent elements in each $x$, then the final answer is $\min\limits_{x \in nums} \left\lfloor \frac{t}{2} \right\rfloor$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array.
 
 <!-- tabs:start -->
 

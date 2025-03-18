@@ -1,74 +1,69 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1153.String%20Transforms%20Into%20Another%20String/README.md
+difficulty: Hard
 rating: 1949
-source: 第 6 场双周赛 Q4
+source: Biweekly Contest 6 Q4
 tags:
-    - 哈希表
-    - 字符串
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1153. 字符串转化 🔒](https://leetcode.cn/problems/string-transforms-into-another-string)
+# [1153. String Transforms Into Another String 🔒](https://leetcode.com/problems/string-transforms-into-another-string)
 
-[English Version](/solution/1100-1199/1153.String%20Transforms%20Into%20Another%20String/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给出两个长度相同的字符串&nbsp;<code>str1</code>&nbsp;和 <code>str2</code>。请你帮忙判断字符串 <code>str1</code> 能不能在 <strong>零次</strong>&nbsp;或 <strong>多次</strong>&nbsp;<em>转化</em>&nbsp;后变成字符串 <code>str2</code>。</p>
+<p>Given two strings <code>str1</code> and <code>str2</code> of the same length, determine whether you can transform <code>str1</code> into <code>str2</code> by doing <strong>zero or more</strong> <em>conversions</em>.</p>
 
-<p>每一次转化时，你可以将 <code>str1</code> 中出现的&nbsp;<strong>所有</strong>&nbsp;相同字母变成其他&nbsp;<strong>任何</strong>&nbsp;小写英文字母。</p>
+<p>In one conversion you can convert <strong>all</strong> occurrences of one character in <code>str1</code> to <strong>any</strong> other lowercase English character.</p>
 
-<p>只有在字符串 <code>str1</code>&nbsp;能够通过上述方式顺利转化为字符串 <code>str2</code>&nbsp;时才能返回 <code>true</code>&nbsp;。​​</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>str1 = "aabcc", str2 = "ccdee"
-<strong>输出：</strong>true
-<strong>解释：</strong>将 'c' 变成 'e'，然后把 'b' 变成 'd'，接着再把 'a' 变成 'c'。注意，转化的顺序也很重要。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>str1 = "leetcode", str2 = "codeleet"
-<strong>输出：</strong>false
-<strong>解释：</strong>我们没有办法能够把 str1 转化为 str2。
-</pre>
+<p>Return <code>true</code> if and only if you can transform <code>str1</code> into <code>str2</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> str1 = &quot;aabcc&quot;, str2 = &quot;ccdee&quot;
+<strong>Output:</strong> true
+<strong>Explanation: </strong>Convert &#39;c&#39; to &#39;e&#39; then &#39;b&#39; to &#39;d&#39; then &#39;a&#39; to &#39;c&#39;. Note that the order of conversions matter.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> str1 = &quot;leetcode&quot;, str2 = &quot;codeleet&quot;
+<strong>Output:</strong> false
+<strong>Explanation: </strong>There is no way to transform str1 to str2.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= str1.length == str2.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>str1</code>&nbsp;和 <code>str2</code> 中都只会出现小写英文字母</li>
+	<li><code>str1</code> and <code>str2</code> contain only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
+### Solution 1: Hash Table
 
-我们可以先判断 `str1` 和 `str2` 是否相等，若相等，直接返回 `true`。
+First, we can check if `str1` and `str2` are equal. If they are, return `true` directly.
 
-然后我们统计 `str2` 中每个字母出现的次数，若出现的次数等于 $26$，说明 `str2` 包含了所有的小写字母，那么无论 `str1` 如何转换，都无法得到 `str2`，直接返回 `false`。
+Then we count the occurrence of each letter in `str2`. If the occurrence equals $26$, it means `str2` contains all lowercase letters. In this case, no matter how `str1` is transformed, it cannot become `str2`, so return `false` directly.
 
-否则，我们用数组或哈希表 `d` 记录 `str1` 中每个字母转换后的字母。遍历字符串 `str1` 和 `str2`，若 `str1` 中的某个字母已经转换过，那么其转换后的字母必须与 `str2` 中对应位置的字母相同，否则返回 `false`。
+Otherwise, we use an array or hash table `d` to record the letter each letter in `str1` is transformed to. We traverse the strings `str1` and `str2`. If a letter in `str1` has been transformed, the transformed letter must be the same as the corresponding letter in `str2`, otherwise return `false`.
 
-遍历结束后，返回 `true`。
+After the traversal, return `true`.
 
-时间复杂度 $O(n)$，空间复杂度 $O(C)$。其中 $n$ 为字符串 `str1` 的长度，而 $C$ 为字符集大小，本题中 $C = 26$。
+The time complexity is $O(n)$, and the space complexity is $O(C)$. Here, $n$ is the length of the string `str1`, and $C$ is the size of the character set. In this problem, $C = 26$.
 
 <!-- tabs:start -->
 

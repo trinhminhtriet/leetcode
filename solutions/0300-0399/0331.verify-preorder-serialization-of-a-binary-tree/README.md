@@ -1,86 +1,69 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0331.Verify%20Preorder%20Serialization%20of%20a%20Binary%20Tree/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 树
-    - 字符串
-    - 二叉树
+    - Stack
+    - Tree
+    - String
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [331. 验证二叉树的前序序列化](https://leetcode.cn/problems/verify-preorder-serialization-of-a-binary-tree)
+# [331. Verify Preorder Serialization of a Binary Tree](https://leetcode.com/problems/verify-preorder-serialization-of-a-binary-tree)
 
-[English Version](/solution/0300-0399/0331.Verify%20Preorder%20Serialization%20of%20a%20Binary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>序列化二叉树的一种方法是使用 <strong>前序遍历 </strong>。当我们遇到一个非空节点时，我们可以记录下这个节点的值。如果它是一个空节点，我们可以使用一个标记值记录，例如 <code>#</code>。</p>
+<p>One way to serialize a binary tree is to use <strong>preorder traversal</strong>. When we encounter a non-null node, we record the node&#39;s value. If it is a null node, we record using a sentinel value such as <code>&#39;#&#39;</code>.</p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0331.Verify%20Preorder%20Serialization%20of%20a%20Binary%20Tree/images/pre-tree.jpg" style="width: 362px; height: 293px;" />
+<p>For example, the above binary tree can be serialized to the string <code>&quot;9,3,4,#,#,1,#,#,2,#,6,#,#&quot;</code>, where <code>&#39;#&#39;</code> represents a null node.</p>
 
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0331.Verify%20Preorder%20Serialization%20of%20a%20Binary%20Tree/images/pre-tree.jpg" /></p>
+<p>Given a string of comma-separated values <code>preorder</code>, return <code>true</code> if it is a correct preorder traversal serialization of a binary tree.</p>
 
-<p>例如，上面的二叉树可以被序列化为字符串 <code>"9,3,4,#,#,1,#,#,2,#,6,#,#"</code>，其中 <code>#</code> 代表一个空节点。</p>
+<p>It is <strong>guaranteed</strong> that each comma-separated value in the string must be either an integer or a character <code>&#39;#&#39;</code> representing null pointer.</p>
 
-<p>给定一串以逗号分隔的序列，验证它是否是正确的二叉树的前序序列化。编写一个在不重构树的条件下的可行算法。</p>
-
-<p><strong>保证</strong> 每个以逗号分隔的字符或为一个整数或为一个表示 <code>null</code> 指针的 <code>'#'</code> 。</p>
-
-<p>你可以认为输入格式总是有效的</p>
+<p>You may assume that the input format is always valid.</p>
 
 <ul>
-	<li>例如它永远不会包含两个连续的逗号，比如&nbsp;<code>"1,,3"</code> 。</li>
+	<li>For example, it could never contain two consecutive commas, such as <code>&quot;1,,3&quot;</code>.</li>
 </ul>
 
-<p><strong>注意：</strong>不允许重建树。</p>
+<p><strong>Note:&nbsp;</strong>You are not allowed to reconstruct the tree.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入: </strong>preorder = <code>"9,3,4,#,#,1,#,#,2,#,6,#,#"</code>
-<strong>输出: </strong><code>true</code></pre>
-
-<p><strong>示例&nbsp;2:</strong></p>
-
-<pre>
-<strong>输入: </strong>preorder = <code>"1,#"</code>
-<strong>输出: </strong><code>false</code>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> preorder = "9,3,4,#,#,1,#,#,2,#,6,#,#"
+<strong>Output:</strong> true
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> preorder = "1,#"
+<strong>Output:</strong> false
+</pre><p><strong class="example">Example 3:</strong></p>
+<pre><strong>Input:</strong> preorder = "9,#,#,1"
+<strong>Output:</strong> false
 </pre>
-
-<p><strong>示例 3:</strong></p>
-
-<pre>
-<strong>输入: </strong>preorder = <code>"9,#,#,1"</code>
-<strong>输出: </strong><code>false</code>
-</pre>
-
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= preorder.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>preorder</code>&nbsp;由以逗号&nbsp;<code>“，”</code> 分隔的 <code>[0,100]</code> 范围内的整数和 <code>“#”</code> 组成</li>
+	<li><code>preorder</code> consist of integers in the range <code>[0, 100]</code> and <code>&#39;#&#39;</code> separated by commas <code>&#39;,&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：栈
+### Solution 1: Stack
 
-我们将字符串 `preorder` 按逗号分割成数组，然后遍历数组，如果遇到了连续两个 `'#'`，并且第三个元素不是 `'#'`，那么就将这三个元素替换成一个 `'#'`，这个过程一直持续到数组遍历结束。
+We split the string `preorder` into an array by commas, then traverse the array. If we encounter two consecutive `'#'` and the third element is not `'#'`, we replace these three elements with a single `'#'`. This process continues until the array traversal is complete.
 
-最后，判断数组长度是否为 $1$，且数组唯一的元素是否为 `'#'` 即可。
+Finally, we check whether the length of the array is $1$ and whether the only element in the array is `'#'`.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为字符串 `preorder` 的长度。
+The time complexity is $O(n)$ and the space complexity is $O(n)$, where $n$ is the length of the string `preorder`.
 
 <!-- tabs:start -->
 

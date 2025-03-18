@@ -1,76 +1,74 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2108.Find%20First%20Palindromic%20String%20in%20the%20Array/README.md
+difficulty: Easy
 rating: 1215
-source: 第 272 场周赛 Q1
+source: Weekly Contest 272 Q1
 tags:
-    - 数组
-    - 双指针
-    - 字符串
+    - Array
+    - Two Pointers
+    - String
 ---
 
 <!-- problem:start -->
 
-# [2108. 找出数组中的第一个回文字符串](https://leetcode.cn/problems/find-first-palindromic-string-in-the-array)
+# [2108. Find First Palindromic String in the Array](https://leetcode.com/problems/find-first-palindromic-string-in-the-array)
 
-[English Version](/solution/2100-2199/2108.Find%20First%20Palindromic%20String%20in%20the%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串数组 <code>words</code> ，找出并返回数组中的 <strong>第一个回文字符串</strong> 。如果不存在满足要求的字符串，返回一个 <strong>空字符串</strong><em> </em><code>""</code> 。</p>
+<p>Given an array of strings <code>words</code>, return <em>the first <strong>palindromic</strong> string in the array</em>. If there is no such string, return <em>an <strong>empty string</strong> </em><code>&quot;&quot;</code>.</p>
 
-<p><strong>回文字符串</strong> 的定义为：如果一个字符串正着读和反着读一样，那么该字符串就是一个 <strong>回文字符串</strong> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>words = ["abc","car","ada","racecar","cool"]
-<strong>输出：</strong>"ada"
-<strong>解释：</strong>第一个回文字符串是 "ada" 。
-注意，"racecar" 也是回文字符串，但它不是第一个。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>words = ["notapalindrome","racecar"]
-<strong>输出：</strong>"racecar"
-<strong>解释：</strong>第一个也是唯一一个回文字符串是 "racecar" 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>words = ["def","ghi"]
-<strong>输出：</strong>""
-<strong>解释：</strong>不存在回文字符串，所以返回一个空字符串。
-</pre>
+<p>A string is <strong>palindromic</strong> if it reads the same forward and backward.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> words = [&quot;abc&quot;,&quot;car&quot;,&quot;ada&quot;,&quot;racecar&quot;,&quot;cool&quot;]
+<strong>Output:</strong> &quot;ada&quot;
+<strong>Explanation:</strong> The first string that is palindromic is &quot;ada&quot;.
+Note that &quot;racecar&quot; is also palindromic, but it is not the first.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> words = [&quot;notapalindrome&quot;,&quot;racecar&quot;]
+<strong>Output:</strong> &quot;racecar&quot;
+<strong>Explanation:</strong> The first and only string that is palindromic is &quot;racecar&quot;.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> words = [&quot;def&quot;,&quot;ghi&quot;]
+<strong>Output:</strong> &quot;&quot;
+<strong>Explanation:</strong> There are no palindromic strings, so the empty string is returned.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 100</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 100</code></li>
-	<li><code>words[i]</code> 仅由小写英文字母组成</li>
+	<li><code>words[i]</code> consists only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们遍历数组 `words`，对于每个字符串 `w`，判断其是否为回文字符串，如果是，则返回 `w`，否则继续遍历。
+We iterate through the array `words`, for each string `w`, we determine if it is a palindrome. If it is, then we return `w`; otherwise, we continue to iterate.
 
-判断一个字符串是否为回文字符串，可以使用双指针，分别指向字符串的首尾，向中间移动，判断对应的字符是否相等。如果遍历完整个字符串，都没有发现不相等的字符，则该字符串为回文字符串。
+To determine if a string is a palindrome, we can use two pointers, one pointing to the start and the other to the end of the string, moving towards the center, and checking if the corresponding characters are equal. If, after traversing the entire string, no unequal characters are found, then the string is a palindrome.
 
-时间复杂度 $O(L)$，其中 $L$ 为数组 `words` 中所有字符串的长度之和。空间复杂度 $O(1)$。
+The time complexity is $O(L)$, where $L$ is the sum of the lengths of all strings in the array `words`. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,54 +1,50 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1124.Longest%20Well-Performing%20Interval/README.md
+difficulty: Medium
 rating: 1908
-source: 第 145 场周赛 Q3
+source: Weekly Contest 145 Q3
 tags:
-    - 栈
-    - 数组
-    - 哈希表
-    - 前缀和
-    - 单调栈
+    - Stack
+    - Array
+    - Hash Table
+    - Prefix Sum
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [1124. 表现良好的最长时间段](https://leetcode.cn/problems/longest-well-performing-interval)
+# [1124. Longest Well-Performing Interval](https://leetcode.com/problems/longest-well-performing-interval)
 
-[English Version](/solution/1100-1199/1124.Longest%20Well-Performing%20Interval/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一份工作时间表&nbsp;<code>hours</code>，上面记录着某一位员工每天的工作小时数。</p>
+<p>We are given <code>hours</code>, a list of the number of hours worked per day for a given employee.</p>
 
-<p>我们认为当员工一天中的工作小时数大于&nbsp;<code>8</code> 小时的时候，那么这一天就是「<strong>劳累的一天</strong>」。</p>
+<p>A day is considered to be a <em>tiring day</em> if and only if the number of hours worked is (strictly) greater than <code>8</code>.</p>
 
-<p>所谓「表现良好的时间段」，意味在这段时间内，「劳累的天数」是严格<strong> 大于</strong>「不劳累的天数」。</p>
+<p>A <em>well-performing interval</em> is an interval of days for which the number of tiring days is strictly larger than the number of non-tiring days.</p>
 
-<p>请你返回「表现良好时间段」的最大长度。</p>
+<p>Return the length of the longest well-performing interval.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>hours = [9,9,6,0,6,6,9]
-<strong>输出：</strong>3
-<strong>解释：</strong>最长的表现良好时间段是 [9,9,6]。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>hours = [6,6,6]
-<strong>输出：</strong>0
+<strong>Input:</strong> hours = [9,9,6,0,6,6,9]
+<strong>Output:</strong> 3
+<strong>Explanation: </strong>The longest well-performing interval is [9,9,6].
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> hours = [6,6,6]
+<strong>Output:</strong> 0
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= hours.length &lt;= 10<sup>4</sup></code></li>
@@ -57,23 +53,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和 + 哈希表
+### Solution 1: Prefix Sum + Hash Table
 
-我们可以利用前缀和的思想，维护一个变量 $s$，表示从下标 $0$ 到当前下标的这一段，「劳累的天数」与「不劳累的天数」的差值。如果 $s$ 大于 $0$，说明从下标 $0$ 到当前下标的这一段，满足「表现良好的时间段」。另外，用哈希表 $pos$ 记录每个 $s$ 第一次出现的下标。
+We can use the idea of prefix sum, maintaining a variable $s$, which represents the difference between the number of "tiring days" and "non-tiring days" from index $0$ to the current index. If $s$ is greater than $0$, it means that the segment from index $0$ to the current index is a "well-performing time period". In addition, we use a hash table $pos$ to record the first occurrence index of each $s$.
 
-接下来，我们遍历数组 `hours`，对于每个下标 $i$：
+Next, we traverse the `hours` array, for each index $i$:
 
--   如果 $hours[i] \gt 8$，我们就让 $s$ 加 $1$，否则减 $1$。
--   如果 $s$ 大于 $0$，说明从下标 $0$ 到当前下标的这一段，满足「表现良好的时间段」，我们更新结果 $ans = i + 1$。否则，如果 $s - 1$ 在哈希表 $pos$ 中，记 $j = pos[s - 1]$，说明从下标 $j + 1$ 到当前下标 $i$ 的这一段，满足「表现良好的时间段」，我们更新结果 $ans = \max(ans, i - j)$。
--   然后，如果 $s$ 不在哈希表 $pos$ 中，我们就记录 $pos[s] = i$。
+-   If $hours[i] > 8$, we increment $s$ by $1$, otherwise we decrement $s$ by $1$.
+-   If $s > 0$, it means that the segment from index $0$ to the current index $i$ is a "well-performing time period", we update the result $ans = i + 1$. Otherwise, if $s - 1$ is in the hash table $pos$, let $j = pos[s - 1]$, it means that the segment from index $j + 1$ to the current index $i$ is a "well-performing time period", we update the result $ans = \max(ans, i - j)$.
+-   Then, if $s$ is not in the hash table $pos$, we record $pos[s] = i$.
 
-遍历结束后，返回答案即可。
+After the traversal, return the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `hours` 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the `hours` array.
 
 <!-- tabs:start -->
 

@@ -1,63 +1,61 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1514.Path%20with%20Maximum%20Probability/README.md
+difficulty: Medium
 rating: 1846
-source: 第 197 场周赛 Q3
+source: Weekly Contest 197 Q3
 tags:
-    - 图
-    - 数组
-    - 最短路
-    - 堆（优先队列）
+    - Graph
+    - Array
+    - Shortest Path
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1514. 概率最大的路径](https://leetcode.cn/problems/path-with-maximum-probability)
+# [1514. Path with Maximum Probability](https://leetcode.com/problems/path-with-maximum-probability)
 
-[English Version](/solution/1500-1599/1514.Path%20with%20Maximum%20Probability/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个由 <code>n</code> 个节点（下标从 0 开始）组成的无向加权图，该图由一个描述边的列表组成，其中 <code>edges[i] = [a, b]</code> 表示连接节点 a 和 b 的一条无向边，且该边遍历成功的概率为 <code>succProb[i]</code> 。</p>
+<p>You are given an undirected weighted graph of&nbsp;<code>n</code>&nbsp;nodes (0-indexed), represented by an edge list where&nbsp;<code>edges[i] = [a, b]</code>&nbsp;is an undirected edge connecting the nodes&nbsp;<code>a</code>&nbsp;and&nbsp;<code>b</code>&nbsp;with a probability of success of traversing that edge&nbsp;<code>succProb[i]</code>.</p>
 
-<p>指定两个节点分别作为起点 <code>start</code> 和终点 <code>end</code> ，请你找出从起点到终点成功概率最大的路径，并返回其成功概率。</p>
+<p>Given two nodes&nbsp;<code>start</code>&nbsp;and&nbsp;<code>end</code>, find the path with the maximum probability of success to go from&nbsp;<code>start</code>&nbsp;to&nbsp;<code>end</code>&nbsp;and return its success probability.</p>
 
-<p>如果不存在从 <code>start</code> 到 <code>end</code> 的路径，请 <strong>返回 0</strong> 。只要答案与标准答案的误差不超过 <strong>1e-5 </strong>，就会被视作正确答案。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1514.Path%20with%20Maximum%20Probability/images/1558_ex1.png" style="height: 186px; width: 187px;"></strong></p>
-
-<pre><strong>输入：</strong>n = 3, edges = [[0,1],[1,2],[0,2]], succProb = [0.5,0.5,0.2], start = 0, end = 2
-<strong>输出：</strong>0.25000
-<strong>解释：</strong>从起点到终点有两条路径，其中一条的成功概率为 0.2 ，而另一条为 0.5 * 0.5 = 0.25
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1514.Path%20with%20Maximum%20Probability/images/1558_ex2.png" style="height: 186px; width: 189px;"></strong></p>
-
-<pre><strong>输入：</strong>n = 3, edges = [[0,1],[1,2],[0,2]], succProb = [0.5,0.5,0.3], start = 0, end = 2
-<strong>输出：</strong>0.30000
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1514.Path%20with%20Maximum%20Probability/images/1558_ex3.png" style="height: 191px; width: 215px;"></strong></p>
-
-<pre><strong>输入：</strong>n = 3, edges = [[0,1]], succProb = [0.5], start = 0, end = 2
-<strong>输出：</strong>0.00000
-<strong>解释：</strong>节点 0 和 节点 2 之间不存在路径
-</pre>
+<p>If there is no path from&nbsp;<code>start</code>&nbsp;to&nbsp;<code>end</code>, <strong>return&nbsp;0</strong>. Your answer will be accepted if it differs from the correct answer by at most <strong>1e-5</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1514.Path%20with%20Maximum%20Probability/images/1558_ex1.png" style="width: 187px; height: 186px;" /></strong></p>
+
+<pre>
+<strong>Input:</strong> n = 3, edges = [[0,1],[1,2],[0,2]], succProb = [0.5,0.5,0.2], start = 0, end = 2
+<strong>Output:</strong> 0.25000
+<strong>Explanation:</strong>&nbsp;There are two paths from start to end, one having a probability of success = 0.2 and the other has 0.5 * 0.5 = 0.25.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1514.Path%20with%20Maximum%20Probability/images/1558_ex2.png" style="width: 189px; height: 186px;" /></strong></p>
+
+<pre>
+<strong>Input:</strong> n = 3, edges = [[0,1],[1,2],[0,2]], succProb = [0.5,0.5,0.3], start = 0, end = 2
+<strong>Output:</strong> 0.30000
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1514.Path%20with%20Maximum%20Probability/images/1558_ex3.png" style="width: 215px; height: 191px;" /></strong></p>
+
+<pre>
+<strong>Input:</strong> n = 3, edges = [[0,1]], succProb = [0.5], start = 0, end = 2
+<strong>Output:</strong> 0.00000
+<strong>Explanation:</strong>&nbsp;There is no path between 0 and 2.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 10^4</code></li>
@@ -67,26 +65,26 @@ tags:
 	<li><code>a != b</code></li>
 	<li><code>0 &lt;= succProb.length == edges.length &lt;= 2*10^4</code></li>
 	<li><code>0 &lt;= succProb[i] &lt;= 1</code></li>
-	<li>每两个节点之间最多有一条边</li>
+	<li>There is at most one edge between every two nodes.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：堆优化 Dijkstra 算法
+### Solution 1: Heap-Optimized Dijkstra Algorithm
 
-我们可以使用 Dijkstra 算法求解最短路径，这里我们稍微修改一下，求解最大概率路径。
+We can use Dijkstra's algorithm to find the shortest path, but here we modify it slightly to find the path with the maximum probability.
 
-我们可以使用一个优先队列（大根堆） $\textit{pq}$ 来存储从起点到各个节点的概率以及节点编号。初始时我们将起点的概率设为 $1$，其余节点的概率设为 $0$，然后将起点加入到 $\textit{pq}$ 中。
+We use a priority queue (max-heap) $\textit{pq}$ to store the probability from the starting point to each node and the node's identifier. Initially, we set the probability of the starting point to $1$ and the probabilities of the other nodes to $0$, then add the starting point to $\textit{pq}$.
 
-在每一次的迭代中，我们取出 $\textit{pq}$ 中概率最大的节点 $a$，以及 $a$ 的概率 $w$。如果节点 $a$ 的概率已经大于 $w$，那么我们就可以跳过这个节点。否则我们遍历 $a$ 的所有邻接边 $(a, b)$。如果 $b$ 的概率小于 $a$ 的概率乘以 $(a, b)$ 的概率，那么我们就可以更新 $b$ 的概率，并将 $b$ 加入到 $\textit{pq}$ 中。
+In each iteration, we take out the node $a$ with the highest probability from $\textit{pq}$ and its probability $w$. If the probability of node $a$ is already greater than $w$, we can skip this node. Otherwise, we traverse all adjacent edges $(a, b)$ of $a$. If the probability of $b$ is less than the probability of $a$ multiplied by the probability of $(a, b)$, we update the probability of $b$ and add $b$ to $\textit{pq}$.
 
-最终，我们可以得到从起点到终点的最大概率。
+Finally, we obtain the maximum probability from the starting point to the endpoint.
 
-时间复杂度 $O(m \times \log m)$，空间复杂度 $O(m)$。其中 $m$ 为边的数量。
+The time complexity is $O(m \times \log m)$, and the space complexity is $O(m)$. Here, $m$ is the number of edges.
 
 <!-- tabs:start -->
 

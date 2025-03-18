@@ -1,91 +1,79 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0123.Best%20Time%20to%20Buy%20and%20Sell%20Stock%20III/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [123. 买卖股票的最佳时机 III](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii)
+# [123. Best Time to Buy and Sell Stock III](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii)
 
-[English Version](/solution/0100-0199/0123.Best%20Time%20to%20Buy%20and%20Sell%20Stock%20III/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个数组，它的第<em> </em><code>i</code> 个元素是一支给定的股票在第 <code>i</code><em> </em>天的价格。</p>
+<p>You are given an array <code>prices</code> where <code>prices[i]</code> is the price of a given stock on the <code>i<sup>th</sup></code> day.</p>
 
-<p>设计一个算法来计算你所能获取的最大利润。你最多可以完成 <strong>两笔 </strong>交易。</p>
+<p>Find the maximum profit you can achieve. You may complete <strong>at most two transactions</strong>.</p>
 
-<p><strong>注意：</strong>你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p>
+<p><strong>Note:</strong> You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).</p>
 
-<p> </p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入：</strong>prices = [3,3,5,0,0,3,1,4]
-<strong>输出：</strong>6
-<strong>解释：</strong>在第 4 天（股票价格 = 0）的时候买入，在第 6 天（股票价格 = 3）的时候卖出，这笔交易所能获得利润 = 3-0 = 3 。
-     随后，在第 7 天（股票价格 = 1）的时候买入，在第 8 天 （股票价格 = 4）的时候卖出，这笔交易所能获得利润 = 4-1 = 3 。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>prices = [1,2,3,4,5]
-<strong>输出：</strong>4
-<strong>解释：</strong>在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。   
-     注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。   
-     因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
+<strong>Input:</strong> prices = [3,3,5,0,0,3,1,4]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> Buy on day 4 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
+Then buy on day 7 (price = 1) and sell on day 8 (price = 4), profit = 4-1 = 3.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> prices = [1,2,3,4,5]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.
+Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are engaging multiple transactions at the same time. You must sell before buying again.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>prices = [7,6,4,3,1] 
-<strong>输出：</strong>0 
-<strong>解释：</strong>在这个情况下, 没有交易完成, 所以最大利润为 0。</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>prices = [1]
-<strong>输出：</strong>0
+<strong>Input:</strong> prices = [7,6,4,3,1]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> In this case, no transaction is done, i.e. max profit = 0.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= prices.length <= 10<sup>5</sup></code></li>
-	<li><code>0 <= prices[i] <= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= prices.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>0 &lt;= prices[i] &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们定义以下几个变量，其中：
+We define the following variables:
 
--   `f1` 表示第一次买入股票后的最大利润；
--   `f2` 表示第一次卖出股票后的最大利润；
--   `f3` 表示第二次买入股票后的最大利润；
--   `f4` 表示第二次卖出股票后的最大利润。
+-   `f1` represents the maximum profit after the first purchase of the stock;
+-   `f2` represents the maximum profit after the first sale of the stock;
+-   `f3` represents the maximum profit after the second purchase of the stock;
+-   `f4` represents the maximum profit after the second sale of the stock.
 
-遍历过程中，直接使用 `f1`, `f2`, `f3`, `f4` 计算，考虑的是在同一天买入和卖出时，收益是 $0$，不会对答案产生影响。
+During the traversal, we directly calculate `f1`, `f2`, `f3`, `f4`. We consider that buying and selling on the same day will result in a profit of $0$, which will not affect the answer.
 
-最后返回 `f4` 即可。
+Finally, return `f4`.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组 `prices` 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the `prices` array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

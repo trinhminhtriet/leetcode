@@ -1,63 +1,55 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1326.Minimum%20Number%20of%20Taps%20to%20Open%20to%20Water%20a%20Garden/README.md
+difficulty: Hard
 rating: 1885
-source: 第 172 场周赛 Q4
+source: Weekly Contest 172 Q4
 tags:
-    - 贪心
-    - 数组
-    - 动态规划
+    - Greedy
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1326. 灌溉花园的最少水龙头数目](https://leetcode.cn/problems/minimum-number-of-taps-to-open-to-water-a-garden)
+# [1326. Minimum Number of Taps to Open to Water a Garden](https://leetcode.com/problems/minimum-number-of-taps-to-open-to-water-a-garden)
 
-[English Version](/solution/1300-1399/1326.Minimum%20Number%20of%20Taps%20to%20Open%20to%20Water%20a%20Garden/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在 x 轴上有一个一维的花园。花园长度为&nbsp;<code>n</code>，从点&nbsp;<code>0</code>&nbsp;开始，到点&nbsp;<code>n</code>&nbsp;结束。</p>
+<p>There is a one-dimensional garden on the x-axis. The garden starts at the point <code>0</code> and ends at the point <code>n</code>. (i.e., the&nbsp;length of the garden is <code>n</code>).</p>
 
-<p>花园里总共有&nbsp;<code>n + 1</code> 个水龙头，分别位于&nbsp;<code>[0, 1, ..., n]</code> 。</p>
+<p>There are <code>n + 1</code> taps located at points <code>[0, 1, ..., n]</code> in the garden.</p>
 
-<p>给你一个整数&nbsp;<code>n</code>&nbsp;和一个长度为&nbsp;<code>n + 1</code> 的整数数组&nbsp;<code>ranges</code>&nbsp;，其中&nbsp;<code>ranges[i]</code> （下标从 0 开始）表示：如果打开点&nbsp;<code>i</code>&nbsp;处的水龙头，可以灌溉的区域为&nbsp;<code>[i -&nbsp; ranges[i], i + ranges[i]]</code>&nbsp;。</p>
+<p>Given an integer <code>n</code> and an integer array <code>ranges</code> of length <code>n + 1</code> where <code>ranges[i]</code> (0-indexed) means the <code>i-th</code> tap can water the area <code>[i - ranges[i], i + ranges[i]]</code> if it was open.</p>
 
-<p>请你返回可以灌溉整个花园的&nbsp;<strong>最少水龙头数目</strong>&nbsp;。如果花园始终存在无法灌溉到的地方，请你返回&nbsp;<strong>-1</strong>&nbsp;。</p>
+<p>Return <em>the minimum number of taps</em> that should be open to water the whole garden, If the garden cannot be watered return <strong>-1</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1326.Minimum%20Number%20of%20Taps%20to%20Open%20to%20Water%20a%20Garden/images/1685_example_1.png" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1300-1399/1326.Minimum%20Number%20of%20Taps%20to%20Open%20to%20Water%20a%20Garden/images/1685_example_1.png" style="width: 525px; height: 255px;" />
 <pre>
-<strong>输入：</strong>n = 5, ranges = [3,4,1,1,0,0]
-<strong>输出：</strong>1
-<strong>解释：
-</strong>点 0 处的水龙头可以灌溉区间 [-3,3]
-点 1 处的水龙头可以灌溉区间 [-3,5]
-点 2 处的水龙头可以灌溉区间 [1,3]
-点 3 处的水龙头可以灌溉区间 [2,4]
-点 4 处的水龙头可以灌溉区间 [4,4]
-点 5 处的水龙头可以灌溉区间 [5,5]
-只需要打开点 1 处的水龙头即可灌溉整个花园 [0,5] 。
+<strong>Input:</strong> n = 5, ranges = [3,4,1,1,0,0]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> The tap at point 0 can cover the interval [-3,3]
+The tap at point 1 can cover the interval [-3,5]
+The tap at point 2 can cover the interval [1,3]
+The tap at point 3 can cover the interval [2,4]
+The tap at point 4 can cover the interval [4,4]
+The tap at point 5 can cover the interval [5,5]
+Opening Only the second tap will water the whole garden [0,5]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 3, ranges = [0,0,0,0]
-<strong>输出：</strong>-1
-<strong>解释：</strong>即使打开所有水龙头，你也无法灌溉整个花园。
+<strong>Input:</strong> n = 3, ranges = [0,0,0,0]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> Even if you activate all the four taps you cannot water the whole garden.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
@@ -67,36 +59,36 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心
+### Solution 1: Greedy
 
-我们注意到，对于所有能覆盖某个左端点的水龙头，选择能覆盖最远右端点的那个水龙头是最优的。
+We note that for all taps that can cover a certain left endpoint, choosing the tap that can cover the farthest right endpoint is optimal.
 
-因此，我们可以先预处理数组 $ranges$，对于第 $i$ 个水龙头，它能覆盖的左端点 $l = \max(0, i - ranges[i])$，右端点 $r = i + ranges[i]$，我们算出所有能覆盖左端点 $l$ 的水龙头中，右端点最大的那个位置，记录在数组 $last[i]$ 中。
+Therefore, we can preprocess the array $ranges$. For the $i$-th tap, it can cover the left endpoint $l = \max(0, i - ranges[i])$ and the right endpoint $r = i + ranges[i]$. We calculate the position of the tap that can cover the left endpoint $l$ with the farthest right endpoint and record it in the array $last[i]$.
 
-然后我们定义以下三个变量，其中：
+Then we define the following three variables:
 
--   变量 $ans$ 表示最终答案，即最少水龙头数目；
--   变量 $mx$ 表示当前能覆盖的最远右端点；
--   变量 $pre$ 表示上一个水龙头覆盖的最远右端点。
+-   Variable $ans$ represents the final answer, i.e., the minimum number of taps;
+-   Variable $mx$ represents the farthest right endpoint that can currently be covered;
+-   Variable $pre$ represents the farthest right endpoint covered by the previous tap.
 
-我们在 $[0,...n-1]$ 的范围内遍历所有位置，对于当前位置 $i$，我们用 $last[i]$ 更新 $mx$，即 $mx = \max(mx, last[i])$。
+We traverse all positions in the range $[0, \ldots, n-1]$. For the current position $i$, we use $last[i]$ to update $mx$, i.e., $mx = \max(mx, last[i])$.
 
--   如果 $mx \leq i$，说明无法覆盖下一个位置，返回 $-1$。
--   如果 $pre = i$，说明需要使用一个新的子区间，因此我们将 $ans$ 加 $1$，并且更新 $pre = mx$。
+-   If $mx \leq i$, it means the next position cannot be covered, so we return $-1$.
+-   If $pre = i$, it means a new subinterval needs to be used, so we increment $ans$ by $1$ and update $pre = mx$.
 
-遍历结束后，返回 $ans$ 即可。
+After the traversal, we return $ans$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为花园的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the garden.
 
-相似题目：
+Similar problems:
 
--   [45. 跳跃游戏 II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0045.Jump%20Game%20II/README.md)
--   [55. 跳跃游戏](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0055.Jump%20Game/README.md)
--   [1024. 视频拼接](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1024.Video%20Stitching/README.md)
+-   [45. Jump Game II](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0045.Jump%20Game%20II/README.md)
+-   [55. Jump Game](https://github.com/doocs/leetcode/blob/main/solution/0000-0099/0055.Jump%20Game/README.md)
+-   [1024. Video Stitching](https://github.com/doocs/leetcode/blob/main/solution/1000-1099/1024.Video%20Stitching/README.md)
 
 <!-- tabs:start -->
 

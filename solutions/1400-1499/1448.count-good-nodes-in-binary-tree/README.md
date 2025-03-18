@@ -1,88 +1,90 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1448.Count%20Good%20Nodes%20in%20Binary%20Tree/README.md
+difficulty: Medium
 rating: 1360
-source: 第 26 场双周赛 Q3
+source: Biweekly Contest 26 Q3
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [1448. 统计二叉树中好节点的数目](https://leetcode.cn/problems/count-good-nodes-in-binary-tree)
+# [1448. Count Good Nodes in Binary Tree](https://leetcode.com/problems/count-good-nodes-in-binary-tree)
 
-[English Version](/solution/1400-1499/1448.Count%20Good%20Nodes%20in%20Binary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一棵根为&nbsp;<code>root</code>&nbsp;的二叉树，请你返回二叉树中好节点的数目。</p>
+<p>Given a binary tree <code>root</code>, a node <em>X</em> in the tree is named&nbsp;<strong>good</strong> if in the path from root to <em>X</em> there are no nodes with a value <em>greater than</em> X.</p>
 
-<p>「好节点」X 定义为：从根到该节点 X 所经过的节点中，没有任何节点的值大于 X 的值。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1448.Count%20Good%20Nodes%20in%20Binary%20Tree/images/test_sample_1.png" style="height: 156px; width: 263px;"></strong></p>
-
-<pre><strong>输入：</strong>root = [3,1,4,3,null,1,5]
-<strong>输出：</strong>4
-<strong>解释：</strong>图中蓝色节点为好节点。
-根节点 (3) 永远是个好节点。
-节点 4 -&gt; (3,4) 是路径中的最大值。
-节点 5 -&gt; (3,4,5) 是路径中的最大值。
-节点 3 -&gt; (3,1,3) 是路径中的最大值。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1448.Count%20Good%20Nodes%20in%20Binary%20Tree/images/test_sample_2.png" style="height: 161px; width: 157px;"></strong></p>
-
-<pre><strong>输入：</strong>root = [3,3,null,4,2]
-<strong>输出：</strong>3
-<strong>解释：</strong>节点 2 -&gt; (3, 3, 2) 不是好节点，因为 &quot;3&quot; 比它大。</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入：</strong>root = [1]
-<strong>输出：</strong>1
-<strong>解释：</strong>根节点是好节点。</pre>
+<p>Return the number of <strong>good</strong> nodes in the binary tree.</p>
 
 <p>&nbsp;</p>
 
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1448.Count%20Good%20Nodes%20in%20Binary%20Tree/images/test_sample_1.png" style="width: 263px; height: 156px;" /></strong></p>
+
+<pre>
+
+<strong>Input:</strong> root = [3,1,4,3,null,1,5]
+
+<strong>Output:</strong> 4
+
+<strong>Explanation:</strong> Nodes in blue are <strong>good</strong>.
+
+Root Node (3) is always a good node.
+
+Node 4 -&gt; (3,4) is the maximum value in the path starting from the root.
+
+Node 5 -&gt; (3,4,5) is the maximum value in the path
+
+Node 3 -&gt; (3,1,3) is the maximum value in the path.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1448.Count%20Good%20Nodes%20in%20Binary%20Tree/images/test_sample_2.png" style="width: 157px; height: 161px;" /></strong></p>
+
+<pre>
+
+<strong>Input:</strong> root = [3,3,null,4,2]
+
+<strong>Output:</strong> 3
+
+<strong>Explanation:</strong> Node 2 -&gt; (3, 3, 2) is not good, because &quot;3&quot; is higher than it.</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+
+<strong>Input:</strong> root = [1]
+
+<strong>Output:</strong> 1
+
+<strong>Explanation:</strong> Root is considered as <strong>good</strong>.</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>二叉树中节点数目范围是&nbsp;<code>[1, 10^5]</code>&nbsp;。</li>
-	<li>每个节点权值的范围是&nbsp;<code>[-10^4, 10^4]</code>&nbsp;。</li>
+
+    <li>The number of nodes in the binary tree is in the range&nbsp;<code>[1, 10^5]</code>.</li>
+
+    <li>Each node&#39;s value is between <code>[-10^4, 10^4]</code>.</li>
+
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
-
-我们设计一个函数 $dfs(root, mx)$，表示从当前节点 $root$ 开始搜索好节点，其中 $mx$ 表示从根节点到当前节点的路径（不包括当前节点）上的最大值。
-
-函数 $dfs(root, mx)$ 的执行逻辑如下：
-
-如果 $root$ 为空，说明搜索结束，直接返回；
-
-否则，我们判断 $root.val$ 与 $mx$ 的大小关系。如果 $mx \leq root.val$，说明 $root$ 是好节点，答案加一，并且我们需要更新 $mx$ 的值为 $root.val$。
-
-接下来，我们递归调用 $dfs(root.left, mx)$ 和 $dfs(root.right, mx)$。
-
-在主函数中，我们调用 $dfs(root, -10^6)$，其中 $-10^6$ 表示负无穷，因为题目中说明了每个节点权值的范围是 $[-10^4, 10^4]$，所以 $-10^6$ 肯定是一个比所有节点权值都小的值，这样就能保证 $dfs(root, -10^6)$ 一定会把根节点 $root$ 算作好节点。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数。
+### Solution 1
 
 <!-- tabs:start -->
 

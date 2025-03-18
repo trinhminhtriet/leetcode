@@ -1,72 +1,78 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2612.Minimum%20Reverse%20Operations/README.md
+difficulty: Hard
 rating: 2824
-source: 第 339 场周赛 Q4
+source: Weekly Contest 339 Q4
 tags:
-    - 广度优先搜索
-    - 数组
-    - 有序集合
+    - Breadth-First Search
+    - Array
+    - Ordered Set
 ---
 
 <!-- problem:start -->
 
-# [2612. 最少翻转操作数](https://leetcode.cn/problems/minimum-reverse-operations)
+# [2612. Minimum Reverse Operations](https://leetcode.com/problems/minimum-reverse-operations)
 
-[English Version](/solution/2600-2699/2612.Minimum%20Reverse%20Operations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>n</code>&nbsp;和一个在范围 <code>[0, n - 1]</code>&nbsp;以内的整数&nbsp;<code>p</code>&nbsp;，它们表示一个长度为 <code>n</code> 且下标从 <strong>0</strong>&nbsp;开始的数组&nbsp;<code>arr</code>&nbsp;，数组中除了下标为&nbsp;<code>p</code>&nbsp;处是 <code>1</code>&nbsp;以外，其他所有数都是 <code>0</code>&nbsp;。</p>
-
-<p>同时给你一个整数数组&nbsp;<code>banned</code>&nbsp;，它包含数组中的一些位置。<code>banned</code>&nbsp;中第&nbsp;<strong>i</strong>&nbsp;个位置表示&nbsp;<code>arr[banned[i]] = 0</code>&nbsp;，题目保证&nbsp;<code>banned[i] != p</code>&nbsp;。</p>
-
-<p>你可以对 <code>arr</code>&nbsp;进行 <strong>若干次</strong>&nbsp;操作。一次操作中，你选择大小为 <code>k</code>&nbsp;的一个 <strong>子数组</strong>&nbsp;，并将它 <b>翻转</b>&nbsp;。在任何一次翻转操作后，你都需要确保 <code>arr</code>&nbsp;中唯一的 <code>1</code>&nbsp;不会到达任何 <code>banned</code>&nbsp;中的位置。换句话说，<code>arr[banned[i]]</code>&nbsp;始终&nbsp;<strong>保持</strong>&nbsp;<code>0</code>&nbsp;。</p>
-
-<p>请你返回一个数组&nbsp;<code>ans</code>&nbsp;，对于<em>&nbsp;</em><code>[0, n - 1]</code>&nbsp;之间的任意下标&nbsp;<code>i</code>&nbsp;，<code>ans[i]</code>&nbsp;是将&nbsp;<code>1</code>&nbsp;放到位置&nbsp;<code>i</code>&nbsp;处的&nbsp;<strong>最少</strong>&nbsp;翻转操作次数，如果无法放到位置&nbsp;<code>i</code>&nbsp;处，此数为&nbsp;<code>-1</code>&nbsp;。</p>
+<p>You are given an integer <code>n</code> and an integer <code>p</code> representing an array <code>arr</code> of length <code>n</code> where all elements are set to 0&#39;s, except position <code>p</code> which is set to 1. You are also given an integer array <code>banned</code> containing restricted positions. Perform the following operation on <code>arr</code>:</p>
 
 <ul>
-	<li><strong>子数组</strong>&nbsp;指的是一个数组里一段连续 <strong>非空</strong>&nbsp;的元素序列。</li>
-	<li>对于所有的 <code>i</code>&nbsp;，<code>ans[i]</code>&nbsp;相互之间独立计算。</li>
-	<li>将一个数组中的元素 <strong>翻转</strong> 指的是将数组中的值变成 <strong>相反顺序</strong>&nbsp;。</li>
+	<li>Reverse a <span data-keyword="subarray-nonempty"><strong>subarray</strong></span> with size <code>k</code> if the single 1 is not set to a position in <code>banned</code>.</li>
 </ul>
 
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>n = 4, p = 0, banned = [1,2], k = 4
-<b>输出：</b>[0,-1,-1,1]
-<b>解释：</b><code>k = 4，所以只有一种可行的翻转操作，就是将整个数组翻转。一开始 </code>1<strong> </strong>在位置 0 处，所以将它翻转到位置 0 处需要的操作数为 0 。
-我们不能将 1 翻转到 banned 中的位置，所以位置 1 和 2 处的答案都是 -1 。
-通过一次翻转操作，可以将 1 放到位置 3 处，所以位置 3 的答案是 1 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>n = 5, p = 0, banned = [2,4], k = 3
-<b>输出：</b>[0,-1,-1,-1,-1]
-<b>解释：</b>这个例子中 1 一开始在位置 0 处，所以此下标的答案为 0 。
-翻转的子数组长度为 k = 3 ，1 此时在位置 0 处，所以我们可以翻转子数组 [0, 2]，但翻转后的下标 2 在 banned 中，所以不能执行此操作。
-由于 1 没法离开位置 0 ，所以其他位置的答案都是 -1 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>n = 4, p = 2, banned = [0,1,3], k = 1
-<b>输出：</b>[-1,-1,0,-1]
-<b>解释：</b>这个例子中，我们只能对长度为 1 的子数组执行翻转操作，所以 1 无法离开初始位置。
-</pre>
+<p>Return an integer array <code>answer</code> with <code>n</code> results where the <code>i<sup>th</sup></code> result is<em> </em>the <strong>minimum</strong> number of operations needed to bring the single 1 to position <code>i</code> in <code>arr</code>, or -1 if it is impossible.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">n = 4, p = 0, banned = [1,2], k = 4</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[0,-1,-1,1]</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<ul>
+	<li>Initially 1 is placed at position 0 so the number of operations we need for position 0 is 0.</li>
+	<li>We can never place 1 on the banned positions, so the answer for positions 1 and 2 is -1.</li>
+	<li>Perform the operation of size 4 to reverse the whole array.</li>
+	<li>After a single operation 1 is at position 3 so the answer for position 3 is 1.</li>
+</ul>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">n = 5, p = 0, banned = [2,4], k = 3</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[0,-1,-1,-1,-1]</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<ul>
+	<li>Initially 1 is placed at position 0 so the number of operations we need for position 0 is 0.</li>
+	<li>We cannot perform the operation on the subarray positions <code>[0, 2]</code> because position 2 is in banned.</li>
+	<li>Because 1 cannot be set at position 2, it is impossible to set 1 at other positions in more operations.</li>
+</ul>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">n = 4, p = 2, banned = [0,1,3], k = 1</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[-1,-1,0,-1]</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>Perform operations of size 1 and 1 never changes its position.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
@@ -75,38 +81,38 @@ tags:
 	<li><code>0 &lt;= banned[i] &lt;= n - 1</code></li>
 	<li><code>1 &lt;= k &lt;= n&nbsp;</code></li>
 	<li><code>banned[i] != p</code></li>
-	<li><code>banned</code>&nbsp;中的值 <strong>互不相同</strong>&nbsp;。</li>
+	<li>all values in <code>banned</code>&nbsp;are <strong>unique</strong>&nbsp;</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：有序集合 + BFS
+### Solution 1: Ordered Set + BFS
 
-我们注意到，对于一个子数组区间 $[l,..r]$ 中的任意一个下标 $i$，翻转后的下标 $j = l + r - i$。
+We notice that for any index $i$ in the subarray interval $[l,..r]$, the flipped index $j = l + r - i$.
 
-如果子数组向右移动一个位置，那么 $j = l + 1 + r + 1 - i = l + r - i + 2$，即 $j$ 会增加 $2$。
+If the subarray moves one position to the right, then $j = l + 1 + r + 1 - i = l + r - i + 2$, that is, $j$ will increase by $2$.
 
-同理，如果子数组向左移动一个位置，那么 $j = l - 1 + r - 1 - i = l + r - i - 2$，即 $j$ 会减少 $2$。
+Similarly, if the subarray moves one position to the left, then $j = l - 1 + r - 1 - i = l + r - i - 2$, that is, $j$ will decrease by $2$.
 
-因此，对于一个特定的下标 $i$，其翻转后的所有位置构成了一个公差为 $2$ 的等差数列，也即是说，翻转后的所有下标，奇偶性都是相同的。
+Therefore, for a specific index $i$, all its flipped indices form an arithmetic progression with common difference $2$, that is, all the flipped indices have the same parity.
 
-接下来，我们考虑下标 $i$ 翻转后的位置 $j$ 的取值范围。
+Next, we consider the range of values ​​of the index $i$ after flipping $j$.
 
--   如果不考虑边界的情况，那么 $j$ 的取值范围为 $[i - k + 1, i + k - 1]$。
--   如果子数组在最左边，那么 $[l, r] = [0, k - 1]$，因此 $i$ 翻转后的下标 $j = 0 + k - 1 - i$，即 $j = k - i - 1$，因此 $j$ 的左边界 $mi = max(i - k + 1, k - i - 1)$。
--   如果子数组在最右边，那么 $[l, r] = [n - k, n - 1]$，因此 $i$ 翻转后的下标 $j= n - k + n - 1 - i$，即 $j = n \times 2 - k - i - 1$，因此 $j$ 的右边界 $mx = min(i + k - 1, n \times 2 - k - i - 1)$。
+-   If the boundary is not considered, the range of values ​​of $j$ is $[i - k + 1, i + k - 1]$.
+-   If the subarray is on the left, then $[l, r] = [0, k - 1]$, so the flipped index $j$ of $i$ is $0 + k - 1 - i$, that is, $j = k - i - 1$, so the left boundary $mi = max(i - k + 1, k - i - 1)$.
+-   If the subarray is on the right, then $[l, r] = [n - k, n - 1]$, so the flipped index $j= n - k + n - 1 - i$ is $j = n \times 2 - k - i - 1$, so the right boundary of $j$ is $mx = min(i + k - 1, n \times 2 - k - i - 1)$.
 
-我们用两个有序集合分别存储所有待搜索的奇数下标和偶数下标，这里需要排除数组 $banned$ 中的下标，以及下标 $p$。
+We use two ordered sets to store all the odd indices and even indices to be searched, here we need to exclude the indices in the array $banned$ and the index $p$.
 
-接下来，我们使用 BFS 搜索，每次搜索当前下标 $i$ 所有翻转后的下标 $j$，即 $j = mi, mi + 2, mi + 4, \dots, mx$，更新下标 $j$ 的答案，并将下标 $j$ 加入到待搜索的队列中，同时将下标 $j$ 从对应的有序集合中移除。
+Then we use BFS to search, each time searching all the flipped indices $j$ of the current index $i$, that is, $j = mi, mi + 2, mi + 4, \dots, mx$, updating the answer of index $j$ and adding index $j$ to the search queue, and removing index $j$ from the corresponding ordered set.
 
-当搜索结束时，即可得到所有下标的答案。
+When the search is over, the answer to all indices can be obtained.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 题目中给定的数组长度。
+The time complexity is $O(n \times \log n)$ and the space complexity is $O(n)$. Where $n$ is the given array length in the problem.
 
 <!-- tabs:start -->
 
@@ -931,7 +937,7 @@ class TreeMultiSet<T = number> {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

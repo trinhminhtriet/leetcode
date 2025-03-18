@@ -1,109 +1,94 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0975.Odd%20Even%20Jump/README.md
+difficulty: Hard
 tags:
-    - 栈
-    - 数组
-    - 动态规划
-    - 有序集合
-    - 单调栈
+    - Stack
+    - Array
+    - Dynamic Programming
+    - Ordered Set
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [975. 奇偶跳](https://leetcode.cn/problems/odd-even-jump)
+# [975. Odd Even Jump](https://leetcode.com/problems/odd-even-jump)
 
-[English Version](/solution/0900-0999/0975.Odd%20Even%20Jump/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数数组 <code>arr</code>，你可以从某一起始索引出发，跳跃一定次数。在你跳跃的过程中，第 1、3、5... 次跳跃称为奇数跳跃，而第 2、4、6... 次跳跃称为偶数跳跃。</p>
+<p>You are given an integer array <code>arr</code>. From some starting index, you can make a series of jumps. The (1<sup>st</sup>, 3<sup>rd</sup>, 5<sup>th</sup>, ...) jumps in the series are called <strong>odd-numbered jumps</strong>, and the (2<sup>nd</sup>, 4<sup>th</sup>, 6<sup>th</sup>, ...) jumps in the series are called <strong>even-numbered jumps</strong>. Note that the <strong>jumps</strong> are numbered, not the indices.</p>
 
-<p>你可以按以下方式从索引 <code>i</code>&nbsp;向后跳转到索引 <code>j</code>（其中 <code>i &lt; j</code>）：</p>
+<p>You may jump forward from index <code>i</code> to index <code>j</code> (with <code>i &lt; j</code>) in the following way:</p>
 
 <ul>
-	<li>在进行奇数跳跃时（如，第&nbsp;1，3，5... 次跳跃），你将会跳到索引 <code>j</code>，使得 <code>arr[i] &lt;=&nbsp;arr[j]</code>，且 <code>arr[j]</code> 的值尽可能小。如果存在多个这样的索引 <code>j</code>，你只能跳到满足要求的<strong>最小</strong>索引 <code>j</code> 上。</li>
-	<li>在进行偶数跳跃时（如，第&nbsp;2，4，6... 次跳跃），你将会跳到索引&nbsp;<code>j</code>，使得 <code>arr[i] &gt;= arr[j]</code>，且 <code>arr[j]</code> 的值尽可能大。如果存在多个这样的索引 <code>j</code>，你只能跳到满足要求的<strong>最小</strong>索引 <code>j</code>&nbsp;上。</li>
-	<li>（对于某些索引 <code>i</code>，可能无法进行合乎要求的跳跃。）</li>
+	<li>During <strong>odd-numbered jumps</strong> (i.e., jumps 1, 3, 5, ...), you jump to the index <code>j</code> such that <code>arr[i] &lt;= arr[j]</code> and <code>arr[j]</code> is the smallest possible value. If there are multiple such indices <code>j</code>, you can only jump to the <strong>smallest</strong> such index <code>j</code>.</li>
+	<li>During <strong>even-numbered jumps</strong> (i.e., jumps 2, 4, 6, ...), you jump to the index <code>j</code> such that <code>arr[i] &gt;= arr[j]</code> and <code>arr[j]</code> is the largest possible value. If there are multiple such indices <code>j</code>, you can only jump to the <strong>smallest</strong> such index <code>j</code>.</li>
+	<li>It may be the case that for some index <code>i</code>, there are no legal jumps.</li>
 </ul>
 
-<p>如果从某一索引开始跳跃一定次数（可能是 0 次或多次），就可以到达数组的末尾（索引 <code>arr.length - 1</code>），那么该索引就会被认为是好的起始索引。</p>
+<p>A starting index is <strong>good</strong> if, starting from that index, you can reach the end of the array (index <code>arr.length - 1</code>) by jumping some number of times (possibly 0 or more than once).</p>
 
-<p>返回好的起始索引的数量。</p>
+<p>Return <em>the number of <strong>good</strong> starting indices</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>[10,13,12,14,15]
-<strong>输出：</strong>2
-<strong>解释： </strong>
-从起始索引 i = 0 出发，我们可以跳到 i = 2，（因为 arr[2] 是 arr[1]，arr[2]，arr[3]，arr[4] 中大于或等于 arr[0] 的最小值），然后我们就无法继续跳下去了。
-从起始索引 i = 1 和 i = 2 出发，我们可以跳到 i = 3，然后我们就无法继续跳下去了。
-从起始索引 i = 3 出发，我们可以跳到 i = 4，到达数组末尾。
-从起始索引 i = 4 出发，我们已经到达数组末尾。
-总之，我们可以从 2 个不同的起始索引（i = 3, i = 4）出发，通过一定数量的跳跃到达数组末尾。
+<strong>Input:</strong> arr = [10,13,12,14,15]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 
+From starting index i = 0, we can make our 1st jump to i = 2 (since arr[2] is the smallest among arr[1], arr[2], arr[3], arr[4] that is greater or equal to arr[0]), then we cannot jump any more.
+From starting index i = 1 and i = 2, we can make our 1st jump to i = 3, then we cannot jump any more.
+From starting index i = 3, we can make our 1st jump to i = 4, so we have reached the end.
+From starting index i = 4, we have reached the end already.
+In total, there are 2 different starting indices i = 3 and i = 4, where we can reach the end with some number of
+jumps.
 </pre>
 
-<p><strong>示例&nbsp;2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>[2,3,1,1,4]
-<strong>输出：</strong>3
-<strong>解释：</strong>
-从起始索引 i=0 出发，我们依次可以跳到 i = 1，i = 2，i = 3：
-
-在我们的第一次跳跃（奇数）中，我们先跳到 i = 1，因为 arr[1] 是（arr[1]，arr[2]，arr[3]，arr[4]）中大于或等于 arr[0] 的最小值。
-
-在我们的第二次跳跃（偶数）中，我们从 i = 1 跳到 i = 2，因为 arr[2] 是（arr[2]，arr[3]，arr[4]）中小于或等于 arr[1] 的最大值。arr[3] 也是最大的值，但 2 是一个较小的索引，所以我们只能跳到 i = 2，而不能跳到 i = 3。
-
-在我们的第三次跳跃（奇数）中，我们从 i = 2 跳到 i = 3，因为 arr[3] 是（arr[3]，arr[4]）中大于或等于 arr[2] 的最小值。
-
-我们不能从 i = 3 跳到 i = 4，所以起始索引 i = 0 不是好的起始索引。
-
-类似地，我们可以推断：
-从起始索引 i = 1 出发， 我们跳到 i = 4，这样我们就到达数组末尾。
-从起始索引 i = 2 出发， 我们跳到 i = 3，然后我们就不能再跳了。
-从起始索引 i = 3 出发， 我们跳到 i = 4，这样我们就到达数组末尾。
-从起始索引 i = 4 出发，我们已经到达数组末尾。
-总之，我们可以从 3 个不同的起始索引（i = 1, i = 3, i = 4）出发，通过一定数量的跳跃到达数组末尾。
+<strong>Input:</strong> arr = [2,3,1,1,4]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 
+From starting index i = 0, we make jumps to i = 1, i = 2, i = 3:
+During our 1st jump (odd-numbered), we first jump to i = 1 because arr[1] is the smallest value in [arr[1], arr[2], arr[3], arr[4]] that is greater than or equal to arr[0].
+During our 2nd jump (even-numbered), we jump from i = 1 to i = 2 because arr[2] is the largest value in [arr[2], arr[3], arr[4]] that is less than or equal to arr[1]. arr[3] is also the largest value, but 2 is a smaller index, so we can only jump to i = 2 and not i = 3
+During our 3rd jump (odd-numbered), we jump from i = 2 to i = 3 because arr[3] is the smallest value in [arr[3], arr[4]] that is greater than or equal to arr[2].
+We can&#39;t jump from i = 3 to i = 4, so the starting index i = 0 is not good.
+In a similar manner, we can deduce that:
+From starting index i = 1, we jump to i = 4, so we reach the end.
+From starting index i = 2, we jump to i = 3, and then we can&#39;t jump anymore.
+From starting index i = 3, we jump to i = 4, so we reach the end.
+From starting index i = 4, we are already at the end.
+In total, there are 3 different starting indices i = 1, i = 3, and i = 4, where we can reach the end with some
+number of jumps.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>[5,1,3,4,2]
-<strong>输出：</strong>3
-<strong>解释： </strong>
-我们可以从起始索引 1，2，4 出发到达数组末尾。
+<strong>Input:</strong> arr = [5,1,3,4,2]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We can reach the end from starting indices 1, 2, and 4.
 </pre>
 
 <p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
-<p><strong>提示：</strong></p>
-
-<ol>
-	<li><code>1 &lt;= arr.length &lt;= 20000</code></li>
-	<li><code>0 &lt;= arr[i] &lt; 100000</code></li>
-</ol>
+<ul>
+	<li><code>1 &lt;= arr.length &lt;= 2 * 10<sup>4</sup></code></li>
+	<li><code>0 &lt;= arr[i] &lt; 10<sup>5</sup></code></li>
+</ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：有序集合 + 记忆化搜索
-
-我们先利用有序集合，预处理出每个位置能跳到的位置，记录在数组 $g$ 中，其中 $g[i][1]$ 和 $g[i][0]$ 分别表示当前位置是奇数次跳还是偶数次跳时能跳到的位置。如果不能跳到任何位置，那么 $g[i][1]$ 和 $g[i][0]$ 都为 $-1$。
-
-然后利用记忆化搜索，从每个位置出发，且当前是奇数次跳跃，判断是否能跳到数组末尾，如果能，那么结果加一。
-
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
+### Solution 1
 
 <!-- tabs:start -->
 

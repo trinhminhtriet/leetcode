@@ -1,58 +1,46 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0556.Next%20Greater%20Element%20III/README.md
+difficulty: Medium
 tags:
-    - 数学
-    - 双指针
-    - 字符串
+    - Math
+    - Two Pointers
+    - String
 ---
 
 <!-- problem:start -->
 
-# [556. 下一个更大元素 III](https://leetcode.cn/problems/next-greater-element-iii)
+# [556. Next Greater Element III](https://leetcode.com/problems/next-greater-element-iii)
 
-[English Version](/solution/0500-0599/0556.Next%20Greater%20Element%20III/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数 <code>n</code> ，请你找出符合条件的最小整数，其由重新排列 <code>n</code><strong> </strong>中存在的每位数字组成，并且其值大于 <code>n</code> 。如果不存在这样的正整数，则返回 <code>-1</code> 。</p>
+<p>Given a positive integer <code>n</code>, find <em>the smallest integer which has exactly the same digits existing in the integer</em> <code>n</code> <em>and is greater in value than</em> <code>n</code>. If no such positive integer exists, return <code>-1</code>.</p>
 
-<p><strong>注意</strong> ，返回的整数应当是一个 <strong>32 位整数</strong> ，如果存在满足题意的答案，但不是 <strong>32 位整数</strong> ，同样返回 <code>-1</code> 。</p>
+<p><strong>Note</strong> that the returned integer should fit in <strong>32-bit integer</strong>, if there is a valid answer but it does not fit in <strong>32-bit integer</strong>, return <code>-1</code>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 12
-<strong>输出：</strong>21
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> n = 12
+<strong>Output:</strong> 21
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> n = 21
+<strong>Output:</strong> -1
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 21
-<strong>输出：</strong>-1
-</pre>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= n <= 2<sup>31</sup> - 1</code></li>
+	<li><code>1 &lt;= n &lt;= 2<sup>31</sup> - 1</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1
 
 <!-- tabs:start -->
 

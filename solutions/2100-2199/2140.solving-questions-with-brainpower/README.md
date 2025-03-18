@@ -1,69 +1,66 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2140.Solving%20Questions%20With%20Brainpower/README.md
+difficulty: Medium
 rating: 1709
-source: 第 276 场周赛 Q3
+source: Weekly Contest 276 Q3
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2140. 解决智力问题](https://leetcode.cn/problems/solving-questions-with-brainpower)
+# [2140. Solving Questions With Brainpower](https://leetcode.com/problems/solving-questions-with-brainpower)
 
-[English Version](/solution/2100-2199/2140.Solving%20Questions%20With%20Brainpower/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的二维整数数组&nbsp;<code>questions</code>&nbsp;，其中&nbsp;<code>questions[i] = [points<sub>i</sub>, brainpower<sub>i</sub>]</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> 2D integer array <code>questions</code> where <code>questions[i] = [points<sub>i</sub>, brainpower<sub>i</sub>]</code>.</p>
 
-<p>这个数组表示一场考试里的一系列题目，你需要 <strong>按顺序</strong>&nbsp;（也就是从问题 <code>0</code><strong>&nbsp;</strong>开始依次解决），针对每个问题选择 <strong>解决</strong>&nbsp;或者 <strong>跳过</strong>&nbsp;操作。解决问题 <code>i</code>&nbsp;将让你 <b>获得</b>&nbsp;&nbsp;<code>points<sub>i</sub></code>&nbsp;的分数，但是你将 <strong>无法</strong>&nbsp;解决接下来的&nbsp;<code>brainpower<sub>i</sub></code>&nbsp;个问题（即只能跳过接下来的 <code>brainpower<sub>i</sub></code><sub>&nbsp;</sub>个问题）。如果你跳过问题&nbsp;<code>i</code>&nbsp;，你可以对下一个问题决定使用哪种操作。</p>
+<p>The array describes the questions of an exam, where you have to process the questions <strong>in order</strong> (i.e., starting from question <code>0</code>) and make a decision whether to <strong>solve</strong> or <strong>skip</strong> each question. Solving question <code>i</code> will <strong>earn</strong> you <code>points<sub>i</sub></code> points but you will be <strong>unable</strong> to solve each of the next <code>brainpower<sub>i</sub></code> questions. If you skip question <code>i</code>, you get to make the decision on the next question.</p>
 
 <ul>
-	<li>比方说，给你&nbsp;<code>questions = [[3, 2], [4, 3], [4, 4], [2, 5]]</code>&nbsp;：
+	<li>For example, given <code>questions = [[3, 2], [4, 3], [4, 4], [2, 5]]</code>:
 
     <ul>
-    	<li>如果问题&nbsp;<code>0</code>&nbsp;被解决了， 那么你可以获得&nbsp;<code>3</code>&nbsp;分，但你不能解决问题&nbsp;<code>1</code> 和&nbsp;<code>2</code>&nbsp;。</li>
-    	<li>如果你跳过问题&nbsp;<code>0</code>&nbsp;，且解决问题&nbsp;<code>1</code>&nbsp;，你将获得 <code>4</code> 分但是不能解决问题&nbsp;<code>2</code> 和&nbsp;<code>3</code>&nbsp;。</li>
+    	<li>If question <code>0</code> is solved, you will earn <code>3</code> points but you will be unable to solve questions <code>1</code> and <code>2</code>.</li>
+    	<li>If instead, question <code>0</code> is skipped and question <code>1</code> is solved, you will earn <code>4</code> points but you will be unable to solve questions <code>2</code> and <code>3</code>.</li>
     </ul>
     </li>
 
 </ul>
 
-<p>请你返回这场考试里你能获得的 <strong>最高</strong>&nbsp;分数。</p>
+<p>Return <em>the <strong>maximum</strong> points you can earn for the exam</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>questions = [[3,2],[4,3],[4,4],[2,5]]
-<b>输出：</b>5
-<b>解释：</b>解决问题 0 和 3 得到最高分。
-- 解决问题 0 ：获得 3 分，但接下来 2 个问题都不能解决。
-- 不能解决问题 1 和 2
-- 解决问题 3 ：获得 2 分
-总得分为：3 + 2 = 5 。没有别的办法获得 5 分或者多于 5 分。
+<pre>
+<strong>Input:</strong> questions = [[3,2],[4,3],[4,4],[2,5]]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The maximum points can be earned by solving questions 0 and 3.
+- Solve question 0: Earn 3 points, will be unable to solve the next 2 questions
+- Unable to solve questions 1 and 2
+- Solve question 3: Earn 2 points
+Total points earned: 3 + 2 = 5. There is no other way to earn 5 or more points.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>questions = [[1,1],[2,2],[3,3],[4,4],[5,5]]
-<b>输出：</b>7
-<b>解释：</b>解决问题 1 和 4 得到最高分。
-- 跳过问题 0
-- 解决问题 1 ：获得 2 分，但接下来 2 个问题都不能解决。
-- 不能解决问题 2 和 3
-- 解决问题 4 ：获得 5 分
-总得分为：2 + 5 = 7 。没有别的办法获得 7 分或者多于 7 分。
+<pre>
+<strong>Input:</strong> questions = [[1,1],[2,2],[3,3],[4,4],[5,5]]
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> The maximum points can be earned by solving questions 1 and 4.
+- Skip question 0
+- Solve question 1: Earn 2 points, will be unable to solve the next 2 questions
+- Unable to solve questions 2 and 3
+- Solve question 4: Earn 5 points
+Total points earned: 2 + 5 = 7. There is no other way to earn 7 or more points.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= questions.length &lt;= 10<sup>5</sup></code></li>
@@ -73,22 +70,22 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们设计一个函数 $dfs(i)$，表示从第 $i$ 个问题开始解决，能够获得的最高分数。那么答案就是 $dfs(0)$。
+We design a function $dfs(i)$, which represents the maximum score that can be obtained starting from the $i$-th problem. Therefore, the answer is $dfs(0)$.
 
-函数 $dfs(i)$ 的计算方式如下：
+The calculation method of the function $dfs(i)$ is as follows:
 
--   如果 $i \geq n$，表示已经解决完所有问题，返回 $0$；
--   否则，设第 $i$ 个问题的分数为 $p$，需要跳过的问题数为 $b$，那么 $dfs(i) = \max(p + dfs(i + b + 1), dfs(i + 1))$。
+-   If $i \geq n$, it means that all problems have been solved, return $0$;
+-   Otherwise, let the score of the $i$-th problem be $p$, and the number of problems to skip be $b$, then $dfs(i) = \max(p + dfs(i + b + 1), dfs(i + 1))$.
 
-为了避免重复计算，我们可以使用记忆化搜索的方法，用一个数组 $f$ 记录所有已经计算过的 $dfs(i)$ 的值。
+To avoid repeated calculations, we can use the method of memoization search, using an array $f$ to record the values of all already computed $dfs(i)$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是问题的数量。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of problems.
 
 <!-- tabs:start -->
 
@@ -207,19 +204,19 @@ function mostPoints(questions: number[][]): number {
 
 <!-- solution:start -->
 
-### 方法二：动态规划
+### Solution 2: Dynamic Programming
 
-我们定义 $f[i]$ 表示从第 $i$ 个问题开始解决，能够获得的最高分数。那么答案就是 $f[0]$。
+We define $f[i]$ as the maximum score that can be obtained starting from the $i$-th problem. Therefore, the answer is $f[0]$.
 
-考虑 $f[i]$，第 $i$ 个问题的分数为 $p$，需要跳过的问题数为 $b$。如果我们解决了第 $i$ 个问题，那么接下来我们需要解决 $b$ 个问题，因此 $f[i] = p + f[i + b + 1]$。如果我们跳过了第 $i$ 个问题，那么接下来我们从第 $i + 1$ 个问题开始解决，因此 $f[i] = f[i + 1]$。两者取最大值即可。状态转移方程如下：
+Considering $f[i]$, let the score of the $i$-th problem be $p$, and the number of problems to skip be $b$. If we solve the $i$-th problem, then we need to solve the problem after skipping $b$ problems, thus $f[i] = p + f[i + b + 1]$. If we skip the $i$-th problem, then we start solving from the $(i + 1)$-th problem, thus $f[i] = f[i + 1]$. We take the maximum value of the two. The state transition equation is as follows:
 
 $$
 f[i] = \max(p + f[i + b + 1], f[i + 1])
 $$
 
-我们从后往前计算 $f$ 的值，最后返回 $f[0]$ 即可。
+We calculate the values of $f$ from back to front, and finally return $f[0]$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是问题的数量。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of problems.
 
 <!-- tabs:start -->
 

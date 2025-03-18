@@ -1,89 +1,84 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0843.Guess%20the%20Word/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 数学
-    - 字符串
-    - 博弈
-    - 交互
+    - Array
+    - Math
+    - String
+    - Game Theory
+    - Interactive
 ---
 
 <!-- problem:start -->
 
-# [843. 猜猜这个单词](https://leetcode.cn/problems/guess-the-word)
+# [843. Guess the Word](https://leetcode.com/problems/guess-the-word)
 
-[English Version](/solution/0800-0899/0843.Guess%20the%20Word/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个由 <strong>不同</strong> 字符串组成的单词列表&nbsp;<code>words</code> ，其中 <code>words[i]</code>&nbsp;长度均为&nbsp;<code>6</code> 。<code>words</code> 中的一个单词将被选作秘密单词 <code>secret</code>&nbsp;。</p>
+<p>You are given an array of unique strings <code>words</code> where <code>words[i]</code> is six letters long. One word of <code>words</code> was chosen as a secret word.</p>
 
-<p>另给你一个辅助对象&nbsp;<code>Master</code> ，你可以调用&nbsp;<code>Master.guess(word)</code> 来猜单词，其中参数 <code>word</code> 长度为 6 且必须是 <code>words</code> 中的字符串。</p>
-
-<p><code>Master.guess(word)</code> 将会返回如下结果：</p>
+<p>You are also given the helper object <code>Master</code>. You may call <code>Master.guess(word)</code> where <code>word</code> is a six-letter-long string, and it must be from <code>words</code>. <code>Master.guess(word)</code> returns:</p>
 
 <ul>
-	<li>如果 <code>word</code> 不是 <code>words</code> 中的字符串，返回 <code>-1</code> ，或者</li>
-	<li>一个整数，表示你所猜测的单词 <code>word</code> 与 <strong>秘密单词</strong>&nbsp;<code>secret</code>&nbsp;的准确匹配（值和位置同时匹配）的数目。</li>
+	<li><code>-1</code> if <code>word</code> is not from <code>words</code>, or</li>
+	<li>an integer representing the number of exact matches (value and position) of your guess to the secret word.</li>
 </ul>
 
-<p>每组测试用例都会包含一个参数 <code>allowedGuesses</code> ，其中 <code>allowedGuesses</code> 是你可以调用 <code>Master.guess(word)</code> 的最大次数。</p>
+<p>There is a parameter <code>allowedGuesses</code> for each test case where <code>allowedGuesses</code> is the maximum number of times you can call <code>Master.guess(word)</code>.</p>
 
-<p>对于每组测试用例，在不超过允许猜测的次数的前提下，你应该调用 <code>Master.guess</code> 来猜出秘密单词。最终，你将会得到以下结果：</p>
+<p>For each test case, you should call <code>Master.guess</code> with the secret word without exceeding the maximum number of allowed guesses. You will get:</p>
 
 <ul>
-	<li>如果你调用 <code>Master.guess</code> 的次数大于 <code>allowedGuesses</code> 所限定的次数或者你没有用 <code>Master.guess</code> 猜到秘密单词，则得到 <strong><code>"Either you took too many guesses, or you did not find the secret word."</code> 。</strong></li>
-	<li>如果你调用 <code>Master.guess</code> 猜到秘密单词，且调用 <code>Master.guess</code> 的次数小于或等于 <code>allowedGuesses</code> ，则得到 <strong><code>"You guessed the secret word correctly."</code> 。</strong></li>
+	<li><strong><code>&quot;Either you took too many guesses, or you did not find the secret word.&quot;</code></strong> if you called <code>Master.guess</code> more than <code>allowedGuesses</code> times or if you did not call <code>Master.guess</code> with the secret word, or</li>
+	<li><strong><code>&quot;You guessed the secret word correctly.&quot;</code></strong> if you called <code>Master.guess</code> with the secret word with the number of calls to <code>Master.guess</code> less than or equal to <code>allowedGuesses</code>.</li>
 </ul>
 
-<p>生成的测试用例保证你可以利用某种合理的策略（而不是暴力）猜到秘密单词。</p>
-&nbsp;
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>secret = "acckzz", words = ["acckzz","ccbazz","eiowzz","abcczz"], allowedGuesses = 10
-<strong>输出：</strong>You guessed the secret word correctly.
-<strong>解释：</strong>
-master.guess("aaaaaa") 返回 -1 ，因为 "aaaaaa" 不在 words 中。
-master.guess("acckzz") 返回 6 ，因为 "acckzz" 是秘密单词 secret ，共有 6 个字母匹配。
-master.guess("ccbazz") 返回 3 ，因为 "ccbazz" 共有 3 个字母匹配。
-master.guess("eiowzz") 返回 2 ，因为 "eiowzz" 共有 2 个字母匹配。
-master.guess("abcczz") 返回 4 ，因为 "abcczz" 共有 4 个字母匹配。
-一共调用 5 次 master.guess ，其中一个为秘密单词，所以通过测试用例。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>secret = "hamada", words = ["hamada","khaled"], allowedGuesses = 10
-<strong>输出：</strong>You guessed the secret word correctly.
-<strong>解释：</strong>共有 2 个单词，且其中一个为秘密单词，可以通过测试用例。</pre>
+<p>The test cases are generated such that you can guess the secret word with a reasonable strategy (other than using the bruteforce method).</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> secret = &quot;acckzz&quot;, words = [&quot;acckzz&quot;,&quot;ccbazz&quot;,&quot;eiowzz&quot;,&quot;abcczz&quot;], allowedGuesses = 10
+<strong>Output:</strong> You guessed the secret word correctly.
+<strong>Explanation:</strong>
+master.guess(&quot;aaaaaa&quot;) returns -1, because &quot;aaaaaa&quot; is not in wordlist.
+master.guess(&quot;acckzz&quot;) returns 6, because &quot;acckzz&quot; is secret and has all 6 matches.
+master.guess(&quot;ccbazz&quot;) returns 3, because &quot;ccbazz&quot; has 3 matches.
+master.guess(&quot;eiowzz&quot;) returns 2, because &quot;eiowzz&quot; has 2 matches.
+master.guess(&quot;abcczz&quot;) returns 4, because &quot;abcczz&quot; has 4 matches.
+We made 5 calls to master.guess, and one of them was the secret, so we pass the test case.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> secret = &quot;hamada&quot;, words = [&quot;hamada&quot;,&quot;khaled&quot;], allowedGuesses = 10
+<strong>Output:</strong> You guessed the secret word correctly.
+<strong>Explanation:</strong> Since there are two words, you can guess both.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 100</code></li>
 	<li><code>words[i].length == 6</code></li>
-	<li><code>words[i]</code> 仅由小写英文字母组成</li>
-	<li><code>words</code> 中所有字符串 <strong>互不相同</strong></li>
-	<li><code>secret</code> 存在于 <code>words</code> 中</li>
+	<li><code>words[i]</code> consist of lowercase English letters.</li>
+	<li>All the strings of <code>wordlist</code> are <strong>unique</strong>.</li>
+	<li><code>secret</code> exists in <code>words</code>.</li>
 	<li><code>10 &lt;= allowedGuesses &lt;= 30</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,75 +1,71 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0447.Number%20of%20Boomerangs/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
-    - 数学
+    - Array
+    - Hash Table
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [447. 回旋镖的数量](https://leetcode.cn/problems/number-of-boomerangs)
+# [447. Number of Boomerangs](https://leetcode.com/problems/number-of-boomerangs)
 
-[English Version](/solution/0400-0499/0447.Number%20of%20Boomerangs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定平面上<em>&nbsp;</em><code>n</code><em> </em>对 <strong>互不相同</strong> 的点&nbsp;<code>points</code> ，其中 <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> 。<strong>回旋镖</strong> 是由点&nbsp;<code>(i, j, k)</code> 表示的元组 ，其中&nbsp;<code>i</code>&nbsp;和&nbsp;<code>j</code>&nbsp;之间的欧式距离和&nbsp;<code>i</code>&nbsp;和&nbsp;<code>k</code>&nbsp;之间的欧式距离相等（<strong>需要考虑元组的顺序</strong>）。</p>
+<p>You are given <code>n</code> <code>points</code> in the plane that are all <strong>distinct</strong>, where <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code>. A <strong>boomerang</strong> is a tuple of points <code>(i, j, k)</code> such that the distance between <code>i</code> and <code>j</code> equals the distance between <code>i</code> and <code>k</code> <strong>(the order of the tuple matters)</strong>.</p>
 
-<p>返回平面上所有回旋镖的数量。</p>
-&nbsp;
+<p>Return <em>the number of boomerangs</em>.</p>
 
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>points = [[0,0],[1,0],[2,0]]
-<strong>输出：</strong>2
-<strong>解释：</strong>两个回旋镖为 <strong>[[1,0],[0,0],[2,0]]</strong> 和 <strong>[[1,0],[2,0],[0,0]]</strong>
+<strong>Input:</strong> points = [[0,0],[1,0],[2,0]]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The two boomerangs are [[1,0],[0,0],[2,0]] and [[1,0],[2,0],[0,0]].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>points = [[1,1],[2,2],[3,3]]
-<strong>输出：</strong>2
+<strong>Input:</strong> points = [[1,1],[2,2],[3,3]]
+<strong>Output:</strong> 2
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>points = [[1,1]]
-<strong>输出：</strong>0
+<strong>Input:</strong> points = [[1,1]]
+<strong>Output:</strong> 0
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>n ==&nbsp;points.length</code></li>
+	<li><code>n == points.length</code></li>
 	<li><code>1 &lt;= n &lt;= 500</code></li>
 	<li><code>points[i].length == 2</code></li>
 	<li><code>-10<sup>4</sup> &lt;= x<sub>i</sub>, y<sub>i</sub> &lt;= 10<sup>4</sup></code></li>
-	<li>所有点都 <strong>互不相同</strong></li>
+	<li>All the points are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举 + 计数
+### Solution 1: Enumeration + Counting
 
-我们可以枚举 `points` 中的每个点作为回旋镖的点 $i$，然后用一个哈希表 $cnt$ 记录其他点到 $i$ 的距离出现的次数。
+We can enumerate each point in `points` as the boomerang's point $i$, and then use a hash table $cnt$ to record the number of times the distance from other points to $i$ appears.
 
-如果有 $x$ 个点到 $i$ 的距离相等，那么我们可以任选其中 $2$ 个点作为回旋镖的 $j$ 和 $k$，方案数为 $A_x^2 = x \times (x - 1)$。因此，我们对哈希表中的每个值 $x$，都计算并累加 $A_x^2$，就可以得到满足题目要求的回旋镖数量之和。
+If there are $x$ points with equal distance to $i$, then we can arbitrarily select two of them as the boomerang's $j$ and $k$. The number of schemes is $A_x^2 = x \times (x - 1)$. Therefore, for each value $x$ in the hash table, we calculate and accumulate $A_x^2$, which gives us the total number of boomerangs that meet the problem's requirements.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 是数组 `points` 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$, where $n$ is the length of the array `points`.
 
 <!-- tabs:start -->
 
@@ -167,7 +163,7 @@ function numberOfBoomerangs(points: number[][]): number {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

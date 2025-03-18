@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3089.Find%20Bursty%20Behavior/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3089. 查找突发行为 🔒](https://leetcode.cn/problems/find-bursty-behavior)
+# [3089. Find Bursty Behavior 🔒](https://leetcode.com/problems/find-bursty-behavior)
 
-[English Version](/solution/3000-3099/3089.Find%20Bursty%20Behavior/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Posts</code></p>
+<p>Table: <code>Posts</code></p>
 
 <pre>
 +-------------+---------+
@@ -26,26 +23,25 @@ tags:
 | user_id     | int     |
 | post_date   | date    |
 +-------------+---------+
-post_id 是这张表的主键（有不同值的列）。
-这张表的每一行包含 post_id，user_id 和 post_date。
+post_id is the primary key (column with unique values) for this table.
+Each row of this table contains post_id, user_id, and post_date.
 </pre>
 
-<p>编写一个解决方案来找到在 <code>2024</code> 年 2 月期间在发帖行为中表现出 <strong>突发行为</strong> 的用户。<strong>突发行为</strong>&nbsp;指用户在&nbsp;<code>2024</code> 年 2 月 <strong>存在一个</strong> <strong>连续 7 天</strong> 的时段中发帖频率是其 <strong>平均</strong> 每周发帖频率的 <strong>至少两倍</strong>。</p>
+<p>Write a solution to find users who demonstrate <strong>bursty behavior</strong> in their posting patterns during February <code>2024</code>. <strong>Bursty behavior</strong> is defined as <strong>any</strong> period of <strong>7</strong> <strong>consecutive</strong> days where a user&#39;s posting frequency is <strong>at least twice</strong> to their <strong>average</strong> weekly posting frequency for February <code>2024</code>.</p>
 
-<p><strong>注意：</strong>&nbsp;在你的统计中只包含 2 月 <code>1</code> 日 到 2 月 <code>28</code> 日，也就是说你应该把 2 月记为正好 <code>4</code> 周。</p>
+<p><strong>Note:</strong> Only include the dates from February <code>1</code> to February <code>28</code> in your analysis, which means you should count February as having exactly <code>4</code> weeks.</p>
 
-<p>返回结果表，以<em>&nbsp;</em><code>user_id</code><em> </em><strong>升序</strong><em>&nbsp;</em>排序。</p>
+<p>Return <em>the result table orderd by </em><code>user_id</code><em> in </em><strong>ascending</strong><em> order.</em></p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例：</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong></p>
+<p><strong>Input:</strong></p>
 
-<p>Posts 表：</p>
+<p>Posts table:</p>
 
 <pre class="example-io">
 +---------+---------+------------+
@@ -60,7 +56,7 @@ post_id 是这张表的主键（有不同值的列）。
 +---------+---------+------------+
 </pre>
 
-<p><strong>输出：</strong></p>
+<p><strong>Output:</strong></p>
 
 <pre class="example-io">
 +---------+----------------+------------------+
@@ -72,31 +68,31 @@ post_id 是这张表的主键（有不同值的列）。
 +---------+----------------+------------------+
 </pre>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <ul>
-	<li><strong>用户 1：</strong>2 月份只发布了 1 个帖子，平均每周发布 0.25 个帖子，任何 7 天期间最多发布 1 个帖子。</li>
-	<li><strong>用户 2：</strong>也只发了 1 个帖子，与用户 1 相同的平均和最大 7 天发帖频率。</li>
-	<li><strong>用户 5：</strong>与用户 1 和用户 2 一样，用户 5 在整个 2 月份只发布了 1 篇文章，得到相同的平均和最大 7 天发帖频率。</li>
-	<li><strong>用户 3：</strong>虽然用户 3 发布的帖子比其他用户多（3 篇），但他在连续 7 天期间中没有达到每周平均发帖频率的两倍，因此没有在输出中列出。</li>
+	<li><strong>User 1:</strong> Made only 1 post in February, resulting in an average of 0.25 posts per week and a max of 1 post in any 7-day period.</li>
+	<li><strong>User 2:</strong> Also made just 1 post, with the same average and max 7-day posting frequency as User 1.</li>
+	<li><strong>User 5:</strong> Like Users 1 and 2, User 5 made only 1 post throughout February, leading to the same average and max 7-day posting metrics.</li>
+	<li><strong>User 3:</strong> Although User 3 made more posts than the others (3 posts), they did not reach twice the average weekly posts in their consecutive 7-day window, so they are not listed in the output.</li>
 </ul>
 
-<p><b>注意：</b>&nbsp;输出表以 user_id 升序排序。</p>
+<p><b>Note:</b> Output table is ordered by user_id in ascending order.</p>
 </div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：自连接 + 分组统计
+### Solution 1: Self-Join + Group Count
 
-我们可以使用自连接，将表 `Posts` 与自身连接，连接条件是 `p1.user_id = p2.user_id` 且 `p2.post_date` 在 `p1.post_date` 和 `p1.post_date` 后 `6` 天之间，然后我们将连接结果按照 `p1.user_id` 和 `p1.post_id` 分组，即可统计出每个用户在每天的 7 天内的发帖数量，我们将这个结果保存在表 `P` 中。
+We can use self-join to connect the `Posts` table with itself. The connection condition is `p1.user_id = p2.user_id` and `p2.post_date` is between `p1.post_date` and 6 days after `p1.post_date`. Then we group the connection results by `p1.user_id` and `p1.post_id` to count the number of posts for each user within 7 days of each day. We save this result in table `P`.
 
-接着我们统计出每个用户在 2024 年 2 月份的每周平均发帖数量，保存在表 `T` 中。注意，我们需要查找 `post_date` 在 `2024-02-01` 和 `2024-02-28` 之间的记录，将记录按照 `user_id` 分组，然后统计每个用户的发帖数量，最后除以 `4` 即可得到每周平均发帖数量，我们将这个结果保存在表 `T` 中。
+Next, we count the average number of posts per week for each user in February 2024 and save it in table `T`. Note that we need to find records where `post_date` is between `2024-02-01` and `2024-02-28`, group the records by `user_id`, then count the number of posts for each user, and finally divide by `4` to get the average number of posts per week. We save this result in table `T`.
 
-最后，我们将表 `P` 和表 `T` 连接，连接条件是 `P.user_id = T.user_id`，然后按照 `user_id` 分组，统计出每个用户在 7 天内的最大发帖数量，最后筛选出满足条件 `max_7day_posts >= avg_weekly_posts * 2` 的记录，即可得到结果。注意，我们需要按照 `user_id` 升序排序。
+Finally, we connect tables `P` and `T` with the condition `P.user_id = T.user_id`, then group by `user_id` to count the maximum number of posts within 7 days for each user. We then filter out records that meet the condition `max_7day_posts >= avg_weekly_posts * 2` to get the result. Note that we need to sort in ascending order by `user_id`.
 
 <!-- tabs:start -->
 
@@ -136,45 +132,37 @@ import pandas as pd
 
 
 def find_bursty_behavior(posts: pd.DataFrame) -> pd.DataFrame:
-    # 子查询 P
-    p1 = pd.merge(
-        posts, posts, on="user_id", suffixes=("_1", "_2")
-    )  # 合并帖子表自身，根据用户ID
+    # Subquery P
+    p1 = pd.merge(posts, posts, on="user_id", suffixes=("_1", "_2"))
     p1 = p1[
         p1["post_date_2"].between(
             p1["post_date_1"], p1["post_date_1"] + pd.Timedelta(days=6)
         )
-    ]  # 筛选出相邻 7 天内的帖子
-    p1 = (
-        p1.groupby(["user_id", "post_id_1"]).size().reset_index(name="cnt")
-    )  # 统计每个用户在相邻 7 天内的帖子数
+    ]
+    p1 = p1.groupby(["user_id", "post_id_1"]).size().reset_index(name="cnt")
 
-    # 子查询 T
+    # Subquery T
     t = posts[
         (posts["post_date"] >= "2024-02-01") & (posts["post_date"] <= "2024-02-28")
-    ]  # 筛选出 2024 年 2 月份的帖子
-    t = (
-        t.groupby("user_id").size().div(4).reset_index(name="avg_weekly_posts")
-    )  # 计算每个用户平均每周的帖子数
+    ]
+    t = t.groupby("user_id").size().div(4).reset_index(name="avg_weekly_posts")
 
-    # 连接 P 和 T
-    merged_df = pd.merge(p1, t, on="user_id", how="inner")  # 内连接 P 和 T
+    # Joining P and T
+    merged_df = pd.merge(p1, t, on="user_id", how="inner")
 
-    # 过滤
-    filtered_df = merged_df[
-        merged_df["cnt"] >= merged_df["avg_weekly_posts"] * 2
-    ]  # 过滤出满足条件的行
+    # Filtering
+    filtered_df = merged_df[merged_df["cnt"] >= merged_df["avg_weekly_posts"] * 2]
 
-    # 聚合
+    # Aggregating
     result_df = (
         filtered_df.groupby("user_id")
         .agg({"cnt": "max", "avg_weekly_posts": "first"})
         .reset_index()
-    )  # 对满足条件的行按用户ID聚合
-    result_df.columns = ["user_id", "max_7day_posts", "avg_weekly_posts"]  # 重命名列名
+    )
+    result_df.columns = ["user_id", "max_7day_posts", "avg_weekly_posts"]
 
-    # 排序
-    result_df.sort_values(by="user_id", inplace=True)  # 按用户ID排序
+    # Sorting
+    result_df.sort_values(by="user_id", inplace=True)
 
     return result_df
 ```

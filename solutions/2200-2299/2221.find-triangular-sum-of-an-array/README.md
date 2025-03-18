@@ -1,62 +1,55 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2221.Find%20Triangular%20Sum%20of%20an%20Array/README.md
+difficulty: Medium
 rating: 1317
-source: 第 75 场双周赛 Q2
+source: Biweekly Contest 75 Q2
 tags:
-    - 数组
-    - 数学
-    - 组合数学
-    - 模拟
+    - Array
+    - Math
+    - Combinatorics
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2221. 数组的三角和](https://leetcode.cn/problems/find-triangular-sum-of-an-array)
+# [2221. Find Triangular Sum of an Array](https://leetcode.com/problems/find-triangular-sum-of-an-array)
 
-[English Version](/solution/2200-2299/2221.Find%20Triangular%20Sum%20of%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;，其中&nbsp;<code>nums[i]</code>&nbsp;是 <code>0</code>&nbsp;到 <code>9</code>&nbsp;之间（两者都包含）的一个数字。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>, where <code>nums[i]</code> is a digit between <code>0</code> and <code>9</code> (<strong>inclusive</strong>).</p>
 
-<p><code>nums</code>&nbsp;的 <strong>三角和</strong>&nbsp;是执行以下操作以后最后剩下元素的值：</p>
+<p>The <strong>triangular sum</strong> of <code>nums</code> is the value of the only element present in <code>nums</code> after the following process terminates:</p>
 
 <ol>
-	<li><code>nums</code>&nbsp;初始包含&nbsp;<code>n</code>&nbsp;个元素。如果&nbsp;<code>n == 1</code>&nbsp;，<strong>终止</strong>&nbsp;操作。否则，<strong>创建</strong>&nbsp;一个新的下标从&nbsp;<strong>0</strong>&nbsp;开始的长度为 <code>n - 1</code>&nbsp;的整数数组&nbsp;<code>newNums</code>&nbsp;。</li>
-	<li>对于满足&nbsp;<code>0 &lt;= i &lt;&nbsp;n - 1</code>&nbsp;的下标&nbsp;<code>i</code>&nbsp;，<code>newNums[i]</code> <strong>赋值</strong>&nbsp;为&nbsp;<code>(nums[i] + nums[i+1]) % 10</code>&nbsp;，<code>%</code>&nbsp;表示取余运算。</li>
-	<li>将&nbsp;<code>newNums</code>&nbsp;<strong>替换</strong> 数组&nbsp;<code>nums</code>&nbsp;。</li>
-	<li>从步骤 1 开始&nbsp;<strong>重复</strong>&nbsp;整个过程。</li>
+	<li>Let <code>nums</code> comprise of <code>n</code> elements. If <code>n == 1</code>, <strong>end</strong> the process. Otherwise, <strong>create</strong> a new <strong>0-indexed</strong> integer array <code>newNums</code> of length <code>n - 1</code>.</li>
+	<li>For each index <code>i</code>, where <code>0 &lt;= i &lt;&nbsp;n - 1</code>, <strong>assign</strong> the value of <code>newNums[i]</code> as <code>(nums[i] + nums[i+1]) % 10</code>, where <code>%</code> denotes modulo operator.</li>
+	<li><strong>Replace</strong> the array <code>nums</code> with <code>newNums</code>.</li>
+	<li><strong>Repeat</strong> the entire process starting from step 1.</li>
 </ol>
 
-<p>请你返回&nbsp;<code>nums</code>&nbsp;的三角和。</p>
+<p>Return <em>the triangular sum of</em> <code>nums</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2221.Find%20Triangular%20Sum%20of%20an%20Array/images/ex1drawio.png" style="width: 250px; height: 250px;" />
+<pre>
+<strong>Input:</strong> nums = [1,2,3,4,5]
+<strong>Output:</strong> 8
+<strong>Explanation:</strong>
+The above diagram depicts the process from which we obtain the triangular sum of the array.</pre>
 
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2200-2299/2221.Find%20Triangular%20Sum%20of%20an%20Array/images/ex1drawio.png" style="width: 250px; height: 250px;" /></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,2,3,4,5]
-<b>输出：</b>8
-<strong>解释：</strong>
-上图展示了得到数组三角和的过程。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [5]
-<b>输出：</b>5
-<b>解释：</b>
-由于 nums 中只有一个元素，数组的三角和为这个元素自己。</pre>
+<strong>Input:</strong> nums = [5]
+<strong>Output:</strong> 5
+<strong>Explanation:</strong>
+Since there is only one element in nums, the triangular sum is the value of that element itself.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
@@ -65,15 +58,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们可以直接模拟题目描述的操作，对数组 $\textit{nums}$ 进行 $n - 1$ 轮操作，每轮操作都按照题目描述的规则更新数组 $\textit{nums}$。最后返回数组 $\textit{nums}$ 中剩下的唯一元素即可。
+We can directly simulate the operations described in the problem. Perform $n - 1$ rounds of operations on the array $\textit{nums}$, updating the array $\textit{nums}$ according to the rules described in the problem for each round. Finally, return the only remaining element in the array $\textit{nums}$.
 
-时间复杂度 $O(n^2)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n^2)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,96 +1,79 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0659.Split%20Array%20into%20Consecutive%20Subsequences/README.md
+difficulty: Medium
 tags:
-    - 贪心
-    - 数组
-    - 哈希表
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Hash Table
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [659. 分割数组为连续子序列](https://leetcode.cn/problems/split-array-into-consecutive-subsequences)
+# [659. Split Array into Consecutive Subsequences](https://leetcode.com/problems/split-array-into-consecutive-subsequences)
 
-[English Version](/solution/0600-0699/0659.Split%20Array%20into%20Consecutive%20Subsequences/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个按 <strong>非递减顺序</strong> 排列的整数数组 <code>nums</code> 。</p>
+<p>You are given an integer array <code>nums</code> that is <strong>sorted in non-decreasing order</strong>.</p>
 
-<p>请你判断是否能在将 <code>nums</code> 分割成 <strong>一个或多个子序列</strong> 的同时满足下述 <strong>两个</strong> 条件：</p>
+<p>Determine if it is possible to split <code>nums</code> into <strong>one or more subsequences</strong> such that <strong>both</strong> of the following conditions are true:</p>
 
-<div class="original__bRMd">
-<div>
 <ul>
-	<li>每个子序列都是一个 <strong>连续递增序列</strong>（即，每个整数 <strong>恰好</strong> 比前一个整数大 <strong>1</strong> ）。</li>
-	<li>所有子序列的长度 <strong>至少</strong> 为 <code>3</code><strong> </strong>。</li>
+	<li>Each subsequence is a <strong>consecutive increasing sequence</strong> (i.e. each integer is <strong>exactly one</strong> more than the previous integer).</li>
+	<li>All subsequences have a length of <code>3</code><strong> or more</strong>.</li>
 </ul>
 
-<p>如果可以分割 <code>nums</code> 并满足上述条件，则返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
-</div>
-</div>
+<p>Return <code>true</code><em> if you can split </em><code>nums</code><em> according to the above conditions, or </em><code>false</code><em> otherwise</em>.</p>
+
+<p>A <strong>subsequence</strong> of an array is a new array that is formed from the original array by deleting some (can be none) of the elements without disturbing the relative positions of the remaining elements. (i.e., <code>[1,3,5]</code> is a subsequence of <code>[<u>1</u>,2,<u>3</u>,4,<u>5</u>]</code> while <code>[1,3,2]</code> is not).</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3,3,4,5]
-<strong>输出：</strong>true
-<strong>解释：</strong>nums 可以分割成以下子序列：
-[<em><strong>1</strong></em>,<em><strong>2</strong></em>,<em><strong>3</strong></em>,3,4,5] --&gt; 1, 2, 3
-[1,2,3,<em><strong>3</strong></em>,<em><strong>4</strong></em>,<em><strong>5</strong></em>] --&gt; 3, 4, 5
+<strong>Input:</strong> nums = [1,2,3,3,4,5]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> nums can be split into the following subsequences:
+[<strong><u>1</u></strong>,<strong><u>2</u></strong>,<strong><u>3</u></strong>,3,4,5] --&gt; 1, 2, 3
+[1,2,3,<strong><u>3</u></strong>,<strong><u>4</u></strong>,<strong><u>5</u></strong>] --&gt; 3, 4, 5
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3,3,4,4,5,5]
-<strong>输出：</strong>true
-<strong>解释：</strong>nums 可以分割成以下子序列：
-[<em><strong>1</strong></em>,<em><strong>2</strong></em>,<em><strong>3</strong></em>,3,<em><strong>4</strong></em>,4,<em><strong>5</strong></em>,5] --&gt; 1, 2, 3, 4, 5
-[1,2,3,<em><strong>3</strong></em>,4,<em><strong>4</strong></em>,5,<em><strong>5</strong></em>] --&gt; 3, 4, 5
+<strong>Input:</strong> nums = [1,2,3,3,4,4,5,5]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> nums can be split into the following subsequences:
+[<strong><u>1</u></strong>,<strong><u>2</u></strong>,<strong><u>3</u></strong>,3,<strong><u>4</u></strong>,4,<strong><u>5</u></strong>,5] --&gt; 1, 2, 3, 4, 5
+[1,2,3,<strong><u>3</u></strong>,4,<strong><u>4</u></strong>,5,<strong><u>5</u></strong>] --&gt; 3, 4, 5
 </pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3,4,4,5]
-<strong>输出：</strong>false
-<strong>解释：</strong>无法将 nums 分割成长度至少为 3 的连续递增子序列。
+<strong>Input:</strong> nums = [1,2,3,4,4,5]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> It is impossible to split nums into consecutive increasing subsequences of length 3 or more.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>-1000 &lt;= nums[i] &lt;= 1000</code></li>
-	<li><code>nums</code> 按非递减顺序排列</li>
+	<li><code>nums</code> is sorted in <strong>non-decreasing</strong> order.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 优先队列（小根堆）
-
-由于题目中的子序列是由连续整数组成的，因此，只要知道子序列的最后一个数以及子序列的长度，就能够确定子序列。
-
-我们可以使用哈希表存储每个子序列的最后一个数，使用优先队列存储当前数作为子序列的末尾时，子序列的长度。我们要优先选择长度较短的子序列，因此使用小根堆。
-
-遍历数组 `nums`，对于当前遍历到的数 `num`，如果 `num` 不能加入到任何子序列中，那么我们就创建一个新的子序列，长度为 1；否则，我们就将 `num` 加入到某个子序列中，具体的子序列是哪个呢？我们可以从 `num - 1` 对应的子序列中取出一个长度最短的子序列，将 `num` 加入到该子序列中，然后将该子序列的最后一个数更新为 `num`，同时将该子序列的长度加 1。
-
-如果我们遍历完数组 `nums`，优先队列中所有的子序列的长度都不小于 3，那么我们就可以将数组 `nums` 分割成若干个子序列，否则，我们就无法将数组 `nums` 分割成若干个子序列。
-
-时间复杂度 $O(n\log n)$，其中 $n$ 是数组 `nums` 的长度。空间复杂度 $O(n)$。
+### Solution 1
 
 <!-- tabs:start -->
 

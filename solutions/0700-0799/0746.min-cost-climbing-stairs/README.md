@@ -1,58 +1,53 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0746.Min%20Cost%20Climbing%20Stairs/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [746. 使用最小花费爬楼梯](https://leetcode.cn/problems/min-cost-climbing-stairs)
+# [746. Min Cost Climbing Stairs](https://leetcode.com/problems/min-cost-climbing-stairs)
 
-[English Version](/solution/0700-0799/0746.Min%20Cost%20Climbing%20Stairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>cost</code> ，其中 <code>cost[i]</code> 是从楼梯第 <code>i</code> 个台阶向上爬需要支付的费用。一旦你支付此费用，即可选择向上爬一个或者两个台阶。</p>
+<p>You are given an integer array <code>cost</code> where <code>cost[i]</code> is the cost of <code>i<sup>th</sup></code> step on a staircase. Once you pay the cost, you can either climb one or two steps.</p>
 
-<p>你可以选择从下标为 <code>0</code> 或下标为 <code>1</code> 的台阶开始爬楼梯。</p>
+<p>You can either start from the step with index <code>0</code>, or the step with index <code>1</code>.</p>
 
-<p>请你计算并返回达到楼梯顶部的最低花费。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>cost = [10,<em><strong>15</strong></em>,20]
-<strong>输出：</strong>15
-<strong>解释：</strong>你将从下标为 1 的台阶开始。
-- 支付 15 ，向上爬两个台阶，到达楼梯顶部。
-总花费为 15 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>cost = [<em><strong>1</strong></em>,100,<em><strong>1</strong></em>,1,<em><strong>1</strong></em>,100,<em><strong>1</strong></em>,<em><strong>1</strong></em>,100,<em><strong>1</strong></em>]
-<strong>输出：</strong>6
-<strong>解释：</strong>你将从下标为 0 的台阶开始。
-- 支付 1 ，向上爬两个台阶，到达下标为 2 的台阶。
-- 支付 1 ，向上爬两个台阶，到达下标为 4 的台阶。
-- 支付 1 ，向上爬两个台阶，到达下标为 6 的台阶。
-- 支付 1 ，向上爬一个台阶，到达下标为 7 的台阶。
-- 支付 1 ，向上爬两个台阶，到达下标为 9 的台阶。
-- 支付 1 ，向上爬一个台阶，到达楼梯顶部。
-总花费为 6 。
-</pre>
+<p>Return <em>the minimum cost to reach the top of the floor</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> cost = [10,<u>15</u>,20]
+<strong>Output:</strong> 15
+<strong>Explanation:</strong> You will start at index 1.
+- Pay 15 and climb two steps to reach the top.
+The total cost is 15.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> cost = [<u>1</u>,100,<u>1</u>,1,<u>1</u>,100,<u>1</u>,<u>1</u>,100,<u>1</u>]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> You will start at index 0.
+- Pay 1 and climb two steps to reach index 2.
+- Pay 1 and climb two steps to reach index 4.
+- Pay 1 and climb two steps to reach index 6.
+- Pay 1 and climb one step to reach index 7.
+- Pay 1 and climb two steps to reach index 9.
+- Pay 1 and climb one step to reach the top.
+The total cost is 6.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= cost.length &lt;= 1000</code></li>
@@ -61,23 +56,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们设计一个函数 $\textit{dfs}(i)$，表示从第 $i$ 个阶梯开始爬楼梯所需要的最小花费。那么答案为 $\min(\textit{dfs}(0), \textit{dfs}(1))$。
+We design a function $\textit{dfs}(i)$, which represents the minimum cost required to climb the stairs starting from the $i$-th step. Therefore, the answer is $\min(\textit{dfs}(0), \textit{dfs}(1))$.
 
-函数 $\textit{dfs}(i)$ 的执行过程如下：
+The execution process of the function $\textit{dfs}(i)$ is as follows:
 
--   如果 $i \ge \textit{len(cost)}$，表示当前位置已经超过了楼梯顶部，不需要再爬楼梯，返回 $0$；
--   否则，我们可以选择爬 $1$ 级楼梯，花费为 $\textit{cost}[i]$，然后递归调用 $\textit{dfs}(i + 1)$；也可以选择爬 $2$ 级楼梯，花费为 $\textit{cost}[i]$，然后递归调用 $\textit{dfs}(i + 2)$；
--   返回两种方案中的最小花费。
+-   If $i \ge \textit{len(cost)}$, it means the current position has exceeded the top of the stairs, and there is no need to climb further, so return $0$;
+-   Otherwise, we can choose to climb $1$ step with a cost of $\textit{cost}[i]$, then recursively call $\textit{dfs}(i + 1)$; or we can choose to climb $2$ steps with a cost of $\textit{cost}[i]$, then recursively call $\textit{dfs}(i + 2)$;
+-   Return the minimum cost between these two options.
 
-为了避免重复计算，我们使用记忆化搜索的方法，将已经计算过的结果保存在数组或哈希表中。
+To avoid repeated calculations, we use memoization search, saving the results that have already been calculated in an array or hash table.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{cost}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array $\textit{cost}$.
 
 <!-- tabs:start -->
 
@@ -235,19 +230,19 @@ function minCostClimbingStairs(cost) {
 
 <!-- solution:start -->
 
-### 方法二：动态规划
+### Solution 2: Dynamic Programming
 
-我们定义 $f[i]$ 表示到达第 $i$ 个阶梯所需要的最小花费，初始时 $f[0] = f[1] = 0$，答案即为 $f[n]$。
+We define $f[i]$ as the minimum cost needed to reach the $i$-th stair. Initially, $f[0] = f[1] = 0$, and the answer is $f[n]$.
 
-当 $i \ge 2$ 时，我们可以从第 $i - 1$ 个阶梯使用 $1$ 步直接到达第 $i$ 个阶梯，或者从第 $i - 2$ 个阶梯使用 $2$ 步到达第 $i$ 个阶梯，因此我们有状态转移方程：
+When $i \ge 2$, we can reach the $i$-th stair directly from the $(i - 1)$-th stair with one step, or from the $(i - 2)$-th stair with two steps. Therefore, we have the state transition equation:
 
 $$
-f[i] = \min(f[i - 1] + cost[i - 1], f[i - 2] + cost[i - 2])
+f[i] = \min(f[i - 1] + \textit{cost}[i - 1], f[i - 2] + \textit{cost}[i - 2])
 $$
 
-最终的答案即为 $f[n]$。
+The final answer is $f[n]$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{cost}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array $\textit{cost}$.
 
 <!-- tabs:start -->
 
@@ -354,9 +349,9 @@ function minCostClimbingStairs(cost) {
 
 <!-- solution:start -->
 
-### 方法三：动态规划（空间优化）
+### Solution 3: Dynamic Programming (Space Optimization)
 
-我们注意到，状态转移方程中的 $f[i]$ 只和 $f[i - 1]$ 与 $f[i - 2]$ 有关，因此我们可以使用两个变量 $f$ 和 $g$ 交替地记录 $f[i - 2]$ 和 $f[i - 1]$ 的值，这样空间复杂度可以优化到 $O(1)$。
+We notice that the state transition equation for $f[i]$ only depends on $f[i - 1]$ and $f[i - 2]$. Therefore, we can use two variables $f$ and $g$ to alternately record the values of $f[i - 2]$ and $f[i - 1]$, thus optimizing the space complexity to $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,67 +1,62 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2493.Divide%20Nodes%20Into%20the%20Maximum%20Number%20of%20Groups/README.md
+difficulty: Hard
 rating: 2415
-source: 第 322 场周赛 Q4
+source: Weekly Contest 322 Q4
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 并查集
-    - 图
+    - Depth-First Search
+    - Breadth-First Search
+    - Union Find
+    - Graph
 ---
 
 <!-- problem:start -->
 
-# [2493. 将节点分成尽可能多的组](https://leetcode.cn/problems/divide-nodes-into-the-maximum-number-of-groups)
+# [2493. Divide Nodes Into the Maximum Number of Groups](https://leetcode.com/problems/divide-nodes-into-the-maximum-number-of-groups)
 
-[English Version](/solution/2400-2499/2493.Divide%20Nodes%20Into%20the%20Maximum%20Number%20of%20Groups/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数&nbsp;<code>n</code>&nbsp;，表示一个 <strong>无向</strong>&nbsp;图中的节点数目，节点编号从&nbsp;<code>1</code>&nbsp;到&nbsp;<code>n</code>&nbsp;。</p>
+<p>You are given a positive integer <code>n</code> representing the number of nodes in an <strong>undirected</strong> graph. The nodes are labeled from <code>1</code> to <code>n</code>.</p>
 
-<p>同时给你一个二维整数数组&nbsp;<code>edges</code>&nbsp;，其中&nbsp;<code>edges[i] = [a<sub>i, </sub>b<sub>i</sub>]</code>&nbsp;表示节点&nbsp;<code>a<sub>i</sub></code> 和&nbsp;<code>b<sub>i</sub></code><sub>&nbsp;</sub>之间有一条&nbsp;<strong>双向</strong>&nbsp;边。注意给定的图可能是不连通的。</p>
+<p>You are also given a 2D integer array <code>edges</code>, where <code>edges[i] = [a<sub>i, </sub>b<sub>i</sub>]</code> indicates that there is a <strong>bidirectional</strong> edge between nodes <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code>. <strong>Notice</strong> that the given graph may be disconnected.</p>
 
-<p>请你将图划分为&nbsp;<code>m</code>&nbsp;个组（编号从 <strong>1</strong>&nbsp;开始），满足以下要求：</p>
+<p>Divide the nodes of the graph into <code>m</code> groups (<strong>1-indexed</strong>) such that:</p>
 
 <ul>
-	<li>图中每个节点都只属于一个组。</li>
-	<li>图中每条边连接的两个点&nbsp;<code>[a<sub>i, </sub>b<sub>i</sub>]</code>&nbsp;，如果&nbsp;<code>a<sub>i</sub></code>&nbsp;属于编号为&nbsp;<code>x</code>&nbsp;的组，<code>b<sub>i</sub></code>&nbsp;属于编号为&nbsp;<code>y</code>&nbsp;的组，那么&nbsp;<code>|y - x| = 1</code>&nbsp;。</li>
+	<li>Each node in the graph belongs to exactly one group.</li>
+	<li>For every pair of nodes in the graph that are connected by an edge <code>[a<sub>i, </sub>b<sub>i</sub>]</code>, if <code>a<sub>i</sub></code> belongs to the group with index <code>x</code>, and <code>b<sub>i</sub></code> belongs to the group with index <code>y</code>, then <code>|y - x| = 1</code>.</li>
 </ul>
 
-<p>请你返回最多可以将节点分为多少个组（也就是最大的<em>&nbsp;</em><code>m</code>&nbsp;）。如果没办法在给定条件下分组，请你返回&nbsp;<code>-1</code>&nbsp;。</p>
+<p>Return <em>the maximum number of groups (i.e., maximum </em><code>m</code><em>) into which you can divide the nodes</em>. Return <code>-1</code> <em>if it is impossible to group the nodes with the given conditions</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2493.Divide%20Nodes%20Into%20the%20Maximum%20Number%20of%20Groups/images/example1.png" style="width: 352px; height: 201px;"></p>
-
-<pre><b>输入：</b>n = 6, edges = [[1,2],[1,4],[1,5],[2,6],[2,3],[4,6]]
-<b>输出：</b>4
-<b>解释：</b>如上图所示，
-- 节点 5 在第一个组。
-- 节点 1 在第二个组。
-- 节点 2 和节点 4 在第三个组。
-- 节点 3 和节点 6 在第四个组。
-所有边都满足题目要求。
-如果我们创建第五个组，将第三个组或者第四个组中任何一个节点放到第五个组，至少有一条边连接的两个节点所属的组编号不符合题目要求。
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2493.Divide%20Nodes%20Into%20the%20Maximum%20Number%20of%20Groups/images/example1.png" style="width: 352px; height: 201px;" />
+<pre>
+<strong>Input:</strong> n = 6, edges = [[1,2],[1,4],[1,5],[2,6],[2,3],[4,6]]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> As shown in the image we:
+- Add node 5 to the first group.
+- Add node 1 to the second group.
+- Add nodes 2 and 4 to the third group.
+- Add nodes 3 and 6 to the fourth group.
+We can see that every edge is satisfied.
+It can be shown that that if we create a fifth group and move any node from the third or fourth group to it, at least on of the edges will not be satisfied.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>n = 3, edges = [[1,2],[2,3],[3,1]]
-<b>输出：</b>-1
-<b>解释：</b>如果我们将节点 1 放入第一个组，节点 2 放入第二个组，节点 3 放入第三个组，前两条边满足题目要求，但第三条边不满足题目要求。
-没有任何符合题目要求的分组方式。
+<pre>
+<strong>Input:</strong> n = 3, edges = [[1,2],[2,3],[3,1]]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> If we add node 1 to the first group, node 2 to the second group, and node 3 to the third group to satisfy the first two edges, we can see that the third edge will not be satisfied.
+It can be shown that no grouping is possible.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 500</code></li>
@@ -69,26 +64,26 @@ tags:
 	<li><code>edges[i].length == 2</code></li>
 	<li><code>1 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt;= n</code></li>
 	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
-	<li>两个点之间至多只有一条边。</li>
+	<li>There is at most one edge between any pair of vertices.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：BFS + 枚举
+### Solution 1: BFS + Enumeration
 
-由于题目给定的图可能是不连通的，所以我们需要对每个连通分量进行处理，找出每个连通分量的最大分组数，累加得到最终结果。
+Given that the graph provided by the problem may be disconnected, we need to process each connected component, find the maximum number of groups in each connected component, and accumulate them to get the final result.
 
-我们可以枚举每一个点作为第一组的节点，然后使用 BFS 遍历整个连通分量，用一个数组 $d$ 记录每个连通分量的最大分组数。在代码实现上，我们使用连通分量中的最小节点作为该连通分量的根节点。
+We can enumerate each node as the node of the first group, then use BFS to traverse the entire connected component, and use an array $d$ to record the maximum number of groups in each connected component. In the code implementation, we use the smallest node in the connected component as the root node of this connected component.
 
-在 BFS 的过程中，我们使用一个队列 $q$ 存储当前遍历到的节点，用一个数组 $dist$ 记录每个节点到起始节点的距离，用一个变量 $mx$ 记录当前连通分量的最大深度，用一个变量 $root$ 记录当前连通分量的根节点。
+During the BFS process, we use a queue $q$ to store the nodes currently traversed, use an array $dist$ to record the distance from each node to the starting node, use a variable $mx$ to record the maximum depth of the current connected component, and use a variable $root$ to record the root node of the current connected component.
 
-在遍历过程中，如果发现某个节点 $b$ 的 $dist[b]$ 为 $0$，说明 $b$ 还没有被遍历到，我们将 $b$ 的距离设为 $dist[a] + 1$，更新 $mx$，并将 $b$ 加入队列 $q$ 中。如果 $b$ 的距离已经被更新过，我们检查 $b$ 和 $a$ 之间的距离是否为 $1$，如果不是，说明无法满足题目要求，直接返回 $-1$。
+During the traversal, if we find that the $dist[b]$ of a certain node $b$ is $0$, it means that $b$ has not been traversed yet. We set the distance of $b$ to $dist[a] + 1$, update $mx$, and add $b$ to the queue $q$. If the distance of $b$ has been updated, we check whether the distance between $b$ and $a$ is $1$. If not, it means that the problem requirements cannot be met, so we directly return $-1$.
 
-时间复杂度 $O(n \times (n + m))$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别为节点数和边数。
+The time complexity is $O(n \times (n + m))$, and the space complexity is $O(n + m)$. Where $n$ and $m$ are the number of nodes and edges respectively.
 
 <!-- tabs:start -->
 

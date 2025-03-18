@@ -1,89 +1,86 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1766.Tree%20of%20Coprimes/README.md
+difficulty: Hard
 rating: 2231
-source: 第 46 场双周赛 Q4
+source: Biweekly Contest 46 Q4
 tags:
-    - 树
-    - 深度优先搜索
-    - 数组
-    - 数学
-    - 数论
+    - Tree
+    - Depth-First Search
+    - Array
+    - Math
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [1766. 互质树](https://leetcode.cn/problems/tree-of-coprimes)
+# [1766. Tree of Coprimes](https://leetcode.com/problems/tree-of-coprimes)
 
-[English Version](/solution/1700-1799/1766.Tree%20of%20Coprimes/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>n</code> 个节点的树（也就是一个无环连通无向图），节点编号从 <code>0</code> 到 <code>n - 1</code> ，且恰好有 <code>n - 1</code> 条边，每个节点有一个值。树的 <strong>根节点</strong> 为 0 号点。</p>
+<p>There is a tree (i.e.,&nbsp;a connected, undirected graph that has no cycles) consisting of <code>n</code> nodes numbered from <code>0</code> to <code>n - 1</code> and exactly <code>n - 1</code> edges. Each node has a value associated with it, and the <strong>root</strong> of the tree is node <code>0</code>.</p>
 
-<p>给你一个整数数组 <code>nums</code> 和一个二维数组 <code>edges</code> 来表示这棵树。<code>nums[i]</code> 表示第 <code>i</code> 个点的值，<code>edges[j] = [u<sub>j</sub>, v<sub>j</sub>]</code> 表示节点 <code>u<sub>j</sub></code> 和节点 <code>v<sub>j</sub></code> 在树中有一条边。</p>
+<p>To represent this tree, you are given an integer array <code>nums</code> and a 2D array <code>edges</code>. Each <code>nums[i]</code> represents the <code>i<sup>th</sup></code> node&#39;s value, and each <code>edges[j] = [u<sub>j</sub>, v<sub>j</sub>]</code> represents an edge between nodes <code>u<sub>j</sub></code> and <code>v<sub>j</sub></code> in the tree.</p>
 
-<p>当 <code>gcd(x, y) == 1</code> ，我们称两个数 <code>x</code> 和 <code>y</code> 是 <strong>互质的</strong> ，其中 <code>gcd(x, y)</code> 是 <code>x</code> 和 <code>y</code> 的 <strong>最大公约数</strong> 。</p>
+<p>Two values <code>x</code> and <code>y</code> are <strong>coprime</strong> if <code>gcd(x, y) == 1</code> where <code>gcd(x, y)</code> is the <strong>greatest common divisor</strong> of <code>x</code> and <code>y</code>.</p>
 
-<p>从节点 <code>i</code> 到 <strong>根</strong> 最短路径上的点都是节点 <code>i</code> 的祖先节点。一个节点 <strong>不是</strong> 它自己的祖先节点。</p>
+<p>An ancestor of a node <code>i</code> is any other node on the shortest path from node <code>i</code> to the <strong>root</strong>. A node is <strong>not </strong>considered an ancestor of itself.</p>
 
-<p>请你返回一个大小为 <code>n</code> 的数组 <code>ans</code> ，其中<em> </em><code>ans[i]</code>是离节点 <code>i</code> 最近的祖先节点且满足<em> </em><code>nums[i]</code> 和<em> </em><code>nums[ans[i]]</code> 是 <strong>互质的</strong> ，如果不存在这样的祖先节点，<code>ans[i]</code> 为 <code>-1</code> 。</p>
+<p>Return <em>an array </em><code>ans</code><em> of size </em><code>n</code>, <em>where </em><code>ans[i]</code><em> is the closest ancestor to node </em><code>i</code><em> such that </em><code>nums[i]</code> <em>and </em><code>nums[ans[i]]</code> are <strong>coprime</strong>, or <code>-1</code><em> if there is no such ancestor</em>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1766.Tree%20of%20Coprimes/images/untitled-diagram.png" style="width: 191px; height: 281px;" /></strong></p>
 
 <pre>
-<b>输入：</b>nums = [2,3,3,2], edges = [[0,1],[1,2],[1,3]]
-<b>输出：</b>[-1,0,0,1]
-<b>解释：</b>上图中，每个节点的值在括号中表示。
-- 节点 0 没有互质祖先。
-- 节点 1 只有一个祖先节点 0 。它们的值是互质的（gcd(2,3) == 1）。
-- 节点 2 有两个祖先节点，分别是节点 1 和节点 0 。节点 1 的值与它的值不是互质的（gcd(3,3) == 3）但节点 0 的值是互质的(gcd(2,3) == 1)，所以节点 0 是最近的符合要求的祖先节点。
-- 节点 3 有两个祖先节点，分别是节点 1 和节点 0 。它与节点 1 互质（gcd(3,2) == 1），所以节点 1 是离它最近的符合要求的祖先节点。
+<strong>Input:</strong> nums = [2,3,3,2], edges = [[0,1],[1,2],[1,3]]
+<strong>Output:</strong> [-1,0,0,1]
+<strong>Explanation:</strong> In the above figure, each node&#39;s value is in parentheses.
+- Node 0 has no coprime ancestors.
+- Node 1 has only one ancestor, node 0. Their values are coprime (gcd(2,3) == 1).
+- Node 2 has two ancestors, nodes 1 and 0. Node 1&#39;s value is not coprime (gcd(3,3) == 3), but node 0&#39;s
+  value is (gcd(2,3) == 1), so node 0 is the closest valid ancestor.
+- Node 3 has two ancestors, nodes 1 and 0. It is coprime with node 1 (gcd(3,2) == 1), so node 1 is its
+  closest valid ancestor.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1700-1799/1766.Tree%20of%20Coprimes/images/untitled-diagram1.png" style="width: 441px; height: 291px;" /></p>
 
 <pre>
-<strong>输入：</strong>nums = [5,6,10,2,3,6,15], edges = [[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]]
-<b>输出：</b>[-1,0,-1,0,0,0,-1]
+<strong>Input:</strong> nums = [5,6,10,2,3,6,15], edges = [[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]]
+<strong>Output:</strong> [-1,0,-1,0,0,0,-1]
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>nums.length == n</code></li>
-	<li><code>1 <= nums[i] <= 50</code></li>
-	<li><code>1 <= n <= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= nums[i] &lt;= 50</code></li>
+	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>edges.length == n - 1</code></li>
 	<li><code>edges[j].length == 2</code></li>
-	<li><code>0 <= u<sub>j</sub>, v<sub>j</sub> < n</code></li>
+	<li><code>0 &lt;= u<sub>j</sub>, v<sub>j</sub> &lt; n</code></li>
 	<li><code>u<sub>j</sub> != v<sub>j</sub></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：预处理 + 枚举 + 栈 + 回溯
+### Solution 1: Preprocessing + Enumeration + Stack + Backtracking
 
-由于题目中 $nums[i]$ 的取值范围为 $[1, 50]$，因此我们可以预处理出每个数的所有互质数，记录在数组 $f$ 中，其中 $f[i]$ 表示 $i$ 的所有互质数。
+Since the range of $nums[i]$ in the problem is $[1, 50]$, we can preprocess all the coprime numbers for each number and record them in the array $f$, where $f[i]$ represents all the coprime numbers of $i$.
 
-接下来我们可以使用回溯的方法，从根节点开始遍历整棵树，对于每个节点 $i$，我们可以通过 $f$ 数组得到 $nums[i]$ 的所有互质数。然后我们枚举 $nums[i]$ 的所有互质数，找到已经出现过的且深度最大的祖先节点 $t$，即为 $i$ 的最近的互质祖先节点。这里我们可以用一个长度为 $51$ 的栈数组 $stks$ 来获取每个出现过的值 $v$ 的节点以及其深度。每个栈 $stks[v]$ 的栈顶元素就是最近的深度最大的祖先节点。
+Next, we can use a backtracking method to traverse the entire tree from the root node. For each node $i$, we can get all the coprime numbers of $nums[i]$ through the array $f$. Then we enumerate all the coprime numbers of $nums[i]$, find the ancestor node $t$ that has appeared and has the maximum depth, which is the nearest coprime ancestor node of $i$. Here we can use a stack array $stks$ of length $51$ to get each appeared value $v$ and its depth. The top element of each stack $stks[v]$ is the nearest ancestor node with the maximum depth.
 
-时间复杂度 $O(n \times M)$，空间复杂度 $O(M^2 + n)$。其中 $n$ 为节点个数，而 $M$ 为 $nums[i]$ 的最大值，本题中 $M = 50$。
+The time complexity is $O(n \times M)$, and the space complexity is $O(M^2 + n)$. Where $n$ is the number of nodes, and $M$ is the maximum value of $nums[i]$, in this problem $M = 50$.
 
 <!-- tabs:start -->
 

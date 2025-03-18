@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1193.Monthly%20Transactions%20I/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1193. 每月交易 I](https://leetcode.cn/problems/monthly-transactions-i)
+# [1193. Monthly Transactions I](https://leetcode.com/problems/monthly-transactions-i)
 
-[English Version](/solution/1100-1199/1193.Monthly%20Transactions%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Transactions</code></p>
+<p>Table: <code>Transactions</code></p>
 
 <pre>
 +---------------+---------+
@@ -28,26 +25,25 @@ tags:
 | amount        | int     |
 | trans_date    | date    |
 +---------------+---------+
-id 是这个表的主键。
-该表包含有关传入事务的信息。
-state 列类型为 ["approved", "declined"] 之一。
+id is the primary key of this table.
+The table has information about incoming transactions.
+The state column is an enum of type [&quot;approved&quot;, &quot;declined&quot;].
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写一个 sql 查询来查找每个月和每个国家/地区的事务数及其总金额、已批准的事务数及其总金额。</p>
+<p>Write an SQL query to find for each month and country, the number of transactions and their total amount, the number of approved transactions and their total amount.</p>
 
-<p>以 <strong>任意顺序</strong> 返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>查询结果格式如下所示。</p>
+<p>The query result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<code><strong>输入：</strong>
-Transactions</code> table:
+<strong>Input:</strong> 
+Transactions table:
 +------+---------+----------+--------+------------+
 | id   | country | state    | amount | trans_date |
 +------+---------+----------+--------+------------+
@@ -56,24 +52,25 @@ Transactions</code> table:
 | 123  | US      | approved | 2000   | 2019-01-01 |
 | 124  | DE      | approved | 2000   | 2019-01-07 |
 +------+---------+----------+--------+------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +----------+---------+-------------+----------------+--------------------+-----------------------+
 | month    | country | trans_count | approved_count | trans_total_amount | approved_total_amount |
 +----------+---------+-------------+----------------+--------------------+-----------------------+
 | 2018-12  | US      | 2           | 1              | 3000               | 1000                  |
 | 2019-01  | US      | 1           | 1              | 2000               | 2000                  |
 | 2019-01  | DE      | 1           | 1              | 2000               | 2000                  |
-+----------+---------+-------------+----------------+--------------------+-----------------------+</pre>
++----------+---------+-------------+----------------+--------------------+-----------------------+
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组求和
+### Solution 1: Grouping and Aggregation
 
-我们可以先按照月份和国家分组，然后利用 `COUNT` 和 `SUM` 函数分别求出每个分组的事务数、已批准的事务数、总金额和已批准的总金额。
+We can first group by month and country, and then use the `COUNT` and `SUM` functions to respectively calculate the number of transactions, the number of approved transactions, the total amount, and the total amount of approved transactions for each group.
 
 <!-- tabs:start -->
 

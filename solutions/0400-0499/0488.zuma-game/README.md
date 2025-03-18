@@ -1,108 +1,91 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0488.Zuma%20Game/README.md
+difficulty: Hard
 tags:
-    - 栈
-    - 广度优先搜索
-    - 记忆化搜索
-    - 字符串
-    - 动态规划
+    - Stack
+    - Breadth-First Search
+    - Memoization
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [488. 祖玛游戏](https://leetcode.cn/problems/zuma-game)
+# [488. Zuma Game](https://leetcode.com/problems/zuma-game)
 
-[English Version](/solution/0400-0499/0488.Zuma%20Game/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你正在参与祖玛游戏的一个变种。</p>
+<p>You are playing a variation of the game Zuma.</p>
 
-<p>在这个祖玛游戏变体中，桌面上有 <strong>一排</strong> 彩球，每个球的颜色可能是：红色 <code>'R'</code>、黄色 <code>'Y'</code>、蓝色 <code>'B'</code>、绿色 <code>'G'</code> 或白色 <code>'W'</code> 。你的手中也有一些彩球。</p>
+<p>In this variation of Zuma, there is a <strong>single row</strong> of colored balls on a board, where each ball can be colored red <code>&#39;R&#39;</code>, yellow <code>&#39;Y&#39;</code>, blue <code>&#39;B&#39;</code>, green <code>&#39;G&#39;</code>, or white <code>&#39;W&#39;</code>. You also have several colored balls in your hand.</p>
 
-<p>你的目标是 <strong>清空</strong> 桌面上所有的球。每一回合：</p>
+<p>Your goal is to <strong>clear all</strong> of the balls from the board. On each turn:</p>
 
 <ul>
-	<li>从你手上的彩球中选出 <strong>任意一颗</strong> ，然后将其插入桌面上那一排球中：两球之间或这一排球的任一端。</li>
-	<li>接着，如果有出现 <strong>三个或者三个以上</strong> 且 <strong>颜色相同</strong> 的球相连的话，就把它们移除掉。
+	<li>Pick <strong>any</strong> ball from your hand and insert it in between two balls in the row or on either end of the row.</li>
+	<li>If there is a group of <strong>three or more consecutive balls</strong> of the <strong>same color</strong>, remove the group of balls from the board.
 	<ul>
-		<li>如果这种移除操作同样导致出现三个或者三个以上且颜色相同的球相连，则可以继续移除这些球，直到不再满足移除条件。</li>
+		<li>If this removal causes more groups of three or more of the same color to form, then continue removing each group until there are none left.</li>
 	</ul>
 	</li>
-	<li>如果桌面上所有球都被移除，则认为你赢得本场游戏。</li>
-	<li>重复这个过程，直到你赢了游戏或者手中没有更多的球。</li>
+	<li>If there are no more balls on the board, then you win the game.</li>
+	<li>Repeat this process until you either win or do not have any more balls in your hand.</li>
 </ul>
 
-<p>给你一个字符串 <code>board</code> ，表示桌面上最开始的那排球。另给你一个字符串 <code>hand</code> ，表示手里的彩球。请你按上述操作步骤移除掉桌上所有球，计算并返回所需的 <strong>最少</strong> 球数。如果不能移除桌上所有的球，返回 <code>-1</code> 。</p>
+<p>Given a string <code>board</code>, representing the row of balls on the board, and a string <code>hand</code>, representing the balls in your hand, return <em>the <strong>minimum</strong> number of balls you have to insert to clear all the balls from the board. If you cannot clear all the balls from the board using the balls in your hand, return </em><code>-1</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>board = "WRRBBW", hand = "RB"
-<strong>输出：</strong>-1
-<strong>解释：</strong>无法移除桌面上的所有球。可以得到的最好局面是：
-- 插入一个 'R' ，使桌面变为 WRR<em><strong>R</strong></em>BBW 。W<em><strong>RRR</strong></em>BBW -&gt; WBBW
-- 插入一个 'B' ，使桌面变为 WBB<em><strong>B</strong></em>W 。W<em><strong>BBB</strong></em>W -&gt; WW
-桌面上还剩着球，没有其他球可以插入。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>board = "WWRRBBWW", hand = "WRBRW"
-<strong>输出：</strong>2
-<strong>解释：</strong>要想清空桌面上的球，可以按下述步骤：
-- 插入一个 'R' ，使桌面变为 WWRR<strong><em>R</em></strong>BBWW 。WW<em><strong>RRR</strong></em>BBWW -&gt; WWBBWW
-- 插入一个 'B' ，使桌面变为 WWBB<em><strong>B</strong></em>WW 。WW<em><strong>BBB</strong></em>WW -&gt; <em><strong>WWWW</strong></em> -&gt; empty
-只需从手中出 2 个球就可以清空桌面。
+<strong>Input:</strong> board = &quot;WRRBBW&quot;, hand = &quot;RB&quot;
+<strong>Output:</strong> -1
+<strong>Explanation:</strong> It is impossible to clear all the balls. The best you can do is:
+- Insert &#39;R&#39; so the board becomes WRR<u>R</u>BBW. W<u>RRR</u>BBW -&gt; WBBW.
+- Insert &#39;B&#39; so the board becomes WBB<u>B</u>W. W<u>BBB</u>W -&gt; WW.
+There are still balls remaining on the board, and you are out of balls to insert.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> board = &quot;WWRRBBWW&quot;, hand = &quot;WRBRW&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> To make the board empty:
+- Insert &#39;R&#39; so the board becomes WWRR<u>R</u>BBWW. WW<u>RRR</u>BBWW -&gt; WWBBWW.
+- Insert &#39;B&#39; so the board becomes WWBB<u>B</u>WW. WW<u>BBB</u>WW -&gt; <u>WWWW</u> -&gt; empty.
+2 balls from your hand were needed to clear the board.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>board = "G", hand = "GGGGG"
-<strong>输出：</strong>2
-<strong>解释：</strong>要想清空桌面上的球，可以按下述步骤：
-- 插入一个 'G' ，使桌面变为 G<em><strong>G</strong></em> 。
-- 插入一个 'G' ，使桌面变为 GG<em><strong>G</strong></em> 。<em><strong>GGG</strong></em> -&gt; empty
-只需从手中出 2 个球就可以清空桌面。
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre>
-<strong>输入：</strong>board = "RBYYBBRRB", hand = "YRBGB"
-<strong>输出：</strong>3
-<strong>解释：</strong>要想清空桌面上的球，可以按下述步骤：
-- 插入一个 'Y' ，使桌面变为 RBYY<em><strong>Y</strong></em>BBRRB 。RB<em><strong>YYY</strong></em>BBRRB -&gt; R<em><strong>BBB</strong></em>RRB -&gt; <em><strong>RRR</strong></em>B -&gt; B
-- 插入一个 'B' ，使桌面变为 B<em><strong>B</strong></em> 。
-- 插入一个 'B' ，使桌面变为 BB<em><strong>B</strong></em> 。<em><strong>BBB</strong></em> -&gt; empty
-只需从手中出 3 个球就可以清空桌面。
+<strong>Input:</strong> board = &quot;G&quot;, hand = &quot;GGGGG&quot;
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> To make the board empty:
+- Insert &#39;G&#39; so the board becomes G<u>G</u>.
+- Insert &#39;G&#39; so the board becomes GG<u>G</u>. <u>GGG</u> -&gt; empty.
+2 balls from your hand were needed to clear the board.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= board.length &lt;= 16</code></li>
 	<li><code>1 &lt;= hand.length &lt;= 5</code></li>
-	<li><code>board</code> 和 <code>hand</code> 由字符 <code>'R'</code>、<code>'Y'</code>、<code>'B'</code>、<code>'G'</code> 和 <code>'W'</code> 组成</li>
-	<li>桌面上一开始的球中，不会有三个及三个以上颜色相同且连着的球</li>
+	<li><code>board</code> and <code>hand</code> consist of the characters <code>&#39;R&#39;</code>, <code>&#39;Y&#39;</code>, <code>&#39;B&#39;</code>, <code>&#39;G&#39;</code>, and <code>&#39;W&#39;</code>.</li>
+	<li>The initial row of balls on the board will <strong>not</strong> have any groups of three or more consecutive balls of the same color.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

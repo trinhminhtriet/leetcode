@@ -1,102 +1,97 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2732.Find%20a%20Good%20Subset%20of%20the%20Matrix/README.md
+difficulty: Hard
 rating: 2239
-source: 第 106 场双周赛 Q4
+source: Biweekly Contest 106 Q4
 tags:
-    - 位运算
-    - 数组
-    - 哈希表
-    - 矩阵
+    - Bit Manipulation
+    - Array
+    - Hash Table
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [2732. 找到矩阵中的好子集](https://leetcode.cn/problems/find-a-good-subset-of-the-matrix)
+# [2732. Find a Good Subset of the Matrix](https://leetcode.com/problems/find-a-good-subset-of-the-matrix)
 
-[English Version](/solution/2700-2799/2732.Find%20a%20Good%20Subset%20of%20the%20Matrix/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始大小为&nbsp;<code>m x n</code>&nbsp;的二进制矩阵&nbsp;<code>grid</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> <code>m x n</code> binary matrix <code>grid</code>.</p>
 
-<p>从原矩阵中选出若干行构成一个行的 <strong>非空&nbsp;</strong>子集，如果子集中任何一列的和至多为子集大小的一半，那么我们称这个子集是 <strong>好子集</strong>。</p>
+<p>Let us call a <strong>non-empty</strong> subset of rows <strong>good</strong> if the sum of each column of the subset is at most half of the length of the subset.</p>
 
-<p>更正式的，如果选出来的行子集大小（即行的数量）为 k，那么每一列的和至多为&nbsp;<code>floor(k / 2)</code>&nbsp;。</p>
+<p>More formally, if the length of the chosen subset of rows is <code>k</code>, then the sum of each column should be at most <code>floor(k / 2)</code>.</p>
 
-<p>请你返回一个整数数组，它包含好子集的行下标，请你将其&nbsp;<b>升序</b>&nbsp;返回。</p>
+<p>Return <em>an integer array that contains row indices of a good subset sorted in <strong>ascending</strong> order.</em></p>
 
-<p>如果有多个好子集，你可以返回任意一个。如果没有好子集，请你返回一个空数组。</p>
+<p>If there are multiple good subsets, you can return any of them. If there are no good subsets, return an empty array.</p>
 
-<p>一个矩阵 <code>grid</code>&nbsp;的行 <strong>子集</strong> ，是删除 <code>grid</code>&nbsp;中某些（也可能不删除）行后，剩余行构成的元素集合。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>grid = [[0,1,1,0],[0,0,0,1],[1,1,1,1]]
-<b>输出：</b>[0,1]
-<b>解释：</b>我们可以选择第 0 和第 1 行构成一个好子集。
-选出来的子集大小为 2 。
-- 第 0&nbsp;列的和为 0 + 0 = 0 ，小于等于子集大小的一半。
-- 第 1&nbsp;列的和为 1 + 0 = 1 ，小于等于子集大小的一半。
-- 第 2&nbsp;列的和为 1 + 0 = 1 ，小于等于子集大小的一半。
-- 第 3&nbsp;列的和为 0 + 1 = 1 ，小于等于子集大小的一半。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>grid = [[0]]
-<b>输出：</b>[0]
-<strong>解释：</strong>我们可以选择第 0 行构成一个好子集。
-选出来的子集大小为 1 。
-- 第 0 列的和为 0 ，小于等于子集大小的一半。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>grid = [[1,1,1],[1,1,1]]
-<b>输出：</b>[]
-<b>解释：</b>没有办法得到一个好子集。
-</pre>
+<p>A <strong>subset</strong> of rows of the matrix <code>grid</code> is any matrix that can be obtained by deleting some (possibly none or all) rows from <code>grid</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> grid = [[0,1,1,0],[0,0,0,1],[1,1,1,1]]
+<strong>Output:</strong> [0,1]
+<strong>Explanation:</strong> We can choose the 0<sup>th</sup> and 1<sup>st</sup> rows to create a good subset of rows.
+The length of the chosen subset is 2.
+- The sum of the 0<sup>th</sup>&nbsp;column is 0 + 0 = 0, which is at most half of the length of the subset.
+- The sum of the 1<sup>st</sup>&nbsp;column is 1 + 0 = 1, which is at most half of the length of the subset.
+- The sum of the 2<sup>nd</sup>&nbsp;column is 1 + 0 = 1, which is at most half of the length of the subset.
+- The sum of the 3<sup>rd</sup>&nbsp;column is 0 + 1 = 1, which is at most half of the length of the subset.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> grid = [[0]]
+<strong>Output:</strong> [0]
+<strong>Explanation:</strong> We can choose the 0<sup>th</sup> row to create a good subset of rows.
+The length of the chosen subset is 1.
+- The sum of the 0<sup>th</sup>&nbsp;column is 0, which is at most half of the length of the subset.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> grid = [[1,1,1],[1,1,1]]
+<strong>Output:</strong> []
+<strong>Explanation:</strong> It is impossible to choose any subset of rows to create a good subset.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
 	<li><code>n == grid[i].length</code></li>
 	<li><code>1 &lt;= m &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= n &lt;= 5</code></li>
-	<li><code>grid[i][j]</code>&nbsp;要么是&nbsp;<code>0</code>&nbsp;，要么是&nbsp;<code>1</code> 。</li>
+	<li><code>grid[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分情况讨论
+### Solution 1: Case Analysis
 
-我们可以从小到大考虑答案选择的行数 $k$。
+We can consider the number of rows $k$ chosen for the answer from smallest to largest.
 
--   如果 $k = 1$，每一列的和最大为 $0$，那么必须满足有一行的所有元素都是 $0$，否则无法满足条件。
--   如果 $k = 2$，每一列的和最大为 $1$，那么必须存在有两行，且这两行的元素按位与之后的结果是 $0$，否则无法满足条件。
--   如果 $k = 3$，每一列的和最大也是 $1$。如果 $k = 2$ 不满足条件，那么 $k = 3$ 也一定不满足条件，所以我们不需要考虑所有 $k \gt 2$ 且 $k$ 为奇数的情况。
--   如果 $k = 4$，每一列的和最大为 $2$，此时一定是 $k = 2$ 不满足条件，也就是说，任意选取两行，都存在至少一个列的和为 $2$。我们在 $4$ 行中任意选取 $2$ 行，一共有 $C_4^2 = 6$ 种选法，那么存在至少 $6$ 个 $2$ 的列。由于列数 $n \le 5$，所以一定存在至少一列的和大于 $2$，所以 $k = 4$ 也不满足条件。
--   对于 $k \gt 4$ 且 $k$ 为偶数的情况，我们可以得出同样的结论，即 $k$ 一定不满足条件。
+-   If $k = 1$, the maximum sum of each column is $0$. Therefore, there must be a row where all elements are $0$, otherwise, the condition cannot be met.
+-   If $k = 2$, the maximum sum of each column is $1$. There must exist two rows, and the bitwise AND result of these two rows' elements is $0$, otherwise, the condition cannot be met.
+-   If $k = 3$, the maximum sum of each column is also $1$. If the condition for $k = 2$ is not met, then the condition for $k = 3$ will definitely not be met either. Therefore, we do not need to consider any case where $k > 2$ and $k$ is odd.
+-   If $k = 4$, the maximum sum of each column is $2$. This situation definitely occurs when the condition for $k = 2$ is not met, meaning that for any two selected rows, there exists at least one column with a sum of $2$. When choosing any 2 rows out of 4, there are a total of $C_4^2 = 6$ ways to choose, so there are at least $6$ columns with a sum of $2$. Since the number of columns $n \le 5$, there must be at least one column with a sum greater than $2$, so the condition for $k = 4$ is also not met.
+-   For $k > 4$ and $k$ being even, we can draw the same conclusion, that $k$ definitely does not meet the condition.
 
-综上所述，我们只需要考虑 $k = 1$ 和 $k = 2$ 的情况即可。即判断是否有一行全为 $0$，或者是否存在两行按位与之后的结果为 $0$。
+In summary, we only need to consider the cases of $k = 1$ and $k = 2$. That is, to check whether there is a row entirely composed of $0$s, or whether there exist two rows whose bitwise AND result is $0$.
 
-时间复杂度 $O(m \times n + 4^n)$，空间复杂度 $O(2^n)$。其中 $m$ 和 $n$ 分别是矩阵的行数和列数。
+The time complexity is $O(m \times n + 4^n)$, and the space complexity is $O(2^n)$. Here, $m$ and $n$ are the number of rows and columns of the matrix, respectively.
 
 <!-- tabs:start -->
 

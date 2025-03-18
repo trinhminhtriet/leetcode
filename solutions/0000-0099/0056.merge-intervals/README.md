@@ -1,44 +1,40 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0056.Merge%20Intervals/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 排序
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [56. 合并区间](https://leetcode.cn/problems/merge-intervals)
+# [56. Merge Intervals](https://leetcode.com/problems/merge-intervals)
 
-[English Version](/solution/0000-0099/0056.Merge%20Intervals/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>以数组 <code>intervals</code> 表示若干个区间的集合，其中单个区间为 <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> 。请你合并所有重叠的区间，并返回&nbsp;<em>一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间</em>&nbsp;。</p>
+<p>Given an array&nbsp;of <code>intervals</code>&nbsp;where <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>, merge all overlapping intervals, and return <em>an array of the non-overlapping intervals that cover all the intervals in the input</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>intervals = [[1,3],[2,6],[8,10],[15,18]]
-<strong>输出：</strong>[[1,6],[8,10],[15,18]]
-<strong>解释：</strong>区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].
+<strong>Input:</strong> intervals = [[1,3],[2,6],[8,10],[15,18]]
+<strong>Output:</strong> [[1,6],[8,10],[15,18]]
+<strong>Explanation:</strong> Since intervals [1,3] and [2,6] overlap, merge them into [1,6].
 </pre>
 
-<p><strong>示例&nbsp;2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>intervals = [[1,4],[4,5]]
-<strong>输出：</strong>[[1,5]]
-<strong>解释：</strong>区间 [1,4] 和 [4,5] 可被视为重叠区间。</pre>
+<strong>Input:</strong> intervals = [[1,4],[4,5]]
+<strong>Output:</strong> [[1,5]]
+<strong>Explanation:</strong> Intervals [1,4] and [4,5] are considered overlapping.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= intervals.length &lt;= 10<sup>4</sup></code></li>
@@ -48,24 +44,24 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 一次遍历
+### Solution 1: Sorting + One-pass Traversal
 
-我们可以将区间按照左端点升序排列，然后遍历区间进行合并操作。
+We can sort the intervals in ascending order by the left endpoint, and then traverse the intervals for merging operations.
 
-具体的合并操作如下。
+The specific merging operation is as follows.
 
-我们先将第一个区间加入答案，然后依次考虑之后的每个区间：
+First, we add the first interval to the answer. Then, we consider each subsequent interval in turn:
 
--   如果答案数组中最后一个区间的右端点小于当前考虑区间的左端点，说明两个区间不会重合，因此我们可以直接将当前区间加入答案数组末尾；
--   否则，说明两个区间重合，我们需要用当前区间的右端点更新答案数组中最后一个区间的右端点，将其置为二者的较大值。
+-   If the right endpoint of the last interval in the answer array is less than the left endpoint of the current interval, it means that the two intervals will not overlap, so we can directly add the current interval to the end of the answer array;
+-   Otherwise, it means that the two intervals overlap. We need to use the right endpoint of the current interval to update the right endpoint of the last interval in the answer array, setting it to the larger of the two.
 
-最后，我们返回答案数组即可。
+Finally, we return the answer array.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为区间个数。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the number of intervals.
 
 <!-- tabs:start -->
 
@@ -285,7 +281,7 @@ class Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 
@@ -406,7 +402,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法三
+### Solution 3
 
 <!-- tabs:start -->
 

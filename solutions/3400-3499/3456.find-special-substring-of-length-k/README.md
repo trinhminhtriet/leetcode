@@ -1,90 +1,83 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3400-3499/3456.Find%20Special%20Substring%20of%20Length%20K/README.md
+difficulty: Easy
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [3456. 找出长度为 K 的特殊子字符串](https://leetcode.cn/problems/find-special-substring-of-length-k)
+# [3456. Find Special Substring of Length K](https://leetcode.com/problems/find-special-substring-of-length-k)
 
-[English Version](/solution/3400-3499/3456.Find%20Special%20Substring%20of%20Length%20K/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> 和一个整数 <code>k</code>。</p>
+<p>You are given a string <code>s</code> and an integer <code>k</code>.</p>
 
-<p>判断是否存在一个长度&nbsp;<strong>恰好&nbsp;</strong>为 <code>k</code> 的子字符串，该子字符串需要满足以下条件：</p>
+<p>Determine if there exists a <span data-keyword="substring-nonempty">substring</span> of length <strong>exactly</strong> <code>k</code> in <code>s</code> that satisfies the following conditions:</p>
 
 <ol>
-	<li>该子字符串&nbsp;<strong>只包含一个唯一字符</strong>（例如，<code>"aaa"</code> 或 <code>"bbb"</code>）。</li>
-	<li>如果该子字符串的&nbsp;<strong>前面&nbsp;</strong>有字符，则该字符必须与子字符串中的字符不同。</li>
-	<li>如果该子字符串的&nbsp;<strong>后面&nbsp;</strong>有字符，则该字符也必须与子字符串中的字符不同。</li>
+	<li>The substring consists of <strong>only one distinct character</strong> (e.g., <code>&quot;aaa&quot;</code> or <code>&quot;bbb&quot;</code>).</li>
+	<li>If there is a character <strong>immediately before</strong> the substring, it must be different from the character in the substring.</li>
+	<li>If there is a character <strong>immediately after</strong> the substring, it must also be different from the character in the substring.</li>
 </ol>
 
-<p>如果存在这样的子串，返回 <code>true</code>；否则，返回 <code>false</code>。</p>
-
-<p><strong>子字符串&nbsp;</strong>是字符串中的连续、非空字符序列。</p>
+<p>Return <code>true</code> if such a substring exists. Otherwise, return <code>false</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">s = "aaabaaa", k = 3</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;aaabaaa&quot;, k = 3</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">true</span></p>
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>子字符串 <code>s[4..6] == "aaa"</code> 满足条件：</p>
+<p>The substring <code>s[4..6] == &quot;aaa&quot;</code> satisfies the conditions.</p>
 
 <ul>
-	<li>长度为 3。</li>
-	<li>所有字符相同。</li>
-	<li>子串 <code>"aaa"</code> 前的字符是 <code>'b'</code>，与 <code>'a'</code> 不同。</li>
-	<li>子串 <code>"aaa"</code> 后没有字符。</li>
+	<li>It has a length of 3.</li>
+	<li>All characters are the same.</li>
+	<li>The character before <code>&quot;aaa&quot;</code> is <code>&#39;b&#39;</code>, which is different from <code>&#39;a&#39;</code>.</li>
+	<li>There is no character after <code>&quot;aaa&quot;</code>.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">s = "abc", k = 2</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;abc&quot;, k = 2</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">false</span></p>
+<p><strong>Output:</strong> <span class="example-io">false</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>不存在长度为 2 、仅由一个唯一字符组成且满足所有条件的子字符串。</p>
+<p>There is no substring of length 2 that consists of one distinct character and satisfies the conditions.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= s.length &lt;= 100</code></li>
-	<li><code>s</code> 仅由小写英文字母组成。</li>
+	<li><code>s</code> consists of lowercase English letters only.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1: Two Pointers
 
-题目相当于要我们找出每一段连续的相同字符，然后判断是否存在一段长度为 $k$ 的子字符串，若存在则返回 $\textit{true}$，否则返回 $\textit{false}$。
+The problem essentially asks us to find each segment of consecutive identical characters and then determine if there exists a substring of length $k$. If such a substring exists, return $\textit{true}$; otherwise, return $\textit{false}$.
 
-我们可以用双指针 $l$ 和 $r$ 来遍历字符串 $s$，当 $s[l] = s[r]$ 时，$r$ 向右移动，直到 $s[r] \neq s[l]$，此时判断 $r - l$ 是否等于 $k$，若等于则返回 $\textit{true}$，否则 $l$ 移动到 $r$ 继续遍历。
+We can use two pointers $l$ and $r$ to traverse the string $s$. When $s[l] = s[r]$, move $r$ to the right until $s[r] \neq s[l]$. At this point, check if $r - l$ equals $k$. If it does, return $\textit{true}$; otherwise, move $l$ to $r$ and continue traversing.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

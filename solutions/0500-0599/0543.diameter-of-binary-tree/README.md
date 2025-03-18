@@ -1,66 +1,61 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0543.Diameter%20of%20Binary%20Tree/README.md
+difficulty: Easy
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [543. 二叉树的直径](https://leetcode.cn/problems/diameter-of-binary-tree)
+# [543. Diameter of Binary Tree](https://leetcode.com/problems/diameter-of-binary-tree)
 
-[English Version](/solution/0500-0599/0543.Diameter%20of%20Binary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一棵二叉树的根节点，返回该树的 <strong>直径</strong> 。</p>
+<p>Given the <code>root</code> of a binary tree, return <em>the length of the <strong>diameter</strong> of the tree</em>.</p>
 
-<p>二叉树的 <strong>直径</strong> 是指树中任意两个节点之间最长路径的 <strong>长度</strong> 。这条路径可能经过也可能不经过根节点 <code>root</code> 。</p>
+<p>The <strong>diameter</strong> of a binary tree is the <strong>length</strong> of the longest path between any two nodes in a tree. This path may or may not pass through the <code>root</code>.</p>
 
-<p>两节点之间路径的 <strong>长度</strong> 由它们之间边数表示。</p>
+<p>The <strong>length</strong> of a path between two nodes is represented by the number of edges between them.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0543.Diameter%20of%20Binary%20Tree/images/diamtree.jpg" style="width: 292px; height: 302px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,3,4,5]
-<strong>输出：</strong>3
-<strong>解释：</strong>3 ，取路径 [4,2,1,3] 或 [5,2,1,3] 的长度。
+<strong>Input:</strong> root = [1,2,3,4,5]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> 3 is the length of the path [4,2,1,3] or [5,2,1,3].
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>root = [1,2]
-<strong>输出：</strong>1
+<strong>Input:</strong> root = [1,2]
+<strong>Output:</strong> 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点数目在范围 <code>[1, 10<sup>4</sup>]</code> 内</li>
+	<li>The number of nodes in the tree is in the range <code>[1, 10<sup>4</sup>]</code>.</li>
 	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举 + DFS
+### Solution 1: Enumeration + DFS
 
-我们可以枚举二叉树的每个节点，以该节点为根节点，计算其左右子树的最大深度 $\textit{l}$ 和 $\textit{r}$，则该节点的直径为 $\textit{l} + \textit{r}$。取所有节点的直径的最大值即为二叉树的直径。
+We can enumerate each node of the binary tree, and for each node, calculate the maximum depth of its left and right subtrees, $\textit{l}$ and $\textit{r}$, respectively. The diameter of the node is $\textit{l} + \textit{r}$. The maximum diameter among all nodes is the diameter of the binary tree.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树的节点个数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 

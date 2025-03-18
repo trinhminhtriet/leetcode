@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1709.Biggest%20Window%20Between%20Visits/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1709. 访问日期之间最大的空档期 🔒](https://leetcode.cn/problems/biggest-window-between-visits)
+# [1709. Biggest Window Between Visits 🔒](https://leetcode.com/problems/biggest-window-between-visits)
 
-[English Version](/solution/1700-1799/1709.Biggest%20Window%20Between%20Visits/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：&nbsp;<code>UserVisits</code></p>
+<p>Table: <code>UserVisits</code></p>
 
 <pre>
 +-------------+------+
@@ -25,26 +22,26 @@ tags:
 | user_id     | int  |
 | visit_date  | date |
 +-------------+------+
-该表没有主键，它可能有重复的行
-该表包含用户访问某特定零售商的日期日志。</pre>
+This table does not have a primary key, it might contain duplicate rows.
+This table contains logs of the dates that users visited a certain retailer.
+</pre>
 
 <p>&nbsp;</p>
 
-<p>假设今天的日期是&nbsp;<code>'2021-1-1'</code>&nbsp;。</p>
+<p>Assume today&#39;s date is <code>&#39;2021-1-1&#39;</code>.</p>
 
-<p>编写解决方案，对于每个&nbsp;<code>user_id</code>&nbsp;，求出每次访问及其下一个访问（若该次访问是最后一次，则为今天）之间最大的空档期天数&nbsp;<code>window</code>&nbsp;。</p>
+<p>Write a solution that will, for each <code>user_id</code>, find out the largest <code>window</code> of days between each visit and the one right after it (or today if you are considering the last visit).</p>
 
-<p>返回结果表，按用户编号&nbsp;<code>user_id</code>&nbsp;排序。</p>
+<p>Return the result table ordered by <code>user_id</code>.</p>
 
-<p>结果格式如下示例所示：</p>
+<p>The query result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-UserVisits 表：
+<strong>Input:</strong> 
+UserVisits table:
 +---------+------------+
 | user_id | visit_date |
 +---------+------------+
@@ -55,7 +52,7 @@ UserVisits 表：
 | 2       | 2020-12-9  |
 | 3       | 2020-11-11 |
 +---------+------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +---------+---------------+
 | user_id | biggest_window|
 +---------+---------------+
@@ -63,27 +60,28 @@ UserVisits 表：
 | 2       | 65            |
 | 3       | 51            |
 +---------+---------------+
-<strong>解释：</strong>
-对于第一个用户，问题中的空档期在以下日期之间：
-    - 2020-10-20 至 2020-11-28 ，共计 39 天。
-    - 2020-11-28 至 2020-12-3 ，共计 5 天。
-    - 2020-12-3 至 2021-1-1 ，共计 29 天。
-由此得出，最大的空档期为 39 天。
-对于第二个用户，问题中的空档期在以下日期之间：
-    - 2020-10-5 至 2020-12-9 ，共计 65 天。
-    - 2020-12-9 至 2021-1-1 ，共计 23 天。
-由此得出，最大的空档期为 65 天。
-对于第三个用户，问题中的唯一空档期在 2020-11-11 至 2021-1-1 之间，共计 51 天。</pre>
+<strong>Explanation:</strong> 
+For the first user, the windows in question are between dates:
+    - 2020-10-20 and 2020-11-28 with a total of 39 days. 
+    - 2020-11-28 and 2020-12-3 with a total of 5 days. 
+    - 2020-12-3 and 2021-1-1 with a total of 29 days.
+Making the biggest window the one with 39 days.
+For the second user, the windows in question are between dates:
+    - 2020-10-5 and 2020-12-9 with a total of 65 days.
+    - 2020-12-9 and 2021-1-1 with a total of 23 days.
+Making the biggest window the one with 65 days.
+For the third user, the only window in question is between dates 2020-11-11 and 2021-1-1 with a total of 51 days.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：窗口函数
+### Solution 1: Window Function
 
-我们可以使用窗口函数 `LEAD` 来获取每个用户每次访问的下一次访问的日期（如果下一次访问的日期不存在，则视为 `2021-1-1`），然后利用 `DATEDIFF` 函数来计算两次访问之间的天数差值，最后对每个用户的天数差值求最大值即可。
+We can use the window function `LEAD` to obtain the date of the next visit for each user (if the date of the next visit does not exist, it is considered as `2021-1-1`), and then use the `DATEDIFF` function to calculate the number of days between two visits. Finally, we can take the maximum value of the number of days between visits for each user.
 
 <!-- tabs:start -->
 

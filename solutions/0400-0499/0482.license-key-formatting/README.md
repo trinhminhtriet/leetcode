@@ -1,71 +1,66 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0482.License%20Key%20Formatting/README.md
+difficulty: Easy
 tags:
-    - 字符串
+    - String
 ---
 
 <!-- problem:start -->
 
-# [482. 密钥格式化](https://leetcode.cn/problems/license-key-formatting)
+# [482. License Key Formatting](https://leetcode.com/problems/license-key-formatting)
 
-[English Version](/solution/0400-0499/0482.License%20Key%20Formatting/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个许可密钥字符串 <code>s</code>，仅由字母、数字字符和破折号组成。字符串由 <code>n</code> 个破折号分成 <code>n + 1</code> 组。你也会得到一个整数 <code>k</code> 。</p>
+<p>You are given a license key represented as a string <code>s</code> that consists of only alphanumeric characters and dashes. The string is separated into <code>n + 1</code> groups by <code>n</code> dashes. You are also given an integer <code>k</code>.</p>
 
-<p>我们想要重新格式化字符串&nbsp;<code>s</code>，使每一组包含 <code>k</code> 个字符，除了第一组，它可以比 <code>k</code> 短，但仍然必须包含至少一个字符。此外，两组之间必须插入破折号，并且应该将所有小写字母转换为大写字母。</p>
+<p>We want to reformat the string <code>s</code> such that each group contains exactly <code>k</code> characters, except for the first group, which could be shorter than <code>k</code> but still must contain at least one character. Furthermore, there must be a dash inserted between two groups, and you should convert all lowercase letters to uppercase.</p>
 
-<p>返回 <em>重新格式化的许可密钥</em> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>S = "5F3Z-2e-9-w", k = 4
-<strong>输出：</strong>"5F3Z-2E9W"
-<strong>解释：</strong>字符串 S 被分成了两个部分，每部分 4 个字符；
-&nbsp;    注意，两个额外的破折号需要删掉。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>S = "2-5g-3-J", k = 2
-<strong>输出：</strong>"2-5G-3J"
-<strong>解释：</strong>字符串 S 被分成了 3 个部分，按照前面的规则描述，第一部分的字符可以少于给定的数量，其余部分皆为 2 个字符。
-</pre>
+<p>Return <em>the reformatted license key</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示:</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;5F3Z-2e-9-w&quot;, k = 4
+<strong>Output:</strong> &quot;5F3Z-2E9W&quot;
+<strong>Explanation:</strong> The string s has been split into two parts, each part has 4 characters.
+Note that the two extra dashes are not needed and can be removed.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;2-5g-3-J&quot;, k = 2
+<strong>Output:</strong> &quot;2-5G-3J&quot;
+<strong>Explanation:</strong> The string s has been split into three parts, each part has 2 characters except the first part as it could be shorter as mentioned above.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>s</code>&nbsp;只包含字母、数字和破折号&nbsp;<code>'-'</code>.</li>
+	<li><code>s</code> consists of English letters, digits, and dashes <code>&#39;-&#39;</code>.</li>
 	<li><code>1 &lt;= k &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们先统计出字符串 $s$ 中除去破折号之外的字符个数，并对 $k$ 取模，得到第一组字符的个数。如果为 $0$，则第一组字符个数为 $k$，否则为取模的结果。
+First, we count the number of characters in the string $s$ excluding the hyphens, and take the modulus of $k$ to determine the number of characters in the first group. If it is $0$, then the number of characters in the first group is $k$; otherwise, it is the result of the modulus operation.
 
-接着我们遍历字符串 $s$，对于每个字符，如果是破折号，则跳过；否则将其转换为大写字母，并将其加入答案字符串中。同时，我们维护一个计数器 $cnt$，表示当前组还剩余的字符个数，当 $cnt$ 减为 $0$ 时，我们需要更新 $cnt$ 为 $k$，并且如果当前字符不是最后一个字符，我们需要在答案字符串中加入一个破折号。
+Next, we iterate through the string $s$. For each character, if it is a hyphen, we skip it; otherwise, we convert it to an uppercase letter and add it to the answer string. Meanwhile, we maintain a counter $cnt$, representing the remaining number of characters in the current group. When $cnt$ decreases to $0$, we need to update $cnt$ to $k$, and if the current character is not the last one, we need to add a hyphen to the answer string.
 
-最后，我们移除答案字符串末尾的破折号，并返回答案字符串。
+Finally, we remove the hyphen at the end of the answer string and return the answer string.
 
-时间复杂度 $O(n)$，其中 $n$ 为字符串 $s$ 的长度。忽略答案字符串的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. Ignoring the space consumption of the answer string, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

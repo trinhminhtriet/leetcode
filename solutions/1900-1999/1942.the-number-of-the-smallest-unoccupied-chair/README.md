@@ -1,69 +1,66 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1942.The%20Number%20of%20the%20Smallest%20Unoccupied%20Chair/README.md
+difficulty: Medium
 rating: 1695
-source: 第 57 场双周赛 Q2
+source: Biweekly Contest 57 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 堆（优先队列）
+    - Array
+    - Hash Table
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1942. 最小未被占据椅子的编号](https://leetcode.cn/problems/the-number-of-the-smallest-unoccupied-chair)
+# [1942. The Number of the Smallest Unoccupied Chair](https://leetcode.com/problems/the-number-of-the-smallest-unoccupied-chair)
 
-[English Version](/solution/1900-1999/1942.The%20Number%20of%20the%20Smallest%20Unoccupied%20Chair/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有 <code>n</code> 个朋友在举办一个派对，这些朋友从 <code>0</code> 到 <code>n - 1</code> 编号。派对里有 <strong>无数</strong> 张椅子，编号为 <code>0</code> 到 <code>infinity</code> 。当一个朋友到达派对时，他会占据 <strong>编号最小</strong> 且未被占据的椅子。</p>
+<p>There is a party where <code>n</code> friends numbered from <code>0</code> to <code>n - 1</code> are attending. There is an <strong>infinite</strong> number of chairs in this party that are numbered from <code>0</code> to <code>infinity</code>. When a friend arrives at the party, they sit on the unoccupied chair with the <strong>smallest number</strong>.</p>
 
 <ul>
-	<li>比方说，当一个朋友到达时，如果椅子 <code>0</code> ，<code>1</code> 和 <code>5</code> 被占据了，那么他会占据 <code>2</code> 号椅子。</li>
+	<li>For example, if chairs <code>0</code>, <code>1</code>, and <code>5</code> are occupied when a friend comes, they will sit on chair number <code>2</code>.</li>
 </ul>
 
-<p>当一个朋友离开派对时，他的椅子会立刻变成未占据状态。如果同一时刻有另一个朋友到达，可以立即占据这张椅子。</p>
+<p>When a friend leaves the party, their chair becomes unoccupied at the moment they leave. If another friend arrives at that same moment, they can sit in that chair.</p>
 
-<p>给你一个下标从 <strong>0</strong> 开始的二维整数数组 <code>times</code> ，其中 <code>times[i] = [arrival<sub>i</sub>, leaving<sub>i</sub>]</code> 表示第 <code>i</code> 个朋友到达和离开的时刻，同时给你一个整数 <code>targetFriend</code> 。所有到达时间 <strong>互不相同</strong> 。</p>
+<p>You are given a <strong>0-indexed</strong> 2D integer array <code>times</code> where <code>times[i] = [arrival<sub>i</sub>, leaving<sub>i</sub>]</code>, indicating the arrival and leaving times of the <code>i<sup>th</sup></code> friend respectively, and an integer <code>targetFriend</code>. All arrival times are <strong>distinct</strong>.</p>
 
-<p>请你返回编号为 <code>targetFriend</code> 的朋友占据的 <strong>椅子编号</strong> 。</p>
+<p>Return<em> the <strong>chair number</strong> that the friend numbered </em><code>targetFriend</code><em> will sit on</em>.</p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>times = [[1,4],[2,3],[4,6]], targetFriend = 1
-<b>输出：</b>1
-<b>解释：</b>
-- 朋友 0 时刻 1 到达，占据椅子 0 。
-- 朋友 1 时刻 2 到达，占据椅子 1 。
-- 朋友 1 时刻 3 离开，椅子 1 变成未占据。
-- 朋友 0 时刻 4 离开，椅子 0 变成未占据。
-- 朋友 2 时刻 4 到达，占据椅子 0 。
-朋友 1 占据椅子 1 ，所以返回 1 。
+<pre>
+<strong>Input:</strong> times = [[1,4],[2,3],[4,6]], targetFriend = 1
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> 
+- Friend 0 arrives at time 1 and sits on chair 0.
+- Friend 1 arrives at time 2 and sits on chair 1.
+- Friend 1 leaves at time 3 and chair 1 becomes empty.
+- Friend 0 leaves at time 4 and chair 0 becomes empty.
+- Friend 2 arrives at time 4 and sits on chair 0.
+Since friend 1 sat on chair 1, we return 1.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>times = [[3,10],[1,5],[2,6]], targetFriend = 0
-<b>输出：</b>2
-<b>解释：</b>
-- 朋友 1 时刻 1 到达，占据椅子 0 。
-- 朋友 2 时刻 2 到达，占据椅子 1 。
-- 朋友 0 时刻 3 到达，占据椅子 2 。
-- 朋友 1 时刻 5 离开，椅子 0 变成未占据。
-- 朋友 2 时刻 6 离开，椅子 1 变成未占据。
-- 朋友 0 时刻 10 离开，椅子 2 变成未占据。
-朋友 0 占据椅子 2 ，所以返回 2 。
+<pre>
+<strong>Input:</strong> times = [[3,10],[1,5],[2,6]], targetFriend = 0
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 
+- Friend 1 arrives at time 1 and sits on chair 0.
+- Friend 2 arrives at time 2 and sits on chair 1.
+- Friend 0 arrives at time 3 and sits on chair 2.
+- Friend 1 leaves at time 5 and chair 0 becomes empty.
+- Friend 2 leaves at time 6 and chair 1 becomes empty.
+- Friend 0 leaves at time 10 and chair 2 becomes empty.
+Since friend 0 sat on chair 2, we return 2.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == times.length</code></li>
@@ -71,24 +68,24 @@ tags:
 	<li><code>times[i].length == 2</code></li>
 	<li><code>1 &lt;= arrival<sub>i</sub> &lt; leaving<sub>i</sub> &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= targetFriend &lt;= n - 1</code></li>
-	<li>每个 <code>arrival<sub>i</sub></code> 时刻 <strong>互不相同</strong> 。</li>
+	<li>Each <code>arrival<sub>i</sub></code> time is <strong>distinct</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：优先队列（小根堆）
+### Solution 1: Priority Queue (Min-Heap)
 
-我们首先将每个朋友的到达时间、离开时间和编号组成一个三元组，然后按到达时间排序。
+First, we create a tuple for each friend consisting of their arrival time, leaving time, and index, then sort these tuples by arrival time.
 
-我们使用一个小根堆 $\textit{idle}$ 来存储当前空闲的椅子编号，初始时，我们将 $0, 1, \ldots, n-1$ 加入 $\textit{idle}$ 中。使用一个小根堆 $\textit{busy}$ 存储二元组 $(\textit{leaving}, \textit{chair})$，其中 $\textit{leaving}$ 表示离开时间，而 $\textit{chair}$ 表示椅子编号。
+We use a min-heap $\textit{idle}$ to store the currently available chair numbers. Initially, we add $0, 1, \ldots, n-1$ to $\textit{idle}$. We also use a min-heap $\textit{busy}$ to store tuples $(\textit{leaving}, \textit{chair})$, where $\textit{leaving}$ represents the leaving time and $\textit{chair}$ represents the chair number.
 
-遍历每个朋友的到达时间、离开时间和编号，对于每个朋友，我们首先将所有离开时间小于等于当前朋友到达时间的朋友从 $\textit{busy}$ 中弹出，将他们占据的椅子编号加入 $\textit{idle}$ 中。然后我们从 $\textit{idle}$ 中弹出一个椅子编号，将其分配给当前朋友，将 $(\textit{leaving}, \textit{chair})$ 加入 $\textit{busy}$ 中。如果当前朋友的编号等于 $\textit{targetFriend}$，我们返回当前分配的椅子编号。
+We iterate through each friend's arrival time, leaving time, and index. For each friend, we first remove all friends from $\textit{busy}$ whose leaving time is less than or equal to the current friend's arrival time, and add their chair numbers back to $\textit{idle}$. Then we pop a chair number from $\textit{idle}$, assign it to the current friend, and add $(\textit{leaving}, \textit{chair})$ to $\textit{busy}$. If the current friend's index is equal to $\textit{targetFriend}$, we return the assigned chair number.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为朋友的个数。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of friends.
 
 <!-- tabs:start -->
 

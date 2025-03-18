@@ -1,80 +1,70 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0604.Design%20Compressed%20String%20Iterator/README.md
+difficulty: Easy
 tags:
-    - 设计
-    - 数组
-    - 字符串
-    - 迭代器
+    - Design
+    - Array
+    - String
+    - Iterator
 ---
 
 <!-- problem:start -->
 
-# [604. 迭代压缩字符串 🔒](https://leetcode.cn/problems/design-compressed-string-iterator)
+# [604. Design Compressed String Iterator 🔒](https://leetcode.com/problems/design-compressed-string-iterator)
 
-[English Version](/solution/0600-0699/0604.Design%20Compressed%20String%20Iterator/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>设计并实现一个迭代压缩字符串的数据结构。给定的压缩字符串的形式是，每个字母后面紧跟一个正整数，表示该字母在原始未压缩字符串中出现的次数。</p>
+<p>Design and implement a data structure for a compressed string iterator. The given compressed string will be in the form of each letter followed by a positive integer representing the number of this letter existing in the original uncompressed string.</p>
 
-<p>设计一个数据结构，它支持如下两种操作：&nbsp;<code>next</code>&nbsp;和&nbsp;<code>hasNext</code>。</p>
+<p>Implement the&nbsp;StringIterator class:</p>
 
 <ul>
-	<li><code>next()</code> - 如果原始字符串中仍有未压缩字符，则返回<strong>下一个字符</strong>，否则返回<strong>空格</strong>。</li>
-	<li><code>hasNext()</code> - 如果原始字符串中存在未压缩的的字母，则返回true，否则返回<code>false</code>。</li>
+	<li><code>next()</code>&nbsp;Returns <strong>the next character</strong> if the original string still has uncompressed characters, otherwise returns a <strong>white space</strong>.</li>
+	<li><code>hasNext()</code>&nbsp;Returns true if&nbsp;there is any letter needs to be uncompressed in the original string, otherwise returns <code>false</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["StringIterator", "next", "next", "next", "next", "next", "next", "hasNext", "next", "hasNext"]
-[["L1e2t1C1o1d1e1"], [], [], [], [], [], [], [], [], []]
-<b>输出：</b>
-[null, "L", "e", "e", "t", "C", "o", true, "d", true]
+<strong>Input</strong>
+[&quot;StringIterator&quot;, &quot;next&quot;, &quot;next&quot;, &quot;next&quot;, &quot;next&quot;, &quot;next&quot;, &quot;next&quot;, &quot;hasNext&quot;, &quot;next&quot;, &quot;hasNext&quot;]
+[[&quot;L1e2t1C1o1d1e1&quot;], [], [], [], [], [], [], [], [], []]
+<strong>Output</strong>
+[null, &quot;L&quot;, &quot;e&quot;, &quot;e&quot;, &quot;t&quot;, &quot;C&quot;, &quot;o&quot;, true, &quot;d&quot;, true]
 
-<strong>解释：</strong>
-StringIterator stringIterator = new StringIterator("L1e2t1C1o1d1e1");
-stringIterator.next(); // 返回 "L"
-stringIterator.next(); // 返回 "e"
-stringIterator.next(); // 返回 "e"
-stringIterator.next(); // 返回 "t"
-stringIterator.next(); // 返回 "C"
-stringIterator.next(); // 返回 "o"
-stringIterator.hasNext(); // 返回 True
-stringIterator.next(); // 返回 "d"
-stringIterator.hasNext(); // 返回 True</pre>
+<strong>Explanation</strong>
+StringIterator stringIterator = new StringIterator(&quot;L1e2t1C1o1d1e1&quot;);
+stringIterator.next(); // return &quot;L&quot;
+stringIterator.next(); // return &quot;e&quot;
+stringIterator.next(); // return &quot;e&quot;
+stringIterator.next(); // return &quot;t&quot;
+stringIterator.next(); // return &quot;C&quot;
+stringIterator.next(); // return &quot;o&quot;
+stringIterator.hasNext(); // return True
+stringIterator.next(); // return &quot;d&quot;
+stringIterator.hasNext(); // return True
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;=&nbsp;compressedString.length &lt;= 1000</code></li>
-	<li><code>compressedString</code>&nbsp;由小写字母、大写字母和数字组成。</li>
-	<li>在&nbsp;<code>compressedString</code>&nbsp;中，单个字符的重复次数在&nbsp;<code>[1,10 ^9]</code>&nbsp;范围内。</li>
-	<li><code>next</code>&nbsp;和&nbsp;<code>hasNext</code>&nbsp;的操作数最多为&nbsp;<code>100</code>&nbsp;。</li>
+	<li><code>compressedString</code> consists of lower-case an upper-case English letters and digits.</li>
+	<li>The number of a single character repetitions in&nbsp;<code>compressedString</code> is in the range <code>[1, 10^9]</code></li>
+	<li>At most <code>100</code> calls will be made to <code>next</code> and <code>hasNext</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：解析存储
-
-将 `compressedString` 解析成字符 $c$ 和对应的重复次数 $x$，存储在数组或列表 $d$ 中，用 $p$ 指向当前字符。
-
-然后在 `next` 和 `hasNext` 中进行操作。
-
-初始化的时间复杂度为 $O(n)$，其余操作的时间复杂度为 $O(1)$。其中 $n$ 为 `compressedString` 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,46 +1,42 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0251.Flatten%202D%20Vector/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 数组
-    - 双指针
-    - 迭代器
+    - Design
+    - Array
+    - Two Pointers
+    - Iterator
 ---
 
 <!-- problem:start -->
 
-# [251. 展开二维向量 🔒](https://leetcode.cn/problems/flatten-2d-vector)
+# [251. Flatten 2D Vector 🔒](https://leetcode.com/problems/flatten-2d-vector)
 
-[English Version](/solution/0200-0299/0251.Flatten%202D%20Vector/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请设计并实现一个能够展开二维向量的迭代器。该迭代器需要支持&nbsp;<code>next</code> 和&nbsp;<code>hasNext</code>&nbsp;两种操作。</p>
+<p>Design an iterator to flatten a 2D vector. It should support the <code>next</code> and <code>hasNext</code> operations.</p>
 
-<p>实现&nbsp;<code>Vector2D</code>&nbsp;类：</p>
+<p>Implement the <code>Vector2D</code> class:</p>
 
 <ul>
-	<li><code>Vector2D(int[][] vec)</code>&nbsp;使用二维向量&nbsp;<code>vec</code>&nbsp;初始化对象</li>
-	<li><code>next()</code>&nbsp;从二维向量返回下一个元素并将指针移动到下一个位置。你可以假设对&nbsp;<code>next</code>&nbsp;的所有调用都是合法的。</li>
-	<li><code>hasNext()</code>&nbsp;当向量中还有元素返回&nbsp;<code>true</code>，否则返回 <code>false</code>。</li>
+	<li><code>Vector2D(int[][] vec)</code> initializes the object with the 2D vector <code>vec</code>.</li>
+	<li><code>next()</code> returns the next element from the 2D vector and moves the pointer one step forward. You may assume that all the calls to <code>next</code> are valid.</li>
+	<li><code>hasNext()</code> returns <code>true</code> if there are still some elements in the vector, and <code>false</code> otherwise.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["Vector2D", "next", "next", "next", "hasNext", "hasNext", "next", "hasNext"]
+<strong>Input</strong>
+[&quot;Vector2D&quot;, &quot;next&quot;, &quot;next&quot;, &quot;next&quot;, &quot;hasNext&quot;, &quot;hasNext&quot;, &quot;next&quot;, &quot;hasNext&quot;]
 [[[[1, 2], [3], [4]]], [], [], [], [], [], [], []]
-<strong>输出：</strong>
+<strong>Output</strong>
 [null, 1, 2, 3, true, true, 4, false]
 
-<strong>解释：</strong>
+<strong>Explanation</strong>
 Vector2D vector2D = new Vector2D([[1, 2], [3], [4]]);
 vector2D.next();    // return 1
 vector2D.next();    // return 2
@@ -52,37 +48,25 @@ vector2D.hasNext(); // return False
 </pre>
 
 <p>&nbsp;</p>
-
-<p><b>提示：</b></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= vec.length &lt;= 200</code></li>
 	<li><code>0 &lt;= vec[i].length &lt;= 500</code></li>
 	<li><code>-500 &lt;= vec[i][j] &lt;= 500</code></li>
-	<li>最多调用&nbsp;<code>next</code> 和&nbsp;<code>hasNext</code>&nbsp;<code>10<sup>5</sup></code>&nbsp;次。</li>
+	<li>At most <code>10<sup>5</sup></code> calls will be made to <code>next</code> and <code>hasNext</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>尝试在代码中仅使用 <a href="http://www.cplusplus.com/reference/iterator/iterator/">C++ 提供的迭代器</a> 或 <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html">Java 提供的迭代器</a>。</p>
+<p><strong>Follow up:</strong> As an added challenge, try to code it using only <a href="http://www.cplusplus.com/reference/iterator/iterator/" target="_blank">iterators in C++</a> or <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html" target="_blank">iterators in Java</a>.</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
-
-我们定义两个指针 $i$ 和 $j$，分别指向当前二维向量的行和列，初始时 $i = 0$，$j = 0$。
-
-接下来，我们设计一个函数 $forward()$，用于将 $i$ 和 $j$ 向后移动，直到指向一个非空的元素。
-
-每次调用 `next` 方法时，我们先调用 $forward()$，然后返回当前指向的元素，最后将 $j$ 向后移动一位。
-
-每次调用 `hasNext` 方法时，我们先调用 $forward()$，然后判断 $i$ 是否小于二维向量的行数，如果是，则返回 `true`，否则返回 `false`。
-
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,78 +1,76 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1703.Minimum%20Adjacent%20Swaps%20for%20K%20Consecutive%20Ones/README.md
+difficulty: Hard
 rating: 2466
-source: 第 42 场双周赛 Q4
+source: Biweekly Contest 42 Q4
 tags:
-    - 贪心
-    - 数组
-    - 前缀和
-    - 滑动窗口
+    - Greedy
+    - Array
+    - Prefix Sum
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [1703. 得到连续 K 个 1 的最少相邻交换次数](https://leetcode.cn/problems/minimum-adjacent-swaps-for-k-consecutive-ones)
+# [1703. Minimum Adjacent Swaps for K Consecutive Ones](https://leetcode.com/problems/minimum-adjacent-swaps-for-k-consecutive-ones)
 
-[English Version](/solution/1700-1799/1703.Minimum%20Adjacent%20Swaps%20for%20K%20Consecutive%20Ones/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> 。 <code>nums</code> 仅包含 <code>0</code> 和 <code>1</code> 。每一次移动，你可以选择 <strong>相邻</strong> 两个数字并将它们交换。</p>
+<p>You are given an integer array, <code>nums</code>, and an integer <code>k</code>. <code>nums</code> comprises of only <code>0</code>&#39;s and <code>1</code>&#39;s. In one move, you can choose two <strong>adjacent</strong> indices and swap their values.</p>
 
-<p>请你返回使 <code>nums</code> 中包含 <code>k</code> 个 <strong>连续 </strong><code>1</code> 的 <strong>最少</strong> 交换次数。</p>
+<p>Return <em>the <strong>minimum</strong> number of moves required so that </em><code>nums</code><em> has </em><code>k</code><em> <strong>consecutive</strong> </em><code>1</code><em>&#39;s</em>.</p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [1,0,0,1,0,1], k = 2
-<b>输出：</b>1
-<b>解释：</b>在第一次操作时，nums 可以变成 [1,0,0,0,<strong>1</strong>,<strong>1</strong>] 得到连续两个 1 。
+<pre>
+<strong>Input:</strong> nums = [1,0,0,1,0,1], k = 2
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> In 1 move, nums could be [1,0,0,0,<u>1</u>,<u>1</u>] and have 2 consecutive 1&#39;s.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>nums = [1,0,0,0,0,0,1,1], k = 3
-<b>输出：</b>5
-<b>解释：</b>通过 5 次操作，最左边的 1 可以移到右边直到 nums 变为 [0,0,0,0,0,<strong>1</strong>,<strong>1</strong>,<strong>1</strong>] 。
+<pre>
+<strong>Input:</strong> nums = [1,0,0,0,0,0,1,1], k = 3
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> In 5 moves, the leftmost 1 can be shifted right until nums = [0,0,0,0,0,<u>1</u>,<u>1</u>,<u>1</u>].
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><b>输入：</b>nums = [1,1,0,1], k = 2
-<b>输出：</b>0
-<b>解释：</b>nums 已经有连续 2 个 1 了。
+<pre>
+<strong>Input:</strong> nums = [1,1,0,1], k = 2
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> nums already has 2 consecutive 1&#39;s.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>nums[i]</code> 要么是 <code>0</code> ，要么是 <code>1</code> 。</li>
+	<li><code>nums[i]</code> is <code>0</code> or <code>1</code>.</li>
 	<li><code>1 &lt;= k &lt;= sum(nums)</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和 + 中位数枚举
+### Solution 1: Prefix Sum + Median Enumeration
 
-我们可以将数组 $nums$ 中的 $1$ 的下标存入数组 $arr$ 中。接下来，我们预处理数组 $arr$ 的前缀和数组 $s$，其中 $s[i]$ 表示数组 $arr$ 中前 $i$ 个元素的和。
+We can store the indices of $1$s in the array $nums$ into an array $arr$. Next, we preprocess the prefix sum array $s$ of the array $arr$, where $s[i]$ represents the sum of the first $i$ elements in the array $arr$.
 
-对于长度为 $k$ 的子数组，左侧（包含中位数）的元素个数 $x=\frac{k+1}{2}$，右侧的元素个数为 $y=k-x$。
+For a subarray of length $k$, the number of elements on the left (including the median) is $x=\frac{k+1}{2}$, and the number of elements on the right is $y=k-x$.
 
-我们枚举中位数的下标 $i$，其中 $x-1\leq i\leq len(arr)-y$，那么左侧数组的前缀和 $ls=s[i+1]-s[i+1-x]$，右侧数组的前缀和 $rs=s[i+1+y]-s[i+1]$。当前中位数在 $nums$ 中的下标为 $j=arr[i]$，将左侧 $x$ 个元素移动到 $[j-x+1,..j]$ 所需要的操作次数为 $a=(j+j-x+1)\times\frac{x}{2}-ls$，将右侧 $y$ 个元素移动到 $[j+1,..j+y]$ 所需要的操作次数为 $b=rs-(j+1+j+y)\times\frac{y}{2}$，那么总的操作次数为 $a+b$，我们取所有总的操作次数的最小值即可。
+We enumerate the index $i$ of the median, where $x-1\leq i\leq len(arr)-y$. The prefix sum of the left array is $ls=s[i+1]-s[i+1-x]$, and the prefix sum of the right array is $rs=s[i+1+y]-s[i+1]$. The current median index in $nums$ is $j=arr[i]$. The number of operations required to move the left $x$ elements to $[j-x+1,..j]$ is $a=(j+j-x+1)\times\frac{x}{2}-ls$, and the number of operations required to move the right $y$ elements to $[j+1,..j+y]$ is $b=rs-(j+1+j+y)\times\frac{y}{2}$. The total number of operations is $a+b$, and we take the minimum of all total operation counts.
 
-时间复杂度 $O(n)$，空间复杂度 $O(m)$。其中 $n$ 和 $m$ 分别为数组 $nums$ 的长度以及数组 $nums$ 中 $1$ 的个数。
+The time complexity is $O(n)$, and the space complexity is $O(m)$. Here, $n$ and $m$ are the length of the array $nums$ and the number of $1$s in the array $nums$, respectively.
 
 <!-- tabs:start -->
 

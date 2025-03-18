@@ -1,73 +1,69 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1181.Before%20and%20After%20Puzzle/README.md
+difficulty: Medium
 rating: 1558
-source: 第 8 场双周赛 Q2
+source: Biweekly Contest 8 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
-    - 排序
+    - Array
+    - Hash Table
+    - String
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1181. 前后拼接 🔒](https://leetcode.cn/problems/before-and-after-puzzle)
+# [1181. Before and After Puzzle 🔒](https://leetcode.com/problems/before-and-after-puzzle)
 
-[English Version](/solution/1100-1199/1181.Before%20and%20After%20Puzzle/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个「短语」列表&nbsp;<code>phrases</code>，请你帮忙按规则生成拼接后的「新短语」列表。</p>
+<p>Given a list of <code>phrases</code>, generate a list of&nbsp;Before and After puzzles.</p>
 
-<p>「短语」（phrase）是仅由小写英文字母和空格组成的字符串。「短语」的开头和结尾都不会出现空格，「短语」中的空格不会连续出现。</p>
+<p>A <em>phrase</em> is a string that consists of lowercase English letters and spaces only. No space appears in the start or the end of a phrase. There are&nbsp;no consecutive spaces&nbsp;in a phrase.</p>
 
-<p>「前后拼接」（Before and After&nbsp;puzzles）是合并两个「短语」形成「新短语」的方法。我们规定拼接时，<strong>第一个短语的最后一个单词</strong> 和 <strong>第二个短语的第一个单词</strong> 必须相同。</p>
+<p><em>Before and After&nbsp;puzzles</em> are phrases that are formed by merging&nbsp;two phrases where the <strong>last&nbsp;word of the first&nbsp;phrase</strong> is the same as the <strong>first word of the second phrase</strong>.</p>
 
-<p>返回每两个「短语」&nbsp;<code>phrases[i]</code>&nbsp;和&nbsp;<code>phrases[j]</code>（<code>i != j</code>）进行「前后拼接」得到的「新短语」。</p>
+<p>Return the&nbsp;Before and After&nbsp;puzzles that can be formed by every two phrases&nbsp;<code>phrases[i]</code>&nbsp;and&nbsp;<code>phrases[j]</code>&nbsp;where&nbsp;<code>i != j</code>. Note that the order of matching two phrases matters, we want to consider both orders.</p>
 
-<p>注意，两个「短语」拼接时的顺序也很重要，我们需要同时考虑这两个「短语」。另外，同一个「短语」可以多次参与拼接，但「新短语」不能再参与拼接。</p>
-
-<p>请你按字典序排列并返回「新短语」列表，列表中的字符串应该是 <strong>不重复的</strong> 。</p>
+<p>You should return a list of&nbsp;<strong>distinct</strong>&nbsp;strings <strong>sorted&nbsp;lexicographically</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>phrases = [&quot;writing code&quot;,&quot;code rocks&quot;]
-<strong>输出：</strong>[&quot;writing code rocks&quot;]
+<pre>
+<strong>Input:</strong> phrases = [&quot;writing code&quot;,&quot;code rocks&quot;]
+<strong>Output:</strong> [&quot;writing code rocks&quot;]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>phrases = [&quot;mission statement&quot;,
-                &quot;a quick bite to eat&quot;,
-&nbsp;               &quot;a chip off the old block&quot;,
-&nbsp;               &quot;chocolate bar&quot;,
-&nbsp;               &quot;mission impossible&quot;,
-&nbsp;               &quot;a man on a mission&quot;,
-&nbsp;               &quot;block party&quot;,
-&nbsp;               &quot;eat my words&quot;,
-&nbsp;               &quot;bar of soap&quot;]
-<strong>输出：</strong>[&quot;a chip off the old block party&quot;,
-&nbsp;     &quot;a man on a mission impossible&quot;,
-&nbsp;     &quot;a man on a mission statement&quot;,
-&nbsp;     &quot;a quick bite to eat my words&quot;,
-      &quot;chocolate bar of soap&quot;]
+<pre>
+<strong>Input:</strong> phrases = [&quot;mission statement&quot;,
+                  &quot;a quick bite to eat&quot;,
+&nbsp;                 &quot;a chip off the old block&quot;,
+&nbsp;                 &quot;chocolate bar&quot;,
+&nbsp;                 &quot;mission impossible&quot;,
+&nbsp;                 &quot;a man on a mission&quot;,
+&nbsp;                 &quot;block party&quot;,
+&nbsp;                 &quot;eat my words&quot;,
+&nbsp;                 &quot;bar of soap&quot;]
+<strong>Output:</strong> [&quot;a chip off the old block party&quot;,
+&nbsp;        &quot;a man on a mission impossible&quot;,
+&nbsp;        &quot;a man on a mission statement&quot;,
+&nbsp;        &quot;a quick bite to eat my words&quot;,
+         &quot;chocolate bar of soap&quot;]
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>phrases = [&quot;a&quot;,&quot;b&quot;,&quot;a&quot;]
-<strong>输出：</strong>[&quot;a&quot;]
+<pre>
+<strong>Input:</strong> phrases = [&quot;a&quot;,&quot;b&quot;,&quot;a&quot;]
+<strong>Output:</strong> [&quot;a&quot;]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= phrases.length &lt;= 100</code></li>
@@ -76,19 +72,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 排序
+### Solution 1: Hash Table + Sorting
 
-我们先遍历列表 `phrases`，将每个短语的首尾单词存储数组 $ps$ 中，其中 $ps[i][0]$ 和 $ps[i][1]$ 分别表示第 $i$ 个短语的首尾单词。
+First, we traverse the `phrases` list, storing the first and last words of each phrase in the array $ps$, where $ps[i][0]$ and $ps[i][1]$ represent the first and last words of the $i$th phrase, respectively.
 
-接下来，我们枚举所有 $(i, j)$，其中 $i, j \in [0, n)$ 且 $i \neq j$。如果 $ps[i][1] = ps[j][0]$，那么我们就可以将第 $i$ 个短语和第 $j$ 个短语进行拼接，得到的新短语为 $phrases[i] + phrases[j][len(ps[j][0]):]$，将新短语加入哈希表 $s$ 中。
+Next, we enumerate all $(i, j)$, where $i, j \in [0, n)$ and $i \neq j$. If $ps[i][1] = ps[j][0]$, then we can concatenate the $i$th phrase and the $j$th phrase to get a new phrase $phrases[i] + phrases[j][len(ps[j][0]):]$, and add the new phrase to the hash table $s$.
 
-最后，我们将哈希表 $s$ 转化为数组并排序，即可得到答案。
+Finally, we convert the hash table $s$ into an array and sort it to get the answer.
 
-时间复杂度 $O(n^2 \times m \times (\log n + \log m))$，空间复杂度 $O(n^2 \times m)$。其中 $n$ 和 $m$ 分别表示数组 $phrases$ 的长度和每个短语的平均长度。
+The time complexity is $O(n^2 \times m \times (\log n + \log m))$, and the space complexity is $O(n^2 \times m)$. Here, $n$ and $m$ represent the length of the `phrases` array and the average length of each phrase, respectively.
 
 <!-- tabs:start -->
 

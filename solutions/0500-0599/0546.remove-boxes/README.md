@@ -1,61 +1,56 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0546.Remove%20Boxes/README.md
+difficulty: Hard
 tags:
-    - 记忆化搜索
-    - 数组
-    - 动态规划
+    - Memoization
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [546. 移除盒子](https://leetcode.cn/problems/remove-boxes)
+# [546. Remove Boxes](https://leetcode.com/problems/remove-boxes)
 
-[English Version](/solution/0500-0599/0546.Remove%20Boxes/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给出一些不同颜色的盒子<meta charset="UTF-8" />&nbsp;<code>boxes</code>&nbsp;，盒子的颜色由不同的正数表示。</p>
+<p>You are given several <code>boxes</code> with different colors represented by different positive numbers.</p>
 
-<p>你将经过若干轮操作去去掉盒子，直到所有的盒子都去掉为止。每一轮你可以移除具有相同颜色的连续 <code>k</code> 个盒子（<code>k&nbsp;&gt;= 1</code>），这样一轮之后你将得到 <code>k * k</code> 个积分。</p>
+<p>You may experience several rounds to remove boxes until there is no box left. Each time you can choose some continuous boxes with the same color (i.e., composed of <code>k</code> boxes, <code>k &gt;= 1</code>), remove them and get <code>k * k</code> points.</p>
 
-<p>返回 <em>你能获得的最大积分和</em>&nbsp;。</p>
+<p>Return <em>the maximum points you can get</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>boxes = [1,3,2,2,2,3,4,3,1]
-<strong>输出：</strong>23
-<strong>解释：</strong>
+<strong>Input:</strong> boxes = [1,3,2,2,2,3,4,3,1]
+<strong>Output:</strong> 23
+<strong>Explanation:</strong>
 [1, 3, 2, 2, 2, 3, 4, 3, 1] 
-----&gt; [1, 3, 3, 4, 3, 1] (3*3=9 分) 
-----&gt; [1, 3, 3, 3, 1] (1*1=1 分) 
-----&gt; [1, 1] (3*3=9 分) 
-----&gt; [] (2*2=4 分)
+----&gt; [1, 3, 3, 4, 3, 1] (3*3=9 points) 
+----&gt; [1, 3, 3, 3, 1] (1*1=1 points) 
+----&gt; [1, 1] (3*3=9 points) 
+----&gt; [] (2*2=4 points)
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>boxes = [1,1,1]
-<strong>输出：</strong>9
+<strong>Input:</strong> boxes = [1,1,1]
+<strong>Output:</strong> 9
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>boxes = [1]
-<strong>输出：</strong>1
+<strong>Input:</strong> boxes = [1]
+<strong>Output:</strong> 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= boxes.length &lt;= 100</code></li>
@@ -64,21 +59,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
-
-设计递归函数 `dfs(i, j, k)` 表示当前处理的区间为 `[i, j]`，且该区间的右边有 `k` 个与 `boxes[j]` 相同的元素，返回该区间的最大积分。答案即为 `dfs(0, n - 1, 0)`。
-
-对于 `dfs(i, j, k)`，我们可以直接删除 `boxes[j]` 和其右边的 `k` 个元素，所得积分为 `dfs(i, j - 1, 0) + (k + 1) * (k + 1)`。
-
-我们还可以在区间 `[i, j-1]` 内枚举下标 `h`，找到满足 `boxes[h] == boxes[j]` 的下标，那么我们就将区间 `[i, j - 1]` 分成两部分，即 `[i, h]` 和 `[h + 1, j - 1]`。其中 `[i, h]` 的部分可以与 `boxes[j]` 合并，所以积分为 `dfs(i, h, k + 1) + dfs(h + 1, j - 1, 0)`。求不同 `h` 下的最大值即可。
-
-我们使用记忆化搜索来优化递归函数的时间复杂度。
-
-时间复杂度 $O(n^4)$，空间复杂度 $O(n^3)$。
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,59 +1,54 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2420.Find%20All%20Good%20Indices/README.md
+difficulty: Medium
 rating: 1695
-source: 第 312 场周赛 Q3
+source: Weekly Contest 312 Q3
 tags:
-    - 数组
-    - 动态规划
-    - 前缀和
+    - Array
+    - Dynamic Programming
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [2420. 找到所有好下标](https://leetcode.cn/problems/find-all-good-indices)
+# [2420. Find All Good Indices](https://leetcode.com/problems/find-all-good-indices)
 
-[English Version](/solution/2400-2499/2420.Find%20All%20Good%20Indices/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个大小为 <code>n</code>&nbsp;下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;和一个正整数&nbsp;<code>k</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of size <code>n</code> and a positive integer <code>k</code>.</p>
 
-<p>对于&nbsp;<code>k &lt;= i &lt; n - k</code>&nbsp;之间的一个下标&nbsp;<code>i</code>&nbsp;，如果它满足以下条件，我们就称它为一个&nbsp;<strong>好</strong>&nbsp;下标：</p>
+<p>We call an index <code>i</code> in the range <code>k &lt;= i &lt; n - k</code> <strong>good</strong> if the following conditions are satisfied:</p>
 
 <ul>
-	<li>下标 <code>i</code> <strong>之前</strong> 的 <code>k</code>&nbsp;个元素是 <strong>非递增的</strong>&nbsp;。</li>
-	<li>下标 <code>i</code> <strong>之后</strong>&nbsp;的 <code>k</code>&nbsp;个元素是 <strong>非递减的</strong>&nbsp;。</li>
+	<li>The <code>k</code> elements that are just <strong>before</strong> the index <code>i</code> are in <strong>non-increasing</strong> order.</li>
+	<li>The <code>k</code> elements that are just <strong>after</strong> the index <code>i</code> are in <strong>non-decreasing</strong> order.</li>
 </ul>
 
-<p>按 <strong>升序</strong>&nbsp;返回所有好下标。</p>
+<p>Return <em>an array of all good indices sorted in <strong>increasing</strong> order</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [2,1,1,1,3,4,1], k = 2
-<b>输出：</b>[2,3]
-<b>解释：</b>数组中有两个好下标：
-- 下标 2 。子数组 [2,1] 是非递增的，子数组 [1,3] 是非递减的。
-- 下标 3 。子数组 [1,1] 是非递增的，子数组 [3,4] 是非递减的。
-注意，下标 4 不是好下标，因为 [4,1] 不是非递减的。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [2,1,1,2], k = 2
-<b>输出：</b>[]
-<b>解释：</b>数组中没有好下标。
+<strong>Input:</strong> nums = [2,1,1,1,3,4,1], k = 2
+<strong>Output:</strong> [2,3]
+<strong>Explanation:</strong> There are two good indices in the array:
+- Index 2. The subarray [2,1] is in non-increasing order, and the subarray [1,3] is in non-decreasing order.
+- Index 3. The subarray [1,1] is in non-increasing order, and the subarray [3,4] is in non-decreasing order.
+Note that the index 4 is not good because [4,1] is not non-decreasing.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,1,1,2], k = 2
+<strong>Output:</strong> []
+<strong>Explanation:</strong> There are no good indices in this array.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
@@ -64,19 +59,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递推
+### Solution 1: Recursion
 
-我们定义两个数组 `decr` 和 `incr`，分别表示从左到右和从右到左的非递增和非递减的最长子数组长度。
+We define two arrays `decr` and `incr`, which represent the longest non-increasing and non-decreasing subarray lengths from left to right and from right to left, respectively.
 
-遍历数组，更新 `decr` 和 `incr` 数组。
+We traverse the array, updating the `decr` and `incr` arrays.
 
-然后顺序遍历下标 $i$（其中 $k\le i \lt n - k$），若 $decr[i] \geq k$ 并且 $incr[i] \geq k$，则 $i$ 为好下标。
+Then we sequentially traverse the index $i$ (where $k\le i \lt n - k$), if $decr[i] \geq k$ and $incr[i] \geq k$, then $i$ is a good index.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

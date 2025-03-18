@@ -1,91 +1,81 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1770.Maximum%20Score%20from%20Performing%20Multiplication%20Operations/README.md
+difficulty: Hard
 rating: 2068
-source: 第 229 场周赛 Q3
+source: Weekly Contest 229 Q3
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1770. 执行乘法运算的最大分数](https://leetcode.cn/problems/maximum-score-from-performing-multiplication-operations)
+# [1770. Maximum Score from Performing Multiplication Operations](https://leetcode.com/problems/maximum-score-from-performing-multiplication-operations)
 
-[English Version](/solution/1700-1799/1770.Maximum%20Score%20from%20Performing%20Multiplication%20Operations/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个长度分别 <code>n</code> 和 <code>m</code> 的整数数组 <code>nums</code> 和 <code>multipliers</code><strong> </strong>，其中 <code>n &gt;= m</code> ，数组下标 <strong>从 1 开始</strong> 计数。</p>
+<p>You are given two <strong>0-indexed</strong> integer arrays <code>nums</code> and <code>multipliers</code><strong> </strong>of size <code>n</code> and <code>m</code> respectively, where <code>n &gt;= m</code>.</p>
 
-<p>初始时，你的分数为 <code>0</code> 。你需要执行恰好 <code>m</code> 步操作。在第 <code>i</code> 步操作（<strong>从 1 开始</strong> 计数）中，需要：</p>
+<p>You begin with a score of <code>0</code>. You want to perform <strong>exactly</strong> <code>m</code> operations. On the <code>i<sup>th</sup></code> operation (<strong>0-indexed</strong>) you will:</p>
 
 <ul>
-	<li>选择数组 <code>nums</code> <strong>开头处或者末尾处</strong> 的整数 <code>x</code> 。</li>
-	<li>你获得 <code>multipliers[i] * x</code> 分，并累加到你的分数中。</li>
-	<li>将 <code>x</code> 从数组 <code>nums</code> 中移除。</li>
+    <li>Choose one integer <code>x</code> from <strong>either the start or the end </strong>of the array <code>nums</code>.</li>
+    <li>Add <code>multipliers[i] * x</code> to your score.
+    <ul>
+        <li>Note that <code>multipliers[0]</code> corresponds to the first operation, <code>multipliers[1]</code> to the second operation, and so on.</li>
+    </ul>
+    </li>
+    <li>Remove <code>x</code> from <code>nums</code>.</li>
 </ul>
 
-<p>在执行<em> </em><code>m</code> 步操作后，返回 <strong>最大</strong> 分数<em>。</em></p>
+<p>Return <em>the <strong>maximum</strong> score after performing </em><code>m</code> <em>operations.</em></p>
 
-<p> </p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [1,2,3], multipliers = [3,2,1]
+<strong>Output:</strong> 14
+<strong>Explanation:</strong>&nbsp;An optimal solution is as follows:
+- Choose from the end, [1,2,<strong><u>3</u></strong>], adding 3 * 3 = 9 to the score.
+- Choose from the end, [1,<strong><u>2</u></strong>], adding 2 * 2 = 4 to the score.
+- Choose from the end, [<strong><u>1</u></strong>], adding 1 * 1 = 1 to the score.
+The total score is 9 + 4 + 1 = 14.</pre>
 
-<pre><strong>输入：</strong>nums = [1,2,3], multipliers = [3,2,1]
-<strong>输出：</strong>14
-<strong>解释：</strong>一种最优解决方案如下：
-- 选择末尾处的整数 3 ，[1,2,<strong>3</strong>] ，得 3 * 3 = 9 分，累加到分数中。
-- 选择末尾处的整数 2 ，[1,<strong>2</strong>] ，得 2 * 2 = 4 分，累加到分数中。
-- 选择末尾处的整数 1 ，[<strong>1</strong>] ，得 1 * 1 = 1 分，累加到分数中。
-总分数为 9 + 4 + 1 = 14 。</pre>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>nums = [-5,-3,-3,-2,7,1], multipliers = [-10,-5,3,4,6]
-<strong>输出：</strong>102
-<strong>解释：</strong>一种最优解决方案如下：
-- 选择开头处的整数 -5 ，[<strong>-5</strong>,-3,-3,-2,7,1] ，得 -5 * -10 = 50 分，累加到分数中。
-- 选择开头处的整数 -3 ，[<strong>-3</strong>,-3,-2,7,1] ，得 -3 * -5 = 15 分，累加到分数中。
-- 选择开头处的整数 -3 ，[<strong>-3</strong>,-2,7,1] ，得 -3 * 3 = -9 分，累加到分数中。
-- 选择末尾处的整数 1 ，[-2,7,<strong>1</strong>] ，得 1 * 4 = 4 分，累加到分数中。
-- 选择末尾处的整数 7 ，[-2,<strong>7</strong>] ，得 7 * 6 = 42 分，累加到分数中。
-总分数为 50 + 15 - 9 + 4 + 42 = 102 。
+<pre>
+<strong>Input:</strong> nums = [-5,-3,-3,-2,7,1], multipliers = [-10,-5,3,4,6]
+<strong>Output:</strong> 102
+<strong>Explanation: </strong>An optimal solution is as follows:
+- Choose from the start, [<u><strong>-5</strong></u>,-3,-3,-2,7,1], adding -5 * -10 = 50 to the score.
+- Choose from the start, [<strong><u>-3</u></strong>,-3,-2,7,1], adding -3 * -5 = 15 to the score.
+- Choose from the start, [<strong><u>-3</u></strong>,-2,7,1], adding -3 * 3 = -9 to the score.
+- Choose from the end, [-2,7,<strong><u>1</u></strong>], adding 1 * 4 = 4 to the score.
+- Choose from the end, [-2,<strong><u>7</u></strong>], adding 7 * 6 = 42 to the score. 
+The total score is 50 + 15 - 9 + 4 + 42 = 102.
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
 	<li><code>m == multipliers.length</code></li>
-	<li><code>1 &lt;= m &lt;= 10<sup>3</sup></code></li>
+	<li><code>1 &lt;= m &lt;= 300</code></li>
 	<li><code>m &lt;= n &lt;= 10<sup>5</sup></code><code> </code></li>
 	<li><code>-1000 &lt;= nums[i], multipliers[i] &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
-
-我们设计一个函数 $dfs(i, j)$，表示从 `nums` 数组头部第 $i$ 个元素开始，从 `nums` 数组尾部第 $j$ 个元素开始，能够获得的最大分数。那么答案就是 $dfs(0, 0)$。
-
-函数 $dfs(i, j)$ 的计算过程如下：
-
--   如果 $i \geq m$ 或者 $j \geq m$，或者 $i + j \geq m$，说明已经没有元素可以选择了，返回 $0$。
--   否则，我们可以选择 `nums` 数组头部第 $i$ 个元素，那么能够获取的最大分数为 $nums[i] \times multipliers[i + j] + dfs(i + 1, j)$；或者我们可以选择 `nums` 数组尾部第 $j$ 个元素，那么能够获取的最大分数为 $nums[n - j - 1] \times multipliers[i + j] + dfs(i, j + 1)$。我们取两者的最大值作为 $dfs(i, j)$ 的返回值。
-
-我们可以使用记忆化搜索来实现上述递归过程，其中 `f` 数组用于存储函数 $dfs(i, j)$ 的返回值，防止重复计算。
-
-时间复杂度 $O(m^2)$，空间复杂度 $O(m^2)$。其中 $m$ 为 `multipliers` 数组的长度。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -228,17 +218,7 @@ function maximumScore(nums: number[], multipliers: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二：动态规划
-
-我们可以将方法一中的记忆化搜索改写为动态规划的形式。
-
-我们用 $f[i][j]$ 表示取数组 $nums$ 的前 $i$ 个元素，以及取数组 $nums$ 的后 $j$ 个元素，能够获得的最大分数。初始时 $f[0][0] = 0$，其余元素均为 $-\infty$。答案为 $\max_{0 \leq i \leq m} f[i][m-i]$。
-
-考虑 $f[i][j]$，那么当前我们可以选择 `nums` 数组头部的第 $i$ 个元素，或者选择 `nums` 数组尾部的第 $j$ 个元素。如果选择了 `nums` 数组头部的第 $i$ 个元素，那么能够获得的最大分数为 $f[i-1][j] + nums[i-1] \times multipliers[i+j-1]$；如果选择了 `nums` 数组尾部的第 $j$ 个元素，那么能够获得的最大分数为 $f[i][j-1] + nums[n-j] \times multipliers[i+j-1]$。我们取两者的最大值作为 $f[i][j]$ 的值。如果 $i + j = m$，我们我们更新答案 $ans = \max(ans, f[i][j])$。
-
-最后返回答案 $ans$ 即可。
-
-时间复杂度 $O(m^2)$，空间复杂度 $O(m^2)$。其中 $m$ 为 `multipliers` 数组的长度。
+### Solution 2
 
 <!-- tabs:start -->
 

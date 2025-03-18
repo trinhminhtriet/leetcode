@@ -1,69 +1,60 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0366.Find%20Leaves%20of%20Binary%20Tree/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [366. 寻找二叉树的叶子节点 🔒](https://leetcode.cn/problems/find-leaves-of-binary-tree)
+# [366. Find Leaves of Binary Tree 🔒](https://leetcode.com/problems/find-leaves-of-binary-tree)
 
-[English Version](/solution/0300-0399/0366.Find%20Leaves%20of%20Binary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一棵二叉树的 <code>root</code> 节点，请按照以下方式收集树的节点：</p>
+<p>Given the <code>root</code> of a binary tree, collect a tree&#39;s nodes as if you were doing this:</p>
 
 <ul>
-	<li>收集所有的叶子节点。</li>
-	<li>移除所有的叶子节点。</li>
-	<li>重复以上步骤，直到树为空。</li>
+	<li>Collect all the leaf nodes.</li>
+	<li>Remove all the leaf&nbsp;nodes.</li>
+	<li>Repeat until the tree is empty.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0300-0399/0366.Find%20Leaves%20of%20Binary%20Tree/images/remleaves-tree.jpg" style="width: 500px; height: 215px;" />
 <pre>
-<strong>输入：</strong>root = [1,2,3,4,5]
-<strong>输出：</strong>[[4,5,3],[2],[1]]
-<strong>解释：</strong>
-[[3,5,4],[2],[1]] 和 [[3,4,5],[2],[1]] 也被视作正确答案，因为每一层返回元素的顺序不影响结果。
+<strong>Input:</strong> root = [1,2,3,4,5]
+<strong>Output:</strong> [[4,5,3],[2],[1]]
+Explanation:
+[[3,5,4],[2],[1]] and [[3,4,5],[2],[1]] are also considered correct answers since per each level it does not matter the order on which elements are returned.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>root = [1]
-<strong>输出：</strong>[[1]]
+<strong>Input:</strong> root = [1]
+<strong>Output:</strong> [[1]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点的数量在<code>[1, 100]</code>范围内。</li>
+	<li>The number of nodes in the tree is in the range <code>[1, 100]</code>.</li>
 	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS
-
-我们可以使用深度优先搜索的方法，递归遍历二叉树，将每个节点的高度作为索引，将节点的值添加到对应索引的数组中。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树的节点个数。
+### Solution 1
 
 <!-- tabs:start -->
 

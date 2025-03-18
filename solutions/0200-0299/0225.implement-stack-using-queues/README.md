@@ -1,93 +1,85 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0225.Implement%20Stack%20using%20Queues/README.md
+difficulty: Easy
 tags:
-    - 栈
-    - 设计
-    - 队列
+    - Stack
+    - Design
+    - Queue
 ---
 
 <!-- problem:start -->
 
-# [225. 用队列实现栈](https://leetcode.cn/problems/implement-stack-using-queues)
+# [225. Implement Stack using Queues](https://leetcode.com/problems/implement-stack-using-queues)
 
-[English Version](/solution/0200-0299/0225.Implement%20Stack%20using%20Queues/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你仅使用两个队列实现一个后入先出（LIFO）的栈，并支持普通栈的全部四种操作（<code>push</code>、<code>top</code>、<code>pop</code> 和 <code>empty</code>）。</p>
+<p>Implement a last-in-first-out (LIFO) stack using only two queues. The implemented stack should support all the functions of a normal stack (<code>push</code>, <code>top</code>, <code>pop</code>, and <code>empty</code>).</p>
 
-<p>实现 <code>MyStack</code> 类：</p>
+<p>Implement the <code>MyStack</code> class:</p>
 
 <ul>
-	<li><code>void push(int x)</code> 将元素 x 压入栈顶。</li>
-	<li><code>int pop()</code> 移除并返回栈顶元素。</li>
-	<li><code>int top()</code> 返回栈顶元素。</li>
-	<li><code>boolean empty()</code> 如果栈是空的，返回 <code>true</code> ；否则，返回 <code>false</code> 。</li>
+	<li><code>void push(int x)</code> Pushes element x to the top of the stack.</li>
+	<li><code>int pop()</code> Removes the element on the top of the stack and returns it.</li>
+	<li><code>int top()</code> Returns the element on the top of the stack.</li>
+	<li><code>boolean empty()</code> Returns <code>true</code> if the stack is empty, <code>false</code> otherwise.</li>
+</ul>
+
+<p><b>Notes:</b></p>
+
+<ul>
+	<li>You must use <strong>only</strong> standard operations of a queue, which means that only <code>push to back</code>, <code>peek/pop from front</code>, <code>size</code> and <code>is empty</code> operations are valid.</li>
+	<li>Depending on your language, the queue may not be supported natively. You may simulate a queue using a list or deque (double-ended queue) as long as you use only a queue&#39;s standard operations.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>注意：</strong></p>
-
-<ul>
-	<li>你只能使用队列的标准操作 —— 也就是&nbsp;<code>push to back</code>、<code>peek/pop from front</code>、<code>size</code> 和&nbsp;<code>is empty</code>&nbsp;这些操作。</li>
-	<li>你所使用的语言也许不支持队列。&nbsp;你可以使用 list （列表）或者 deque（双端队列）来模拟一个队列&nbsp;, 只要是标准的队列操作即可。</li>
-</ul>
-
-<p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["MyStack", "push", "push", "top", "pop", "empty"]
+<strong>Input</strong>
+[&quot;MyStack&quot;, &quot;push&quot;, &quot;push&quot;, &quot;top&quot;, &quot;pop&quot;, &quot;empty&quot;]
 [[], [1], [2], [], [], []]
-<strong>输出：</strong>
+<strong>Output</strong>
 [null, null, null, 2, 2, false]
 
-<strong>解释：</strong>
+<strong>Explanation</strong>
 MyStack myStack = new MyStack();
 myStack.push(1);
 myStack.push(2);
-myStack.top(); // 返回 2
-myStack.pop(); // 返回 2
-myStack.empty(); // 返回 False
+myStack.top(); // return 2
+myStack.pop(); // return 2
+myStack.empty(); // return False
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= x &lt;= 9</code></li>
-	<li>最多调用<code>100</code> 次 <code>push</code>、<code>pop</code>、<code>top</code> 和 <code>empty</code></li>
-	<li>每次调用 <code>pop</code> 和 <code>top</code> 都保证栈不为空</li>
+	<li>At most <code>100</code> calls will be made to <code>push</code>, <code>pop</code>, <code>top</code>, and <code>empty</code>.</li>
+	<li>All the calls to <code>pop</code> and <code>top</code> are valid.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>你能否仅用一个队列来实现栈。</p>
+<p><strong>Follow-up:</strong> Can you implement the stack using only one queue?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：两个队列
+### Solution 1: Two Queues
 
-我们使用两个队列 $q_1$ 和 $q_2$，其中 $q_1$ 用于存储栈中的元素，而 $q_2$ 用于辅助实现栈的操作。
+We use two queues $q_1$ and $q_2$, where $q_1$ is used to store the elements in the stack, and $q_2$ is used to assist in implementing the stack operations.
 
--   `push` 操作：将元素压入 $q_2$，然后将 $q_1$ 中的元素依次弹出并压入 $q_2$，最后交换 $q_1$ 和 $q_2$ 的引用。时间复杂度 $O(n)$。
--   `pop` 操作：直接弹出 $q_1$ 的队首元素。时间复杂度 $O(1)$。
--   `top` 操作：直接返回 $q_1$ 的队首元素。时间复杂度 $O(1)$。
--   `empty` 操作：判断 $q_1$ 是否为空。时间复杂度 $O(1)$。
+-   `push` operation: Push the element into $q_2$, then pop the elements in $q_1$ one by one and push them into $q_2$, finally swap the references of $q_1$ and $q_2$. The time complexity is $O(n)$.
+-   `pop` operation: Directly pop the front element of $q_1$. The time complexity is $O(1)$.
+-   `top` operation: Directly return the front element of $q_1$. The time complexity is $O(1)$.
+-   `empty` operation: Check whether $q_1$ is empty. The time complexity is $O(1)$.
 
-空间复杂度 $O(n)$，其中 $n$ 是栈中元素的个数。
+The space complexity is $O(n)$, where $n$ is the number of elements in the stack.
 
 <!-- tabs:start -->
 

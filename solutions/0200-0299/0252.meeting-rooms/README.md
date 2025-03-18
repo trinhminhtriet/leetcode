@@ -1,63 +1,45 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0200-0299/0252.Meeting%20Rooms/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 排序
+    - Array
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [252. 会议室 🔒](https://leetcode.cn/problems/meeting-rooms)
+# [252. Meeting Rooms 🔒](https://leetcode.com/problems/meeting-rooms)
 
-[English Version](/solution/0200-0299/0252.Meeting%20Rooms/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个会议时间安排的数组 <code>intervals</code> ，每个会议时间都会包括开始和结束的时间 <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> ，请你判断一个人是否能够参加这里面的全部会议。</p>
+<p>Given an array of meeting time <code>intervals</code>&nbsp;where <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>, determine if a person could attend all meetings.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>intervals = [[0,30],[5,10],[15,20]]
-<strong>输出</strong>：false
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> intervals = [[0,30],[5,10],[15,20]]
+<strong>Output:</strong> false
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> intervals = [[7,10],[2,4]]
+<strong>Output:</strong> true
 </pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>intervals = [[7,10],[2,4]]
-<strong>输出</strong>：true
-</pre>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>0 <= intervals.length <= 10<sup>4</sup></code></li>
+	<li><code>0 &lt;= intervals.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>intervals[i].length == 2</code></li>
-	<li><code>0 <= start<sub>i</sub> < end<sub>i</sub> <= 10<sup>6</sup></code></li>
+	<li><code>0 &lt;= start<sub>i</sub> &lt;&nbsp;end<sub>i</sub> &lt;= 10<sup>6</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序
-
-我们将会议按照开始时间进行排序，然后遍历排序后的会议，如果当前会议的开始时间小于前一个会议的结束时间，则说明两个会议有重叠，返回 `false` 即可。
-
-遍历结束后，返回 `true`。
-
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为会议数量。
+### Solution 1
 
 <!-- tabs:start -->
 

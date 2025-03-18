@@ -1,66 +1,64 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2554.Maximum%20Number%20of%20Integers%20to%20Choose%20From%20a%20Range%20I/README.md
+difficulty: Medium
 rating: 1333
-source: 第 97 场双周赛 Q2
+source: Biweekly Contest 97 Q2
 tags:
-    - 贪心
-    - 数组
-    - 哈希表
-    - 二分查找
-    - 排序
+    - Greedy
+    - Array
+    - Hash Table
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2554. 从一个范围内选择最多整数 I](https://leetcode.cn/problems/maximum-number-of-integers-to-choose-from-a-range-i)
+# [2554. Maximum Number of Integers to Choose From a Range I](https://leetcode.com/problems/maximum-number-of-integers-to-choose-from-a-range-i)
 
-[English Version](/solution/2500-2599/2554.Maximum%20Number%20of%20Integers%20to%20Choose%20From%20a%20Range%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>banned</code>&nbsp;和两个整数&nbsp;<code>n</code> 和&nbsp;<code>maxSum</code>&nbsp;。你需要按照以下规则选择一些整数：</p>
+<p>You are given an integer array <code>banned</code> and two integers <code>n</code> and <code>maxSum</code>. You are choosing some number of integers following the below rules:</p>
 
 <ul>
-	<li>被选择整数的范围是&nbsp;<code>[1, n]</code>&nbsp;。</li>
-	<li>每个整数 <strong>至多</strong>&nbsp;选择 <strong>一次</strong>&nbsp;。</li>
-	<li>被选择整数不能在数组&nbsp;<code>banned</code>&nbsp;中。</li>
-	<li>被选择整数的和不超过&nbsp;<code>maxSum</code>&nbsp;。</li>
+	<li>The chosen integers have to be in the range <code>[1, n]</code>.</li>
+	<li>Each integer can be chosen <strong>at most once</strong>.</li>
+	<li>The chosen integers should not be in the array <code>banned</code>.</li>
+	<li>The sum of the chosen integers should not exceed <code>maxSum</code>.</li>
 </ul>
 
-<p>请你返回按照上述规则 <strong>最多</strong>&nbsp;可以选择的整数数目。</p>
+<p>Return <em>the <strong>maximum</strong> number of integers you can choose following the mentioned rules</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>banned = [1,6,5], n = 5, maxSum = 6
-<b>输出：</b>2
-<b>解释：</b>你可以选择整数 2 和 4 。
-2 和 4 在范围 [1, 5] 内，且它们都不在 banned 中，它们的和是 6 ，没有超过 maxSum 。
+<pre>
+<strong>Input:</strong> banned = [1,6,5], n = 5, maxSum = 6
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> You can choose the integers 2 and 4.
+2 and 4 are from the range [1, 5], both did not appear in banned, and their sum is 6, which did not exceed maxSum.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>banned = [1,2,3,4,5,6,7], n = 8, maxSum = 1
-<b>输出：</b>0
-<b>解释：</b>按照上述规则无法选择任何整数。
+<pre>
+<strong>Input:</strong> banned = [1,2,3,4,5,6,7], n = 8, maxSum = 1
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> You cannot choose any integer while following the mentioned conditions.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><b>输入：</b>banned = [11], n = 7, maxSum = 50
-<b>输出：</b>7
-<b>解释：</b>你可以选择整数 1, 2, 3, 4, 5, 6 和 7 。
-它们都在范围 [1, 7] 中，且都没出现在 banned 中，它们的和是 28 ，没有超过 maxSum 。
+<pre>
+<strong>Input:</strong> banned = [11], n = 7, maxSum = 50
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> You can choose the integers 1, 2, 3, 4, 5, 6, and 7.
+They are from the range [1, 7], all did not appear in banned, and their sum is 28, which did not exceed maxSum.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= banned.length &lt;= 10<sup>4</sup></code></li>
@@ -70,19 +68,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 枚举
+### Solution 1: Greedy + Enumeration
 
-我们用变量 $s$ 表示当前已经选择的整数的和，用变量 $ans$ 表示当前已经选择的整数的个数。将数组 `banned` 转换为哈希表，方便判断某个整数是否不可选。
+We use the variable $s$ to represent the sum of the currently selected integers, and the variable $ans$ to represent the number of currently selected integers. We convert the array `banned` into a hash table for easy determination of whether a certain integer is not selectable.
 
-接下来，我们从 $1$ 开始枚举整数 $i$，如果 $s + i \leq maxSum$ 且 $i$ 不在 `banned` 中，那么我们就可以选择整数 $i$，并将 $s$ 和 $ans$ 分别加上 $i$ 和 $1$。
+Next, we start enumerating the integer $i$ from $1$. If $s + i \leq maxSum$ and $i$ is not in `banned`, then we can select the integer $i$, and add $i$ and $1$ to $s$ and $ans$ respectively.
 
-最终，我们返回 $ans$ 即可。
+Finally, we return $ans$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为给定的整数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Where $n$ is the given integer.
 
 <!-- tabs:start -->
 
@@ -240,19 +238,19 @@ int maxCount(int* banned, int bannedSize, int n, int maxSum) {
 
 <!-- solution:start -->
 
-### 方法二：贪心 + 二分查找
+### Solution 2: Greedy + Binary Search
 
-如果 $n$ 很大，那么方法一中的枚举会超时。
+If $n$ is very large, the enumeration in Method One will time out.
 
-我们可以在数组 `banned` 中加入 $0$ 和 $n + 1$，并将数组 `banned` 去重且移除大于 $n+1$ 的元素，然后进行排序。
+We can add $0$ and $n + 1$ to the array `banned`, deduplicate the array `banned`, remove elements greater than $n+1$, and then sort it.
 
-接下来，我们枚举数组 `banned` 中的每两个相邻元素 $i$ 和 $j$，那么可选的整数范围就是 $[i + 1, j - 1]$。二分枚举我们在此区间内能够选择的元素个数，找到最大的可选元素个数，然后将其加到 $ans$ 中。同时在 `maxSum` 中减去这些元素的和。如果 `maxSum` 小于 $0$，那么我们跳出循环。返回答案即可。
+Next, we enumerate every two adjacent elements $i$ and $j$ in the array `banned`. The range of selectable integers is $[i + 1, j - 1]$. We use binary search to enumerate the number of elements we can select in this range, find the maximum number of selectable elements, and then add it to $ans$. At the same time, we subtract the sum of these elements from `maxSum`. If `maxSum` is less than $0$, we break the loop. Return the answer.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `banned` 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array `banned`.
 
-相似题目：
+Similar problems:
 
--   [2557. 从一个范围内选择最多整数 II](https://github.com/doocs/leetcode/blob/main/solution/2500-2599/2557.Maximum%20Number%20of%20Integers%20to%20Choose%20From%20a%20Range%20II/README.md)
+-   [2557. Maximum Number of Integers to Choose From a Range II](https://github.com/doocs/leetcode/blob/main/solution/2500-2599/2557.Maximum%20Number%20of%20Integers%20to%20Choose%20From%20a%20Range%20II/README.md)
 
 <!-- tabs:start -->
 

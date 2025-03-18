@@ -1,72 +1,61 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1217.Minimum%20Cost%20to%20Move%20Chips%20to%20The%20Same%20Position/README.md
+difficulty: Easy
 rating: 1407
-source: 第 157 场周赛 Q1
+source: Weekly Contest 157 Q1
 tags:
-    - 贪心
-    - 数组
-    - 数学
+    - Greedy
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [1217. 玩筹码](https://leetcode.cn/problems/minimum-cost-to-move-chips-to-the-same-position)
+# [1217. Minimum Cost to Move Chips to The Same Position](https://leetcode.com/problems/minimum-cost-to-move-chips-to-the-same-position)
 
-[English Version](/solution/1200-1299/1217.Minimum%20Cost%20to%20Move%20Chips%20to%20The%20Same%20Position/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有&nbsp;<code>n</code>&nbsp;个筹码。第 <code>i</code> 个筹码的位置是<meta charset="UTF-8" />&nbsp;<code>position[i]</code>&nbsp;。</p>
+<p>We have <code>n</code> chips, where the position of the <code>i<sup>th</sup></code> chip is <code>position[i]</code>.</p>
 
-<p>我们需要把所有筹码移到同一个位置。在一步中，我们可以将第 <code>i</code> 个筹码的位置从&nbsp;<code>position[i]</code>&nbsp;改变为:</p>
-
-<p><meta charset="UTF-8" /></p>
+<p>We need to move all the chips to <strong>the same position</strong>. In one step, we can change the position of the <code>i<sup>th</sup></code> chip from <code>position[i]</code> to:</p>
 
 <ul>
-	<li><code>position[i] + 2</code>&nbsp;或&nbsp;<code>position[i] - 2</code>&nbsp;，此时&nbsp;<code>cost = 0</code></li>
-	<li><code>position[i] + 1</code>&nbsp;或&nbsp;<code>position[i] - 1</code>&nbsp;，此时&nbsp;<code>cost = 1</code></li>
+	<li><code>position[i] + 2</code> or <code>position[i] - 2</code> with <code>cost = 0</code>.</li>
+	<li><code>position[i] + 1</code> or <code>position[i] - 1</code> with <code>cost = 1</code>.</li>
 </ul>
 
-<p>返回将所有筹码移动到同一位置上所需要的 <em>最小代价</em> 。</p>
+<p>Return <em>the minimum cost</em> needed to move all the chips to the same position.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1217.Minimum%20Cost%20to%20Move%20Chips%20to%20The%20Same%20Position/images/chips_e1.jpg" style="height: 217px; width: 750px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1217.Minimum%20Cost%20to%20Move%20Chips%20to%20The%20Same%20Position/images/chips_e1.jpg" style="width: 750px; height: 217px;" />
 <pre>
-<strong>输入：</strong>position = [1,2,3]
-<strong>输出：</strong>1
-<strong>解释：</strong>第一步:将位置3的筹码移动到位置1，成本为0。
-第二步:将位置2的筹码移动到位置1，成本= 1。
-总成本是1。
+<strong>Input:</strong> position = [1,2,3]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> First step: Move the chip at position 3 to position 1 with cost = 0.
+Second step: Move the chip at position 2 to position 1 with cost = 1.
+Total cost is 1.
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1217.Minimum%20Cost%20to%20Move%20Chips%20to%20The%20Same%20Position/images/chip_e2.jpg" style="height: 306px; width: 750px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1200-1299/1217.Minimum%20Cost%20to%20Move%20Chips%20to%20The%20Same%20Position/images/chip_e2.jpg" style="width: 750px; height: 306px;" />
 <pre>
-<strong>输入：</strong>position = [2,2,2,3,3]
-<strong>输出：</strong>2
-<strong>解释：</strong>我们可以把位置3的两个筹码移到位置2。每一步的成本为1。总成本= 2。
+<strong>Input:</strong> position = [2,2,2,3,3]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> We can move the two chips at position  3 to position 2. Each move has cost = 1. The total cost = 2.
 </pre>
 
-<p><strong>示例 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>position = [1,1000000000]
-<strong>输出：</strong>1
+<strong>Input:</strong> position = [1,1000000000]
+<strong>Output:</strong> 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= position.length &lt;= 100</code></li>
@@ -75,15 +64,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：脑筋急转弯
+### Solution 1: Quick Thinking
 
-将所有偶数下标的芯片移动到 0 号位置，所有奇数下标的芯片移动到 1 号位置，所有的代价为 0，接下来只需要在 0/1 号位置中选择其中一个较小数量的芯片，移动到另一个位置。所需的最小代价就是那个较小的数量。
+Move all chips at even indices to position 0, and all chips at odd indices to position 1, all at a cost of 0. Then, choose the position (either 0 or 1) with fewer chips and move these chips to the other position. The minimum cost required is the smaller quantity of chips.
 
-时间复杂度 $O(n)$，其中 $n$ 为芯片的数量。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the number of chips.
 
 <!-- tabs:start -->
 

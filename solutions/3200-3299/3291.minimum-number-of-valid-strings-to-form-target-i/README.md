@@ -1,115 +1,110 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3291.Minimum%20Number%20of%20Valid%20Strings%20to%20Form%20Target%20I/README.md
+difficulty: Medium
 rating: 2081
-source: 第 415 场周赛 Q3
+source: Weekly Contest 415 Q3
 tags:
-    - 字典树
-    - 线段树
-    - 数组
-    - 字符串
-    - 二分查找
-    - 动态规划
-    - 字符串匹配
-    - 哈希函数
-    - 滚动哈希
+    - Trie
+    - Segment Tree
+    - Array
+    - String
+    - Binary Search
+    - Dynamic Programming
+    - String Matching
+    - Hash Function
+    - Rolling Hash
 ---
 
 <!-- problem:start -->
 
-# [3291. 形成目标字符串需要的最少字符串数 I](https://leetcode.cn/problems/minimum-number-of-valid-strings-to-form-target-i)
+# [3291. Minimum Number of Valid Strings to Form Target I](https://leetcode.com/problems/minimum-number-of-valid-strings-to-form-target-i)
 
-[English Version](/solution/3200-3299/3291.Minimum%20Number%20of%20Valid%20Strings%20to%20Form%20Target%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串数组 <code>words</code> 和一个字符串 <code>target</code>。</p>
+<p>You are given an array of strings <code>words</code> and a string <code>target</code>.</p>
 
-<p>如果字符串 <code>x</code> 是 <code>words</code> 中<strong> 任意 </strong>字符串的 <span data-keyword="string-prefix">前缀</span>，则认为 <code>x</code> 是一个 <strong>有效</strong> 字符串。</p>
+<p>A string <code>x</code> is called <strong>valid</strong> if <code>x</code> is a <span data-keyword="string-prefix">prefix</span> of <strong>any</strong> string in <code>words</code>.</p>
 
-<p>现计划通过 <strong>连接 </strong>有效字符串形成 <code>target</code> ，请你计算并返回需要连接的 <strong>最少 </strong>字符串数量。如果无法通过这种方式形成 <code>target</code>，则返回 <code>-1</code>。</p>
+<p>Return the <strong>minimum</strong> number of <strong>valid</strong> strings that can be <em>concatenated</em> to form <code>target</code>. If it is <strong>not</strong> possible to form <code>target</code>, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">words = ["abc","aaaaa","bcdef"], target = "aabcdabc"</span></p>
+<p><strong>Input:</strong> <span class="example-io">words = [&quot;abc&quot;,&quot;aaaaa&quot;,&quot;bcdef&quot;], target = &quot;aabcdabc&quot;</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">3</span></p>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>target 字符串可以通过连接以下有效字符串形成：</p>
+<p>The target string can be formed by concatenating:</p>
 
 <ul>
-	<li><code>words[1]</code> 的长度为 2 的前缀，即 <code>"aa"</code>。</li>
-	<li><code>words[2]</code> 的长度为 3 的前缀，即 <code>"bcd"</code>。</li>
-	<li><code>words[0]</code> 的长度为 3 的前缀，即 <code>"abc"</code>。</li>
+	<li>Prefix of length 2 of <code>words[1]</code>, i.e. <code>&quot;aa&quot;</code>.</li>
+	<li>Prefix of length 3 of <code>words[2]</code>, i.e. <code>&quot;bcd&quot;</code>.</li>
+	<li>Prefix of length 3 of <code>words[0]</code>, i.e. <code>&quot;abc&quot;</code>.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">words = ["abababab","ab"], target = "ababaababa"</span></p>
+<p><strong>Input:</strong> <span class="example-io">words = [&quot;abababab&quot;,&quot;ab&quot;], target = &quot;ababaababa&quot;</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">2</span></p>
+<p><strong>Output:</strong> <span class="example-io">2</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>target 字符串可以通过连接以下有效字符串形成：</p>
+<p>The target string can be formed by concatenating:</p>
 
 <ul>
-	<li><code>words[0]</code> 的长度为 5 的前缀，即 <code>"ababa"</code>。</li>
-	<li><code>words[0]</code> 的长度为 5 的前缀，即 <code>"ababa"</code>。</li>
+	<li>Prefix of length 5 of <code>words[0]</code>, i.e. <code>&quot;ababa&quot;</code>.</li>
+	<li>Prefix of length 5 of <code>words[0]</code>, i.e. <code>&quot;ababa&quot;</code>.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong> <span class="example-io">words = ["abcdef"], target = "xyz"</span></p>
+<p><strong>Input:</strong> <span class="example-io">words = [&quot;abcdef&quot;], target = &quot;xyz&quot;</span></p>
 
-<p><strong>输出：</strong> <span class="example-io">-1</span></p>
+<p><strong>Output:</strong> <span class="example-io">-1</span></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 100</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 5 * 10<sup>3</sup></code></li>
-	<li>输入确保 <code>sum(words[i].length) &lt;= 10<sup>5</sup></code>。</li>
-	<li><code>words[i]</code> 只包含小写英文字母。</li>
+	<li>The input is generated such that <code>sum(words[i].length) &lt;= 10<sup>5</sup></code>.</li>
+	<li><code>words[i]</code> consists only of lowercase English letters.</li>
 	<li><code>1 &lt;= target.length &lt;= 5 * 10<sup>3</sup></code></li>
-	<li><code>target</code> 只包含小写英文字母。</li>
+	<li><code>target</code> consists only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：字典树 + 记忆化搜索
+### Solution 1: Trie + Memoization
 
-我们可以使用字典树存储所有有效字符串，然后使用记忆化搜索计算答案。
+We can use a trie to store all valid strings and then use memoization to calculate the answer.
 
-我们设计一个函数 $\textit{dfs}(i)$，表示从字符串 $\textit{target}$ 的第 $i$ 个字符开始，需要连接的最少字符串数量。那么答案就是 $\textit{dfs}(0)$。
+We design a function $\textit{dfs}(i)$, which represents the minimum number of strings needed to concatenate starting from the $i$-th character of the string $\textit{target}$. The answer is $\textit{dfs}(0)$.
 
-函数 $\textit{dfs}(i)$ 的计算方式如下：
+The function $\textit{dfs}(i)$ is calculated as follows:
 
--   如果 $i \geq n$，表示字符串 $\textit{target}$ 已经遍历完了，返回 $0$；
--   否则，我们可以从字典树中找到以 $\textit{target}[i]$ 开头的有效字符串，然后递归计算 $\textit{dfs}(i + \text{len}(w))$，其中 $w$ 是找到的有效字符串。我们取这些值中的最小值加 $1$ 作为 $\textit{dfs}(i)$ 的返回值。
+-   If $i \geq n$, it means the string $\textit{target}$ has been completely traversed, so we return $0$;
+-   Otherwise, we can find valid strings in the trie that start with $\textit{target}[i]$, and then recursively calculate $\textit{dfs}(i + \text{len}(w))$, where $w$ is the valid string found. We take the minimum of these values and add $1$ as the return value of $\textit{dfs}(i)$.
 
-为了避免重复计算，我们使用记忆化搜索。
+To avoid redundant calculations, we use memoization.
 
-时间复杂度 $O(n^2 + L)$，空间复杂度 $O(n + L)$。其中 $n$ 是字符串 $\textit{target}$ 的长度，而 $L$ 是所有有效字符串的总长度。
+The time complexity is $O(n^2 + L)$, and the space complexity is $O(n + L)$. Here, $n$ is the length of the string $\textit{target}$, and $L$ is the total length of all valid strings.
 
 <!-- tabs:start -->
 

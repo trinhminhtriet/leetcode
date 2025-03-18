@@ -1,59 +1,56 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2008.Maximum%20Earnings%20From%20Taxi/README.md
+difficulty: Medium
 rating: 1871
-source: 第 61 场双周赛 Q3
+source: Biweekly Contest 61 Q3
 tags:
-    - 数组
-    - 哈希表
-    - 二分查找
-    - 动态规划
-    - 排序
+    - Array
+    - Hash Table
+    - Binary Search
+    - Dynamic Programming
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2008. 出租车的最大盈利](https://leetcode.cn/problems/maximum-earnings-from-taxi)
+# [2008. Maximum Earnings From Taxi](https://leetcode.com/problems/maximum-earnings-from-taxi)
 
-[English Version](/solution/2000-2099/2008.Maximum%20Earnings%20From%20Taxi/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你驾驶出租车行驶在一条有 <code>n</code>&nbsp;个地点的路上。这 <code>n</code>&nbsp;个地点从近到远编号为&nbsp;<code>1</code>&nbsp;到&nbsp;<code>n</code>&nbsp;，你想要从 <code>1</code>&nbsp;开到 <code>n</code>&nbsp;，通过接乘客订单盈利。你只能沿着编号递增的方向前进，不能改变方向。</p>
+<p>There are <code>n</code> points on a road you are driving your taxi on. The <code>n</code> points on the road are labeled from <code>1</code> to <code>n</code> in the direction you are going, and you want to drive from point <code>1</code> to point <code>n</code> to make money by picking up passengers. You cannot change the direction of the taxi.</p>
 
-<p>乘客信息用一个下标从 <strong>0</strong>&nbsp;开始的二维数组&nbsp;<code>rides</code>&nbsp;表示，其中&nbsp;<code>rides[i] = [start<sub>i</sub>, end<sub>i</sub>, tip<sub>i</sub>]</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;位乘客需要从地点&nbsp;<code>start<sub>i</sub></code>&nbsp;前往&nbsp;<code>end<sub>i</sub></code>&nbsp;，愿意支付&nbsp;<code>tip<sub>i</sub></code>&nbsp;元的小费。</p>
+<p>The passengers are represented by a <strong>0-indexed</strong> 2D integer array <code>rides</code>, where <code>rides[i] = [start<sub>i</sub>, end<sub>i</sub>, tip<sub>i</sub>]</code> denotes the <code>i<sup>th</sup></code> passenger requesting a ride from point <code>start<sub>i</sub></code> to point <code>end<sub>i</sub></code> who is willing to give a <code>tip<sub>i</sub></code> dollar tip.</p>
 
-<p><strong>每一位</strong> 你选择接单的乘客&nbsp;<code>i</code>&nbsp;，你可以 <strong>盈利</strong>&nbsp;<code>end<sub>i</sub> - start<sub>i</sub> + tip<sub>i</sub></code>&nbsp;元。你同时&nbsp;<strong>最多</strong>&nbsp;只能接一个订单。</p>
+<p>For<strong> each </strong>passenger <code>i</code> you pick up, you <strong>earn</strong> <code>end<sub>i</sub> - start<sub>i</sub> + tip<sub>i</sub></code> dollars. You may only drive <b>at most one </b>passenger at a time.</p>
 
-<p>给你 <code>n</code>&nbsp;和 <code>rides</code>&nbsp;，请你返回在最优接单方案下，你能盈利&nbsp;<strong>最多</strong>&nbsp;多少元。</p>
+<p>Given <code>n</code> and <code>rides</code>, return <em>the <strong>maximum</strong> number of dollars you can earn by picking up the passengers optimally.</em></p>
 
-<p><strong>注意：</strong>你可以在一个地点放下一位乘客，并在同一个地点接上另一位乘客。</p>
+<p><strong>Note:</strong> You may drop off a passenger and pick up a different passenger at the same point.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>n = 5, rides = [<em><strong>[2,5,4]</strong></em>,[1,5,1]]
-<b>输出：</b>7
-<b>解释：</b>我们可以接乘客 0 的订单，获得 5 - 2 + 4 = 7 元。
+<pre>
+<strong>Input:</strong> n = 5, rides = [<u>[2,5,4]</u>,[1,5,1]]
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> We can pick up passenger 0 to earn 5 - 2 + 4 = 7 dollars.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>n = 20, rides = [[1,6,1],<strong><em>[3,10,2]</em></strong>,<em><strong>[10,12,3]</strong></em>,[11,12,2],[12,15,2],<strong><em>[13,18,1]</em></strong>]
-<b>输出：</b>20
-<b>解释：</b>我们可以接以下乘客的订单：
-- 将乘客 1 从地点 3 送往地点 10 ，获得 10 - 3 + 2 = 9 元。
-- 将乘客 2 从地点 10 送往地点 12 ，获得 12 - 10 + 3 = 5 元。
-- 将乘客 5 从地点 13 送往地点 18 ，获得 18 - 13 + 1 = 6 元。
-我们总共获得 9 + 5 + 6 = 20 元。</pre>
+<pre>
+<strong>Input:</strong> n = 20, rides = [[1,6,1],<u>[3,10,2]</u>,<u>[10,12,3]</u>,[11,12,2],[12,15,2],<u>[13,18,1]</u>]
+<strong>Output:</strong> 20
+<strong>Explanation:</strong> We will pick up the following passengers:
+- Drive passenger 1 from point 3 to point 10 for a profit of 10 - 3 + 2 = 9 dollars.
+- Drive passenger 2 from point 10 to point 12 for a profit of 12 - 10 + 3 = 5 dollars.
+- Drive passenger 5 from point 13 to point 18 for a profit of 18 - 13 + 1 = 6 dollars.
+We earn 9 + 5 + 6 = 20 dollars in total.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
@@ -65,27 +62,27 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索 + 二分查找
+### Solution 1: Memoization Search + Binary Search
 
-我们先将 $rides$ 按照$start$ 从小到大排序，然后设计一个函数 $dfs(i)$，表示从第 $i$ 个乘客开始接单，最多能获得的小费。答案即为 $dfs(0)$。
+First, we sort $rides$ in ascending order by $start$. Then we design a function $dfs(i)$, which represents the maximum tip that can be obtained from accepting orders starting from the $i$-th passenger. The answer is $dfs(0)$.
 
-函数 $dfs(i)$ 的计算过程如下：
+The calculation process of the function $dfs(i)$ is as follows:
 
-对于第 $i$ 个乘客，我们可以选择接单，也可以选择不接单。如果不接单，那么最多能获得的小费为 $dfs(i + 1)$；如果接单，那么我们可以通过二分查找，找到在第 $i$ 个乘客下车地点之后遇到的第一个乘客，记为 $j$，那么最多能获得的小费为 $dfs(j) + end_i - start_i + tip_i$。取两者的较大值即可。即：
+For the $i$-th passenger, we can choose to accept or not to accept the order. If we don't accept the order, the maximum tip that can be obtained is $dfs(i + 1)$. If we accept the order, we can use binary search to find the first passenger encountered after the drop-off point of the $i$-th passenger, denoted as $j$. The maximum tip that can be obtained is $dfs(j) + end_i - start_i + tip_i$. Take the larger of the two. That is:
 
 $$
 dfs(i) = \max(dfs(i + 1), dfs(j) + end_i - start_i + tip_i)
 $$
 
-其中 $j$ 是满足 $start_j \ge end_i$ 的最小的下标，可以通过二分查找得到。
+Where $j$ is the smallest index that satisfies $start_j \ge end_i$, which can be obtained by binary search.
 
-此过程中，我们可以使用记忆化搜索，将每个状态的答案保存下来，避免重复计算。
+In this process, we can use memoization search to save the answer of each state to avoid repeated calculations.
 
-时间复杂度 $O(m \times \log m)$，空间复杂度 $O(m)$。其中 $m$ 为$rides$ 的长度。
+The time complexity is $O(m \times \log m)$, and the space complexity is $O(m)$. Here, $m$ is the length of $rides$.
 
 <!-- tabs:start -->
 
@@ -240,26 +237,26 @@ function maxTaxiEarnings(n: number, rides: number[][]): number {
 
 <!-- solution:start -->
 
-### 方法二：动态规划 + 二分查找
+### Solution 2: Dynamic Programming + Binary Search
 
-我们可以将方法一中的记忆化搜索改为动态规划。
+We can change the memoization search in Solution 1 to dynamic programming.
 
-先将 $rides$ 排序，这次我们按照 $end$ 从小到大排序。然后定义 $f[i]$，表示前 $i$ 个乘客中，最多能获得的小费。初始时 $f[0] = 0$，答案为 $f[m]$。
+First, sort $rides$, this time we sort by $end$ in ascending order. Then define $f[i]$, which represents the maximum tip that can be obtained from the first $i$ passengers. Initially, $f[0] = 0$, and the answer is $f[m]$.
 
-对于第 $i$ 个乘客，我们可以选择接单，也可以选择不接单。如果不接单，那么最多能获得的小费为 $f[i-1]$；如果接单，我们可以通过二分查找，找到在第 $i$ 个乘客上车地点之前，最后一个下车地点不大于 $start_i$ 的乘客，记为 $j$，那么最多能获得的小费为 $f[j] + end_i - start_i + tip_i$。取两者的较大值即可。即：
+For the $i$-th passenger, we can choose to accept or not to accept the order. If we don't accept the order, the maximum tip that can be obtained is $f[i-1]$. If we accept the order, we can use binary search to find the last passenger whose drop-off point is not greater than $start_i$ before the $i$-th passenger gets on the car, denoted as $j$. The maximum tip that can be obtained is $f[j] + end_i - start_i + tip_i$. Take the larger of the two. That is:
 
 $$
 f[i] = \max(f[i - 1], f[j] + end_i - start_i + tip_i)
 $$
 
-其中 $j$ 是满足 $end_j \le start_i$ 的最大的下标，可以通过二分查找得到。
+Where $j$ is the largest index that satisfies $end_j \le start_i$, which can be obtained by binary search.
 
-时间复杂度 $O(m \times \log m)$，空间复杂度 $O(m)$。其中 $m$ 为$rides$ 的长度。
+The time complexity is $O(m \times \log m)$, and the space complexity is $O(m)$. Here, $m$ is the length of $rides$.
 
-相似题目：
+Similar problems:
 
--   [1235. 规划兼职工作](https://github.com/doocs/leetcode/blob/main/solution/1200-1299/1235.Maximum%20Profit%20in%20Job%20Scheduling/README.md)
--   [1751. 最多可以参加的会议数目 II](https://github.com/doocs/leetcode/blob/main/solution/1700-1799/1751.Maximum%20Number%20of%20Events%20That%20Can%20Be%20Attended%20II/README.md)
+-   [1235. Maximum Profit in Job Scheduling](https://github.com/doocs/leetcode/blob/main/solution/1200-1299/1235.Maximum%20Profit%20in%20Job%20Scheduling/README_EN.md)
+-   [1751. Maximum Number of Events That Can Be Attended II](https://github.com/doocs/leetcode/blob/main/solution/1700-1799/1751.Maximum%20Number%20of%20Events%20That%20Can%20Be%20Attended%20II/README_EN.md)
 
 <!-- tabs:start -->
 

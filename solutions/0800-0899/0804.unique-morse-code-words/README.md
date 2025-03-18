@@ -1,89 +1,78 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0804.Unique%20Morse%20Code%20Words/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
+    - Array
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [804. 唯一摩尔斯密码词](https://leetcode.cn/problems/unique-morse-code-words)
+# [804. Unique Morse Code Words](https://leetcode.com/problems/unique-morse-code-words)
 
-[English Version](/solution/0800-0899/0804.Unique%20Morse%20Code%20Words/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>国际摩尔斯密码定义一种标准编码方式，将每个字母对应于一个由一系列点和短线组成的字符串，&nbsp;比如:</p>
+<p>International Morse Code defines a standard encoding where each letter is mapped to a series of dots and dashes, as follows:</p>
 
 <ul>
-	<li><code>'a'</code> 对应 <code>".-"</code> ，</li>
-	<li><code>'b'</code> 对应 <code>"-..."</code> ，</li>
-	<li><code>'c'</code> 对应 <code>"-.-."</code> ，以此类推。</li>
+	<li><code>&#39;a&#39;</code> maps to <code>&quot;.-&quot;</code>,</li>
+	<li><code>&#39;b&#39;</code> maps to <code>&quot;-...&quot;</code>,</li>
+	<li><code>&#39;c&#39;</code> maps to <code>&quot;-.-.&quot;</code>, and so on.</li>
 </ul>
 
-<p>为了方便，所有 <code>26</code> 个英文字母的摩尔斯密码表如下：</p>
+<p>For convenience, the full table for the <code>26</code> letters of the English alphabet is given below:</p>
 
 <pre>
-[".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."]</pre>
+[&quot;.-&quot;,&quot;-...&quot;,&quot;-.-.&quot;,&quot;-..&quot;,&quot;.&quot;,&quot;..-.&quot;,&quot;--.&quot;,&quot;....&quot;,&quot;..&quot;,&quot;.---&quot;,&quot;-.-&quot;,&quot;.-..&quot;,&quot;--&quot;,&quot;-.&quot;,&quot;---&quot;,&quot;.--.&quot;,&quot;--.-&quot;,&quot;.-.&quot;,&quot;...&quot;,&quot;-&quot;,&quot;..-&quot;,&quot;...-&quot;,&quot;.--&quot;,&quot;-..-&quot;,&quot;-.--&quot;,&quot;--..&quot;]</pre>
 
-<p>给你一个字符串数组 <code>words</code> ，每个单词可以写成每个字母对应摩尔斯密码的组合。</p>
+<p>Given an array of strings <code>words</code> where each word can be written as a concatenation of the Morse code of each letter.</p>
 
 <ul>
-	<li>例如，<code>"cab"</code> 可以写成 <code>"-.-..--..."</code> ，(即 <code>"-.-."</code> + <code>".-"</code> + <code>"-..."</code> 字符串的结合)。我们将这样一个连接过程称作 <strong>单词翻译</strong> 。</li>
+	<li>For example, <code>&quot;cab&quot;</code> can be written as <code>&quot;-.-..--...&quot;</code>, which is the concatenation of <code>&quot;-.-.&quot;</code>, <code>&quot;.-&quot;</code>, and <code>&quot;-...&quot;</code>. We will call such a concatenation the <strong>transformation</strong> of a word.</li>
 </ul>
 
-<p>对<strong> </strong><code>words</code> 中所有单词进行单词翻译，返回不同 <strong>单词翻译</strong> 的数量。</p>
+<p>Return <em>the number of different <strong>transformations</strong> among all words we have</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> words = ["gin", "zen", "gig", "msg"]
-<strong>输出:</strong> 2
-<strong>解释: </strong>
-各单词翻译如下:
-"gin" -&gt; "--...-."
-"zen" -&gt; "--...-."
-"gig" -&gt; "--...--."
-"msg" -&gt; "--...--."
-
-共有 2 种不同翻译, "--...-." 和 "--...--.".
+<strong>Input:</strong> words = [&quot;gin&quot;,&quot;zen&quot;,&quot;gig&quot;,&quot;msg&quot;]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> The transformation of each word is:
+&quot;gin&quot; -&gt; &quot;--...-.&quot;
+&quot;zen&quot; -&gt; &quot;--...-.&quot;
+&quot;gig&quot; -&gt; &quot;--...--.&quot;
+&quot;msg&quot; -&gt; &quot;--...--.&quot;
+There are 2 different transformations: &quot;--...-.&quot; and &quot;--...--.&quot;.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>words = ["a"]
-<strong>输出：</strong>1
+<strong>Input:</strong> words = [&quot;a&quot;]
+<strong>Output:</strong> 1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 100</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 12</code></li>
-	<li><code>words[i]</code> 由小写英文字母组成</li>
+	<li><code>words[i]</code> consists of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表
-
-将 words 所有单词翻译成对应的摩尔斯密码，加入到哈希表中，最后返回哈希表的 size。
-
-时间复杂度 $O(n)$。
+### Solution 1
 
 <!-- tabs:start -->
 

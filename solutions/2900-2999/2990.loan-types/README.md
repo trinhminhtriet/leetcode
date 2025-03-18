@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2990.Loan%20Types/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2990. 贷款类型 🔒](https://leetcode.cn/problems/loan-types)
+# [2990. Loan Types 🔒](https://leetcode.com/problems/loan-types)
 
-[English Version](/solution/2900-2999/2990.Loan%20Types/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：&nbsp;<code>Loans</code></p>
+<p>Table: <code>Loans</code></p>
 
 <pre>
 +-------------+---------+
@@ -26,22 +23,21 @@ tags:
 | user_id     | int     |
 | loan_type   | varchar |
 +-------------+---------+
-loan_id 是这张表具有唯一值的列。
-该表包含 loan_id, user_id,和 loan_type。
+loan_id is column of unique values for this table.
+This table contains loan_id, user_id, and loan_type.
 </pre>
 
-<p>编写一个解决方案，找出所有具有同时具有&nbsp;<strong>Refinance</strong> 贷款类型和&nbsp;<strong>Mortgage</strong>&nbsp;贷款类型的&nbsp;<code>user_id</code>（需去重）。</p>
+<p>Write a solution to find all <strong>distinct</strong> <code>user_id</code>&#39;s that have <strong>at least one</strong> <strong>Refinance</strong> loan type and at least one <strong>Mortgage</strong> loan type.</p>
 
-<p>按 <em><strong>升序</strong> 返回结果表中的 </em><code>user_id</code>。</p>
+<p>Return <em>the result table ordered by </em><code>user_id</code><em> in <strong>ascending</strong> order</em><em>.</em></p>
 
-<p>返回结果表格式如下例所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><b>示例 1:</b></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>
+<strong>Input:</strong>
 Loans table:
 +---------+---------+-----------+
 | loan_id | user_id | loan_type |
@@ -55,29 +51,29 @@ Loans table:
 | 308     | 103     | Refinance |
 | 389     | 104     | Mortgage  |
 +---------+---------+-----------+
-<b>输出</b>
+<strong>Output</strong>
 +---------+
 | user_id | 
 +---------+
 | 102     | 
 +---------+
-<b>解释</b>
-- User_id 101 有三种贷款类型，其中之一是 Mortgage。但是，此用户没有任何类别为 Refinance 的贷款类型，因此用户 101 不会被考虑。
-- User_id 102 拥有三种贷款类型：一种是 Mortgage，一种是 Refinance。因此，用户 102 将包括在结果中。
-- User_id 103 有一种 Refinance 贷款类型，但没有 Mortgage 贷款类型，因此用户 103 不会被考虑。
-- User_id 104 有一种 Mortgage 贷款类型，但没有 Refinance 贷款类型，因此用户 104 不会被考虑。
-输出表以升序按 user_id 排序。
+<strong>Explanation</strong>
+- User_id 101 has three loan types, one of which is a Mortgage. However, this user does not have any loan type categorized as Refinance, so user_id 101 won&#39;t be considered.
+- User_id 102 possesses three loan types: one for Mortgage and one for Refinance. Hence, user_id 102 will be included in the result.
+- User_id 103 has a loan type of Refinance but lacks a Mortgage loan type, so user_id 103 won&#39;t be considered.
+- User_id 104 has a Mortgage loan type but doesn&#39;t have a Refinance loan type, thus, user_id 104 won&#39;t be considered.
+Output table is ordered by user_id in ascending order.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分组求和
+### Solution 1: Grouping and Summation
 
-我们可以对 `Loans` 表按照 `user_id` 进行分组，找出既包含 `Refinance` 又包含 `Mortgage` 的用户，然后按照 `user_id` 进行排序。
+We can group the `Loans` table by `user_id` to find users who have both `Refinance` and `Mortgage`. Then, sort the results by `user_id`.
 
 <!-- tabs:start -->
 

@@ -1,63 +1,60 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2551.Put%20Marbles%20in%20Bags/README.md
+difficulty: Hard
 rating: 2042
-source: 第 330 场周赛 Q3
+source: Weekly Contest 330 Q3
 tags:
-    - 贪心
-    - 数组
-    - 排序
-    - 堆（优先队列）
+    - Greedy
+    - Array
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2551. 将珠子放入背包中](https://leetcode.cn/problems/put-marbles-in-bags)
+# [2551. Put Marbles in Bags](https://leetcode.com/problems/put-marbles-in-bags)
 
-[English Version](/solution/2500-2599/2551.Put%20Marbles%20in%20Bags/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>你有&nbsp;<code>k</code>&nbsp;个背包。给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>weights</code>&nbsp;，其中&nbsp;<code>weights[i]</code>&nbsp;是第&nbsp;<code>i</code>&nbsp;个珠子的重量。同时给你整数 <code>k</code>&nbsp;。</p>
+<p>You have <code>k</code> bags. You are given a <strong>0-indexed</strong> integer array <code>weights</code> where <code>weights[i]</code> is the weight of the <code>i<sup>th</sup></code> marble. You are also given the integer <code>k.</code></p>
 
-<p>请你按照如下规则将所有的珠子放进&nbsp;<code>k</code>&nbsp;个背包。</p>
+<p>Divide the marbles into the <code>k</code> bags according to the following rules:</p>
 
 <ul>
-	<li>没有背包是空的。</li>
-	<li>如果第&nbsp;<code>i</code>&nbsp;个珠子和第&nbsp;<code>j</code>&nbsp;个珠子在同一个背包里，那么下标在&nbsp;<code>i</code>&nbsp;到&nbsp;<code>j</code>&nbsp;之间的所有珠子都必须在这同一个背包中。</li>
-	<li>如果一个背包有下标从&nbsp;<code>i</code>&nbsp;到&nbsp;<code>j</code>&nbsp;的所有珠子，那么这个背包的价格是&nbsp;<code>weights[i] + weights[j]</code>&nbsp;。</li>
+	<li>No bag is empty.</li>
+	<li>If the <code>i<sup>th</sup></code> marble and <code>j<sup>th</sup></code> marble are in a bag, then all marbles with an index between the <code>i<sup>th</sup></code> and <code>j<sup>th</sup></code> indices should also be in that same bag.</li>
+	<li>If a bag consists of all the marbles with an index from <code>i</code> to <code>j</code> inclusively, then the cost of the bag is <code>weights[i] + weights[j]</code>.</li>
 </ul>
 
-<p>一个珠子分配方案的 <strong>分数</strong>&nbsp;是所有 <code>k</code>&nbsp;个背包的价格之和。</p>
+<p>The <strong>score</strong> after distributing the marbles is the sum of the costs of all the <code>k</code> bags.</p>
 
-<p>请你返回所有分配方案中，<strong>最大分数</strong>&nbsp;与 <strong>最小分数</strong>&nbsp;的 <strong>差值</strong>&nbsp;为多少。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>weights = [1,3,5,1], k = 2
-<b>输出：</b>4
-<b>解释：</b>
-分配方案 [1],[3,5,1] 得到最小得分 (1+1) + (3+1) = 6 。
-分配方案 [1,3],[5,1] 得到最大得分 (1+3) + (5+1) = 10 。
-所以差值为 10 - 6 = 4 。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><b>输入：</b>weights = [1, 3], k = 2
-<b>输出：</b>0
-<b>解释：</b>唯一的分配方案为 [1],[3] 。
-最大最小得分相等，所以返回 0 。
-</pre>
+<p>Return <em>the <strong>difference</strong> between the <strong>maximum</strong> and <strong>minimum</strong> scores among marble distributions</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> weights = [1,3,5,1], k = 2
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> 
+The distribution [1],[3,5,1] results in the minimal score of (1+1) + (3+1) = 6. 
+The distribution [1,3],[5,1], results in the maximal score of (1+3) + (5+1) = 10. 
+Thus, we return their difference 10 - 6 = 4.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> weights = [1, 3], k = 2
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The only distribution possible is [1],[3]. 
+Since both the maximal and minimal score are the same, we return 0.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= weights.length &lt;= 10<sup>5</sup></code></li>
@@ -66,17 +63,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：问题转化 + 排序
+### Solution 1: Problem Transformation + Sorting
 
-我们可以将问题转化为：将数组 `weights` 分成 $k$ 个连续的子数组，也就是说，我们要找到 $k-1$ 个分割点，每个分割点的价格是分割点左右两个元素的和，求最大的 $k-1$ 个分割点的价格之和与最小的 $k-1$ 个分割点的价格之和的差值，即为答案。
+We can transform the problem into: dividing the array `weights` into $k$ consecutive subarrays, that is, we need to find $k-1$ splitting points, each splitting point's cost is the sum of the elements on the left and right of the splitting point. The difference between the sum of the costs of the largest $k-1$ splitting points and the smallest $k-1$ splitting points is the answer.
 
-因此，我们可以处理数组 `weights`，将其转化为一个长度为 $n-1$ 的数组 `arr`，其中 `arr[i] = weights[i] + weights[i+1]`，然后对数组 `arr` 进行排序，最后求出最大的 $k-1$ 个分割点的价格之和与最小的 $k-1$ 个分割点的价格之和的差值即可。
+Therefore, we can process the array `weights` and transform it into an array `arr` of length $n-1$, where `arr[i] = weights[i] + weights[i+1]`. Then we sort the array `arr`, and finally calculate the difference between the sum of the costs of the largest $k-1$ splitting points and the smallest $k-1$ splitting points.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `weights` 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Where $n$ is the length of the array `weights`.
 
 <!-- tabs:start -->
 

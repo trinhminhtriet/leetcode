@@ -1,107 +1,104 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2746.Decremental%20String%20Concatenation/README.md
+difficulty: Medium
 rating: 2126
-source: 第 107 场双周赛 Q3
+source: Biweekly Contest 107 Q3
 tags:
-    - 数组
-    - 字符串
-    - 动态规划
+    - Array
+    - String
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [2746. 字符串连接删减字母](https://leetcode.cn/problems/decremental-string-concatenation)
+# [2746. Decremental String Concatenation](https://leetcode.com/problems/decremental-string-concatenation)
 
-[English Version](/solution/2700-2799/2746.Decremental%20String%20Concatenation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的数组&nbsp;<code>words</code>&nbsp;，它包含 <code>n</code>&nbsp;个字符串。</p>
+<p>You are given a <strong>0-indexed</strong> array <code>words</code> containing <code>n</code> strings.</p>
 
-<p>定义 <strong>连接</strong>&nbsp;操作&nbsp;<code>join(x, y)</code>&nbsp;表示将字符串&nbsp;<code>x</code> 和&nbsp;<code>y</code>&nbsp;连在一起，得到&nbsp;<code>xy</code>&nbsp;。如果&nbsp;<code>x</code>&nbsp;的最后一个字符与&nbsp;<code>y</code>&nbsp;的第一个字符相等，连接后两个字符中的一个会被&nbsp;<strong>删除</strong>&nbsp;。</p>
+<p>Let&#39;s define a <strong>join</strong> operation <code>join(x, y)</code> between two strings <code>x</code> and <code>y</code> as concatenating them into <code>xy</code>. However, if the last character of <code>x</code> is equal to the first character of <code>y</code>, one of them is <strong>deleted</strong>.</p>
 
-<p>比方说&nbsp;<code>join("ab", "ba") = "aba"</code>&nbsp;，&nbsp;<code>join("ab", "cde") = "abcde"</code>&nbsp;。</p>
+<p>For example <code>join(&quot;ab&quot;, &quot;ba&quot;) = &quot;aba&quot;</code> and <code>join(&quot;ab&quot;, &quot;cde&quot;) = &quot;abcde&quot;</code>.</p>
 
-<p>你需要执行&nbsp;<code>n - 1</code>&nbsp;次&nbsp;<strong>连接</strong>&nbsp;操作。令&nbsp;<code>str<sub>0</sub> = words[0]</code>&nbsp;，从&nbsp;<code>i = 1</code> 直到&nbsp;<code>i = n - 1</code>&nbsp;，对于第&nbsp;<code>i</code>&nbsp;个操作，你可以执行以下操作之一：</p>
+<p>You are to perform <code>n - 1</code> <strong>join</strong> operations. Let <code>str<sub>0</sub> = words[0]</code>. Starting from <code>i = 1</code> up to <code>i = n - 1</code>, for the <code>i<sup>th</sup></code> operation, you can do one of the following:</p>
 
 <ul>
-	<li>令&nbsp;<code>str<sub>i</sub> = join(str<sub>i - 1</sub>, words[i])</code></li>
-	<li>令&nbsp;<code>str<sub>i</sub> = join(words[i], str<sub>i - 1</sub>)</code></li>
+	<li>Make <code>str<sub>i</sub> = join(str<sub>i - 1</sub>, words[i])</code></li>
+	<li>Make <code>str<sub>i</sub> = join(words[i], str<sub>i - 1</sub>)</code></li>
 </ul>
 
-<p>你的任务是使&nbsp;<code>str<sub>n - 1</sub></code>&nbsp;的长度<strong>&nbsp;最小&nbsp;</strong>。</p>
+<p>Your task is to <strong>minimize</strong> the length of <code>str<sub>n - 1</sub></code>.</p>
 
-<p>请你返回一个整数，表示&nbsp;<code>str<sub>n - 1</sub></code>&nbsp;的最小长度。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>words = ["aa","ab","bc"]
-<b>输出：</b>4
-<strong>解释：</strong>这个例子中，我们按以下顺序执行连接操作，得到 <code>str<sub>2</sub></code> 的最小长度：
-<code>str<sub>0</sub> = "aa"</code>
-<code>str<sub>1</sub> = join(str<sub>0</sub>, "ab") = "aab"
-</code><code>str<sub>2</sub> = join(str<sub>1</sub>, "bc") = "aabc"</code> 
-<code>str<sub>2</sub></code> 的最小长度为 4 。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>words = ["ab","b"]
-<b>输出：</b>2
-<b>解释：</b>这个例子中，str<sub>0</sub> = "ab"，可以得到两个不同的 str<sub>1</sub>：
-join(str<sub>0</sub>, "b") = "ab" 或者 join("b", str<sub>0</sub>) = "bab" 。
-第一个字符串 "ab" 的长度最短，所以答案为 2 。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>words = ["aaa","c","aba"]
-<b>输出：</b>6
-<b>解释：</b>这个例子中，我们按以下顺序执行连接操作，得到 <code>str<sub>2</sub>&nbsp;的最小长度：</code>
-<code>str<sub>0</sub> = "</code>aaa"
-<code>str<sub>1</sub> = join(str<sub>0</sub>, "c") = "aaac"</code>
-<code>str<sub>2</sub> = join("aba", str<sub>1</sub>) = "abaaac"</code>
-<code>str<sub>2</sub></code> 的最小长度为 6 。
-</pre>
+<p>Return <em>an integer denoting the minimum possible length of</em> <code>str<sub>n - 1</sub></code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> words = [&quot;aa&quot;,&quot;ab&quot;,&quot;bc&quot;]
+<strong>Output:</strong> 4
+<strong>Explanation: </strong>In this example, we can perform join operations in the following order to minimize the length of str<sub>2</sub>: 
+str<sub>0</sub> = &quot;aa&quot;
+str<sub>1</sub> = join(str<sub>0</sub>, &quot;ab&quot;) = &quot;aab&quot;
+str<sub>2</sub> = join(str<sub>1</sub>, &quot;bc&quot;) = &quot;aabc&quot; 
+It can be shown that the minimum possible length of str<sub>2</sub> is 4.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> words = [&quot;ab&quot;,&quot;b&quot;]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> In this example, str<sub>0</sub> = &quot;ab&quot;, there are two ways to get str<sub>1</sub>: 
+join(str<sub>0</sub>, &quot;b&quot;) = &quot;ab&quot; or join(&quot;b&quot;, str<sub>0</sub>) = &quot;bab&quot;. 
+The first string, &quot;ab&quot;, has the minimum length. Hence, the answer is 2.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> words = [&quot;aaa&quot;,&quot;c&quot;,&quot;aba&quot;]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> In this example, we can perform join operations in the following order to minimize the length of str<sub>2</sub>: 
+str<sub>0</sub> = &quot;aaa&quot;
+str<sub>1</sub> = join(str<sub>0</sub>, &quot;c&quot;) = &quot;aaac&quot;
+str<sub>2</sub> = join(&quot;aba&quot;, str<sub>1</sub>) = &quot;abaaac&quot;
+It can be shown that the minimum possible length of str<sub>2</sub> is 6.
+</pre>
+
+<div class="notranslate" style="all: initial;">&nbsp;</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 50</code></li>
-	<li><code>words[i]</code>&nbsp;中只包含小写英文字母。</li>
+	<li>Each character in <code>words[i]</code> is an English lowercase letter</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索
+### Solution 1: Memoization Search
 
-我们注意到，字符串连接时，字符串的第一个字符和最后一个字符会影响到连接后字符串的长度。因此，我们设计一个函数 $dfs(i, a, b)$，表示从第 $i$ 个字符串开始连接，且此前已经连接的字符串的第一个字符为 $a$，最后一个字符为 $b$ 时，连接后字符串的最小长度。
+We notice that when concatenating strings, the first and last characters of the string will affect the length of the concatenated string. Therefore, we design a function $dfs(i, a, b)$, which represents the minimum length of the concatenated string starting from the $i$-th string, and the first character of the previously concatenated string is $a$, and the last character is $b$.
 
-函数 $dfs(i, a, b)$ 的执行过程如下：
+The execution process of the function $dfs(i, a, b)$ is as follows:
 
--   如果 $i = n$，说明所有字符串已经连接完毕，返回 $0$；
--   否则，我们考虑将第 $i$ 个字符串连接到已经连接的字符串的末尾或者开头，得到连接后字符串的长度 $x$ 和 $y$，则 $dfs(i, a, b) = \min(x, y) + |words[i]|$。
+-   If $i = n$, it means that all strings have been concatenated, return $0$;
+-   Otherwise, we consider concatenating the $i$-th string to the end or the beginning of the already concatenated string, and get the lengths $x$ and $y$ of the concatenated string, then $dfs(i, a, b) = \min(x, y) + |words[i]|$.
 
-为了避免重复计算，我们使用记忆化搜索的方法。具体地，我们使用一个三维数组 $f$ 存储所有的 $dfs(i, a, b)$ 的返回值。当我们需要计算 $dfs(i, a, b)$ 时，如果 $f[i][a][b]$ 已经被计算过，我们直接返回 $f[i][a][b]$；否则我们按照上述的递推关系计算 $dfs(i, a, b)$ 的值，并将其存入 $f[i][a][b]$ 中。
+To avoid repeated calculations, we use the method of memoization search. Specifically, we use a three-dimensional array $f$ to store all the return values of $dfs(i, a, b)$. When we need to calculate $dfs(i, a, b)$, if $f[i][a][b]$ has been calculated, we directly return $f[i][a][b]$; otherwise, we calculate the value of $dfs(i, a, b)$ according to the above recurrence relation, and store it in $f[i][a][b]$.
 
-在主函数中，我们直接返回 $|words[0]| + dfs(1, words[0][0], words[0][|words[0]| - 1])$。
+In the main function, we directly return $|words[0]| + dfs(1, words[0][0], words[0][|words[0]| - 1])$.
 
-时间复杂度 $O(n \times C^2)$，空间复杂度 $O(n \times C^2)$，其中 $C$ 表示字符串的最大长度。
+The time complexity is $O(n \times C^2)$, and the space complexity is $O(n \times C^2)$. Where $C$ represents the maximum length of the string.
 
 <!-- tabs:start -->
 

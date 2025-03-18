@@ -1,69 +1,64 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3299.Sum%20of%20Consecutive%20Subsequences/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 哈希表
-    - 动态规划
+    - Array
+    - Hash Table
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [3299. 连续子序列的和 🔒](https://leetcode.cn/problems/sum-of-consecutive-subsequences)
+# [3299. Sum of Consecutive Subsequences 🔒](https://leetcode.com/problems/sum-of-consecutive-subsequences)
 
-[English Version](/solution/3200-3299/3299.Sum%20of%20Consecutive%20Subsequences/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>如果一个长度为&nbsp;<code>n</code>&nbsp;的数组&nbsp;<code>arr</code>&nbsp;符合下面其中一个条件，可以称它 <strong>连续</strong>：</p>
+<p>We call an array <code>arr</code> of length <code>n</code> <strong>consecutive</strong> if one of the following holds:</p>
 
 <ul>
-	<li>对于所有的&nbsp;<code>1 &lt;= i &lt; n</code>，<code>arr[i] - arr[i - 1] == 1</code>。</li>
-	<li>对于所有的&nbsp;<code>1 &lt;= i &lt; n</code>，<code>arr[i] - arr[i - 1] == -1</code>。</li>
+	<li><code>arr[i] - arr[i - 1] == 1</code> for <em>all</em> <code>1 &lt;= i &lt; n</code>.</li>
+	<li><code>arr[i] - arr[i - 1] == -1</code> for <em>all</em> <code>1 &lt;= i &lt; n</code>.</li>
 </ul>
 
-<p>数组的 <strong>值</strong> 是其元素的和。</p>
+<p>The <strong>value</strong> of an array is the sum of its elements.</p>
 
-<p>例如，<code>[3, 4, 5]</code>&nbsp;是一个值为 12 的连续数组，并且&nbsp;<code>[9, 8]</code>&nbsp;是另一个值为 17 的连续数组。而&nbsp;<code>[3, 4, 3]</code> 和&nbsp;<code>[8, 6]</code>&nbsp;都不连续。</p>
+<p>For example, <code>[3, 4, 5]</code> is a consecutive array of value 12 and <code>[9, 8]</code> is another of value 17. While <code>[3, 4, 3]</code> and <code>[8, 6]</code> are not consecutive.</p>
 
-<p>给定一个整数数组&nbsp;<code>nums</code>，返回所有 <strong>连续</strong>&nbsp;非空&nbsp;<span data-keyword="subsequence-array">子序列</span>&nbsp;的 <strong>值</strong>&nbsp;之和。</p>
+<p>Given an array of integers <code>nums</code>, return the <em>sum</em> of the <strong>values</strong> of all <strong>consecutive </strong><em>non-empty</em> <span data-keyword="subsequence-array">subsequences</span>.</p>
 
-<p>由于答案可能很大，返回它对&nbsp;<code>10<sup>9 </sup>+ 7</code>&nbsp;<strong>取模</strong>&nbsp;的值。</p>
+<p>Since the answer may be very large, return it <strong>modulo</strong> <code>10<sup>9 </sup>+ 7.</code></p>
 
-<p><strong>注意</strong>&nbsp;长度为 1 的数组也被认为是连续的。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><strong>输入：</strong><span class="example-io">nums = [1,2]</span></p>
-
-<p><strong>输出：</strong><span class="example-io">6</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>连续子序列为&nbsp;<code>[1]</code>，<code>[2]</code>，<code>[1, 2]</code>。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,4,2,3]</span></p>
-
-<p><span class="example-io"><b>输出：</b>31</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>连续子序列为：<code>[1]</code>，<code>[4]</code>，<code>[2]</code>，<code>[3]</code>，<code>[1, 2]</code>，<code>[2, 3]</code>，<code>[4, 3]</code>，<code>[1, 2, 3]</code>。</p>
-</div>
+<p><strong>Note</strong> that an array of length 1 is also considered consecutive.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">6</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The consecutive subsequences are: <code>[1]</code>, <code>[2]</code>, <code>[1, 2]</code>.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,4,2,3]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">31</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The consecutive subsequences are: <code>[1]</code>, <code>[4]</code>, <code>[2]</code>, <code>[3]</code>, <code>[1, 2]</code>, <code>[2, 3]</code>, <code>[4, 3]</code>, <code>[1, 2, 3]</code>.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -72,23 +67,23 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举贡献
+### Solution 1: Enumeration of Contributions
 
-我们不妨统计每个元素 $\textit{nums}[i]$ 在多少个长度大于 $1$ 的连续子序列中出现，那么其个数乘以 $\textit{nums}[i]$ 就是 $\textit{nums}[i]$ 在所有长度大于 $1$ 的连续子序列中的贡献。我们将其累加，再加上所有元素的和，即为答案。
+Let us count how many times each element $\textit{nums}[i]$ appears in a continuous subsequence of length greater than 1. Then, multiplying this count by $\textit{nums}[i]$ gives the contribution of $\textit{nums}[i]$ in all continuous subsequences of length greater than 1. We sum these contributions, and adding the sum of all elements, we get the answer.
 
-我们可以先统计连续递增子序列对答案的贡献，再统计连续递减子序列对答案的贡献，最后再加上所有元素的和即可。
+We can first compute the contribution of strictly increasing subsequences, then the contribution of strictly decreasing subsequences, and finally add the sum of all elements.
 
-在实现上，我们定义一个函数 $\textit{calc}(\textit{nums})$，其中 $\textit{nums}$ 是一个数组，返回 $\textit{nums}$ 所有长度大于 $1$ 的连续子序列的和。
+To implement this, we define a function $\textit{calc}(\textit{nums})$, where $\textit{nums}$ is an array. This function returns the sum of all continuous subsequences of length greater than 1 in $\textit{nums}$.
 
-在函数中，我们可以使用两个数组 $\textit{left}$ 和 $\textit{right}$ 分别记录每个元素 $\textit{nums}[i]$ 的左侧以 $\textit{nums}[i] - 1$ 结尾的连续递增子序列的个数，以及右侧以 $\textit{nums}[i] + 1$ 开头的连续递增子序列的个数。这样，我们就可以在 $O(n)$ 的时间复杂度内计算出 $\textit{nums}$ 在所有长度大于 $1$ 的连续子序列中的贡献。
+In the function, we can use two arrays, $\textit{left}$ and $\textit{right}$, to record the number of strictly increasing subsequences ending with $\textit{nums}[i] - 1$ on the left of each element $\textit{nums}[i]$, and the number of strictly increasing subsequences starting with $\textit{nums}[i] + 1$ on the right of each element $\textit{nums}[i]$. In this way, we can calculate the contribution of $\textit{nums}$ in all continuous subsequences of length greater than 1 in $O(n)$ time complexity.
 
-在主函数中，我们首先调用 $\textit{calc}(\textit{nums})$ 计算出连续递增子序列对答案的贡献，然后将 $\textit{nums}$ 反转后再次调用 $\textit{calc}(\textit{nums})$ 计算出连续递减子序列对答案的贡献，最后再加上所有元素的和即为答案。
+In the main function, we first call $\textit{calc}(\textit{nums})$ to compute the contribution of strictly increasing subsequences, then reverse $\textit{nums}$ and call $\textit{calc}(\textit{nums})$ again to compute the contribution of strictly decreasing subsequences. Finally, adding the sum of all elements gives the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

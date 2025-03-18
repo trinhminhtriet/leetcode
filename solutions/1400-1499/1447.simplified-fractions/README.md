@@ -1,56 +1,50 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1447.Simplified%20Fractions/README.md
+difficulty: Medium
 rating: 1268
-source: 第 26 场双周赛 Q2
+source: Biweekly Contest 26 Q2
 tags:
-    - 数学
-    - 字符串
-    - 数论
+    - Math
+    - String
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [1447. 最简分数](https://leetcode.cn/problems/simplified-fractions)
+# [1447. Simplified Fractions](https://leetcode.com/problems/simplified-fractions)
 
-[English Version](/solution/1400-1499/1447.Simplified%20Fractions/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数&nbsp;<code>n</code>&nbsp;，请你返回所有 0 到 1 之间（不包括 0 和 1）满足分母小于等于&nbsp;&nbsp;<code>n</code>&nbsp;的 <strong>最简&nbsp;</strong>分数&nbsp;。分数可以以 <strong>任意&nbsp;</strong>顺序返回。</p>
+<p>Given an integer <code>n</code>, return <em>a list of all <strong>simplified</strong> fractions between </em><code>0</code><em> and </em><code>1</code><em> (exclusive) such that the denominator is less-than-or-equal-to </em><code>n</code>. You can return the answer in <strong>any order</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>n = 2
-<strong>输出：</strong>[&quot;1/2&quot;]
-<strong>解释：</strong>&quot;1/2&quot; 是唯一一个分母小于等于 2 的最简分数。</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>n = 3
-<strong>输出：</strong>[&quot;1/2&quot;,&quot;1/3&quot;,&quot;2/3&quot;]
+<pre>
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> [&quot;1/2&quot;]
+<strong>Explanation:</strong> &quot;1/2&quot; is the only unique fraction with a denominator less-than-or-equal-to 2.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>n = 4
-<strong>输出：</strong>[&quot;1/2&quot;,&quot;1/3&quot;,&quot;1/4&quot;,&quot;2/3&quot;,&quot;3/4&quot;]
-<strong>解释：</strong>&quot;2/4&quot; 不是最简分数，因为它可以化简为 &quot;1/2&quot; 。</pre>
+<pre>
+<strong>Input:</strong> n = 3
+<strong>Output:</strong> [&quot;1/2&quot;,&quot;1/3&quot;,&quot;2/3&quot;]
+</pre>
 
-<p><strong>示例 4：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>n = 1
-<strong>输出：</strong>[]
+<pre>
+<strong>Input:</strong> n = 4
+<strong>Output:</strong> [&quot;1/2&quot;,&quot;1/3&quot;,&quot;1/4&quot;,&quot;2/3&quot;,&quot;3/4&quot;]
+<strong>Explanation:</strong> &quot;2/4&quot; is not a simplified fraction because it can be simplified to &quot;1/2&quot;.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 100</code></li>
@@ -58,15 +52,11 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举分子分母
-
-我们可以枚举分子 $i$ 和分母 $j$，其中 $1 \leq i < j \leq n$，并判断 $i$ 和 $j$ 的最大公约数是否为 $1$，如果是则 $i/j$ 是一个最简分数。
-
-时间复杂度 $O(n^2 \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是给定的参数。
+### Solution 1
 
 <!-- tabs:start -->
 

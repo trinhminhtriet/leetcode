@@ -1,97 +1,93 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1818.Minimum%20Absolute%20Sum%20Difference/README.md
+difficulty: Medium
 rating: 1934
-source: 第 235 场周赛 Q3
+source: Weekly Contest 235 Q3
 tags:
-    - 数组
-    - 二分查找
-    - 有序集合
-    - 排序
+    - Array
+    - Binary Search
+    - Ordered Set
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1818. 绝对差值和](https://leetcode.cn/problems/minimum-absolute-sum-difference)
+# [1818. Minimum Absolute Sum Difference](https://leetcode.com/problems/minimum-absolute-sum-difference)
 
-[English Version](/solution/1800-1899/1818.Minimum%20Absolute%20Sum%20Difference/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个正整数数组 <code>nums1</code> 和 <code>nums2</code> ，数组的长度都是 <code>n</code> 。</p>
+<p>You are given two positive integer arrays <code>nums1</code> and <code>nums2</code>, both of length <code>n</code>.</p>
 
-<p>数组 <code>nums1</code> 和 <code>nums2</code> 的 <strong>绝对差值和</strong> 定义为所有 <code>|nums1[i] - nums2[i]|</code>（<code>0 <= i < n</code>）的 <strong>总和</strong>（<strong>下标从 0 开始</strong>）。</p>
+<p>The <strong>absolute sum difference</strong> of arrays <code>nums1</code> and <code>nums2</code> is defined as the <strong>sum</strong> of <code>|nums1[i] - nums2[i]|</code> for each <code>0 &lt;= i &lt; n</code> (<strong>0-indexed</strong>).</p>
 
-<p>你可以选用 <code>nums1</code> 中的 <strong>任意一个</strong> 元素来替换 <code>nums1</code> 中的 <strong>至多</strong> 一个元素，以 <strong>最小化</strong> 绝对差值和。</p>
+<p>You can replace <strong>at most one</strong> element of <code>nums1</code> with <strong>any</strong> other element in <code>nums1</code> to <strong>minimize</strong> the absolute sum difference.</p>
 
-<p>在替换数组 <code>nums1</code> 中最多一个元素 <strong>之后</strong> ，返回最小绝对差值和。因为答案可能很大，所以需要对 <code>10<sup>9</sup> + 7</code> <strong>取余 </strong>后返回。</p>
+<p>Return the <em>minimum absolute sum difference <strong>after</strong> replacing at most one<strong> </strong>element in the array <code>nums1</code>.</em> Since the answer may be large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
-<p><code>|x|</code> 定义为：</p>
+<p><code>|x|</code> is defined as:</p>
 
 <ul>
-	<li>如果 <code>x >= 0</code> ，值为 <code>x</code> ，或者</li>
-	<li>如果 <code>x <= 0</code> ，值为 <code>-x</code></li>
+	<li><code>x</code> if <code>x &gt;= 0</code>, or</li>
+	<li><code>-x</code> if <code>x &lt; 0</code>.</li>
 </ul>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums1 = [1,7,5], nums2 = [2,3,5]
-<strong>输出：</strong>3
-<strong>解释：</strong>有两种可能的最优方案：
-- 将第二个元素替换为第一个元素：[1,<strong>7</strong>,5] => [1,<strong>1</strong>,5] ，或者
-- 将第二个元素替换为第三个元素：[1,<strong>7</strong>,5] => [1,<strong>5</strong>,5]
-两种方案的绝对差值和都是 <code>|1-2| + (|1-3| 或者 |5-3|) + |5-5| = </code>3
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums1 = [2,4,6,8,10], nums2 = [2,4,6,8,10]
-<strong>输出：</strong>0
-<strong>解释：</strong>nums1 和 nums2 相等，所以不用替换元素。绝对差值和为 0
+<strong>Input:</strong> nums1 = [1,7,5], nums2 = [2,3,5]
+<strong>Output:</strong> 3
+<strong>Explanation: </strong>There are two possible optimal solutions:
+- Replace the second element with the first: [1,<u><strong>7</strong></u>,5] =&gt; [1,<u><strong>1</strong></u>,5], or
+- Replace the second element with the third: [1,<u><strong>7</strong></u>,5] =&gt; [1,<u><strong>5</strong></u>,5].
+Both will yield an absolute sum difference of <code>|1-2| + (|1-3| or |5-3|) + |5-5| = </code>3.
 </pre>
 
-<p><strong>示例 3</strong><strong>：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums1 = [1,10,4,4,2,7], nums2 = [9,3,5,1,7,4]
-<strong>输出：</strong>20
-<strong>解释：</strong>将第一个元素替换为第二个元素：[<strong>1</strong>,10,4,4,2,7] => [<strong>10</strong>,10,4,4,2,7]
-绝对差值和为 <code>|10-9| + |10-3| + |4-5| + |4-1| + |2-7| + |7-4| = 20</code>
+<strong>Input:</strong> nums1 = [2,4,6,8,10], nums2 = [2,4,6,8,10]
+<strong>Output:</strong> 0
+<strong>Explanation: </strong>nums1 is equal to nums2 so no replacement is needed. This will result in an 
+absolute sum difference of 0.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums1 = [1,10,4,4,2,7], nums2 = [9,3,5,1,7,4]
+<strong>Output:</strong> 20
+<strong>Explanation: </strong>Replace the first element with the second: [<u><strong>1</strong></u>,10,4,4,2,7] =&gt; [<u><strong>10</strong></u>,10,4,4,2,7].
+This yields an absolute sum difference of <code>|10-9| + |10-3| + |4-5| + |4-1| + |2-7| + |7-4| = 20</code>
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums1.length</code></li>
 	<li><code>n == nums2.length</code></li>
-	<li><code>1 <= n <= 10<sup>5</sup></code></li>
-	<li><code>1 <= nums1[i], nums2[i] <= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
+	<li><code>1 &lt;= nums1[i], nums2[i] &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 二分查找
+### Solution 1: Sorting + Binary Search
 
-根据题意，我们可以先计算出在不进行替换的情况下，`nums1` 和 `nums2` 的绝对差值和，记为 $s$。
+According to the problem, we can first calculate the absolute difference sum of `nums1` and `nums2` without any replacements, denoted as $s$.
 
-接下来，我们枚举 `nums1` 中的每个元素 $nums1[i]$，将其替换为与 $nums2[i]$ 最接近的元素，并且这个最接近的元素在 `nums1` 中。因此，我们可以在枚举之前，先复制一份 `nums1`，得到数组 `nums`，并将 `nums` 排序。接下来，就在 `nums` 中二分查找与 $nums2[i]$ 最接近的元素，记为 $nums[j]$，并计算 $|nums1[i] - nums2[i]| - |nums[j] - nums2[i]|$，更新差值 $mx$ 的最大值。
+Next, we enumerate each element $nums1[i]$ in `nums1`, replacing it with the element closest to $nums2[i]$ that also exists in `nums1`. Therefore, before the enumeration, we can make a copy of `nums1`, resulting in the array `nums`, and sort `nums`. Then, we perform a binary search in `nums` for the element closest to $nums2[i]$, denoted as $nums[j]$, and calculate $|nums1[i] - nums2[i]| - |nums[j] - nums2[i]|$, updating the maximum value of the difference $mx$.
 
-最后，我们将 $s$ 减去 $mx$，即为答案。注意取模操作。
+Finally, we subtract $mx$ from $s$, which is the answer. Note the modulus operation.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 `nums1` 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array `nums1`.
 
 <!-- tabs:start -->
 

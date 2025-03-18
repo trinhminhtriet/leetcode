@@ -1,106 +1,100 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1500.Design%20a%20File%20Sharing%20System/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 哈希表
-    - 数据流
-    - 排序
-    - 堆（优先队列）
+    - Design
+    - Hash Table
+    - Data Stream
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1500. 设计文件分享系统 🔒](https://leetcode.cn/problems/design-a-file-sharing-system)
+# [1500. Design a File Sharing System 🔒](https://leetcode.com/problems/design-a-file-sharing-system)
 
-[English Version](/solution/1500-1599/1500.Design%20a%20File%20Sharing%20System/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>我们需要使用一套文件分享系统来分享一个非常大的文件，该文件由&nbsp;<code>m</code> 个从&nbsp;<code>1</code>&nbsp;到&nbsp;<code>m</code>&nbsp;编号的 <strong>文件块</strong> 组成。</p>
+<p>We will use a file-sharing system to share a very large file which consists of <code>m</code> small <b>chunks</b> with IDs from <code>1</code> to <code>m</code>.</p>
 
-<p>当用户加入系统时，系统应为其注册&nbsp;<strong>一个独有&nbsp;</strong>的 ID。这个独有的 ID 应当被相应的用户使用&nbsp;<strong>一次</strong>，但是当用户离开系统时，其&nbsp;ID 应可以被（后续新注册的用户）<strong>再次使用</strong>。</p>
+<p>When users join the system, the system should assign <b>a unique</b> ID to them. The unique ID should be used <b>once</b> for each user, but when a user leaves the system, the ID can be <b>reused</b> again.</p>
 
-<p>用户可以请求文件中的某个指定的文件块，系统应当返回拥有这个文件块的所有用户的 ID。如果用户收到&nbsp;ID 的非空列表，就表示成功接收到请求的文件块。</p>
+<p>Users can request a certain chunk of the file, the system should return a list of IDs of all the users who own this chunk. If the user receives a non-empty list of IDs, they receive the requested chunk successfully.</p>
 
 <p><br />
-实现&nbsp;<code>FileSharing</code> 类：</p>
+Implement the <code>FileSharing</code> class:</p>
 
 <ul>
-	<li><code>FileSharing(int m)</code>&nbsp;初始化该对象，文件有&nbsp;<code>m</code> 个文件块。</li>
-	<li><code>int join(int[] ownedChunks)</code>：一个新用户加入系统，并拥有文件的一些文件块。系统应当为该用户注册一个 ID，该 ID 应是未被其他用户占用的<strong>最小正整数</strong>。返回注册的 ID。</li>
-	<li><code>void leave(int userID)</code>：ID 为&nbsp;<code>userID</code>&nbsp;的用户将离开系统，你不能再从该用户提取文件块了。</li>
-	<li><code>int[] request(int userID, int chunkID)</code>：ID 为&nbsp;<code>userID</code>&nbsp;的用户请求编号为&nbsp;<code>chunkID</code>&nbsp;的文件块。返回拥有这个文件块的所有用户的 ID 所构成的列表或数组，按升序排列。</li>
+	<li><code>FileSharing(int m)</code> Initializes the object with a file of <code>m</code> chunks.</li>
+	<li><code>int join(int[] ownedChunks)</code>: A new user joined the system owning some chunks of the file, the system should assign an id to the user which is the <b>smallest positive integer</b> not taken by any other user. Return the assigned id.</li>
+	<li><code>void leave(int userID)</code>: The user with <code>userID</code> will leave the system, you cannot take file chunks from them anymore.</li>
+	<li><code>int[] request(int userID, int chunkID)</code>: The user <code>userID</code> requested the file chunk with <code>chunkID</code>. Return a list of the IDs of all users that own this chunk sorted in ascending order.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例:</strong></p>
+<p><strong class="example">Example:</strong></p>
 
 <pre>
-<strong>输入:</strong>
-["FileSharing","join","join","join","request","request","leave","request","leave","join"]
+<b>Input:</b>
+[&quot;FileSharing&quot;,&quot;join&quot;,&quot;join&quot;,&quot;join&quot;,&quot;request&quot;,&quot;request&quot;,&quot;leave&quot;,&quot;request&quot;,&quot;leave&quot;,&quot;join&quot;]
 [[4],[[1,2]],[[2,3]],[[4]],[1,3],[2,2],[1],[2,1],[2],[[]]]
-<strong>输出:</strong>
+<b>Output:</b>
 [null,1,2,3,[2],[1,2],null,[],null,1]
-<strong>解释:</strong>
-FileSharing fileSharing = new FileSharing(4); // 我们用该系统分享由 4 个文件块组成的文件。
+<b>Explanation:</b>
+FileSharing fileSharing = new FileSharing(4); // We use the system to share a file of 4 chunks.
 
-fileSharing.join([1, 2]);    // 一个拥有文件块 [1,2] 的用户加入系统，为其注册 id = 1 并返回 1。
+fileSharing.join([1, 2]);    // A user who has chunks [1,2] joined the system, assign id = 1 to them and return 1.
 
-fileSharing.join([2, 3]);    // 一个拥有文件块 [2,3] 的用户加入系统，为其注册 id = 2 并返回 2。
+fileSharing.join([2, 3]);    // A user who has chunks [2,3] joined the system, assign id = 2 to them and return 2.
 
-fileSharing.join([4]);       // 一个拥有文件块 [4] 的用户加入系统，为其注册 id = 3 并返回 3。
+fileSharing.join([4]);       // A user who has chunk [4] joined the system, assign id = 3 to them and return 3.
 
-fileSharing.request(1, 3);   // id = 1 的用户请求第 3 个文件块，只有 id = 2 的用户拥有文件块，返回 [2] 。注意，现在用户 1 现拥有文件块 [1,2,3]。
+fileSharing.request(1, 3);   // The user with id = 1 requested the third file chunk, as only the user with id = 2 has the file, return [2] . Notice that user 1 now has chunks [1,2,3].
 
-fileSharing.request(2, 2);   // id = 2 的用户请求第 2 个文件块，id 为 [1,2] 的用户拥有该文件块，所以我们返回 [1,2] 。
+fileSharing.request(2, 2);   // The user with id = 2 requested the second file chunk, users with ids [1,2] have this chunk, thus we return [1,2].
 
-fileSharing.leave(1);        // id = 1 的用户离开系统，其所拥有的所有文件块不再对其他用户可用。
+fileSharing.leave(1);        // The user with id = 1 left the system, all the file chunks with them are no longer available for other users.
 
-fileSharing.request(2, 1);   // id = 2 的用户请求第 1 个文件块，系统中没有用户拥有该文件块，所以我们返回空列表 [] 。
+fileSharing.request(2, 1);   // The user with id = 2 requested the first file chunk, no one in the system has this chunk, we return empty list [].
 
-fileSharing.leave(2);        // id = 2 的用户离开系统。
+fileSharing.leave(2);        // The user with id = 2 left the system.
 
-fileSharing.join([]);        // 一个不拥有任何文件块的用户加入系统，为其注册 id = 1 并返回 1 。注意，id 1 和 2 空闲，可以重新使用。
+fileSharing.join([]);        // A user who doesn&#39;t have any chunks joined the system, assign id = 1 to them and return 1. Notice that ids 1 and 2 are free and we can reuse them.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= m &lt;= 10<sup>5</sup></code></li>
-	<li><code>0 &lt;=&nbsp;ownedChunks.length &lt;= min(100, m)</code></li>
+	<li><code>0 &lt;= ownedChunks.length &lt;= min(100, m)</code></li>
 	<li><code>1 &lt;= ownedChunks[i] &lt;= m</code></li>
-	<li><code>ownedChunks</code> 的值是互不相同的。</li>
-	<li><code>1 &lt;=&nbsp;chunkID &lt;= m</code></li>
-	<li>当你<strong>正确地注册</strong>用户 ID 时，题目保证&nbsp;<code>userID</code>&nbsp;是系统中的一个已注册用户。</li>
-	<li><code>join</code>、&nbsp;<code>leave</code>&nbsp;和&nbsp;<code>request</code>&nbsp;最多被调用&nbsp;<code>10<sup>4</sup></code>&nbsp;次。</li>
-	<li>每次对&nbsp;<code>leave</code>&nbsp;的调用都有对应的对&nbsp;<code>join</code>&nbsp;的调用。</li>
+	<li>Values of <code>ownedChunks</code> are unique.</li>
+	<li><code>1 &lt;= chunkID &lt;= m</code></li>
+	<li><code>userID</code> is guaranteed to be a user in the system if you <strong>assign</strong> the IDs <strong>correctly</strong>.</li>
+	<li>At most <code>10<sup>4</sup></code> calls will be made to <code>join</code>, <code>leave</code> and <code>request</code>.</li>
+	<li>Each call to <code>leave</code> will have a matching call for <code>join</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong></p>
+<p><strong>Follow-up:</strong></p>
 
 <ul>
-	<li>当系统以用户的 IP 地址而不是独有 ID 来识别用户，且用户断开连接后以相同 IP 重新连接系统时，会发生什么？</li>
-	<li>当用户频繁加入并退出系统，且该用户不请求任何文件块时，你的解决方案仍然保持高效吗？</li>
-	<li>当所有用户同时加入系统，请求所有文件并离开时，你的解决方案仍然保持高效吗？</li>
-	<li>如果系统用于分享&nbsp;<code>n</code>&nbsp;个文件，其中第 &nbsp;<code>i</code>&nbsp;个文件由&nbsp;<code>m[i]</code>&nbsp;组成，你需要如何修改？</li>
+	<li>What happens if the system identifies the user by their IP address instead of their unique ID and users disconnect and connect from the system with the same IP?</li>
+	<li>If the users in the system join and leave the system frequently without requesting any chunks, will your solution still be efficient?</li>
+	<li>If all users join the system one time, request all files, and then leave, will your solution still be efficient?</li>
+	<li>If the system will be used to share <code>n</code> files where the <code>ith</code> file consists of <code>m[i]</code>, what are the changes you have to make?</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

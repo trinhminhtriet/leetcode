@@ -1,67 +1,65 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2006.Count%20Number%20of%20Pairs%20With%20Absolute%20Difference%20K/README.md
+difficulty: Easy
 rating: 1271
-source: 第 61 场双周赛 Q1
+source: Biweekly Contest 61 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 计数
+    - Array
+    - Hash Table
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [2006. 差的绝对值为 K 的数对数目](https://leetcode.cn/problems/count-number-of-pairs-with-absolute-difference-k)
+# [2006. Count Number of Pairs With Absolute Difference K](https://leetcode.com/problems/count-number-of-pairs-with-absolute-difference-k)
 
-[English Version](/solution/2000-2099/2006.Count%20Number%20of%20Pairs%20With%20Absolute%20Difference%20K/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;和一个整数&nbsp;<code>k</code>&nbsp;，请你返回数对&nbsp;<code>(i, j)</code>&nbsp;的数目，满足&nbsp;<code>i &lt; j</code>&nbsp;且&nbsp;<code>|nums[i] - nums[j]| == k</code>&nbsp;。</p>
+<p>Given an integer array <code>nums</code> and an integer <code>k</code>, return <em>the number of pairs</em> <code>(i, j)</code> <em>where</em> <code>i &lt; j</code> <em>such that</em> <code>|nums[i] - nums[j]| == k</code>.</p>
 
-<p><code>|x|</code>&nbsp;的值定义为：</p>
+<p>The value of <code>|x|</code> is defined as:</p>
 
 <ul>
-	<li>如果&nbsp;<code>x &gt;= 0</code>&nbsp;，那么值为&nbsp;<code>x</code>&nbsp;。</li>
-	<li>如果&nbsp;<code>x &lt; 0</code>&nbsp;，那么值为&nbsp;<code>-x</code>&nbsp;。</li>
+	<li><code>x</code> if <code>x &gt;= 0</code>.</li>
+	<li><code>-x</code> if <code>x &lt; 0</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [1,2,2,1], k = 1
-<b>输出：</b>4
-<b>解释：</b>差的绝对值为 1 的数对为：
-- [<em><strong>1</strong></em>,<em><strong>2</strong></em>,2,1]
-- [<em><strong>1</strong></em>,2,<em><strong>2</strong></em>,1]
-- [1,<em><strong>2</strong></em>,2,<em><strong>1</strong></em>]
-- [1,2,<em><strong>2</strong></em>,<em><strong>1</strong></em>]
+<pre>
+<strong>Input:</strong> nums = [1,2,2,1], k = 1
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The pairs with an absolute difference of 1 are:
+- [<strong><u>1</u></strong>,<strong><u>2</u></strong>,2,1]
+- [<strong><u>1</u></strong>,2,<strong><u>2</u></strong>,1]
+- [1,<strong><u>2</u></strong>,2,<strong><u>1</u></strong>]
+- [1,2,<strong><u>2</u></strong>,<strong><u>1</u></strong>]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>nums = [1,3], k = 3
-<b>输出：</b>0
-<b>解释：</b>没有任何数对差的绝对值为 3 。
+<pre>
+<strong>Input:</strong> nums = [1,3], k = 3
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> There are no pairs with an absolute difference of 3.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><b>输入：</b>nums = [3,2,1,5,4], k = 2
-<b>输出：</b>3
-<b>解释：</b>差的绝对值为 2 的数对为：
-- [<em><strong>3</strong></em>,2,<em><strong>1</strong></em>,5,4]
-- [<em><strong>3</strong></em>,2,1,<em><strong>5</strong></em>,4]
-- [3,<em><strong>2</strong></em>,1,5,<em><strong>4</strong></em>]
+<pre>
+<strong>Input:</strong> nums = [3,2,1,5,4], k = 2
+<strong>Output:</strong> 3
+<b>Explanation:</b> The pairs with an absolute difference of 2 are:
+- [<strong><u>3</u></strong>,2,<strong><u>1</u></strong>,5,4]
+- [<strong><u>3</u></strong>,2,1,<strong><u>5</u></strong>,4]
+- [3,<strong><u>2</u></strong>,1,5,<strong><u>4</u></strong>]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 200</code></li>
@@ -71,17 +69,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：暴力枚举
+### Solution 1: Brute Force Enumeration
 
-我们注意到，数组 $nums$ 的长度不超过 $200$，因此我们可以枚举所有的数对 $(i, j)$，其中 $i < j$，并判断 $|nums[i] - nums[j]|$ 是否等于 $k$，是则答案加一。
+We notice that the length of the array $nums$ does not exceed $200$, so we can enumerate all pairs $(i, j)$, where $i < j$, and check if $|nums[i] - nums[j]|$ equals $k$. If it does, we increment the answer by one.
 
-最后返回答案即可。
+Finally, we return the answer.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(1)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 
@@ -195,13 +193,13 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：哈希表或数组
+### Solution 2: Hash Table or Array
 
-我们可以使用哈希表或数组记录数组 $nums$ 中每个数出现的次数，然后枚举数组 $nums$ 中的每个数 $x$，判断 $x + k$ 和 $x - k$ 是否在数组 $nums$ 中，是则答案加上 $x+k$ 和 $x-k$ 出现的次数之和。
+We can use a hash table or array to record the occurrence count of each number in the array $nums$. Then, we enumerate each number $x$ in the array $nums$, and check if $x + k$ and $x - k$ are in the array $nums$. If they are, we increment the answer by the sum of the occurrence counts of $x + k$ and $x - k$.
 
-最后返回答案即可。
+Finally, we return the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

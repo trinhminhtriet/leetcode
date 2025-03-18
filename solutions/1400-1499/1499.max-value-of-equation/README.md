@@ -1,87 +1,67 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1499.Max%20Value%20of%20Equation/README.md
+difficulty: Hard
 rating: 2456
-source: 第 195 场周赛 Q4
+source: Weekly Contest 195 Q4
 tags:
-    - 队列
-    - 数组
-    - 滑动窗口
-    - 单调队列
-    - 堆（优先队列）
+    - Queue
+    - Array
+    - Sliding Window
+    - Monotonic Queue
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [1499. 满足不等式的最大值](https://leetcode.cn/problems/max-value-of-equation)
+# [1499. Max Value of Equation](https://leetcode.com/problems/max-value-of-equation)
 
-[English Version](/solution/1400-1499/1499.Max%20Value%20of%20Equation/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组 <code>points</code> 和一个整数 <code>k</code> 。数组中每个元素都表示二维平面上的点的坐标，并按照横坐标 x 的值从小到大排序。也就是说 <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> ，并且在 <code>1 &lt;= i &lt; j &lt;= points.length</code> 的前提下， <code>x<sub>i</sub> &lt; x<sub>j</sub></code> 总成立。</p>
+<p>You are given an array <code>points</code> containing the coordinates of points on a 2D plane, sorted by the x-values, where <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> such that <code>x<sub>i</sub> &lt; x<sub>j</sub></code> for all <code>1 &lt;= i &lt; j &lt;= points.length</code>. You are also given an integer <code>k</code>.</p>
 
-<p>请你找出<em> </em><code>y<sub>i</sub>&nbsp;+ y<sub>j</sub>&nbsp;+ |x<sub>i</sub>&nbsp;- x<sub>j</sub>|</code> 的 <strong>最大值</strong>，其中 <code>|x<sub>i</sub>&nbsp;- x<sub>j</sub>|&nbsp;&lt;= k</code> 且 <code>1 &lt;= i &lt; j &lt;= points.length</code>。</p>
+<p>Return <em>the maximum value of the equation </em><code>y<sub>i</sub> + y<sub>j</sub> + |x<sub>i</sub> - x<sub>j</sub>|</code> where <code>|x<sub>i</sub> - x<sub>j</sub>| &lt;= k</code> and <code>1 &lt;= i &lt; j &lt;= points.length</code>.</p>
 
-<p>题目测试数据保证至少存在一对能够满足 <code>|x<sub>i</sub>&nbsp;- x<sub>j</sub>|&nbsp;&lt;= k</code> 的点。</p>
+<p>It is guaranteed that there exists at least one pair of points that satisfy the constraint <code>|x<sub>i</sub> - x<sub>j</sub>| &lt;= k</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
+<pre>
+<strong>Input:</strong> points = [[1,3],[2,0],[5,10],[6,-10]], k = 1
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The first two points satisfy the condition |x<sub>i</sub> - x<sub>j</sub>| &lt;= 1 and if we calculate the equation we get 3 + 0 + |1 - 2| = 4. Third and fourth points also satisfy the condition and give a value of 10 + -10 + |5 - 6| = 1.
+No other pairs satisfy the condition, so we return the max of 4 and 1.
+</pre>
 
-<pre><strong>输入：</strong>points = [[1,3],[2,0],[5,10],[6,-10]], k = 1
-<strong>输出：</strong>4
-<strong>解释：</strong>前两个点满足 |x<sub>i</sub>&nbsp;- x<sub>j</sub>| &lt;= 1 ，代入方程计算，则得到值 3 + 0 + |1 - 2| = 4 。第三个和第四个点也满足条件，得到值 10 + -10 + |5 - 6| = 1 。
-没有其他满足条件的点，所以返回 4 和 1 中最大的那个。</pre>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>points = [[0,0],[3,0],[9,2]], k = 3
-<strong>输出：</strong>3
-<strong>解释：</strong>只有前两个点满足 |x<sub>i</sub>&nbsp;- x<sub>j</sub>| &lt;= 3 ，代入方程后得到值 0 + 0 + |0 - 3| = 3 。
+<pre>
+<strong>Input:</strong> points = [[0,0],[3,0],[9,2]], k = 3
+<strong>Output:</strong> 3
+<strong>Explanation: </strong>Only the first two points have an absolute difference of 3 or less in the x-values, and give the value of 0 + 0 + |0 - 3| = 3.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>2 &lt;= points.length &lt;= 10^5</code></li>
+	<li><code>2 &lt;= points.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>points[i].length == 2</code></li>
-	<li><code>-10^8&nbsp;&lt;= points[i][0], points[i][1] &lt;= 10^8</code></li>
-	<li><code>0 &lt;= k &lt;= 2 * 10^8</code></li>
-	<li>对于所有的<code>1 &lt;= i &lt; j &lt;= points.length</code> ，<code>points[i][0] &lt; points[j][0]</code> 都成立。也就是说，<code>x<sub>i</sub></code> 是严格递增的。</li>
+	<li><code>-10<sup>8</sup> &lt;= x<sub>i</sub>, y<sub>i</sub> &lt;= 10<sup>8</sup></code></li>
+	<li><code>0 &lt;= k &lt;= 2 * 10<sup>8</sup></code></li>
+	<li><code>x<sub>i</sub> &lt; x<sub>j</sub></code> for all <code>1 &lt;= i &lt; j &lt;= points.length</code></li>
+	<li><code>x<sub>i</sub></code> form a strictly increasing sequence.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：优先队列（大根堆）
-
-题目要求 $y_i + y_j + |x_i - x_j|$ 的最大值，其中 $i \lt j$，并且 $|x_i - x_j| \leq k$。由于 $x_i$ 是严格单调递增的，那么：
-
-$$
-\begin{aligned}
-y_i + y_j + |x_i - x_j| & = y_i + y_j + x_j - x_i \\
-& = (y_i - x_i) + (x_j + y_j)
-\end{aligned}
-$$
-
-因此，对于当前遍历到的点 $(x_j, y_j)$，我们只需要找到前面所有满足 $x_j - x_i \leq k$ 的点 $(x_i, y_i)$ 中 $y_i - x_i$ 的最大值，再加上当前的 $x_j + y_j$ 即可。而 $y_i - x_i$ 的最大值，我们可以使用优先队列（大根堆）来维护。
-
-具体地，我们定义一个优先队列（大根堆） $pq$，堆中每个元素是一个二元组 $(y_i - x_i, x_i)$。
-
-当我们遍历到点 $(x, y)$ 时，如果堆 $pq$ 不为空，并且 $x - pq[0][1] \gt k$，那么循环将堆顶元素弹出，直到堆为空或者满足 $x - pq[0][1] \leq k$。此时，堆顶元素 $(y_i - x_i, x_i)$ 即为所有满足 $x_j - x_i \leq k$ 的点中 $y_i - x_i$ 的最大值，此时更新答案 $ans = \max(ans, x + y + pq[0][0])$。
-
-然后，我们将点 $(x, y)$ 加入堆中，继续遍历下一个点，直到遍历完整个数组 $points$。
-
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $points$ 的长度。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -270,17 +250,7 @@ class Heap<T = number> {
 
 <!-- solution:start -->
 
-### 方法二：单调队列
-
-这道题实际上需要我们维护的是一个长度为 $k$ 的窗口中 $y-x$ 的最大值，单调队列可以很好地解决这个问题。
-
-具体地，我们定义一个单调队列 $q$，队列中每个元素是一个二元组 $(x_i, y_i)$。
-
-当我们遍历到点 $(x, y)$ 时，如果队列 $q$ 不为空，并且 $x - q[0][0] \gt k$，那么不断弹出队首元素，直到队列为空或者满足 $x - q[0][0] \leq k$。此时，队首元素 $(x_i, y_i)$ 即为所有满足 $x_j - x_i \leq k$ 的点中 $y_i - x_i$ 的最大值，此时更新答案 $ans = \max(ans, x + y + y_i - x_i)$。
-
-接下来，在将点 $(x, y)$ 加入队尾之前，我们将队列中所有 $y_i - x_i \leq y - x$ 的元素 $(x_i, y_i)$ 弹出队列，然后将点 $(x, y)$ 加入队尾。继续遍历下一个点，直到遍历完整个数组 $points$。
-
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $points$ 的长度。
+### Solution 2
 
 <!-- tabs:start -->
 

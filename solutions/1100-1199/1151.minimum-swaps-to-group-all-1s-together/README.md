@@ -1,85 +1,71 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1151.Minimum%20Swaps%20to%20Group%20All%201%27s%20Together/README.md
+difficulty: Medium
 rating: 1508
-source: 第 6 场双周赛 Q2
+source: Biweekly Contest 6 Q2
 tags:
-    - 数组
-    - 滑动窗口
+    - Array
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [1151. 最少交换次数来组合所有的 1 🔒](https://leetcode.cn/problems/minimum-swaps-to-group-all-1s-together)
+# [1151. Minimum Swaps to Group All 1's Together 🔒](https://leetcode.com/problems/minimum-swaps-to-group-all-1s-together)
 
-[English Version](/solution/1100-1199/1151.Minimum%20Swaps%20to%20Group%20All%201%27s%20Together/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给出一个二进制数组&nbsp;<code>data</code>，你需要通过交换位置，将数组中 <strong>任何位置</strong> 上的 1 组合到一起，并返回所有可能中所需&nbsp;<strong>最少的交换次数</strong>。</p>
+<p>Given a&nbsp;binary array <code>data</code>, return&nbsp;the minimum number of swaps required to group all <code>1</code>&rsquo;s present in the array together in <strong>any place</strong> in the array.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> data = [1,0,1,0,1]
-<strong>输出:</strong> 1
-<strong>解释: </strong>
-有三种可能的方法可以把所有的 1 组合在一起：
-[1,1,1,0,0]，交换 1 次；
-[0,1,1,1,0]，交换 2 次；
-[0,0,1,1,1]，交换 1 次。
-所以最少的交换次数为 1。
+<strong>Input:</strong> data = [1,0,1,0,1]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> There are 3 ways to group all 1&#39;s together:
+[1,1,1,0,0] using 1 swap.
+[0,1,1,1,0] using 2 swaps.
+[0,0,1,1,1] using 1 swap.
+The minimum is 1.
 </pre>
 
-<p><strong>示例&nbsp; 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>data =&nbsp;[0,0,0,1,0]
-<strong>输出：</strong>0
-<strong>解释： </strong>
-由于数组中只有一个 1，所以不需要交换。</pre>
-
-<p><strong>示例 3:</strong></p>
-
-<pre>
-<strong>输入：</strong>data =&nbsp;[1,0,1,0,1,0,0,1,1,0,1]
-<strong>输出：3
-解释：
-</strong>交换 3 次，一种可行的只用 3 次交换的解决方案是 [0,0,0,0,0,1,1,1,1,1,1]。
+<strong>Input:</strong> data = [0,0,0,1,0]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> Since there is only one 1 in the array, no swaps are needed.
 </pre>
 
-<p><strong>示例 4:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入:</strong> data = [1,0,1,0,1,0,1,1,1,0,1,0,0,1,1,1,0,0,1,1,1,0,1,0,1,1,0,0,0,1,1,1,1,0,0,1]
-<strong>输出:</strong> 8
+<strong>Input:</strong> data = [1,0,1,0,1,0,0,1,1,0,1]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> One possible solution that uses 3 swaps is [0,0,0,0,0,1,1,1,1,1,1].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= data.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>data[i]</code>&nbsp;==&nbsp;<code>0</code>&nbsp;or&nbsp;<code>1</code>.</li>
+	<li><code>data[i]</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：滑动窗口
+### Solution 1: Sliding Window
 
-我们先统计数组中 $1$ 的个数，记为 $k$。然后我们使用滑动窗口，窗口大小为 $k$，窗口右边界从左向右移动，统计窗口内 $1$ 的个数，记为 $t$。每次移动窗口时，都更新 $t$ 的值，最后窗口右边界移动到数组末尾时，窗口内 $1$ 的个数最多，记为 $mx$。最后答案为 $k - mx$。
+First, we count the number of $1$s in the array, denoted as $k$. Then we use a sliding window of size $k$, moving the right boundary of the window from left to right, and count the number of $1$s in the window, denoted as $t$. Each time we move the window, we update the value of $t$. Finally, when the right boundary of the window moves to the end of the array, the number of $1$s in the window is the maximum, denoted as $mx$. The final answer is $k - mx$.
 
-时间复杂度 $O(n)$，其中 $n$ 为数组长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array.
 
 <!-- tabs:start -->
 

@@ -1,50 +1,45 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2800-2899/2848.Points%20That%20Intersect%20With%20Cars/README.md
+difficulty: Easy
 rating: 1229
-source: 第 362 场周赛 Q1
+source: Weekly Contest 362 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 前缀和
+    - Array
+    - Hash Table
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [2848. 与车相交的点](https://leetcode.cn/problems/points-that-intersect-with-cars)
+# [2848. Points That Intersect With Cars](https://leetcode.com/problems/points-that-intersect-with-cars)
 
-[English Version](/solution/2800-2899/2848.Points%20That%20Intersect%20With%20Cars/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的二维整数数组 <code>nums</code> 表示汽车停放在数轴上的坐标。对于任意下标 <code>i</code>，<code>nums[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> ，其中 <code>start<sub>i</sub></code> 是第 <code>i</code> 辆车的起点，<code>end<sub>i</sub></code> 是第 <code>i</code> 辆车的终点。</p>
+<p>You are given a <strong>0-indexed</strong> 2D integer array <code>nums</code> representing the coordinates of the cars parking on a number line. For any index <code>i</code>, <code>nums[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> where <code>start<sub>i</sub></code> is the starting point of the <code>i<sup>th</sup></code> car and <code>end<sub>i</sub></code> is the ending point of the <code>i<sup>th</sup></code> car.</p>
 
-<p>返回数轴上被车 <strong>任意部分</strong> 覆盖的整数点的数目。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [[3,6],[1,5],[4,7]]
-<strong>输出：</strong>7
-<strong>解释：</strong>从 1 到 7 的所有点都至少与一辆车相交，因此答案为 7 。
-</pre>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [[1,3],[5,8]]
-<strong>输出：</strong>7
-<strong>解释：</strong>1、2、3、5、6、7、8 共计 7 个点满足至少与一辆车相交，因此答案为 7 。
-</pre>
+<p>Return <em>the number of integer points on the line that are covered with <strong>any part</strong> of a car.</em></p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [[3,6],[1,5],[4,7]]
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> All the points from 1 to 7 intersect at least one car, therefore the answer would be 7.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [[1,3],[5,8]]
+<strong>Output:</strong> 7
+<strong>Explanation:</strong> Points intersecting at least one car are 1, 2, 3, 5, 6, 7, 8. There are a total of 7 points, therefore the answer would be 7.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 100</code></li>
@@ -54,19 +49,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：差分数组
+### Solution 1: Difference Array
 
-根据题目描述，我们需要给每个区间 $[\textit{start}_i, \textit{end}_i]$ 增加一个车辆，我们可以使用差分数组来实现。
+According to the problem description, we need to add one vehicle to each interval $[\textit{start}_i, \textit{end}_i]$. We can use a difference array to achieve this.
 
-我们定义一个长度为 $102$ 的数组 $d$，对于每个区间 $[\textit{start}_i, \textit{end}_i]$，我们将 $d[\textit{start}_i]$ 加 $1$，将 $d[\textit{end}_i + 1]$ 减 $1$。
+We define an array $d$ of length 102. For each interval $[\textit{start}_i, \textit{end}_i]$, we increment $d[\textit{start}_i]$ by 1 and decrement $d[\textit{end}_i + 1]$ by 1.
 
-最后，我们对 $d$ 进行前缀和运算，统计前缀和大于 $0$ 的个数即可。
+Finally, we perform a prefix sum operation on $d$ and count the number of elements in the prefix sum that are greater than 0.
 
-时间复杂度 $O(n + m)$，空间复杂度 $O(m)$，其中 $n$ 是给定数组的长度，而 $m$ 是数组中的最大值，本题中 $m \leq 102$。
+The time complexity is $O(n + m)$, and the space complexity is $O(m)$, where $n$ is the length of the given array, and $m$ is the maximum value in the array. In this problem, $m \leq 102$.
 
 <!-- tabs:start -->
 
@@ -174,11 +169,11 @@ function numberOfPoints(nums: number[][]): number {
 
 <!-- solution:start -->
 
-### 方法二：哈希表 + 差分 + 排序
+### Solution 2: Hash Table + Difference Array + Sorting
 
-如果题目的区间范围较大，我们可以使用哈希表来存储区间的起点和终点，然后对哈希表的键进行排序，再进行前缀和统计。
+If the range of intervals in the problem is large, we can use a hash table to store the start and end points of the intervals. Then, we sort the keys of the hash table and perform prefix sum statistics.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为给定数组的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the given array.
 
 <!-- tabs:start -->
 

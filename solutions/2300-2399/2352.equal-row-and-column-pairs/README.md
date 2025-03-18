@@ -1,59 +1,50 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2352.Equal%20Row%20and%20Column%20Pairs/README.md
+difficulty: Medium
 rating: 1286
-source: 第 303 场周赛 Q2
+source: Weekly Contest 303 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 矩阵
-    - 模拟
+    - Array
+    - Hash Table
+    - Matrix
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2352. 相等行列对](https://leetcode.cn/problems/equal-row-and-column-pairs)
+# [2352. Equal Row and Column Pairs](https://leetcode.com/problems/equal-row-and-column-pairs)
 
-[English Version](/solution/2300-2399/2352.Equal%20Row%20and%20Column%20Pairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始、大小为 <code>n x n</code> 的整数矩阵 <code>grid</code> ，返回满足 <code>R<sub>i</sub></code><em> </em>行和<em> </em><code>C<sub>j</sub></code><em> </em>列相等的行列对<em> </em><code>(R<sub>i</sub>, C<sub>j</sub>)</code><em> </em>的数目<em>。</em></p>
+<p>Given a <strong>0-indexed</strong> <code>n x n</code> integer matrix <code>grid</code>, <em>return the number of pairs </em><code>(r<sub>i</sub>, c<sub>j</sub>)</code><em> such that row </em><code>r<sub>i</sub></code><em> and column </em><code>c<sub>j</sub></code><em> are equal</em>.</p>
 
-<p>如果行和列以相同的顺序包含相同的元素（即相等的数组），则认为二者是相等的。</p>
+<p>A row and column pair is considered equal if they contain the same elements in the same order (i.e., an equal array).</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2352.Equal%20Row%20and%20Column%20Pairs/images/ex1.jpg" style="width: 150px; height: 153px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2352.Equal%20Row%20and%20Column%20Pairs/images/ex1.jpg" style="width: 150px; height: 153px;" />
 <pre>
-<strong>输入：</strong>grid = [[3,2,1],[1,7,6],[2,7,7]]
-<strong>输出：</strong>1
-<strong>解释：</strong>存在一对相等行列对：
-- (第 2 行，第 1 列)：[2,7,7]
+<strong>Input:</strong> grid = [[3,2,1],[1,7,6],[2,7,7]]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> There is 1 equal row and column pair:
+- (Row 2, Column 1): [2,7,7]
 </pre>
 
-<p><strong>示例 2：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2352.Equal%20Row%20and%20Column%20Pairs/images/ex2.jpg" style="width: 200px; height: 209px;" /></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2300-2399/2352.Equal%20Row%20and%20Column%20Pairs/images/ex2.jpg" style="width: 200px; height: 209px;" />
 <pre>
-<strong>输入：</strong>grid = [[3,1,2,2],[1,4,4,5],[2,4,2,2],[2,4,2,2]]
-<strong>输出：</strong>3
-<strong>解释：</strong>存在三对相等行列对：
-- (第 0 行，第 0 列)：[3,1,2,2]
-- (第 2 行, 第 2 列)：[2,4,2,2]
-- (第 3 行, 第 2 列)：[2,4,2,2]
+<strong>Input:</strong> grid = [[3,1,2,2],[1,4,4,5],[2,4,2,2],[2,4,2,2]]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> There are 3 equal row and column pairs:
+- (Row 0, Column 0): [3,1,2,2]
+- (Row 2, Column 2): [2,4,2,2]
+- (Row 3, Column 2): [2,4,2,2]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == grid.length == grid[i].length</code></li>
@@ -63,15 +54,15 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-我们直接将矩阵 $grid$ 的每一行和每一列进行比较，如果相等，那么就是一对相等行列对，答案加一。
+We directly compare each row and column of the matrix $grid$. If they are equal, then it is a pair of equal row-column pairs, and we increment the answer by one.
 
-时间复杂度 $O(n^3)$，其中 $n$ 为矩阵 $grid$ 的行数或列数。空间复杂度 $O(1)$。
+The time complexity is $O(n^3)$, where $n$ is the number of rows or columns in the matrix $grid$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

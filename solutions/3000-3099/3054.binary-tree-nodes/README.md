@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3054.Binary%20Tree%20Nodes/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [3054. 二叉树节点 🔒](https://leetcode.cn/problems/binary-tree-nodes)
+# [3054. Binary Tree Nodes 🔒](https://leetcode.com/problems/binary-tree-nodes)
 
-[English Version](/solution/3000-3099/3054.Binary%20Tree%20Nodes/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<font face="monospace"><code>Tree</code></font></p>
+<p>Table: <font face="monospace"><code>Tree</code></font></p>
 
 <pre>
 +-------------+------+ 
@@ -25,29 +22,28 @@ tags:
 | N           | int  | 
 | P           | int  |
 +-------------+------+
-N 是这张表中具有不同值的列。
-每一行中包含 N 和 P，其中 N 表示二叉树中节点的值，P 是 N 的父亲。
+N is the column of unique values for this table.
+Each row includes N and P, where N represents the value of a node in Binary Tree, and P is the parent of N.
 </pre>
 
-<p>编写一个解决方案来找到二进制树节点的类型。对于每个节点输出：</p>
+<p>Write a solution to find the node type of the Binary Tree. Output one of the following for each node:</p>
 
 <ul>
-	<li><strong>Root</strong>：如果节点是根节点。</li>
-	<li><strong>Leaf</strong>：如果节点是叶子节点。</li>
-	<li><strong>Inner</strong>: 如果节点既不是根节点，也不是叶子节点。</li>
+	<li><strong>Root</strong>: if the node is the root node.</li>
+	<li><strong>Leaf</strong>: if the node is the leaf node.</li>
+	<li><strong>Inner</strong>: if the node is neither root nor leaf node.</li>
 </ul>
 
-<p>返回结果表，根据节点值 <strong>升序排序</strong>。</p>
+<p>Return <em>the result table ordered by node value in <strong>ascending order</strong></em>.</p>
 
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Tree 表：
+<strong>Input:</strong> 
+Tree table:
 +---+------+
 | N | P    | 
 +---+------+
@@ -59,7 +55,7 @@ Tree 表：
 | 8 | 5    | 
 | 5 | null | 
 +---+------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +---+-------+
 | N | Type  | 
 +---+-------+
@@ -71,23 +67,26 @@ Tree 表：
 | 8 | Inner |
 | 9 | Leaf  |    
 +---+-------+
-<strong>解释：</strong>
-- 节点 5 是根节点，因为它没有父节点。
-- 节点 1，3，6 和 8 是叶节点，因为它们没有任何子节点。
-- 节点 2，4，7 是内部节点，因为它们充当结构中某些节点的父节点。
+<strong>Explanation:</strong> 
+- Node 5 is the root node since it has no parent node.
+- Nodes 1, 3, 6, and 9 are leaf nodes because they don&#39;t have any child nodes.
+- Nodes 2, and 8 are inner nodes as they serve as parents to some of the nodes in the structure.
 </pre>
+
+<p>&nbsp;</p>
+<p><strong>Note:</strong> This question is the same as <a href="https://leetcode.com/problems/tree-node/description/" target="_blank"> 608: Tree Node.</a></p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：左连接
+### Solution 1: Left Join
 
-如果一个节点的父节点为空，则它是根节点；如果一个节点不是任何节点的父节点，则它是叶子节点；否则它是内部节点。
+If a node's parent is null, then it is a root node; if a node is not the parent of any node, then it is a leaf node; otherwise, it is an internal node.
 
-因此，我们使用左连接来连接两次 `Tree` 表，连接条件是 `t1.N = t2.P`。那么如果 `t1.P` 为空，则 `t1.N` 是根节点；如果 `t2.P` 为空，则 `t1.N` 是叶子节点；否则 `t1.N` 是内部节点。
+Therefore, we use left join to join the `Tree` table twice, with the join condition being `t1.N = t2.P`. If `t1.P` is null, then `t1.N` is a root node; if `t2.P` is null, then `t1.N` is a leaf node; otherwise, `t1.N` is an internal node.
 
 <!-- tabs:start -->
 

@@ -1,101 +1,96 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2500-2599/2502.Design%20Memory%20Allocator/README.md
+difficulty: Medium
 rating: 1745
-source: 第 323 场周赛 Q3
+source: Weekly Contest 323 Q3
 tags:
-    - 设计
-    - 数组
-    - 哈希表
-    - 模拟
+    - Design
+    - Array
+    - Hash Table
+    - Simulation
 ---
 
 <!-- problem:start -->
 
-# [2502. 设计内存分配器](https://leetcode.cn/problems/design-memory-allocator)
+# [2502. Design Memory Allocator](https://leetcode.com/problems/design-memory-allocator)
 
-[English Version](/solution/2500-2599/2502.Design%20Memory%20Allocator/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>n</code> ，表示下标从 <strong>0</strong> 开始的内存数组的大小。所有内存单元开始都是空闲的。</p>
+<p>You are given an integer <code>n</code> representing the size of a <strong>0-indexed</strong> memory array. All memory units are initially free.</p>
 
-<p>请你设计一个具备以下功能的内存分配器：</p>
+<p>You have a memory allocator with the following functionalities:</p>
 
 <ol>
-	<li><strong>分配 </strong>一块大小为 <code>size</code> 的连续空闲内存单元并赋 id <code>mID</code> 。</li>
-	<li><strong>释放</strong> 给定 id <code>mID</code> 对应的所有内存单元。</li>
+	<li><strong>Allocate </strong>a block of <code>size</code> consecutive free memory units and assign it the id <code>mID</code>.</li>
+	<li><strong>Free</strong> all memory units with the given id <code>mID</code>.</li>
 </ol>
 
-<p><strong>注意：</strong></p>
+<p><strong>Note</strong> that:</p>
 
 <ul>
-	<li>多个块可以被分配到同一个 <code>mID</code> 。</li>
-	<li>你必须释放 <code>mID</code> 对应的所有内存单元，即便这些内存单元被分配在不同的块中。</li>
+	<li>Multiple blocks can be allocated to the same <code>mID</code>.</li>
+	<li>You should free all the memory units with <code>mID</code>, even if they were allocated in different blocks.</li>
 </ul>
 
-<p>实现 <code>Allocator</code> 类：</p>
+<p>Implement the <code>Allocator</code> class:</p>
 
 <ul>
-	<li><code>Allocator(int n)</code> 使用一个大小为 <code>n</code> 的内存数组初始化 <code>Allocator</code> 对象。</li>
-	<li><code>int allocate(int size, int mID)</code> 找出大小为 <code>size</code> 个连续空闲内存单元且位于&nbsp; <strong>最左侧</strong> 的块，分配并赋 id <code>mID</code> 。返回块的第一个下标。如果不存在这样的块，返回 <code>-1</code> 。</li>
-	<li><code>int freeMemory(int mID)</code> 释放 id <code>mID</code> 对应的所有内存单元。返回释放的内存单元数目。</li>
+	<li><code>Allocator(int n)</code> Initializes an <code>Allocator</code> object with a memory array of size <code>n</code>.</li>
+	<li><code>int allocate(int size, int mID)</code> Find the <strong>leftmost</strong> block of <code>size</code> <strong>consecutive</strong> free memory units and allocate it with the id <code>mID</code>. Return the block&#39;s first index. If such a block does not exist, return <code>-1</code>.</li>
+	<li><code>int freeMemory(int mID)</code> Free all memory units with the id <code>mID</code>. Return the number of memory units you have freed.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入</strong>
-["Allocator", "allocate", "allocate", "allocate", "freeMemory", "allocate", "allocate", "allocate", "freeMemory", "allocate", "freeMemory"]
+<strong>Input</strong>
+[&quot;Allocator&quot;, &quot;allocate&quot;, &quot;allocate&quot;, &quot;allocate&quot;, &quot;freeMemory&quot;, &quot;allocate&quot;, &quot;allocate&quot;, &quot;allocate&quot;, &quot;freeMemory&quot;, &quot;allocate&quot;, &quot;freeMemory&quot;]
 [[10], [1, 1], [1, 2], [1, 3], [2], [3, 4], [1, 1], [1, 1], [1], [10, 2], [7]]
-<strong>输出</strong>
+<strong>Output</strong>
 [null, 0, 1, 2, 1, 3, 1, 6, 3, -1, 0]
 
-<strong>解释</strong>
-Allocator loc = new Allocator(10); // 初始化一个大小为 10 的内存数组，所有内存单元都是空闲的。
-loc.allocate(1, 1); // 最左侧的块的第一个下标是 0 。内存数组变为 [<strong>1</strong>,<u> </u>,<u> </u>,<u> </u>,<u> </u>,<u> </u>,<u> </u>,<u> </u>,<u> </u>,<u> </u>]。返回 0 。
-loc.allocate(1, 2); // 最左侧的块的第一个下标是 1 。内存数组变为 [1,<strong>2</strong>,<u> </u>,<u> </u>,<u> </u>,<u> </u>,<u> </u>,<u> </u>,<u> </u>,<u> </u>]。返回 1 。
-loc.allocate(1, 3); // 最左侧的块的第一个下标是 2 。内存数组变为 [1,2,<strong>3</strong>,<u> </u>,<u> </u>,<u> </u>,<u> </u>,<u> </u>,<u> </u>,<u> </u>]。返回 2 。
-loc.freeMemory(2); // 释放 mID 为 2 的所有内存单元。内存数组变为 [1,<u> </u>,<strong>3</strong>,<u> </u>,<u> </u>,<u> </u>,<u> </u>,<u> </u>,<u> </u>,<u> </u>] 。返回 1 ，因为只有 1 个 mID 为 2 的内存单元。
-loc.allocate(3, 4); // 最左侧的块的第一个下标是 3 。内存数组变为 [1,<u> </u>,3,<strong>4</strong>,<strong>4</strong>,<strong>4</strong>,<u> </u>,<u> </u>,<u> </u>,<u> </u>]。返回 3 。
-loc.allocate(1, 1); // 最左侧的块的第一个下标是 1 。内存数组变为 [1,<strong>1</strong>,3,4,4,4,<u> </u>,<u> </u>,<u> </u>,<u> </u>]。返回 1 。
-loc.allocate(1, 1); // 最左侧的块的第一个下标是 6 。内存数组变为 [1,1,3,4,4,4,<strong>1</strong>,<u> </u>,<u> </u>,<u> </u>]。返回 6 。
-loc.freeMemory(1); // 释放 mID 为 1 的所有内存单元。内存数组变为 [<u> </u>,<u> </u>,3,4,4,4,<u><strong> </strong></u>,<u> </u>,<u> </u>,<u> </u>] 。返回 3 ，因为有 3 个 mID 为 1 的内存单元。
-loc.allocate(10, 2); // 无法找出长度为 10 个连续空闲内存单元的空闲块，所有返回 -1 。
-loc.freeMemory(7); // 释放 mID 为 7 的所有内存单元。内存数组保持原状，因为不存在 mID 为 7 的内存单元。返回 0 。
+<strong>Explanation</strong>
+Allocator loc = new Allocator(10); // Initialize a memory array of size 10. All memory units are initially free.
+loc.allocate(1, 1); // The leftmost block&#39;s first index is 0. The memory array becomes [<strong>1</strong>,_,_,_,_,_,_,_,_,_]. We return 0.
+loc.allocate(1, 2); // The leftmost block&#39;s first index is 1. The memory array becomes [1,<strong>2</strong>,_,_,_,_,_,_,_,_]. We return 1.
+loc.allocate(1, 3); // The leftmost block&#39;s first index is 2. The memory array becomes [1,2,<strong>3</strong>,_,_,_,_,_,_,_]. We return 2.
+loc.freeMemory(2); // Free all memory units with mID 2. The memory array becomes [1,_, 3,_,_,_,_,_,_,_]. We return 1 since there is only 1 unit with mID 2.
+loc.allocate(3, 4); // The leftmost block&#39;s first index is 3. The memory array becomes [1,_,3,<strong>4</strong>,<strong>4</strong>,<strong>4</strong>,_,_,_,_]. We return 3.
+loc.allocate(1, 1); // The leftmost block&#39;s first index is 1. The memory array becomes [1,<strong>1</strong>,3,4,4,4,_,_,_,_]. We return 1.
+loc.allocate(1, 1); // The leftmost block&#39;s first index is 6. The memory array becomes [1,1,3,4,4,4,<strong>1</strong>,_,_,_]. We return 6.
+loc.freeMemory(1); // Free all memory units with mID 1. The memory array becomes [_,_,3,4,4,4,_,_,_,_]. We return 3 since there are 3 units with mID 1.
+loc.allocate(10, 2); // We can not find any free block with 10 consecutive free memory units, so we return -1.
+loc.freeMemory(7); // Free all memory units with mID 7. The memory array remains the same since there is no memory unit with mID 7. We return 0.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n, size, mID &lt;= 1000</code></li>
-	<li>最多调用 <code>allocate</code> 和 <code>free</code> 方法 <code>1000</code> 次</li>
+	<li>At most <code>1000</code> calls will be made to <code>allocate</code> and <code>freeMemory</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：模拟
+### Solution 1: Simulation
 
-题目数据范围不大，可以直接用数组模拟内存空间。
+The data range of the problem is not large, so we can directly use an array to simulate the memory space.
 
-初始化时，将数组中的每个元素置为 $0$，表示空闲。
+During initialization, set each element in the array to $0$, indicating it's free.
 
-当调用 `allocate` 方法时，遍历数组，找到连续的 `size` 个空闲内存单元，将其置为 `mID`，并返回第一个下标。
+When the `allocate` method is called, traverse the array, find `size` consecutive free memory units, set them to `mID`, and return the first index.
 
-当调用 `free` 方法时，遍历数组，将所有等于 `mID` 的内存单元置为 $0$，表示空闲。
+When the `free` method is called, traverse the array, set all memory units equal to `mID` to $0$, indicating they are free.
 
-时间复杂度 $O(n \times q)$，空间复杂度 $O(n)$，其中 $n$ 和 $q$ 分别为内存空间的大小和方法调用的次数。
+The time complexity is $O(n \times q)$, and the space complexity is $O(n)$, where $n$ and $q$ are the size of the memory space and the number of method calls, respectively.
 
 <!-- tabs:start -->
 
@@ -317,15 +312,15 @@ class Allocator {
 
 <!-- solution:start -->
 
-### 方法二：哈希表 + 有序集合
+### Solution 2: Hash Table + Ordered Set
 
-我们可以用有序集合维护所有已分配的内存单元的起始下标和结束下标，其中起始下标为键，结束下标为值；另外用哈希表维护 `mID` 和其对应的内存单元的起始下标。
+We can use an ordered set to maintain the start and end indices of all allocated memory units, where the start index is the key and the end index is the value. Additionally, we use a hash table to maintain the `mID` and its corresponding start index of the memory unit.
 
-当调用 `allocate` 方法时，遍历有序集合，找到第一个长度大于等于 `size` 的空闲区间，将其分配给 `mID`，并更新有序集合。然后将 `mID` 和其对应的内存单元的起始下标加入哈希表。
+When the `allocate` method is called, we traverse the ordered set, find the first free interval with a length greater than or equal to `size`, allocate it to `mID`, and update the ordered set. Then we add the `mID` and its corresponding start index of the memory unit to the hash table.
 
-当调用 `free` 方法时，从哈希表中找到 `mID` 对应的内存单元的起始下标，然后将其从有序集合中删除，再将 `mID` 从哈希表中删除。
+When the `free` method is called, we find the start index of the memory unit corresponding to `mID` from the hash table, then delete it from the ordered set, and then delete `mID` from the hash table.
 
-时间复杂度 $O(q \log n)$，空间复杂度 $O(n)$，其中 $n$ 和 $q$ 分别为内存空间的大小和方法调用的次数。
+The time complexity is $O(q \log n)$, and the space complexity is $O(n)$, where $n$ and $q$ are the size of the memory space and the number of method calls, respectively.
 
 <!-- tabs:start -->
 

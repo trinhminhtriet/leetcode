@@ -1,76 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0814.Binary%20Tree%20Pruning/README.md
+difficulty: Medium
 tags:
-    - 树
-    - 深度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [814. 二叉树剪枝](https://leetcode.cn/problems/binary-tree-pruning)
+# [814. Binary Tree Pruning](https://leetcode.com/problems/binary-tree-pruning)
 
-[English Version](/solution/0800-0899/0814.Binary%20Tree%20Pruning/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你二叉树的根结点&nbsp;<code>root</code>&nbsp;，此外树的每个结点的值要么是 <code>0</code> ，要么是 <code>1</code> 。</p>
+<p>Given the <code>root</code> of a binary tree, return <em>the same tree where every subtree (of the given tree) not containing a </em><code>1</code><em> has been removed</em>.</p>
 
-<p>返回移除了所有不包含 <code>1</code> 的子树的原二叉树。</p>
-
-<p>节点 <code>node</code> 的子树为 <code>node</code> 本身加上所有 <code>node</code> 的后代。</p>
+<p>A subtree of a node <code>node</code> is <code>node</code> plus every node that is a descendant of <code>node</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0814.Binary%20Tree%20Pruning/images/1028_2.png" style="width: 500px; height: 140px;" />
 <pre>
-<strong>输入：</strong>root = [1,null,0,0,1]
-<strong>输出：</strong>[1,null,0,null,1]
-<strong>解释：</strong>
-只有红色节点满足条件“所有不包含 1 的子树”。 右图为返回的答案。
+<strong>Input:</strong> root = [1,null,0,0,1]
+<strong>Output:</strong> [1,null,0,null,1]
+<strong>Explanation:</strong> 
+Only the red nodes satisfy the property &quot;every subtree not containing a 1&quot;.
+The diagram on the right represents the answer.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0814.Binary%20Tree%20Pruning/images/1028_1.png" style="width: 500px; height: 115px;" />
 <pre>
-<strong>输入：</strong>root = [1,0,1,0,0,0,1]
-<strong>输出：</strong>[1,null,1,null,1]
+<strong>Input:</strong> root = [1,0,1,0,0,0,1]
+<strong>Output:</strong> [1,null,1,null,1]
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0814.Binary%20Tree%20Pruning/images/1028.png" style="width: 500px; height: 134px;" />
 <pre>
-<strong>输入：</strong>root = [1,1,0,1,1,0,1,0]
-<strong>输出：</strong>[1,1,0,1,1,null,1]
+<strong>Input:</strong> root = [1,1,0,1,1,0,1,0]
+<strong>Output:</strong> [1,1,0,1,1,null,1]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点的数目在范围 <code>[1, 200]</code> 内</li>
-	<li><code>Node.val</code> 为 <code>0</code> 或 <code>1</code></li>
+	<li>The number of nodes in the tree is in the range <code>[1, 200]</code>.</li>
+	<li><code>Node.val</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
+### Solution 1: Recursion
 
-我们首先判断当前节点是否为空，如果为空则直接返回空节点。
+First, we check if the current node is null. If it is, we directly return the null node.
 
-否则，我们递归地对左右子树进行剪枝，并将剪枝后的左右子树重新赋值给当前节点的左右子节点。然后判断当前节点的值是否为 0 且左右子节点都为空，如果是则返回空节点，否则返回当前节点。
+Otherwise, we recursively prune the left and right subtrees and reassign the pruned subtrees to the current node's left and right children. Then, we check if the current node's value is 0 and both its left and right children are null. If so, we return the null node; otherwise, we return the current node.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为二叉树的节点个数。
+Time complexity is $O(n)$, and space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 

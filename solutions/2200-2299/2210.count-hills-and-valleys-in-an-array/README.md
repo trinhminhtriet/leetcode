@@ -1,63 +1,59 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2210.Count%20Hills%20and%20Valleys%20in%20an%20Array/README.md
+difficulty: Easy
 rating: 1354
-source: 第 285 场周赛 Q1
+source: Weekly Contest 285 Q1
 tags:
-    - 数组
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [2210. 统计数组中峰和谷的数量](https://leetcode.cn/problems/count-hills-and-valleys-in-an-array)
+# [2210. Count Hills and Valleys in an Array](https://leetcode.com/problems/count-hills-and-valleys-in-an-array)
 
-[English Version](/solution/2200-2299/2210.Count%20Hills%20and%20Valleys%20in%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 。如果两侧距 <code>i</code> 最近的不相等邻居的值均小于 <code>nums[i]</code> ，则下标 <code>i</code> 是 <code>nums</code> 中，某个峰的一部分。类似地，如果两侧距 <code>i</code> 最近的不相等邻居的值均大于 <code>nums[i]</code> ，则下标 <code>i</code> 是 <code>nums</code> 中某个谷的一部分。对于相邻下标&nbsp;<code>i</code> 和 <code>j</code> ，如果&nbsp;<code>nums[i] == nums[j]</code> ， 则认为这两下标属于 <strong>同一个</strong> 峰或谷。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. An index <code>i</code> is part of a <strong>hill</strong> in <code>nums</code> if the closest non-equal neighbors of <code>i</code> are smaller than <code>nums[i]</code>. Similarly, an index <code>i</code> is part of a <strong>valley</strong> in <code>nums</code> if the closest non-equal neighbors of <code>i</code> are larger than <code>nums[i]</code>. Adjacent indices <code>i</code> and <code>j</code> are part of the <strong>same</strong> hill or valley if <code>nums[i] == nums[j]</code>.</p>
 
-<p>注意，要使某个下标所做峰或谷的一部分，那么它左右两侧必须 <strong>都</strong> 存在不相等邻居。</p>
+<p>Note that for an index to be part of a hill or valley, it must have a non-equal neighbor on <strong>both</strong> the left and right of the index.</p>
 
-<p>返回 <code>nums</code> 中峰和谷的数量。</p>
+<p>Return <i>the number of hills and valleys in </i><code>nums</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [2,4,1,1,6,5]
-<strong>输出：</strong>3
-<strong>解释：</strong>
-在下标 0 ：由于 2 的左侧不存在不相等邻居，所以下标 0 既不是峰也不是谷。
-在下标 1 ：4 的最近不相等邻居是 2 和 1 。由于 4 &gt; 2 且 4 &gt; 1 ，下标 1 是一个峰。
-在下标 2 ：1 的最近不相等邻居是 4 和 6 。由于 1 &lt; 4 且 1 &lt; 6 ，下标 2 是一个谷。
-在下标 3 ：1 的最近不相等邻居是 4 和 6 。由于 1 &lt; 4 且 1 &lt; 6 ，下标 3 符合谷的定义，但需要注意它和下标 2 是同一个谷的一部分。
-在下标 4 ：6 的最近不相等邻居是 1 和 5 。由于 6 &gt; 1 且 6 &gt; 5 ，下标 4 是一个峰。
-在下标 5 ：由于 5 的右侧不存在不相等邻居，所以下标 5 既不是峰也不是谷。
-共有 3 个峰和谷，所以返回 3 。</pre>
-
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [6,6,5,5,4,1]
-<strong>输出：</strong>0
-<strong>解释：</strong>
-在下标 0 ：由于 6 的左侧不存在不相等邻居，所以下标 0 既不是峰也不是谷。
-在下标 1 ：由于 6 的左侧不存在不相等邻居，所以下标 1 既不是峰也不是谷。
-在下标 2 ：5 的最近不相等邻居是 6 和 4 。由于 5 &lt; 6 且 5 &gt; 4 ，下标 2 既不是峰也不是谷。
-在下标 3 ：5 的最近不相等邻居是 6 和 4 。由于 5 &lt; 6 且 5 &gt; 4 ，下标 3 既不是峰也不是谷。
-在下标 4 ：4 的最近不相等邻居是 5 和 1 。由于 4 &lt; 5 且 4 &gt; 1 ，下标 4 既不是峰也不是谷。
-在下标 5 ：由于 1 的右侧不存在不相等邻居，所以下标 5 既不是峰也不是谷。
-共有 0 个峰和谷，所以返回 0 。
+<strong>Input:</strong> nums = [2,4,1,1,6,5]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong>
+At index 0: There is no non-equal neighbor of 2 on the left, so index 0 is neither a hill nor a valley.
+At index 1: The closest non-equal neighbors of 4 are 2 and 1. Since 4 &gt; 2 and 4 &gt; 1, index 1 is a hill. 
+At index 2: The closest non-equal neighbors of 1 are 4 and 6. Since 1 &lt; 4 and 1 &lt; 6, index 2 is a valley.
+At index 3: The closest non-equal neighbors of 1 are 4 and 6. Since 1 &lt; 4 and 1 &lt; 6, index 3 is a valley, but note that it is part of the same valley as index 2.
+At index 4: The closest non-equal neighbors of 6 are 1 and 5. Since 6 &gt; 1 and 6 &gt; 5, index 4 is a hill.
+At index 5: There is no non-equal neighbor of 5 on the right, so index 5 is neither a hill nor a valley. 
+There are 3 hills and valleys so we return 3.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [6,6,5,5,4,1]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong>
+At index 0: There is no non-equal neighbor of 6 on the left, so index 0 is neither a hill nor a valley.
+At index 1: There is no non-equal neighbor of 6 on the left, so index 1 is neither a hill nor a valley.
+At index 2: The closest non-equal neighbors of 5 are 6 and 4. Since 5 &lt; 6 and 5 &gt; 4, index 2 is neither a hill nor a valley.
+At index 3: The closest non-equal neighbors of 5 are 6 and 4. Since 5 &lt; 6 and 5 &gt; 4, index 3 is neither a hill nor a valley.
+At index 4: The closest non-equal neighbors of 4 are 5 and 1. Since 4 &lt; 5 and 4 &gt; 1, index 4 is neither a hill nor a valley.
+At index 5: There is no non-equal neighbor of 1 on the right, so index 5 is neither a hill nor a valley.
+There are 0 hills and valleys so we return 0.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= nums.length &lt;= 100</code></li>
@@ -66,21 +62,21 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：遍历
+### Solution 1: Traversal
 
-我们初始化一个指针 $j$ 指向下标 $0$ 的位置，然后在 $[1, n-1]$ 的范围内遍历数组。对于每一个位置 $i$：
+We initialize a pointer $j$ to point to the position with index $0$, and then traverse the array in the range $[1, n-1]$. For each position $i$:
 
--   如果 $nums[i] = nums[i+1]$，则跳过。
--   否则，如果 $nums[i]$ 大于 $nums[j]$ 且 $nums[i]$ 大于 $nums[i+1]$，则 $i$ 是一个峰；如果 $nums[i]$ 小于 $nums[j]$ 且 $nums[i]$ 小于 $nums[i+1]$，则 $i$ 是一个谷。
--   然后，我们将 $j$ 更新为 $i$，继续遍历。
+-   If $nums[i] = nums[i+1]$, then skip.
+-   Otherwise, if $nums[i]$ is greater than $nums[j]$ and $nums[i]$ is greater than $nums[i+1]$, then $i$ is a peak; if $nums[i]$ is less than $nums[j]$ and $nums[i]$ is less than $nums[i+1]$, then $i$ is a valley.
+-   Then, we update $j$ to $i$ and continue to traverse.
 
-遍历结束后，我们就可以得到峰和谷的数量。
+After the traversal, we can get the number of peaks and valleys.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

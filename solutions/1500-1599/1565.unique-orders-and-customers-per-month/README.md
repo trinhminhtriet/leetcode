@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1565.Unique%20Orders%20and%20Customers%20Per%20Month/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1565. 按月统计订单数与顾客数 🔒](https://leetcode.cn/problems/unique-orders-and-customers-per-month)
+# [1565. Unique Orders and Customers Per Month 🔒](https://leetcode.com/problems/unique-orders-and-customers-per-month)
 
-[English Version](/solution/1500-1599/1565.Unique%20Orders%20and%20Customers%20Per%20Month/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Orders</code></p>
+<p>Table: <code>Orders</code></p>
 
 <pre>
 +---------------+---------+
@@ -27,25 +24,24 @@ tags:
 | customer_id   | int     |
 | invoice       | int     |
 +---------------+---------+
-order_id 是该表具有唯一值的列<sub>。</sub>
-这张表包含顾客(customer_id)所下订单的信息<sub>。</sub>
+order_id is the column with unique values for this table.
+This table contains information about the orders made by customer_id.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>写一个查询语句来 <strong>按月 </strong>统计金额（invoice）<strong>大于 $20 </strong>的唯一 <strong>订单数</strong> 和唯一 <strong>顾客数 。</strong></p>
+<p>Write a solution to find the number of <strong>unique orders</strong> and the number of <strong>unique customers</strong> with invoices <strong>&gt; $20</strong> for each <strong>different month</strong>.</p>
 
-<p>查询结果无排序要求。</p>
+<p>Return the result table sorted in <strong>any order</strong>.</p>
 
-<p>查询结果格式如下所示。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<code><strong>输入：</strong>
-Orders</code>
+<strong>Input:</strong> 
+Orders table:
 +----------+------------+-------------+------------+
 | order_id | order_date | customer_id | invoice    |
 +----------+------------+-------------+------------+
@@ -60,7 +56,7 @@ Orders</code>
 | 9        | 2021-01-07 | 3           | 31         |
 | 10       | 2021-01-15 | 2           | 20         |
 +----------+------------+-------------+------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +---------+-------------+----------------+
 | month   | order_count | customer_count |
 +---------+-------------+----------------+
@@ -69,22 +65,23 @@ Orders</code>
 | 2020-12 | 2           | 1              |
 | 2021-01 | 1           | 1              |
 +---------+-------------+----------------+
-<strong>解释：</strong>
-在 2020 年 09 月<sub>，</sub>有 2 份来自 2 位不同顾客的金额大于 $20 的订单<sub>。</sub>
-在 2020 年 10 月<sub>，</sub>有 2 份来自 1 位顾客的订单<sub>，</sub>并且只有其中的 1 份订单金额大于 $20 <sub>。</sub>
-在 2020 年 11 月<sub>，</sub>有 2 份来自 2 位不同顾客的订单<sub>，</sub>但由于金额都小于 $20 <sub>，</sub>所以我们的查询结果中不包含这个月的数据<sub>。</sub>
-在 2020 年 12 月<sub>，</sub>有 2 份来自 1 位顾客的订单<sub>，</sub>且 2 份订单金额都大于 $20<sub> 。</sub>
-在 2021 年 01 月<sub>，</sub>有 2 份来自 2 位不同顾客的订单<sub>，</sub>但只有其中一份订单金额大于 $20 <sub>。</sub></pre>
+<strong>Explanation:</strong> 
+In September 2020 we have two orders from 2 different customers with invoices &gt; $20.
+In October 2020 we have two orders from 1 customer, and only one of the two orders has invoice &gt; $20.
+In November 2020 we have two orders from 2 different customers but invoices &lt; $20, so we don&#39;t include that month.
+In December 2020 we have two orders from 1 customer both with invoices &gt; $20.
+In January 2021 we have two orders from 2 different customers, but only one of them with invoice &gt; $20.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：条件筛选 + 分组统计
+### Solution 1: Conditional Filtering + Grouping Statistics
 
-我们可以先筛选出金额大于 $20$ 的订单，然后按月份进行分组统计订单数和顾客数。
+We can first filter out orders with an amount greater than $20$, and then group by month to count the number of orders and customers.
 
 <!-- tabs:start -->
 

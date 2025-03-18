@@ -1,85 +1,81 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1864.Minimum%20Number%20of%20Swaps%20to%20Make%20the%20Binary%20String%20Alternating/README.md
+difficulty: Medium
 rating: 1600
-source: 第 241 场周赛 Q2
+source: Weekly Contest 241 Q2
 tags:
-    - 贪心
-    - 字符串
+    - Greedy
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1864. 构成交替字符串需要的最小交换次数](https://leetcode.cn/problems/minimum-number-of-swaps-to-make-the-binary-string-alternating)
+# [1864. Minimum Number of Swaps to Make the Binary String Alternating](https://leetcode.com/problems/minimum-number-of-swaps-to-make-the-binary-string-alternating)
 
-[English Version](/solution/1800-1899/1864.Minimum%20Number%20of%20Swaps%20to%20Make%20the%20Binary%20String%20Alternating/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二进制字符串 <code>s</code> ，现需要将其转化为一个 <strong>交替字符串</strong> 。请你计算并返回转化所需的 <strong>最小</strong> 字符交换次数，如果无法完成转化，返回<em> </em><code>-1</code><em> </em>。</p>
+<p>Given a binary string <code>s</code>, return <em>the <strong>minimum</strong> number of character swaps to make it <strong>alternating</strong>, or </em><code>-1</code><em> if it is impossible.</em></p>
 
-<p><strong>交替字符串</strong> 是指：相邻字符之间不存在相等情况的字符串。例如，字符串 <code>"010"</code> 和 <code>"1010"</code> 属于交替字符串，但 <code>"0100"</code> 不是。</p>
+<p>The string is called <strong>alternating</strong> if no two adjacent characters are equal. For example, the strings <code>&quot;010&quot;</code> and <code>&quot;1010&quot;</code> are alternating, while the string <code>&quot;0100&quot;</code> is not.</p>
 
-<p>任意两个字符都可以进行交换，<strong>不必相邻</strong> 。</p>
+<p>Any two characters may be swapped, even if they are&nbsp;<strong>not adjacent</strong>.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>s = "111000"
-<strong>输出：</strong>1
-<strong>解释：</strong>交换位置 1 和 4："1<em><strong>1</strong></em>10<em><strong>0</strong></em>0" -> "1<em><strong>0</strong></em>10<em><strong>1</strong></em>0" ，字符串变为交替字符串。
-</pre>
-
-<p><strong>示例 2：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "010"
-<strong>输出：</strong>0
-<strong>解释：</strong>字符串已经是交替字符串了，不需要交换。
+<strong>Input:</strong> s = &quot;111000&quot;
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> Swap positions 1 and 4: &quot;1<u>1</u>10<u>0</u>0&quot; -&gt; &quot;1<u>0</u>10<u>1</u>0&quot;
+The string is now alternating.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>s = "1110"
-<strong>输出：</strong>-1
+<strong>Input:</strong> s = &quot;010&quot;
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The string is already alternating, no swaps are needed.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 3:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> s = &quot;1110&quot;
+<strong>Output:</strong> -1
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= s.length <= 1000</code></li>
-	<li><code>s[i]</code> 的值为 <code>'0'</code> 或 <code>'1'</code></li>
+	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
+	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们先统计字符串 $\textit{s}$ 中字符 $0$ 和字符 $1$ 的个数，分别记为 $n_0$ 和 $n_1$。
+First, we count the number of characters $0$ and $1$ in the string $\textit{s}$, denoted as $n_0$ and $n_1$ respectively.
 
-如果 $n_0$ 和 $n_1$ 的绝对值大于 $1$，那么无法构成交替字符串，返回 $-1$。
+If the absolute difference between $n_0$ and $n_1$ is greater than $1$, it is impossible to form an alternating string, so we return $-1$.
 
-如果 $n_0$ 和 $n_1$ 相等，那么我们可以分别计算将字符串转化为以 $0$ 开头和以 $1$ 开头的交替字符串所需要的交换次数，取最小值。
+If $n_0$ and $n_1$ are equal, we can calculate the number of swaps needed to convert the string into an alternating string starting with $0$ and starting with $1$, and take the minimum value.
 
-如果 $n_0$ 和 $n_1$ 不相等，那么我们只需要计算将字符串转化为以字符个数较多的字符开头的交替字符串所需要的交换次数。
+If $n_0$ and $n_1$ are not equal, we only need to calculate the number of swaps needed to convert the string into an alternating string starting with the character that appears more frequently.
 
-问题转换为：计算字符串 $\textit{s}$ 转化为以字符 $c$ 开头的交替字符串所需要的交换次数。
+The problem is reduced to calculating the number of swaps needed to convert the string $\textit{s}$ into an alternating string starting with character $c$.
 
-我们定义一个函数 $\text{calc}(c)$，表示将字符串 $\textit{s}$ 转化为以字符 $c$ 开头的交替字符串所需要的交换次数。我们遍历字符串 $\textit{s}$，对于每个位置 $i$，如果 $i$ 与 $c$ 的奇偶性不同，那么我们需要交换这个位置的字符，计数器 $+1$。由于每次交换都会使两个位置的字符变得相同，因此最终的交换次数为计数器的一半。
+We define a function $\text{calc}(c)$, which represents the number of swaps needed to convert the string $\textit{s}$ into an alternating string starting with character $c$. We traverse the string $\textit{s}$, and for each position $i$, if the parity of $i$ is different from $c$, we need to swap the character at this position, incrementing the counter by $1$. Since each swap makes two positions have the same character, the final number of swaps is half of the counter.
 
-时间复杂度 $O(n)$，其中 $n$ 是字符串 $\textit{s}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $\textit{s}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

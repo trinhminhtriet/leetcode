@@ -1,65 +1,60 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0082.Remove%20Duplicates%20from%20Sorted%20List%20II/README.md
+difficulty: Medium
 tags:
-    - 链表
-    - 双指针
+    - Linked List
+    - Two Pointers
 ---
 
 <!-- problem:start -->
 
-# [82. 删除排序链表中的重复元素 II](https://leetcode.cn/problems/remove-duplicates-from-sorted-list-ii)
+# [82. Remove Duplicates from Sorted List II](https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii)
 
-[English Version](/solution/0000-0099/0082.Remove%20Duplicates%20from%20Sorted%20List%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个已排序的链表的头&nbsp;<code>head</code> ，&nbsp;<em>删除原始链表中所有重复数字的节点，只留下不同的数字</em>&nbsp;。返回 <em>已排序的链表</em>&nbsp;。</p>
+<p>Given the <code>head</code> of a sorted linked list, <em>delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list</em>. Return <em>the linked list <strong>sorted</strong> as well</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0082.Remove%20Duplicates%20from%20Sorted%20List%20II/images/linkedlist1.jpg" style="height: 142px; width: 500px;" />
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0082.Remove%20Duplicates%20from%20Sorted%20List%20II/images/linkedlist1.jpg" style="width: 500px; height: 142px;" />
 <pre>
-<strong>输入：</strong>head = [1,2,3,3,4,4,5]
-<strong>输出：</strong>[1,2,5]
+<strong>Input:</strong> head = [1,2,3,3,4,4,5]
+<strong>Output:</strong> [1,2,5]
 </pre>
 
-<p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0082.Remove%20Duplicates%20from%20Sorted%20List%20II/images/linkedlist2.jpg" style="height: 164px; width: 400px;" />
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0082.Remove%20Duplicates%20from%20Sorted%20List%20II/images/linkedlist2.jpg" style="width: 500px; height: 205px;" />
 <pre>
-<strong>输入：</strong>head = [1,1,1,2,3]
-<strong>输出：</strong>[2,3]
+<strong>Input:</strong> head = [1,1,1,2,3]
+<strong>Output:</strong> [2,3]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>链表中节点数目在范围 <code>[0, 300]</code> 内</li>
+	<li>The number of nodes in the list is in the range <code>[0, 300]</code>.</li>
 	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
-	<li>题目数据保证链表已经按升序 <strong>排列</strong></li>
+	<li>The list is guaranteed to be <strong>sorted</strong> in ascending order.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：一次遍历
+### Solution 1: Single Pass
 
-我们先创建一个虚拟头节点 $dummy$，令 $dummy.next = head$，然后创建指针 $pre$ 指向 $dummy$，指针 $cur$ 指向 $head$，开始遍历链表。
+First, we create a dummy head node $dummy$, and set $dummy.next = head$. Then we create a pointer $pre$ pointing to $dummy$, and a pointer $cur$ pointing to $head$, and start traversing the linked list.
 
-当 $cur$ 指向的节点值与 $cur.next$ 指向的节点值相同时，我们就让 $cur$ 不断向后移动，直到 $cur$ 指向的节点值与 $cur.next$ 指向的节点值不相同时，停止移动。此时，我们判断 $pre.next$ 是否等于 $cur$，如果相等，说明 $pre$ 与 $cur$ 之间没有重复节点，我们就让 $pre$ 移动到 $cur$ 的位置；否则，说明 $pre$ 与 $cur$ 之间有重复节点，我们就让 $pre.next$ 指向 $cur.next$。然后让 $cur$ 继续向后移动。继续上述操作，直到 $cur$ 为空，遍历结束。
+When the node value pointed by $cur$ is the same as the node value pointed by $cur.next$, we let $cur$ keep moving forward until the node value pointed by $cur$ is different from the node value pointed by $cur.next$. At this point, we check whether $pre.next$ is equal to $cur$. If they are equal, it means there are no duplicate nodes between $pre$ and $cur$, so we move $pre$ to the position of $cur$; otherwise, it means there are duplicate nodes between $pre$ and $cur$, so we set $pre.next$ to $cur.next$. Then we continue to move $cur$ forward. Continue the above operation until $cur$ is null, and the traversal ends.
 
-最后，返回 $dummy.next$ 即可。
+Finally, return $dummy.next$.
 
-时间复杂度 $O(n)$，其中 $n$ 为链表的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the linked list.
 
 <!-- tabs:start -->
 

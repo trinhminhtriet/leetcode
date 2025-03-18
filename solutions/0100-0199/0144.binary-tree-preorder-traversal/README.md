@@ -1,92 +1,86 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0144.Binary%20Tree%20Preorder%20Traversal/README.md
+difficulty: Easy
 tags:
-    - 栈
-    - 树
-    - 深度优先搜索
-    - 二叉树
+    - Stack
+    - Tree
+    - Depth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [144. 二叉树的前序遍历](https://leetcode.cn/problems/binary-tree-preorder-traversal)
+# [144. Binary Tree Preorder Traversal](https://leetcode.com/problems/binary-tree-preorder-traversal)
 
-[English Version](/solution/0100-0199/0144.Binary%20Tree%20Preorder%20Traversal/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你二叉树的根节点 <code>root</code> ，返回它节点值的&nbsp;<strong>前序</strong><em>&nbsp;</em>遍历。</p>
+<p>Given the <code>root</code> of a binary tree, return <em>the preorder traversal of its nodes&#39; values</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">root = [1,null,2,3]</span></p>
+<p><strong>Input:</strong> <span class="example-io">root = [1,null,2,3]</span></p>
 
-<p><strong>输出：</strong><span class="example-io">[1,2,3]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[1,2,3]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0144.Binary%20Tree%20Preorder%20Traversal/images/screenshot-2024-08-29-202743.png" style="width: 200px; height: 264px;" /></p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>root = [1,2,3,4,5,null,8,null,null,6,7,9]</span></p>
+<p><strong>Input:</strong> <span class="example-io">root = [1,2,3,4,5,null,8,null,null,6,7,9]</span></p>
 
-<p><span class="example-io"><b>输出：</b>[1,2,4,5,6,7,3,8,9]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[1,2,4,5,6,7,3,8,9]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0144.Binary%20Tree%20Preorder%20Traversal/images/tree_2.png" style="width: 350px; height: 286px;" /></p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>root = []</span></p>
+<p><strong>Input:</strong> <span class="example-io">root = []</span></p>
 
-<p><span class="example-io"><b>输出：</b>[]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[]</span></p>
 </div>
 
-<p><strong class="example">示例 4：</strong></p>
+<p><strong class="example">Example 4:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">root = [1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">root = [1]</span></p>
 
-<p><span class="example-io"><b>输出：</b>[1]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[1]</span></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点数目在范围 <code>[0, 100]</code> 内</li>
+	<li>The number of nodes in the tree is in the range <code>[0, 100]</code>.</li>
 	<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>递归算法很简单，你可以通过迭代算法完成吗？</p>
+<p><strong>Follow up:</strong> Recursive solution is trivial, could you do it iteratively?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归遍历
+### Solution 1: Recursive Traversal
 
-我们先访问根节点，然后递归左子树和右子树。
+We first visit the root node, then recursively traverse the left and right subtrees.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数，空间复杂度主要取决于递归调用的栈空间。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree. The space complexity mainly depends on the stack space used for recursive calls.
 
 <!-- tabs:start -->
 
@@ -288,18 +282,18 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：栈实现非递归遍历
+### Solution 2: Stack Implementation for Non-Recursive Traversal
 
-栈实现非递归遍历的思路如下：
+The idea of using a stack to implement non-recursive traversal is as follows:
 
-1. 定义一个栈 $stk$，先将根节点压入栈
-1. 若栈不为空，每次从栈中弹出一个节点
-1. 处理该节点
-1. 先把节点右孩子压入栈，接着把节点左孩子压入栈（如果有孩子节点）
-1. 重复 2-4
-1. 返回结果
+1. Define a stack $stk$, and first push the root node into the stack.
+2. If the stack is not empty, pop a node from the stack each time.
+3. Process the node.
+4. First push the right child of the node into the stack, then push the left child of the node into the stack (if there are child nodes).
+5. Repeat steps 2-4.
+6. Return the result.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点数，空间复杂度主要取决于栈空间。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree. The space complexity mainly depends on the stack space.
 
 <!-- tabs:start -->
 
@@ -478,19 +472,19 @@ function preorderTraversal(root: TreeNode | null): number[] {
 
 <!-- solution:start -->
 
-### 方法三：Morris 实现前序遍历
+### Solution 3: Morris Preorder Traversal
 
-Morris 遍历无需使用栈，空间复杂度为 $O(1)$。核心思想是：
+Morris traversal does not require a stack, and its space complexity is $O(1)$. The core idea is:
 
-遍历二叉树节点，
+Traverse the binary tree nodes,
 
-1. 若当前节点 `root` 的左子树为空，将当前节点值添加至结果列表 $ans$ 中，并将当前节点更新为 `root.right`
-1. 若当前节点 `root` 的左子树不为空，找到左子树的最右节点 `pre`（也即是 `root` 节点在中序遍历下的前驱节点）：
-    - 若前驱节点 `pre` 的右子树为空，将当前节点值添加至结果列表 $ans$ 中，然后将前驱节点的右子树指向当前节点 `root`，并将当前节点更新为 `root.left`。
-    - 若前驱节点 `pre` 的右子树不为空，将前驱节点右子树指向空（即解除 `pre` 与 `root` 的指向关系），并将当前节点更新为 `root.right`。
-1. 循环以上步骤，直至二叉树节点为空，遍历结束。
+1. If the left subtree of the current node `root` is empty, add the current node value to the result list $ans$, and update the current node to `root.right`.
+1. If the left subtree of the current node `root` is not empty, find the rightmost node `pre` of the left subtree (which is the predecessor of the `root` node in inorder traversal):
+    - If the right subtree of the predecessor node `pre` is empty, add the current node value to the result list $ans$, then point the right subtree of the predecessor node to the current node `root`, and update the current node to `root.left`.
+    - If the right subtree of the predecessor node `pre` is not empty, point the right subtree of the predecessor node to null (i.e., disconnect `pre` and `root`), and update the current node to `root.right`.
+1. Repeat the above steps until the binary tree node is null, and the traversal ends.
 
-时间复杂度 $O(n)$，其中 $n$ 是二叉树的节点数。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the number of nodes in the binary tree. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,55 +1,48 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1182.Shortest%20Distance%20to%20Target%20Color/README.md
+difficulty: Medium
 rating: 1626
-source: 第 8 场双周赛 Q3
+source: Biweekly Contest 8 Q3
 tags:
-    - 数组
-    - 二分查找
-    - 动态规划
+    - Array
+    - Binary Search
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1182. 与目标颜色间的最短距离 🔒](https://leetcode.cn/problems/shortest-distance-to-target-color)
+# [1182. Shortest Distance to Target Color 🔒](https://leetcode.com/problems/shortest-distance-to-target-color)
 
-[English Version](/solution/1100-1199/1182.Shortest%20Distance%20to%20Target%20Color/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组&nbsp;<code>colors</code>，里面有&nbsp;&nbsp;<code>1</code>、<code>2</code>、&nbsp;<code>3</code> 三种颜色。</p>
+<p>You are given an array <code>colors</code>, in which there are three colors: <code>1</code>, <code>2</code> and&nbsp;<code>3</code>.</p>
 
-<p>我们需要在&nbsp;<code>colors</code> 上进行一些查询操作 <code>queries</code>，其中每个待查项都由两个整数 <code>i</code> 和 <code>c</code> 组成。</p>
-
-<p>现在请你帮忙设计一个算法，查找从索引&nbsp;<code>i</code>&nbsp;到具有目标颜色&nbsp;<code>c</code>&nbsp;的元素之间的最短距离。</p>
-
-<p>如果不存在解决方案，请返回&nbsp;<code>-1</code>。</p>
+<p>You are also given some queries. Each query consists of two integers <code>i</code>&nbsp;and <code>c</code>, return&nbsp;the shortest distance between the given index&nbsp;<code>i</code> and the target color <code>c</code>. If there is no solution return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>colors = [1,1,2,1,3,2,2,3,3], queries = [[1,3],[2,2],[6,1]]
-<strong>输出：</strong>[3,0,3]
-<strong>解释： </strong>
-距离索引 1 最近的颜色 3 位于索引 4（距离为 3）。
-距离索引 2 最近的颜色 2 就是它自己（距离为 0）。
-距离索引 6 最近的颜色 1 位于索引 3（距离为 3）。
+<pre>
+<strong>Input:</strong> colors = [1,1,2,1,3,2,2,3,3], queries = [[1,3],[2,2],[6,1]]
+<strong>Output:</strong> [3,0,3]
+<strong>Explanation: </strong>
+The nearest 3 from index 1 is at index 4 (3 steps away).
+The nearest 2 from index 2 is at index 2 itself (0 steps away).
+The nearest 1 from index 6 is at index 3 (3 steps away).
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>colors = [1,2], queries = [[0,3]]
-<strong>输出：</strong>[-1]
-<strong>解释：</strong>colors 中没有颜色 3。
+<pre>
+<strong>Input:</strong> colors = [1,2], queries = [[0,3]]
+<strong>Output:</strong> [-1]
+<strong>Explanation: </strong>There is no 3 in the array.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= colors.length &lt;= 5*10^4</code></li>
@@ -62,17 +55,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：预处理
+### Solution 1: Preprocessing
 
-我们可以预处理出每个位置到左边最近的颜色 $1$,$2$,$3$ 的距离，以及每个位置到右边最近的颜色 $1$,$2$,$3$ 的距离，记录在数组 $left$ 和 $right$ 中。初始时 $left[0][0] = left[0][1] = left[0][2] = -\infty$，而 $right[n][0] = right[n][1] = right[n][2] = \infty$，其中 $n$ 是数组 $colors$ 的长度。
+We can preprocess the distance from each position to the nearest color $1$, $2$, $3$ on the left, and the distance from each position to the nearest color $1$, $2$, $3$ on the right, and record them in the arrays $left$ and $right$. Initially, $left[0][0] = left[0][1] = left[0][2] = -\infty$, and $right[n][0] = right[n][1] = right[n][2] = \infty$, where $n$ is the length of the array `colors`.
 
-然后对于每个查询 $(i, c)$，最小距离就是 $d = \min(i - left[i + 1][c - 1], right[i][c - 1][i] - i)$，如果 $d \gt n$，则不存在解决方案，此次查询的答案为 $-1$。
+Then for each query $(i, c)$, the minimum distance is $d = \min(i - left[i + 1][c - 1], right[i][c - 1] - i)$. If $d > n$, there is no solution, and the answer to this query is $-1$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $colors$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array `colors`.
 
 <!-- tabs:start -->
 

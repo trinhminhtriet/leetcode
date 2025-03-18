@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1132.Reported%20Posts%20II/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1132. 报告的记录 II 🔒](https://leetcode.cn/problems/reported-posts-ii)
+# [1132. Reported Posts II 🔒](https://leetcode.com/problems/reported-posts-ii)
 
-[English Version](/solution/1100-1199/1132.Reported%20Posts%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>动作表：&nbsp;<code>Actions</code></p>
+<p>Table: <code>Actions</code></p>
 
 <pre>
 +---------------+---------+
@@ -24,17 +21,18 @@ tags:
 +---------------+---------+
 | user_id       | int     |
 | post_id       | int     |
-| action_date   | date    |
+| action_date   | date    | 
 | action        | enum    |
 | extra         | varchar |
 +---------------+---------+
-这张表可能存在重复的行。
-action 列的类型是 ENUM，可能的值为 ('view', 'like', 'reaction', 'comment', 'report', 'share')。
-extra 列拥有一些可选信息，例如：报告理由（a reason for report）或反应类型（a type of reaction）等。</pre>
+This table may have duplicate rows.
+The action column is an ENUM (category) type of (&#39;view&#39;, &#39;like&#39;, &#39;reaction&#39;, &#39;comment&#39;, &#39;report&#39;, &#39;share&#39;).
+The extra column has optional information about the action, such as a reason for the report or a type of reaction.
+</pre>
 
 <p>&nbsp;</p>
 
-<p>移除表：&nbsp;<code>Removals</code></p>
+<p>Table: <code>Removals</code></p>
 
 <pre>
 +---------------+---------+
@@ -43,22 +41,21 @@ extra 列拥有一些可选信息，例如：报告理由（a reason for report�
 | post_id       | int     |
 | remove_date   | date    | 
 +---------------+---------+
-这张表的主键是 post_id（具有唯一值的列）。
-这张表的每一行表示一个被移除的帖子，原因可能是由于被举报或被管理员审查。
+post_id is the primary key (column with unique values) of this table.
+Each row in this table indicates that some post was removed due to being reported or as a result of an admin review.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案，统计在被报告为垃圾广告的帖子中，被移除的帖子的每日平均占比，<strong>四舍五入到小数点后 2 位</strong>。</p>
+<p>Write a solution to find the average daily percentage of posts that got removed after being reported as spam, <strong>rounded to 2 decimal places</strong>.</p>
 
-<p>结果的格式如下。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 Actions table:
 +---------+---------+-------------+--------+--------+
 | user_id | post_id | action_date | action | extra  |
@@ -84,25 +81,26 @@ Removals table:
 | 2       | 2019-07-20  |
 | 3       | 2019-07-18  |
 +---------+-------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-----------------------+
 | average_daily_percent |
 +-----------------------+
 | 75.00                 |
 +-----------------------+
-<strong>解释：</strong>
-2019-07-04 的垃圾广告移除率是 50%，因为有两张帖子被报告为垃圾广告，但只有一个得到移除。
-2019-07-02 的垃圾广告移除率是 100%，因为有一张帖子被举报为垃圾广告并得到移除。
-其余几天没有收到垃圾广告的举报，因此平均值为：(50 + 100) / 2 = 75%
-注意，输出仅需要一个平均值即可，我们并不关注移除操作的日期。</pre>
+<strong>Explanation:</strong> 
+The percentage for 2019-07-04 is 50% because only one post of two spam reported posts were removed.
+The percentage for 2019-07-02 is 100% because one post was reported as spam and it was removed.
+The other days had no spam reports so the average is (50 + 100) / 2 = 75%
+Note that the output is only one number and that we do not care about the remove dates.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

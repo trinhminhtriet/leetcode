@@ -1,63 +1,56 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1572.Matrix%20Diagonal%20Sum/README.md
+difficulty: Easy
 rating: 1280
-source: 第 34 场双周赛 Q1
+source: Biweekly Contest 34 Q1
 tags:
-    - 数组
-    - 矩阵
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [1572. 矩阵对角线元素的和](https://leetcode.cn/problems/matrix-diagonal-sum)
+# [1572. Matrix Diagonal Sum](https://leetcode.com/problems/matrix-diagonal-sum)
 
-[English Version](/solution/1500-1599/1572.Matrix%20Diagonal%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正方形矩阵 <code>mat</code>，请你返回矩阵对角线元素的和。</p>
+<p>Given a&nbsp;square&nbsp;matrix&nbsp;<code>mat</code>, return the sum of the matrix diagonals.</p>
 
-<p>请你返回在矩阵主对角线上的元素和副对角线上且不在主对角线上元素的和。</p>
+<p>Only include the sum of all the elements on the primary diagonal and all the elements on the secondary diagonal that are not part of the primary diagonal.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例&nbsp; 1：</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1572.Matrix%20Diagonal%20Sum/images/sample_1911.png" style="height:174px; width:336px" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1500-1599/1572.Matrix%20Diagonal%20Sum/images/sample_1911.png" style="width: 336px; height: 174px;" />
 <pre>
-<strong>输入：</strong>mat = [[<strong>1</strong>,2,<strong>3</strong>],
-&nbsp;           [4,<strong>5</strong>,6],
-&nbsp;           [<strong>7</strong>,8,<strong>9</strong>]]
-<strong>输出：</strong>25
-<strong>解释：</strong>对角线的和为：1 + 5 + 9 + 3 + 7 = 25
-请注意，元素 mat[1][1] = 5 只会被计算一次。
+<strong>Input:</strong> mat = [[<strong>1</strong>,2,<strong>3</strong>],
+&nbsp;             [4,<strong>5</strong>,6],
+&nbsp;             [<strong>7</strong>,8,<strong>9</strong>]]
+<strong>Output:</strong> 25
+<strong>Explanation: </strong>Diagonals sum: 1 + 5 + 9 + 3 + 7 = 25
+Notice that element mat[1][1] = 5 is counted only once.
 </pre>
 
-<p><strong>示例&nbsp; 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>mat = [[<strong>1</strong>,1,1,<strong>1</strong>],
-&nbsp;           [1,<strong>1</strong>,<strong>1</strong>,1],
-&nbsp;           [1,<strong>1</strong>,<strong>1</strong>,1],
-&nbsp;           [<strong>1</strong>,1,1,<strong>1</strong>]]
-<strong>输出：</strong>8
+<strong>Input:</strong> mat = [[<strong>1</strong>,1,1,<strong>1</strong>],
+&nbsp;             [1,<strong>1</strong>,<strong>1</strong>,1],
+&nbsp;             [1,<strong>1</strong>,<strong>1</strong>,1],
+&nbsp;             [<strong>1</strong>,1,1,<strong>1</strong>]]
+<strong>Output:</strong> 8
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>mat = [[<strong>5</strong>]]
-<strong>输出：</strong>5
+<strong>Input:</strong> mat = [[<strong>5</strong>]]
+<strong>Output:</strong> 5
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == mat.length == mat[i].length</code></li>
@@ -67,16 +60,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：逐行遍历
+### Solution 1: Row-by-Row Traversal
 
-我们可以遍历矩阵的每一行 $\textit{row}[i]$，对于每一行，我们可以计算出两个对角线上的元素，即 $\textit{row}[i][i]$ 和 $\textit{row}[i][n - i - 1]$，其中 $n$ 是矩阵的行数。如果 $i = n - i - 1$，则说明当前行的对角线上只有一个元素，否则有两个元素。我们将其加到答案中即可。
-遍历完所有行后，即可得到答案。
+We can traverse each row $\textit{row}[i]$ of the matrix. For each row, we calculate the elements on the two diagonals, i.e., $\textit{row}[i][i]$ and $\textit{row}[i][n - i - 1]$, where $n$ is the number of rows in the matrix. If $i = n - i - 1$, it means there is only one element on the diagonals of the current row; otherwise, there are two elements. We add these elements to the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 是矩阵的行数。空间复杂度 $O(1)$。
+After traversing all rows, we get the answer.
+
+The time complexity is $O(n)$, where $n$ is the number of rows in the matrix. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

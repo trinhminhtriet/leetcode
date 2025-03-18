@@ -1,65 +1,59 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2604.Minimum%20Time%20to%20Eat%20All%20Grains/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 双指针
-    - 二分查找
-    - 排序
+    - Array
+    - Two Pointers
+    - Binary Search
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2604. 吃掉所有谷子的最短时间 🔒](https://leetcode.cn/problems/minimum-time-to-eat-all-grains)
+# [2604. Minimum Time to Eat All Grains 🔒](https://leetcode.com/problems/minimum-time-to-eat-all-grains)
 
-[English Version](/solution/2600-2699/2604.Minimum%20Time%20to%20Eat%20All%20Grains/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一条线上有 <code>n</code> 只母鸡和 <code>m</code> 颗谷子。给定两个整数数组 <code>hens</code> 和 <code>grains</code> ，它们的大小分别为 <code>n</code> 和 <code>m</code> ，表示母鸡和谷子的初始位置。</p>
+<p>There are <code>n</code> hens and <code>m</code> grains on a line. You are given the initial positions of the hens and the grains in two integer arrays <code>hens</code> and <code>grains</code> of size <code>n</code> and <code>m</code> respectively.</p>
 
-<p>如果一只母鸡和一颗谷子在同一个位置，那么这只母鸡可以吃掉这颗谷子。吃掉一颗谷子的时间可以忽略不计。一只母鸡也可以吃掉多颗谷子。</p>
+<p>Any hen can eat a grain if they are on the same position. The time taken for this is negligible. One hen can also eat multiple grains.</p>
 
-<p>在 <code>1</code> 秒钟内，一只母鸡可以向左或向右移动 <code>1</code> 个单位。母鸡可以同时且独立地移动。</p>
+<p>In <code>1</code> second, a hen can move right or left by <code>1</code> unit. The hens can move simultaneously and independently of each other.</p>
 
-<p>如果母鸡行动得当，返回吃掉所有谷子的 <strong>最短</strong> 时间。</p>
-
-<p>&nbsp;</p>
+<p>Return <em>the <strong>minimum</strong> time to eat all grains if the hens act optimally.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1 ：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>hens = [3,6,7], grains = [2,4,7,9]
-<b>输出：</b>2
-<b>解释：</b>
-母鸡吃掉所有谷子的一种方法如下：
-- 第一只母鸡在 1 秒钟内吃掉位置 2 处的谷子。
-- 第二只母鸡在 2 秒钟内吃掉位置 4 处的谷子。
-- 第三只母鸡在 2 秒钟内吃掉位置 7 和 9 处的谷子。 
-所以，需要的最长时间为2秒。 
-可以证明，在2秒钟之前，母鸡不能吃掉所有谷子。</pre>
+<strong>Input:</strong> hens = [3,6,7], grains = [2,4,7,9]
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> 
+One of the ways hens eat all grains in 2 seconds is described below:
+- The first hen eats the grain at position 2 in 1 second. 
+- The second hen eats the grain at position 4 in 2 seconds. 
+- The third hen eats the grains at positions 7 and 9 in 2 seconds. 
+So, the maximum time needed is 2.
+It can be proven that the hens cannot eat all grains before 2 seconds.</pre>
 
-<p><strong class="example">示例 2 ：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>hens = [4,6,109,111,213,215], grains = [5,110,214]
-<b>输出：</b>1
-<b>解释：</b>
-母鸡吃掉所有谷子的一种方法如下：
-- 第一只母鸡在 1 秒钟内吃掉位置 5 处的谷子。
-- 第四只母鸡在 1 秒钟内吃掉位置 110 处的谷子。
-- 第六只母鸡在 1 秒钟内吃掉位置 214 处的谷子。
-- 其他母鸡不动。 
-所以，需要的最长时间为 1 秒。</pre>
+<strong>Input:</strong> hens = [4,6,109,111,213,215], grains = [5,110,214]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> 
+One of the ways hens eat all grains in 1 second is described below:
+- The first hen eats the grain at position 5 in 1 second. 
+- The fourth hen eats the grain at position 110 in 1 second.
+- The sixth hen eats the grain at position 214 in 1 second. 
+- The other hens do not move. 
+So, the maximum time needed is 1.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= hens.length, grains.length &lt;= 2*10<sup>4</sup></code></li>
@@ -68,22 +62,22 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 二分查找
+### Solution 1: Sorting + Binary Search
 
-我们先将鸡和谷物按照位置从小到大排序，接下来二分枚举时间 $t$，找到一个最小的 $t$ 使得所有谷物能在 $t$ 秒内被吃完。
+First, sort the chickens and grains by their position from left to right. Then enumerate the time $t$ using binary search to find the smallest $t$ such that all the grains can be eaten up in $t$ seconds.
 
-对于每个鸡，我们用指针 $j$ 指向当前还未被吃的谷物中最左边的谷物，记当前鸡的位置为 $x$，谷物的位置为 $y$，则有以下几种情况：
+For each chicken, we use the pointer $j$ to point to the leftmost grain that has not been eaten, and the current position of the chicken is $x$ and the position of the grain is $y$. There are the following cases:
 
--   如果 $y \leq x$，我们记 $d = x - y$，如果 $d \gt t$，那么当前谷物无法被吃掉，直接返回 `false`。否则，我们向右移动指针 $j$，直到 $j=m$ 或者 $grains[j] \gt x$。此时我们需要判断鸡是否能吃到 $j$ 指向的谷物，如果能吃到，我们继续向右移动指针 $j$，直到 $j=m$ 或者 $min(d, grains[j] - x) + grains[j] - y \gt t$。
--   如果 $y \lt x$，我们向右移动指针 $j$，直到 $j=m$ 或者 $grains[j] - x \gt t$。
+-   If $y \leq x$, we note that $d = x - y$. If $d \gt t$, the current grain cannot be eaten, so directly return `false`. Otherwise, move the pointer $j$ to the right until $j=m$ or $grains[j] \gt x$. At this point, we need to check whether the chicken can eat the grain pointed to by $j$. If it can, continue to move the pointer $j$ to the right until $j=m$ or $min(d, grains[j] - x) + grains[j] - y \gt t$.
+-   If $y \lt x$, move the pointer $j$ to the right until $j=m$ or $grains[j] - x \gt t$.
 
-如果 $j=m$，说明所有谷物都被吃完了，返回 `true`，否则返回 `false`。
+If $j=m$, it means that all the grains have been eaten, return `true`, otherwise return `false`.
 
-时间复杂度 $O(n \times \log n + m \times \log m + (m + n) \times \log U)$，空间复杂度 $O(\log m + \log n)$。其中 $n$ 和 $m$ 分别为鸡和谷物的数量，而 $U$ 为所有鸡和谷物的位置的最大值。
+Time complexity $O(n \times \log n + m \times \log m + (m + n) \times \log U)$, space complexity $O(\log m + \log n)$. $n$ and $m$ are the number of chickens and grains respectively, and $U$ is the maximum value of all the chicken and grain positions.
 
 <!-- tabs:start -->
 

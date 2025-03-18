@@ -1,91 +1,87 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1239.Maximum%20Length%20of%20a%20Concatenated%20String%20with%20Unique%20Characters/README.md
+difficulty: Medium
 rating: 1719
-source: 第 160 场周赛 Q3
+source: Weekly Contest 160 Q3
 tags:
-    - 位运算
-    - 数组
-    - 字符串
-    - 回溯
+    - Bit Manipulation
+    - Array
+    - String
+    - Backtracking
 ---
 
 <!-- problem:start -->
 
-# [1239. 串联字符串的最大长度](https://leetcode.cn/problems/maximum-length-of-a-concatenated-string-with-unique-characters)
+# [1239. Maximum Length of a Concatenated String with Unique Characters](https://leetcode.com/problems/maximum-length-of-a-concatenated-string-with-unique-characters)
 
-[English Version](/solution/1200-1299/1239.Maximum%20Length%20of%20a%20Concatenated%20String%20with%20Unique%20Characters/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个字符串数组 <code>arr</code>，字符串 <code>s</code> 是将 <code>arr</code>&nbsp;的含有 <strong>不同字母</strong> 的&nbsp;<strong>子序列</strong> 字符串 <strong>连接</strong> 所得的字符串。</p>
+<p>You are given an array of strings <code>arr</code>. A string <code>s</code> is formed by the <strong>concatenation</strong> of a <strong>subsequence</strong> of <code>arr</code> that has <strong>unique characters</strong>.</p>
 
-<p>请返回所有可行解 <code>s</code> 中最长长度。</p>
+<p>Return <em>the <strong>maximum</strong> possible length</em> of <code>s</code>.</p>
 
-<p><strong>子序列</strong> 是一种可以从另一个数组派生而来的数组，通过删除某些元素或不删除元素而不改变其余元素的顺序。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = ["un","iq","ue"]
-<strong>输出：</strong>4
-<strong>解释：</strong>所有可能的串联组合是：
-- ""
-- "un"
-- "iq"
-- "ue"
-- "uniq" ("un" + "iq")
-- "ique" ("iq" + "ue")
-最大长度为 4。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = ["cha","r","act","ers"]
-<strong>输出：</strong>6
-<strong>解释：</strong>可能的解答有 "chaers" 和 "acters"。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>arr = ["abcdefghijklmnopqrstuvwxyz"]
-<strong>输出：</strong>26
-</pre>
+<p>A <strong>subsequence</strong> is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> arr = [&quot;un&quot;,&quot;iq&quot;,&quot;ue&quot;]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> All the valid concatenations are:
+- &quot;&quot;
+- &quot;un&quot;
+- &quot;iq&quot;
+- &quot;ue&quot;
+- &quot;uniq&quot; (&quot;un&quot; + &quot;iq&quot;)
+- &quot;ique&quot; (&quot;iq&quot; + &quot;ue&quot;)
+Maximum length is 4.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [&quot;cha&quot;,&quot;r&quot;,&quot;act&quot;,&quot;ers&quot;]
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> Possible longest valid concatenations are &quot;chaers&quot; (&quot;cha&quot; + &quot;ers&quot;) and &quot;acters&quot; (&quot;act&quot; + &quot;ers&quot;).
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> arr = [&quot;abcdefghijklmnopqrstuvwxyz&quot;]
+<strong>Output:</strong> 26
+<strong>Explanation:</strong> The only string in arr has all 26 characters.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= arr.length &lt;= 16</code></li>
 	<li><code>1 &lt;= arr[i].length &lt;= 26</code></li>
-	<li><code>arr[i]</code>&nbsp;中只含有小写英文字母</li>
+	<li><code>arr[i]</code> contains only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：状态压缩 + 位运算
+### Solution 1: State Compression + Bit Manipulation
 
-由于题目要求子序列的字符不能重复，字符都是小写字母，因此，我们可以用一个长度为 $26$ 的二进制整数来表示一个子序列，其中第 $i$ 位为 $1$ 表示子序列中含有滴 $i$ 个字符，为 $0$ 表示不含有第 $i$ 个字符。
+Since the problem requires that the characters in the subsequence must not be repeated and all characters are lowercase letters, we can use a binary integer of length $26$ to represent a subsequence. The $i$-th bit being $1$ indicates that the subsequence contains the $i$-th character, and $0$ indicates that it does not contain the $i$-th character.
 
-我们可以用一个数组 $s$ 来存储所有满足条件的子序列的状态，初始时 $s$ 中只有一个元素 $0$。
+We can use an array $s$ to store the states of all subsequences that meet the conditions. Initially, $s$ contains only one element $0$.
 
-然后我们遍历数组 $\textit{arr}$，对于每个字符串 $t$，我们用一个整数 $x$ 来表示 $t$ 的状态，然后我们遍历数组 $s$，对于每个状态 $y$，如果 $x$ 和 $y$ 之间没有相同的字符，那么我们将 $x$ 和 $y$ 的并集加入到 $s$ 中，并更新答案。
+Then we traverse the array $\textit{arr}$. For each string $t$, we use an integer $x$ to represent the state of $t$. Then we traverse the array $s$. For each state $y$, if $x$ and $y$ have no common characters, we add the union of $x$ and $y$ to $s$ and update the answer.
 
-最后我们返回答案即可。
+Finally, we return the answer.
 
-时间复杂度 $O(2^n + L)$，空间复杂度 $O(2^n)$，其中 $n$ 是字符串数组的长度，而 $L$ 是字符串数组中所有字符串的长度之和。
+The time complexity is $O(2^n + L)$, and the space complexity is $O(2^n)$. Here, $n$ is the length of the string array, and $L$ is the sum of the lengths of all strings in the array.
 
 <!-- tabs:start -->
 

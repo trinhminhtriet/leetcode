@@ -1,75 +1,58 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0300-0399/0342.Power%20of%20Four/README.md
+difficulty: Easy
 tags:
-    - 位运算
-    - 递归
-    - 数学
+    - Bit Manipulation
+    - Recursion
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [342. 4的幂](https://leetcode.cn/problems/power-of-four)
+# [342. Power of Four](https://leetcode.com/problems/power-of-four)
 
-[English Version](/solution/0300-0399/0342.Power%20of%20Four/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数，写一个函数来判断它是否是 4 的幂次方。如果是，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
+<p>Given an integer <code>n</code>, return <em><code>true</code> if it is a power of four. Otherwise, return <code>false</code></em>.</p>
 
-<p>整数 <code>n</code> 是 4 的幂次方需满足：存在整数 <code>x</code> 使得 <code>n == 4<sup>x</sup></code></p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 16
-<strong>输出：</strong>true
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 5
-<strong>输出：</strong>false
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>n = 1
-<strong>输出：</strong>true
-</pre>
+<p>An integer <code>n</code> is a power of four, if there exists an integer <code>x</code> such that <code>n == 4<sup>x</sup></code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
+<pre><strong>Input:</strong> n = 16
+<strong>Output:</strong> true
+</pre><p><strong class="example">Example 2:</strong></p>
+<pre><strong>Input:</strong> n = 5
+<strong>Output:</strong> false
+</pre><p><strong class="example">Example 3:</strong></p>
+<pre><strong>Input:</strong> n = 1
+<strong>Output:</strong> true
+</pre>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>-2<sup>31</sup> &lt;= n &lt;= 2<sup>31</sup> - 1</code></li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>你能不使用循环或者递归来完成本题吗？</p>
+<strong>Follow up:</strong> Could you solve it without loops/recursion?
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：位运算
+### Solution 1: Bit Manipulation
 
-如果一个数是 4 的幂次方，那么这个数必须是大于 $0$ 的。不妨假设这个数是 $4^x$，即 $2^{2x}$，那么这个数的二进制表示中有且仅有一个 $1$，且这个 $1$ 出现在偶数位上。
+If a number is a power of 4, then it must be greater than $0$. Suppose this number is $4^x$, which is $2^{2x}$. Therefore, its binary representation has only one $1$, and this $1$ appears at an even position.
 
-因此，我们首先判断这个数是否大于 $0$，然后判断这个数是否是 $2^{2x}$，即 $n$ 与 $n-1$ 的按位与结果是否为 $0$，最后判断这个数的 $1$ 是否出现在偶数位上，即 $n$ 与 $\textit{0xAAAAAAAA}$ 的按位与结果是否为 $0$。如果这三个条件都满足，那么这个数就是 4 的幂次方。
+First, we check if the number is greater than $0$. Then, we verify if the number is $2^{2x}$ by checking if the bitwise AND of $n$ and $n-1$ is $0$. Finally, we check if the $1$ appears at an even position by verifying if the bitwise AND of $n$ and $\textit{0xAAAAAAAA}$ is $0$. If all three conditions are met, then the number is a power of 4.
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+The time complexity is $O(1)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,87 +1,75 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1622.Fancy%20Sequence/README.md
+difficulty: Hard
 rating: 2476
-source: 第 37 场双周赛 Q4
+source: Biweekly Contest 37 Q4
 tags:
-    - 设计
-    - 线段树
-    - 数学
+    - Design
+    - Segment Tree
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [1622. 奇妙序列](https://leetcode.cn/problems/fancy-sequence)
+# [1622. Fancy Sequence](https://leetcode.com/problems/fancy-sequence)
 
-[English Version](/solution/1600-1699/1622.Fancy%20Sequence/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>请你实现三个 API <code>append</code>，<code>addAll</code> 和 <code>multAll</code> 来实现奇妙序列。</p>
+<p>Write an API that generates fancy sequences using the <code>append</code>, <code>addAll</code>, and <code>multAll</code> operations.</p>
 
-<p>请实现 <code>Fancy</code> 类 ：</p>
+<p>Implement the <code>Fancy</code> class:</p>
 
 <ul>
-	<li><code>Fancy()</code> 初始化一个空序列对象。</li>
-	<li><code>void append(val)</code> 将整数 <code>val</code> 添加在序列末尾。</li>
-	<li><code>void addAll(inc)</code> 将所有序列中的现有数值都增加 <code>inc</code> 。</li>
-	<li><code>void multAll(m)</code> 将序列中的所有现有数值都乘以整数 <code>m</code> 。</li>
-	<li><code>int getIndex(idx)</code> 得到下标为 <code>idx</code> 处的数值（下标从 0 开始），并将结果对 <code>10<sup>9</sup> + 7</code> 取余。如果下标大于等于序列的长度，请返回 <code>-1</code> 。</li>
+	<li><code>Fancy()</code> Initializes the object with an empty sequence.</li>
+	<li><code>void append(val)</code> Appends an integer <code>val</code> to the end of the sequence.</li>
+	<li><code>void addAll(inc)</code> Increments all existing values in the sequence by an integer <code>inc</code>.</li>
+	<li><code>void multAll(m)</code> Multiplies all existing values in the sequence by an integer <code>m</code>.</li>
+	<li><code>int getIndex(idx)</code> Gets the current value at index <code>idx</code> (0-indexed) of the sequence <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>. If the index is greater or equal than the length of the sequence, return <code>-1</code>.</li>
 </ul>
 
-<p> </p>
-
-<p><strong>示例：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["Fancy", "append", "addAll", "append", "multAll", "getIndex", "addAll", "append", "multAll", "getIndex", "getIndex", "getIndex"]
+<strong>Input</strong>
+[&quot;Fancy&quot;, &quot;append&quot;, &quot;addAll&quot;, &quot;append&quot;, &quot;multAll&quot;, &quot;getIndex&quot;, &quot;addAll&quot;, &quot;append&quot;, &quot;multAll&quot;, &quot;getIndex&quot;, &quot;getIndex&quot;, &quot;getIndex&quot;]
 [[], [2], [3], [7], [2], [0], [3], [10], [2], [0], [1], [2]]
-<strong>输出：</strong>
+<strong>Output</strong>
 [null, null, null, null, null, 10, null, null, null, 26, 34, 20]
 
-<strong>解释：</strong>
+<strong>Explanation</strong>
 Fancy fancy = new Fancy();
-fancy.append(2);   // 奇妙序列：[2]
-fancy.addAll(3);   // 奇妙序列：[2+3] -> [5]
-fancy.append(7);   // 奇妙序列：[5, 7]
-fancy.multAll(2);  // 奇妙序列：[5*2, 7*2] -> [10, 14]
-fancy.getIndex(0); // 返回 10
-fancy.addAll(3);   // 奇妙序列：[10+3, 14+3] -> [13, 17]
-fancy.append(10);  // 奇妙序列：[13, 17, 10]
-fancy.multAll(2);  // 奇妙序列：[13*2, 17*2, 10*2] -> [26, 34, 20]
-fancy.getIndex(0); // 返回 26
-fancy.getIndex(1); // 返回 34
-fancy.getIndex(2); // 返回 20
+fancy.append(2);   // fancy sequence: [2]
+fancy.addAll(3);   // fancy sequence: [2+3] -&gt; [5]
+fancy.append(7);   // fancy sequence: [5, 7]
+fancy.multAll(2);  // fancy sequence: [5*2, 7*2] -&gt; [10, 14]
+fancy.getIndex(0); // return 10
+fancy.addAll(3);   // fancy sequence: [10+3, 14+3] -&gt; [13, 17]
+fancy.append(10);  // fancy sequence: [13, 17, 10]
+fancy.multAll(2);  // fancy sequence: [13*2, 17*2, 10*2] -&gt; [26, 34, 20]
+fancy.getIndex(0); // return 26
+fancy.getIndex(1); // return 34
+fancy.getIndex(2); // return 20
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= val, inc, m <= 100</code></li>
-	<li><code>0 <= idx <= 10<sup>5</sup></code></li>
-	<li>总共最多会有 <code>10<sup>5</sup></code> 次对 <code>append</code>，<code>addAll</code>，<code>multAll</code> 和 <code>getIndex</code> 的调用。</li>
+	<li><code>1 &lt;= val, inc, m &lt;= 100</code></li>
+	<li><code>0 &lt;= idx &lt;= 10<sup>5</sup></code></li>
+	<li>At most <code>10<sup>5</sup></code> calls total will be made to <code>append</code>, <code>addAll</code>, <code>multAll</code>, and <code>getIndex</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：线段树
-
-线段树将整个区间分割为多个不连续的子区间，子区间的数量不超过 `log(width)`。更新某个元素的值，只需要更新 `log(width)` 个区间，并且这些区间都包含在一个包含该元素的大区间内。区间修改时，需要使用**懒标记**保证效率。
-
--   线段树的每个节点代表一个区间；
--   线段树具有唯一的根节点，代表的区间是整个统计范围，如 `[1, N]`；
--   线段树的每个叶子节点代表一个长度为 1 的元区间 `[x, x]`；
--   对于每个内部节点 `[l, r]`，它的左儿子是 `[l, mid]`，右儿子是 `[mid + 1, r]`, 其中 `mid = ⌊(l + r) / 2⌋` (即向下取整)。
+### Solution 1
 
 <!-- tabs:start -->
 

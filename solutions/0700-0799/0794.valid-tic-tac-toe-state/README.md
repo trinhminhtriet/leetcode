@@ -1,88 +1,74 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0794.Valid%20Tic-Tac-Toe%20State/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 矩阵
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [794. 有效的井字游戏](https://leetcode.cn/problems/valid-tic-tac-toe-state)
+# [794. Valid Tic-Tac-Toe State](https://leetcode.com/problems/valid-tic-tac-toe-state)
 
-[English Version](/solution/0700-0799/0794.Valid%20Tic-Tac-Toe%20State/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串数组 <code>board</code> 表示井字游戏的棋盘。当且仅当在井字游戏过程中，棋盘有可能达到 <code>board</code> 所显示的状态时，才返回 <code>true</code> 。</p>
+<p>Given a Tic-Tac-Toe board as a string array <code>board</code>, return <code>true</code> if and only if it is possible to reach this board position during the course of a valid tic-tac-toe game.</p>
 
-<p>井字游戏的棋盘是一个 <code>3 x 3</code> 数组，由字符 <code>' '</code>，<code>'X'</code> 和 <code>'O'</code> 组成。字符 <code>' '</code> 代表一个空位。</p>
+<p>The board is a <code>3 x 3</code> array that consists of characters <code>&#39; &#39;</code>, <code>&#39;X&#39;</code>, and <code>&#39;O&#39;</code>. The <code>&#39; &#39;</code> character represents an empty square.</p>
 
-<p>以下是井字游戏的规则：</p>
+<p>Here are the rules of Tic-Tac-Toe:</p>
 
 <ul>
-	<li>玩家轮流将字符放入空位（<code>' '</code>）中。</li>
-	<li>玩家 1 总是放字符 <code>'X'</code> ，而玩家 2 总是放字符 <code>'O'</code> 。</li>
-	<li><code>'X'</code> 和 <code>'O'</code> 只允许放置在空位中，不允许对已放有字符的位置进行填充。</li>
-	<li>当有 3 个相同（且非空）的字符填充任何行、列或对角线时，游戏结束。</li>
-	<li>当所有位置非空时，也算为游戏结束。</li>
-	<li>如果游戏结束，玩家不允许再放置字符。</li>
+	<li>Players take turns placing characters into empty squares <code>&#39; &#39;</code>.</li>
+	<li>The first player always places <code>&#39;X&#39;</code> characters, while the second player always places <code>&#39;O&#39;</code> characters.</li>
+	<li><code>&#39;X&#39;</code> and <code>&#39;O&#39;</code> characters are always placed into empty squares, never filled ones.</li>
+	<li>The game ends when there are three of the same (non-empty) character filling any row, column, or diagonal.</li>
+	<li>The game also ends if all squares are non-empty.</li>
+	<li>No more moves can be played if the game is over.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0794.Valid%20Tic-Tac-Toe%20State/images/tictactoe1-grid.jpg" style="width: 253px; height: 253px;" />
 <pre>
-<strong>输入：</strong>board = ["O  ","   ","   "]
-<strong>输出：</strong>false
-<strong>解释：</strong>玩家 1 总是放字符 "X" 。
+<strong>Input:</strong> board = [&quot;O  &quot;,&quot;   &quot;,&quot;   &quot;]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The first player always plays &quot;X&quot;.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0794.Valid%20Tic-Tac-Toe%20State/images/tictactoe2-grid.jpg" style="width: 253px; height: 253px;" />
 <pre>
-<strong>输入：</strong>board = ["XOX"," X ","   "]
-<strong>输出：</strong>false
-<strong>解释：</strong>玩家应该轮流放字符。
+<strong>Input:</strong> board = [&quot;XOX&quot;,&quot; X &quot;,&quot;   &quot;]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> Players take turns making moves.
 </pre>
 
-<p><strong>示例 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0700-0799/0794.Valid%20Tic-Tac-Toe%20State/images/tictactoe4-grid.jpg" style="width: 253px; height: 253px;" />
 <pre>
-<strong>输入：</strong>board = ["XOX","O O","XOX"]
-<strong>输出：</strong>true
+<strong>Input:</strong> board = [&quot;XOX&quot;,&quot;O O&quot;,&quot;XOX&quot;]
+<strong>Output:</strong> true
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>board.length == 3</code></li>
 	<li><code>board[i].length == 3</code></li>
-	<li><code>board[i][j]</code> 为 <code>'X'</code>、<code>'O'</code> 或 <code>' '</code></li>
+	<li><code>board[i][j]</code> is either <code>&#39;X&#39;</code>, <code>&#39;O&#39;</code>, or <code>&#39; &#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：分类讨论
-
-我们先统计当前棋盘上 `'X'` 和 `'O'` 的数量，记为 $x$ 和 $o$。接下来，我们分情况讨论：
-
--   如果 $x \neq o$ 且 $x - 1 \neq o$，则当前棋盘不可能是有效棋盘，返回 `false`。
--   如果当前棋盘上玩家 1 获胜，但 $x-1 \neq o$，则当前棋盘不可能是有效棋盘，返回 `false`。
--   如果当前棋盘上玩家 2 获胜，但 $x \neq o$，则当前棋盘不可能是有效棋盘，返回 `false`。
--   其他情况下，当前棋盘是有效棋盘，返回 `true`。
-
-时间复杂度 $O(C)$，空间复杂度 $O(1)$。其中 $C$ 是棋盘上的格子数。本题中 $C = 9$。
+### Solution 1
 
 <!-- tabs:start -->
 

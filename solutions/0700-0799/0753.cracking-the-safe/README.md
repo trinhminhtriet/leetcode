@@ -1,70 +1,65 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0753.Cracking%20the%20Safe/README.md
+difficulty: Hard
 tags:
-    - 深度优先搜索
-    - 图
-    - 欧拉回路
+    - Depth-First Search
+    - Graph
+    - Eulerian Circuit
 ---
 
 <!-- problem:start -->
 
-# [753. 破解保险箱](https://leetcode.cn/problems/cracking-the-safe)
+# [753. Cracking the Safe](https://leetcode.com/problems/cracking-the-safe)
 
-[English Version](/solution/0700-0799/0753.Cracking%20the%20Safe/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>有一个需要密码才能打开的保险箱。密码是&nbsp;<code>n</code> 位数, 密码的每一位都是范围&nbsp;<code>[0, k - 1]</code>&nbsp;中的一个数字。</p>
+<p>There is a safe protected by a password. The password is a sequence of <code>n</code> digits where each digit can be in the range <code>[0, k - 1]</code>.</p>
 
-<p>保险箱有一种特殊的密码校验方法，你可以随意输入密码序列，保险箱会自动记住 <strong>最后&nbsp;<code>n</code>&nbsp;位输入</strong> ，如果匹配，则能够打开保险箱。</p>
+<p>The safe has a peculiar way of checking the password. When you enter in a sequence, it checks the <strong>most recent </strong><code>n</code><strong> digits</strong> that were entered each time you type a digit.</p>
 
 <ul>
-	<li>例如，正确的密码是 <code>"345"</code> ，并且你输入的是 <code>"012345"</code> ：
+	<li>For example, the correct password is <code>&quot;345&quot;</code> and you enter in <code>&quot;012345&quot;</code>:
 
     <ul>
-    	<li>输入 <code>0</code> 之后，最后 <code>3</code> 位输入是 <code>"0"</code> ，不正确。</li>
-    	<li>输入 <code>1</code> 之后，最后 <code>3</code> 位输入是 <code>"01"</code> ，不正确。</li>
-    	<li>输入 <code>2</code> 之后，最后 <code>3</code> 位输入是 <code>"012"</code> ，不正确。</li>
-    	<li>输入 <code>3</code> 之后，最后 <code>3</code> 位输入是 <code>"123"</code> ，不正确。</li>
-    	<li>输入 <code>4</code> 之后，最后 <code>3</code> 位输入是 <code>"234"</code> ，不正确。</li>
-    	<li>输入 <code>5</code> 之后，最后 <code>3</code> 位输入是 <code>"345"</code> ，正确，打开保险箱。</li>
+    	<li>After typing <code>0</code>, the most recent <code>3</code> digits is <code>&quot;0&quot;</code>, which is incorrect.</li>
+    	<li>After typing <code>1</code>, the most recent <code>3</code> digits is <code>&quot;01&quot;</code>, which is incorrect.</li>
+    	<li>After typing <code>2</code>, the most recent <code>3</code> digits is <code>&quot;012&quot;</code>, which is incorrect.</li>
+    	<li>After typing <code>3</code>, the most recent <code>3</code> digits is <code>&quot;123&quot;</code>, which is incorrect.</li>
+    	<li>After typing <code>4</code>, the most recent <code>3</code> digits is <code>&quot;234&quot;</code>, which is incorrect.</li>
+    	<li>After typing <code>5</code>, the most recent <code>3</code> digits is <code>&quot;345&quot;</code>, which is correct and the safe unlocks.</li>
     </ul>
     </li>
 
 </ul>
 
-<p>在只知道密码位数 <code>n</code> 和范围边界 <code>k</code> 的前提下，请你找出并返回确保在输入的 <strong>某个时刻</strong> 能够打开保险箱的任一 <strong>最短</strong> 密码序列 。</p>
+<p>Return <em>any string of <strong>minimum length</strong> that will unlock the safe <strong>at some point</strong> of entering it</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 1, k = 2
-<strong>输出：</strong>"10"
-<strong>解释：</strong>密码只有 1 位，所以输入每一位就可以。"01" 也能够确保打开保险箱。
+<strong>Input:</strong> n = 1, k = 2
+<strong>Output:</strong> &quot;10&quot;
+<strong>Explanation:</strong> The password is a single digit, so enter each digit. &quot;01&quot; would also unlock the safe.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>n = 2, k = 2
-<strong>输出：</strong>"01100"
-<strong>解释：</strong>对于每种可能的密码：
-- "00" 从第 4 位开始输入。
-- "01" 从第 1 位开始输入。
-- "10" 从第 3 位开始输入。
-- "11" 从第 2 位开始输入。
-因此 "01100" 可以确保打开保险箱。"01100"、"10011" 和 "11001" 也可以确保打开保险箱。
+<strong>Input:</strong> n = 2, k = 2
+<strong>Output:</strong> &quot;01100&quot;
+<strong>Explanation:</strong> For each possible password:
+- &quot;00&quot; is typed in starting from the 4<sup>th</sup> digit.
+- &quot;01&quot; is typed in starting from the 1<sup>st</sup> digit.
+- &quot;10&quot; is typed in starting from the 3<sup>rd</sup> digit.
+- &quot;11&quot; is typed in starting from the 2<sup>nd</sup> digit.
+Thus &quot;01100&quot; will unlock the safe. &quot;10011&quot;, and &quot;11001&quot; would also unlock the safe.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 4</code></li>
@@ -74,17 +69,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：欧拉回路
+### Solution 1: Eulerian Circuit
 
-我们可以对题目中所描述的内容构建有向图：将每个点看作一个长度为 $n-1$ 的 $k$ 字符串，每条边都带有一个从 $0$ 到 $k-1$ 的字符。如果点 $u$ 到点 $v$ 之间有一条有向边 $e$，假设 $e$ 携带的字符为 $c$，那么 $u+c$ 的末尾 $k-1$ 个字符形成的字符串等于 $v$，此时边 $u+c$ 就表示了一个长度为 $n$ 的密码。
+We can construct a directed graph based on the description in the problem: each point is considered as a length $n-1$ $k$-string, and each edge carries a character from $0$ to $k-1$. If there is a directed edge $e$ from point $u$ to point $v$, and the character carried by $e$ is $c$, then the last $k-1$ characters of $u+c$ form the string $v$. At this point, the edge $u+c$ represents a password of length $n$.
 
-在这个有向图中，一共有 $k^{n-1}$ 个点，每个点都有 $k$ 条出边，也有 $k$ 条入边，因此，该有向图存在欧拉回路，欧拉回路所经过的路径拼接起来就是题目中的答案。
+In this directed graph, there are $k^{n-1}$ points, each point has $k$ outgoing edges and $k$ incoming edges. Therefore, this directed graph has an Eulerian circuit, and the path traversed by the Eulerian circuit is the answer to the problem.
 
-时间复杂度 $O(k^n)$，空间复杂度 $O(k^n)$。
+The time complexity is $O(k^n)$, and the space complexity is $O(k^n)$.
 
 <!-- tabs:start -->
 

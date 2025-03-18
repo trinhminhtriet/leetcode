@@ -1,108 +1,104 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3266.Final%20Array%20State%20After%20K%20Multiplication%20Operations%20II/README.md
+difficulty: Hard
 rating: 2508
-source: 第 412 场周赛 Q3
+source: Weekly Contest 412 Q3
 tags:
-    - 数组
-    - 模拟
-    - 堆（优先队列）
+    - Array
+    - Simulation
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [3266. K 次乘运算后的最终数组 II](https://leetcode.cn/problems/final-array-state-after-k-multiplication-operations-ii)
+# [3266. Final Array State After K Multiplication Operations II](https://leetcode.com/problems/final-array-state-after-k-multiplication-operations-ii)
 
-[English Version](/solution/3200-3299/3266.Final%20Array%20State%20After%20K%20Multiplication%20Operations%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code>&nbsp;，一个整数&nbsp;<code>k</code>&nbsp;&nbsp;和一个整数&nbsp;<code>multiplier</code>&nbsp;。</p>
+<p>You are given an integer array <code>nums</code>, an integer <code>k</code>, and an integer <code>multiplier</code>.</p>
 
-<p>你需要对 <code>nums</code>&nbsp;执行 <code>k</code>&nbsp;次操作，每次操作中：</p>
+<p>You need to perform <code>k</code> operations on <code>nums</code>. In each operation:</p>
 
 <ul>
-	<li>找到 <code>nums</code>&nbsp;中的 <strong>最小</strong>&nbsp;值&nbsp;<code>x</code>&nbsp;，如果存在多个最小值，选择最 <strong>前面</strong>&nbsp;的一个。</li>
-	<li>将 <code>x</code>&nbsp;替换为&nbsp;<code>x * multiplier</code>&nbsp;。</li>
+	<li>Find the <strong>minimum</strong> value <code>x</code> in <code>nums</code>. If there are multiple occurrences of the minimum value, select the one that appears <strong>first</strong>.</li>
+	<li>Replace the selected minimum value <code>x</code> with <code>x * multiplier</code>.</li>
 </ul>
 
-<p><code>k</code>&nbsp;次操作以后，你需要将 <code>nums</code>&nbsp;中每一个数值对&nbsp;<code>10<sup>9</sup> + 7</code>&nbsp;取余。</p>
+<p>After the <code>k</code> operations, apply <strong>modulo</strong> <code>10<sup>9</sup> + 7</code> to every value in <code>nums</code>.</p>
 
-<p>请你返回执行完 <code>k</code>&nbsp;次乘运算以及取余运算之后，最终的 <code>nums</code>&nbsp;数组。</p>
+<p>Return an integer array denoting the <em>final state</em> of <code>nums</code> after performing all <code>k</code> operations and then applying the modulo.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [2,1,3,5,6], k = 5, multiplier = 2</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [2,1,3,5,6], k = 5, multiplier = 2</span></p>
 
-<p><span class="example-io"><b>输出：</b>[8,4,6,5,6]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[8,4,6,5,6]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <table>
 	<tbody>
 		<tr>
-			<th>操作</th>
-			<th>结果</th>
+			<th>Operation</th>
+			<th>Result</th>
 		</tr>
 		<tr>
-			<td>1 次操作后</td>
+			<td>After operation 1</td>
 			<td>[2, 2, 3, 5, 6]</td>
 		</tr>
 		<tr>
-			<td>2 次操作后</td>
+			<td>After operation 2</td>
 			<td>[4, 2, 3, 5, 6]</td>
 		</tr>
 		<tr>
-			<td>3 次操作后</td>
+			<td>After operation 3</td>
 			<td>[4, 4, 3, 5, 6]</td>
 		</tr>
 		<tr>
-			<td>4 次操作后</td>
+			<td>After operation 4</td>
 			<td>[4, 4, 6, 5, 6]</td>
 		</tr>
 		<tr>
-			<td>5 次操作后</td>
+			<td>After operation 5</td>
 			<td>[8, 4, 6, 5, 6]</td>
 		</tr>
 		<tr>
-			<td>取余操作后</td>
+			<td>After applying modulo</td>
 			<td>[8, 4, 6, 5, 6]</td>
 		</tr>
 	</tbody>
 </table>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [100000,2000], k = 2, multiplier = 1000000</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [100000,2000], k = 2, multiplier = 1000000</span></p>
 
-<p><span class="example-io"><b>输出：</b>[999999307,999999993]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[999999307,999999993]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <table>
 	<tbody>
 		<tr>
-			<th>操作</th>
-			<th>结果</th>
+			<th>Operation</th>
+			<th>Result</th>
 		</tr>
 		<tr>
-			<td>1 次操作后</td>
+			<td>After operation 1</td>
 			<td>[100000, 2000000000]</td>
 		</tr>
 		<tr>
-			<td>2 次操作后</td>
+			<td>After operation 2</td>
 			<td>[100000000000, 2000000000]</td>
 		</tr>
 		<tr>
-			<td>取余操作后</td>
+			<td>After applying modulo</td>
 			<td>[999999307, 999999993]</td>
 		</tr>
 	</tbody>
@@ -110,8 +106,7 @@ tags:
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
@@ -122,25 +117,25 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：优先队列（小根堆）+ 模拟
+### Solution 1: Priority Queue (Min-Heap) + Simulation
 
-我们记数组 $\textit{nums}$ 的长度为 $n$，最大值为 $m$。
+Let the length of the array $\textit{nums}$ be $n$, and the maximum value be $m$.
 
-我们首先通过利用优先队列（小根堆），模拟操作，直到完成 $k$ 次操作或者堆中所有元素都大于等于 $m$。
+We first use a priority queue (min-heap) to simulate the operations until we complete $k$ operations or all elements in the heap are greater than or equal to $m$.
 
-此时，数组所有元素值都小于 $m \times \textit{multiplier}$，由于 $1 \leq m \leq 10^9$ 且 $1 \leq \textit{multiplier} \leq 10^6$，所以 $m \times \textit{multiplier} \leq 10^{15}$，是在 $64$ 位整数范围内的。
+At this point, all elements in the array are less than $m \times \textit{multiplier}$. Since $1 \leq m \leq 10^9$ and $1 \leq \textit{multiplier} \leq 10^6$, $m \times \textit{multiplier} \leq 10^{15}$, which is within the range of a 64-bit integer.
 
-接下来，我们的每一次操作，都会将数组中的最小元素变成最大元素，因此在每 $n$ 次连续操作后，数组中的每个元素都恰好执行了一次乘法操作。
+Next, each operation will turn the smallest element in the array into the largest element. Therefore, after every $n$ consecutive operations, each element in the array will have undergone exactly one multiplication operation.
 
-因此，我们在模拟过后，剩余 $k$ 次操作，那么数组中最小的 $k \bmod n$ 个元素将会执行 $\lfloor k / n \rfloor + 1$ 次乘法操作，其余的元素将会执行 $\lfloor k / n \rfloor$ 次乘法操作。
+Thus, after the simulation, for the remaining $k$ operations, the smallest $k \bmod n$ elements in the array will undergo $\lfloor k / n \rfloor + 1$ multiplication operations, while the other elements will undergo $\lfloor k / n \rfloor$ multiplication operations.
 
-最后，我们将数组中的每个元素乘上对应的乘法次数，再取模 $10^9 + 7$ 即可，可以通过快速幂来计算。
+Finally, we multiply each element in the array by the corresponding number of multiplication operations and take the result modulo $10^9 + 7$. This can be calculated using fast exponentiation.
 
-时间复杂度 $O(n \times \log n \times \log M + n \times \log k)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度，而 $M$ 为数组 $\textit{nums}$ 中的最大值。
+The time complexity is $O(n \times \log n \times \log M + n \times \log k)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$, and $M$ is the maximum value in the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

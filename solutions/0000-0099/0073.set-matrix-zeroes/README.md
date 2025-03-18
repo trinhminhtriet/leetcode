@@ -1,47 +1,41 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0073.Set%20Matrix%20Zeroes/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 哈希表
-    - 矩阵
+    - Array
+    - Hash Table
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [73. 矩阵置零](https://leetcode.cn/problems/set-matrix-zeroes)
+# [73. Set Matrix Zeroes](https://leetcode.com/problems/set-matrix-zeroes)
 
-[English Version](/solution/0000-0099/0073.Set%20Matrix%20Zeroes/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个&nbsp;<code><em>m</em> x <em>n</em></code> 的矩阵，如果一个元素为 <strong>0 </strong>，则将其所在行和列的所有元素都设为 <strong>0</strong> 。请使用 <strong><a href="http://baike.baidu.com/item/%E5%8E%9F%E5%9C%B0%E7%AE%97%E6%B3%95" target="_blank">原地</a></strong> 算法<strong>。</strong></p>
+<p>Given an <code>m x n</code> integer matrix <code>matrix</code>, if an element is <code>0</code>, set its entire row and column to <code>0</code>&#39;s.</p>
 
-<ul>
-</ul>
+<p>You must do it <a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank">in place</a>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0073.Set%20Matrix%20Zeroes/images/mat1.jpg" style="width: 450px; height: 169px;" />
 <pre>
-<strong>输入：</strong>matrix = [[1,1,1],[1,0,1],[1,1,1]]
-<strong>输出：</strong>[[1,0,1],[0,0,0],[1,0,1]]
+<strong>Input:</strong> matrix = [[1,1,1],[1,0,1],[1,1,1]]
+<strong>Output:</strong> [[1,0,1],[0,0,0],[1,0,1]]
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0000-0099/0073.Set%20Matrix%20Zeroes/images/mat2.jpg" style="width: 450px; height: 137px;" />
 <pre>
-<strong>输入：</strong>matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]
-<strong>输出：</strong>[[0,0,0,0],[0,4,5,0],[0,3,1,0]]
+<strong>Input:</strong> matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]
+<strong>Output:</strong> [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == matrix.length</code></li>
@@ -51,30 +45,27 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong></p>
+<p><strong>Follow up:</strong></p>
 
 <ul>
-	<li>一个直观的解决方案是使用 &nbsp;<code>O(<em>m</em><em>n</em>)</code>&nbsp;的额外空间，但这并不是一个好的解决方案。</li>
-	<li>一个简单的改进方案是使用 <code>O(<em>m</em>&nbsp;+&nbsp;<em>n</em>)</code> 的额外空间，但这仍然不是最好的解决方案。</li>
-	<li>你能想出一个仅使用常量空间的解决方案吗？</li>
+	<li>A straightforward solution using <code>O(mn)</code> space is probably a bad idea.</li>
+	<li>A simple improvement uses <code>O(m + n)</code> space, but still not the best solution.</li>
+	<li>Could you devise a constant space solution?</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### Solution 1: Array Marking
+### Solution 1: Array Mark
 
-Let the number of rows and columns of the matrix be $m$ and $n$, respectively. We use an array $\textit{rows}$ of length $m$ and an array $\textit{cols}$ of length $n$ to record which rows and columns need to be set to zero.
+We use arrays `rows` and `cols` to mark the rows and columns to be cleared.
 
-First, we traverse the matrix. When we find a zero element in the matrix, we set the corresponding row and column markers to $\text{true}$. That is, if $\textit{matrix}[i][j] = 0$, then $\textit{rows}[i] = \textit{cols}[j] = \text{true}$.
+Then traverse the matrix again, and clear the elements in the rows and columns marked in `rows` and `cols`.
 
-Finally, we traverse the matrix again and use the markers in $\textit{rows}$ and $\textit{cols}$ to update the elements in the matrix. When we find that $\textit{rows}[i]$ or $\textit{cols}[j]$ is $\text{true}$, we set $\textit{matrix}[i][j]$ to zero.
-
-The time complexity is $O(m \times n)$, and the space complexity is $O(m + n)$. Here, $m$ and $n$ are the number of rows and columns of the matrix, respectively.
+The time complexity is $O(m\times n)$, and the space complexity is $O(m+n)$. Where $m$ and $n$ are the number of rows and columns of the matrix respectively.
 
 <!-- tabs:start -->
 
@@ -201,6 +192,34 @@ function setZeroes(matrix: number[][]): void {
 }
 ```
 
+#### Rust
+
+```rust
+impl Solution {
+    pub fn set_zeroes(matrix: &mut Vec<Vec<i32>>) {
+        let m = matrix.len();
+        let n = matrix[0].len();
+        let mut row = vec![false; m];
+        let mut col = vec![false; n];
+        for i in 0..m {
+            for j in 0..n {
+                if matrix[i][j] == 0 {
+                    row[i] = true;
+                    col[j] = true;
+                }
+            }
+        }
+        for i in 0..m {
+            for j in 0..n {
+                if row[i] || col[j] {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+}
+```
+
 #### JavaScript
 
 ```js
@@ -262,13 +281,13 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二：原地标记
+### Solution 2: Mark in Place
 
-方法一中使用了额外的数组标记待清零的行和列，实际上我们也可以直接用矩阵的第一行和第一列来标记，不需要开辟额外的数组空间。
+In the first method, we use an additional array to mark the rows and columns to be cleared. In fact, we can also use the first row and first column of the matrix to mark them, without creating an additional array.
 
-由于第一行、第一列用来做标记，它们的值可能会因为标记而发生改变，因此，我们需要额外的变量 $i0$, $j0$ 来标记第一行、第一列是否需要被清零。
+Since the first row and the first column are used to mark, their values ​​may change due to the mark, so we need additional variables $i0$, $j0$ to mark whether the first row and the first column need to be cleared.
 
-时间复杂度 $O(m\times n)$，空间复杂度 $O(1)$。其中 $m$ 和 $n$ 分别为矩阵的行数和列数。
+The time complexity is $O(m\times n)$, and the space complexity is $O(1)$. Where $m$ and $n$ are the number of rows and columns of the matrix respectively.
 
 <!-- tabs:start -->
 

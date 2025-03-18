@@ -1,77 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0973.K%20Closest%20Points%20to%20Origin/README.md
+difficulty: Medium
 tags:
-    - 几何
-    - 数组
-    - 数学
-    - 分治
-    - 快速选择
-    - 排序
-    - 堆（优先队列）
+    - Geometry
+    - Array
+    - Math
+    - Divide and Conquer
+    - Quickselect
+    - Sorting
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [973. 最接近原点的 K 个点](https://leetcode.cn/problems/k-closest-points-to-origin)
+# [973. K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin)
 
-[English Version](/solution/0900-0999/0973.K%20Closest%20Points%20to%20Origin/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个数组 <code>points</code>&nbsp;，其中&nbsp;<code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code>&nbsp;表示 <strong>X-Y</strong> 平面上的一个点，并且是一个整数 <code>k</code> ，返回离原点 <code>(0,0)</code> 最近的 <code>k</code> 个点。</p>
+<p>Given an array of <code>points</code> where <code>points[i] = [x<sub>i</sub>, y<sub>i</sub>]</code> represents a point on the <strong>X-Y</strong> plane and an integer <code>k</code>, return the <code>k</code> closest points to the origin <code>(0, 0)</code>.</p>
 
-<p>这里，平面上两点之间的距离是&nbsp;<strong>欧几里德距离</strong>（&nbsp;<code>√(x<sub>1</sub>&nbsp;- x<sub>2</sub>)<sup>2</sup>&nbsp;+ (y<sub>1</sub>&nbsp;- y<sub>2</sub>)<sup>2</sup></code>&nbsp;）。</p>
+<p>The distance between two points on the <strong>X-Y</strong> plane is the Euclidean distance (i.e., <code>&radic;(x<sub>1</sub> - x<sub>2</sub>)<sup>2</sup> + (y<sub>1</sub> - y<sub>2</sub>)<sup>2</sup></code>).</p>
 
-<p>你可以按 <strong>任何顺序</strong> 返回答案。除了点坐标的顺序之外，答案 <strong>确保</strong> 是 <strong>唯一</strong> 的。</p>
+<p>You may return the answer in <strong>any order</strong>. The answer is <strong>guaranteed</strong> to be <strong>unique</strong> (except for the order that it is in).</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0973.K%20Closest%20Points%20to%20Origin/images/closestplane1.jpg" style="height: 400px; width: 400px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0900-0999/0973.K%20Closest%20Points%20to%20Origin/images/closestplane1.jpg" style="width: 400px; height: 400px;" />
 <pre>
-<strong>输入：</strong>points = [[1,3],[-2,2]], k = 1
-<strong>输出：</strong>[[-2,2]]
-<strong>解释： </strong>
-(1, 3) 和原点之间的距离为 sqrt(10)，
-(-2, 2) 和原点之间的距离为 sqrt(8)，
-由于 sqrt(8) &lt; sqrt(10)，(-2, 2) 离原点更近。
-我们只需要距离原点最近的 K = 1 个点，所以答案就是 [[-2,2]]。
+<strong>Input:</strong> points = [[1,3],[-2,2]], k = 1
+<strong>Output:</strong> [[-2,2]]
+<strong>Explanation:</strong>
+The distance between (1, 3) and the origin is sqrt(10).
+The distance between (-2, 2) and the origin is sqrt(8).
+Since sqrt(8) &lt; sqrt(10), (-2, 2) is closer to the origin.
+We only want the closest k = 1 points from the origin, so the answer is just [[-2,2]].
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>points = [[3,3],[5,-1],[-2,4]], k = 2
-<strong>输出：</strong>[[3,3],[-2,4]]
-（答案 [[-2,4],[3,3]] 也会被接受。）
+<strong>Input:</strong> points = [[3,3],[5,-1],[-2,4]], k = 2
+<strong>Output:</strong> [[3,3],[-2,4]]
+<strong>Explanation:</strong> The answer [[-2,4],[3,3]] would also be accepted.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= k &lt;= points.length &lt;= 10<sup>4</sup></code></li>
-	<li><code>-10<sup>4</sup>&nbsp;&lt; x<sub>i</sub>, y<sub>i</sub>&nbsp;&lt; 10<sup>4</sup></code></li>
+	<li><code>-10<sup>4</sup> &lt;= x<sub>i</sub>, y<sub>i</sub> &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：自定义排序
+### Solution 1: Custom Sorting
 
-我们将所有点按照与原点的距离从小到大排序，然后取前 $k$ 个点即可。
+We sort all points by their distance from the origin in ascending order, and then take the first $k$ points.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 $\textit{points}$ 的长度。
+The time complexity is $O(n \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $\textit{points}$.
 
 <!-- tabs:start -->
 
@@ -151,11 +144,11 @@ impl Solution {
 
 <!-- solution:start -->
 
-### 方法二：优先队列（大根堆）
+### Solution 2: Priority Queue (Max Heap)
 
-我们可以使用一个优先队列（大根堆）来维护距离原点最近的 $k$ 个点。
+We can use a priority queue (max heap) to maintain the $k$ closest points to the origin.
 
-时间复杂度 $O(n \times \log k)$，空间复杂度 $O(k)$。其中 $n$ 为数组 $\textit{points}$ 的长度。
+The time complexity is $O(n \times \log k)$, and the space complexity is $O(k)$. Here, $n$ is the length of the array $\textit{points}$.
 
 <!-- tabs:start -->
 
@@ -277,15 +270,15 @@ function kClosest(points: number[][], k: number): number[][] {
 
 <!-- solution:start -->
 
-### 方法三：二分查找
+### Solution 3: Binary Search
 
-我们注意到，随着距离的增大，点的数量是递增的。这存在一个临界值，使得在这个值之前的点的数量小于等于 $k$，而在这个值之后的点的数量大于 $k$。
+We notice that as the distance increases, the number of points increases as well. There exists a critical value such that the number of points before this value is less than or equal to $k$, and the number of points after this value is greater than $k$.
 
-因此，我们可以使用二分查找，枚举距离。每一次二分查找，我们统计出距离小于等于当前距离的点的数量，如果数量大于等于 $k$，则说明临界值在左侧，我们令右边界等于当前距离；否则，临界值在右侧，我们令左边界等于当前距禽加一。
+Therefore, we can use binary search to enumerate the distance. In each binary search iteration, we count the number of points whose distance is less than or equal to the current distance. If the count is greater than or equal to $k$, it indicates that the critical value is on the left side, so we set the right boundary equal to the current distance; otherwise, the critical value is on the right side, so we set the left boundary equal to the current distance plus one.
 
-二分查找结束后，我们只需要返回距离小于等于左边界的点即可。
+After the binary search is finished, we just need to return the points whose distance is less than or equal to the left boundary.
 
-时间复杂度 $O(n \times \log M)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{points}$ 的长度，而 $M$ 为距离的最大值。
+The time complexity is $O(n \times \log M)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{points}$, and $M$ is the maximum value of the distance.
 
 <!-- tabs:start -->
 

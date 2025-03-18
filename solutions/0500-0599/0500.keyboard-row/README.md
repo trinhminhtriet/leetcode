@@ -1,88 +1,77 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0500.Keyboard%20Row/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
+    - Array
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [500. 键盘行](https://leetcode.cn/problems/keyboard-row)
+# [500. Keyboard Row](https://leetcode.com/problems/keyboard-row)
 
-[English Version](/solution/0500-0599/0500.Keyboard%20Row/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串数组 <code>words</code> ，只返回可以使用在 <strong>美式键盘</strong> 同一行的字母打印出来的单词。键盘如下图所示。</p>
+<p>Given an array of strings <code>words</code>, return <em>the words that can be typed using letters of the alphabet on only one row of American keyboard like the image below</em>.</p>
 
-<p><strong>请注意</strong>，字符串&nbsp;<strong>不区分大小写</strong>，相同字母的大小写形式都被视为在同一行<strong>。</strong></p>
+<p><strong>Note</strong> that the strings are <strong>case-insensitive</strong>, both lowercased and uppercased of the same letter are treated as if they are at the same row.</p>
 
-<p><strong>美式键盘</strong> 中：</p>
+<p>In the <strong>American keyboard</strong>:</p>
 
 <ul>
-	<li>第一行由字符 <code>"qwertyuiop"</code> 组成。</li>
-	<li>第二行由字符 <code>"asdfghjkl"</code> 组成。</li>
-	<li>第三行由字符 <code>"zxcvbnm"</code> 组成。</li>
+	<li>the first row consists of the characters <code>&quot;qwertyuiop&quot;</code>,</li>
+	<li>the second row consists of the characters <code>&quot;asdfghjkl&quot;</code>, and</li>
+	<li>the third row consists of the characters <code>&quot;zxcvbnm&quot;</code>.</li>
 </ul>
-
-<p><img alt="American keyboard" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0500.Keyboard%20Row/images/keyboard.png" style="width: 100%; max-width: 600px" /></p>
-
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0500.Keyboard%20Row/images/keyboard.png" style="width: 800px; max-width: 600px; height: 267px;" />
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">words = ["Hello","Alaska","Dad","Peace"]</span></p>
+<p><strong>Input:</strong> <span class="example-io">words = [&quot;Hello&quot;,&quot;Alaska&quot;,&quot;Dad&quot;,&quot;Peace&quot;]</span></p>
 
-<p><b>输出：</b><span class="example-io">["Alaska","Dad"]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[&quot;Alaska&quot;,&quot;Dad&quot;]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>由于不区分大小写，<code>"a"</code> 和&nbsp;<code>"A"</code> 都在美式键盘的第二行。</p>
+<p>Both <code>&quot;a&quot;</code> and <code>&quot;A&quot;</code> are in the 2nd row of the American keyboard due to case insensitivity.</p>
 </div>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>words = ["omk"]</span></p>
+<p><strong>Input:</strong> <span class="example-io">words = [&quot;omk&quot;]</span></p>
 
-<p><span class="example-io"><b>输出：</b>[]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[]</span></p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b></span><span class="example-io">words = ["adsdf","sfd"]</span></p>
+<p><strong>Input:</strong> <span class="example-io">words = [&quot;adsdf&quot;,&quot;sfd&quot;]</span></p>
 
-<p><span class="example-io"><b>输出：</b></span><span class="example-io">["adsdf","sfd"]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[&quot;adsdf&quot;,&quot;sfd&quot;]</span></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= words.length &lt;= 20</code></li>
 	<li><code>1 &lt;= words[i].length &lt;= 100</code></li>
-	<li><code>words[i]</code> 由英文字母（小写和大写字母）组成</li>
+	<li><code>words[i]</code> consists of English letters (both lowercase and uppercase).&nbsp;</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：字符映射
-
-我们将每个键盘行的字符映射到对应的行数，然后遍历字符串数组，判断每个字符串是否都在同一行即可。
-
-时间复杂度 $O(L)$，空间复杂度 $O(C)$。其中 $L$ 为所有字符串的长度之和；而 $C$ 为字符集的大小，本题中 $C = 26$。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -231,7 +220,7 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

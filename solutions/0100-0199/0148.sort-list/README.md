@@ -1,81 +1,72 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0148.Sort%20List/README.md
+difficulty: Medium
 tags:
-    - 链表
-    - 双指针
-    - 分治
-    - 排序
-    - 归并排序
+    - Linked List
+    - Two Pointers
+    - Divide and Conquer
+    - Sorting
+    - Merge Sort
 ---
 
 <!-- problem:start -->
 
-# [148. 排序链表](https://leetcode.cn/problems/sort-list)
+# [148. Sort List](https://leetcode.com/problems/sort-list)
 
-[English Version](/solution/0100-0199/0148.Sort%20List/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你链表的头结点&nbsp;<code>head</code>&nbsp;，请将其按 <strong>升序</strong> 排列并返回 <strong>排序后的链表</strong> 。</p>
+<p>Given the <code>head</code> of a linked list, return <em>the list after sorting it in <strong>ascending order</strong></em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0148.Sort%20List/images/sort_list_1.jpg" style="width: 450px; height: 194px;" />
+<pre>
+<strong>Input:</strong> head = [4,2,1,3]
+<strong>Output:</strong> [1,2,3,4]
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0148.Sort%20List/images/sort_list_2.jpg" style="width: 550px; height: 184px;" />
+<pre>
+<strong>Input:</strong> head = [-1,5,3,4,0]
+<strong>Output:</strong> [-1,0,3,4,5]
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> head = []
+<strong>Output:</strong> []
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
+	<li>The number of nodes in the list is in the range <code>[0, 5 * 10<sup>4</sup>]</code>.</li>
+	<li><code>-10<sup>5</sup> &lt;= Node.val &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0148.Sort%20List/images/sort_list_1.jpg" style="width: 450px;" />
-<pre>
-<b>输入：</b>head = [4,2,1,3]
-<b>输出：</b>[1,2,3,4]
-</pre>
-
-<p><strong>示例 2：</strong></p>
-<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0148.Sort%20List/images/sort_list_2.jpg" style="width: 550px;" />
-<pre>
-<b>输入：</b>head = [-1,5,3,4,0]
-<b>输出：</b>[-1,0,3,4,5]
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<b>输入：</b>head = []
-<b>输出：</b>[]
-</pre>
-
-<p>&nbsp;</p>
-
-<p><b>提示：</b></p>
-
-<ul>
-	<li>链表中节点的数目在范围&nbsp;<code>[0, 5 * 10<sup>4</sup>]</code>&nbsp;内</li>
-	<li><code>-10<sup>5</sup>&nbsp;&lt;= Node.val &lt;= 10<sup>5</sup></code></li>
-</ul>
-
-<p>&nbsp;</p>
-
-<p><b>进阶：</b>你可以在&nbsp;<code>O(n&nbsp;log&nbsp;n)</code> 时间复杂度和常数级空间复杂度下，对链表进行排序吗？</p>
+<p><strong>Follow up:</strong> Can you sort the linked list in <code>O(n logn)</code> time and <code>O(1)</code> memory (i.e. constant space)?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：归并排序
+### Solution 1: Merge Sort
 
-我们可以用归并排序的思想来解决。
+We can use the merge sort approach to solve this problem.
 
-首先，我们利用快慢指针找到链表的中点，将链表从中点处断开，形成两个独立的子链表 $\textit{l1}$ 和 $\textit{l2}$。
+First, we use the fast and slow pointers to find the middle of the linked list and break the list from the middle to form two separate sublists $\textit{l1}$ and $\textit{l2}$.
 
-然后，我们递归地对 $\textit{l1}$ 和 $\textit{l2}$ 进行排序，最后将 $\textit{l1}$ 和 $\textit{l2}$ 合并为一个有序链表。
+Then, we recursively sort $\textit{l1}$ and $\textit{l2}$, and finally merge $\textit{l1}$ and $\textit{l2}$ into a sorted linked list.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是链表的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the linked list.
 
 <!-- tabs:start -->
 

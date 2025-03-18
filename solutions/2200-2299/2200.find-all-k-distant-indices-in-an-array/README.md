@@ -1,77 +1,72 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2200.Find%20All%20K-Distant%20Indices%20in%20an%20Array/README.md
+difficulty: Easy
 rating: 1266
-source: 第 284 场周赛 Q1
+source: Weekly Contest 284 Q1
 tags:
-    - 数组
-    - 双指针
+    - Array
+    - Two Pointers
 ---
 
 <!-- problem:start -->
 
-# [2200. 找出数组中的所有 K 近邻下标](https://leetcode.cn/problems/find-all-k-distant-indices-in-an-array)
+# [2200. Find All K-Distant Indices in an Array](https://leetcode.com/problems/find-all-k-distant-indices-in-an-array)
 
-[English Version](/solution/2200-2299/2200.Find%20All%20K-Distant%20Indices%20in%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 和两个整数 <code>key</code> 和 <code>k</code> 。<strong>K 近邻下标</strong> 是 <code>nums</code> 中的一个下标 <code>i</code> ，并满足至少存在一个下标 <code>j</code> 使得 <code>|i - j| &lt;= k</code> 且 <code>nums[j] == key</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> and two integers <code>key</code> and <code>k</code>. A <strong>k-distant index</strong> is an index <code>i</code> of <code>nums</code> for which there exists at least one index <code>j</code> such that <code>|i - j| &lt;= k</code> and <code>nums[j] == key</code>.</p>
 
-<p>以列表形式返回按 <strong>递增顺序</strong> 排序的所有 K 近邻下标。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [3,4,9,1,3,9,5], key = 9, k = 1
-<strong>输出：</strong>[1,2,3,4,5,6]
-<strong>解释：</strong>因此，<code>nums[2] == key</code> 且 <code>nums[5] == key 。
-- 对下标 0 ，|0 - 2| &gt; k 且 |0 - 5| &gt; k ，所以不存在 j</code> 使得 <code>|0 - j| &lt;= k</code> 且 <code>nums[j] == key 。所以 0 不是一个 K 近邻下标。
-- 对下标 1 ，|1 - 2| &lt;= k 且 nums[2] == key ，所以 1 是一个 K 近邻下标。
-- 对下标 2 ，|2 - 2| &lt;= k 且 nums[2] == key ，所以 2 是一个 K 近邻下标。
-- 对下标 3 ，|3 - 2| &lt;= k 且 nums[2] == key ，所以 3 是一个 K 近邻下标。
-- 对下标 4 ，|4 - 5| &lt;= k 且 nums[5] == key ，所以 4 是一个 K 近邻下标。
-- 对下标 5 ，|5 - 5| &lt;= k 且 nums[5] == key ，所以 5 是一个 K 近邻下标。
-- 对下标 6 ，|6 - 5| &lt;= k 且 nums[5] == key ，所以 6 是一个 K 近邻下标。
-</code>因此，按递增顺序返回 [1,2,3,4,5,6] 。 
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [2,2,2,2,2], key = 2, k = 2
-<strong>输出：</strong>[0,1,2,3,4]
-<strong>解释：</strong>对 nums 的所有下标 i ，总存在某个下标 j 使得 |i - j| &lt;= k 且 nums[j] == key ，所以每个下标都是一个 <code>K 近邻下标。</code> 
-因此，返回 [0,1,2,3,4] 。
-</pre>
+<p>Return <em>a list of all k-distant indices sorted in <strong>increasing order</strong></em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [3,4,9,1,3,9,5], key = 9, k = 1
+<strong>Output:</strong> [1,2,3,4,5,6]
+<strong>Explanation:</strong> Here, <code>nums[2] == key</code> and <code>nums[5] == key.
+- For index 0, |0 - 2| &gt; k and |0 - 5| &gt; k, so there is no j</code> where <code>|0 - j| &lt;= k</code> and <code>nums[j] == key. Thus, 0 is not a k-distant index.
+- For index 1, |1 - 2| &lt;= k and nums[2] == key, so 1 is a k-distant index.
+- For index 2, |2 - 2| &lt;= k and nums[2] == key, so 2 is a k-distant index.
+- For index 3, |3 - 2| &lt;= k and nums[2] == key, so 3 is a k-distant index.
+- For index 4, |4 - 5| &lt;= k and nums[5] == key, so 4 is a k-distant index.
+- For index 5, |5 - 5| &lt;= k and nums[5] == key, so 5 is a k-distant index.
+- For index 6, |6 - 5| &lt;= k and nums[5] == key, so 6 is a k-distant index.
+</code>Thus, we return [1,2,3,4,5,6] which is sorted in increasing order. 
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,2,2,2,2], key = 2, k = 2
+<strong>Output:</strong> [0,1,2,3,4]
+<strong>Explanation:</strong> For all indices i in nums, there exists some index j such that |i - j| &lt;= k and nums[j] == key, so every index is a k-distant index. 
+Hence, we return [0,1,2,3,4].
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 1000</code></li>
-	<li><code>key</code> 是数组 <code>nums</code> 中的一个整数</li>
+	<li><code>key</code> is an integer from the array <code>nums</code>.</li>
 	<li><code>1 &lt;= k &lt;= nums.length</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们在 $[0, n)$ 的范围内枚举下标 $i$，对于每个下标 $i$，我们在 $[0, n)$ 的范围内枚举下标 $j$，如果 $|i - j| \leq k$ 且 $nums[j] = key$，那么 $i$ 就是一个 K 近邻下标，我们将 $i$ 加入答案数组中，然后跳出内层循环，枚举下一个下标 $i$。
+We enumerate the index $i$ in the range $[0, n)$, and for each index $i$, we enumerate the index $j$ in the range $[0, n)$. If $|i - j| \leq k$ and $nums[j] = key$, then $i$ is a K-nearest neighbor index. We add $i$ to the answer array, then break the inner loop and enumerate the next index $i$.
 
-时间复杂度 $O(n^2)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n^2)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -176,13 +171,13 @@ function findKDistantIndices(nums: number[], key: number, k: number): number[] {
 
 <!-- solution:start -->
 
-### 方法二：预处理 + 二分查找
+### Solution 2: Preprocessing + Binary Search
 
-我们可以预处理得到所有等于 $key$ 的元素的下标，记录在数组 $idx$ 中。数组 $idx$ 中的所有下标元素是按照升序排列的，
+We can preprocess to get the indices of all elements equal to $key$, recorded in the array $idx$. All index elements in the array $idx$ are sorted in ascending order.
 
-接下来，我们枚举下标 $i$，对于每个下标 $i$，我们可以使用二分查找的方法在数组 $idx$ 中查找 $[i - k, i + k]$ 范围内的元素，如果存在元素，那么 $i$ 就是一个 K 近邻下标，我们将 $i$ 加入答案数组中。
+Next, we enumerate the index $i$. For each index $i$, we can use binary search to find elements in the range $[i - k, i + k]$ in the array $idx$. If there are elements, then $i$ is a K-nearest neighbor index. We add $i$ to the answer array.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是数组 $nums$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 
@@ -315,11 +310,11 @@ function findKDistantIndices(nums: number[], key: number, k: number): number[] {
 
 <!-- solution:start -->
 
-### 方法三：双指针
+### Solution 3: Two Pointers
 
-我们枚举下标 $i$，用一个指针 $j$ 指向满足 $j \geq i - k$ 且 $nums[j] = key$ 的最小下标，如果 $j$ 存在且 $j \leq i + k$，那么 $i$ 就是一个 K 近邻下标，我们将 $i$ 加入答案数组中。
+We enumerate the index $i$, and use a pointer $j$ to point to the smallest index that satisfies $j \geq i - k$ and $nums[j] = key$. If $j$ exists and $j \leq i + k$, then $i$ is a K-nearest neighbor index. We add $i$ to the answer array.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $nums$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $nums$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,64 +1,60 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0724.Find%20Pivot%20Index/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 前缀和
+    - Array
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [724. 寻找数组的中心下标](https://leetcode.cn/problems/find-pivot-index)
+# [724. Find Pivot Index](https://leetcode.com/problems/find-pivot-index)
 
-[English Version](/solution/0700-0799/0724.Find%20Pivot%20Index/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组&nbsp;<code>nums</code> ，请计算数组的 <strong>中心下标 </strong>。</p>
+<p>Given an array of integers <code>nums</code>, calculate the <strong>pivot index</strong> of this array.</p>
 
-<p>数组<strong> 中心下标</strong><strong> </strong>是数组的一个下标，其左侧所有元素相加的和等于右侧所有元素相加的和。</p>
+<p>The <strong>pivot index</strong> is the index where the sum of all the numbers <strong>strictly</strong> to the left of the index is equal to the sum of all the numbers <strong>strictly</strong> to the index&#39;s right.</p>
 
-<p>如果中心下标位于数组最左端，那么左侧数之和视为 <code>0</code> ，因为在下标的左侧不存在元素。这一点对于中心下标位于数组最右端同样适用。</p>
+<p>If the index is on the left edge of the array, then the left sum is <code>0</code> because there are no elements to the left. This also applies to the right edge of the array.</p>
 
-<p>如果数组有多个中心下标，应该返回 <strong>最靠近左边</strong> 的那一个。如果数组不存在中心下标，返回 <code>-1</code> 。</p>
+<p>Return <em>the <strong>leftmost pivot index</strong></em>. If no such index exists, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1, 7, 3, 6, 5, 6]
-<strong>输出：</strong>3
-<strong>解释：</strong>
-中心下标是 3 。
-左侧数之和 sum = nums[0] + nums[1] + nums[2] = 1 + 7 + 3 = 11 ，
-右侧数之和 sum = nums[4] + nums[5] = 5 + 6 = 11 ，二者相等。
+<strong>Input:</strong> nums = [1,7,3,6,5,6]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong>
+The pivot index is 3.
+Left sum = nums[0] + nums[1] + nums[2] = 1 + 7 + 3 = 11
+Right sum = nums[4] + nums[5] = 5 + 6 = 11
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1, 2, 3]
-<strong>输出：</strong>-1
-<strong>解释：</strong>
-数组中不存在满足此条件的中心下标。</pre>
+<strong>Input:</strong> nums = [1,2,3]
+<strong>Output:</strong> -1
+<strong>Explanation:</strong>
+There is no index that satisfies the conditions in the problem statement.</pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2, 1, -1]
-<strong>输出：</strong>0
-<strong>解释：</strong>
-中心下标是 0 。
-左侧数之和 sum = 0 ，（下标 0 左侧不存在元素），
-右侧数之和 sum = nums[1] + nums[2] = 1 + -1 = 0 。</pre>
+<strong>Input:</strong> nums = [2,1,-1]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong>
+The pivot index is 0.
+Left sum = 0 (no elements to the left of index 0)
+Right sum = nums[1] + nums[2] = 1 + -1 = 0
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
@@ -66,29 +62,28 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>注意：</strong>本题与主站 1991 题相同：<a href="https://leetcode.cn/problems/find-the-middle-index-in-array/" target="_blank">https://leetcode.cn/problems/find-the-middle-index-in-array/</a></p>
+<p><strong>Note:</strong> This question is the same as&nbsp;1991:&nbsp;<a href="https://leetcode.com/problems/find-the-middle-index-in-array/" target="_blank">https://leetcode.com/problems/find-the-middle-index-in-array/</a></p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和
+### Solution 1: Prefix Sum
 
-我们定义变量 $left$ 表示数组 $\textit{nums}$ 中下标 $i$ 左侧元素之和，变量 $right$ 表示数组 $\textit{nums}$ 中下标 $i$ 右侧元素之和。初始时 $left = 0$, $right = \sum_{i = 0}^{n - 1} nums[i]$。
+We define a variable $left$ to represent the sum of elements to the left of index $i$ in the array $\textit{nums}$, and a variable $right$ to represent the sum of elements to the right of index $i$ in the array $\textit{nums}$. Initially, $left = 0$, $right = \sum_{i = 0}^{n - 1} nums[i]$.
 
-遍历数组 $\textit{nums}$，对于当前遍历到的数字 $x$，我们更新 $right = right - x$，此时如果 $left=right$，说明当前下标 $i$ 就是中间位置，直接返回即可。否则，我们更新 $left = left + x$，继续遍历下一个数字。
+We traverse the array $\textit{nums}$. For the current number $x$ being traversed, we update $right = right - x$. At this point, if $left = right$, it indicates that the current index $i$ is the middle position, and we can return it directly. Otherwise, we update $left = left + x$ and continue to traverse the next number.
 
-遍历结束，如果没有找到中间位置，返回 $-1$。
+If the middle position is not found by the end of the traversal, return $-1$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the length of the array $\textit{nums}$.
 
-相似题目：
+Similar Problems:
 
--   [1991. 找到数组的中间位置](https://github.com/doocs/leetcode/blob/main/solution/1900-1999/1991.Find%20the%20Middle%20Index%20in%20Array/README.md)
--   [2574. 左右元素和的差值](https://github.com/doocs/leetcode/blob/main/solution/2500-2599/2574.Left%20and%20Right%20Sum%20Differences/README.md)
+-   [1991. Find the Middle Index in Array](https://github.com/doocs/leetcode/blob/main/solution/1900-1999/1991.Find%20the%20Middle%20Index%20in%20Array/README_EN.md)
+-   [2574. Left and Right Sum Differences](https://github.com/doocs/leetcode/blob/main/solution/2500-2599/2574.Left%20and%20Right%20Sum%20Differences/README_EN.md)
 
 <!-- tabs:start -->
 

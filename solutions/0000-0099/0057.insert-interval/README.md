@@ -1,70 +1,65 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0000-0099/0057.Insert%20Interval/README.md
+difficulty: Medium
 tags:
-    - 数组
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [57. 插入区间](https://leetcode.cn/problems/insert-interval)
+# [57. Insert Interval](https://leetcode.com/problems/insert-interval)
 
-[English Version](/solution/0000-0099/0057.Insert%20Interval/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个<strong> 无重叠的</strong><em> ，</em>按照区间起始端点排序的区间列表 <code>intervals</code>，其中&nbsp;<code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;个区间的开始和结束，并且&nbsp;<code>intervals</code>&nbsp;按照&nbsp;<code>start<sub>i</sub></code>&nbsp;升序排列。同样给定一个区间&nbsp;<code>newInterval = [start, end]</code>&nbsp;表示另一个区间的开始和结束。</p>
+<p>You are given an array of non-overlapping intervals <code>intervals</code> where <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> represent the start and the end of the <code>i<sup>th</sup></code> interval and <code>intervals</code> is sorted in ascending order by <code>start<sub>i</sub></code>. You are also given an interval <code>newInterval = [start, end]</code> that represents the start and end of another interval.</p>
 
-<p>在&nbsp;<code>intervals</code> 中插入区间&nbsp;<code>newInterval</code>，使得&nbsp;<code>intervals</code>&nbsp;依然按照&nbsp;<code>start<sub>i</sub></code>&nbsp;升序排列，且区间之间不重叠（如果有必要的话，可以合并区间）。</p>
+<p>Insert <code>newInterval</code> into <code>intervals</code> such that <code>intervals</code> is still sorted in ascending order by <code>start<sub>i</sub></code> and <code>intervals</code> still does not have any overlapping intervals (merge overlapping intervals if necessary).</p>
 
-<p>返回插入之后的&nbsp;<code>intervals</code>。</p>
+<p>Return <code>intervals</code><em> after the insertion</em>.</p>
 
-<p><strong>注意</strong> 你不需要原地修改&nbsp;<code>intervals</code>。你可以创建一个新数组然后返回它。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例&nbsp;1：</strong></p>
-
-<pre>
-<strong>输入：</strong>intervals = [[1,3],[6,9]], newInterval = [2,5]
-<strong>输出：</strong>[[1,5],[6,9]]
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
-<strong>输出：</strong>[[1,2],[3,10],[12,16]]
-<strong>解释：</strong>这是因为新的区间 <code>[4,8]</code> 与 <code>[3,5],[6,7],[8,10]</code>&nbsp;重叠。
-</pre>
+<p><strong>Note</strong> that you don&#39;t need to modify <code>intervals</code> in-place. You can make a new array and return it.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> intervals = [[1,3],[6,9]], newInterval = [2,5]
+<strong>Output:</strong> [[1,5],[6,9]]
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
+<strong>Output:</strong> [[1,2],[3,10],[12,16]]
+<strong>Explanation:</strong> Because the new interval [4,8] overlaps with [3,5],[6,7],[8,10].
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= intervals.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>intervals[i].length == 2</code></li>
-	<li><code>0 &lt;=&nbsp;start<sub>i</sub> &lt;=&nbsp;end<sub>i</sub> &lt;= 10<sup>5</sup></code></li>
-	<li><code>intervals</code> 根据 <code>start<sub>i</sub></code> 按 <strong>升序</strong> 排列</li>
+	<li><code>0 &lt;= start<sub>i</sub> &lt;= end<sub>i</sub> &lt;= 10<sup>5</sup></code></li>
+	<li><code>intervals</code> is sorted by <code>start<sub>i</sub></code> in <strong>ascending</strong> order.</li>
 	<li><code>newInterval.length == 2</code></li>
-	<li><code>0 &lt;=&nbsp;start &lt;=&nbsp;end &lt;= 10<sup>5</sup></code></li>
+	<li><code>0 &lt;= start &lt;= end &lt;= 10<sup>5</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 区间合并
+### Solution 1: Sorting + Interval Merging
 
-我们可以先将新区间 `newInterval` 加入到区间列表 `intervals` 中，然后按照区间合并的常规方法进行合并。
+We can first add the new interval `newInterval` to the interval list `intervals`, and then merge according to the regular method of interval merging.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 是区间的数量。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ is the number of intervals.
 
 <!-- tabs:start -->
 
@@ -253,17 +248,17 @@ public class Solution {
 
 <!-- solution:start -->
 
-### 方法二：一次遍历
+### Solution 2: One-pass Traversal
 
-我们可以遍历区间列表 `intervals`，记当前区间为 `interval`，对于每个区间有三种情况：
+We can traverse the interval list `intervals`, let the current interval be `interval`, and there are three situations for each interval:
 
--   当前区间在新区间的右侧，即 $newInterval[1] \lt interval[0]$，此时如果新区间还没有被加入，那么将新区间加入到答案中，然后将当前区间加入到答案中。
--   当前区间在新区间的左侧，即 $interval[1] \lt newInterval[0]$，此时将当前区间加入到答案中。
--   否则，说明当前区间与新区间有交集，我们取当前区间的左端点和新区间的左端点的最小值，以及当前区间的右端点和新区间的右端点的最大值，作为新区间的左右端点，然后继续遍历区间列表。
+-   The current interval is on the right side of the new interval, that is, $newInterval[1] < interval[0]$. At this time, if the new interval has not been added, then add the new interval to the answer, and then add the current interval to the answer.
+-   The current interval is on the left side of the new interval, that is, $interval[1] < newInterval[0]$. At this time, add the current interval to the answer.
+-   Otherwise, it means that the current interval and the new interval intersect. We take the minimum of the left endpoint of the current interval and the left endpoint of the new interval, and the maximum of the right endpoint of the current interval and the right endpoint of the new interval, as the left and right endpoints of the new interval, and then continue to traverse the interval list.
 
-遍历结束，如果新区间还没有被加入，那么将新区间加入到答案中。
+After the traversal, if the new interval has not been added, then add the new interval to the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 是区间的数量。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the number of intervals. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

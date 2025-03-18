@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1126.Active%20Businesses/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1126. 查询活跃业务 🔒](https://leetcode.cn/problems/active-businesses)
+# [1126. Active Businesses 🔒](https://leetcode.com/problems/active-businesses)
 
-[English Version](/solution/1100-1199/1126.Active%20Businesses/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>事件表：<code>Events</code></p>
+<p>Table: <code>Events</code></p>
 
 <pre>
 +---------------+---------+
@@ -26,28 +23,25 @@ tags:
 | event_type    | varchar |
 | occurrences   | int     | 
 +---------------+---------+
-(business_id, event_type) 是这个表的主键（具有唯一值的列的组合）。
-表中的每一行记录了某种类型的事件在某些业务中多次发生的信息。
+(business_id, event_type) is the primary key (combination of columns with unique values) of this table.
+Each row in the table logs the info that an event of some type occurred at some business for a number of times.
 </pre>
 
-<p>&nbsp;</p>
+<p>The <strong>average activity</strong> for a particular <code>event_type</code> is the average <code>occurrences</code> across all companies that have this event.</p>
 
-<p><strong>平均活动</strong> 是指有特定 <code>event_type</code> 的具有该事件的所有公司的 <code>occurrences</code>&nbsp;的均值。</p>
+<p>An <strong>active business</strong> is a business that has <strong>more than one</strong> <code>event_type</code> such that their <code>occurrences</code> is <strong>strictly greater</strong> than the average activity for that event.</p>
 
-<p><strong>活跃业务</strong> 是指具有&nbsp;<strong>多个</strong> <code>event_type</code>&nbsp;的业务，它们的 <code>occurrences</code> <strong>严格大于</strong> 该事件的平均活动次数。</p>
+<p>Write a solution to find all <strong>active businesses</strong>.</p>
 
-<p>写一个解决方案，找到所有 <strong>活跃业务</strong>。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>以 <strong>任意顺序</strong> 返回结果表。</p>
-
-<p>结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 Events table:
 +-------------+------------+-------------+
 | business_id | event_type | occurrences |
@@ -60,26 +54,27 @@ Events table:
 | 1           | page views | 3           |
 | 2           | page views | 12          |
 +-------------+------------+-------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +-------------+
 | business_id |
 +-------------+
 | 1           |
-+-------------+ 
-<strong>解释：</strong>
-每次活动的平均活动可计算如下:
-- 'reviews': (7+3)/2 = 5
-- 'ads': (11+7+6)/3 = 8
-- 'page views': (3+12)/2 = 7.5
-id=1 的业务有 7 个 'reviews' 事件(多于 5 个)和 11 个 'ads' 事件(多于 8 个)，所以它是一个活跃的业务。</pre>
++-------------+
+<strong>Explanation:</strong>  
+The average activity for each event can be calculated as follows:
+- &#39;reviews&#39;: (7+3)/2 = 5
+- &#39;ads&#39;: (11+7+6)/3 = 8
+- &#39;page views&#39;: (3+12)/2 = 7.5
+The business with id=1 has 7 &#39;reviews&#39; events (more than 5) and 11 &#39;ads&#39; events (more than 8), so it is an active business.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -109,7 +104,7 @@ HAVING COUNT(1) > 1;
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

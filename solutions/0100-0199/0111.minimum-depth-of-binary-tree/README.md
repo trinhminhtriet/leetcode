@@ -1,66 +1,61 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0111.Minimum%20Depth%20of%20Binary%20Tree/README.md
+difficulty: Easy
 tags:
-    - 树
-    - 深度优先搜索
-    - 广度优先搜索
-    - 二叉树
+    - Tree
+    - Depth-First Search
+    - Breadth-First Search
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [111. 二叉树的最小深度](https://leetcode.cn/problems/minimum-depth-of-binary-tree)
+# [111. Minimum Depth of Binary Tree](https://leetcode.com/problems/minimum-depth-of-binary-tree)
 
-[English Version](/solution/0100-0199/0111.Minimum%20Depth%20of%20Binary%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个二叉树，找出其最小深度。</p>
+<p>Given a binary tree, find its minimum depth.</p>
 
-<p>最小深度是从根节点到最近叶子节点的最短路径上的节点数量。</p>
+<p>The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.</p>
 
-<p><strong>说明：</strong>叶子节点是指没有子节点的节点。</p>
+<p><strong>Note:</strong>&nbsp;A leaf is a node with no children.</p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0111.Minimum%20Depth%20of%20Binary%20Tree/images/ex_depth.jpg" style="width: 432px; height: 302px;" />
 <pre>
-<strong>输入：</strong>root = [3,9,20,null,null,15,7]
-<strong>输出：</strong>2
+<strong>Input:</strong> root = [3,9,20,null,null,15,7]
+<strong>Output:</strong> 2
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>root = [2,null,3,null,4,null,5,null,6]
-<strong>输出：</strong>5
+<strong>Input:</strong> root = [2,null,3,null,4,null,5,null,6]
+<strong>Output:</strong> 5
 </pre>
 
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>树中节点数的范围在 <code>[0, 10<sup>5</sup>]</code> 内</li>
-	<li><code>-1000 <= Node.val <= 1000</code></li>
+	<li>The number of nodes in the tree is in the range <code>[0, 10<sup>5</sup>]</code>.</li>
+	<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：递归
+### Solution 1: Recursion
 
-递归的终止条件是当前节点为空，此时返回 $0$；如果当前节点左右子树有一个为空，返回不为空的子树的最小深度加 $1$；如果当前节点左右子树都不为空，返回左右子树最小深度的较小值加 $1$。
+The termination condition for recursion is when the current node is null, at which point return $0$. If one of the left or right subtrees of the current node is null, return the minimum depth of the non-null subtree plus $1$. If neither the left nor right subtree of the current node is null, return the smaller value of the minimum depths of the left and right subtrees plus $1$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点个数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 
@@ -315,11 +310,11 @@ int minDepth(struct TreeNode* root) {
 
 <!-- solution:start -->
 
-### 方法二：BFS
+### Solution 2: BFS
 
-使用队列实现广度优先搜索，初始时将根节点加入队列。每次从队列中取出一个节点，如果该节点是叶子节点，则直接返回当前深度；如果该节点不是叶子节点，则将该节点的所有非空子节点加入队列。继续搜索下一层节点，直到找到叶子节点。
+Use a queue to implement breadth-first search, initially adding the root node to the queue. Each time, take a node from the queue. If this node is a leaf node, directly return the current depth. If this node is not a leaf node, add all non-null child nodes of this node to the queue. Continue to search the next layer of nodes until a leaf node is found.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 是二叉树的节点个数。
+The time complexity is $O(n)$, and the space complexity is $O(n)$. Here, $n$ is the number of nodes in the binary tree.
 
 <!-- tabs:start -->
 

@@ -1,93 +1,90 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0983.Minimum%20Cost%20For%20Tickets/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 动态规划
+    - Array
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [983. 最低票价](https://leetcode.cn/problems/minimum-cost-for-tickets)
+# [983. Minimum Cost For Tickets](https://leetcode.com/problems/minimum-cost-for-tickets)
 
-[English Version](/solution/0900-0999/0983.Minimum%20Cost%20For%20Tickets/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>在一个火车旅行很受欢迎的国度，你提前一年计划了一些火车旅行。在接下来的一年里，你要旅行的日子将以一个名为&nbsp;<code>days</code>&nbsp;的数组给出。每一项是一个从&nbsp;<code>1</code>&nbsp;到&nbsp;<code>365</code>&nbsp;的整数。</p>
+<p>You have planned some train traveling one year in advance. The days of the year in which you will travel are given as an integer array <code>days</code>. Each day is an integer from <code>1</code> to <code>365</code>.</p>
 
-<p>火车票有 <strong>三种不同的销售方式</strong> ：</p>
+<p>Train tickets are sold in <strong>three different ways</strong>:</p>
 
 <ul>
-	<li>一张 <strong>为期一天</strong> 的通行证售价为&nbsp;<code>costs[0]</code> 美元；</li>
-	<li>一张 <strong>为期七天</strong> 的通行证售价为&nbsp;<code>costs[1]</code> 美元；</li>
-	<li>一张 <strong>为期三十天</strong> 的通行证售价为&nbsp;<code>costs[2]</code> 美元。</li>
+	<li>a <strong>1-day</strong> pass is sold for <code>costs[0]</code> dollars,</li>
+	<li>a <strong>7-day</strong> pass is sold for <code>costs[1]</code> dollars, and</li>
+	<li>a <strong>30-day</strong> pass is sold for <code>costs[2]</code> dollars.</li>
 </ul>
 
-<p>通行证允许数天无限制的旅行。 例如，如果我们在第 <code>2</code> 天获得一张 <strong>为期 7 天</strong> 的通行证，那么我们可以连着旅行 7 天：第 <code>2</code> 天、第 <code>3</code> 天、第 <code>4</code> 天、第 <code>5</code> 天、第 <code>6</code> 天、第 <code>7</code> 天和第 <code>8</code> 天。</p>
+<p>The passes allow that many days of consecutive travel.</p>
 
-<p>返回 <em>你想要完成在给定的列表&nbsp;<code>days</code>&nbsp;中列出的每一天的旅行所需要的最低消费&nbsp;</em>。</p>
+<ul>
+	<li>For example, if we get a <strong>7-day</strong> pass on day <code>2</code>, then we can travel for <code>7</code> days: <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code>, <code>6</code>, <code>7</code>, and <code>8</code>.</li>
+</ul>
 
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>days = [1,4,6,7,8,20], costs = [2,7,15]
-<strong>输出：</strong>11
-<strong>解释： </strong>
-例如，这里有一种购买通行证的方法，可以让你完成你的旅行计划：
-在第 1 天，你花了 costs[0] = $2 买了一张为期 1 天的通行证，它将在第 1 天生效。
-在第 3 天，你花了 costs[1] = $7 买了一张为期 7 天的通行证，它将在第 3, 4, ..., 9 天生效。
-在第 20 天，你花了 costs[0] = $2 买了一张为期 1 天的通行证，它将在第 20 天生效。
-你总共花了 $11，并完成了你计划的每一天旅行。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>days = [1,2,3,4,5,6,7,8,9,10,30,31], costs = [2,7,15]
-<strong>输出：</strong>17
-<strong>解释：
-</strong>例如，这里有一种购买通行证的方法，可以让你完成你的旅行计划： 
-在第 1 天，你花了 costs[2] = $15 买了一张为期 30 天的通行证，它将在第 1, 2, ..., 30 天生效。
-在第 31 天，你花了 costs[0] = $2 买了一张为期 1 天的通行证，它将在第 31 天生效。 
-你总共花了 $17，并完成了你计划的每一天旅行。
-</pre>
+<p>Return <em>the minimum number of dollars you need to travel every day in the given list of days</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> days = [1,4,6,7,8,20], costs = [2,7,15]
+<strong>Output:</strong> 11
+<strong>Explanation:</strong> For example, here is one way to buy passes that lets you travel your travel plan:
+On day 1, you bought a 1-day pass for costs[0] = $2, which covered day 1.
+On day 3, you bought a 7-day pass for costs[1] = $7, which covered days 3, 4, ..., 9.
+On day 20, you bought a 1-day pass for costs[0] = $2, which covered day 20.
+In total, you spent $11 and covered all the days of your travel.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> days = [1,2,3,4,5,6,7,8,9,10,30,31], costs = [2,7,15]
+<strong>Output:</strong> 17
+<strong>Explanation:</strong> For example, here is one way to buy passes that lets you travel your travel plan:
+On day 1, you bought a 30-day pass for costs[2] = $15 which covered days 1, 2, ..., 30.
+On day 31, you bought a 1-day pass for costs[0] = $2 which covered day 31.
+In total, you spent $17 and covered all the days of your travel.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= days.length &lt;= 365</code></li>
 	<li><code>1 &lt;= days[i] &lt;= 365</code></li>
-	<li><code>days</code>&nbsp;按顺序严格递增</li>
+	<li><code>days</code> is in strictly increasing order.</li>
 	<li><code>costs.length == 3</code></li>
 	<li><code>1 &lt;= costs[i] &lt;= 1000</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：记忆化搜索 + 二分查找
+### Solution 1: Memoization Search + Binary Search
 
-我们定义一个函数 $\textit{dfs(i)}$，表示从第 $i$ 次出行开始到最后一次出行结束所需的最小花费。那么答案为 $\textit{dfs(0)}$。
+We define a function $\textit{dfs(i)}$, which represents the minimum cost required from the $i$-th trip to the last trip. Thus, the answer is $\textit{dfs(0)}$.
 
-函数 $\textit{dfs(i)}$ 的执行过程如下：
+The execution process of the function $\textit{dfs(i)}$ is as follows:
 
--   如果 $i \geq n$，表示所有出行已经结束，返回 $0$；
--   否则，我们需要考虑三种购买方式，分别是购买 $1$ 天通行证、购买 $7$ 天通行证和购买 $30$ 天通行证。我们分别计算这三种购买方式的花费，并且利用二分查找，找到下一次出行的下标 $j$，然后递归调用 $\textit{dfs(j)}$，最后返回这三种购买方式的最小花费。
+-   If $i \geq n$, it means all trips have ended, return $0$;
+-   Otherwise, we need to consider three types of purchases: buying a 1-day pass, buying a 7-day pass, and buying a 30-day pass. We calculate the cost for these three purchasing methods separately and use binary search to find the index $j$ of the next trip, then recursively call $\textit{dfs(j)}$, and finally return the minimum cost among these three purchasing methods.
 
-为了避免重复计算，我们使用记忆化搜索，将已经计算过的结果保存起来。
+To avoid repeated calculations, we use memoization search to save the results that have already been calculated.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 表示出行的次数。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(n)$. Here, $n$ represents the number of trips.
 
 <!-- tabs:start -->
 
@@ -245,15 +242,15 @@ function mincostTickets(days: number[], costs: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二：动态规划
+### Solution 2: Dynamic Programming
 
-我们不妨记 $\textit{days}$ 数组中的最后一天为 $m$，那么我们可以定义一个长度为 $m + 1$ 的数组 $f$，其中 $f[i]$ 表示从第 $1$ 天到第 $i$ 天的最小花费。
+Let's denote the last day in the $\textit{days}$ array as $m$. We can define an array $f$ of length $m + 1$, where $f[i]$ represents the minimum cost from day $1$ to day $i$.
 
-我们可以按照 $\textit{days}$ 数组中的日期递增的顺序，从第 $1$ 天开始，依次计算 $f[i]$ 的值。如果第 $i$ 天是出行的日期，那么我们可以考虑三种购买方式，分别是购买 $1$ 天通行证、购买 $7$ 天通行证和购买 $30$ 天通行证。我们分别计算这三种购买方式的花费，并且取这三种购买方式的最小花费作为 $f[i]$ 的值。如果第 $i$ 天不是出行的日期，那么 $f[i] = f[i - 1]$。
+We can calculate the value of $f[i]$ in increasing order of the dates in the $\textit{days}$ array, starting from day $1$. If day $i$ is a travel day, we can consider three purchasing options: buying a 1-day pass, buying a 7-day pass, and buying a 30-day pass. We calculate the cost for these three purchasing methods separately and take the minimum cost among these three as the value of $f[i]$. If day $i$ is not a travel day, then $f[i] = f[i - 1]$.
 
-最终答案为 $f[m]$。
+The final answer is $f[m]$.
 
-时间复杂度 $O(m)$，空间复杂度 $O(m)$。其中 $m$ 表示出行的最后一天。
+The time complexity is $O(m)$, and the space complexity is $O(m)$. Here, $m$ represents the last day of travel.
 
 <!-- tabs:start -->
 

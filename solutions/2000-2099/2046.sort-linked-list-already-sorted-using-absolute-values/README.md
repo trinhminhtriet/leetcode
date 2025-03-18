@@ -1,80 +1,77 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2000-2099/2046.Sort%20Linked%20List%20Already%20Sorted%20Using%20Absolute%20Values/README.md
+difficulty: Medium
 tags:
-    - 链表
-    - 双指针
-    - 排序
+    - Linked List
+    - Two Pointers
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [2046. 给按照绝对值排序的链表排序 🔒](https://leetcode.cn/problems/sort-linked-list-already-sorted-using-absolute-values)
+# [2046. Sort Linked List Already Sorted Using Absolute Values 🔒](https://leetcode.com/problems/sort-linked-list-already-sorted-using-absolute-values)
 
-[English Version](/solution/2000-2099/2046.Sort%20Linked%20List%20Already%20Sorted%20Using%20Absolute%20Values/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-给你一个链表的头结点&nbsp;<code>head</code>&nbsp;，这个链表是根据结点的<strong>绝对值</strong>进行<strong>升序</strong>排序, 返回重新根据<strong>节点的值</strong>进行<strong>升序</strong>排序的链表。
+Given the <code>head</code> of a singly linked list that is sorted in <strong>non-decreasing</strong> order using the <strong>absolute values</strong> of its nodes, return <em>the list sorted in <strong>non-decreasing</strong> order using the <strong>actual values</strong> of its nodes</em>.
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2046.Sort%20Linked%20List%20Already%20Sorted%20Using%20Absolute%20Values/images/image-20211017201240-3.png" style="width: 621px; height: 250px;">
-<pre><strong>输入:</strong> head = [0,2,-5,5,10,-10]
-<strong>输出:</strong> [-10,-5,0,2,5,10]
-<strong>解释:</strong>
-根据结点的值的绝对值排序的链表是 [0,2,-5,5,10,-10].
-根据结点的值排序的链表是 [-10,-5,0,2,5,10].
+<p><strong class="example">Example 1:</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2046.Sort%20Linked%20List%20Already%20Sorted%20Using%20Absolute%20Values/images/image-20211017201240-3.png" style="width: 621px; height: 250px;" />
+<pre>
+<strong>Input:</strong> head = [0,2,-5,5,10,-10]
+<strong>Output:</strong> [-10,-5,0,2,5,10]
+<strong>Explanation:</strong>
+The list sorted in non-descending order using the absolute values of the nodes is [0,2,-5,5,10,-10].
+The list sorted in non-descending order using the actual values is [-10,-5,0,2,5,10].
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
+<img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2046.Sort%20Linked%20List%20Already%20Sorted%20Using%20Absolute%20Values/images/image-20211017201318-4.png" style="width: 338px; height: 250px;" />
+<pre>
+<strong>Input:</strong> head = [0,1,2]
+<strong>Output:</strong> [0,1,2]
+<strong>Explanation:</strong>
+The linked list is already sorted in non-decreasing order.
+</pre>
 
-<p><img src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2000-2099/2046.Sort%20Linked%20List%20Already%20Sorted%20Using%20Absolute%20Values/images/image-20211017201318-4.png" style="width: 338px; height: 250px;"></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入:</strong> head = [0,1,2]
-<strong>输出:</strong> [0,1,2]
-<strong>解释:</strong>
-这个链表已经是升序的了。</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre><strong>输入:</strong> head = [1]
-<strong>输出:</strong> [1]
-<strong>解释:</strong>
-这个链表已经是升序的了。</pre>
+<pre>
+<strong>Input:</strong> head = [1]
+<strong>Output:</strong> [1]
+<strong>Explanation:</strong>
+The linked list is already sorted in non-decreasing order.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li>链表节点数的范围是&nbsp;<code>[1, 10<sup>5</sup>]</code>.</li>
+	<li>The number of nodes in the list is the range <code>[1, 10<sup>5</sup>]</code>.</li>
 	<li><code>-5000 &lt;= Node.val &lt;= 5000</code></li>
-	<li><code>head</code>&nbsp;是根据结点绝对值升序排列好的链表.</li>
+	<li><code>head</code> is sorted in non-decreasing order using the absolute value of its nodes.</li>
 </ul>
 
 <p>&nbsp;</p>
-<strong>进阶:</strong>
-
+<strong>Follow up:</strong>
 <ul>
-	<li>你可以在<code>O(n)</code>的时间复杂度之内解决这个问题吗?</li>
+	<li>Can you think of a solution with <code>O(n)</code> time complexity?</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：头插法
+### Solution 1: Head Insertion Method
 
-我们先默认第一个点已经排序完毕，然后从第二个点开始，遇到值为负数的节点，采用头插法；非负数，则继续往下遍历即可。
+We first assume that the first node is already sorted. Starting from the second node, when we encounter a node with a negative value, we use the head insertion method. For non-negative values, we continue to traverse down.
 
-时间复杂度 $O(n)$，其中 $n$ 为链表的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the linked list. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

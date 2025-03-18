@@ -1,93 +1,88 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2983.Palindrome%20Rearrangement%20Queries/README.md
+difficulty: Hard
 rating: 2779
-source: 第 378 场周赛 Q4
+source: Weekly Contest 378 Q4
 tags:
-    - 哈希表
-    - 字符串
-    - 前缀和
+    - Hash Table
+    - String
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [2983. 回文串重新排列查询](https://leetcode.cn/problems/palindrome-rearrangement-queries)
+# [2983. Palindrome Rearrangement Queries](https://leetcode.com/problems/palindrome-rearrangement-queries)
 
-[English Version](/solution/2900-2999/2983.Palindrome%20Rearrangement%20Queries/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个长度为 <strong>偶数</strong>&nbsp;<code>n</code>&nbsp;，下标从 <strong>0</strong>&nbsp;开始的字符串&nbsp;<code>s</code>&nbsp;。</p>
+<p>You are given a <strong>0-indexed</strong> string <code>s</code> having an <strong>even</strong> length <code>n</code>.</p>
 
-<p>同时给你一个下标从 <strong>0</strong>&nbsp;开始的二维整数数组&nbsp;<code>queries</code>&nbsp;，其中&nbsp;<code>queries[i] = [a<sub>i</sub>, b<sub>i</sub>, c<sub>i</sub>, d<sub>i</sub>]</code>&nbsp;。</p>
+<p>You are also given a <strong>0-indexed</strong> 2D integer array, <code>queries</code>, where <code>queries[i] = [a<sub>i</sub>, b<sub>i</sub>, c<sub>i</sub>, d<sub>i</sub>]</code>.</p>
 
-<p>对于每个查询&nbsp;<code>i</code>&nbsp;，你需要执行以下操作：</p>
+<p>For each query <code>i</code>, you are allowed to perform the following operations:</p>
 
 <ul>
-	<li>将下标在范围&nbsp;<code>0 &lt;= a<sub>i</sub> &lt;= b<sub>i</sub> &lt; n / 2</code>&nbsp;内的&nbsp;<strong>子字符串</strong>&nbsp;<code>s[a<sub>i</sub>:b<sub>i</sub>]</code>&nbsp;中的字符重新排列。</li>
-	<li>将下标在范围 <code>n / 2 &lt;= c<sub>i</sub> &lt;= d<sub>i</sub> &lt; n</code>&nbsp;内的 <strong>子字符串</strong>&nbsp;<code>s[c<sub>i</sub>:d<sub>i</sub>]</code>&nbsp;中的字符重新排列。</li>
+	<li>Rearrange the characters within the <strong>substring</strong> <code>s[a<sub>i</sub>:b<sub>i</sub>]</code>, where <code>0 &lt;= a<sub>i</sub> &lt;= b<sub>i</sub> &lt; n / 2</code>.</li>
+	<li>Rearrange the characters within the <strong>substring</strong> <code>s[c<sub>i</sub>:d<sub>i</sub>]</code>, where <code>n / 2 &lt;= c<sub>i</sub> &lt;= d<sub>i</sub> &lt; n</code>.</li>
 </ul>
 
-<p>对于每个查询，你的任务是判断执行操作后能否让 <code>s</code>&nbsp;变成一个 <strong>回文串</strong> 。</p>
+<p>For each query, your task is to determine whether it is possible to make <code>s</code> a <strong>palindrome</strong> by performing the operations.</p>
 
-<p>每个查询与其他查询都是 <strong>独立的</strong>&nbsp;。</p>
+<p>Each query is answered <strong>independently</strong> of the others.</p>
 
-<p>请你返回一个下标从 <strong>0</strong>&nbsp;开始的数组<em>&nbsp;</em><code>answer</code>&nbsp;，如果第&nbsp;<code>i</code>&nbsp;个查询执行操作后，可以将&nbsp;<code>s</code>&nbsp;变为一个回文串，那么<em>&nbsp;</em><code>answer[i] =&nbsp;true</code>，否则为<em>&nbsp;</em><code>false</code>&nbsp;。</p>
+<p>Return <em>a <strong>0-indexed</strong> array </em><code>answer</code><em>, where </em><code>answer[i] == true</code><em> if it is possible to make </em><code>s</code><em> a palindrome by performing operations specified by the </em><code>i<sup>th</sup></code><em> query, and </em><code>false</code><em> otherwise.</em></p>
 
 <ul>
-	<li><strong>子字符串</strong>&nbsp;指的是一个字符串中一段连续的字符序列。</li>
-	<li><code>s[x:y]</code>&nbsp;表示 <code>s</code>&nbsp;中从下标 <code>x</code>&nbsp;到 <code>y</code>&nbsp;且两个端点 <strong>都包含</strong>&nbsp;的子字符串。</li>
+	<li>A <strong>substring</strong> is a contiguous sequence of characters within a string.</li>
+	<li><code>s[x:y]</code> represents the substring consisting of characters from the index <code>x</code> to index <code>y</code> in <code>s</code>, <strong>both inclusive</strong>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>s = "abcabc", queries = [[1,1,3,5],[0,2,5,5]]
-<b>输出：</b>[true,true]
-<b>解释：</b>这个例子中，有 2 个查询：
-第一个查询：
-- a<sub>0</sub> = 1, b<sub>0</sub> = 1, c<sub>0</sub> = 3, d<sub>0</sub> = 5
-- 你可以重新排列 s[1:1] =&gt; a<em><strong>b</strong></em>cabc 和 s[3:5] =&gt; abc<em><strong>abc</strong></em>&nbsp;。
-- 为了让 s 变为回文串，s[3:5] 可以重新排列得到 =&gt; abc<strong><em>cba </em></strong>。
-- 现在 s 是一个回文串。所以 answer[0] = true 。
-第二个查询：
+<strong>Input:</strong> s = &quot;abcabc&quot;, queries = [[1,1,3,5],[0,2,5,5]]
+<strong>Output:</strong> [true,true]
+<strong>Explanation:</strong> In this example, there are two queries:
+In the first query:
+- a<sub>0</sub> = 1, b<sub>0</sub> = 1, c<sub>0</sub> = 3, d<sub>0</sub> = 5.
+- So, you are allowed to rearrange s[1:1] =&gt; a<u>b</u>cabc and s[3:5] =&gt; abc<u>abc</u>.
+- To make s a palindrome, s[3:5] can be rearranged to become =&gt; abc<u>cba</u>.
+- Now, s is a palindrome. So, answer[0] = true.
+In the second query:
 - a<sub>1</sub> = 0, b<sub>1</sub> = 2, c<sub>1</sub> = 5, d<sub>1</sub> = 5.
-- 你可以重新排列 s[0:2] =&gt; <em><strong>abc</strong></em>abc 和 s[5:5] =&gt; abcab<strong><em>c</em></strong>&nbsp;。
-- 为了让 s 变为回文串，s[0:2] 可以重新排列得到 =&gt; <em><strong>cba</strong></em>abc 。
-- 现在 s 是一个回文串，所以 answer[1] = true 。
+- So, you are allowed to rearrange s[0:2] =&gt; <u>abc</u>abc and s[5:5] =&gt; abcab<u>c</u>.
+- To make s a palindrome, s[0:2] can be rearranged to become =&gt; <u>cba</u>abc.
+- Now, s is a palindrome. So, answer[1] = true.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>s = "abbcdecbba", queries = [[0,2,7,9]]
-<b>输出：</b>[false]
-<b>解释：</b>这个示例中，只有一个查询。
+<strong>Input:</strong> s = &quot;abbcdecbba&quot;, queries = [[0,2,7,9]]
+<strong>Output:</strong> [false]
+<strong>Explanation:</strong> In this example, there is only one query.
 a<sub>0</sub> = 0, b<sub>0</sub> = 2, c<sub>0</sub> = 7, d<sub>0</sub> = 9.
-你可以重新排列 s[0:2] =&gt; <em><strong>abb</strong></em>cdecbba 和 s[7:9] =&gt; abbcdec<em><strong>bba</strong></em>&nbsp;。
-无法通过重新排列这些子字符串使 s 变为一个回文串，因为 s[3:6] 不是一个回文串。
-所以 answer[0] = false 。</pre>
+So, you are allowed to rearrange s[0:2] =&gt; <u>abb</u>cdecbba and s[7:9] =&gt; abbcdec<u>bba</u>.
+It is not possible to make s a palindrome by rearranging these substrings because s[3:6] is not a palindrome.
+So, answer[0] = false.</pre>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<b>输入：</b>s = "acbcab", queries = [[1,2,4,5]]
-<b>输出：</b>[true]
-<strong>解释：</strong>这个示例中，只有一个查询。
+<strong>Input:</strong> s = &quot;acbcab&quot;, queries = [[1,2,4,5]]
+<strong>Output:</strong> [true]
+<strong>Explanation: </strong>In this example, there is only one query.
 a<sub>0</sub> = 1, b<sub>0</sub> = 2, c<sub>0</sub> = 4, d<sub>0</sub> = 5.
-你可以重新排列 s[1:2] =&gt; a<em><strong>cb</strong></em>cab 和 s[4:5] =&gt; acbc<strong><em>ab</em></strong>&nbsp;。
-为了让 s 变为回文串，s[1:2] 可以重新排列得到 =&gt; a<em><strong>bc</strong></em>cab<code>&nbsp;</code>。
-然后 s[4:5] 重新排列得到 abcc<em><strong>ba</strong></em>&nbsp;。
-现在 s 是一个回文串，所以 answer[0] = true 。</pre>
+So, you are allowed to rearrange s[1:2] =&gt; a<u>cb</u>cab and s[4:5] =&gt; acbc<u>ab</u>.
+To make s a palindrome s[1:2] can be rearranged to become a<u>bc</u>cab.
+Then, s[4:5] can be rearranged to become abcc<u>ba</u>.
+Now, s is a palindrome. So, answer[0] = true.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n == s.length &lt;= 10<sup>5</sup></code></li>
@@ -97,36 +92,36 @@ a<sub>0</sub> = 1, b<sub>0</sub> = 2, c<sub>0</sub> = 4, d<sub>0</sub> = 5.
 	<li><code>c<sub>i</sub> == queries[i][2], d<sub>i</sub> == queries[i][3]</code></li>
 	<li><code>0 &lt;= a<sub>i</sub> &lt;= b<sub>i</sub> &lt; n / 2</code></li>
 	<li><code>n / 2 &lt;= c<sub>i</sub> &lt;= d<sub>i</sub> &lt; n </code></li>
-	<li><code>n</code>&nbsp;是一个偶数。</li>
-	<li><code>s</code> 只包含小写英文字母。</li>
+	<li><code>n</code> is even.</li>
+	<li><code>s</code> consists of only lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：前缀和 + 分类讨论
+### Solution 1: Prefix Sum + Case Discussion
 
-我们记字符串 $s$ 的长度为 $n$，那么一半的长度为 $m = \frac{n}{2}$。接下来，我们把字符串 $s$ 分成长度相等的两段，其中第二段反转后得到字符串 $t$，第一段记为 $s$。那么对于每个查询 $[a_i, b_i, c_i, d_i]$，其中 $c_i$ 和 $d_i$ 需要变换为 $n - 1 - d_i$ 和 $n - 1 - c_i$。问题转化为：对于每个查询 $[a_i, b_i, c_i, d_i]$，判断 $s[a_i, b_i]$ 和 $t[c_i, d_i]$ 是否可以通过重新排列，使得字符串 $s$ 和 $t$ 相等。
+Let's denote the length of string $s$ as $n$, then half of the length is $m = \frac{n}{2}$. Next, we divide string $s$ into two equal-length segments, where the second segment is reversed to get string $t$, and the first segment remains as $s$. For each query $[a_i, b_i, c_i, d_i]$, where $c_i$ and $d_i$ need to be transformed to $n - 1 - d_i$ and $n - 1 - c_i$. The problem is transformed into: for each query $[a_i, b_i, c_i, d_i]$, determine whether $s[a_i, b_i]$ and $t[c_i, d_i]$ can be rearranged to make strings $s$ and $t$ equal.
 
-我们预处理以下信息：
+We preprocess the following information:
 
-1. 字符串 $s$ 的前缀和数组 $pre_1$，其中 $pre_1[i][j]$ 表示字符串 $s$ 前 $i$ 个字符中字符 $j$ 的数量；
-2. 字符串 $t$ 的前缀和数组 $pre_2$，其中 $pre_2[i][j]$ 表示字符串 $t$ 前 $i$ 个字符中字符 $j$ 的数量；
-3. 字符串 $s$ 和 $t$ 的差异数组 $diff$，其中 $diff[i]$ 表示字符串 $s$ 和 $t$ 的前 $i$ 个字符中不同的字符数量。
+1. The prefix sum array $pre_1$ of string $s$, where $pre_1[i][j]$ represents the quantity of character $j$ in the first $i$ characters of string $s$;
+2. The prefix sum array $pre_2$ of string $t$, where $pre_2[i][j]$ represents the quantity of character $j$ in the first $i$ characters of string $t$;
+3. The difference array $diff$ of strings $s$ and $t$, where $diff[i]$ represents the quantity of different characters in the first $i$ characters of strings $s$ and $t$.
 
-对于每个查询 $[a_i, b_i, c_i, d_i]$，我们不妨假设 $a_i \le c_i$，那么我们需要讨论以下几种情况：
+For each query $[a_i, b_i, c_i, d_i]$, let's assume $a_i \le c_i$, then we need to discuss the following cases:
 
-1. 字符串 $s$ 和 $t$ 的前缀子串 $s[..a_i-1]$ 和 $t[..a_i-1]$ 必须相等，并且后缀子串 $s[\max(b_i, d_i)+1..]$ 和 $t[\max(b_i, d_i)..]$ 也必须相等，否则无法通过重新排列使得字符串 $s$ 和 $t$ 相等；
-1. 如果 $d_i \le b_i$，说明区间 $[a_i, b_i]$ 包含区间 $[c_i, d_i]$，那么如果 $s[a_i, b_i]$ 和 $t[a_i, b_i]$ 这两个子串包含的字符数量相同，那么就可以通过重新排列使得字符串 $s$ 和 $t$ 相等，否则无法通过重新排列使得字符串 $s$ 和 $t$ 相等；
-1. 如果 $b_i < c_i$，说明区间 $[a_i, b_i]$ 和区间 $[c_i, d_i]$ 不相交，那么 $s[b_i+1, c_i-1]$ 和 $t[b_i+1, c_i-1]$ 这两个子串必须相等，并且 $s[a_i, b_i]$ 和 $t[a_i, b_i]$ 这两个子串必须相等，同时 $s[c_i, d_i]$ 和 $t[c_i, d_i]$ 这两个子串必须相等，否则无法通过重新排列使得字符串 $s$ 和 $t$ 相等。
-1. 如果 $c_i \le b_i < d_i$，说明区间 $[a_i, b_i]$ 和区间 $[c_i, d_i]$ 相交，那么 $s[a_i, b_i]$ 包含的字符，减去 $t[a_i, c_i-1]$ 包含的字符，必须等于 $t[c_i, d_i]$ 包含的字符，减去 $s[b_i+1, d_i]$ 包含的字符，否则无法通过重新排列使得字符串 $s$ 和 $t$ 相等。
+1. The prefix substrings $s[..a_i-1]$ and $t[..a_i-1]$ of strings $s$ and $t$ must be equal, and the suffix substrings $s[\max(b_i, d_i)+1..]$ and $t[\max(b_i, d_i)..]$ must also be equal, otherwise, it is impossible to rearrange to make strings $s$ and $t$ equal;
+2. If $d_i \le b_i$, it means the interval $[a_i, b_i]$ contains the interval $[c_i, d_i]$. If the substrings $s[a_i, b_i]$ and $t[a_i, b_i]$ contain the same quantity of characters, then it is possible to rearrange to make strings $s$ and $t$ equal, otherwise, it is impossible;
+3. If $b_i < c_i$, it means the intervals $[a_i, b_i]$ and $[c_i, d_i]$ do not intersect. Then the substrings $s[b_i+1, c_i-1]$ and $t[b_i+1, c_i-1]$ must be equal, and the substrings $s[a_i, b_i]$ and $t[a_i, b_i]$ must be equal, and the substrings $s[c_i, d_i]$ and $t[c_i, d_i]$ must be equal, otherwise, it is impossible to rearrange to make strings $s$ and $t$ equal.
+4. If $c_i \le b_i < d_i$, it means the intervals $[a_i, b_i]$ and $[c_i, d_i]$ intersect. Then the characters contained in $s[a_i, b_i]$, minus the characters contained in $t[a_i, c_i-1]$, must be equal to the characters contained in $t[c_i, d_i]$, minus the characters contained in $s[b_i+1, d_i]$, otherwise, it is impossible to rearrange to make strings $s$ and $t$ equal.
 
-基于上述分析，我们遍历每个查询 $[a_i, b_i, c_i, d_i]$，判断是否满足上述条件即可。
+Based on the above analysis, we iterate through each query $[a_i, b_i, c_i, d_i]$, and determine whether it satisfies the above conditions.
 
-时间复杂度 $O((n + q) \times |\Sigma|)$，空间复杂度 $O(n \times |\Sigma|)$。其中 $n$ 和 $q$ 分别是字符串 $s$ 的长度和查询数组 $queries$ 的长度；而 $|\Sigma|$ 是字符集的大小，本题中字符集为小写英文字母，因此 $|\Sigma| = 26$。
+The time complexity is $O((n + q) \times |\Sigma|)$, and the space complexity is $O(n \times |\Sigma|)$. Where $n$ and $q$ are the lengths of string $s$ and the query array $queries$ respectively; and $|\Sigma|$ is the size of the character set. In this problem, the character set is lowercase English letters, so $|\Sigma| = 26$.
 
 <!-- tabs:start -->
 

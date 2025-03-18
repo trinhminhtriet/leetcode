@@ -1,61 +1,56 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2951.Find%20the%20Peaks/README.md
+difficulty: Easy
 rating: 1189
-source: 第 374 场周赛 Q1
+source: Weekly Contest 374 Q1
 tags:
-    - 数组
-    - 枚举
+    - Array
+    - Enumeration
 ---
 
 <!-- problem:start -->
 
-# [2951. 找出峰值](https://leetcode.cn/problems/find-the-peaks)
+# [2951. Find the Peaks](https://leetcode.com/problems/find-the-peaks)
 
-[English Version](/solution/2900-2999/2951.Find%20the%20Peaks/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始的数组 <code>mountain</code> 。你的任务是找出数组&nbsp;<code>mountain</code> 中的所有 <strong>峰值</strong>。</p>
+<p>You are given a <strong>0-indexed</strong> array <code>mountain</code>. Your task is to find all the <strong>peaks</strong> in the <code>mountain</code> array.</p>
 
-<p>以数组形式返回给定数组中 <strong>峰值</strong> 的下标，<strong>顺序不限</strong> 。</p>
+<p>Return <em>an array that consists of </em>indices<!-- notionvc: c9879de8-88bd-43b0-8224-40c4bee71cd6 --><em> of <strong>peaks</strong> in the given array in <strong>any order</strong>.</em></p>
 
-<p><strong>注意：</strong></p>
+<p><strong>Notes:</strong></p>
 
 <ul>
-	<li><strong>峰值</strong> 是指一个严格大于其相邻元素的元素。</li>
-	<li>数组的第一个和最后一个元素 <strong>不</strong> 是峰值。</li>
+	<li>A <strong>peak</strong> is defined as an element that is <strong>strictly greater</strong> than its neighboring elements.</li>
+	<li>The first and last elements of the array are <strong>not</strong> a peak.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>mountain = [2,4,4]
-<strong>输出：</strong>[]
-<strong>解释：</strong>mountain[0] 和 mountain[2] 不可能是峰值，因为它们是数组的第一个和最后一个元素。
-mountain[1] 也不可能是峰值，因为它不严格大于 mountain[2] 。
-因此，答案为 [] 。
+<strong>Input:</strong> mountain = [2,4,4]
+<strong>Output:</strong> []
+<strong>Explanation:</strong> mountain[0] and mountain[2] can not be a peak because they are first and last elements of the array.
+mountain[1] also can not be a peak because it is not strictly greater than mountain[2].
+So the answer is [].
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>mountain = [1,4,3,8,5]
-<strong>输出：</strong>[1,3]
-<strong>解释：</strong>mountain[0] 和 mountain[4] 不可能是峰值，因为它们是数组的第一个和最后一个元素。
-mountain[2] 也不可能是峰值，因为它不严格大于 mountain[3] 和 mountain[1] 。
-但是 mountain[1] 和 mountain[3] 严格大于它们的相邻元素。
-因此，答案是 [1,3] 。
+<strong>Input:</strong> mountain = [1,4,3,8,5]
+<strong>Output:</strong> [1,3]
+<strong>Explanation:</strong> mountain[0] and mountain[4] can not be a peak because they are first and last elements of the array.
+mountain[2] also can not be a peak because it is not strictly greater than mountain[3] and mountain[1].
+But mountain [1] and mountain[3] are strictly greater than their neighboring elements.
+So the answer is [1,3].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= mountain.length &lt;= 100</code></li>
@@ -64,17 +59,17 @@ mountain[2] 也不可能是峰值，因为它不严格大于 mountain[3] 和 mou
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：直接遍历
+### Solution 1: Direct Traversal
 
-我们直接遍历下标 $i \in [1, n-2]$，对于每个下标 $i$，如果满足 $mountain[i-1] < mountain[i]$ 并且 $mountain[i + 1] < mountain[i]$，那么 $mountain[i]$ 就是一个峰值，我们将下标 $i$ 加入答案数组中。
+We directly traverse the index $i \in [1, n-2]$. For each index $i$, if $mountain[i-1] < mountain[i]$ and $mountain[i + 1] < mountain[i]$, then $mountain[i]$ is a peak, and we add index $i$ to the answer array.
 
-遍历结束后，返回答案数组即可。
+After the traversal ends, we return the answer array.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组的长度。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

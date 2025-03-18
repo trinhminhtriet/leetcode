@@ -1,52 +1,47 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2667.Create%20Hello%20World%20Function/README.md
+difficulty: Easy
 tags:
     - JavaScript
 ---
 
 <!-- problem:start -->
 
-# [2667. 创建 Hello World 函数](https://leetcode.cn/problems/create-hello-world-function)
+# [2667. Create Hello World Function](https://leetcode.com/problems/create-hello-world-function)
 
-[English Version](/solution/2600-2699/2667.Create%20Hello%20World%20Function/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-请你编写一个名为 <code>createHelloWorld</code> 的函数。它应该返回一个新的函数，该函数总是返回 <code>"Hello World"</code>&nbsp;。
+Write a function&nbsp;<code>createHelloWorld</code>.&nbsp;It should return a new function that always returns&nbsp;<code>&quot;Hello World&quot;</code>.
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>args = []
-<b>输出：</b>"Hello World"
-<strong>解释：</strong>
+<strong>Input:</strong> args = []
+<strong>Output:</strong> &quot;Hello World&quot;
+<strong>Explanation:</strong>
 const f = createHelloWorld();
-f(); // "Hello World"
+f(); // &quot;Hello World&quot;
 
-createHelloWorld 返回的函数应始终返回 "Hello World"。
+The function returned by createHelloWorld should always return &quot;Hello World&quot;.
 </pre>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>args = [{},null,42]
-<b>输出：</b>"Hello World"
-<strong>解释：</strong>
+<strong>Input:</strong> args = [{},null,42]
+<strong>Output:</strong> &quot;Hello World&quot;
+<strong>Explanation:</strong>
 const f = createHelloWorld();
-f({}, null, 42); // "Hello World"
+f({}, null, 42); // &quot;Hello World&quot;
 
-可以传递任何参数给函数，但它应始终返回 "Hello World"。
+Any arguments could be passed to the function but it should still always return &quot;Hello World&quot;.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= args.length &lt;= 10</code></li>
@@ -54,11 +49,11 @@ f({}, null, 42); // "Hello World"
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1667.Fix%20Names%20in%20a%20Table/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1667. 修复表中的名字](https://leetcode.cn/problems/fix-names-in-a-table)
+# [1667. Fix Names in a Table](https://leetcode.com/problems/fix-names-in-a-table)
 
-[English Version](/solution/1600-1699/1667.Fix%20Names%20in%20a%20Table/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表： <code>Users</code></p>
+<p>Table: <code>Users</code></p>
 
 <pre>
 +----------------+---------+
@@ -25,24 +22,23 @@ tags:
 | user_id        | int     |
 | name           | varchar |
 +----------------+---------+
-user_id 是该表的主键(具有唯一值的列)。
-该表包含用户的 ID 和名字。名字仅由小写和大写字符组成。
+user_id is the primary key (column with unique values) for this table.
+This table contains the ID and the name of the user. The name consists of only lowercase and uppercase characters.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案，修复名字，使得只有第一个字符是大写的，其余都是小写的。</p>
+<p>Write a solution to fix the names so that only the first character is uppercase and the rest are lowercase.</p>
 
-<p>返回按 <code>user_id</code> 排序的结果表。</p>
+<p>Return the result table ordered by <code>user_id</code>.</p>
 
-<p>返回结果格式示例如下。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 Users table:
 +---------+-------+
 | user_id | name  |
@@ -50,21 +46,22 @@ Users table:
 | 1       | aLice |
 | 2       | bOB   |
 +---------+-------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +---------+-------+
 | user_id | name  |
 +---------+-------+
 | 1       | Alice |
 | 2       | Bob   |
-+---------+-------+</pre>
++---------+-------+
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -86,7 +83,7 @@ ORDER BY
 
 <!-- solution:start -->
 
-### 方法二
+### Solution 2
 
 <!-- tabs:start -->
 

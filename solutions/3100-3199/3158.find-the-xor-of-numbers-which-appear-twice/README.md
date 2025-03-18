@@ -1,92 +1,87 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3158.Find%20the%20XOR%20of%20Numbers%20Which%20Appear%20Twice/README.md
+difficulty: Easy
 rating: 1172
-source: 第 131 场双周赛 Q1
+source: Biweekly Contest 131 Q1
 tags:
-    - 位运算
-    - 数组
-    - 哈希表
+    - Bit Manipulation
+    - Array
+    - Hash Table
 ---
 
 <!-- problem:start -->
 
-# [3158. 求出出现两次数字的 XOR 值](https://leetcode.cn/problems/find-the-xor-of-numbers-which-appear-twice)
+# [3158. Find the XOR of Numbers Which Appear Twice](https://leetcode.com/problems/find-the-xor-of-numbers-which-appear-twice)
 
-[English Version](/solution/3100-3199/3158.Find%20the%20XOR%20of%20Numbers%20Which%20Appear%20Twice/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组&nbsp;<code>nums</code>&nbsp;，数组中的数字 <strong>要么</strong> 出现一次，<strong>要么</strong>&nbsp;出现两次。</p>
+<p>You are given an array <code>nums</code>, where each number in the array appears <strong>either</strong><em> </em>once<em> </em>or<em> </em>twice.</p>
 
-<p>请你返回数组中所有出现两次数字的按位<em>&nbsp;</em><code>XOR</code>&nbsp;值，如果没有数字出现过两次，返回 0 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,2,1,3]</span></p>
-
-<p><span class="example-io"><b>输出：</b>1</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p><code>nums</code>&nbsp;中唯一出现过两次的数字是 1 。</p>
-</div>
-
-<p><strong class="example">示例 2：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,2,3]</span></p>
-
-<p><span class="example-io"><b>输出：</b>0</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p><code>nums</code>&nbsp;中没有数字出现两次。</p>
-</div>
-
-<p><strong class="example">示例 3：</strong></p>
-
-<div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [1,2,2,1]</span></p>
-
-<p><span class="example-io"><b>输出：</b>3</span></p>
-
-<p><strong>解释：</strong></p>
-
-<p>数字 1 和&nbsp;2 出现过两次。<code>1 XOR 2 == 3</code>&nbsp;。</p>
-</div>
+<p>Return the bitwise<em> </em><code>XOR</code> of all the numbers that appear twice in the array, or 0 if no number appears twice.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,1,3]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">1</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>The only number that appears twice in&nbsp;<code>nums</code>&nbsp;is 1.</p>
+</div>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>No number appears twice in&nbsp;<code>nums</code>.</p>
+</div>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,2,1]</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
+
+<p><strong>Explanation:</strong></p>
+
+<p>Numbers 1 and 2 appeared twice. <code>1 XOR 2 == 3</code>.</p>
+</div>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 50</code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 50</code></li>
-	<li><code>nums</code>&nbsp;中每个数字要么出现过一次，要么出现过两次。</li>
+	<li>Each number in <code>nums</code> appears either once or twice.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：计数
+### Solution 1: Counting
 
-我们定义一个数组或哈希表 $\textit{cnt}$ 记录每个数字出现的次数。
+We define an array or hash table `cnt` to record the occurrence of each number.
 
-接下来，遍历数组 $\textit{nums}$，当某个数字出现两次时，我们将其与答案进行异或运算。
+Next, we traverse the array `nums`. When a number appears twice, we perform an XOR operation with the answer.
 
-最后返回答案即可。
+Finally, we return the answer.
 
-时间复杂度 $O(n)$，空间复杂度 $O(M)$。其中 $n$ 是数组 $\textit{nums}$ 的长度，而 $M$ 是数组 $\textit{nums}$ 中的最大值或数组 $\textit{nums}$ 不同数字的个数。
+The time complexity is $O(n)$, and the space complexity is $O(M)$. Where $n$ is the length of the array `nums`, and $M$ is the maximum value in the array `nums` or the number of distinct numbers in the array `nums`.
 
 <!-- tabs:start -->
 
@@ -170,17 +165,17 @@ function duplicateNumbersXOR(nums: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二：位运算
+### Solution 2: Bit Manipulation
 
-由于题目中给出的数字范围是 $1 \leq \textit{nums}[i] \leq 50$，我们可以使用一个 $64$ 位的整数来存储每个数字的出现次数。
+Since the given number range in the problem is $1 \leq \textit{nums}[i] \leq 50$, we can use a $64$-bit integer to store the occurrence of each number.
 
-我们定义一个整数 $\textit{mask}$ 来记录每个数字是否出现过。
+We define an integer $\textit{mask}$ to record whether each number has appeared.
 
-接下来，遍历数组 $\textit{nums}$，当某个数字出现两次时，即 $\textit{mask}$ 的二进制表示中第 $x$ 位为 $1$ 时，我们将其与答案进行异或运算。否则，我们将 $\textit{mask}$ 的第 $x$ 位设置为 $1$。
+Next, we traverse the array $\textit{nums}$. When a number appears twice, i.e., the $x$-th bit in the binary representation of $\textit{mask}$ is $1$, we perform an XOR operation with the answer. Otherwise, we set the $x$-th bit of $\textit{mask}$ to $1$.
 
-最后返回答案即可。
+Finally, we return the answer.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{nums}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

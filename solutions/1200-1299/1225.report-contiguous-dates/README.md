@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1200-1299/1225.Report%20Contiguous%20Dates/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1225. 报告系统状态的连续日期 🔒](https://leetcode.cn/problems/report-contiguous-dates)
+# [1225. Report Contiguous Dates 🔒](https://leetcode.com/problems/report-contiguous-dates)
 
-[English Version](/solution/1200-1299/1225.Report%20Contiguous%20Dates/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Failed</code></p>
+<p>Table: <code>Failed</code></p>
 
 <pre>
 +--------------+---------+
@@ -24,13 +21,13 @@ tags:
 +--------------+---------+
 | fail_date    | date    |
 +--------------+---------+
-该表主键为 fail_date (具有唯一值的列)。
-该表包含失败任务的天数.
+fail_date is the primary key (column with unique values) for this table.
+This table contains the days of failed tasks.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>表：&nbsp;<code>Succeeded</code></p>
+<p>Table: <code>Succeeded</code></p>
 
 <pre>
 +--------------+---------+
@@ -38,26 +35,27 @@ tags:
 +--------------+---------+
 | success_date | date    |
 +--------------+---------+
-该表主键为 success_date (具有唯一值的列)。
-该表包含成功任务的天数.
+success_date is the primary key (column with unique values) for this table.
+This table contains the days of succeeded tasks.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>系统 <strong>每天</strong> 运行一个任务。每个任务都独立于先前的任务。任务的状态可以是失败或是成功。</p>
+<p>A system is running one task <strong>every day</strong>. Every task is independent of the previous tasks. The tasks can fail or succeed.</p>
 
-<p>编写解决方案找出&nbsp;<strong>2019-01-01</strong>&nbsp;到&nbsp;<strong>2019-12-31</strong> 期间任务连续同状态&nbsp;<code>period_state</code>&nbsp;的起止日期（<code>start_date</code> 和 <code>end_date</code>）。即如果任务失败了，就是失败状态的起止日期，如果任务成功了，就是成功状态的起止日期。</p>
+<p>Write a solution&nbsp;to report the&nbsp;<code>period_state</code> for each continuous interval of days in the period from <code>2019-01-01</code> to <code>2019-12-31</code>.</p>
 
-<p>最后结果按照起始日期&nbsp;<code>start_date</code>&nbsp;排序</p>
+<p><code>period_state</code> is <em>&#39;</em><code>failed&#39;</code><em> </em>if tasks in this interval failed or <code>&#39;succeeded&#39;</code> if tasks in this interval succeeded. Interval of days are retrieved as <code>start_date</code> and <code>end_date.</code></p>
 
-<p>返回结果样例如下所示:</p>
+<p>Return the result table ordered by <code>start_date</code>.</p>
+
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
+<strong>Input:</strong> 
 Failed table:
 +-------------------+
 | fail_date         |
@@ -78,7 +76,7 @@ Succeeded table:
 | 2019-01-03        |
 | 2019-01-06        |
 +-------------------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +--------------+--------------+--------------+
 | period_state | start_date   | end_date     |
 +--------------+--------------+--------------+
@@ -86,22 +84,22 @@ Succeeded table:
 | failed       | 2019-01-04   | 2019-01-05   |
 | succeeded    | 2019-01-06   | 2019-01-06   |
 +--------------+--------------+--------------+
-<strong>解释：</strong>
-结果忽略了 2018 年的记录，因为我们只关心从 2019-01-01 到 2019-12-31 的记录
-从 2019-01-01 到 2019-01-03 所有任务成功，系统状态为 "succeeded"。
-从 2019-01-04 到 2019-01-05 所有任务失败，系统状态为 "failed"。
-从 2019-01-06 到 2019-01-06 所有任务成功，系统状态为 "succeeded"。
+<strong>Explanation:</strong> 
+The report ignored the system state in 2018 as we care about the system in the period 2019-01-01 to 2019-12-31.
+From 2019-01-01 to 2019-01-03 all tasks succeeded and the system state was &quot;succeeded&quot;.
+From 2019-01-04 to 2019-01-05 all tasks failed and the system state was &quot;failed&quot;.
+From 2019-01-06 to 2019-01-06 all tasks succeeded and the system state was &quot;succeeded&quot;.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：合并 + 窗口函数 + 分组求最大最小值
+### Solution 1: Union + Window Function + Group By
 
-我们可以将两个表合并，用一个字段 $st$ 表示状态，其中 `failed` 表示失败，`succeeded` 表示成功。然后我们可以使用窗口函数，将相同状态的记录分到一组，求出每个日期与其所在组排名的差值 $pt$，作为同一个连续状态的标识。最后我们可以按照 $st$ 和 $pt$ 分组，求出每组的最小日期和最大日期，然后按照最小日期排序即可。
+We can merge the two tables into one table with a field `st` representing the status, where `failed` indicates failure and `succeeded` indicates success. Then, we can use a window function to group the records with the same status into one group, and calculate the difference between each date and its rank within the group as `pt`, which serves as the identifier for the same continuous status. Finally, we can group by `st` and `pt`, and calculate the minimum and maximum dates for each group, and sort by the minimum date.
 
 <!-- tabs:start -->
 

@@ -1,58 +1,55 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2700-2799/2761.Prime%20Pairs%20With%20Target%20Sum/README.md
+difficulty: Medium
 rating: 1504
-source: 第 352 场周赛 Q2
+source: Weekly Contest 352 Q2
 tags:
-    - 数组
-    - 数学
-    - 枚举
-    - 数论
+    - Array
+    - Math
+    - Enumeration
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [2761. 和等于目标值的质数对](https://leetcode.cn/problems/prime-pairs-with-target-sum)
+# [2761. Prime Pairs With Target Sum](https://leetcode.com/problems/prime-pairs-with-target-sum)
 
-[English Version](/solution/2700-2799/2761.Prime%20Pairs%20With%20Target%20Sum/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数 <code>n</code> 。如果两个整数 <code>x</code> 和 <code>y</code> 满足下述条件，则认为二者形成一个质数对：</p>
+<p>You are given an integer <code>n</code>. We say that two integers <code>x</code> and <code>y</code> form a prime number pair if:</p>
 
 <ul>
 	<li><code>1 &lt;= x &lt;= y &lt;= n</code></li>
 	<li><code>x + y == n</code></li>
-	<li><code>x</code> 和 <code>y</code> 都是质数</li>
+	<li><code>x</code> and <code>y</code> are prime numbers</li>
 </ul>
 
-<p>请你以二维有序列表的形式返回符合题目要求的所有 <code>[x<sub>i</sub>, y<sub>i</sub>]</code> ，列表需要按 <code>x<sub>i</sub></code> 的 <strong>非递减顺序</strong> 排序。如果不存在符合要求的质数对，则返回一个空数组。</p>
+<p>Return <em>the 2D sorted list of prime number pairs</em> <code>[x<sub>i</sub>, y<sub>i</sub>]</code>. The list should be sorted in <strong>increasing</strong> order of <code>x<sub>i</sub></code>. If there are no prime number pairs at all, return <em>an empty array</em>.</p>
 
-<p><strong>注意：</strong>质数是大于 <code>1</code> 的自然数，并且只有两个因子，即它本身和 <code>1</code> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>n = 10
-<strong>输出：</strong>[[3,7],[5,5]]
-<strong>解释：</strong>在这个例子中，存在满足条件的两个质数对。 
-这两个质数对分别是 [3,7] 和 [5,5]，按照题面描述中的方式排序后返回。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre><strong>输入：</strong>n = 2
-<strong>输出：</strong>[]
-<strong>解释：</strong>可以证明不存在和为 2 的质数对，所以返回一个空数组。 
-</pre>
+<p><strong>Note:</strong> A prime number is a natural number greater than <code>1</code> with only two factors, itself and <code>1</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> n = 10
+<strong>Output:</strong> [[3,7],[5,5]]
+<strong>Explanation:</strong> In this example, there are two prime pairs that satisfy the criteria. 
+These pairs are [3,7] and [5,5], and we return them in the sorted order as described in the problem statement.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> []
+<strong>Explanation:</strong> We can show that there is no prime number pair that gives a sum of 2, so we return an empty array. 
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 10<sup>6</sup></code></li>
@@ -60,19 +57,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：预处理 + 枚举
+### Solution 1: Preprocessing + Enumeration
 
-我们先预处理出 $n$ 范围内的所有质数，记录在数组 $primes$ 中，其中 $primes[i]$ 为 `true` 表示 $i$ 是一个质数。
+First, we pre-process all the prime numbers within the range of $n$, and record them in the array $primes$, where $primes[i]$ is `true` if $i$ is a prime number.
 
-接下来，我们在 $[2, \frac{n}{2}]$ 的范围内枚举 $x$，那么 $y = n - x$，如果 $primes[x]$ 和 $primes[y]$ 均为 `true`，那么 $(x, y)$ 是一个质数对，添加到答案中。
+Next, we enumerate $x$ in the range of $[2, \frac{n}{2}]$. In this case, $y = n - x$. If both $primes[x]$ and $primes[y]$ are `true`, then $(x, y)$ is a pair of prime numbers, which is added to the answer.
 
-枚举结束后，返回答案即可。
+After the enumeration is complete, we return the answer.
 
-时间复杂度 $O(n \log \log n)$，空间复杂度 $O(n)$。其中 $n$ 是题目给定的数字。
+The time complexity is $O(n \log \log n)$ and the space complexity is $O(n)$, where $n$ is the number given in the problem.
 
 <!-- tabs:start -->
 

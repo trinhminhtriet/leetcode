@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2494.Merge%20Overlapping%20Events%20in%20the%20Same%20Hall/README.md
+difficulty: Hard
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2494. 合并在同一个大厅重叠的活动 🔒](https://leetcode.cn/problems/merge-overlapping-events-in-the-same-hall)
+# [2494. Merge Overlapping Events in the Same Hall 🔒](https://leetcode.com/problems/merge-overlapping-events-in-the-same-hall)
 
-[English Version](/solution/2400-2499/2494.Merge%20Overlapping%20Events%20in%20the%20Same%20Hall/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表: <code>HallEvents</code></p>
+<p>Table: <code>HallEvents</code></p>
 
 <pre>
 +-------------+------+
@@ -26,24 +23,24 @@ tags:
 | start_day   | date |
 | end_day     | date |
 +-------------+------+
-该表可能包含重复字段。
-该表的每一行表示活动的开始日期和结束日期，以及活动举行的大厅。
+This table may contain duplicates rows.
+Each row of this table indicates the start day and end day of an event and the hall in which the event is held.
 </pre>
-
-<p><br />
-编写解决方案，合并在&nbsp;<strong>同一个大厅举行&nbsp;</strong>的所有重叠活动。如果两个活动&nbsp;<strong>至少有一天&nbsp;</strong>相同，那么它们就是重叠的。</p>
-
-<p data-group="1-1">以<strong>任意顺序</strong>返回结果表。</p>
-
-<p>结果格式如下所示。</p>
 
 <p>&nbsp;</p>
 
-<p><strong>示例 1:</strong></p>
+<p>Write a solution to merge all the overlapping events that are held <strong>in the same hall</strong>. Two events overlap if they have <strong>at least one day</strong> in common.</p>
+
+<p>Return the result table <strong>in any order</strong>.</p>
+
+<p>The&nbsp;result format is in the following example.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
-HallEvents 表:
+<strong>Input:</strong> 
+HallEvents table:
 +---------+------------+------------+
 | hall_id | start_day  | end_day    |
 +---------+------------+------------+
@@ -54,7 +51,7 @@ HallEvents 表:
 | 2       | 2022-12-13 | 2022-12-17 |
 | 3       | 2022-12-01 | 2023-01-30 |
 +---------+------------+------------+
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +---------+------------+------------+
 | hall_id | start_day  | end_day    |
 +---------+------------+------------+
@@ -63,22 +60,23 @@ HallEvents 表:
 | 2       | 2022-12-09 | 2022-12-23 |
 | 3       | 2022-12-01 | 2023-01-30 |
 +---------+------------+------------+
-<strong>解释:</strong> 有三个大厅。
-大厅 1:
-- 两个活动 ["2023-01-13", "2023-01-14"] 和 ["2023-01-14", "2023-01-17"] 重叠。我们将它们合并到一个活动中 ["2023-01-13", "2023-01-17"]。
-- 活动 ["2023-01-18", "2023-01-25"] 不与任何其他活动重叠，所以我们保持原样。
-大厅 2:
-- 两个活动 ["2022-12-09", "2022-12-23"] 和 ["2022-12-13", "2022-12-17"] 重叠。我们将它们合并到一个活动中 ["2022-12-09", "2022-12-23"]。
-大厅 3:
-- 大厅只有一个活动，所以我们返回它。请注意，我们只分别考虑每个大厅的活动。</pre>
+<strong>Explanation:</strong> There are three halls.
+Hall 1:
+- The two events [&quot;2023-01-13&quot;, &quot;2023-01-14&quot;] and [&quot;2023-01-14&quot;, &quot;2023-01-17&quot;] overlap. We merge them in one event [&quot;2023-01-13&quot;, &quot;2023-01-17&quot;].
+- The event [&quot;2023-01-18&quot;, &quot;2023-01-25&quot;] does not overlap with any other event, so we leave it as it is.
+Hall 2:
+- The two events [&quot;2022-12-09&quot;, &quot;2022-12-23&quot;] and [&quot;2022-12-13&quot;, &quot;2022-12-17&quot;] overlap. We merge them in one event [&quot;2022-12-09&quot;, &quot;2022-12-23&quot;].
+Hall 3:
+- The hall has only one event, so we return it. Note that we only consider the events of each hall separately.
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

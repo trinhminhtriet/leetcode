@@ -1,97 +1,95 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0400-0499/0444.Sequence%20Reconstruction/README.md
+difficulty: Medium
 tags:
-    - 图
-    - 拓扑排序
-    - 数组
+    - Graph
+    - Topological Sort
+    - Array
 ---
 
 <!-- problem:start -->
 
-# [444. 序列重建 🔒](https://leetcode.cn/problems/sequence-reconstruction)
+# [444. Sequence Reconstruction 🔒](https://leetcode.com/problems/sequence-reconstruction)
 
-[English Version](/solution/0400-0499/0444.Sequence%20Reconstruction/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个长度为 <code>n</code> 的整数数组 <code>nums</code> ，其中 <code>nums</code> 是范围为 <code>[1，n]</code> 的整数的排列。还提供了一个 2D 整数数组&nbsp;<code>sequences</code>&nbsp;，其中&nbsp;<code>sequences[i]</code>&nbsp;是&nbsp;<code>nums</code>&nbsp;的子序列。<br />
-检查 <code>nums</code> 是否是唯一的最短&nbsp;<strong>超序列</strong> 。最短 <strong>超序列</strong> 是 <strong>长度最短</strong> 的序列，并且所有序列&nbsp;<code>sequences[i]</code>&nbsp;都是它的子序列。对于给定的数组&nbsp;<code>sequences</code>&nbsp;，可能存在多个有效的 <strong>超序列</strong> 。</p>
+<p>You are given an integer array <code>nums</code> of length <code>n</code> where <code>nums</code> is a permutation of the integers in the range <code>[1, n]</code>. You are also given a 2D integer array <code>sequences</code> where <code>sequences[i]</code> is a subsequence of <code>nums</code>.</p>
+
+<p>Check if <code>nums</code> is the shortest possible and the only <strong>supersequence</strong>. The shortest <strong>supersequence</strong> is a sequence <strong>with the shortest length</strong> and has all <code>sequences[i]</code> as subsequences. There could be multiple valid <strong>supersequences</strong> for the given array <code>sequences</code>.</p>
 
 <ul>
-	<li>例如，对于&nbsp;<code>sequences = [[1,2],[1,3]]</code>&nbsp;，有两个最短的 <strong>超序列</strong> ，<code>[1,2,3]</code> 和 <code>[1,3,2]</code> 。</li>
-	<li>而对于&nbsp;<code>sequences = [[1,2],[1,3],[1,2,3]]</code>&nbsp;，唯一可能的最短 <strong>超序列</strong> 是 <code>[1,2,3]</code> 。<code>[1,2,3,4]</code> 是可能的超序列，但不是最短的。</li>
+	<li>For example, for <code>sequences = [[1,2],[1,3]]</code>, there are two shortest <strong>supersequences</strong>, <code>[1,2,3]</code> and <code>[1,3,2]</code>.</li>
+	<li>While for <code>sequences = [[1,2],[1,3],[1,2,3]]</code>, the only shortest <strong>supersequence</strong> possible is <code>[1,2,3]</code>. <code>[1,2,3,4]</code> is a possible supersequence but not the shortest.</li>
 </ul>
 
-<p><em>如果 <code>nums</code> 是序列的唯一最短 <strong>超序列</strong> ，则返回 <code>true</code> ，否则返回 <code>false</code> 。</em><br />
-<strong>子序列</strong> 是一个可以通过从另一个序列中删除一些元素或不删除任何元素，而不改变其余元素的顺序的序列。</p>
+<p>Return <code>true</code><em> if </em><code>nums</code><em> is the only shortest <strong>supersequence</strong> for </em><code>sequences</code><em>, or </em><code>false</code><em> otherwise</em>.</p>
+
+<p>A <strong>subsequence</strong> is a sequence that can be derived from another sequence by deleting some or no elements without changing the order of the remaining elements.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3], sequences = [[1,2],[1,3]]
-<strong>输出：</strong>false
-<strong>解释：</strong>有两种可能的超序列：[1,2,3]和[1,3,2]。
-序列 [1,2] 是[<u><strong>1,2</strong></u>,3]和[<u><strong>1</strong></u>,3,<u><strong>2</strong></u>]的子序列。
-序列 [1,3] 是[<u><strong>1</strong></u>,2,<u><strong>3</strong></u>]和[<u><strong>1,3</strong></u>,2]的子序列。
-因为 nums 不是唯一最短的超序列，所以返回false。
+<strong>Input:</strong> nums = [1,2,3], sequences = [[1,2],[1,3]]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> There are two possible supersequences: [1,2,3] and [1,3,2].
+The sequence [1,2] is a subsequence of both: [<strong><u>1</u></strong>,<strong><u>2</u></strong>,3] and [<strong><u>1</u></strong>,3,<strong><u>2</u></strong>].
+The sequence [1,3] is a subsequence of both: [<strong><u>1</u></strong>,2,<strong><u>3</u></strong>] and [<strong><u>1</u></strong>,<strong><u>3</u></strong>,2].
+Since nums is not the only shortest supersequence, we return false.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3], sequences = [[1,2]]
-<strong>输出：</strong>false
-<strong>解释：</strong>最短可能的超序列为 [1,2]。
-序列 [1,2] 是它的子序列：[<u><strong>1,2</strong></u>]。
-因为 nums 不是最短的超序列，所以返回false。
+<strong>Input:</strong> nums = [1,2,3], sequences = [[1,2]]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> The shortest possible supersequence is [1,2].
+The sequence [1,2] is a subsequence of it: [<strong><u>1</u></strong>,<strong><u>2</u></strong>].
+Since nums is not the shortest supersequence, we return false.
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,2,3], sequences = [[1,2],[1,3],[2,3]]
-<strong>输出：</strong>true
-<strong>解释：</strong>最短可能的超序列为[1,2,3]。
-序列 [1,2] 是它的一个子序列：[<strong>1,2</strong>,3]。
-序列 [1,3] 是它的一个子序列：[<u><strong>1</strong></u>,2,<u><strong>3</strong></u>]。
-序列 [2,3] 是它的一个子序列：[1,<u><strong>2,3</strong></u>]。
-因为 nums 是唯一最短的超序列，所以返回true。</pre>
+<strong>Input:</strong> nums = [1,2,3], sequences = [[1,2],[1,3],[2,3]]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> The shortest possible supersequence is [1,2,3].
+The sequence [1,2] is a subsequence of it: [<strong><u>1</u></strong>,<strong><u>2</u></strong>,3].
+The sequence [1,3] is a subsequence of it: [<strong><u>1</u></strong>,2,<strong><u>3</u></strong>].
+The sequence [2,3] is a subsequence of it: [1,<strong><u>2</u></strong>,<strong><u>3</u></strong>].
+Since nums is the only shortest supersequence, we return true.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == nums.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
-	<li><code>nums</code>&nbsp;是&nbsp;<code>[1, n]</code>&nbsp;范围内所有整数的排列</li>
+	<li><code>nums</code> is a permutation of all the integers in the range <code>[1, n]</code>.</li>
 	<li><code>1 &lt;= sequences.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= sequences[i].length &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= sum(sequences[i].length) &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= sequences[i][j] &lt;= n</code></li>
-	<li><code>sequences</code>&nbsp;的所有数组都是 <strong>唯一 </strong>的</li>
-	<li><code>sequences[i]</code>&nbsp;是&nbsp;<code>nums</code> 的一个子序列</li>
+	<li>All the arrays of <code>sequences</code> are <strong>unique</strong>.</li>
+	<li><code>sequences[i]</code> is a subsequence of <code>nums</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：拓扑排序
+### Solution 1: Topological Sorting
 
-我们可以先遍历每个子序列 `seq`，对于每个相邻的元素 $a$ 和 $b$，我们在 $a$ 和 $b$ 之间建立一条有向边 $a \to b$。同时统计每个节点的入度，最后将所有入度为 $0$ 的节点加入队列中。
+We can first traverse each subsequence `seq`. For each pair of adjacent elements $a$ and $b$, we establish a directed edge $a \to b$. At the same time, we count the in-degree of each node, and finally add all nodes with an in-degree of $0$ to the queue.
 
-当队列中的节点个数等于 $1$ 时，我们取出队首节点 $i$，将 $i$ 从图中删除，并将 $i$ 的所有相邻节点的入度减 $1$。如果减 $1$ 后相邻节点的入度为 $0$，则将这些节点加入队列中。重复上述操作，直到队列的长度不为 $1$。此时判断队列是否为空，如果不为空，说明有多个最短超序列，返回 `false`；如果为空，说明只有一个最短超序列，返回 `true`。
+When the number of nodes in the queue is equal to $1$, we take out the head node $i$, remove $i$ from the graph, and decrease the in-degree of all adjacent nodes of $i$ by $1$. If the in-degree of the adjacent nodes becomes $0$ after decreasing, add these nodes to the queue. Repeat the above operation until the length of the queue is not $1$. At this point, check whether the queue is empty. If it is not empty, it means there are multiple shortest supersequences, return `false`; if it is empty, it means there is only one shortest supersequence, return `true`.
 
-时间复杂度 $O(n + m)$，空间复杂度 $O(n + m)$。其中 $n$ 和 $m$ 分别是节点的个数和边的个数。
+The time complexity is $O(n + m)$, and the space complexity is $O(n + m)$. Where $n$ and $m$ are the number of nodes and edges, respectively.
 
 <!-- tabs:start -->
 

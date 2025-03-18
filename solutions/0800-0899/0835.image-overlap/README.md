@@ -1,84 +1,75 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0800-0899/0835.Image%20Overlap/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 矩阵
+    - Array
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [835. 图像重叠](https://leetcode.cn/problems/image-overlap)
+# [835. Image Overlap](https://leetcode.com/problems/image-overlap)
 
-[English Version](/solution/0800-0899/0835.Image%20Overlap/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个图像 <code>img1</code> 和 <code>img2</code> ，两个图像的大小都是 <code>n x n</code> ，用大小相同的二进制正方形矩阵表示。二进制矩阵仅由若干 <code>0</code> 和若干 <code>1</code> 组成。</p>
+<p>You are given two images, <code>img1</code> and <code>img2</code>, represented as binary, square matrices of size <code>n x n</code>. A binary matrix has only <code>0</code>s and <code>1</code>s as values.</p>
 
-<p><strong>转换</strong> 其中一个图像，将所有的 <code>1</code> 向左，右，上，或下滑动任何数量的单位；然后把它放在另一个图像的上面。该转换的 <strong>重叠</strong> 是指两个图像 <strong>都</strong> 具有 <code>1</code> 的位置的数目。</p>
+<p>We <strong>translate</strong> one image however we choose by sliding all the <code>1</code> bits left, right, up, and/or down any number of units. We then place it on top of the other image. We can then calculate the <strong>overlap</strong> by counting the number of positions that have a <code>1</code> in <strong>both</strong> images.</p>
 
-<div class="original__bRMd">
-<div>
-<p>请注意，转换 <strong>不包括</strong> 向任何方向旋转。越过矩阵边界的 <code>1</code> 都将被清除。</p>
+<p>Note also that a translation does <strong>not</strong> include any kind of rotation. Any <code>1</code> bits that are translated outside of the matrix borders are erased.</p>
 
-<p>最大可能的重叠数量是多少？</p>
+<p>Return <em>the largest possible overlap</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0835.Image%20Overlap/images/overlap1.jpg" style="width: 450px; height: 231px;" />
 <pre>
-<strong>输入：</strong>img1 = [[1,1,0],[0,1,0],[0,1,0]], img2 = [[0,0,0],[0,1,1],[0,0,1]]
-<strong>输出：</strong>3
-<strong>解释：</strong>将 img1 向右移动 1 个单位，再向下移动 1 个单位。
+<strong>Input:</strong> img1 = [[1,1,0],[0,1,0],[0,1,0]], img2 = [[0,0,0],[0,1,1],[0,0,1]]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> We translate img1 to right by 1 unit and down by 1 unit.
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0835.Image%20Overlap/images/overlap_step1.jpg" style="width: 450px; height: 105px;" />
-两个图像都具有 <code>1</code> 的位置的数目是 3（用红色标识）。
+The number of positions that have a 1 in both images is 3 (shown in red).
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0800-0899/0835.Image%20Overlap/images/overlap_step2.jpg" style="width: 450px; height: 231px;" />
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>img1 = [[1]], img2 = [[1]]
-<strong>输出：</strong>1
+<strong>Input:</strong> img1 = [[1]], img2 = [[1]]
+<strong>Output:</strong> 1
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入：</strong>img1 = [[0]], img2 = [[0]]
-<strong>输出：</strong>0
+<strong>Input:</strong> img1 = [[0]], img2 = [[0]]
+<strong>Output:</strong> 0
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == img1.length == img1[i].length</code></li>
 	<li><code>n == img2.length == img2[i].length</code></li>
 	<li><code>1 &lt;= n &lt;= 30</code></li>
-	<li><code>img1[i][j]</code> 为 <code>0</code> 或 <code>1</code></li>
-	<li><code>img2[i][j]</code> 为 <code>0</code> 或 <code>1</code></li>
+	<li><code>img1[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
+	<li><code>img2[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
 </ul>
-</div>
-</div>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：枚举
+### Solution 1: Enumeration
 
-我们可以枚举 $\textit{img1}$ 和 $\textit{img2}$ 的每个 $1$ 的位置，分别记为 $(i, j)$ 和 $(h, k)$。然后我们计算得到偏移量 $(i - h, j - k)$，记为 $(dx, dy)$，用哈希表 $\textit{cnt}$ 记录每个偏移量出现的次数。最后我们遍历哈希表 $\textit{cnt}$，找到出现次数最多的偏移量，即为答案。
+We can enumerate each position of $1$ in $\textit{img1}$ and $\textit{img2}$, denoted as $(i, j)$ and $(h, k)$ respectively. Then we calculate the offset $(i - h, j - k)$, denoted as $(dx, dy)$, and use a hash table $\textit{cnt}$ to record the number of occurrences of each offset. Finally, we traverse the hash table $\textit{cnt}$ to find the offset that appears the most, which is the answer.
 
-时间复杂度 $O(n^4)$，空间复杂度 $O(n^2)$。其中 $n$ 是 $\textit{img1}$ 的边长。
+The time complexity is $O(n^4)$, and the space complexity is $O(n^2)$, where $n$ is the side length of $\textit{img1}$.
 
 <!-- tabs:start -->
 

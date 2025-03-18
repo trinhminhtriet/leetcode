@@ -1,89 +1,71 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0600-0699/0677.Map%20Sum%20Pairs/README.md
+difficulty: Medium
 tags:
-    - 设计
-    - 字典树
-    - 哈希表
-    - 字符串
+    - Design
+    - Trie
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [677. 键值映射](https://leetcode.cn/problems/map-sum-pairs)
+# [677. Map Sum Pairs](https://leetcode.com/problems/map-sum-pairs)
 
-[English Version](/solution/0600-0699/0677.Map%20Sum%20Pairs/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>设计一个 map ，满足以下几点:</p>
+<p>Design a map that allows you to do the following:</p>
 
 <ul>
-	<li>字符串表示键，整数表示值</li>
-	<li>返回具有前缀等于给定字符串的键的值的总和</li>
+	<li>Maps a string key to a given value.</li>
+	<li>Returns the sum of the values that have a key with a prefix equal to a given string.</li>
 </ul>
 
-<p>实现一个 <code>MapSum</code> 类：</p>
+<p>Implement the <code>MapSum</code> class:</p>
 
 <ul>
-	<li><code>MapSum()</code> 初始化 <code>MapSum</code> 对象</li>
-	<li><code>void insert(String key, int val)</code> 插入 <code>key-val</code> 键值对，字符串表示键 <code>key</code> ，整数表示值 <code>val</code> 。如果键 <code>key</code> 已经存在，那么原来的键值对&nbsp;<code>key-value</code>&nbsp;将被替代成新的键值对。</li>
-	<li><code>int sum(string prefix)</code> 返回所有以该前缀 <code>prefix</code> 开头的键 <code>key</code> 的值的总和。</li>
+	<li><code>MapSum()</code> Initializes the <code>MapSum</code> object.</li>
+	<li><code>void insert(String key, int val)</code> Inserts the <code>key-val</code> pair into the map. If the <code>key</code> already existed, the original <code>key-value</code> pair will be overridden to the new one.</li>
+	<li><code>int sum(string prefix)</code> Returns the sum of all the pairs&#39; value whose <code>key</code> starts with the <code>prefix</code>.</li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-["MapSum", "insert", "sum", "insert", "sum"]
-[[], ["apple", 3], ["ap"], ["app", 2], ["ap"]]
-<strong>输出：</strong>
+<strong>Input</strong>
+[&quot;MapSum&quot;, &quot;insert&quot;, &quot;sum&quot;, &quot;insert&quot;, &quot;sum&quot;]
+[[], [&quot;apple&quot;, 3], [&quot;ap&quot;], [&quot;app&quot;, 2], [&quot;ap&quot;]]
+<strong>Output</strong>
 [null, null, 3, null, 5]
 
-<strong>解释：</strong>
+<strong>Explanation</strong>
 MapSum mapSum = new MapSum();
-mapSum.insert("apple", 3);  
-mapSum.sum("ap");           // 返回 3 (<u>ap</u>ple = 3)
-mapSum.insert("app", 2);    
-mapSum.sum("ap");           // 返回 5 (<u>ap</u>ple + <u>ap</u>p = 3 + 2 = 5)
+mapSum.insert(&quot;apple&quot;, 3);  
+mapSum.sum(&quot;ap&quot;);           // return 3 (<u>ap</u>ple = 3)
+mapSum.insert(&quot;app&quot;, 2);    
+mapSum.sum(&quot;ap&quot;);           // return 5 (<u>ap</u>ple + <u>ap</u>p = 3 + 2 = 5)
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= key.length, prefix.length &lt;= 50</code></li>
-	<li><code>key</code> 和 <code>prefix</code> 仅由小写英文字母组成</li>
+	<li><code>key</code> and <code>prefix</code> consist of only lowercase English letters.</li>
 	<li><code>1 &lt;= val &lt;= 1000</code></li>
-	<li>最多调用 <code>50</code> 次 <code>insert</code> 和 <code>sum</code></li>
+	<li>At most <code>50</code> calls will be made to <code>insert</code> and <code>sum</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 前缀树
-
-我们用哈希表 $d$ 存放键值对，用前缀树 $t$ 存放键值对的前缀和。前缀树的每个节点包含两个信息：
-
--   `val`：以该节点为前缀的键值对的值的总和
--   `children`：长度为 $26$ 的数组，存放该节点的子节点
-
-插入键值对 $(key, val)$ 时，我们先判断哈希表是否存在该键，如果存在，那么前缀树每个节点的 `val` 都要减去该键原来的值，然后再加上新的值。如果不存在，那么前缀树每个节点的 `val` 都要加上新的值。
-
-查询前缀和时，我们从前缀树的根节点开始，遍历前缀字符串，如果当前节点的子节点中不存在该字符，那么说明前缀树中不存在该前缀，返回 $0$。否则，继续遍历下一个字符，直到遍历完前缀字符串，返回当前节点的 `val`。
-
-时间复杂度方面，插入键值对的时间复杂度为 $O(n)$，其中 $n$ 为键的长度。查询前缀和的时间复杂度为 $O(m)$，其中 $m$ 为前缀的长度。
-
-空间复杂度 $O(n \times m \times C)$，其中 $n$ 和 $m$ 分别是键的数量以及键的最大长度；而 $C$ 是字符集的大小，本题中 $C = 26$。
+### Solution 1
 
 <!-- tabs:start -->
 

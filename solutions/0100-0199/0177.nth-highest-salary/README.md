@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0177.Nth%20Highest%20Salary/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [177. 第N高的薪水](https://leetcode.cn/problems/nth-highest-salary)
+# [177. Nth Highest Salary](https://leetcode.com/problems/nth-highest-salary)
 
-[English Version](/solution/0100-0199/0177.Nth%20Highest%20Salary/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表:&nbsp;<code>Employee</code></p>
+<p>Table: <code>Employee</code></p>
 
 <pre>
 +-------------+------+
@@ -25,22 +22,21 @@ tags:
 | id          | int  |
 | salary      | int  |
 +-------------+------+
-在 SQL 中，id 是该表的主键。
-该表的每一行都包含有关员工工资的信息。
+id is the primary key (column with unique values) for this table.
+Each row of this table contains information about the salary of an employee.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>查询&nbsp;<code>Employee</code> 表中第 <code>n</code> 高的工资。如果没有第 <code>n</code> 个最高工资，查询结果应该为&nbsp;<code>null</code> 。</p>
+<p>Write a solution to find the <code>n<sup>th</sup></code> highest salary from the <code>Employee</code> table. If there is no <code>n<sup>th</sup></code> highest salary, return&nbsp;<code>null</code>.</p>
 
-<p>查询结果格式如下所示。</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
+<strong>Input:</strong> 
 Employee table:
 +----+--------+
 | id | salary |
@@ -50,7 +46,7 @@ Employee table:
 | 3  | 300    |
 +----+--------+
 n = 2
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +------------------------+
 | getNthHighestSalary(2) |
 +------------------------+
@@ -58,33 +54,32 @@ n = 2
 +------------------------+
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
-Employee 表:
+<strong>Input:</strong> 
+Employee table:
 +----+--------+
 | id | salary |
 +----+--------+
 | 1  | 100    |
 +----+--------+
 n = 2
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +------------------------+
 | getNthHighestSalary(2) |
 +------------------------+
 | null                   |
-+------------------------+</pre>
++------------------------+
+</pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + LIMIT
-
-我们可以先对 `salary` 进行降序排序，然后使用 `LIMIT` 语句获取第 $n$ 高的工资。
+### Solution 1
 
 <!-- tabs:start -->
 

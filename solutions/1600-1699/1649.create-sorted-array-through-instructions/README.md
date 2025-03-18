@@ -1,113 +1,139 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1649.Create%20Sorted%20Array%20through%20Instructions/README.md
+difficulty: Hard
 rating: 2207
-source: 第 214 场周赛 Q4
+source: Weekly Contest 214 Q4
 tags:
-    - 树状数组
-    - 线段树
-    - 数组
-    - 二分查找
-    - 分治
-    - 有序集合
-    - 归并排序
+    - Binary Indexed Tree
+    - Segment Tree
+    - Array
+    - Binary Search
+    - Divide and Conquer
+    - Ordered Set
+    - Merge Sort
 ---
 
 <!-- problem:start -->
 
-# [1649. 通过指令创建有序数组](https://leetcode.cn/problems/create-sorted-array-through-instructions)
+# [1649. Create Sorted Array through Instructions](https://leetcode.com/problems/create-sorted-array-through-instructions)
 
-[English Version](/solution/1600-1699/1649.Create%20Sorted%20Array%20through%20Instructions/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>instructions</code> ，你需要根据 <code>instructions</code> 中的元素创建一个有序数组。一开始你有一个空的数组 <code>nums</code> ，你需要 <strong>从左到右</strong> 遍历 <code>instructions</code> 中的元素，将它们依次插入 <code>nums</code> 数组中。每一次插入操作的 <strong>代价</strong> 是以下两者的 <strong>较小值</strong> ：</p>
+<p>Given an integer array <code>instructions</code>, you are asked to create a sorted array from the elements in <code>instructions</code>. You start with an empty container <code>nums</code>. For each element from <strong>left to right</strong> in <code>instructions</code>, insert it into <code>nums</code>. The <strong>cost</strong> of each insertion is the <b>minimum</b> of the following:</p>
 
 <ul>
-	<li><code>nums</code> 中 <strong>严格小于 </strong> <code>instructions[i]</code> 的数字数目。</li>
-	<li><code>nums</code> 中 <strong>严格大于 </strong> <code>instructions[i]</code> 的数字数目。</li>
+
+    <li>The number of elements currently in <code>nums</code> that are <strong>strictly less than</strong> <code>instructions[i]</code>.</li>
+
+    <li>The number of elements currently in <code>nums</code> that are <strong>strictly greater than</strong> <code>instructions[i]</code>.</li>
+
 </ul>
 
-<p>比方说，如果要将 <code>3</code> 插入到 <code>nums = [1,2,3,5]</code> ，那么插入操作的 <strong>代价</strong> 为 <code>min(2, 1)</code> (元素 <code>1</code> 和  <code>2</code> 小于 <code>3</code> ，元素 <code>5</code> 大于 <code>3</code> ），插入后 <code>nums</code> 变成 <code>[1,2,3,3,5]</code> 。</p>
+<p>For example, if inserting element <code>3</code> into <code>nums = [1,2,3,5]</code>, the <strong>cost</strong> of insertion is <code>min(2, 1)</code> (elements <code>1</code> and <code>2</code> are less than <code>3</code>, element <code>5</code> is greater than <code>3</code>) and <code>nums</code> will become <code>[1,2,3,3,5]</code>.</p>
 
-<p>请你返回将 <code>instructions</code> 中所有元素依次插入 <code>nums</code> 后的 <strong>总最小代价 </strong>。由于答案会很大，请将它对 <code>10<sup>9</sup> + 7</code> <b>取余</b> 后返回。</p>
+<p>Return <em>the <strong>total cost</strong> to insert all elements from </em><code>instructions</code><em> into </em><code>nums</code>. Since the answer may be large, return it <strong>modulo</strong> <code>10<sup>9</sup> + 7</code></p>
 
-<p> </p>
+<p>&nbsp;</p>
 
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
-<pre><b>输入：</b>instructions = [1,5,6,2]
-<b>输出：</b>1
-<b>解释：</b>一开始 nums = [] 。
-插入 1 ，代价为 min(0, 0) = 0 ，现在 nums = [1] 。
-插入 5 ，代价为 min(1, 0) = 0 ，现在 nums = [1,5] 。
-插入 6 ，代价为 min(2, 0) = 0 ，现在 nums = [1,5,6] 。
-插入 2 ，代价为 min(1, 2) = 1 ，现在 nums = [1,2,5,6] 。
-总代价为 0 + 0 + 0 + 1 = 1 。</pre>
+<pre>
 
-<p><strong>示例 2:</strong></p>
+<strong>Input:</strong> instructions = [1,5,6,2]
 
-<pre><b>输入：</b>instructions = [1,2,3,6,5,4]
-<b>输出：</b>3
-<b>解释：</b>一开始 nums = [] 。
-插入 1 ，代价为 min(0, 0) = 0 ，现在 nums = [1] 。
-插入 2 ，代价为 min(1, 0) = 0 ，现在 nums = [1,2] 。
-插入 3 ，代价为 min(2, 0) = 0 ，现在 nums = [1,2,3] 。
-插入 6 ，代价为 min(3, 0) = 0 ，现在 nums = [1,2,3,6] 。
-插入 5 ，代价为 min(3, 1) = 1 ，现在 nums = [1,2,3,5,6] 。
-插入 4 ，代价为 min(3, 2) = 2 ，现在 nums = [1,2,3,4,5,6] 。
-总代价为 0 + 0 + 0 + 0 + 1 + 2 = 3 。
+<strong>Output:</strong> 1
+
+<strong>Explanation:</strong> Begin with nums = [].
+
+Insert 1 with cost min(0, 0) = 0, now nums = [1].
+
+Insert 5 with cost min(1, 0) = 0, now nums = [1,5].
+
+Insert 6 with cost min(2, 0) = 0, now nums = [1,5,6].
+
+Insert 2 with cost min(1, 2) = 1, now nums = [1,2,5,6].
+
+The total cost is 0 + 0 + 0 + 1 = 1.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+
+<strong>Input:</strong> instructions = [1,2,3,6,5,4]
+
+<strong>Output:</strong> 3
+
+<strong>Explanation:</strong> Begin with nums = [].
+
+Insert 1 with cost min(0, 0) = 0, now nums = [1].
+
+Insert 2 with cost min(1, 0) = 0, now nums = [1,2].
+
+Insert 3 with cost min(2, 0) = 0, now nums = [1,2,3].
+
+Insert 6 with cost min(3, 0) = 0, now nums = [1,2,3,6].
+
+Insert 5 with cost min(3, 1) = 1, now nums = [1,2,3,5,6].
+
+Insert 4 with cost min(3, 2) = 2, now nums = [1,2,3,4,5,6].
+
+The total cost is 0 + 0 + 0 + 0 + 1 + 2 = 3.
+
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><b>输入：</b>instructions = [1,3,3,3,2,4,2,1,2]
-<b>输出：</b>4
-<b>解释：</b>一开始 nums = [] 。
-插入 1 ，代价为 min(0, 0) = 0 ，现在 nums = [1] 。
-插入 3 ，代价为 min(1, 0) = 0 ，现在 nums = [1,3] 。
-插入 3 ，代价为 min(1, 0) = 0 ，现在 nums = [1,3,3] 。
-插入 3 ，代价为 min(1, 0) = 0 ，现在 nums = [1,3,3,3] 。
-插入 2 ，代价为 min(1, 3) = 1 ，现在 nums = [1,2,3,3,3] 。
-插入 4 ，代价为 min(5, 0) = 0 ，现在 nums = [1,2,3,3,3,4] 。
-​​​​​插入 2 ，代价为 min(1, 4) = 1 ，现在 nums = [1,2,2,3,3,3,4] 。
-插入 1 ，代价为 min(0, 6) = 0 ，现在 nums = [1,1,2,2,3,3,3,4] 。
-插入 2 ，代价为 min(2, 4) = 2 ，现在 nums = [1,1,2,2,2,3,3,3,4] 。
-总代价为 0 + 0 + 0 + 0 + 1 + 0 + 1 + 0 + 2 = 4 。
+<pre>
+
+<strong>Input:</strong> instructions = [1,3,3,3,2,4,2,1,2]
+
+<strong>Output:</strong> 4
+
+<strong>Explanation:</strong> Begin with nums = [].
+
+Insert 1 with cost min(0, 0) = 0, now nums = [1].
+
+Insert 3 with cost min(1, 0) = 0, now nums = [1,3].
+
+Insert 3 with cost min(1, 0) = 0, now nums = [1,3,3].
+
+Insert 3 with cost min(1, 0) = 0, now nums = [1,3,3,3].
+
+Insert 2 with cost min(1, 3) = 1, now nums = [1,2,3,3,3].
+
+Insert 4 with cost min(5, 0) = 0, now nums = [1,2,3,3,3,4].
+
+​​​​​​​Insert 2 with cost min(1, 4) = 1, now nums = [1,2,2,3,3,3,4].
+
+​​​​​​​Insert 1 with cost min(0, 6) = 0, now nums = [1,1,2,2,3,3,3,4].
+
+​​​​​​​Insert 2 with cost min(2, 4) = 2, now nums = [1,1,2,2,2,3,3,3,4].
+
+The total cost is 0 + 0 + 0 + 0 + 1 + 0 + 1 + 0 + 2 = 4.
+
 </pre>
 
-<p> </p>
+<p>&nbsp;</p>
 
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= instructions.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= instructions[i] &lt;= 10<sup>5</sup></code></li>
+
+    <li><code>1 &lt;= instructions.length &lt;= 10<sup>5</sup></code></li>
+
+    <li><code>1 &lt;= instructions[i] &lt;= 10<sup>5</sup></code></li>
+
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：树状数组
-
-树状数组，也称作“二叉索引树”（Binary Indexed Tree）或 Fenwick 树。 它可以高效地实现如下两个操作：
-
-1. **单点更新** `update(x, delta)`： 把序列 x 位置的数加上一个值 delta；
-1. **前缀和查询** `query(x)`：查询序列 `[1,...x]` 区间的区间和，即位置 x 的前缀和。
-
-这两个操作的时间复杂度均为 $O(\log n)$。
-
-树状数组最基本的功能就是求比某点 x 小的点的个数（这里的比较是抽象的概念，可以是数的大小、坐标的大小、质量的大小等等）。
-
-比如给定数组 `a[5] = {2, 5, 3, 4, 1}`，求 `b[i] = 位置 i 左边小于等于 a[i] 的数的个数`。对于此例，`b[5] = {0, 1, 1, 2, 0}`。
-
-解决方案是直接遍历数组，每个位置先求出 `query(a[i])`，然后再修改树状数组 `update(a[i], 1)` 即可。当数的范围比较大时，需要进行离散化，即先进行去重并排序，然后对每个数字进行编号。
+### Solution 1
 
 <!-- tabs:start -->
 
@@ -334,16 +360,7 @@ function createSortedArray(instructions: number[]): number {
 
 <!-- solution:start -->
 
-### 方法二：线段树
-
-线段树将整个区间分割为多个不连续的子区间，子区间的数量不超过 `log(width)`。更新某个元素的值，只需要更新 `log(width)` 个区间，并且这些区间都包含在一个包含该元素的大区间内。
-
--   线段树的每个节点代表一个区间；
--   线段树具有唯一的根节点，代表的区间是整个统计范围，如 `[1, N]`；
--   线段树的每个叶子节点代表一个长度为 1 的元区间 `[x, x]`；
--   对于每个内部节点 `[l, r]`，它的左儿子是 `[l, mid]`，右儿子是 `[mid + 1, r]`, 其中 `mid = ⌊(l + r) / 2⌋` (即向下取整)。
-
-> 本题线段树 Python3 代码 TLE，Java、C++ 代码 AC。
+### Solution 2
 
 <!-- tabs:start -->
 

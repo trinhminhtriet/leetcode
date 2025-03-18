@@ -1,62 +1,57 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2168.Unique%20Substrings%20With%20Equal%20Digit%20Frequency/README.md
+difficulty: Medium
 tags:
-    - 哈希表
-    - 字符串
-    - 计数
-    - 哈希函数
-    - 滚动哈希
+    - Hash Table
+    - String
+    - Counting
+    - Hash Function
+    - Rolling Hash
 ---
 
 <!-- problem:start -->
 
-# [2168. 每个数字的频率都相同的独特子字符串的数量 🔒](https://leetcode.cn/problems/unique-substrings-with-equal-digit-frequency)
+# [2168. Unique Substrings With Equal Digit Frequency 🔒](https://leetcode.com/problems/unique-substrings-with-equal-digit-frequency)
 
-[English Version](/solution/2100-2199/2168.Unique%20Substrings%20With%20Equal%20Digit%20Frequency/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-给你一个由数字组成的字符串&nbsp;<code>s</code>，返回<em>&nbsp;</em><code>s</code><em>&nbsp;</em>中<strong>独特子字符串数量</strong>，其中的每一个数字出现的频率都相同<i>。</i>
+Given a digit string <code>s</code>, return <em>the number of <strong>unique substrings </strong>of </em><code>s</code><em> where every digit appears the same number of times.</em>
 
 <p>&nbsp;</p>
-
-<p><strong>示例1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> s = "1212"
-<strong>输出:</strong> 5
-<strong>解释:</strong> 符合要求的子串有 "1", "2", "12", "21", "1212".
-要注意，尽管"12"在s中出现了两次，但在计数的时候只计算一次。
+<strong>Input:</strong> s = &quot;1212&quot;
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> The substrings that meet the requirements are &quot;1&quot;, &quot;2&quot;, &quot;12&quot;, &quot;21&quot;, &quot;1212&quot;.
+Note that although the substring &quot;12&quot; appears twice, it is only counted once.
 </pre>
 
-<p><strong>示例&nbsp;2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> s = "12321"
-<strong>输出:</strong> 9
-<strong>解释:</strong> 符合要求的子串有 "1", "2", "3", "12", "23", "32", "21", "123", "321".
+<strong>Input:</strong> s = &quot;12321&quot;
+<strong>Output:</strong> 9
+<strong>Explanation:</strong> The substrings that meet the requirements are &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;12&quot;, &quot;23&quot;, &quot;32&quot;, &quot;21&quot;, &quot;123&quot;, &quot;321&quot;.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>解释:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= s.length &lt;= 1000</code></li>
-	<li><code>s</code>&nbsp;只包含阿拉伯数字.</li>
+	<li><code>s</code> consists of digits.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

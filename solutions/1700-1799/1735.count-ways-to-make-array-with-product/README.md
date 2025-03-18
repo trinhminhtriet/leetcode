@@ -1,81 +1,76 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1700-1799/1735.Count%20Ways%20to%20Make%20Array%20With%20Product/README.md
+difficulty: Hard
 rating: 2499
-source: 第 44 场双周赛 Q4
+source: Biweekly Contest 44 Q4
 tags:
-    - 数组
-    - 数学
-    - 动态规划
-    - 组合数学
-    - 数论
+    - Array
+    - Math
+    - Dynamic Programming
+    - Combinatorics
+    - Number Theory
 ---
 
 <!-- problem:start -->
 
-# [1735. 生成乘积数组的方案数](https://leetcode.cn/problems/count-ways-to-make-array-with-product)
+# [1735. Count Ways to Make Array With Product](https://leetcode.com/problems/count-ways-to-make-array-with-product)
 
-[English Version](/solution/1700-1799/1735.Count%20Ways%20to%20Make%20Array%20With%20Product/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个二维整数数组 <code>queries</code> ，其中 <code>queries[i] = [n<sub>i</sub>, k<sub>i</sub>]</code> 。第 <code>i</code> 个查询 <code>queries[i]</code> 要求构造长度为 <code>n<sub>i</sub></code> 、每个元素都是正整数的数组，且满足所有元素的乘积为 <code>k<sub>i</sub></code><sub> </sub>，请你找出有多少种可行的方案。由于答案可能会很大，方案数需要对 <code>10<sup>9</sup> + 7</code> <strong>取余</strong> 。</p>
+<p>You are given a 2D integer array, <code>queries</code>. For each <code>queries[i]</code>, where <code>queries[i] = [n<sub>i</sub>, k<sub>i</sub>]</code>, find the number of different ways you can place positive integers into an array of size <code>n<sub>i</sub></code> such that the product of the integers is <code>k<sub>i</sub></code>. As the number of ways may be too large, the answer to the <code>i<sup>th</sup></code> query is the number of ways <strong>modulo</strong> <code>10<sup>9</sup> + 7</code>.</p>
 
-<p>请你返回一个整数数组<em> </em><code>answer</code>，满足<em> </em><code>answer.length == queries.length</code> ，其中<em> </em><code>answer[i]</code>是第<em> </em><code>i</code> 个查询的结果。</p>
+<p>Return <em>an integer array </em><code>answer</code><em> where </em><code>answer.length == queries.length</code><em>, and </em><code>answer[i]</code><em> is the answer to the </em><code>i<sup>th</sup></code><em> query.</em></p>
 
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<b>输入：</b>queries = [[2,6],[5,1],[73,660]]
-<b>输出：</b>[4,1,50734910]
-<b>解释：</b>每个查询之间彼此独立。
-[2,6]：总共有 4 种方案得到长度为 2 且乘积为 6 的数组：[1,6]，[2,3]，[3,2]，[6,1]。
-[5,1]：总共有 1 种方案得到长度为 5 且乘积为 1 的数组：[1,1,1,1,1]。
-[73,660]：总共有 1050734917 种方案得到长度为 73 且乘积为 660 的数组。1050734917 对 10<sup>9</sup> + 7 取余得到 50734910 。
-</pre>
-
-<p><strong>示例 2 ：</strong></p>
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>queries = [[1,1],[2,2],[3,3],[4,4],[5,5]]
-<b>输出：</b>[1,2,3,10,5]
+<strong>Input:</strong> queries = [[2,6],[5,1],[73,660]]
+<strong>Output:</strong> [4,1,50734910]
+<strong>Explanation:</strong>&nbsp;Each query is independent.
+[2,6]: There are 4 ways to fill an array of size 2 that multiply to 6: [1,6], [2,3], [3,2], [6,1].
+[5,1]: There is 1 way to fill an array of size 5 that multiply to 1: [1,1,1,1,1].
+[73,660]: There are 1050734917 ways to fill an array of size 73 that multiply to 660. 1050734917 modulo 10<sup>9</sup> + 7 = 50734910.
 </pre>
 
-<p> </p>
+<p><strong class="example">Example 2:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> queries = [[1,1],[2,2],[3,3],[4,4],[5,5]]
+<strong>Output:</strong> [1,2,3,10,5]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 <= queries.length <= 10<sup>4</sup> </code></li>
-	<li><code>1 <= n<sub>i</sub>, k<sub>i</sub> <= 10<sup>4</sup></code></li>
+	<li><code>1 &lt;= queries.length &lt;= 10<sup>4</sup> </code></li>
+	<li><code>1 &lt;= n<sub>i</sub>, k<sub>i</sub> &lt;= 10<sup>4</sup></code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：质因数分解 + 组合数学
+### Solution 1: Prime Factorization + Combinatorial Mathematics
 
-我们可以对 $k$ 进行质因数分解，即 $k = p_1^{x_1} \times p_2^{x_2} \times \cdots \times p_m^{x_m}$，其中 $p_i$ 为质数，而 $x_i$ 为 $p_i$ 的指数。那么题目实际上等价于：把 $x_1$ 个 $p_1$, $x_2$ 个 $p_2$, $\cdots$, $x_m$ 个 $p_m$ 分别放到 $n$ 个位置上，单个位置可以为空，问有多少种方案。
+We can perform prime factorization on $k$, i.e., $k = p_1^{x_1} \times p_2^{x_2} \times \cdots \times p_m^{x_m}$, where $p_i$ is a prime number, and $x_i$ is the exponent of $p_i$. The problem is equivalent to: placing $x_1$ $p_1$s, $x_2$ $p_2$s, $\cdots$, $x_m$ $p_m$s into $n$ positions respectively, where a single position can be empty. The question is how many schemes are there.
 
-根据组合数学的知识，我们把 $x$ 个球放入 $n$ 个盒子中，有两种情况：
+According to combinatorial mathematics, there are two cases when we put $x$ balls into $n$ boxes:
 
-如果盒子不能为空，那么方案数为 $C_{x-1}^{n-1}$，这里是利用隔板法，即一共 $x$ 个球，我们在其中 $x-1$ 个位置插入 $n-1$ 个隔板，从而将 $x$ 个球分成 $n$ 组。
+If the box cannot be empty, the number of schemes is $C_{x-1}^{n-1}$. This is using the partition method, i.e., there are a total of $x$ balls, and we insert $n-1$ partitions at $x-1$ positions, thereby dividing the $x$ balls into $n$ groups.
 
-如果盒子可以为空，那么我们可以再增加 $n$ 个虚拟球，然后再利用隔板法，即一共 $x+n$ 个球，我们在其中 $x+n-1$ 个位置插入 $n-1$ 个隔板，从而将实际的 $x$ 个球分成 $n$ 组，并且允许盒子为空，因此方案数为 $C_{x+n-1}^{n-1}$。
+If the box can be empty, we can add $n$ virtual balls, and then use the partition method, i.e., there are a total of $x+n$ balls, and we insert $n-1$ partitions at $x+n-1$ positions, thereby dividing the actual $x$ balls into $n$ groups and allowing the box to be empty. Therefore, the number of schemes is $C_{x+n-1}^{n-1}$.
 
-因此，对于每个查询 $queries[i]$，我们可以先对 $k$ 进行质因数分解，得到指数 $x_1, x_2, \cdots, x_m$，然后计算 $C_{x_1+n-1}^{n-1}, C_{x_2+n-1}^{n-1}, \cdots, C_{x_m+n-1}^{n-1}$，最后将所有的方案数相乘即可。
+Therefore, for each query $queries[i]$, we can first perform prime factorization on $k$ to get the exponents $x_1, x_2, \cdots, x_m$, then calculate $C_{x_1+n-1}^{n-1}, C_{x_2+n-1}^{n-1}, \cdots, C_{x_m+n-1}^{n-1}$, and finally multiply all the scheme numbers.
 
-所以，问题转化为如何快速计算 $C_m^n$，根据公式 $C_m^n = \frac{m!}{n!(m-n)!}$，我们可以先预处理出 $m!$，然后利用逆元快速计算 $C_m^n$。
+So, the problem is transformed into how to quickly calculate $C_m^n$. According to the formula $C_m^n = \frac{m!}{n!(m-n)!}$, we can pre-process $m!$, and then use the inverse element to quickly calculate $C_m^n$.
 
-时间复杂度 $O(K \times \log \log K + N + m \times \log K)$，空间复杂度 $O(N)$。
+The time complexity is $O(K \times \log \log K + N + m \times \log K)$, and the space complexity is $O(N)$.
 
 <!-- tabs:start -->
 

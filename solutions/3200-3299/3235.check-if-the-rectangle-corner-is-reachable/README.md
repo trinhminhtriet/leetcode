@@ -1,96 +1,91 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3235.Check%20if%20the%20Rectangle%20Corner%20Is%20Reachable/README.md
+difficulty: Hard
 rating: 3773
-source: 第 408 场周赛 Q4
+source: Weekly Contest 408 Q4
 tags:
-    - 深度优先搜索
-    - 广度优先搜索
-    - 并查集
-    - 几何
-    - 数组
-    - 数学
+    - Depth-First Search
+    - Breadth-First Search
+    - Union Find
+    - Geometry
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [3235. 判断矩形的两个角落是否可达](https://leetcode.cn/problems/check-if-the-rectangle-corner-is-reachable)
+# [3235. Check if the Rectangle Corner Is Reachable](https://leetcode.com/problems/check-if-the-rectangle-corner-is-reachable)
 
-[English Version](/solution/3200-3299/3235.Check%20if%20the%20Rectangle%20Corner%20Is%20Reachable/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个正整数&nbsp;<code>xCorner</code> 和&nbsp;<code>yCorner</code>&nbsp;和一个二维整数数组&nbsp;<code>circles</code>&nbsp;，其中&nbsp;<code>circles[i] = [x<sub>i</sub>, y<sub>i</sub>, r<sub>i</sub>]</code>&nbsp;表示一个圆心在&nbsp;<code>(x<sub>i</sub>, y<sub>i</sub>)</code>&nbsp;半径为&nbsp;<code>r<sub>i</sub></code>&nbsp;的圆。</p>
+<p>You are given two positive integers <code>xCorner</code> and <code>yCorner</code>, and a 2D array <code>circles</code>, where <code>circles[i] = [x<sub>i</sub>, y<sub>i</sub>, r<sub>i</sub>]</code> denotes a circle with center at <code>(x<sub>i</sub>, y<sub>i</sub>)</code> and radius <code>r<sub>i</sub></code>.</p>
 
-<p>坐标平面内有一个左下角在原点，右上角在&nbsp;<code>(xCorner, yCorner)</code>&nbsp;的矩形。你需要判断是否存在一条从左下角到右上角的路径满足：路径&nbsp;<strong>完全</strong>&nbsp;在矩形内部，<strong>不会</strong>&nbsp;触碰或者经过 <strong>任何</strong>&nbsp;圆的内部和边界，同时&nbsp;<strong>只</strong> 在起点和终点接触到矩形。</p>
+<p>There is a rectangle in the coordinate plane with its bottom left corner at the origin and top right corner at the coordinate <code>(xCorner, yCorner)</code>. You need to check whether there is a path from the bottom left corner to the top right corner such that the <strong>entire path</strong> lies inside the rectangle, <strong>does not</strong> touch or lie inside <strong>any</strong> circle, and touches the rectangle <strong>only</strong> at the two corners.</p>
 
-<p>如果存在这样的路径，请你返回&nbsp;<code>true</code>&nbsp;，否则返回&nbsp;<code>false</code>&nbsp;。</p>
+<p>Return <code>true</code> if such a path exists, and <code>false</code> otherwise.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>X = 3, Y = 4, circles = [[2,1,1]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">xCorner = 3, yCorner = 4, circles = [[2,1,1]]</span></p>
 
-<p><span class="example-io"><b>输出：</b>true</span></p>
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3235.Check%20if%20the%20Rectangle%20Corner%20Is%20Reachable/images/example2circle1.png" style="width: 346px; height: 264px;" /></p>
 
-<p>黑色曲线表示一条从&nbsp;<code>(0, 0)</code>&nbsp;到&nbsp;<code>(3, 4)</code>&nbsp;的路径。</p>
+<p>The black curve shows a possible path between <code>(0, 0)</code> and <code>(3, 4)</code>.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>X = 3, Y = 3, circles = [[1,1,2]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">xCorner = 3, yCorner = 3, circles = [[1,1,2]]</span></p>
 
-<p><span class="example-io"><b>输出：</b>false</span></p>
+<p><strong>Output:</strong> <span class="example-io">false</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3235.Check%20if%20the%20Rectangle%20Corner%20Is%20Reachable/images/example1circle.png" style="width: 346px; height: 264px;" /></p>
 
-<p>不存在从&nbsp;<code>(0, 0)</code> 到&nbsp;<code>(3, 3)</code>&nbsp;的路径。</p>
+<p>No path exists from <code>(0, 0)</code> to <code>(3, 3)</code>.</p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>X = 3, Y = 3, circles = [[2,1,1],[1,2,1]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">xCorner = 3, yCorner = 3, circles = [[2,1,1],[1,2,1]]</span></p>
 
-<p><span class="example-io"><b>输出：</b>false</span></p>
+<p><strong>Output:</strong> <span class="example-io">false</span></p>
 
-<p><b>解释：</b></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3235.Check%20if%20the%20Rectangle%20Corner%20Is%20Reachable/images/example0circle.png" style="width: 346px; height: 264px;" /></p>
 
-<p>不存在从&nbsp;<code>(0, 0)</code>&nbsp;到&nbsp;<code>(3, 3)</code>&nbsp;的路径。</p>
+<p>No path exists from <code>(0, 0)</code> to <code>(3, 3)</code>.</p>
 </div>
 
-<p><strong class="example">示例 4：</strong></p>
+<p><strong class="example">Example 4:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">X = 4, Y = 4, circles = [[5,5,1]]</span></p>
+<p><strong>Input:</strong> <span class="example-io">xCorner = 4, yCorner = 4, circles = [[5,5,1]]</span></p>
 
-<p><span class="example-io"><b>输出：</b>true</span></p>
+<p><strong>Output:</strong> <span class="example-io">true</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/3200-3299/3235.Check%20if%20the%20Rectangle%20Corner%20Is%20Reachable/images/rectangles.png" style="width: 346px; height: 264px;" /></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>3 &lt;= xCorner, yCorner&nbsp;&lt;= 10<sup>9</sup></code></li>
+	<li><code>3 &lt;= xCorner, yCorner &lt;= 10<sup>9</sup></code></li>
 	<li><code>1 &lt;= circles.length &lt;= 1000</code></li>
 	<li><code>circles[i].length == 3</code></li>
 	<li><code>1 &lt;= x<sub>i</sub>, y<sub>i</sub>, r<sub>i</sub> &lt;= 10<sup>9</sup></code></li>
@@ -98,38 +93,38 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：DFS + 数学
+### Solution 1: DFS + Mathematics
 
-根据题意，我们分情况讨论：
+According to the problem description, we discuss the following cases:
 
-当 `circles` 中只有一个圆时：
+When there is only one circle in `circles`:
 
-1. 如果起点 $(0, 0)$ 在圆内（包括边界），或者终点 $(\textit{xCorner}, \textit{yCorner})$ 在圆内，那么无法满足“不触碰圆”的条件；
-1. 如果圆与矩形的左侧或上侧有交点，且与矩形的右侧或下侧有交点，这种情况下，圆会阻断从矩形左下角到右上角的路径，也无法满足“不触碰圆”的条件。
+1. If the starting point $(0, 0)$ is inside the circle (including the boundary), or the ending point $(\textit{xCorner}, \textit{yCorner})$ is inside the circle, then it is impossible to satisfy the condition of "not touching the circle".
+2. If the circle intersects with the left or top side of the rectangle and also intersects with the right or bottom side of the rectangle, then the circle will block the path from the bottom-left corner to the top-right corner of the rectangle, making it impossible to satisfy the condition of "not touching the circle".
 
-当 `circles` 中有多个圆时：
+When there are multiple circles in `circles`:
 
-1. 与上述情况类似，如果起点或终点在圆内时，无法满足“不触碰圆”的条件。
-2. 如果有多个圆，多个圆之间可能在矩形内相交，合并形成更大的障碍区域。只要这个障碍区域与矩形的左侧或上侧有交点，且与矩形的右侧或下侧有交点，那么无法满足“不触碰圆”的条件。如果相交区域不在矩形内部，不能进行合并，因为相交的区域无法阻断矩形内部路径。另外，如果相交的区域有一部分在矩形内，有一部分在矩形外，这些圆都可以作为搜索的起点或终点，可以合并，也可以不合并。我们只要任选相交的其中一个点，如果这个点在矩形内，我们就可以将这些圆合并。
+1. Similar to the above case, if the starting point or ending point is inside a circle, it is impossible to satisfy the condition of "not touching the circle".
+2. If there are multiple circles, they may intersect within the rectangle, forming a larger obstacle area. As long as this obstacle area intersects with the left or top side of the rectangle and also intersects with the right or bottom side of the rectangle, it is impossible to satisfy the condition of "not touching the circle". If the intersecting area is not inside the rectangle, it cannot be merged because the intersecting area cannot block the path inside the rectangle. Additionally, if part of the intersecting area is inside the rectangle and part is outside, these circles can be used as starting or ending points and can be merged or not. We only need to choose one of the intersecting points. If this point is inside the rectangle, we can merge these circles.
 
-根据上述分析，我们遍历所有圆，对于当前遍历到的圆，如果起点或终点在圆内，我们直接返回 `false`。否则，如果这个点没有被访问过，且这个圆与矩形的左侧或上侧有交点，我们就从这个圆开始进行深度优先搜索，搜索过程中，如果找到了一个圆，它与矩形的右侧或下侧有交点，说明圆形成的障碍区域阻断了从矩形左下角到右上角的路径，我们就返回 `false`。
+Based on the above analysis, we traverse all circles. For the current circle, if the starting point or ending point is inside the circle, we directly return `false`. Otherwise, if this point has not been visited and the circle intersects with the left or top side of the rectangle, we start a depth-first search (DFS) from this circle. During the search, if we find a circle that intersects with the right or bottom side of the rectangle, it means the obstacle area formed by the circles blocks the path from the bottom-left corner to the top-right corner of the rectangle, and we return `false`.
 
-我们定义 $\textit{dfs}(i)$ 表示从第 $i$ 个圆开始进行深度优先搜索，如果找到了一个圆，它与矩形的右侧或下侧有交点，返回 `true`，否则返回 `false`。
+We define $\textit{dfs}(i)$ to represent starting a DFS from the $i$-th circle. If we find a circle that intersects with the right or bottom side of the rectangle, we return `true`; otherwise, we return `false`.
 
-函数 $\textit{dfs}(i)$ 的执行过程如下：
+The execution process of the function $\textit{dfs}(i)$ is as follows:
 
-1. 如果当前圆与矩形的右侧或下侧有交点，返回 `true`；
-1. 否则，我们将当前圆标记为已访问；
-1. 接下来，遍历其它所有圆，如果圆 $j$ 没被访问过，且圆 $i$ 和圆 $j$ 相交，且这两个圆的其中一个交点在矩形内，我们就继续从圆 $j$ 开始进行深度优先搜索，如果找到了一个圆，它与矩形的右侧或下侧有交点，返回 `true`；
-1. 如果没有找到这样的圆，返回 `false`。
+1. If the current circle intersects with the right or bottom side of the rectangle, return `true`;
+2. Otherwise, mark the current circle as visited;
+3. Next, traverse all other circles. If circle $j$ has not been visited, and circle $i$ intersects with circle $j$, and one of the intersection points of these two circles is inside the rectangle, continue the DFS from circle $j$. If we find a circle that intersects with the right or bottom side of the rectangle, return `true`;
+4. If no such circle is found, return `false`.
 
-上面的过程中，我们需要在圆 $O_1 = (x_1, y_1, r_1)$ 和 $O_2 = (x_2, y_2, r_2)$ 之间判断是否相交，如果两个圆相交，那么它们的圆心之间的距离不超过两个圆的半径之和，即 $(x_1 - x_2)^2 + (y_1 - y_2)^2 \le (r_1 + r_2)^2$。
+In the above process, we need to determine whether two circles $O_1 = (x_1, y_1, r_1)$ and $O_2 = (x_2, y_2, r_2)$ intersect. If the distance between the centers of the two circles does not exceed the sum of their radii, i.e., $(x_1 - x_2)^2 + (y_1 - y_2)^2 \le (r_1 + r_2)^2$, then they intersect.
 
-我们还需要寻找两个圆的一个交点，我们取一个点 $A = (x, y)$，满足 $\frac{O_1 A}{O_1 O_2} = \frac{r_1}{r_1 + r_2}$，如果两圆相交，那么点 $A$ 一定在交集中，此时 $\frac{x - x_1}{x_2 - x_1} = \frac{r_1}{r_1 + r_2}$，解得 $x = \frac{x_1 r_2 + x_2 r_1}{r_1 + r_2}$，同理，有 $y = \frac{y_1 r_2 + y_2 r_1}{r_1 + r_2}$。只要这个点在矩形内，我们就可以继续进行深度优先搜索，即满足：
+We also need to find an intersection point of the two circles. We take a point $A = (x, y)$ such that $\frac{O_1 A}{O_1 O_2} = \frac{r_1}{r_1 + r_2}$. If the two circles intersect, point $A$ must be in the intersection. In this case, $\frac{x - x_1}{x_2 - x_1} = \frac{r_1}{r_1 + r_2}$, solving for $x = \frac{x_1 r_2 + x_2 r_1}{r_1 + r_2}$. Similarly, $y = \frac{y_1 r_2 + y_2 r_1}{r_1 + r_2}$. As long as this point is inside the rectangle, we can continue the DFS, satisfying:
 
 $$
 \begin{cases}
@@ -138,7 +133,7 @@ y_1 r_2 + y_2 r_1 < (r_1 + r_2) \times \textit{yCorner}
 \end{cases}
 $$
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为圆的数量。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the number of circles.
 
 <!-- tabs:start -->
 

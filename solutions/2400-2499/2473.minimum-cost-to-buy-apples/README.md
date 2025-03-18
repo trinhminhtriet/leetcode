@@ -1,84 +1,76 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2400-2499/2473.Minimum%20Cost%20to%20Buy%20Apples/README.md
+difficulty: Medium
 tags:
-    - 图
-    - 数组
-    - 最短路
-    - 堆（优先队列）
+    - Graph
+    - Array
+    - Shortest Path
+    - Heap (Priority Queue)
 ---
 
 <!-- problem:start -->
 
-# [2473. 购买苹果的最低成本 🔒](https://leetcode.cn/problems/minimum-cost-to-buy-apples)
+# [2473. Minimum Cost to Buy Apples 🔒](https://leetcode.com/problems/minimum-cost-to-buy-apples)
 
-[English Version](/solution/2400-2499/2473.Minimum%20Cost%20to%20Buy%20Apples/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个正整数&nbsp; <code>n</code>，表示从 <code>1</code> 到 <code>n</code> 的 <code>n</code> 个城市。还给你一个&nbsp;<strong>二维&nbsp;</strong>数组 <code>roads</code>，其中 <code>roads[i] = [a<sub>i</sub>, b<sub>i</sub>, cost<sub>i</sub>]</code> 表示在城市 <code>a<sub>i</sub></code> 和 <code>b<sub>i</sub></code> 之间有一条双向道路，其旅行成本等于 <code>cost<sub>i</sub></code>。</p>
+<p>You are given a positive integer <code>n</code> representing <code>n</code> cities numbered from <code>1</code> to <code>n</code>. You are also given a <strong>2D</strong> array <code>roads</code>, where <code>roads[i] = [a<sub>i</sub>, b<sub>i</sub>, cost<sub>i</sub>]</code> indicates that there is a <strong>bidirectional </strong>road between cities <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> with a cost of traveling equal to <code>cost<sub>i</sub></code>.</p>
+
+<p>You can buy apples in <strong>any</strong> city you want, but some cities have different costs to buy apples. You are given the 1-based array <code>appleCost</code> where <code>appleCost[i]</code> is the cost of buying one apple from city <code>i</code>.</p>
+
+<p>You start at some city, traverse through various roads, and eventually buy <strong>exactly</strong> one apple from <strong>any</strong> city. After you buy that apple, you have to return back to the city you <strong>started</strong> at, but now the cost of all the roads will be <strong>multiplied</strong> by a given factor <code>k</code>.</p>
+
+<p>Given the integer <code>k</code>, return <em>a 1-based array </em><code>answer</code><em> of size </em><code>n</code><em> where </em><code>answer[i]</code><em> is the <strong>minimum</strong> total cost to buy an apple if you start at city </em><code>i</code>.</p>
 
 <p>&nbsp;</p>
-
-<p>你可以在&nbsp;<strong>任何&nbsp;</strong>城市买到苹果，但是有些城市买苹果的费用不同。给定数组 <code>appleCost</code> ，其中 <code>appleCost[i]</code>&nbsp;是从城市 <code>i</code> 购买一个苹果的成本。</p>
-
-<p>你从某个城市开始，穿越各种道路，最终从&nbsp;<strong>任何一个&nbsp;</strong>城市买&nbsp;<strong>一个&nbsp;</strong>苹果。在你买了那个苹果之后，你必须回到你&nbsp;<strong>开始的&nbsp;</strong>城市，但现在所有道路的成本将&nbsp;<strong>乘以&nbsp;</strong>一个给定的因子 <code>k</code>。</p>
-
-<p>给定整数 <code>k</code>，返回<em>一个大小为 <code>n</code> 的从 1 开始的数组 <code>answer</code>，其中 <code>answer[i]</code>&nbsp;是从城市 <code>i</code> 开始购买一个苹果的&nbsp;<strong>最小&nbsp;</strong>总成本。</em></p>
-
-<p>&nbsp;</p>
-
-<p><strong class="example">示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2473.Minimum%20Cost%20to%20Buy%20Apples/images/graph55.png" style="width: 241px; height: 309px;" />
 <pre>
-<strong>输入:</strong> n = 4, roads = [[1,2,4],[2,3,2],[2,4,5],[3,4,1],[1,3,4]], appleCost = [56,42,102,301], k = 2
-<strong>输出:</strong> [54,42,48,51]
-<strong>解释:</strong> 每个起始城市的最低费用如下:
-- 从城市 1 开始:你走路径 1 -&gt; 2，在城市 2 买一个苹果，最后走路径 2 -&gt; 1。总成本是 4 + 42 + 4 * 2 = 54。
-- 从城市 2 开始:你直接在城市 2 买一个苹果。总费用是 42。
-- 从城市 3 开始:你走路径 3 -&gt; 2，在城市 2 买一个苹果，最后走路径 2 -&gt; 3。总成本是 2 + 42 + 2 * 2 = 48。
-- 从城市 4 开始:你走路径 4 -&gt; 3 -&gt; 2，然后你在城市 2 购买，最后走路径 2 -&gt; 3 -&gt; 4。总成本是 1 + 2 + 42 + 1 * 2 + 2 * 2 = 51。
+<strong>Input:</strong> n = 4, roads = [[1,2,4],[2,3,2],[2,4,5],[3,4,1],[1,3,4]], appleCost = [56,42,102,301], k = 2
+<strong>Output:</strong> [54,42,48,51]
+<strong>Explanation:</strong> The minimum cost for each starting city is the following:
+- Starting at city 1: You take the path 1 -&gt; 2, buy an apple at city 2, and finally take the path 2 -&gt; 1. The total cost is 4 + 42 + 4 * 2 = 54.
+- Starting at city 2: You directly buy an apple at city 2. The total cost is 42.
+- Starting at city 3: You take the path 3 -&gt; 2, buy an apple at city 2, and finally take the path 2 -&gt; 3. The total cost is 2 + 42 + 2 * 2 = 48.
+- Starting at city 4: You take the path 4 -&gt; 3 -&gt; 2 then you buy at city 2, and finally take the path 2 -&gt; 3 -&gt; 4. The total cost is 1 + 2 + 42 + 1 * 2 + 2 * 2 = 51.
 </pre>
 
-<p><strong class="example">示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2400-2499/2473.Minimum%20Cost%20to%20Buy%20Apples/images/graph4.png" style="width: 167px; height: 309px;" />
 <pre>
-<strong>输入:</strong> n = 3, roads = [[1,2,5],[2,3,1],[3,1,2]], appleCost = [2,3,1], k = 3
-<strong>输出:</strong> [2,3,1]
-<strong>解释:</strong> 在起始城市买苹果总是最优的。</pre>
+<strong>Input:</strong> n = 3, roads = [[1,2,5],[2,3,1],[3,1,2]], appleCost = [2,3,1], k = 3
+<strong>Output:</strong> [2,3,1]
+<strong>Explanation:</strong> It is always optimal to buy the apple in the starting city.
+</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= n &lt;= 1000</code></li>
-	<li><code>1 &lt;= roads.length &lt;= 1000</code></li>
+	<li><code>1 &lt;= roads.length &lt;= 2000</code></li>
 	<li><code>1 &lt;= a<sub>i</sub>, b<sub>i</sub> &lt;= n</code></li>
 	<li><code>a<sub>i</sub> != b<sub>i</sub></code></li>
 	<li><code>1 &lt;= cost<sub>i</sub> &lt;= 10<sup>5</sup></code></li>
 	<li><code>appleCost.length == n</code></li>
 	<li><code>1 &lt;= appleCost[i] &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= k &lt;= 100</code></li>
-	<li>
-	<p data-group="1-1">没有重复的边。</p>
-	</li>
+	<li>There are no repeated edges.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：堆优化版 Dijkstra 算法
+### Solution 1: Heap-optimized Dijkstra's Algorithm
 
-我们枚举起点，对于每个起点，使用 Dijkstra 算法求出到其他所有点的最短距离，更新最小值即可。
+We enumerate the starting point, and for each starting point, we use Dijkstra's algorithm to find the shortest distance to all other points, and update the minimum value accordingly.
 
-时间复杂度 $O(n \times m \times \log m)$，其中 $n$ 和 $m$ 分别是城市数量和道路数量。
+The time complexity is $O(n \times m \times \log m)$, where $n$ and $m$ are the number of cities and roads, respectively.
 
 <!-- tabs:start -->
 

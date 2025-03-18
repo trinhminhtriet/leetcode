@@ -1,91 +1,80 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1428.Leftmost%20Column%20with%20at%20Least%20a%20One/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 二分查找
-    - 交互
-    - 矩阵
+    - Array
+    - Binary Search
+    - Interactive
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [1428. 至少有一个 1 的最左端列 🔒](https://leetcode.cn/problems/leftmost-column-with-at-least-a-one)
+# [1428. Leftmost Column with at Least a One 🔒](https://leetcode.com/problems/leftmost-column-with-at-least-a-one)
 
-[English Version](/solution/1400-1499/1428.Leftmost%20Column%20with%20at%20Least%20a%20One/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p><strong>行排序二进制矩阵</strong>&nbsp;表示所有元素都是 <code>0</code> 或 <code>1</code>，并且矩阵的每一行都以非递减排序。</p>
+<p>A <strong>row-sorted binary matrix</strong> means that all elements are <code>0</code> or <code>1</code> and each row of the matrix is sorted in non-decreasing order.</p>
 
-<p>给定一个 <strong>行排序二进制矩阵&nbsp;</strong><code>binaryMatrix</code>，返回至少包含一个&nbsp;<code>1</code>&nbsp;的 <strong>最左端列&nbsp;</strong>的索引（从 0 开始）。如果这样的列不存在，返回&nbsp;<code>-1</code>。</p>
+<p>Given a <strong>row-sorted binary matrix</strong> <code>binaryMatrix</code>, return <em>the index (0-indexed) of the <strong>leftmost column</strong> with a 1 in it</em>. If such an index does not exist, return <code>-1</code>.</p>
 
-<p><strong>您不能直接访问该二进制矩阵。</strong>你只可以通过&nbsp;<code>BinaryMatrix</code>&nbsp;接口来访问。</p>
+<p><strong>You can&#39;t access the Binary Matrix directly.</strong> You may only access the matrix using a <code>BinaryMatrix</code> interface:</p>
 
 <ul>
-	<li><code>BinaryMatrix.get(row, col)</code>&nbsp;返回位于索引&nbsp;<code>(row, col)</code>&nbsp;（从 0 开始）的元素。</li>
-	<li><code>BinaryMatrix.dimensions()</code>&nbsp;返回含有 2 个元素的列表&nbsp;<code>[rows, cols]</code>，表示这是一个&nbsp;<code>rows *&nbsp;cols</code>的矩阵。</li>
+	<li><code>BinaryMatrix.get(row, col)</code> returns the element of the matrix at index <code>(row, col)</code> (0-indexed).</li>
+	<li><code>BinaryMatrix.dimensions()</code> returns the dimensions of the matrix as a list of 2 elements <code>[rows, cols]</code>, which means the matrix is <code>rows x cols</code>.</li>
 </ul>
 
-<p>如果提交的答案调用&nbsp;<code>BinaryMatrix.get</code>&nbsp;超过 <code>1000</code> 次，则该答案会被判定为<em>错误答案</em>。提交任何试图规避判定机制的答案将会被取消资格。</p>
+<p>Submissions making more than <code>1000</code> calls to <code>BinaryMatrix.get</code> will be judged <em>Wrong Answer</em>. Also, any solutions that attempt to circumvent the judge will result in disqualification.</p>
 
-<p>下列示例中，&nbsp;<code>mat</code>&nbsp;为给定的二进制矩阵。您不能直接访问该矩阵。</p>
+<p>For custom testing purposes, the input will be the entire binary matrix <code>mat</code>. You will not have access to the binary matrix directly.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1428.Leftmost%20Column%20with%20at%20Least%20a%20One/images/untitled-diagram-5.jpg" style="height:81px; width:81px" /></strong></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1428.Leftmost%20Column%20with%20at%20Least%20a%20One/images/untitled-diagram-5.jpg" style="width: 81px; height: 81px;" />
 <pre>
-<strong>输入:</strong> mat = [[0,0],[1,1]]
-<strong>输出:</strong> 0
+<strong>Input:</strong> mat = [[0,0],[1,1]]
+<strong>Output:</strong> 0
 </pre>
 
-<p><strong>示例 2:</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1428.Leftmost%20Column%20with%20at%20Least%20a%20One/images/untitled-diagram-4.jpg" style="height:81px; width:81px" /></strong></p>
-
+<p><strong class="example">Example 2:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1428.Leftmost%20Column%20with%20at%20Least%20a%20One/images/untitled-diagram-4.jpg" style="width: 81px; height: 81px;" />
 <pre>
-<strong>输入:</strong> mat = [[0,0],[0,1]]
-<strong>输出:</strong> 1
+<strong>Input:</strong> mat = [[0,0],[0,1]]
+<strong>Output:</strong> 1
 </pre>
 
-<p><strong>示例 3:</strong></p>
-
-<p><strong><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1428.Leftmost%20Column%20with%20at%20Least%20a%20One/images/untitled-diagram-3.jpg" style="height:81px; width:81px" /></strong></p>
-
+<p><strong class="example">Example 3:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1400-1499/1428.Leftmost%20Column%20with%20at%20Least%20a%20One/images/untitled-diagram-3.jpg" style="width: 81px; height: 81px;" />
 <pre>
-<strong>输入:</strong> mat = [[0,0],[0,0]]
-<strong>输出:</strong> -1
+<strong>Input:</strong> mat = [[0,0],[0,0]]
+<strong>Output:</strong> -1
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>rows == mat.length</code></li>
 	<li><code>cols == mat[i].length</code></li>
-	<li><code>1 &lt;= rows, cols&nbsp;&lt;= 100</code></li>
-	<li><code>mat[i][j]</code>&nbsp;只会是&nbsp;<code>0</code>&nbsp;或&nbsp;<code>1</code>。</li>
-	<li><code>mat[i]</code>&nbsp;已按非递减顺序排序。</li>
+	<li><code>1 &lt;= rows, cols &lt;= 100</code></li>
+	<li><code>mat[i][j]</code> is either <code>0</code> or <code>1</code>.</li>
+	<li><code>mat[i]</code> is sorted in non-decreasing order.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-我们先调用 `BinaryMatrix.dimensions()` 得到矩阵的行数 $m$ 和列数 $n$，然后对于每一行，我们使用二分查找来找到最左边的 $1$ 所在的列数 $j$，找出所有行中最小的满足 $j$ 的值即为答案。如果不存在这样的列，则返回 $-1$。
+First, we call `BinaryMatrix.dimensions()` to get the number of rows $m$ and columns $n$ of the matrix. Then for each row, we use binary search to find the column number $j$ where the leftmost $1$ is located. The smallest $j$ value that satisfies all rows is the answer. If there is no such column, return $-1$.
 
-时间复杂度 $O(m \times \log n)$，其中 $m$ 和 $n$ 分别是矩阵的行数和列数。需要遍历每一行，每一行内使用二分查找，时间复杂度为 $O(\log n)$。空间复杂度 $O(1)$。
+The time complexity is $O(m \times \log n)$, where $m$ and $n$ are the number of rows and columns of the matrix, respectively. We need to traverse each row, and use binary search within each row, which has a time complexity of $O(\log n)$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

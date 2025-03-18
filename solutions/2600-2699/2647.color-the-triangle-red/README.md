@@ -1,79 +1,75 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2600-2699/2647.Color%20the%20Triangle%20Red/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 数学
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [2647. 把三角形染成红色 🔒](https://leetcode.cn/problems/color-the-triangle-red)
+# [2647. Color the Triangle Red 🔒](https://leetcode.com/problems/color-the-triangle-red)
 
-[English Version](/solution/2600-2699/2647.Color%20the%20Triangle%20Red/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>现给定你一个整数 <code>n</code> 。考虑一个边长为 <code>n</code> 的等边三角形，被分成 <code>n<sup>2</sup></code> 个单位等边三角形。这个三角形有 <code>n</code> 个 <strong>从 1 开始编号</strong> 的行，其中第 <code>i</code> 行有 <code>2i - 1</code> 个单位等边三角形。</p>
+<p>You are given an integer <code>n</code>. Consider an equilateral triangle of side length <code>n</code>, broken up into <code>n<sup>2</sup></code> unit equilateral triangles. The triangle has <code>n</code> <strong>1-indexed</strong> rows where the <code>i<sup>th</sup></code> row has <code>2i - 1</code> unit equilateral triangles.</p>
 
-<p>第 <code>i</code> 行的三角形也是&nbsp;<strong>从 1 开始编号&nbsp;</strong>的，其坐标从 <code>(i, 1)</code> 到 <code>(i, 2i - 1)</code>&nbsp;。下面的图像显示了一个边长为 <code>4</code> 的三角形及其三角形的索引。</p>
+<p>The triangles in the <code>i<sup>th</sup></code> row are also <strong>1-indexed</strong> with coordinates from <code>(i, 1)</code> to <code>(i, 2i - 1)</code>. The following image shows a triangle of side length <code>4</code> with the indexing of its triangle.</p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2647.Color%20the%20Triangle%20Red/images/triangle4.jpg" style="width: 402px; height: 242px;" />
-<p>如果两个三角形 <strong>共享一条边</strong> ，则它们是 <strong>相邻</strong> 的。例如：</p>
+<p>Two triangles are <strong>neighbors</strong> if they <strong>share a side</strong>. For example:</p>
 
 <ul>
-	<li>三角形 <code>(1,1)</code> 和 <code>(2,2)</code> 是相邻的。</li>
-	<li>三角形 <code>(3,2)</code> 和 <code>(3,3)</code> 是相邻的。</li>
-	<li>三角形 <code>(2,2)</code> 和 <code>(3,3)</code> 不相邻，因为它们没有共享任何边。</li>
+	<li>Triangles <code>(1,1)</code> and <code>(2,2)</code> are neighbors</li>
+	<li>Triangles <code>(3,2)</code> and <code>(3,3)</code> are neighbors.</li>
+	<li>Triangles <code>(2,2)</code> and <code>(3,3)</code> are not neighbors because they do not share any side.</li>
 </ul>
 
-<p>初始时，所有单位三角形都是 <strong>白色</strong> 的。你想选择 <code>k</code> 个三角形并将它们涂成 <strong>红色</strong> 。然后我们将运行以下算法：</p>
+<p>Initially, all the unit triangles are <strong>white</strong>. You want to choose <code>k</code> triangles and color them <strong>red</strong>. We will then run the following algorithm:</p>
 
 <ol>
-	<li>选择一个 <strong>至少有两个</strong> 红色相邻三角形的白色三角形。
+	<li>Choose a white triangle that has <strong>at least two</strong> red neighbors.
 
     <ul>
-    	<li>如果没有这样的三角形，请停止算法。</li>
+    	<li>If there is no such triangle, stop the algorithm.</li>
     </ul>
     </li>
-    <li>将该三角形涂成 <strong>红色</strong> 。</li>
-    <li>回到步骤 1。</li>
+    <li>Color that triangle <strong>red</strong>.</li>
+    <li>Go to step 1.</li>
 
 </ol>
 
-<p>选择最小的 <code>k</code> 并在运行此算法之前将 <code>k</code> 个三角形涂成红色，使得在算法停止后，所有单元三角形都被涂成红色。</p>
+<p>Choose the minimum <code>k</code> possible and set <code>k</code> triangles red before running this algorithm such that after the algorithm stops, all unit triangles are colored red.</p>
 
-<p>返回一个二维列表，其中包含你要最初涂成红色的三角形的坐标。答案必须尽可能小。如果有多个有效的解决方案，请返回其中任意一个。</p>
+<p>Return <em>a 2D list of the coordinates of the triangles that you will color red initially</em>. The answer has to be of the smallest size possible. If there are multiple valid solutions, return any.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1 ：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2647.Color%20the%20Triangle%20Red/images/example1.jpg" style="width: 500px; height: 263px;" />
 <pre>
-<b>输入：</b>n = 3
-<b>输出：</b>[[1,1],[2,1],[2,3],[3,1],[3,5]]
-<b>解释：</b>初始时，我们选择展示的5个三角形染成红色。然后，我们运行以下算法：
-- 选择(2,2)，它有三个红色相邻的三角形，并将其染成红色。
-- 选择(3,2)，它有两个红色相邻的三角形，并将其染成红色。
-- 选择(3,4)，它有三个红色相邻的三角形，并将其染成红色。
-- 选择(3,3)，它有三个红色相邻的三角形，并将其染成红色。 
-可以证明，选择任何4个三角形并运行算法都无法将所有三角形都染成红色。</pre>
+<strong>Input:</strong> n = 3
+<strong>Output:</strong> [[1,1],[2,1],[2,3],[3,1],[3,5]]
+<strong>Explanation:</strong> Initially, we choose the shown 5 triangles to be red. Then, we run the algorithm:
+- Choose (2,2) that has three red neighbors and color it red.
+- Choose (3,2) that has two red neighbors and color it red.
+- Choose (3,4) that has three red neighbors and color it red.
+- Choose (3,3) that has three red neighbors and color it red.
+It can be shown that choosing any 4 triangles and running the algorithm will not make all triangles red.
+</pre>
 
-<p><strong class="example">示例 2 ：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2647.Color%20the%20Triangle%20Red/images/example2.jpg" style="width: 300px; height: 101px;" />
 <pre>
-<b>输入：</b>n = 2
-<b>输出：</b>[[1,1],[2,1],[2,3]]
-<b>解释：</b>初始时，我们选择图中所示的 3 个三角形为红色。然后，我们运行以下算法： 
--选择有三个红色相邻的 (2,2) 三角形并将其染成红色。 
-可以证明，选择任意 2 个三角形并运行该算法都不能使所有三角形变为红色。
+<strong>Input:</strong> n = 2
+<strong>Output:</strong> [[1,1],[2,1],[2,3]]
+<strong>Explanation:</strong> Initially, we choose the shown 3 triangles to be red. Then, we run the algorithm:
+- Choose (2,2) that has three red neighbors and color it red.
+It can be shown that choosing any 2 triangles and running the algorithm will not make all triangles red.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n &lt;= 1000</code></li>
@@ -81,26 +77,26 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：找规律
+### Solution 1: Find the Pattern
 
-我们画图观察，可以发现，第一行只有一个三角形，一定要涂色，而从最后一行开始，到第二行结束，每四行的涂色方案是一样的：
+We draw a graph to observe, and we can find that the first row only has one triangle and must be colored, and from the last row to the second row, the coloring scheme of every four rows is the same:
 
-1. 最后一行涂色坐标为 $(n, 1)$, $(n, 3)$, ..., $(n, 2n - 1)$。
-1. 第 $n - 1$ 行涂色坐标为 $(n - 1, 2)$。
-1. 第 $n - 2$ 行涂色坐标为 $(n - 2, 3)$, $(n - 2, 5)$, ..., $(n - 2, 2n - 5)$。
-1. 第 $n - 3$ 行涂色坐标为 $(n - 3, 1)$。
+1. The last row is colored at $(n, 1)$, $(n, 3)$, ..., $(n, 2n - 1)$.
+1. The $n - 1$ row is colored at $(n - 1, 2)$.
+1. The $n - 2$ row is colored at $(n - 2, 3)$, $(n - 2, 5)$, ..., $(n - 2, 2n - 5)$.
+1. The $n - 3$ row is colored at $(n - 3, 1)$.
 
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2647.Color%20the%20Triangle%20Red/images/demo3.png" style="width: 50%">
 
-因此，我们可以按照上述规律，先给第一行涂色，然后从最后一行开始，每四行涂色一次，直到第二行结束。
+Therefore, we can color the first row according to the above rules, and then start from the last row, and color every four rows once until the second row ends.
 
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/2600-2699/2647.Color%20the%20Triangle%20Red/images/demo2.png" style="width: 80%">
 
-时间复杂度 $(n^2)$，其中 $n$ 为题目给定的参数。忽略答案数组的空间消耗，空间复杂度 $O(1)$。
+The time complexity is $(n^2)$, where $n$ is the parameter given in the problem. Ignoring the space consumption of the answer array, the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

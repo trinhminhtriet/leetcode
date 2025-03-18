@@ -1,74 +1,68 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0900-0999/0922.Sort%20Array%20By%20Parity%20II/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 双指针
-    - 排序
+    - Array
+    - Two Pointers
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [922. 按奇偶排序数组 II](https://leetcode.cn/problems/sort-array-by-parity-ii)
+# [922. Sort Array By Parity II](https://leetcode.com/problems/sort-array-by-parity-ii)
 
-[English Version](/solution/0900-0999/0922.Sort%20Array%20By%20Parity%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个非负整数数组&nbsp;<code>nums</code>，&nbsp;&nbsp;<code>nums</code> 中一半整数是 <strong>奇数</strong> ，一半整数是 <strong>偶数</strong> 。</p>
+<p>Given an array of integers <code>nums</code>, half of the integers in <code>nums</code> are <strong>odd</strong>, and the other half are <strong>even</strong>.</p>
 
-<p>对数组进行排序，以便当&nbsp;<code>nums[i]</code> 为奇数时，<code>i</code>&nbsp;也是 <strong>奇数</strong> ；当&nbsp;<code>nums[i]</code>&nbsp;为偶数时， <code>i</code> 也是 <strong>偶数</strong> 。</p>
+<p>Sort the array so that whenever <code>nums[i]</code> is odd, <code>i</code> is <strong>odd</strong>, and whenever <code>nums[i]</code> is even, <code>i</code> is <strong>even</strong>.</p>
 
-<p>你可以返回 <em>任何满足上述条件的数组作为答案</em> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [4,2,5,7]
-<strong>输出：</strong>[4,5,2,7]
-<strong>解释：</strong>[4,7,2,5]，[2,5,4,7]，[2,7,4,5] 也会被接受。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<b>输入：</b>nums = [2,3]
-<b>输出：</b>[2,3]
-</pre>
+<p>Return <em>any answer array that satisfies this condition</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [4,2,5,7]
+<strong>Output:</strong> [4,5,2,7]
+<strong>Explanation:</strong> [4,7,2,5], [2,5,4,7], [2,7,4,5] would also have been accepted.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,3]
+<strong>Output:</strong> [2,3]
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 2 * 10<sup>4</sup></code></li>
-	<li><code>nums.length</code>&nbsp;是偶数</li>
-	<li><code>nums</code>&nbsp;中一半是偶数</li>
+	<li><code>nums.length</code> is even.</li>
+	<li>Half of the integers in <code>nums</code> are even.</li>
 	<li><code>0 &lt;= nums[i] &lt;= 1000</code></li>
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>可以不使用额外空间解决问题吗？</p>
+<p><strong>Follow Up:</strong> Could you solve it in-place?</p>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：双指针
+### Solution 1: Two Pointers
 
-我们用两个指针 $i$ 和 $j$ 分别指向偶数下标和奇数下标，初始时 $i = 0$, $j = 1$。
+We use two pointers $i$ and $j$ to point to even and odd indices, respectively. Initially, $i = 0$ and $j = 1$.
 
-当 $i$ 指向偶数下标时，如果 $\textit{nums}[i]$ 是奇数，那么我们需要找到一个奇数下标 $j$，使得 $\textit{nums}[j]$ 是偶数，然后交换 $\textit{nums}[i]$ 和 $\textit{nums}[j]$。继续遍历，直到 $i$ 指向数组末尾。
+When $i$ points to an even index, if $\textit{nums}[i]$ is odd, we need to find an odd index $j$ such that $\textit{nums}[j]$ is even, and then swap $\textit{nums}[i]$ and $\textit{nums}[j]$. Continue traversing until $i$ reaches the end of the array.
 
-时间复杂度 $O(n)$，其中 $n$ 是数组 $\textit{nums}[i]$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the array $\textit{nums}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

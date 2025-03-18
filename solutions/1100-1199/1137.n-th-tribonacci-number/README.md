@@ -1,72 +1,69 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1100-1199/1137.N-th%20Tribonacci%20Number/README.md
+difficulty: Easy
 rating: 1142
-source: 第 147 场周赛 Q1
+source: Weekly Contest 147 Q1
 tags:
-    - 记忆化搜索
-    - 数学
-    - 动态规划
+    - Memoization
+    - Math
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1137. 第 N 个泰波那契数](https://leetcode.cn/problems/n-th-tribonacci-number)
+# [1137. N-th Tribonacci Number](https://leetcode.com/problems/n-th-tribonacci-number)
 
-[English Version](/solution/1100-1199/1137.N-th%20Tribonacci%20Number/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>泰波那契序列&nbsp;T<sub>n</sub>&nbsp;定义如下：&nbsp;</p>
+<p>The Tribonacci sequence T<sub>n</sub> is defined as follows:&nbsp;</p>
 
-<p>T<sub>0</sub> = 0, T<sub>1</sub> = 1, T<sub>2</sub> = 1, 且在 n &gt;= 0&nbsp;的条件下 T<sub>n+3</sub> = T<sub>n</sub> + T<sub>n+1</sub> + T<sub>n+2</sub></p>
+<p>T<sub>0</sub> = 0, T<sub>1</sub> = 1, T<sub>2</sub> = 1, and T<sub>n+3</sub> = T<sub>n</sub> + T<sub>n+1</sub> + T<sub>n+2</sub> for n &gt;= 0.</p>
 
-<p>给你整数&nbsp;<code>n</code>，请返回第 n 个泰波那契数&nbsp;T<sub>n </sub>的值。</p>
+<p>Given <code>n</code>, return the value of T<sub>n</sub>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>n = 4
-<strong>输出：</strong>4
-<strong>解释：</strong>
+<pre>
+<strong>Input:</strong> n = 4
+<strong>Output:</strong> 4
+<strong>Explanation:</strong>
 T_3 = 0 + 1 + 1 = 2
 T_4 = 1 + 1 + 2 = 4
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>n = 25
-<strong>输出：</strong>1389537
+<pre>
+<strong>Input:</strong> n = 25
+<strong>Output:</strong> 1389537
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>0 &lt;= n &lt;= 37</code></li>
-	<li>答案保证是一个 32 位整数，即&nbsp;<code>answer &lt;= 2^31 - 1</code>。</li>
+	<li>The answer is guaranteed to fit within a 32-bit integer, ie. <code>answer &lt;= 2^31 - 1</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-根据题目中给出的递推式，我们可以使用动态规划求解。
+According to the recurrence relation given in the problem, we can use dynamic programming to solve it.
 
-我们定义三个变量 $a$, $b$, $c$，分别表示 $T_{n-3}$, $T_{n-2}$, $T_{n-1}$，初始值分别为 $0$, $1$, $1$。
+We define three variables $a$, $b$, $c$ to represent $T_{n-3}$, $T_{n-2}$, $T_{n-1}$, respectively, with initial values of $0$, $1$, $1$.
 
-然后从 $n$ 减小到 $0$，每次更新 $a$, $b$, $c$ 的值，直到 $n$ 为 $0$ 时，答案即为 $a$。
+Then we decrease $n$ to $0$, updating the values of $a$, $b$, $c$ each time, until $n$ is $0$, at which point the answer is $a$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为给定的整数。
+The time complexity is $O(n)$, and the space complexity is $O(1)$. Here, $n$ is the given integer.
 
 <!-- tabs:start -->
 
@@ -222,11 +219,11 @@ class Solution {
 
 <!-- solution:start -->
 
-### 方法二：矩阵快速幂加速递推
+### Solution 2: Matrix Exponentiation to Accelerate Recurrence
 
-我们设 $Tib(n)$ 表示一个 $1 \times 3$ 的矩阵 $\begin{bmatrix} T_n & T_{n - 1} & T_{n - 2} \end{bmatrix}$，其中 $T_n$, $T_{n - 1}$ 和 $T_{n - 2}$ 分别表示第 $n$ 个、第 $n - 1$ 个和第 $n - 2$ 个泰波那契数。
+We define $Tib(n)$ as a $1 \times 3$ matrix $\begin{bmatrix} T_n & T_{n - 1} & T_{n - 2} \end{bmatrix}$, where $T_n$, $T_{n - 1}$ and $T_{n - 2}$ represent the $n$th, $(n - 1)$th and $(n - 2)$th Tribonacci numbers, respectively.
 
-我们希望根据 $Tib(n-1) = \begin{bmatrix} T_{n - 1} & T_{n - 2} & T_{n - 3} \end{bmatrix}$ 推出 $Tib(n)$。也即是说，我们需要一个矩阵 $base$，使得 $Tib(n - 1) \times base = Tib(n)$，即：
+We hope to derive $Tib(n)$ from $Tib(n-1) = \begin{bmatrix} T_{n - 1} & T_{n - 2} & T_{n - 3} \end{bmatrix}$. That is, we need a matrix $base$ such that $Tib(n - 1) \times base = Tib(n)$, i.e.,
 
 $$
 \begin{bmatrix}
@@ -234,7 +231,7 @@ T_{n - 1} & T_{n - 2} & T_{n - 3}
 \end{bmatrix} \times base = \begin{bmatrix} T_n & T_{n - 1} & T_{n - 2} \end{bmatrix}
 $$
 
-由于 $T_n = T_{n - 1} + T_{n - 2} + T_{n - 3}$，所以矩阵 $base$ 为：
+Since $T_n = T_{n - 1} + T_{n - 2} + T_{n - 3}$, the matrix $base$ is:
 
 $$
 \begin{bmatrix}
@@ -244,9 +241,9 @@ $$
 \end{bmatrix}
 $$
 
-我们定义初始矩阵 $res = \begin{bmatrix} 1 & 1  & 0 \end{bmatrix}$，那么 $T_n$ 等于 $res$ 乘以 $base^{n - 3}$ 的结果矩阵中所有元素之和。使用矩阵快速幂求解即可。
+We define the initial matrix $res = \begin{bmatrix} 1 & 1  & 0 \end{bmatrix}$, then $T_n$ is equal to the sum of all elements in the result matrix of $res$ multiplied by $base^{n - 3}$. This can be solved using matrix exponentiation.
 
-时间复杂度 $O(\log n)$，空间复杂度 $O(1)$。
+The time complexity is $O(\log n)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

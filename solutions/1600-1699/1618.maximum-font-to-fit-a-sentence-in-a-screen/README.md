@@ -1,106 +1,124 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1618.Maximum%20Font%20to%20Fit%20a%20Sentence%20in%20a%20Screen/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 字符串
-    - 二分查找
-    - 交互
+    - Array
+    - String
+    - Binary Search
+    - Interactive
 ---
 
 <!-- problem:start -->
 
-# [1618. 找出适应屏幕的最大字号 🔒](https://leetcode.cn/problems/maximum-font-to-fit-a-sentence-in-a-screen)
+# [1618. Maximum Font to Fit a Sentence in a Screen 🔒](https://leetcode.com/problems/maximum-font-to-fit-a-sentence-in-a-screen)
 
-[English Version](/solution/1600-1699/1618.Maximum%20Font%20to%20Fit%20a%20Sentence%20in%20a%20Screen/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个字符串&nbsp;<code>text</code>。并能够在 宽为 <code>w</code> 高为 <code>h</code> 的屏幕上显示该文本。</p>
+<p>You are given a string <code>text</code>. We want to display <code>text</code> on a screen of width <code>w</code> and height <code>h</code>. You can choose any font size from array <code>fonts</code>, which contains the available font sizes <strong>in ascending order</strong>.</p>
 
-<p>字体数组中包含按<strong>升序排列</strong>的可用字号，您可以从该数组中选择任何字体大小。</p>
+<p>You can use the <code>FontInfo</code> interface to get the width and height of any character at any available font size.</p>
 
-<p>您可以使用<code>FontInfo</code>接口来获取任何<strong>可用字体大小</strong>的任何字符的宽度和高度。</p>
-
-<p><code>FontInfo</code>接口定义如下：</p>
+<p>The <code>FontInfo</code> interface is defined as such:</p>
 
 <pre>
+
 interface FontInfo {
-  // 返回 fontSize 大小的字符 ch 在屏幕上的宽度。
-  // 每调用该函数复杂度为 O(1)
+
+  // Returns the width of character ch on the screen using font size fontSize.
+
+  // O(1) per call
+
   public int getWidth(int fontSize, char ch);
 
-  // 返回 fontSize 大小的任意字符在屏幕上的高度。
-  // 每调用该函数复杂度为 O(1)
+
+
+  // Returns the height of any character on the screen using font size fontSize.
+
+  // O(1) per call
+
   public int getHeight(int fontSize);
+
 }</pre>
 
-<p>一串字符的文本宽度应该是 <strong>每一个字符 </strong>在对应字号<code>(fontSize)</code>下返回的宽度<code>getWidth(fontSize, text[i])</code>的 <strong>总和 </strong>。对应字号的文本高度可由 <code>getHeight(fontSize)</code> 计算得到。</p>
+<p>The calculated width of <code>text</code> for some <code>fontSize</code> is the <strong>sum</strong> of every <code>getWidth(fontSize, text[i])</code> call for each <code>0 &lt;= i &lt; text.length</code> (<strong>0-indexed</strong>). The calculated height of <code>text</code> for some <code>fontSize</code> is <code>getHeight(fontSize)</code>. Note that <code>text</code> is displayed on a <strong>single line</strong>.</p>
 
-<p><strong>请注意：文本最多只能排放一排</strong></p>
+<p>It is guaranteed that <code>FontInfo</code> will return the same value if you call <code>getHeight</code> or <code>getWidth</code> with the same parameters.</p>
 
-<p>如果使用相同的参数调用 <code>getHeight</code>&nbsp;或&nbsp;<code>getWidth</code> ，则可以保证 <code>FontInfo</code> 将返回相同的值。</p>
-
-<p>同时，对于任何字体大小的&nbsp;<code>fontSize</code> 和任何字符 <code>ch</code> ：</p>
+<p>It is also guaranteed that for any font size <code>fontSize</code> and any character <code>ch</code>:</p>
 
 <ul>
-	<li><code>getHeight(fontSize) &lt;= getHeight(fontSize+1)</code></li>
-	<li><code>getWidth(fontSize, ch) &lt;= getWidth(fontSize+1, ch)</code></li>
+
+    <li><code>getHeight(fontSize) &lt;= getHeight(fontSize+1)</code></li>
+
+    <li><code>getWidth(fontSize, ch) &lt;= getWidth(fontSize+1, ch)</code></li>
+
 </ul>
 
-<p>返回可用于在屏幕上显示文本的最大字体大小。<strong>如果文本不能以任何字体大小显示，则返回-1</strong>。</p>
+<p>Return <em>the maximum font size you can use to display </em><code>text</code><em> on the screen</em>. If <code>text</code> cannot fit on the display with any font size, return <code>-1</code>.</p>
 
-<p><strong>示例 1:</strong></p>
+<p>&nbsp;</p>
+
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> text = "helloworld", w = 80, h = 20, fonts = [6,8,10,12,14,16,18,24,36]
-<strong>输出:</strong> 6
+
+<strong>Input:</strong> text = &quot;helloworld&quot;, w = 80, h = 20, fonts = [6,8,10,12,14,16,18,24,36]
+
+<strong>Output:</strong> 6
+
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> text = "leetcode", w = 1000, h = 50, fonts = [1,2,4]
-<strong>输出:</strong> 4
+
+<strong>Input:</strong> text = &quot;leetcode&quot;, w = 1000, h = 50, fonts = [1,2,4]
+
+<strong>Output:</strong> 4
+
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入:</strong> text = "easyquestion", w = 100, h = 100, fonts = [10,15,20,25]
-<strong>输出:</strong> -1
+
+<strong>Input:</strong> text = &quot;easyquestion&quot;, w = 100, h = 100, fonts = [10,15,20,25]
+
+<strong>Output:</strong> -1
+
 </pre>
 
 <p>&nbsp;</p>
 
-<p><strong>注意:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= text.length &lt;= 50000</code></li>
-	<li><code>text</code> 只包含小写字母</li>
-	<li><code>1 &lt;= w &lt;= 10<sup>7</sup></code></li>
-	<li><code>1 &lt;= h &lt;= 10<sup>4</sup></code></li>
-	<li><code>1 &lt;= fonts.length &lt;= 10<sup>5</sup></code></li>
-	<li><code>1 &lt;= fonts[i] &lt;= 10<sup>5</sup></code></li>
-	<li><code>fonts&nbsp;</code>已经按升序排序，且不包含重复项。</li>
+
+    <li><code>1 &lt;= text.length &lt;= 50000</code></li>
+
+    <li><code>text</code> contains only lowercase English letters.</li>
+
+    <li><code>1 &lt;= w &lt;= 10<sup>7</sup></code></li>
+
+    <li><code>1 &lt;= h &lt;= 10<sup>4</sup></code></li>
+
+    <li><code>1 &lt;= fonts.length &lt;= 10<sup>5</sup></code></li>
+
+    <li><code>1 &lt;= fonts[i] &lt;= 10<sup>5</sup></code></li>
+
+    <li><code>fonts</code> is sorted in ascending order and does not contain duplicates.</li>
+
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
-
-根据题目描述，字体数组按升序排列。因此，我们可以二分枚举字体大小 `fontSize`，找到最大的并且能够在屏幕上显示文本字体大小即可。
-
-时间复杂度 $O(m\log n)$。其中 $m$, $n$ 为文本 `text` 的长度以及字体大小 `fonts` 个数。
-
-关于二分查找，见[整数二分算法模板 2](https://github.com/doocs/leetcode/blob/main/basic/searching/BinarySearch/README.md)。
+### Solution 1
 
 <!-- tabs:start -->
 

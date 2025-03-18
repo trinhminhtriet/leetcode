@@ -1,104 +1,99 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3000-3099/3093.Longest%20Common%20Suffix%20Queries/README.md
+difficulty: Hard
 rating: 2118
-source: 第 390 场周赛 Q4
+source: Weekly Contest 390 Q4
 tags:
-    - 字典树
-    - 数组
-    - 字符串
+    - Trie
+    - Array
+    - String
 ---
 
 <!-- problem:start -->
 
-# [3093. 最长公共后缀查询](https://leetcode.cn/problems/longest-common-suffix-queries)
+# [3093. Longest Common Suffix Queries](https://leetcode.com/problems/longest-common-suffix-queries)
 
-[English Version](/solution/3000-3099/3093.Longest%20Common%20Suffix%20Queries/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个字符串数组&nbsp;<code>wordsContainer</code> 和&nbsp;<code>wordsQuery</code>&nbsp;。</p>
+<p>You are given two arrays of strings <code>wordsContainer</code> and <code>wordsQuery</code>.</p>
 
-<p>对于每个&nbsp;<code>wordsQuery[i]</code>&nbsp;，你需要从&nbsp;<code>wordsContainer</code>&nbsp;中找到一个与&nbsp;<code>wordsQuery[i]</code>&nbsp;有&nbsp;<strong>最长公共后缀</strong>&nbsp;的字符串。如果 <code>wordsContainer</code>&nbsp;中有两个或者更多字符串有最长公共后缀，那么答案为长度<strong>&nbsp;最短</strong>&nbsp;的。如果有超过两个字符串有&nbsp;<strong>相同</strong>&nbsp;最短长度，那么答案为它们在&nbsp;<code>wordsContainer</code>&nbsp;中出现&nbsp;<strong>更早</strong>&nbsp;的一个。</p>
+<p>For each <code>wordsQuery[i]</code>, you need to find a string from <code>wordsContainer</code> that has the <strong>longest common suffix</strong> with <code>wordsQuery[i]</code>. If there are two or more strings in <code>wordsContainer</code> that share the longest common suffix, find the string that is the <strong>smallest</strong> in length. If there are two or more such strings that have the <strong>same</strong> smallest length, find the one that occurred <strong>earlier</strong> in <code>wordsContainer</code>.</p>
 
-<p>请你返回一个整数数组<em>&nbsp;</em><code>ans</code>&nbsp;，其中<em>&nbsp;</em><code>ans[i]</code>是<em>&nbsp;</em><code>wordsContainer</code>中与&nbsp;<code>wordsQuery[i]</code>&nbsp;有&nbsp;<strong>最长公共后缀</strong>&nbsp;字符串的下标。</p>
+<p>Return <em>an array of integers </em><code>ans</code><em>, where </em><code>ans[i]</code><em> is the index of the string in </em><code>wordsContainer</code><em> that has the <strong>longest common suffix</strong> with </em><code>wordsQuery[i]</code><em>.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>wordsContainer = ["abcd","bcd","xbcd"], wordsQuery = ["cd","bcd","xyz"]</span></p>
+<p><strong>Input:</strong> <span class="example-io">wordsContainer = [&quot;abcd&quot;,&quot;bcd&quot;,&quot;xbcd&quot;], wordsQuery = [&quot;cd&quot;,&quot;bcd&quot;,&quot;xyz&quot;]</span></p>
 
-<p><span class="example-io"><b>输出：</b>[1,1,1]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[1,1,1]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>我们分别来看每一个&nbsp;<code>wordsQuery[i]</code>&nbsp;：</p>
+<p>Let&#39;s look at each <code>wordsQuery[i]</code> separately:</p>
 
 <ul>
-	<li>对于&nbsp;<code>wordsQuery[0] = "cd"</code>&nbsp;，<code>wordsContainer</code>&nbsp;中有最长公共后缀&nbsp;<code>"cd"</code>&nbsp;的字符串下标分别为&nbsp;0 ，1 和&nbsp;2 。这些字符串中，答案是下标为 1 的字符串，因为它的长度为 3 ，是最短的字符串。</li>
-	<li>对于&nbsp;<code>wordsQuery[1] = "bcd"</code>&nbsp;，<code>wordsContainer</code>&nbsp;中有最长公共后缀&nbsp;<code>"bcd"</code>&nbsp;的字符串下标分别为 0 ，1 和 2 。这些字符串中，答案是下标为 1 的字符串，因为它的长度为 3 ，是最短的字符串。</li>
-	<li>对于&nbsp;<code>wordsQuery[2] = "xyz"</code>&nbsp;，<code>wordsContainer</code>&nbsp;中没有字符串跟它有公共后缀，所以最长公共后缀为&nbsp;<code>""</code>&nbsp;，下标为&nbsp;0 ，1 和 2 的字符串都得到这一公共后缀。这些字符串中，&nbsp;答案是下标为 1 的字符串，因为它的长度为 3 ，是最短的字符串。</li>
+	<li>For <code>wordsQuery[0] = &quot;cd&quot;</code>, strings from <code>wordsContainer</code> that share the longest common suffix <code>&quot;cd&quot;</code> are at indices 0, 1, and 2. Among these, the answer is the string at index 1 because it has the shortest length of 3.</li>
+	<li>For <code>wordsQuery[1] = &quot;bcd&quot;</code>, strings from <code>wordsContainer</code> that share the longest common suffix <code>&quot;bcd&quot;</code> are at indices 0, 1, and 2. Among these, the answer is the string at index 1 because it has the shortest length of 3.</li>
+	<li>For <code>wordsQuery[2] = &quot;xyz&quot;</code>, there is no string from <code>wordsContainer</code> that shares a common suffix. Hence the longest common suffix is <code>&quot;&quot;</code>, that is shared with strings at index 0, 1, and 2. Among these, the answer is the string at index 1 because it has the shortest length of 3.</li>
 </ul>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>wordsContainer = ["abcdefgh","poiuygh","ghghgh"], wordsQuery = ["gh","acbfgh","acbfegh"]</span></p>
+<p><strong>Input:</strong> <span class="example-io">wordsContainer = [&quot;abcdefgh&quot;,&quot;poiuygh&quot;,&quot;ghghgh&quot;], wordsQuery = [&quot;gh&quot;,&quot;acbfgh&quot;,&quot;acbfegh&quot;]</span></p>
 
-<p><span class="example-io"><b>输出：</b>[2,0,2]</span></p>
+<p><strong>Output:</strong> <span class="example-io">[2,0,2]</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>我们分别来看每一个&nbsp;<code>wordsQuery[i]</code>&nbsp;：</p>
+<p>Let&#39;s look at each <code>wordsQuery[i]</code> separately:</p>
 
 <ul>
-	<li>对于&nbsp;<code>wordsQuery[0] = "gh"</code>&nbsp;，<code>wordsContainer</code>&nbsp;中有最长公共后缀&nbsp;<code>"gh"</code>&nbsp;的字符串下标分别为 0 ，1 和 2 。这些字符串中，答案是下标为 2 的字符串，因为它的长度为 6 ，是最短的字符串。</li>
-	<li>对于&nbsp;<code>wordsQuery[1] = "acbfgh"</code>&nbsp;，只有下标为 0 的字符串有最长公共后缀&nbsp;<code>"fgh"</code>&nbsp;。所以尽管下标为 2 的字符串是最短的字符串，但答案是 0 。</li>
-	<li>对于&nbsp;<code>wordsQuery[2] = "acbfegh"</code>&nbsp;，<code>wordsContainer</code>&nbsp;中有最长公共后缀&nbsp;<code>"gh"</code>&nbsp;的字符串下标分别为 0 ，1 和 2 。这些字符串中，答案是下标为 2 的字符串，因为它的长度为 6 ，是最短的字符串。</li>
+	<li>For <code>wordsQuery[0] = &quot;gh&quot;</code>, strings from <code>wordsContainer</code> that share the longest common suffix <code>&quot;gh&quot;</code> are at indices 0, 1, and 2. Among these, the answer is the string at index 2 because it has the shortest length of 6.</li>
+	<li>For <code>wordsQuery[1] = &quot;acbfgh&quot;</code>, only the string at index 0 shares the longest common suffix <code>&quot;fgh&quot;</code>. Hence it is the answer, even though the string at index 2 is shorter.</li>
+	<li>For <code>wordsQuery[2] = &quot;acbfegh&quot;</code>, strings from <code>wordsContainer</code> that share the longest common suffix <code>&quot;gh&quot;</code> are at indices 0, 1, and 2. Among these, the answer is the string at index 2 because it has the shortest length of 6.</li>
 </ul>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= wordsContainer.length, wordsQuery.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= wordsContainer[i].length &lt;= 5 * 10<sup>3</sup></code></li>
 	<li><code>1 &lt;= wordsQuery[i].length &lt;= 5 * 10<sup>3</sup></code></li>
-	<li><code>wordsContainer[i]</code>&nbsp;只包含小写英文字母。</li>
-	<li><code>wordsQuery[i]</code>&nbsp;只包含小写英文字母。</li>
-	<li><code>wordsContainer[i].length</code>&nbsp;的和至多为&nbsp;<code>5 * 10<sup>5</sup></code>&nbsp;。</li>
-	<li><code>wordsQuery[i].length</code>&nbsp;的和至多为&nbsp;<code>5 * 10<sup>5</sup></code>&nbsp;。</li>
+	<li><code>wordsContainer[i]</code> consists only of lowercase English letters.</li>
+	<li><code>wordsQuery[i]</code> consists only of lowercase English letters.</li>
+	<li>Sum of <code>wordsContainer[i].length</code> is at most <code>5 * 10<sup>5</sup></code>.</li>
+	<li>Sum of <code>wordsQuery[i].length</code> is at most <code>5 * 10<sup>5</sup></code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：字典树
+### Solution 1: Trie
 
-题目需要我们找到最长公共后缀，我们可以考虑使用字典树。
+The problem requires us to find the longest common suffix, so we can consider using a Trie.
 
-我们定义字典树的节点结构如下：
+We define the structure of the Trie node as follows:
 
--   `children`：一个长度为 26 的数组，用于存储子节点。
--   `length`：当前节点的最短字符串长度。
--   `idx`：当前节点的字符串下标。
+-   `children`: An array of length 26, used to store child nodes.
+-   `length`: The length of the shortest string at the current node.
+-   `idx`: The index of the string at the current node.
 
-我们遍历字符串数组 `wordsContainer`，将每个字符串倒序插入字典树中。在插入的过程中，我们更新每个节点的 `length` 和 `idx`。
+We traverse the string array `wordsContainer`, and insert each string in reverse order into the Trie. During the insertion process, we update the `length` and `idx` of each node.
 
-接下来，我们遍历字符串数组 `wordsQuery`，对于每个字符串，我们从字典树中查找最长公共后缀的字符串下标，在寻找的过程中，如果遇到空节点，说明往后没有公共后缀了，我们可以直接返回当前节点的 `idx`。
+Next, we traverse the string array `wordsQuery`. For each string, we search for the index of the longest common suffix string from the Trie. During the search process, if we encounter a null node, it means that there is no common suffix afterwards, and we can directly return the `idx` of the current node.
 
-时间复杂度 $(L_1 \times |\Sigma| + L_2)$，空间复杂度 $O(L_1 \times |\Sigma|)$，其中 $L_1$ 和 $L_2$ 分别是 `wordsContainer` 和 `wordsQuery` 的字符串长度之和；而 $\Sigma$ 是字符集大小，本题中 $\Sigma = 26$。
+The time complexity is $(L_1 \times |\Sigma| + L_2)$, and the space complexity is $O(L_1 \times |\Sigma|)$. Here, $L_1$ and $L_2$ are the sum of the lengths of the strings in `wordsContainer` and `wordsQuery` respectively; and $\Sigma$ is the size of the character set, in this problem $\Sigma = 26$.
 
 <!-- tabs:start -->
 

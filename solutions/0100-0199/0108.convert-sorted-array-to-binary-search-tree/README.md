@@ -1,77 +1,72 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0100-0199/0108.Convert%20Sorted%20Array%20to%20Binary%20Search%20Tree/README.md
+difficulty: Easy
 tags:
-    - 树
-    - 二叉搜索树
-    - 数组
-    - 分治
-    - 二叉树
+    - Tree
+    - Binary Search Tree
+    - Array
+    - Divide and Conquer
+    - Binary Tree
 ---
 
 <!-- problem:start -->
 
-# [108. 将有序数组转换为二叉搜索树](https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree)
+# [108. Convert Sorted Array to Binary Search Tree](https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree)
 
-[English Version](/solution/0100-0199/0108.Convert%20Sorted%20Array%20to%20Binary%20Search%20Tree/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个整数数组 <code>nums</code> ，其中元素已经按 <strong>升序</strong> 排列，请你将其转换为一棵 <span data-keyword="height-balanced">平衡</span> 二叉搜索树。</p>
+<p>Given an integer array <code>nums</code> where the elements are sorted in <strong>ascending order</strong>, convert <em>it to a </em><span data-keyword="height-balanced"><strong><em>height-balanced</em></strong></span> <em>binary search tree</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0108.Convert%20Sorted%20Array%20to%20Binary%20Search%20Tree/images/btree1.jpg" style="width: 302px; height: 222px;" />
 <pre>
-<strong>输入：</strong>nums = [-10,-3,0,5,9]
-<strong>输出：</strong>[0,-3,9,-10,null,5]
-<strong>解释：</strong>[0,-10,5,null,-3,null,9] 也将被视为正确答案：
+<strong>Input:</strong> nums = [-10,-3,0,5,9]
+<strong>Output:</strong> [0,-3,9,-10,null,5]
+<strong>Explanation:</strong> [0,-10,5,null,-3,null,9] is also accepted:
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0108.Convert%20Sorted%20Array%20to%20Binary%20Search%20Tree/images/btree2.jpg" style="width: 302px; height: 222px;" />
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0100-0199/0108.Convert%20Sorted%20Array%20to%20Binary%20Search%20Tree/images/btree.jpg" style="width: 342px; height: 142px;" />
 <pre>
-<strong>输入：</strong>nums = [1,3]
-<strong>输出：</strong>[3,1]
-<strong>解释：</strong>[1,null,3] 和 [3,1] 都是高度平衡二叉搜索树。
+<strong>Input:</strong> nums = [1,3]
+<strong>Output:</strong> [3,1]
+<strong>Explanation:</strong> [1,null,3] and [3,1] are both height-balanced BSTs.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>-10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></code></li>
-	<li><code>nums</code> 按 <strong>严格递增</strong> 顺序排列</li>
+	<li><code>nums</code> is sorted in a <strong>strictly increasing</strong> order.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分 + 递归
+### Solution 1: Binary Search + Recursion
 
-我们设计一个递归函数 $\textit{dfs}(l, r)$，表示当前待构造的二叉搜索树的节点值都在数组 $\textit{nums}$ 的下标范围 $[l, r]$ 内。该函数返回构造出的二叉搜索树的根节点。
+We design a recursive function $\textit{dfs}(l, r)$, which represents that the values of the nodes to be constructed in the current binary search tree are within the index range $[l, r]$ of the array $\textit{nums}$. This function returns the root node of the constructed binary search tree.
 
-函数 $\textit{dfs}(l, r)$ 的执行流程如下：
+The execution process of the function $\textit{dfs}(l, r)$ is as follows:
 
-1. 如果 $l > r$，说明当前数组为空，返回 `null`。
-2. 如果 $l \leq r$，取数组中下标为 $\textit{mid} = \lfloor \frac{l + r}{2} \rfloor$ 的元素作为当前二叉搜索树的根节点，其中 $\lfloor x \rfloor$ 表示对 $x$ 向下取整。
-3. 递归地构造当前二叉搜索树的左子树，其根节点的值为数组中下标为 $\textit{mid} - 1$ 的元素，左子树的节点值都在数组的下标范围 $[l, \textit{mid} - 1]$ 内。
-4. 递归地构造当前二叉搜索树的右子树，其根节点的值为数组中下标为 $\textit{mid} + 1$ 的元素，右子树的节点值都在数组的下标范围 $[\textit{mid} + 1, r]$ 内。
-5. 返回当前二叉搜索树的根节点。
+1. If $l > r$, it means the current array is empty, so return `null`.
+2. If $l \leq r$, take the element at index $\textit{mid} = \lfloor \frac{l + r}{2} \rfloor$ of the array as the root node of the current binary search tree, where $\lfloor x \rfloor$ denotes the floor function of $x$.
+3. Recursively construct the left subtree of the current binary search tree, with the root node's value being the element at index $\textit{mid} - 1$ of the array. The values of the nodes in the left subtree are within the index range $[l, \textit{mid} - 1]$ of the array.
+4. Recursively construct the right subtree of the current binary search tree, with the root node's value being the element at index $\textit{mid} + 1$ of the array. The values of the nodes in the right subtree are within the index range $[\textit{mid} + 1, r]$ of the array.
+5. Return the root node of the current binary search tree.
 
-答案即为函数 $\textit{dfs}(0, n - 1)$ 的返回值。
+The answer is the return value of the function $\textit{dfs}(0, n - 1)$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(\log n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n)$, and the space complexity is $O(\log n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

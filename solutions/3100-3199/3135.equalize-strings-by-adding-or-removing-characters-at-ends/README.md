@@ -1,122 +1,117 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3100-3199/3135.Equalize%20Strings%20by%20Adding%20or%20Removing%20Characters%20at%20Ends/README.md
+difficulty: Medium
 tags:
-    - 字符串
-    - 二分查找
-    - 动态规划
-    - 滑动窗口
-    - 哈希函数
+    - String
+    - Binary Search
+    - Dynamic Programming
+    - Sliding Window
+    - Hash Function
 ---
 
 <!-- problem:start -->
 
-# [3135. 通过添加或删除结尾字符来同化字符串 🔒](https://leetcode.cn/problems/equalize-strings-by-adding-or-removing-characters-at-ends)
+# [3135. Equalize Strings by Adding or Removing Characters at Ends 🔒](https://leetcode.com/problems/equalize-strings-by-adding-or-removing-characters-at-ends)
 
-[English Version](/solution/3100-3199/3135.Equalize%20Strings%20by%20Adding%20or%20Removing%20Characters%20at%20Ends/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定两个字符串&nbsp;<code>initial</code> 和&nbsp;<code>target</code>，你的任务是通过一系列操作改变&nbsp;<code>initial</code>&nbsp;以使它与&nbsp;<code>target</code>&nbsp;相同。</p>
+<p>Given two strings <code>initial</code> and <code>target</code>, your task is to modify <code>initial</code> by performing a series of operations to make it equal to <code>target</code>.</p>
 
-<p>在一次操作中，您只能在&nbsp;<code>initial</code> 字符串开头或结尾添加或删除一个字符。</p>
+<p>In one operation, you can add or remove <strong>one character</strong> only at the <em>beginning</em> or the <em>end</em> of the string <code>initial</code>.</p>
 
-<p>返回将&nbsp;<code>initial</code>&nbsp;变为&nbsp;<code>target</code>&nbsp;所需的<strong>最小</strong>&nbsp;操作次数。</p>
+<p>Return the <strong>minimum</strong> number of operations required to <em>transform</em> <code>initial</code> into <code>target</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">initial = "abcde", target = "cdef"</span></p>
+<p><strong>Input:</strong> <span class="example-io">initial = &quot;abcde&quot;, target = &quot;cdef&quot;</span></p>
 
-<p><strong>输出：</strong>3</p>
+<p><strong>Output:</strong> 3</p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>从&nbsp;<code>initial</code>&nbsp;的开头删除 <code>'a'</code>&nbsp;和&nbsp;<code>'b'</code>&nbsp;并添加&nbsp;<code>'f'</code>&nbsp;到结尾。</p>
+<p>Remove <code>&#39;a&#39;</code> and <code>&#39;b&#39;</code> from the beginning of <code>initial</code>, then add <code>&#39;f&#39;</code> to the end.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">initial = "axxy", target = "yabx"</span></p>
+<p><strong>Input:</strong> <span class="example-io">initial = &quot;axxy&quot;, target = &quot;yabx&quot;</span></p>
 
-<p><strong>输出：</strong>6</p>
+<p><strong>Output:</strong> 6</p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
 <table border="1">
 	<tbody>
 		<tr>
-			<th>操作</th>
-			<th>结果字符串</th>
+			<th>Operation</th>
+			<th>Resulting String</th>
 		</tr>
 		<tr>
-			<td>将&nbsp;<code>'y'</code>&nbsp;添加到开头</td>
-			<td><code>"yaxxy"</code></td>
+			<td>Add <code>&#39;y&#39;</code> to the beginning</td>
+			<td><code>&quot;yaxxy&quot;</code></td>
 		</tr>
 		<tr>
-			<td>从结尾删除</td>
-			<td><code>"yaxx"</code></td>
+			<td>Remove from end</td>
+			<td><code>&quot;yaxx&quot;</code></td>
 		</tr>
 		<tr>
-			<td>从结尾删除</td>
-			<td><code>"yax"</code></td>
+			<td>Remove from end</td>
+			<td><code>&quot;yax&quot;</code></td>
 		</tr>
 		<tr>
-			<td>从结尾删除</td>
-			<td><code>"ya"</code></td>
+			<td>Remove from end</td>
+			<td><code>&quot;ya&quot;</code></td>
 		</tr>
 		<tr>
-			<td>将&nbsp;<code>'b'</code>&nbsp;添加到结尾</td>
-			<td><code>"yab"</code></td>
+			<td>Add <code>&#39;b&#39;</code> to the end</td>
+			<td><code>&quot;yab&quot;</code></td>
 		</tr>
 		<tr>
-			<td>将&nbsp;<code>'x'</code> 添加到结尾</td>
-			<td><code>"yabx"</code></td>
+			<td>Add <code>&#39;x&#39;</code> to the end</td>
+			<td><code>&quot;yabx&quot;</code></td>
 		</tr>
 	</tbody>
 </table>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">initial = "xyz", target = "xyz"</span></p>
+<p><strong>Input:</strong> <span class="example-io">initial = &quot;xyz&quot;, target = &quot;xyz&quot;</span></p>
 
-<p><strong>输出：</strong><span class="example-io">0</span></p>
+<p><strong>Output:</strong> <span class="example-io">0</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>不需要任何操作，因为字符串已经相等。</p>
+<p>No operations are needed as the strings are already equal.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= initial.length, target.length &lt;= 1000</code></li>
-	<li><code>initial</code> 和&nbsp;<code>target</code>&nbsp;只包含小写英文字母。</li>
+	<li><code>initial</code> and <code>target</code> consist only of lowercase English letters.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-我们不妨假设字符串 `initial` 和 `target` 的长度分别为 $m$ 和 $n$。
+Let's assume that the lengths of the strings `initial` and `target` are $m$ and $n$, respectively.
 
-根据题目描述，我们只需要求出 `initial` 和 `target` 的最长公共子串的长度 $mx$，那么我们可以从 `initial` 中删除 $m - mx$ 个字符，然后再添加 $n - mx$ 个字符，即可将 `initial` 转换为 `target`，因此答案为 $m + n - 2 \times mx$。
+According to the problem description, we only need to find the length $mx$ of the longest common substring of `initial` and `target`. Then, we can delete $m - mx$ characters from `initial` and add $n - mx$ characters to transform `initial` into `target`. Therefore, the answer is $m + n - 2 \times mx$.
 
-我们可以使用动态规划的方法求出 `initial` 和 `target` 的最长公共子串的长度 $mx$。我们定义一个二维数组 $f$，其中 $f[i][j]$ 表示以 `initial[i - 1]` 和 `target[j - 1]` 结尾的最长公共子串的长度。那么我们可以得到状态转移方程：
+We can use dynamic programming to find the length $mx$ of the longest common substring of `initial` and `target`. We define a two-dimensional array $f$, where $f[i][j]$ represents the length of the longest common substring ending with `initial[i - 1]` and `target[j - 1]`. Then, we can get the state transition equation:
 
 $$
 f[i][j] = \begin{cases}
@@ -125,9 +120,9 @@ f[i - 1][j - 1] + 1, & \textit{if } \textit{initial}[i - 1] = \textit{target}[j 
 \end{cases}
 $$
 
-那么 $mx = \max f[i][j]$，最终答案为 $m + n - 2 \times mx$。
+Then $mx = \max f[i][j]$, and the final answer is $m + n - 2 \times mx$.
 
-时间复杂度 $O(m \times n)$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别为字符串 `initial` 和 `target` 的长度。
+The time complexity is $O(m \times n)$, and the space complexity is $O(m \times n)$. Where $m$ and $n$ are the lengths of the strings `initial` and `target`, respectively.
 
 <!-- tabs:start -->
 

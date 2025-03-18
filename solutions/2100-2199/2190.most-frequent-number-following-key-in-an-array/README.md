@@ -1,81 +1,78 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2100-2199/2190.Most%20Frequent%20Number%20Following%20Key%20In%20an%20Array/README.md
+difficulty: Easy
 rating: 1289
-source: 第 73 场双周赛 Q1
+source: Biweekly Contest 73 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 计数
+    - Array
+    - Hash Table
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [2190. 数组中紧跟 key 之后出现最频繁的数字](https://leetcode.cn/problems/most-frequent-number-following-key-in-an-array)
+# [2190. Most Frequent Number Following Key In an Array](https://leetcode.com/problems/most-frequent-number-following-key-in-an-array)
 
-[English Version](/solution/2100-2199/2190.Most%20Frequent%20Number%20Following%20Key%20In%20an%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong>&nbsp;开始的整数数组&nbsp;<code>nums</code>&nbsp;，同时给你一个整数&nbsp;<code>key</code>&nbsp;，它在&nbsp;<code>nums</code>&nbsp;出现过。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>.<strong> </strong>You are also given an integer <code>key</code>, which is present in <code>nums</code>.</p>
 
-<p><strong>统计&nbsp;</strong>在 <code>nums</code>&nbsp;数组中紧跟着 <code>key</code>&nbsp;后面出现的不同整数&nbsp;<code>target</code>&nbsp;的出现次数。换言之，<code>target</code>&nbsp;的出现次数为满足以下条件的 <code>i</code>&nbsp;的数目：</p>
+<p>For every unique integer <code>target</code> in <code>nums</code>, <strong>count</strong> the number of times <code>target</code> immediately follows an occurrence of <code>key</code> in <code>nums</code>. In other words, count the number of indices <code>i</code> such that:</p>
 
 <ul>
-	<li><code>0 &lt;= i &lt;= n - 2</code></li>
-	<li><code>nums[i] == key</code>&nbsp;且</li>
-	<li><code>nums[i + 1] == target</code>&nbsp;。</li>
+	<li><code>0 &lt;= i &lt;= nums.length - 2</code>,</li>
+	<li><code>nums[i] == key</code> and,</li>
+	<li><code>nums[i + 1] == target</code>.</li>
 </ul>
 
-<p>请你返回出现 <strong>最多</strong>&nbsp;次数的<em>&nbsp;</em><code>target</code>&nbsp;。测试数据保证出现次数最多的 <code>target</code>&nbsp;是唯一的。</p>
+<p>Return <em>the </em><code>target</code><em> with the <strong>maximum</strong> count</em>. The test cases will be generated such that the <code>target</code> with maximum count is unique.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>nums = [1,100,200,1,100], key = 1
-<b>输出：</b>100
-<b>解释：</b>对于 target = 100 ，在下标 1 和 4 处出现过 2 次，且都紧跟着 key 。
-没有其他整数在 key 后面紧跟着出现，所以我们返回 100 。
+<pre>
+<strong>Input:</strong> nums = [1,100,200,1,100], key = 1
+<strong>Output:</strong> 100
+<strong>Explanation:</strong> For target = 100, there are 2 occurrences at indices 1 and 4 which follow an occurrence of key.
+No other integers follow an occurrence of key, so we return 100.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>nums = [2,2,2,2,3], key = 2
-<b>输出：</b>2
-<b>解释：</b>对于 target = 2 ，在下标 1 ，2 和 3 处出现过 3 次，且都紧跟着 key 。
-对于 target = 3 ，在下标 4 出出现过 1 次，且紧跟着 key 。
-target = 2 是紧跟着 key 之后出现次数最多的数字，所以我们返回 2 。
+<pre>
+<strong>Input:</strong> nums = [2,2,2,2,3], key = 2
+<strong>Output:</strong> 2
+<strong>Explanation:</strong> For target = 2, there are 3 occurrences at indices 1, 2, and 3 which follow an occurrence of key.
+For target = 3, there is only one occurrence at index 4 which follows an occurrence of key.
+target = 2 has the maximum number of occurrences following an occurrence of key, so we return 2.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>2 &lt;= nums.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 1000</code></li>
-	<li>测试数据保证答案是唯一的。</li>
+	<li>The test cases will be generated such that the answer is unique.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：遍历计数
+### Solution 1: Traversal and Counting
 
-我们用一个哈希表或数组 $\textit{cnt}$ 记录每个 $\textit{target}$ 出现的次数，用一个变量 $\textit{mx}$ 维护 $\textit{target}$ 出现的最大次数，初始时 $\textit{mx} = 0$。
+We use a hash table or an array $\textit{cnt}$ to record the number of occurrences of each $\textit{target}$, and use a variable $\textit{mx}$ to maintain the maximum number of occurrences of $\textit{target}$. Initially, $\textit{mx} = 0$.
 
-遍历数组 $\textit{nums}$，如果 $\textit{nums}[i] = \textit{key}$，则 $\textit{nums}[i + 1]$ 出现的次数 $\textit{cnt}[\textit{nums}[i + 1]]$ 加一，如果此时 $\textit{mx} \lt \textit{cnt}[\textit{nums}[i + 1]]$，则更新 $\textit{mx} = \textit{cnt}[\textit{nums}[i + 1]]$，并更新答案 $\textit{ans} = \textit{nums}[i + 1]$。
+Traverse the array $\textit{nums}$. If $\textit{nums}[i] = \textit{key}$, increment the count of $\textit{nums}[i + 1]$ in $\textit{cnt}[\textit{nums}[i + 1]]$. If $\textit{mx} \lt \textit{cnt}[\textit{nums}[i + 1]]$, update $\textit{mx} = \textit{cnt}[\textit{nums}[i + 1]]$ and update the answer $\textit{ans} = \textit{nums}[i + 1]$.
 
-遍历结束后，返回答案 $\textit{ans}$。
+After the traversal, return the answer $\textit{ans}$.
 
-时间复杂度 $O(n)$，空间复杂度 $O(M)$。其中 $n$ 和 $M$ 分别为数组 $\textit{nums}$ 的长度和数组 $\textit{nums}$ 中元素的最大值。
+The time complexity is $O(n)$, and the space complexity is $O(M)$. Here, $n$ and $M$ are the length of the array $\textit{nums}$ and the maximum value of the elements in the array $\textit{nums}$, respectively.
 
 <!-- tabs:start -->
 

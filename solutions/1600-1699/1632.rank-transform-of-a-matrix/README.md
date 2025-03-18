@@ -1,79 +1,72 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1632.Rank%20Transform%20of%20a%20Matrix/README.md
+difficulty: Hard
 rating: 2529
-source: 第 212 场周赛 Q4
+source: Weekly Contest 212 Q4
 tags:
-    - 并查集
-    - 图
-    - 拓扑排序
-    - 数组
-    - 矩阵
-    - 排序
+    - Union Find
+    - Graph
+    - Topological Sort
+    - Array
+    - Matrix
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1632. 矩阵转换后的秩](https://leetcode.cn/problems/rank-transform-of-a-matrix)
+# [1632. Rank Transform of a Matrix](https://leetcode.com/problems/rank-transform-of-a-matrix)
 
-[English Version](/solution/1600-1699/1632.Rank%20Transform%20of%20a%20Matrix/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个&nbsp;<code>m x n</code>&nbsp;的矩阵 <code>matrix</code>&nbsp;，请你返回一个新的矩阵<em>&nbsp;</em><code>answer</code>&nbsp;，其中<em>&nbsp;</em><code>answer[row][col]</code>&nbsp;是&nbsp;<code>matrix[row][col]</code>&nbsp;的秩。</p>
+<p>Given an <code>m x n</code> <code>matrix</code>, return <em>a new matrix </em><code>answer</code><em> where </em><code>answer[row][col]</code><em> is the </em><em><strong>rank</strong> of </em><code>matrix[row][col]</code>.</p>
 
-<p>每个元素的&nbsp;<b>秩</b>&nbsp;是一个整数，表示这个元素相对于其他元素的大小关系，它按照如下规则计算：</p>
+<p>The <strong>rank</strong> is an <strong>integer</strong> that represents how large an element is compared to other elements. It is calculated using the following rules:</p>
 
 <ul>
-	<li>秩是从 1 开始的一个整数。</li>
-	<li>如果两个元素&nbsp;<code>p</code> 和&nbsp;<code>q</code>&nbsp;在 <strong>同一行</strong>&nbsp;或者 <strong>同一列</strong>&nbsp;，那么：
+	<li>The rank is an integer starting from <code>1</code>.</li>
+	<li>If two elements <code>p</code> and <code>q</code> are in the <strong>same row or column</strong>, then:
 	<ul>
-		<li>如果&nbsp;<code>p &lt; q</code> ，那么&nbsp;<code>rank(p) &lt; rank(q)</code></li>
-		<li>如果&nbsp;<code>p == q</code>&nbsp;，那么&nbsp;<code>rank(p) == rank(q)</code></li>
-		<li>如果&nbsp;<code>p &gt; q</code>&nbsp;，那么&nbsp;<code>rank(p) &gt; rank(q)</code></li>
+		<li>If <code>p &lt; q</code> then <code>rank(p) &lt; rank(q)</code></li>
+		<li>If <code>p == q</code> then <code>rank(p) == rank(q)</code></li>
+		<li>If <code>p &gt; q</code> then <code>rank(p) &gt; rank(q)</code></li>
 	</ul>
 	</li>
-	<li><b>秩</b>&nbsp;需要越 <strong>小</strong>&nbsp;越好。</li>
+	<li>The <strong>rank</strong> should be as <strong>small</strong> as possible.</li>
 </ul>
 
-<p>题目保证按照上面规则&nbsp;<code>answer</code>&nbsp;数组是唯一的。</p>
+<p>The test cases are generated so that <code>answer</code> is unique under the given rules.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1632.Rank%20Transform%20of%20a%20Matrix/images/rank1.jpg" style="width: 442px; height: 162px;" />
 <pre>
-<b>输入：</b>matrix = [[1,2],[3,4]]
-<b>输出：</b>[[1,2],[2,3]]
-<strong>解释：</strong>
-matrix[0][0] 的秩为 1 ，因为它是所在行和列的最小整数。
-matrix[0][1] 的秩为 2 ，因为 matrix[0][1] &gt; matrix[0][0] 且 matrix[0][0] 的秩为 1 。
-matrix[1][0] 的秩为 2 ，因为 matrix[1][0] &gt; matrix[0][0] 且 matrix[0][0] 的秩为 1 。
-matrix[1][1] 的秩为 3 ，因为 matrix[1][1] &gt; matrix[0][1]， matrix[1][1] &gt; matrix[1][0] 且 matrix[0][1] 和 matrix[1][0] 的秩都为 2 。
+<strong>Input:</strong> matrix = [[1,2],[3,4]]
+<strong>Output:</strong> [[1,2],[2,3]]
+<strong>Explanation:</strong>
+The rank of matrix[0][0] is 1 because it is the smallest integer in its row and column.
+The rank of matrix[0][1] is 2 because matrix[0][1] &gt; matrix[0][0] and matrix[0][0] is rank 1.
+The rank of matrix[1][0] is 2 because matrix[1][0] &gt; matrix[0][0] and matrix[0][0] is rank 1.
+The rank of matrix[1][1] is 3 because matrix[1][1] &gt; matrix[0][1], matrix[1][1] &gt; matrix[1][0], and both matrix[0][1] and matrix[1][0] are rank 2.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1632.Rank%20Transform%20of%20a%20Matrix/images/rank2.jpg" style="width: 442px; height: 162px;" />
 <pre>
-<b>输入：</b>matrix = [[7,7],[7,7]]
-<b>输出：</b>[[1,1],[1,1]]
+<strong>Input:</strong> matrix = [[7,7],[7,7]]
+<strong>Output:</strong> [[1,1],[1,1]]
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 <img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/1600-1699/1632.Rank%20Transform%20of%20a%20Matrix/images/rank3.jpg" style="width: 601px; height: 322px;" />
 <pre>
-<b>输入：</b>matrix = [[20,-21,14],[-19,4,19],[22,-47,24],[-19,4,19]]
-<b>输出：</b>[[4,2,3],[1,3,4],[5,1,6],[1,3,4]]
+<strong>Input:</strong> matrix = [[20,-21,14],[-19,4,19],[22,-47,24],[-19,4,19]]
+<strong>Output:</strong> [[4,2,3],[1,3,4],[5,1,6],[1,3,4]]
 </pre>
 
 <p>&nbsp;</p>
-
-<p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == matrix.length</code></li>
@@ -84,19 +77,11 @@ matrix[1][1] 的秩为 3 ，因为 matrix[1][1] &gt; matrix[0][1]， matrix[1][1
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序 + 并查集
-
-我们先考虑简化情形：没有相同的元素。那么显然最小的元素的秩为 $1$，第二小的元素则要考虑是否和最小元素同行或同列。于是得到贪心解法：从小到大遍历元素，并维护每行、每列的最大秩，该元素的秩即为同行、同列的最大秩加 $1$。见题目：[2371. 最小化网格中的最大值](https://github.com/doocs/leetcode/blob/main/solution/2300-2399/2371.Minimize%20Maximum%20Value%20in%20a%20Grid/README.md)。
-
-存在相同元素时则较为复杂，假设两个相同元素同行（或同列），那么就要考虑到两个元素分别对应的行（或列）的最大秩。同时还可能出现联动，比如元素 `a` 和 `b` 同行，`b` 和 `c` 同列，那么要同时考虑这三个元素。
-
-这种联动容易想到并查集，于是我们用并查集将元素分为几个连通块，对于每个连通块，里面所有元素对应的行或列的最大秩加 $1$，即为该连通块内所有元素的秩。
-
-时间复杂度 $O(m \times n \times \log(m \times n))$，空间复杂度 $O(m \times n)$。其中 $m$ 和 $n$ 分别为矩阵的行数和列数。
+### Solution 1
 
 <!-- tabs:start -->
 

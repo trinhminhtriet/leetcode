@@ -1,73 +1,67 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2900-2999/2905.Find%20Indices%20With%20Index%20and%20Value%20Difference%20II/README.md
+difficulty: Medium
 rating: 1763
-source: 第 367 场周赛 Q3
+source: Weekly Contest 367 Q3
 tags:
-    - 数组
-    - 双指针
+    - Array
+    - Two Pointers
 ---
 
 <!-- problem:start -->
 
-# [2905. 找出满足差值条件的下标 II](https://leetcode.cn/problems/find-indices-with-index-and-value-difference-ii)
+# [2905. Find Indices With Index and Value Difference II](https://leetcode.com/problems/find-indices-with-index-and-value-difference-ii)
 
-[English Version](/solution/2900-2999/2905.Find%20Indices%20With%20Index%20and%20Value%20Difference%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个下标从 <strong>0</strong> 开始、长度为 <code>n</code> 的整数数组 <code>nums</code> ，以及整数 <code>indexDifference</code> 和整数 <code>valueDifference</code> 。</p>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> having length <code>n</code>, an integer <code>indexDifference</code>, and an integer <code>valueDifference</code>.</p>
 
-<p>你的任务是从范围 <code>[0, n - 1]</code> 内找出&nbsp; <strong>2</strong> 个满足下述所有条件的下标 <code>i</code> 和 <code>j</code> ：</p>
+<p>Your task is to find <strong>two</strong> indices <code>i</code> and <code>j</code>, both in the range <code>[0, n - 1]</code>, that satisfy the following conditions:</p>
 
 <ul>
-	<li><code>abs(i - j) &gt;= indexDifference</code> 且</li>
+	<li><code>abs(i - j) &gt;= indexDifference</code>, and</li>
 	<li><code>abs(nums[i] - nums[j]) &gt;= valueDifference</code></li>
 </ul>
 
-<p>返回整数数组 <code>answer</code>。如果存在满足题目要求的两个下标，则 <code>answer = [i, j]</code> ；否则，<code>answer = [-1, -1]</code> 。如果存在多组可供选择的下标对，只需要返回其中任意一组即可。</p>
+<p>Return <em>an integer array</em> <code>answer</code>, <em>where</em> <code>answer = [i, j]</code> <em>if there are two such indices</em>, <em>and</em> <code>answer = [-1, -1]</code> <em>otherwise</em>. If there are multiple choices for the two indices, return <em>any of them</em>.</p>
 
-<p><strong>注意：</strong><code>i</code> 和 <code>j</code> 可能 <strong>相等</strong> 。</p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [5,1,4,1], indexDifference = 2, valueDifference = 4
-<strong>输出：</strong>[0,3]
-<strong>解释：</strong>在示例中，可以选择 i = 0 和 j = 3 。
-abs(0 - 3) &gt;= 2 且 abs(nums[0] - nums[3]) &gt;= 4 。
-因此，[0,3] 是一个符合题目要求的答案。
-[3,0] 也是符合题目要求的答案。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [2,1], indexDifference = 0, valueDifference = 0
-<strong>输出：</strong>[0,0]
-<strong>解释：</strong>
-在示例中，可以选择 i = 0 和 j = 0 。 
-abs(0 - 0) &gt;= 0 且 abs(nums[0] - nums[0]) &gt;= 0 。 
-因此，[0,0] 是一个符合题目要求的答案。 
-[0,1]、[1,0] 和 [1,1] 也是符合题目要求的答案。 
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>nums = [1,2,3], indexDifference = 2, valueDifference = 4
-<strong>输出：</strong>[-1,-1]
-<strong>解释：</strong>在示例中，可以证明无法找出 2 个满足所有条件的下标。
-因此，返回 [-1,-1] 。</pre>
+<p><strong>Note:</strong> <code>i</code> and <code>j</code> may be <strong>equal</strong>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> nums = [5,1,4,1], indexDifference = 2, valueDifference = 4
+<strong>Output:</strong> [0,3]
+<strong>Explanation:</strong> In this example, i = 0 and j = 3 can be selected.
+abs(0 - 3) &gt;= 2 and abs(nums[0] - nums[3]) &gt;= 4.
+Hence, a valid answer is [0,3].
+[3,0] is also a valid answer.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [2,1], indexDifference = 0, valueDifference = 0
+<strong>Output:</strong> [0,0]
+<strong>Explanation:</strong> In this example, i = 0 and j = 0 can be selected.
+abs(0 - 0) &gt;= 0 and abs(nums[0] - nums[0]) &gt;= 0.
+Hence, a valid answer is [0,0].
+Other valid answers are [0,1], [1,0], and [1,1].
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> nums = [1,2,3], indexDifference = 2, valueDifference = 4
+<strong>Output:</strong> [-1,-1]
+<strong>Explanation:</strong> In this example, it can be shown that it is impossible to find two indices that satisfy both conditions.
+Hence, [-1,-1] is returned.</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= n == nums.length &lt;= 10<sup>5</sup></code></li>
@@ -78,11 +72,11 @@ abs(0 - 0) &gt;= 0 且 abs(nums[0] - nums[0]) &gt;= 0 。
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

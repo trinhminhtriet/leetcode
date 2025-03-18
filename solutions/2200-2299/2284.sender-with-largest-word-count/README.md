@@ -1,85 +1,82 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2200-2299/2284.Sender%20With%20Largest%20Word%20Count/README.md
+difficulty: Medium
 rating: 1346
-source: 第 79 场双周赛 Q2
+source: Biweekly Contest 79 Q2
 tags:
-    - 数组
-    - 哈希表
-    - 字符串
-    - 计数
+    - Array
+    - Hash Table
+    - String
+    - Counting
 ---
 
 <!-- problem:start -->
 
-# [2284. 最多单词数的发件人](https://leetcode.cn/problems/sender-with-largest-word-count)
+# [2284. Sender With Largest Word Count](https://leetcode.com/problems/sender-with-largest-word-count)
 
-[English Version](/solution/2200-2299/2284.Sender%20With%20Largest%20Word%20Count/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个聊天记录，共包含 <code>n</code>&nbsp;条信息。给你两个字符串数组&nbsp;<code>messages</code> 和&nbsp;<code>senders</code>&nbsp;，其中&nbsp;<code>messages[i]</code>&nbsp;是&nbsp;<code>senders[i]</code>&nbsp;发出的一条&nbsp;<strong>信息</strong>&nbsp;。</p>
+<p>You have a chat log of <code>n</code> messages. You are given two string arrays <code>messages</code> and <code>senders</code> where <code>messages[i]</code> is a <strong>message</strong> sent by <code>senders[i]</code>.</p>
 
-<p>一条 <strong>信息</strong>&nbsp;是若干用单个空格连接的 <strong>单词</strong>&nbsp;，信息开头和结尾不会有多余空格。发件人的 <strong>单词计数</strong>&nbsp;是这个发件人总共发出的 <strong>单词数</strong>&nbsp;。注意，一个发件人可能会发出多于一条信息。</p>
+<p>A <strong>message</strong> is list of <strong>words</strong> that are separated by a single space with no leading or trailing spaces. The <strong>word count</strong> of a sender is the total number of <strong>words</strong> sent by the sender. Note that a sender may send more than one message.</p>
 
-<p>请你返回发出单词数 <strong>最多</strong>&nbsp;的发件人名字。如果有多个发件人发出最多单词数，请你返回 <strong>字典序</strong>&nbsp;最大的名字。</p>
+<p>Return <em>the sender with the <strong>largest</strong> word count</em>. If there is more than one sender with the largest word count, return <em>the one with the <strong>lexicographically largest</strong> name</em>.</p>
 
-<p><strong>注意：</strong></p>
+<p><strong>Note:</strong></p>
 
 <ul>
-	<li>字典序里，大写字母小于小写字母。</li>
-	<li><code>"Alice"</code> 和&nbsp;<code>"alice"</code>&nbsp;是不同的名字。</li>
+	<li>Uppercase letters come before lowercase letters in lexicographical order.</li>
+	<li><code>&quot;Alice&quot;</code> and <code>&quot;alice&quot;</code> are distinct.</li>
 </ul>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><b>输入：</b>messages = ["Hello userTwooo","Hi userThree","Wonderful day Alice","Nice day userThree"], senders = ["Alice","userTwo","userThree","Alice"]
-<b>输出：</b>"Alice"
-<b>解释：</b>Alice 总共发出了 2 + 3 = 5 个单词。
-userTwo 发出了 2 个单词。
-userThree 发出了 3 个单词。
-由于 Alice 发出单词数最多，所以我们返回 "Alice" 。
+<pre>
+<strong>Input:</strong> messages = [&quot;Hello userTwooo&quot;,&quot;Hi userThree&quot;,&quot;Wonderful day Alice&quot;,&quot;Nice day userThree&quot;], senders = [&quot;Alice&quot;,&quot;userTwo&quot;,&quot;userThree&quot;,&quot;Alice&quot;]
+<strong>Output:</strong> &quot;Alice&quot;
+<strong>Explanation:</strong> Alice sends a total of 2 + 3 = 5 words.
+userTwo sends a total of 2 words.
+userThree sends a total of 3 words.
+Since Alice has the largest word count, we return &quot;Alice&quot;.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><b>输入：</b>messages = ["How is leetcode for everyone","Leetcode is useful for practice"], senders = ["Bob","Charlie"]
-<b>输出：</b>"Charlie"
-<b>解释：</b>Bob 总共发出了 5 个单词。
-Charlie 总共发出了 5 个单词。
-由于最多单词数打平，返回字典序最大的名字，也就是 Charlie 。</pre>
+<pre>
+<strong>Input:</strong> messages = [&quot;How is leetcode for everyone&quot;,&quot;Leetcode is useful for practice&quot;], senders = [&quot;Bob&quot;,&quot;Charlie&quot;]
+<strong>Output:</strong> &quot;Charlie&quot;
+<strong>Explanation:</strong> Bob sends a total of 5 words.
+Charlie sends a total of 5 words.
+Since there is a tie for the largest word count, we return the sender with the lexicographically larger name, Charlie.</pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == messages.length == senders.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10<sup>4</sup></code></li>
 	<li><code>1 &lt;= messages[i].length &lt;= 100</code></li>
 	<li><code>1 &lt;= senders[i].length &lt;= 10</code></li>
-	<li><code>messages[i]</code>&nbsp;包含大写字母、小写字母和&nbsp;<code>' '</code>&nbsp;。</li>
-	<li><code>messages[i]</code>&nbsp;中所有单词都由 <strong>单个空格</strong>&nbsp;隔开。</li>
-	<li><code>messages[i]</code>&nbsp;不包含前导和后缀空格。</li>
-	<li><code>senders[i]</code>&nbsp;只包含大写英文字母和小写英文字母。</li>
+	<li><code>messages[i]</code> consists of uppercase and lowercase English letters and <code>&#39; &#39;</code>.</li>
+	<li>All the words in <code>messages[i]</code> are separated by <strong>a single space</strong>.</li>
+	<li><code>messages[i]</code> does not have leading or trailing spaces.</li>
+	<li><code>senders[i]</code> consists of uppercase and lowercase English letters only.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：哈希表 + 枚举
+### Solution 1: Hash Table + Enumeration
 
-我们可以用一个哈希表 $\textit{cnt}$ 记录每个发件人的单词数，然后遍历哈希表找到单词数最多的发件人，如果有多个发件人发出最多单词数，我们返回字典序最大的名字。
+We can use a hash table $\textit{cnt}$ to record the word count for each sender. Then, we traverse the hash table to find the sender with the highest word count. If there are multiple senders with the highest word count, we return the name that is lexicographically largest.
 
-时间复杂度 $O(n + L)$，空间复杂度 $O(n)$，其中 $n$ 是消息的数量，而 $L$ 是所有消息的总长度。
+The time complexity is $O(n + L)$, and the space complexity is $O(n)$, where $n$ is the number of messages and $L$ is the total length of all messages.
 
 <!-- tabs:start -->
 

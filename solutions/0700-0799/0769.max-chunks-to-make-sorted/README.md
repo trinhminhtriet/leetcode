@@ -1,76 +1,70 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0769.Max%20Chunks%20To%20Make%20Sorted/README.md
+difficulty: Medium
 tags:
-    - 栈
-    - 贪心
-    - 数组
-    - 排序
-    - 单调栈
+    - Stack
+    - Greedy
+    - Array
+    - Sorting
+    - Monotonic Stack
 ---
 
 <!-- problem:start -->
 
-# [769. 最多能完成排序的块](https://leetcode.cn/problems/max-chunks-to-make-sorted)
+# [769. Max Chunks To Make Sorted](https://leetcode.com/problems/max-chunks-to-make-sorted)
 
-[English Version](/solution/0700-0799/0769.Max%20Chunks%20To%20Make%20Sorted/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个长度为 <code>n</code> 的整数数组 <code>arr</code> ，它表示在 <code>[0, n - 1]</code> 范围内的整数的排列。</p>
+<p>You are given an integer array <code>arr</code> of length <code>n</code> that represents a permutation of the integers in the range <code>[0, n - 1]</code>.</p>
 
-<p>我们将 <code>arr</code> 分割成若干 <strong>块</strong> (即分区)，并对每个块单独排序。将它们连接起来后，使得连接的结果和按升序排序后的原数组相同。</p>
+<p>We split <code>arr</code> into some number of <strong>chunks</strong> (i.e., partitions), and individually sort each chunk. After concatenating them, the result should equal the sorted array.</p>
 
-<p>返回数组能分成的最多块数量。</p>
+<p>Return <em>the largest number of chunks we can make to sort the array</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> arr = [4,3,2,1,0]
-<strong>输出:</strong> 1
-<strong>解释:</strong>
-将数组分成2块或者更多块，都无法得到所需的结果。
-例如，分成 [4, 3], [2, 1, 0] 的结果是 [3, 4, 0, 1, 2]，这不是有序的数组。
+<strong>Input:</strong> arr = [4,3,2,1,0]
+<strong>Output:</strong> 1
+<strong>Explanation:</strong>
+Splitting into two or more chunks will not return the required result.
+For example, splitting into [4, 3], [2, 1, 0] will result in [3, 4, 0, 1, 2], which isn&#39;t sorted.
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> arr = [1,0,2,3,4]
-<strong>输出:</strong> 4
-<strong>解释:</strong>
-我们可以把它分成两块，例如 [1, 0], [2, 3, 4]。
-然而，分成 [1, 0], [2], [3], [4] 可以得到最多的块数。
-对每个块单独排序后，结果为 [0, 1], [2], [3], [4]
+<strong>Input:</strong> arr = [1,0,2,3,4]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong>
+We can split into two chunks, such as [1, 0], [2, 3, 4].
+However, splitting into [1, 0], [2], [3], [4] is the highest number of chunks possible.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>n == arr.length</code></li>
 	<li><code>1 &lt;= n &lt;= 10</code></li>
 	<li><code>0 &lt;= arr[i] &lt; n</code></li>
-	<li><code>arr</code>&nbsp;中每个元素都 <strong>不同</strong></li>
+	<li>All the elements of <code>arr</code> are <strong>unique</strong>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 一次遍历
+### Solution 1: Greedy + One Pass
 
-由于 $\textit{arr}$ 是 $[0,..,n-1]$ 的一个排列，若已遍历过的数中的最大值 $\textit{mx}$ 与当前遍历到的下标 $i$ 相等，说明可以进行一次分割，累加答案。
+Since $\textit{arr}$ is a permutation of $[0,..,n-1]$, if the maximum value $\textit{mx}$ among the numbers traversed so far is equal to the current index $i$, it means a split can be made, and the answer is incremented.
 
-时间复杂度 $O(n)$，空间复杂度 $O(1)$。其中 $n$ 为数组 $\textit{arr}$ 的长度。
+Time complexity is $O(n)$, and space complexity is $O(1)$. Where $n$ is the length of the array $\textit{arr}$.
 
 <!-- tabs:start -->
 
@@ -194,15 +188,15 @@ int maxChunksToSorted(int* arr, int arrSize) {
 
 <!-- solution:start -->
 
-### 方法二：单调栈
+### Solution 2: Monotonic Stack
 
-方法一的解法有一定的局限性，若数组中存在重复元素，就无法得到正确的答案。
+The solution of method one has certain limitations. If there are duplicate elements in the array, the correct answer cannot be obtained.
 
-根据题目，我们可以发现，从左到右，每个分块都有一个最大值，并且这些分块的最大值呈单调递增。我们可以用一个栈来存储这些分块的最大值。最后得到的栈的大小，也就是题目所求的最多能完成排序的块。
+According to the problem, we can find that from left to right, each chunk has a maximum value, and these maximum values are monotonically increasing. We can use a stack to store these maximum values of the chunks. The size of the final stack is the maximum number of chunks that can be sorted.
 
-以上这种解法，不仅可以解决本题，也可以解决 [768. 最多能完成排序的块 II](https://github.com/doocs/leetcode/blob/main/solution/0700-0799/0768.Max%20Chunks%20To%20Make%20Sorted%20II/README.md) 这道困难题。大家可以自行尝试。
+This solution can not only solve this problem but also solve the problem 768. Max Chunks To Make Sorted II. You can try it yourself.
 
-时间复杂度 $O(n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{arr}$ 的长度。
+Time complexity is $O(n)$, and space complexity is $O(n)$. Where $n$ is the length of the array $\textit{arr}$.
 
 <!-- tabs:start -->
 

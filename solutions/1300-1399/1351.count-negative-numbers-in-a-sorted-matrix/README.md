@@ -1,47 +1,42 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1300-1399/1351.Count%20Negative%20Numbers%20in%20a%20Sorted%20Matrix/README.md
+difficulty: Easy
 rating: 1139
-source: 第 176 场周赛 Q1
+source: Weekly Contest 176 Q1
 tags:
-    - 数组
-    - 二分查找
-    - 矩阵
+    - Array
+    - Binary Search
+    - Matrix
 ---
 
 <!-- problem:start -->
 
-# [1351. 统计有序矩阵中的负数](https://leetcode.cn/problems/count-negative-numbers-in-a-sorted-matrix)
+# [1351. Count Negative Numbers in a Sorted Matrix](https://leetcode.com/problems/count-negative-numbers-in-a-sorted-matrix)
 
-[English Version](/solution/1300-1399/1351.Count%20Negative%20Numbers%20in%20a%20Sorted%20Matrix/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个&nbsp;<code>m&nbsp;* n</code>&nbsp;的矩阵&nbsp;<code>grid</code>，矩阵中的元素无论是按行还是按列，都以非严格递减顺序排列。&nbsp;请你统计并返回&nbsp;<code>grid</code>&nbsp;中 <strong>负数</strong> 的数目。</p>
+<p>Given a <code>m x n</code> matrix <code>grid</code> which is sorted in non-increasing order both row-wise and column-wise, return <em>the number of <strong>negative</strong> numbers in</em> <code>grid</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>grid = [[4,3,2,-1],[3,2,1,-1],[1,1,-1,-2],[-1,-1,-2,-3]]
-<strong>输出：</strong>8
-<strong>解释：</strong>矩阵中共有 8 个负数。
+<strong>Input:</strong> grid = [[4,3,2,-1],[3,2,1,-1],[1,1,-1,-2],[-1,-1,-2,-3]]
+<strong>Output:</strong> 8
+<strong>Explanation:</strong> There are 8 negatives number in the matrix.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>grid = [[3,2],[1,0]]
-<strong>输出：</strong>0
+<strong>Input:</strong> grid = [[3,2],[1,0]]
+<strong>Output:</strong> 0
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>m == grid.length</code></li>
@@ -51,24 +46,23 @@ tags:
 </ul>
 
 <p>&nbsp;</p>
-
-<p><strong>进阶：</strong>你可以设计一个时间复杂度为 <code>O(n + m)</code> 的解决方案吗？</p>
+<strong>Follow up:</strong> Could you find an <code>O(n + m)</code> solution?
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：从左下角或右上角开始遍历
+### Solution 1: Start Traversing from the Bottom Left or Top Right
 
-根据**其行列都以非递增顺序排列**的特点，可以从**左下角**开始**往右上方向遍历**。
+According to the characteristic that **both rows and columns are arranged in non-increasing order**, we can start traversing from the **bottom left corner** towards the **top right direction**.
 
-当遇到负数时，说明这一行从当前位置开始往右的所有元素均为负数，我们将答案加上这一行剩余的元素个数，即 $n - j$，并且向上移动一行，即 $i \leftarrow i - 1$。否则，向右移动一列，即 $j \leftarrow j + 1$。
+When encountering a negative number, it indicates that all elements to the right of the current position in this row are negative. We add the number of remaining elements in this row to the answer, that is, $n - j$, and move up a row, that is, $i \leftarrow i - 1$. Otherwise, move to the right column, that is, $j \leftarrow j + 1$.
 
-遍历结束，返回答案。
+After the traversal is over, return the answer.
 
-时间复杂度 $O(m + n)$，其中 $m$ 和 $n$ 分别为矩阵的行数和列数。空间复杂度 $O(1)$。
+The time complexity is $O(m + n)$, where $m$ and $n$ are the number of rows and columns of the matrix, respectively. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -220,13 +214,13 @@ var countNegatives = function (grid) {
 
 <!-- solution:start -->
 
-### 方法二：二分查找
+### Solution 2: Binary Search
 
-遍历每一行，二分查找每一行第一个小于 $0$ 的位置，从该位置开始往右的所有元素均为负数，累加负数个数到答案中。
+Traverse each row, use binary search to find the first position less than $0$ in each row. All elements to the right of this position are negative, and add the number of negative numbers to the answer.
 
-遍历结束，返回答案。
+After the traversal is over, return the answer.
 
-时间复杂度 $O(m \times \log n)$，其中 $m$ 和 $n$ 分别为矩阵的行数和列数。空间复杂度 $O(1)$。
+The time complexity is $O(m \times \log n)$, where $m$ and $n$ are the number of rows and columns of the matrix, respectively. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

@@ -1,63 +1,58 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3231.Minimum%20Number%20of%20Increasing%20Subsequence%20to%20Be%20Removed/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 二分查找
+    - Array
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [3231. 要删除的递增子序列的最小数量 🔒](https://leetcode.cn/problems/minimum-number-of-increasing-subsequence-to-be-removed)
+# [3231. Minimum Number of Increasing Subsequence to Be Removed 🔒](https://leetcode.com/problems/minimum-number-of-increasing-subsequence-to-be-removed)
 
-[English Version](/solution/3200-3299/3231.Minimum%20Number%20of%20Increasing%20Subsequence%20to%20Be%20Removed/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数数组&nbsp;<code>nums</code>，你可以执行任意次下面的操作：</p>
+<p>Given an array of integers <code>nums</code>, you are allowed to perform the following operation any number of times:</p>
 
 <ul>
-	<li>从数组删除一个 <strong>严格递增</strong> 的 <span data-keyword="subsequence-array">子序列</span>。</li>
+	<li>Remove a <strong>strictly increasing</strong> <span data-keyword="subsequence-array">subsequence</span> from the array.</li>
 </ul>
 
-<p>您的任务是找到使数组为 <strong>空</strong> 所需的 <strong>最小</strong> 操作数。</p>
+<p>Your task is to find the <strong>minimum</strong> number of operations required to make the array <strong>empty</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b>nums = [5,3,1,4,2]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [5,3,1,4,2]</span></p>
 
-<p><span class="example-io"><b>输出：</b>3</span></p>
+<p><strong>Output:</strong> <span class="example-io">3</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p>我们删除子序列&nbsp;<code>[1, 2]</code>，<code>[3, 4]</code>，<code>[5]</code>。</p>
+<p>We remove subsequences <code>[1, 2]</code>, <code>[3, 4]</code>, <code>[5]</code>.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b></span><span class="example-io">nums = [1,2,3,4,5]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [1,2,3,4,5]</span></p>
 
-<p><span class="example-io"><b>输出：</b></span><span class="example-io">1</span></p>
+<p><strong>Output:</strong> <span class="example-io">1</span></p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><span class="example-io"><b>输入：</b></span><span class="example-io">nums = [5,4,3,2,1]</span></p>
+<p><strong>Input:</strong> <span class="example-io">nums = [5,4,3,2,1]</span></p>
 
-<p><span class="example-io"><b>输出：</b></span><span class="example-io">5</span></p>
+<p><strong>Output:</strong> <span class="example-io">5</span></p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -66,19 +61,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：贪心 + 二分查找
+### Solution 1: Greedy + Binary Search
 
-我们从左到右遍历数组 $\textit{nums}$，对于每个元素 $x$，我们需要贪心地将其追加到前面序列中最后一个元素小于 $x$ 的最大值后面。如果找不到这样的元素，则说明当前元素 $x$ 比前面序列中的所有元素都小，我们需要新开辟一个序列，将 $x$ 放入其中。
+We traverse the array $\textit{nums}$ from left to right. For each element $x$, we need to greedily append it after the last element of the preceding sequence that is smaller than $x$. If no such element is found, it means the current element $x$ is smaller than all elements in the preceding sequences, and we need to start a new sequence with $x$.
 
-这样分析下来，我们可以发现，前面序列中的最后一个元素呈单调递减的状态。因此，我们可以使用二分查找来找到前面序列中最后一个元素小于 $x$ 的第一个元素位置，然后将 $x$ 放入该位置。
+From this analysis, we can observe that the last elements of the preceding sequences are in a monotonically decreasing order. Therefore, we can use binary search to find the position of the first element in the preceding sequences that is smaller than $x$, and then place $x$ in that position.
 
-最终，我们返回序列的个数即可。
+Finally, we return the number of sequences.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $\textit{nums}$ 的长度。
+The time complexity is $O(n \log n)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $\textit{nums}$.
 
 <!-- tabs:start -->
 

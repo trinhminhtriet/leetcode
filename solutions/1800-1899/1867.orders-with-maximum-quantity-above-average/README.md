@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1867.Orders%20With%20Maximum%20Quantity%20Above%20Average/README.md
+difficulty: Medium
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [1867. 最大数量高于平均水平的订单 🔒](https://leetcode.cn/problems/orders-with-maximum-quantity-above-average)
+# [1867. Orders With Maximum Quantity Above Average 🔒](https://leetcode.com/problems/orders-with-maximum-quantity-above-average)
 
-[English Version](/solution/1800-1899/1867.Orders%20With%20Maximum%20Quantity%20Above%20Average/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>&nbsp;<code>OrdersDetails</code> 表</p>
+<p>Table: <code>OrdersDetails</code></p>
 
 <pre>
 +-------------+------+
@@ -26,30 +23,29 @@ tags:
 | product_id  | int  |
 | quantity    | int  |
 +-------------+------+
-(order_id, product_id) 是此表的主键。
-单个订单表示为多行，订单中的每个产品对应一行。
-此表的每一行都包含订单id中产品id的订购数量。
+(order_id, product_id) is the primary key (combination of columns with unique values) for this table.
+A single order is represented as multiple rows, one row for each product in the order.
+Each row of this table contains the quantity ordered of the product product_id in the order order_id.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>您正在运行一个电子商务网站，该网站正在寻找不平衡的订单。不平衡订单的订单最大数量严格大于每个订单（包括订单本身）的平均数量。</p>
+<p>You are running an e-commerce site that is looking for <strong>imbalanced orders</strong>. An <strong>imbalanced order</strong> is one whose <strong>maximum</strong> quantity is <strong>strictly greater</strong> than the <strong>average</strong> quantity of <strong>every order (including itself)</strong>.</p>
 
-<p>订单的平均数量计算为（订单中所有产品的总数量）/（订单中不同产品的数量）。订单的最大数量是订单中任何单个产品的最高数量。</p>
+<p>The <strong>average </strong>quantity of an order is calculated as <code>(total quantity of all products in the order) / (number of different products in the order)</code>. The <strong>maximum</strong> quantity of an order is the highest <code>quantity</code> of any single product in the order.</p>
 
-<p>编写SQL查询以查找所有不平衡订单的订单id。</p>
+<p>Write a solution to find the <code>order_id</code> of all <strong>imbalanced orders</strong>.</p>
 
-<p>按任意顺序返回结果表。</p>
+<p>Return the result table in <strong>any order</strong>.</p>
 
-<p>查询结果格式如下例所示。</p>
+<p>The&nbsp;result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> 
-OrdersDetails 表:
+<strong>Input:</strong> 
+OrdersDetails table:
 +----------+------------+----------+
 | order_id | product_id | quantity |
 +----------+------------+----------+
@@ -68,38 +64,38 @@ OrdersDetails 表:
 | 3        | 9          | 20       |
 | 2        | 9          | 4        |
 +----------+------------+----------+
-<strong>输出:</strong> 
+<strong>Output:</strong> 
 +----------+
 | order_id |
 +----------+
 | 1        |
 | 3        |
 +----------+
-<strong>解释:</strong> 
-每份订单的平均数量为:
+<strong>Explanation:</strong> 
+The average quantity of each order is:
 - order_id=1: (12+10+15)/3 = 12.3333333
 - order_id=2: (8+4+6+4)/4 = 5.5
 - order_id=3: (5+18+20)/3 = 14.333333
 - order_id=4: (2+8)/2 = 5
 - order_id=5: (9+9)/2 = 9
 
-每个订单的最大数量为:
+The maximum quantity of each order is:
 - order_id=1: max(12, 10, 15) = 15
 - order_id=2: max(8, 4, 6, 4) = 8
 - order_id=3: max(5, 18, 20) = 20
 - order_id=4: max(2, 8) = 8
 - order_id=5: max(9, 9) = 9
 
-订单1和订单3是不平衡的，因为它们的最大数量超过了它们订单的平均数量。
+Orders 1 and 3 are imbalanced because they have a maximum quantity that exceeds the average quantity of every order.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

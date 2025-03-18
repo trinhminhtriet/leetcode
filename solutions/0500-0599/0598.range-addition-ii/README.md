@@ -1,79 +1,70 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0500-0599/0598.Range%20Addition%20II/README.md
+difficulty: Easy
 tags:
-    - 数组
-    - 数学
+    - Array
+    - Math
 ---
 
 <!-- problem:start -->
 
-# [598. 区间加法 II](https://leetcode.cn/problems/range-addition-ii)
+# [598. Range Addition II](https://leetcode.com/problems/range-addition-ii)
 
-[English Version](/solution/0500-0599/0598.Range%20Addition%20II/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <code>m x&nbsp;n</code> 的矩阵&nbsp;<code>M</code><strong> </strong>和一个操作数组 <code>op</code> 。矩阵初始化时所有的单元格都为 <code>0</code> 。<code>ops[i] = [ai, bi]</code> 意味着当所有的 <code>0 &lt;= x &lt; ai</code> 和 <code>0 &lt;= y &lt; bi</code> 时， <code>M[x][y]</code> 应该加 1。</p>
+<p>You are given an <code>m x n</code> matrix <code>M</code> initialized with all <code>0</code>&#39;s and an array of operations <code>ops</code>, where <code>ops[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> means <code>M[x][y]</code> should be incremented by one for all <code>0 &lt;= x &lt; a<sub>i</sub></code> and <code>0 &lt;= y &lt; b<sub>i</sub></code>.</p>
 
-<p>在&nbsp;<em>执行完所有操作后</em>&nbsp;，计算并返回&nbsp;<em>矩阵中最大整数的个数</em>&nbsp;。</p>
+<p>Count and return <em>the number of maximum integers in the matrix after performing all the operations</em>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<p><img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0598.Range%20Addition%20II/images/ex1.jpg" style="height: 176px; width: 750px;" /></p>
-
+<p><strong class="example">Example 1:</strong></p>
+<img alt="" src="https://fastly.jsdelivr.net/gh/doocs/leetcode@main/solution/0500-0599/0598.Range%20Addition%20II/images/ex1.jpg" style="width: 750px; height: 176px;" />
 <pre>
-<strong>输入:</strong> m = 3, n = 3，ops = [[2,2],[3,3]]
-<strong>输出:</strong> 4
-<strong>解释:</strong> M 中最大的整数是 2, 而且 M 中有4个值为2的元素。因此返回 4。
+<strong>Input:</strong> m = 3, n = 3, ops = [[2,2],[3,3]]
+<strong>Output:</strong> 4
+<strong>Explanation:</strong> The maximum integer in M is 2, and there are four of it in M. So return 4.
 </pre>
 
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入:</strong> m = 3, n = 3, ops = [[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3]]
-<strong>输出:</strong> 4
+<strong>Input:</strong> m = 3, n = 3, ops = [[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3]]
+<strong>Output:</strong> 4
 </pre>
 
-<p><strong>示例 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入:</strong> m = 3, n = 3, ops = []
-<strong>输出:</strong> 9
+<strong>Input:</strong> m = 3, n = 3, ops = []
+<strong>Output:</strong> 9
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
-
-<p><meta charset="UTF-8" /></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= m, n &lt;= 4 * 10<sup>4</sup></code></li>
 	<li><code>0 &lt;= ops.length &lt;= 10<sup>4</sup></code></li>
 	<li><code>ops[i].length == 2</code></li>
-	<li><code>1 &lt;= a<sub>i</sub>&nbsp;&lt;= m</code></li>
-	<li><code>1 &lt;= b<sub>i</sub>&nbsp;&lt;= n</code></li>
+	<li><code>1 &lt;= a<sub>i</sub> &lt;= m</code></li>
+	<li><code>1 &lt;= b<sub>i</sub> &lt;= n</code></li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：脑筋急转弯
+### Solution 1: Brain Teaser
 
-我们注意到，所有操作子矩阵的交集就是最终的最大整数所在的子矩阵，并且每个操作子矩阵都是从左上角 $(0, 0)$ 开始的，因此，我们遍历所有操作子矩阵，求出行数和列数的最小值，最后返回这两个值的乘积即可。
+We notice that the intersection of all operation submatrices is the submatrix where the final maximum integer is located, and each operation submatrix starts from the top-left corner $(0, 0)$. Therefore, we traverse all operation submatrices to find the minimum number of rows and columns. Finally, we return the product of these two values.
 
-注意，如果操作数组为空，那么矩阵中的最大整数个数就是 $m \times n$。
+Note that if the operation array is empty, the number of maximum integers in the matrix is $m \times n$.
 
-时间复杂度 $O(k)$，其中 $k$ 是操作数组 $\textit{ops}$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(k)$, where $k$ is the length of the operation array $\textit{ops}$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
@@ -108,7 +99,7 @@ class Solution {
 class Solution {
 public:
     int maxCount(int m, int n, vector<vector<int>>& ops) {
-        for (auto op : ops) {
+        for (const auto& op : ops) {
             m = min(m, op[0]);
             n = min(n, op[1]);
         }

@@ -1,59 +1,53 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/0700-0799/0798.Smallest%20Rotation%20with%20Highest%20Score/README.md
+difficulty: Hard
 tags:
-    - 数组
-    - 前缀和
+    - Array
+    - Prefix Sum
 ---
 
 <!-- problem:start -->
 
-# [798. 得分最高的最小轮调](https://leetcode.cn/problems/smallest-rotation-with-highest-score)
+# [798. Smallest Rotation with Highest Score](https://leetcode.com/problems/smallest-rotation-with-highest-score)
 
-[English Version](/solution/0700-0799/0798.Smallest%20Rotation%20with%20Highest%20Score/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个数组&nbsp;<code>nums</code>，我们可以将它按一个非负整数 <code>k</code> 进行轮调，这样可以使数组变为&nbsp;<code>[nums[k], nums[k + 1], ... nums[nums.length - 1], nums[0], nums[1], ..., nums[k-1]]</code>&nbsp;的形式。此后，任何值小于或等于其索引的项都可以记作一分。</p>
+<p>You are given an array <code>nums</code>. You can rotate it by a non-negative integer <code>k</code> so that the array becomes <code>[nums[k], nums[k + 1], ... nums[nums.length - 1], nums[0], nums[1], ..., nums[k-1]]</code>. Afterward, any entries that are less than or equal to their index are worth one point.</p>
 
 <ul>
-	<li>例如，数组为&nbsp;<code>nums = [2,4,1,3,0]</code>，我们按&nbsp;<code>k = 2</code>&nbsp;进行轮调后，它将变成&nbsp;<code>[1,3,0,2,4]</code>。这将记为 <code>3</code> 分，因为 <code>1 &gt; 0</code> [不计分]、<code>3 &gt; 1</code> [不计分]、<code>0 &lt;= 2</code> [计 1 分]、<code>2 &lt;= 3</code> [计 1 分]，<code>4 &lt;= 4</code> [计 1 分]。</li>
+	<li>For example, if we have <code>nums = [2,4,1,3,0]</code>, and we rotate by <code>k = 2</code>, it becomes <code>[1,3,0,2,4]</code>. This is worth <code>3</code> points because <code>1 &gt; 0</code> [no points], <code>3 &gt; 1</code> [no points], <code>0 &lt;= 2</code> [one point], <code>2 &lt;= 3</code> [one point], <code>4 &lt;= 4</code> [one point].</li>
 </ul>
 
-<p>在所有可能的轮调中，返回我们所能得到的最高分数对应的轮调下标 <code>k</code> 。如果有多个答案，返回满足条件的最小的下标 <code>k</code> 。</p>
+<p>Return <em>the rotation index </em><code>k</code><em> that corresponds to the highest score we can achieve if we rotated </em><code>nums</code><em> by it</em>. If there are multiple answers, return the smallest such index <code>k</code>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [2,3,1,4,0]
-<strong>输出：</strong>3
-<strong>解释：</strong>
-下面列出了每个 k 的得分：
+<strong>Input:</strong> nums = [2,3,1,4,0]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> Scores for each k are listed below: 
 k = 0,  nums = [2,3,1,4,0],    score 2
 k = 1,  nums = [3,1,4,0,2],    score 3
 k = 2,  nums = [1,4,0,2,3],    score 3
 k = 3,  nums = [4,0,2,3,1],    score 4
 k = 4,  nums = [0,2,3,1,4],    score 3
-所以我们应当选择&nbsp;k = 3，得分最高。</pre>
+So we should choose k = 3, which has the highest score.
+</pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<strong>输入：</strong>nums = [1,3,0,2,4]
-<strong>输出：</strong>0
-<strong>解释：</strong>
-nums 无论怎么变化总是有 3 分。
-所以我们将选择最小的 k，即 0。
+<strong>Input:</strong> nums = [1,3,0,2,4]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> nums will always have 3 points no matter how it shifts.
+So we will choose the smallest k, which is 0.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
@@ -62,13 +56,11 @@ nums 无论怎么变化总是有 3 分。
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：差分数组
-
-对于每个数，都有一个固定的 k 生效区间。我们先利用差分，预处理每个数的 k 生效区间。有最多个数能覆盖到的 k 即是答案。
+### Solution 1
 
 <!-- tabs:start -->
 

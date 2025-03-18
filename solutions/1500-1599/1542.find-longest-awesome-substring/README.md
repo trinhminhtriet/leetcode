@@ -1,90 +1,77 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1500-1599/1542.Find%20Longest%20Awesome%20Substring/README.md
+difficulty: Hard
 rating: 2221
-source: 第 32 场双周赛 Q4
+source: Biweekly Contest 32 Q4
 tags:
-    - 位运算
-    - 哈希表
-    - 字符串
+    - Bit Manipulation
+    - Hash Table
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1542. 找出最长的超赞子字符串](https://leetcode.cn/problems/find-longest-awesome-substring)
+# [1542. Find Longest Awesome Substring](https://leetcode.com/problems/find-longest-awesome-substring)
 
-[English Version](/solution/1500-1599/1542.Find%20Longest%20Awesome%20Substring/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个字符串 <code>s</code> 。请返回 <code>s</code> 中最长的 <strong>超赞子字符串</strong> 的长度。</p>
+<p>You are given a string <code>s</code>. An <strong>awesome</strong> substring is a non-empty substring of <code>s</code> such that we can make any number of swaps in order to make it a palindrome.</p>
 
-<p>「超赞子字符串」需满足满足下述两个条件：</p>
-
-<ul>
-	<li>该字符串是 <code>s</code> 的一个非空子字符串</li>
-	<li>进行任意次数的字符交换后，该字符串可以变成一个回文字符串</li>
-</ul>
+<p>Return <em>the length of the maximum length <strong>awesome substring</strong> of</em> <code>s</code>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>示例 1：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;3242415&quot;
-<strong>输出：</strong>5
-<strong>解释：</strong>&quot;24241&quot; 是最长的超赞子字符串，交换其中的字符后，可以得到回文 &quot;24142&quot;
+<pre>
+<strong>Input:</strong> s = &quot;3242415&quot;
+<strong>Output:</strong> 5
+<strong>Explanation:</strong> &quot;24241&quot; is the longest awesome substring, we can form the palindrome &quot;24142&quot; with some swaps.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>输入：</strong>s = &quot;12345678&quot;
-<strong>输出：</strong>1
+<pre>
+<strong>Input:</strong> s = &quot;12345678&quot;
+<strong>Output:</strong> 1
 </pre>
 
-<p><strong>示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>输入：</strong>s = &quot;213123&quot;
-<strong>输出：</strong>6
-<strong>解释：</strong>&quot;213123&quot; 是最长的超赞子字符串，交换其中的字符后，可以得到回文 &quot;231132&quot;
-</pre>
-
-<p><strong>示例 4：</strong></p>
-
-<pre><strong>输入：</strong>s = &quot;00&quot;
-<strong>输出：</strong>2
+<pre>
+<strong>Input:</strong> s = &quot;213123&quot;
+<strong>Output:</strong> 6
+<strong>Explanation:</strong> &quot;213123&quot; is the longest awesome substring, we can form the palindrome &quot;231132&quot; with some swaps.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;= 10^5</code></li>
-	<li><code>s</code> 仅由数字组成</li>
+	<li><code>1 &lt;= s.length &lt;= 10<sup>5</sup></code></li>
+	<li><code>s</code> consists only of digits.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：状态压缩 + 前缀和思想
+### Solution 1: State Compression + Prefix Sum
 
-根据题目描述，“超赞子字符串”中的字符可以通过交换得到回文字符串，因此，“超赞子字符串”中最多有一个数字字符出现奇数次，其余数字字符出现偶数次。
+According to the problem description, the characters in the "super awesome substring" can be swapped to obtain a palindrome string. Therefore, there is at most one digit character in the "super awesome substring" that appears an odd number of times, and the rest of the digit characters appear an even number of times.
 
-我们可以用一个整数 $st$ 来表示当前前缀字符串中数字字符出现的奇偶性，其中 $st$ 的第 $i$ 位表示数字字符 $i$ 出现的奇偶性，即 $st$ 的第 $i$ 位为 $1$ 表示数字字符 $i$ 出现奇数次，为 $0$ 表示数字字符 $i$ 出现偶数次。
+We can use an integer $st$ to represent the parity of the digit characters in the current prefix string, where the $i$-th bit of $st$ represents the parity of the digit character $i$, i.e., the $i$-th bit of $st$ is $1$ means that the digit character $i$ appears an odd number of times, and $0$ means that the digit character $i$ appears an even number of times.
 
-而如果子字符串 $s[j,..i]$ 是“超赞字符串”，那么前缀字符串 $s[0,..i]$ 的状态 $st$ 与前缀字符串 $s[0,..j-1]$ 的状态 $st'$ 的二进制位中，最多只有一位不同。这是因为，二进制位不同，表示奇偶性不同，而奇偶性不同，就意味着子字符串 $s[j,..i]$ 中该数字出现的次数为奇数次。
+If the substring $s[j,..i]$ is a "super awesome string", then the state $st$ of the prefix string $s[0,..i]$ and the state $st'$ of the prefix string $s[0,..j-1]$ differ by at most one bit in binary. This is because, if the binary bits are different, it means that the parity is different, and if the parity is different, it means that the number of times the digit appears in the substring $s[j,..i]$ is odd.
 
-所以，我们可以用哈希表或数组记录所有状态 $st$ 第一次出现的位置。若当前前缀字符串的状态 $st$ 在哈希表中已经存在，那么说明当前前缀字符串的状态 $st$ 与前缀字符串 $s[0,..j-1]$ 的状态 $st'$ 的二进制位中，所有位都相同，即子字符串 $s[j,..i]$ 是“超赞字符串”，更新答案的最大值。或者，我们可以枚举每一位，将当前前缀字符串的状态 $st$ 的第 $i$ 位取反，即 $st \oplus 2^i$，然后判断 $st \oplus 2^i$ 是否在哈希表中，若在，那么说明当前前缀字符串的状态 $st$ 与前缀字符串 $s[0,..j-1]$ 的状态 $st' \oplus 2^i$ 的二进制位中，只有第 $i$ 位不同，即子字符串 $s[j,..i]$ 是“超赞字符串”，更新答案的最大值。
+So, we can use a hash table or array to record the first occurrence of all states $st$. If the state $st$ of the current prefix string already exists in the hash table, it means that all bits in the binary of the state $st$ of the current prefix string and the state $st'$ of the prefix string $s[0,..j-1]$ are the same, i.e., the substring $s[j,..i]$ is a "super awesome string", and we update the maximum value of the answer. Or, we can enumerate each bit, flip the $i$-th bit of the state $st$ of the current prefix string, i.e., $st \oplus 2^i$, and then check whether $st \oplus 2^i$ is in the hash table. If it is, it means that only the $i$-th bit in the binary of the state $st$ of the current prefix string and the state $st' \oplus 2^i$ of the prefix string $s[0,..j-1]$ is different, i.e., the substring $s[j,..i]$ is a "super awesome string", and we update the maximum value of the answer.
 
-最后，返回答案即可。
+Finally, return the answer.
 
-时间复杂度 $O(n \times C)$，空间复杂度 $O(2^C)$。其中 $n$ 和 $C$ 分别为字符串 $s$ 的长度和数字字符的种类数。
+The time complexity is $O(n \times C)$, and the space complexity is $O(2^C)$. Where $n$ and $C$ are the length of the string $s$ and the number of types of digit characters, respectively.
 
 <!-- tabs:start -->
 

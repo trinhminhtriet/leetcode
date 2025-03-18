@@ -1,31 +1,28 @@
 ---
 comments: true
-difficulty: 困难
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1600-1699/1671.Minimum%20Number%20of%20Removals%20to%20Make%20Mountain%20Array/README.md
+difficulty: Hard
 rating: 1912
-source: 第 40 场双周赛 Q4
+source: Biweekly Contest 40 Q4
 tags:
-    - 贪心
-    - 数组
-    - 二分查找
-    - 动态规划
+    - Greedy
+    - Array
+    - Binary Search
+    - Dynamic Programming
 ---
 
 <!-- problem:start -->
 
-# [1671. 得到山形数组的最少删除次数](https://leetcode.cn/problems/minimum-number-of-removals-to-make-mountain-array)
+# [1671. Minimum Number of Removals to Make Mountain Array](https://leetcode.com/problems/minimum-number-of-removals-to-make-mountain-array)
 
-[English Version](/solution/1600-1699/1671.Minimum%20Number%20of%20Removals%20to%20Make%20Mountain%20Array/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>我们定义&nbsp;<code>arr</code>&nbsp;是 <b>山形数组</b>&nbsp;当且仅当它满足：</p>
+<p>You may recall that an array <code>arr</code> is a <strong>mountain array</strong> if and only if:</p>
 
 <ul>
 	<li><code>arr.length &gt;= 3</code></li>
-	<li>存在某个下标&nbsp;<code>i</code>&nbsp;（<strong>从 0 开始</strong>）&nbsp;满足&nbsp;<code>0 &lt; i &lt; arr.length - 1</code>&nbsp;且：
+	<li>There exists some index <code>i</code> (<strong>0-indexed</strong>) with <code>0 &lt; i &lt; arr.length - 1</code> such that:
 	<ul>
 		<li><code>arr[0] &lt; arr[1] &lt; ... &lt; arr[i - 1] &lt; arr[i]</code></li>
 		<li><code>arr[i] &gt; arr[i + 1] &gt; ... &gt; arr[arr.length - 1]</code></li>
@@ -33,51 +30,49 @@ tags:
 	</li>
 </ul>
 
-<p>给你整数数组&nbsp;<code>nums</code>​ ，请你返回将 <code>nums</code>&nbsp;变成 <strong>山形状数组</strong>&nbsp;的​ <strong>最少</strong>&nbsp;删除次数。</p>
+<p>Given an integer array <code>nums</code>​​​, return <em>the <strong>minimum</strong> number of elements to remove to make </em><code>nums<em>​​​</em></code><em> </em><em>a <strong>mountain array</strong>.</em></p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [1,3,1]
-<b>输出：</b>0
-<b>解释：</b>数组本身就是山形数组，所以我们不需要删除任何元素。
+<strong>Input:</strong> nums = [1,3,1]
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> The array itself is a mountain array so we do not need to remove any elements.
 </pre>
 
-<p><strong>示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre>
-<b>输入：</b>nums = [2,1,1,5,6,2,3,1]
-<b>输出：</b>3
-<b>解释：</b>一种方法是将下标为 0，1 和 5 的元素删除，剩余元素为 [1,5,6,3,1] ，是山形数组。
+<strong>Input:</strong> nums = [2,1,1,5,6,2,3,1]
+<strong>Output:</strong> 3
+<strong>Explanation:</strong> One solution is to remove the elements at indices 0, 1, and 5, making the array nums = [1,5,6,3,1].
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>3 &lt;= nums.length &lt;= 1000</code></li>
 	<li><code>1 &lt;= nums[i] &lt;= 10<sup>9</sup></code></li>
-	<li>题目保证&nbsp;<code>nums</code> 删除一些元素后一定能得到山形数组。</li>
+	<li>It is guaranteed that you can make a mountain array out of <code>nums</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：动态规划
+### Solution 1: Dynamic Programming
 
-本题可以转化为求最长上升子序列和最长下降子序列。
+This problem can be transformed into finding the longest increasing subsequence and the longest decreasing subsequence.
 
-我们定义 $left[i]$ 表示以 $nums[i]$ 结尾的最长上升子序列的长度，定义 $right[i]$ 表示以 $nums[i]$ 开头的最长下降子序列的长度。
+We define $left[i]$ as the length of the longest increasing subsequence ending with $nums[i]$, and define $right[i]$ as the length of the longest decreasing subsequence starting with $nums[i]$.
 
-那么最终答案就是 $n - \max(left[i] + right[i] - 1)$，其中 $1 \leq i \leq n$，并且 $left[i] \gt 1$ 且 $right[i] \gt 1$。
+Then the final answer is $n - \max(left[i] + right[i] - 1)$, where $1 \leq i \leq n$, and $left[i] \gt 1$ and $right[i] \gt 1$.
 
-时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。其中 $n$ 为数组 $nums$ 的长度。
+The time complexity is $O(n^2)$, and the space complexity is $O(n)$. Here, $n$ is the length of the array $nums$.
 
 <!-- tabs:start -->
 

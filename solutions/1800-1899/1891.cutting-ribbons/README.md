@@ -1,72 +1,71 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1800-1899/1891.Cutting%20Ribbons/README.md
+difficulty: Medium
 tags:
-    - 数组
-    - 二分查找
+    - Array
+    - Binary Search
 ---
 
 <!-- problem:start -->
 
-# [1891. 割绳子 🔒](https://leetcode.cn/problems/cutting-ribbons)
+# [1891. Cutting Ribbons 🔒](https://leetcode.com/problems/cutting-ribbons)
 
-[English Version](/solution/1800-1899/1891.Cutting%20Ribbons/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给定一个整数数组&nbsp;<code>ribbons</code>&nbsp;和一个整数 <code>k</code>，数组每项&nbsp;<code>ribbons[i]</code>&nbsp;表示第&nbsp;<code>i</code>&nbsp;条绳子的长度。对于每条绳子，你可以将任意切割成一系列长度为&nbsp;<strong>正整数&nbsp;</strong>的部分，或者选择不进行切割。</p>
-
-<p>例如，如果给你一条长度为 <code>4</code> 的绳子，你可以：</p>
+<p>You are given an integer array <code>ribbons</code>, where <code>ribbons[i]</code> represents the length of the <code>i<sup>th</sup></code> ribbon, and an integer <code>k</code>. You may cut any of the ribbons into any number of segments of <strong>positive integer</strong> lengths, or perform no cuts at all.</p>
 
 <ul>
-	<li>保持绳子的长度为 <code>4</code> 不变；</li>
-	<li>切割成一条长度为 <code>3</code> 和一条长度为 <code>1</code> 的绳子；</li>
-	<li>切割成两条长度为 <code>2</code>&nbsp;的绳子；</li>
-	<li>切割成一条长度为 <code>2</code>&nbsp;和两条长度为 <code>1</code> 的绳子；</li>
-	<li>切割成四条长度为 <code>1</code>&nbsp;的绳子。</li>
+	<li>For example, if you have a ribbon of length <code>4</code>, you can:
+
+    <ul>
+    	<li>Keep the ribbon of length <code>4</code>,</li>
+    	<li>Cut it into one ribbon of length <code>3</code> and one ribbon of length <code>1</code>,</li>
+    	<li>Cut it into two ribbons of length <code>2</code>,</li>
+    	<li>Cut it into one ribbon of length <code>2</code> and two ribbons of length <code>1</code>, or</li>
+    	<li>Cut it into four ribbons of length <code>1</code>.</li>
+    </ul>
+    </li>
+
 </ul>
 
-<p>你的任务是找出最大 <code>x</code> 值，要求满足可以裁切出至少&nbsp;<code>k</code> 条长度均为 <code>x</code> 的绳子。你可以丢弃裁切后剩余的任意长度的绳子。如果不可能切割出&nbsp;<code>k</code> 条相同长度的绳子，返回 0。</p>
+<p>Your task is to determine the <strong>maximum</strong> length of ribbon, <code>x</code>, that allows you to cut <em>at least</em> <code>k</code> ribbons, each of length <code>x</code>. You can discard any leftover ribbon from the cuts. If it is <strong>impossible</strong> to cut <code>k</code> ribbons of the same length, return 0.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1:</strong></p>
-
-<pre>
-<strong>输入:</strong> ribbons = [9,7,5], k = 3
-<strong>输出:</strong> 5
-<strong>解释:</strong>
-- 把第一条绳子切成两部分，一条长度为 5，一条长度为 4；
-- 把第二条绳子切成两部分，一条长度为 5，一条长度为 2；
-- 第三条绳子不进行切割；
-现在，你得到了 3 条长度为 5 的绳子。</pre>
-
-<p><strong>示例 2:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入:</strong> ribbons = [7,5,9], k = 4
-<strong>输出:</strong> 4
-<strong>解释:</strong>
-- 把第一条绳子切成两部分，一条长度为 4，一条长度为 3；
-- 把第二条绳子切成两部分，一条长度为 4，一条长度为 1；
-- 把第二条绳子切成三部分，一条长度为 4，一条长度为 4，还有一条长度为 1；
-现在，你得到了 4 条长度为 4 的绳子。
+<strong>Input:</strong> ribbons = [9,7,5], k = 3
+<strong>Output:</strong> 5
+<strong>Explanation:</strong>
+- Cut the first ribbon to two ribbons, one of length 5 and one of length 4.
+- Cut the second ribbon to two ribbons, one of length 5 and one of length 2.
+- Keep the third ribbon as it is.
+Now you have 3 ribbons of length 5.</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> ribbons = [7,5,9], k = 4
+<strong>Output:</strong> 4
+<strong>Explanation:</strong>
+- Cut the first ribbon to two ribbons, one of length 4 and one of length 3.
+- Cut the second ribbon to two ribbons, one of length 4 and one of length 1.
+- Cut the third ribbon to three ribbons, two of length 4 and one of length 1.
+Now you have 4 ribbons of length 4.
 </pre>
 
-<p><strong>示例 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre>
-<strong>输入:</strong> ribbons = [5,7,9], k = 22
-<strong>输出:</strong> 0
-<strong>解释:</strong> 由于绳子长度需要为正整数，你无法得到 22 条长度相同的绳子。
+<strong>Input:</strong> ribbons = [5,7,9], k = 22
+<strong>Output:</strong> 0
+<strong>Explanation:</strong> You cannot obtain k ribbons of the same positive integer length.
 </pre>
 
 <p>&nbsp;</p>
-
-<p><strong>提示:</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>1 &lt;= ribbons.length &lt;= 10<sup>5</sup></code></li>
@@ -76,19 +75,19 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：二分查找
+### Solution 1: Binary Search
 
-我们发现，如果我们能够得到长度为 $x$ 的 $k$ 根绳子，那么我们一定能够得到长度为 $x - 1$ 的 $k$ 根绳子，这存在着单调性。因此，我们可以使用二分查找的方法，找到最大的长度 $x$，使得我们能够得到长度为 $x$ 的 $k$ 根绳子。
+We observe that if we can obtain $k$ ropes of length $x$, then we can also obtain $k$ ropes of length $x-1$. This implies that there is a monotonicity property, and we can use binary search to find the maximum length $x$ such that we can obtain $k$ ropes of length $x$.
 
-我们定义二分查找的左边界 $left=0$, $right=\max(ribbons)$，中间值 $mid=(left+right+1)/2$，然后计算当前长度为 $mid$ 的绳子能够得到的数量 $cnt$，如果 $cnt \geq k$，说明我们能够得到长度为 $mid$ 的 $k$ 根绳子，那么我们将 $left$ 更新为 $mid$，否则我们将 $right$ 更新为 $mid-1$。
+We define the left boundary of the binary search as $left=0$, the right boundary as $right=\max(ribbons)$, and the middle value as $mid=(left+right+1)/2$. We then calculate the number of ropes we can obtain with length $mid$, denoted as $cnt$. If $cnt \geq k$, it means we can obtain $k$ ropes of length $mid$, so we update $left$ to $mid$. Otherwise, we update $right$ to $mid-1$.
 
-最后，我们返回 $left$ 即可。
+Finally, we return $left$ as the maximum length of the ropes we can obtain.
 
-时间复杂度 $O(n \times \log M)$，其中 $n$ 和 $M$ 分别为绳子的数量和绳子的最大长度。空间复杂度 $O(1)$。
+The time complexity is $O(n \times \log M)$, where $n$ and $M$ are the number of ropes and the maximum length of the ropes, respectively. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

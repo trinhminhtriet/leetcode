@@ -1,22 +1,19 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/2300-2399/2329.Product%20Sales%20Analysis%20V/README.md
+difficulty: Easy
 tags:
-    - 数据库
+    - Database
 ---
 
 <!-- problem:start -->
 
-# [2329. 产品销售分析Ⅴ 🔒](https://leetcode.cn/problems/product-sales-analysis-v)
+# [2329. Product Sales Analysis V 🔒](https://leetcode.com/problems/product-sales-analysis-v)
 
-[English Version](/solution/2300-2399/2329.Product%20Sales%20Analysis%20V/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>表：<code>Sales</code></p>
+<p>Table: <code>Sales</code></p>
 
 <pre>
 +-------------+-------+
@@ -27,12 +24,14 @@ tags:
 | user_id     | int   |
 | quantity    | int   |
 +-------------+-------+
-sale_id 包含唯一值。
-product_id 是 Product 表的外键。
-这个表中的每一行展示了产品的 ID 以及某个用户购买的数量。 
+sale_id contains unique values.
+product_id is a foreign key (column with unique values) to <code>Product</code> table.
+Each row of this table shows the ID of the product and the quantity purchased by a user.
 </pre>
 
-<p>表：<code>Product</code></p>
+<p>&nbsp;</p>
+
+<p>Table: <code>Product</code></p>
 
 <pre>
 +-------------+------+
@@ -41,25 +40,24 @@ product_id 是 Product 表的外键。
 | product_id  | int  |
 | price       | int  |
 +-------------+------+
-product_id 包含唯一值。
-这张表中的每一行均表示了某个产品的价格。
+product_id contains unique values.
+Each row of this table indicates the price of each product.
 </pre>
 
 <p>&nbsp;</p>
 
-<p>编写解决方案，获取每个用户的消费额。</p>
+<p>Write a solution to report&nbsp;the spending of each user.</p>
 
-<p>按用户消费额 <code>spending</code> <strong>递减</strong>的顺序返回结果。在消费额相等的情况下，以 <code>user_id</code> 递增的顺序将其排序。</p>
+<p>Return the resulting table ordered by <code>spending</code> in <strong>descending order</strong>. In case of a tie, order them by <code>user_id</code> in ascending order.</p>
 
-<p>结果的格式如下面例子所示：</p>
+<p>The result format is in the following example.</p>
 
 <p>&nbsp;</p>
-
-<p><strong>示例 1 ：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre>
-<strong>输入：</strong>
-Sales 表：
+<strong>Input:</strong> 
+Sales table:
 +---------+------------+---------+----------+
 | sale_id | product_id | user_id | quantity |
 +---------+------------+---------+----------+
@@ -69,7 +67,7 @@ Sales 表：
 | 4       | 3          | 102     | 2        |
 | 5       | 2          | 103     | 3        |
 +---------+------------+---------+----------+
-Product 表：
+Product table:
 +------------+-------+
 | product_id | price |
 +------------+-------+
@@ -77,7 +75,7 @@ Product 表：
 | 2          | 25    |
 | 3          | 15    |
 +------------+-------+
-<strong>输出：</strong>
+<strong>Output:</strong> 
 +---------+----------+
 | user_id | spending |
 +---------+----------+
@@ -85,20 +83,20 @@ Product 表：
 | 102     | 75       |
 | 103     | 75       |
 +---------+----------+
-<strong>解释：</strong>
-用户 101 的消费额为 10 * 10 + 1 * 25 = 125 。
-用户 102 的消费额为 3 * 15 + 2 * 15 = 75 。
-用户 103 的消费额为 3 * 25 = 75 。
-用户 101 排在最前，用户 102 与用户 103 的消费额相同，根据 ID 我们可以进一步确认排名，所以用户 102 排在 103 前面。
+<strong>Explanation:</strong> 
+User 101 spent 10 * 10 + 1 * 25 = 125.
+User 102 spent 3 * 15 + 2 * 15 = 75.
+User 103 spent 3 * 25 = 75.
+Users 102 and 103 spent the same amount and we break the tie by their ID while user 101 is on the top.
 </pre>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一
+### Solution 1
 
 <!-- tabs:start -->
 

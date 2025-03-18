@@ -1,62 +1,57 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1400-1499/1460.Make%20Two%20Arrays%20Equal%20by%20Reversing%20Subarrays/README.md
+difficulty: Easy
 rating: 1151
-source: 第 27 场双周赛 Q1
+source: Biweekly Contest 27 Q1
 tags:
-    - 数组
-    - 哈希表
-    - 排序
+    - Array
+    - Hash Table
+    - Sorting
 ---
 
 <!-- problem:start -->
 
-# [1460. 通过翻转子数组使两个数组相等](https://leetcode.cn/problems/make-two-arrays-equal-by-reversing-subarrays)
+# [1460. Make Two Arrays Equal by Reversing Subarrays](https://leetcode.com/problems/make-two-arrays-equal-by-reversing-subarrays)
 
-[English Version](/solution/1400-1499/1460.Make%20Two%20Arrays%20Equal%20by%20Reversing%20Subarrays/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你两个长度相同的整数数组&nbsp;<code>target</code>&nbsp;和&nbsp;<code>arr</code>&nbsp;。每一步中，你可以选择&nbsp;<code>arr</code>&nbsp;的任意 <strong>非空子数组</strong>&nbsp;并将它翻转。你可以执行此过程任意次。</p>
+<p>You are given two integer arrays of equal length <code>target</code> and <code>arr</code>. In one step, you can select any <strong>non-empty subarray</strong> of <code>arr</code> and reverse it. You are allowed to make any number of steps.</p>
 
-<p><em>如果你能让 <code>arr</code>&nbsp;变得与 <code>target</code>&nbsp;相同，返回 True；否则，返回 False 。</em></p>
-
-<p>&nbsp;</p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>target = [1,2,3,4], arr = [2,4,1,3]
-<strong>输出：</strong>true
-<strong>解释：</strong>你可以按照如下步骤使 arr 变成 target：
-1- 翻转子数组 [2,4,1] ，arr 变成 [1,4,2,3]
-2- 翻转子数组 [4,2] ，arr 变成 [1,2,4,3]
-3- 翻转子数组 [4,3] ，arr 变成 [1,2,3,4]
-上述方法并不是唯一的，还存在多种将 arr 变成 target 的方法。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>target = [7], arr = [7]
-<strong>输出：</strong>true
-<strong>解释：</strong>arr 不需要做任何翻转已经与 target 相等。
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>target = [3,7,9], arr = [3,7,11]
-<strong>输出：</strong>false
-<strong>解释：</strong>arr 没有数字 9 ，所以无论如何也无法变成 target 。
-</pre>
+<p>Return <code>true</code> <em>if you can make </em><code>arr</code><em> equal to </em><code>target</code><em>&nbsp;or </em><code>false</code><em> otherwise</em>.</p>
 
 <p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
 
-<p><strong>提示：</strong></p>
+<pre>
+<strong>Input:</strong> target = [1,2,3,4], arr = [2,4,1,3]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> You can follow the next steps to convert arr to target:
+1- Reverse subarray [2,4,1], arr becomes [1,4,2,3]
+2- Reverse subarray [4,2], arr becomes [1,2,4,3]
+3- Reverse subarray [4,3], arr becomes [1,2,3,4]
+There are multiple ways to convert arr to target, this is not the only way to do so.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> target = [7], arr = [7]
+<strong>Output:</strong> true
+<strong>Explanation:</strong> arr is equal to target without any reverses.
+</pre>
+
+<p><strong class="example">Example 3:</strong></p>
+
+<pre>
+<strong>Input:</strong> target = [3,7,9], arr = [3,7,11]
+<strong>Output:</strong> false
+<strong>Explanation:</strong> arr does not have value 9 and it can never be converted to target.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
 	<li><code>target.length == arr.length</code></li>
@@ -67,17 +62,17 @@ tags:
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：排序
+### Solution 1: Sorting
 
-如果两个数组排序后相等，那么它们可以通过翻转子数组变成相等的数组。
+If two arrays are equal after sorting, then they can be made equal by reversing sub-arrays.
 
-因此，我们只需要对两个数组进行排序，然后判断排序后的数组是否相等即可。
+Therefore, we only need to sort the two arrays and then check if the sorted arrays are equal.
 
-时间复杂度 $O(n \times \log n)$，空间复杂度 $O(\log n)$。其中 $n$ 是数组 $arr$ 的长度。
+The time complexity is $O(n \times \log n)$, and the space complexity is $O(\log n)$, where $n$ is the length of the array $arr$.
 
 <!-- tabs:start -->
 
@@ -198,13 +193,13 @@ bool canBeEqual(int* target, int targetSize, int* arr, int arrSize) {
 
 <!-- solution:start -->
 
-### 方法二：计数
+### Solution 2: Counting
 
-我们注意到，题目中给出的数组元素的范围是 $1 \sim 1000$，因此我们可以使用两个长度为 $1001$ 的数组 `cnt1` 和 `cnt2` 分别记录数组 `target` 和 `arr` 中每个元素出现的次数。最后判断两个数组是否相等即可。
+We note that the range of the array elements given in the problem is $1 \sim 1000$. Therefore, we can use two arrays `cnt1` and `cnt2` of length $1001$ to record the number of times each element appears in the arrays `target` and `arr` respectively. Finally, we just need to check if the two arrays are equal.
 
-我们也可以只用一个数组 `cnt`，遍历数组 `target` 和 `arr`，对于 `target[i]`，我们将 `cnt[target[i]]` 加一，对于 `arr[i]`，我们将 `cnt[arr[i]]` 减一。最后判断数组 `cnt` 中的所有元素是否都为 $0$。
+We can also use only one array `cnt`. We traverse the arrays `target` and `arr`. For `target[i]`, we increment `cnt[target[i]]`, and for `arr[i]`, we decrement `cnt[arr[i]]`. In the end, we check if all elements in the array `cnt` are $0$.
 
-时间复杂度 $O(n + M)$，空间复杂度 $O(M)$。其中 $n$ 是数组 $arr$ 的长度，而 $M$ 是数组元素的范围，本题中 $M = 1001$。
+The time complexity is $O(n + M)$, and the space complexity is $O(M)$. Here, $n$ is the length of the array `arr`, and $M$ is the range of the array elements. In this problem, $M = 1001$.
 
 <!-- tabs:start -->
 

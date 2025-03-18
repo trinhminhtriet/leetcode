@@ -1,89 +1,83 @@
 ---
 comments: true
-difficulty: 中等
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/1900-1999/1904.The%20Number%20of%20Full%20Rounds%20You%20Have%20Played/README.md
+difficulty: Medium
 rating: 1498
-source: 第 246 场周赛 Q2
+source: Weekly Contest 246 Q2
 tags:
-    - 数学
-    - 字符串
+    - Math
+    - String
 ---
 
 <!-- problem:start -->
 
-# [1904. 你完成的完整对局数](https://leetcode.cn/problems/the-number-of-full-rounds-you-have-played)
+# [1904. The Number of Full Rounds You Have Played](https://leetcode.com/problems/the-number-of-full-rounds-you-have-played)
 
-[English Version](/solution/1900-1999/1904.The%20Number%20of%20Full%20Rounds%20You%20Have%20Played/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>一款新的在线电子游戏在近期发布，在该电子游戏中，以 <strong>刻钟</strong> 为周期规划若干时长为 <strong>15 分钟</strong> 的游戏对局。这意味着，在 <code>HH:00</code>、<code>HH:15</code>、<code>HH:30</code> 和 <code>HH:45</code> ，将会开始一个新的对局，其中 <code>HH</code> 用一个从 <code>00</code> 到 <code>23</code> 的整数表示。游戏中使用 <strong>24 小时制的时钟</strong> ，所以一天中最早的时间是 <code>00:00</code> ，最晚的时间是 <code>23:59</code> 。</p>
-
-<p>给你两个字符串 <code>startTime</code> 和 <code>finishTime</code> ，均符合 <code>"HH:MM"</code> 格式，分别表示你 <strong>进入</strong> 和 <strong>退出</strong> 游戏的确切时间，请计算在整个游戏会话期间，你完成的 <strong>完整对局的对局数</strong> 。</p>
+<p>You are participating in an online chess tournament. There is a chess round that starts every <code>15</code> minutes. The first round of the day starts at <code>00:00</code>, and after every <code>15</code> minutes, a new round starts.</p>
 
 <ul>
-	<li>例如，如果 <code>startTime = "05:20"</code> 且 <code>finishTime = "05:59"</code> ，这意味着你仅仅完成从 <code>05:30</code> 到 <code>05:45</code> 这一个完整对局。而你没有完成从 <code>05:15</code> 到 <code>05:30</code> 的完整对局，因为你是在对局开始后进入的游戏；同时，你也没有完成从 <code>05:45</code> 到 <code>06:00</code> 的完整对局，因为你是在对局结束前退出的游戏。</li>
+	<li>For example, the second round starts at <code>00:15</code>, the fourth round starts at <code>00:45</code>, and the seventh round starts at <code>01:30</code>.</li>
 </ul>
 
-<p>如果 <code>finishTime</code> <strong>早于</strong> <code>startTime</code> ，这表示你玩了个通宵（也就是从 <code>startTime</code> 到午夜，再从午夜到 <code>finishTime</code>）。</p>
-
-<p>假设你是从 <code>startTime</code> 进入游戏，并在 <code>finishTime</code> 退出游戏，请计算并返回你完成的 <strong>完整对局的对局数</strong> 。</p>
-
-<p> </p>
-
-<p><strong>示例 1：</strong></p>
-
-<pre>
-<strong>输入：</strong>startTime = "12:01", finishTime = "12:44"
-<strong>输出：</strong>1
-<strong>解释：</strong>你完成了从 12:15 到 12:30 的一个完整对局。
-你没有完成从 12:00 到 12:15 的完整对局，因为你是在对局开始后的 12:01 进入的游戏。
-你没有完成从 12:30 到 12:45 的完整对局，因为你是在对局结束前的 12:44 退出的游戏。
-</pre>
-
-<p><strong>示例 2：</strong></p>
-
-<pre>
-<strong>输入：</strong>startTime = "20:00", finishTime = "06:00"
-<strong>输出：</strong>40
-<strong>解释：</strong>你完成了从 20:00 到 00:00 的 16 个完整的对局，以及从 00:00 到 06:00 的 24 个完整的对局。
-16 + 24 = 40
-</pre>
-
-<p><strong>示例 3：</strong></p>
-
-<pre>
-<strong>输入：</strong>startTime = "00:00", finishTime = "23:59"
-<strong>输出：</strong>95
-<strong>解释：</strong>除最后一个小时你只完成了 3 个完整对局外，其余每个小时均完成了 4 场完整对局。
-</pre>
-
-<p> </p>
-
-<p><strong>提示：</strong></p>
+<p>You are given two strings <code>loginTime</code> and <code>logoutTime</code> where:</p>
 
 <ul>
-	<li><code>startTime</code> 和 <code>finishTime</code> 的格式为 <code>HH:MM</code></li>
-	<li><code>00 <= HH <= 23</code></li>
-	<li><code>00 <= MM <= 59</code></li>
-	<li><code>startTime</code> 和 <code>finishTime</code> 不相等</li>
+	<li><code>loginTime</code> is the time you will login to the game, and</li>
+	<li><code>logoutTime</code> is the time you will logout from the game.</li>
+</ul>
+
+<p>If <code>logoutTime</code> is <strong>earlier</strong> than <code>loginTime</code>, this means you have played from <code>loginTime</code> to midnight and from midnight to <code>logoutTime</code>.</p>
+
+<p>Return <em>the number of full chess rounds you have played in the tournament</em>.</p>
+
+<p><strong>Note:</strong>&nbsp;All the given times follow the 24-hour clock. That means the first round of the day starts at <code>00:00</code> and the last round of the day starts at <code>23:45</code>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> loginTime = &quot;09:31&quot;, logoutTime = &quot;10:14&quot;
+<strong>Output:</strong> 1
+<strong>Explanation:</strong> You played one full round from 09:45 to 10:00.
+You did not play the full round from 09:30 to 09:45 because you logged in at 09:31 after it began.
+You did not play the full round from 10:00 to 10:15 because you logged out at 10:14 before it ended.
+</pre>
+
+<p><strong class="example">Example 2:</strong></p>
+
+<pre>
+<strong>Input:</strong> loginTime = &quot;21:30&quot;, logoutTime = &quot;03:00&quot;
+<strong>Output:</strong> 22
+<strong>Explanation:</strong> You played 10 full rounds from 21:30 to 00:00 and 12 full rounds from 00:00 to 03:00.
+10 + 12 = 22.
+</pre>
+
+<p>&nbsp;</p>
+<p><strong>Constraints:</strong></p>
+
+<ul>
+	<li><code>loginTime</code> and <code>logoutTime</code> are in the format <code>hh:mm</code>.</li>
+	<li><code>00 &lt;= hh &lt;= 23</code></li>
+	<li><code>00 &lt;= mm &lt;= 59</code></li>
+	<li><code>loginTime</code> and <code>logoutTime</code> are not equal.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：转换为分钟数
+### Solution 1: Convert to Minutes
 
-我们可以将输入的字符串转换为分钟数 $a$ 和 $b$，如果 $a > b$，则说明跨越了午夜，需要将 $b$ 加上一天的分钟数 $1440$。
+We can convert the input strings to minutes $a$ and $b$. If $a > b$, it means that it crosses midnight, so we need to add one day's minutes $1440$ to $b$.
 
-然后我们将 $a$ 向上取整到 $15$ 的倍数，将 $b$ 向下取整到 $15$ 的倍数，最后返回 $b$ 与 $a$ 的差值即可，注意要取 $0$ 和 $b - a$ 中的较大值。
+Then we round $a$ up to the nearest multiple of $15$, and round $b$ down to the nearest multiple of $15$. Finally, we return the difference between $b$ and $a$. Note that we should take the larger value between $0$ and $b - a$.
 
-时间复杂度 $O(1)$，空间复杂度 $O(1)$。
+The time complexity is $O(1)$, and the space complexity is $O(1)$.
 
 <!-- tabs:start -->
 

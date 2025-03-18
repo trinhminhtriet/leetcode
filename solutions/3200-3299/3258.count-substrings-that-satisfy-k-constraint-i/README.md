@@ -1,98 +1,93 @@
 ---
 comments: true
-difficulty: 简单
-edit_url: https://github.com/doocs/leetcode/edit/main/solution/3200-3299/3258.Count%20Substrings%20That%20Satisfy%20K-Constraint%20I/README.md
+difficulty: Easy
 rating: 1258
-source: 第 411 场周赛 Q1
+source: Weekly Contest 411 Q1
 tags:
-    - 字符串
-    - 滑动窗口
+    - String
+    - Sliding Window
 ---
 
 <!-- problem:start -->
 
-# [3258. 统计满足 K 约束的子字符串数量 I](https://leetcode.cn/problems/count-substrings-that-satisfy-k-constraint-i)
+# [3258. Count Substrings That Satisfy K-Constraint I](https://leetcode.com/problems/count-substrings-that-satisfy-k-constraint-i)
 
-[English Version](/solution/3200-3299/3258.Count%20Substrings%20That%20Satisfy%20K-Constraint%20I/README_EN.md)
-
-## 题目描述
+## Description
 
 <!-- description:start -->
 
-<p>给你一个 <strong>二进制</strong> 字符串 <code>s</code> 和一个整数 <code>k</code>。</p>
+<p>You are given a <strong>binary</strong> string <code>s</code> and an integer <code>k</code>.</p>
 
-<p>如果一个 <strong>二进制字符串</strong> 满足以下任一条件，则认为该字符串满足 <strong>k 约束</strong>：</p>
+<p>A <strong>binary string</strong> satisfies the <strong>k-constraint</strong> if <strong>either</strong> of the following conditions holds:</p>
 
 <ul>
-	<li>字符串中 <code>0</code> 的数量最多为 <code>k</code>。</li>
-	<li>字符串中 <code>1</code> 的数量最多为 <code>k</code>。</li>
+	<li>The number of <code>0</code>&#39;s in the string is at most <code>k</code>.</li>
+	<li>The number of <code>1</code>&#39;s in the string is at most <code>k</code>.</li>
 </ul>
 
-<p>返回一个整数，表示 <code>s</code> 的所有满足 <strong>k 约束 </strong>的<span data-keyword="substring-nonempty">子字符串</span>的数量。</p>
+<p>Return an integer denoting the number of <span data-keyword="substring-nonempty">substrings</span> of <code>s</code> that satisfy the <strong>k-constraint</strong>.</p>
 
 <p>&nbsp;</p>
-
-<p><strong class="example">示例 1：</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">s = "10101", k = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;10101&quot;, k = 1</span></p>
 
-<p><strong>输出：</strong><span class="example-io">12</span></p>
+<p><strong>Output:</strong> <span class="example-io">12</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p><code>s</code> 的所有子字符串中，除了 <code>"1010"</code>、<code>"10101"</code> 和 <code>"0101"</code> 外，其余子字符串都满足 k 约束。</p>
+<p>Every substring of <code>s</code> except the substrings <code>&quot;1010&quot;</code>, <code>&quot;10101&quot;</code>, and <code>&quot;0101&quot;</code> satisfies the k-constraint.</p>
 </div>
 
-<p><strong class="example">示例 2：</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">s = "1010101", k = 2</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;1010101&quot;, k = 2</span></p>
 
-<p><strong>输出：</strong><span class="example-io">25</span></p>
+<p><strong>Output:</strong> <span class="example-io">25</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p><code>s</code> 的所有子字符串中，除了长度大于 5 的子字符串外，其余子字符串都满足 k 约束。</p>
+<p>Every substring of <code>s</code> except the substrings with a length greater than 5 satisfies the k-constraint.</p>
 </div>
 
-<p><strong class="example">示例 3：</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <div class="example-block">
-<p><strong>输入：</strong><span class="example-io">s = "11111", k = 1</span></p>
+<p><strong>Input:</strong> <span class="example-io">s = &quot;11111&quot;, k = 1</span></p>
 
-<p><strong>输出：</strong><span class="example-io">15</span></p>
+<p><strong>Output:</strong> <span class="example-io">15</span></p>
 
-<p><strong>解释：</strong></p>
+<p><strong>Explanation:</strong></p>
 
-<p><code>s</code> 的所有子字符串都满足 k 约束。</p>
+<p>All substrings of <code>s</code> satisfy the k-constraint.</p>
 </div>
 
 <p>&nbsp;</p>
-
-<p><strong>提示：</strong></p>
+<p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>1 &lt;= s.length &lt;= 50</code></li>
+	<li><code>1 &lt;= s.length &lt;= 50 </code></li>
 	<li><code>1 &lt;= k &lt;= s.length</code></li>
-	<li><code>s[i]</code> 是 <code>'0'</code> 或 <code>'1'</code>。</li>
+	<li><code>s[i]</code> is either <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
 </ul>
 
 <!-- description:end -->
 
-## 解法
+## Solutions
 
 <!-- solution:start -->
 
-### 方法一：滑动窗口
+### Solution 1: Sliding Window
 
-我们用两个变量 $\textit{cnt0}$ 和 $\textit{cnt1}$ 分别记录当前窗口内的 $0$ 和 $1$ 的个数，用 $\textit{ans}$ 记录满足 $k$ 约束的子字符串的个数，用 $l$ 记录窗口的左边界。
+We use two variables $\textit{cnt0}$ and $\textit{cnt1}$ to record the number of $0$s and $1$s in the current window, respectively. We use $\textit{ans}$ to record the number of substrings that satisfy the $k$ constraint, and $l$ to record the left boundary of the window.
 
-当我们右移窗口时，如果窗口内的 $0$ 和 $1$ 的个数都大于 $k$，我们就需要左移窗口，直到窗口内的 $0$ 和 $1$ 的个数都不大于 $k$。此时，窗口内所有以 $r$ 作为右端点的子字符串都满足 $k$ 约束，个数为 $r - l + 1$，其中 $r$ 是窗口的右边界。我们将这个个数累加到 $\textit{ans}$ 中。
+When we move the window to the right, if the number of $0$s and $1$s in the window both exceed $k$, we need to move the window to the left until the number of $0$s and $1$s in the window are both no greater than $k$. At this point, all substrings in the window satisfy the $k$ constraint, and the number of such substrings is $r - l + 1$, where $r$ is the right boundary of the window. We add this count to $\textit{ans}$.
 
-最后，我们返回 $\textit{ans}$ 即可。
+Finally, we return $\textit{ans}$.
 
-时间复杂度 $O(n)$，其中 $n$ 是字符串 $s$ 的长度。空间复杂度 $O(1)$。
+The time complexity is $O(n)$, where $n$ is the length of the string $s$. The space complexity is $O(1)$.
 
 <!-- tabs:start -->
 
