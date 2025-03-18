@@ -4,11 +4,11 @@ This repository contains my solutions to various LeetCode problems. Each solutio
 
 ## 📚 Table of Contents
 
-- [Introduction](#introduction)
-- [Solutions](#solutions)
-- [How to Use](#how-to-use)
-- [Contributing](#contributing)
-- [License](#license)
+- [Introduction](#-introduction)
+- [Solutions](#-solutions)
+- [How to Use](#-how-to-use)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ## 👋 Introduction
 
